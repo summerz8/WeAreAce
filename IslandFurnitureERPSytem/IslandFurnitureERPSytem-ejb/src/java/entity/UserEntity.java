@@ -43,9 +43,8 @@ public class UserEntity implements Serializable {
     private String postalCode;
     private String email;
 
-    public UserEntity(String department, Integer userLevel, String lastName, String firstName, String position, String gender) {
-        setUserId(department + );
-        
+    public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
+        setUserId(department + idNumber);
         String PWD;
         String base = "abcdefghijklmnopqrstuvwxyz0123456789";   
         Random random = new Random();   
