@@ -8,6 +8,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Random;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -44,7 +45,19 @@ public class UserEntity implements Serializable {
 
     public UserEntity(String department, Integer userLevel, String lastName, String firstName, String position, String gender) {
         setUserId(department + );
-        setPwd();
+        
+        String PWD;
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";   
+        Random random = new Random();   
+        StringBuffer sb = new StringBuffer();   
+        for (int i = 0; i < 8; i++) {   
+            int number = random.nextInt(base.length());   
+            sb.append(base.charAt(number));   
+        }
+        
+        PWD = sb.toString();
+        setPwd(PWD);
+        
         this.userLevel = userLevel;
         this.lastName = lastName;
         this.firstName = firstName;
