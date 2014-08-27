@@ -9,9 +9,10 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
@@ -19,12 +20,14 @@ import javax.persistence.Temporal;
  * @author zhangshiyu
  */
 @Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String userId;
     private String pwd;
+    private String department;
     private Integer userLevel;
     private String lastName;
     private String midName;
@@ -37,10 +40,21 @@ public class UserEntity implements Serializable {
     private String title;
     private String address;
     private String postalCode;
-    
-            
-    
+    private String email;
 
+    public UserEntity(String department, Integer userLevel, String lastName, String firstName, String position, String gender) {
+        setUserId(department + );
+        setPwd();
+        this.userLevel = userLevel;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.position = position;
+        this.gender = gender;
+    }
+
+    public UserEntity() {
+    }
+    
     public String getUserId() {
         return userId;
     }
@@ -55,6 +69,14 @@ public class UserEntity implements Serializable {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public Integer getUserLevel() {
@@ -136,9 +158,15 @@ public class UserEntity implements Serializable {
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
-    
-    
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
