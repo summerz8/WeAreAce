@@ -5,7 +5,7 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>IslandFurnitureERPSystem-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <included-library dirs="200">reference.BRSAdminRemoteInterface.jar</included-library>
+            <included-library dirs="200">reference.IslandFurnitureRemoteInterface.jar</included-library>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>
@@ -15,7 +15,7 @@
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
-                <foreign-project>BRSAdminRemoteInterface</foreign-project>
+                <foreign-project>IslandFurnitureRemoteInterface</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>

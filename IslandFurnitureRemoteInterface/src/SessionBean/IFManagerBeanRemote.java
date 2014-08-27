@@ -14,5 +14,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IFManagerBeanRemote {
-    
+    public boolean checkAccount(String userId, String pwd);
 }
