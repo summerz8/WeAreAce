@@ -9,12 +9,14 @@ package Entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author zhangshiyu
  */
 @Entity
+@Table(name="idNumber")
 public class IdNumberEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
