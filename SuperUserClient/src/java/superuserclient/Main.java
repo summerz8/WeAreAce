@@ -39,9 +39,13 @@ public class Main {
         while (!(choice.equals("Q") || choice.equals("q"))) {
             if (choice.equals("1")) {
                 createGlobalHQ(sc);
-
             }
+            
+            client.displayMenu();
+            choice = sc.next();
         }
+        
+        System.out.println("Exiting...");
     }
 
     private void createGlobalHQ(Scanner sc) {
@@ -56,7 +60,13 @@ public class Main {
         System.out.println("Please enter user's gender:");
         String gender = sc.nextLine();
         
-        IFMB.createUser(department, userLevel, lastName, firstName, position, gender);
+        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender);
+        String userId = info.substring(0, 7);
+        String pwd = info.substring(9);
+        
+        System.out.println("The new created user account id is: " + userId);
+        System.out.println("The new created user account password is: " + pwd);
+        System.out.println("Please change this system self-genereated password as soon as possible for security concern.");       
     }
 
 }
