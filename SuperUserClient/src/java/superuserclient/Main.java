@@ -25,15 +25,16 @@ public class Main {
     }
 
     private void displayMenu() {
-        System.out.println("\n\nPlease select <'Q' or 'q' to exit>:");
         System.out.println("Choose the action number below if you want to perform an action");
         System.out.println("1. Create an global headquarter account");
+        
+        System.out.println("\n\nPlease select <'Q' or 'q' to exit>:");
+        
     }
 
     private void doFunctions() {
         Scanner sc = new Scanner(System.in);
         Main client = new Main();
-
         String choice = sc.next();
 
         while (!(choice.equals("Q") || choice.equals("q"))) {
