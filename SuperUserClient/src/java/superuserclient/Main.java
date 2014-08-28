@@ -34,7 +34,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Main client = new Main();
 
-        String choice = sc.next();
+        String choice = sc.nextLine();
 
         while (!(choice.equals("Q") || choice.equals("q"))) {
             if (choice.equals("1")) {
@@ -42,7 +42,7 @@ public class Main {
             }
             
             client.displayMenu();
-            choice = sc.next();
+            choice = sc.nextLine();
         }
         
         System.out.println("Exiting...");
