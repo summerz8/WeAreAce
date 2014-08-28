@@ -35,12 +35,8 @@ public class Main {
     private void doFunctions() {
         Scanner sc = new Scanner(System.in);
         Main client = new Main();
-<<<<<<< HEAD
 
         String choice = sc.nextLine();
-=======
-        String choice = sc.next();
->>>>>>> a2ab0684f7da8f1dc964af4c4be5e73c4206a4bb
 
         while (!(choice.equals("Q") || choice.equals("q"))) {
             if (choice.equals("1")) {
