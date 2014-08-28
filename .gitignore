@@ -13,5 +13,9 @@
 /IslandFurnitureERPSystem/build/
 /IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/build/
 /IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/dist/
+<<<<<<< HEAD
 /IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/dist/
 /IslandFurnitureERPSystem/dist/
+=======
+/SuperUserClient/nbproject/private/
+>>>>>>> a9e06c573602b0bbeac2adc4f7d17377e37b768c
