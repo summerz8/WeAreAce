@@ -25,16 +25,22 @@ public class Main {
     }
 
     private void displayMenu() {
-        System.out.println("\n\nPlease select <'Q' or 'q' to exit>:");
         System.out.println("Choose the action number below if you want to perform an action");
         System.out.println("1. Create an global headquarter account");
+        
+        System.out.println("\n\nPlease select <'Q' or 'q' to exit>:");
+        
     }
 
     private void doFunctions() {
         Scanner sc = new Scanner(System.in);
         Main client = new Main();
+<<<<<<< HEAD
 
         String choice = sc.nextLine();
+=======
+        String choice = sc.next();
+>>>>>>> a2ab0684f7da8f1dc964af4c4be5e73c4206a4bb
 
         while (!(choice.equals("Q") || choice.equals("q"))) {
             if (choice.equals("1")) {

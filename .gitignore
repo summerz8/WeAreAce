@@ -19,5 +19,19 @@
 =======
 /SuperUserClient/nbproject/private/
 >>>>>>> a9e06c573602b0bbeac2adc4f7d17377e37b768c
+<<<<<<< HEAD
 /SuperUserClient/dist/
 /SuperUserClient/build/
+=======
+/SuperUserClient/build/
+/SuperUserClient/dist/
+/MyFace2Organizer/nbproject/private/
+/MyFace2Organizer/MyFace2Organizer-war/nbproject/private/
+/MyFace2Organizer/MyFace2Organizer-ejb/nbproject/private/
+/MyFace2Organizer/MyFace2Organizer-ejb/build/
+/MyFace2Organizer/dist/
+/MyFace2Organizer/build/
+/MyFace2Organizer/MyFace2Organizer-ejb/dist/
+/MyFace2Organizer/MyFace2Organizer-war/dist/
+/MyFace2Organizer/MyFace2Organizer-war/build/
+>>>>>>> a2ab0684f7da8f1dc964af4c4be5e73c4206a4bb
