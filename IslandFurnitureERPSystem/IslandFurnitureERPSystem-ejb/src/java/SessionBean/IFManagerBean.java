@@ -52,25 +52,25 @@ public class IFManagerBean implements IFManagerBeanRemote {
             user = new UserEntity(department, "" + idNum, userLevel, lastName, firstName, position, gender);
             em.persist(user);
             System.out.println("User created!");
-            return user.getPwd();
+            return user.getUserId()+ " " +user.getPwd();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return "createUser() failed!";
     }
-
-    @Override
-    public String getUserId(String userId) {
-        System.out.println("IFManagerBean: getUserId()");
-        UserEntity user;
-        try {                                                                                                                                      
-            user = em.find(UserEntity.class, userId);
-            return user.getUserId();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        return "getUserId() failed!";
-    }
+//
+//    @Override
+//    public String getUserId(String userId) {
+//        System.out.println("IFManagerBean: getUserId()");
+//        UserEntity user;
+//        try {                                                                                                                                      
+//            user = em.find(UserEntity.class, userId);
+//            return user.getUserId();
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//        return "getUserId() failed!";
+//    }
 
     @Override
     public boolean checkAccount(String userId, String pwd) {
