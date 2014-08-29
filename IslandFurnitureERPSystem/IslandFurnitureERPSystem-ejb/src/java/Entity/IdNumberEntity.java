@@ -26,9 +26,9 @@ public class IdNumberEntity implements Serializable {
     private Long id_S;
 
     public IdNumberEntity() {
-        this.id_H = new Long(1000001);
-        this.id_F = new Long(1000001);
-        this.id_S = new Long(1000001);
+        this.id_H = new Long(1000000);
+        this.id_F = new Long(1000000);
+        this.id_S = new Long(1000000);
     }
     
     

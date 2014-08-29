@@ -28,7 +28,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
     public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender) {
         System.out.println("IFManagerBean: createUser():");
 
-        int idNumber;
+        Integer idNumber = 0;
         UserEntity user;
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
 
@@ -49,7 +49,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
         em.flush();
 
         try {
-            user = new UserEntity(department, "" + idNum, userLevel, lastName, firstName, position, gender);
+            user = new UserEntity(department, idNumber.toString(), userLevel, lastName, firstName, position, gender);
             em.persist(user);
             System.out.println("User created!");
             return user.getUserId()+ " " +user.getPwd();
