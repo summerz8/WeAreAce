@@ -1,21 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Island Furniture Staff Home Page</title>
     </h:head>
     <h:body>
         <h:form>
             Welcome to Island Furniture Staff Workspace
-            <br></br> 
+            <br /> 
            
-            <label>User ID :</label>
-            <><input id="ID" type="text" name="ID" />
+            <p:outputLabel for="userid" style="font-weight: bold" value="User ID :"/>
+            <p:inputText required="true" label = "User ID: " requiredMessage ="User ID is required." id = "userid"
+                         value="#{login.userid}"/>
             <br />
-            <label>Password :</label>
-            <input id="password" type="text" name="password" />
-            <br></br>    
+            <p:outputLabel for="password" style="font-weight: bold" value="Password :"/>
+            <p:inputText required="true" label = "Password :" requiredMessage ="Password is required." id = "password"
+                         value="#{login.password}"/>
+            <br />    
             <h:commandButton  value="login" action="Second"/>
           
         </h:form>
