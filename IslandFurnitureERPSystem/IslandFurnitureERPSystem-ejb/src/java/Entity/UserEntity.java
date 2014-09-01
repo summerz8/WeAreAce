@@ -46,7 +46,7 @@ public class UserEntity implements Serializable {
     public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
         this.setUserId(department + idNumber);
         String PWD;
-        String base = "abcdefghijklmnopqrstuvwxyz0123456789";   
+        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
         Random random = new Random();   
         StringBuffer sb = new StringBuffer();   
         for (int i = 0; i < 8; i++) {   
