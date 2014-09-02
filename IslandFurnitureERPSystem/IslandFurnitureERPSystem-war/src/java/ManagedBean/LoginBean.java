@@ -29,6 +29,7 @@ public class LoginBean {
     private String userId;
     private String pwd;
     private String statusMsg;
+    private String path;
 
     public LoginBean() {
 
@@ -58,13 +59,26 @@ public class LoginBean {
         this.statusMsg = statusMsg;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    
     public void checkLogin(ActionEvent event) {
+        
+        System.out.println("LoginBean: checkLogin:()");
+        
         String checkUserId = String.valueOf(userId);
         String checkPwd = String.valueOf(pwd);
 
         try {
             if (IFMB.checkAccount(checkUserId, checkPwd)) {
                 statusMsg = "Login successfully...";
+                path = "Second";
             } else {
                 statusMsg = "Incorrect userId or password, please enter again.";
             }
