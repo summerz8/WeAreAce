@@ -3,10 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+<<<<<<< HEAD
       
     
   
     
+=======
+
+>>>>>>> 23b380932bba76a7e8e4022cc98ee9936d4780e8
     <h:head>
         <title>Island Furniture Internal Portal</title>
     </h:head>
@@ -29,6 +33,7 @@
                      <p:outputLabel for="pwd" style="font-weight: bold" value="Password :"/></div>
                     <p:inputText required="true" label = "Password :" requiredMessage ="Password is required." id = "pwd"
                          value="#{loginBean.pwd}"/>
+<<<<<<< HEAD
                     <br />  
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                      <p:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}" />
@@ -38,6 +43,11 @@
                 
             </p:panel>
             </div>
+=======
+            <br />    
+            <h:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}" action="#{loginBean.getPath}"/>
+            <h:outputText id="statusMessage" value="#{loginBean.statusMsg}"/>
+>>>>>>> 23b380932bba76a7e8e4022cc98ee9936d4780e8
         </h:form>
         <br />
         
