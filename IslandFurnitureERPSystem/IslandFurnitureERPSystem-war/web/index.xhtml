@@ -19,7 +19,7 @@
             <p:inputText required="true" label = "Password :" requiredMessage ="Password is required." id = "pwd"
                          value="#{loginBean.pwd}"/>
             <br />    
-            <h:commandButton  value="login" action="Second"/>
+            <h:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}"/>
           
         </h:form>
         <br />

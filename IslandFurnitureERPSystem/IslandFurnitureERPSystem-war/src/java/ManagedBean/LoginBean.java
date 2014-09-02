@@ -5,7 +5,8 @@
  */
 package ManagedBean;
 
-import SessionBean.IFManagerBean;
+import SessionBean.IFManagerBeanRemote;
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -18,11 +19,12 @@ import javax.inject.Named;
  * @author zhangshiyu
  */
 @Named(value = "loginBean")
+@ManagedBean
 @RequestScoped
 public class LoginBean {
 
     @EJB
-    private IFManagerBean IFMB;
+    private IFManagerBeanRemote IFMB;
 
     private String userId;
     private String pwd;
