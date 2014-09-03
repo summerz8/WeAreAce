@@ -78,9 +78,10 @@ public class LoginBean {
         try {
             if (IFMB.checkAccount(checkUserId, checkPwd)) {
                 statusMsg = "Login successfully...";
-                path = "Second";
+                path = "/WorkPlace";
             } else {
                 statusMsg = "Incorrect userId or password, please enter again.";
+                //path = "index";
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login result " + statusMsg, ""));

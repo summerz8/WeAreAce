@@ -6,9 +6,6 @@
             <name>IslandFurnitureERPSystem-war</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
-                <library dirs="100">
-                    <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
-                </library>
                 <library dirs="200">
                     <file>${libs.PrimesFaces_5.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
@@ -17,13 +14,17 @@
                     <file>${reference.IslandFurnitureRemoteInterface.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="100">
+                    <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
-                <root id="src.dir"/>
+                <root id="src.dir" name="Source Packages"/>
             </source-roots>
             <test-roots>
-                <root id="test.src.dir"/>
+                <root id="test.src.dir" name="Test Packages"/>
             </test-roots>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
