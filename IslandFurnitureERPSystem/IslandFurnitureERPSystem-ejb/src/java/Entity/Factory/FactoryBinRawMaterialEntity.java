@@ -29,8 +29,8 @@ public class FactoryBinRawMaterialEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String factoryBinID;
     
-    private List<Entity> items;
-    
+    private List<StoredItem> items;
+
     private FactoryEntity factory = new FactoryEntity();
 
     public Long getFactoryID() {

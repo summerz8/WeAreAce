@@ -8,6 +8,7 @@ package Entity.Factory;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,10 +33,13 @@ public class PurchaseOrderEntity implements Serializable {
     private GoodsReceiptEntity goodsReceipt;
     @ManyToOne
     private PlannedOrderEntity  plannedOrder = new PlannedOrderEntity();
+    private SupplierEntity supplierID;
+    private List<RawMaterialEntity> purchaseItem;
+    
     
     public PurchaseOrderEntity() {
     }
-
+    
     public PurchaseOrderEntity(Long purchasOrderId, String status) {
         this.purchasOrderId = purchasOrderId;
         this.status = status;
@@ -73,6 +77,31 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
+    public PlannedOrderEntity getPlannedOrder() {
+        return plannedOrder;
+    }
+
+    public void setPlannedOrder(PlannedOrderEntity plannedOrder) {
+        this.plannedOrder = plannedOrder;
+    }
+
+    public SupplierEntity getSupplierID() {
+        return supplierID;
+    }
+
+    public void setSupplierID(SupplierEntity supplierID) {
+        this.supplierID = supplierID;
+    }
+
+    public List<RawMaterialEntity> getPurchaseItem() {
+        return purchaseItem;
+    }
+
+    public void setPurchaseItem(List<RawMaterialEntity> purchaseItem) {
+        this.purchaseItem = purchaseItem;
+    }
+
+    
     
     @Override
     public int hashCode() {
