@@ -6,6 +6,9 @@
 
 package Entity.Factory;
 
+import Entity.Factory.FacotryBin.FactoryBinRetailProductEntity;
+import Entity.Factory.FacotryBin.FactoryBinRawMaterialEntity;
+import Entity.Factory.FacotryBin.FactoryBinProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

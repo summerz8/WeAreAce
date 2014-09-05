@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Factory.FacotryBin;
 
+import Entity.Factory.FactoryEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import javax.persistence.ManyToOne;
  * @author hangsun
  */
 @Entity
-public class FactoryBinProductEntity implements Serializable {
+public class FactoryBinRawMaterialEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,9 +29,9 @@ public class FactoryBinProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String factoryBinID;
- 
-    private List<StoredProductEntity> items;
-    //@ManyToOne?
+    
+    private List<StoredItem> items;
+
     private FactoryEntity factory = new FactoryEntity();
 
     public Long getFactoryID() {

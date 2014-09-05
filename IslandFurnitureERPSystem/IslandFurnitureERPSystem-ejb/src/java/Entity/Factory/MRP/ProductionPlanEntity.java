@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Factory.MRP;
 
+import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;

@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Factory.SCM;
 
+import Entity.Factory.SCM.SupplierEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;

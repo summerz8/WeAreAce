@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Factory.SCM;
 
+import Entity.Factory.MRP.PlannedOrderEntity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

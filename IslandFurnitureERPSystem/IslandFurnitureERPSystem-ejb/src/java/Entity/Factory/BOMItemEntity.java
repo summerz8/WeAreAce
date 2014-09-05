@@ -6,6 +6,7 @@
 
 package Entity.Factory;
 
+import Entity.Factory.SCM.RawMaterialEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

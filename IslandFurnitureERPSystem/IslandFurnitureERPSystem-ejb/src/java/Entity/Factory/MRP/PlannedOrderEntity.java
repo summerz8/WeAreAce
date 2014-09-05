@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entity.Factory;
+package Entity.Factory.MRP;
 
+import Entity.Factory.BOMEntity;
+import Entity.Factory.SCM.RawMaterialEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

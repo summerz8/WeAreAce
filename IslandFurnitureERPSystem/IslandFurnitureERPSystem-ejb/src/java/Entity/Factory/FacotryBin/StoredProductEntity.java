@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Factory.FacotryBin;
 
+import Entity.Factory.SCM.RawMaterialEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +35,7 @@ public class StoredProductEntity implements Serializable {
         this.StoredProductID = id;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;
