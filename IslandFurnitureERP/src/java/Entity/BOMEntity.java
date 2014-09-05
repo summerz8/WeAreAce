@@ -24,7 +24,6 @@ public class BOMEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BomId;
     private ProductEntity product;
-    private int baseQuantity;
     private List<BOMItemEntity> items;
 
     public BOMEntity() {
@@ -46,14 +45,6 @@ public class BOMEntity implements Serializable {
         this.product = product;
     }
 
-    public int getBaseQuantity() {
-        return baseQuantity;
-    }
-
-    public void setBaseQuantity(int baseQuantity) {
-        this.baseQuantity = baseQuantity;
-    }
-
     public List<BOMItemEntity> getItems() {
         return items;
     }
@@ -61,20 +52,7 @@ public class BOMEntity implements Serializable {
     public void setItems(List<BOMItemEntity> items) {
         this.items = items;
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     @Override
     public int hashCode() {
         int hash = 0;
