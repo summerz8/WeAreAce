@@ -23,7 +23,7 @@ import javax.persistence.Temporal;
  *
  * @author apple
  */
-@Entity(name="Planned Order")
+@Entity(name = "Planned Order")
 public class PlannedOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,30 +32,29 @@ public class PlannedOrderEntity implements Serializable {
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
-    private String targetPeriod;
+    private Date targetSalesStartDate;
+    private Date targetSalesEndDate;
     private String status;
+    private List<RawMaterialEntity> RawMaterialEntityList;
     private List<Long> purchaseOrderID;
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private ProductionPlanEntity productionPlan; 
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private ProductionPlanEntity productionPlan;
 
-    
     PlannedOrderEntity() {
     }
-     
-    public PlannedOrderEntity(Long plannedOrderId, Date date,String targetPeriod, String status, BOMEntity bom) {
+
+    public PlannedOrderEntity(Long plannedOrderId, Date date, Date targetSalesStartDate, Date targetSalesEndDate, String status, BOMEntity bom) {
         this.plannedOrderId = plannedOrderId;
-        this.targetPeriod = targetPeriod;
+        this.targetSalesStartDate = targetSalesStartDate;
+        this.targetSalesStartDate = targetSalesEndDate;
         this.status = status;
         this.date = date;
     }
-    
+
     public void setPlannedOrderId(Long plannedOrderId) {
         this.plannedOrderId = plannedOrderId;
     }
 
-    public void setTargetPeriod(String targetPeriod) {
-        this.targetPeriod = targetPeriod;
-    }
 
     public void setStatus(String status) {
         this.status = status;
@@ -65,6 +64,32 @@ public class PlannedOrderEntity implements Serializable {
         this.date = date;
     }
 
+    public Date getTargetSalesStartDate() {
+        return targetSalesStartDate;
+    }
+
+    public void setTargetSalesStartDate(Date targetSalesStartDate) {
+        this.targetSalesStartDate = targetSalesStartDate;
+    }
+
+    public Date getTargetSalesEndDate() {
+        return targetSalesEndDate;
+    }
+
+    public void setTargetSalesEndDate(Date targetSalesEndDate) {
+        this.targetSalesEndDate = targetSalesEndDate;
+    }
+
+    public List<RawMaterialEntity> getRawMaterialEntityList() {
+        return RawMaterialEntityList;
+    }
+
+    public void setRawMaterialEntityList(List<RawMaterialEntity> RawMaterialEntityList) {
+        this.RawMaterialEntityList = RawMaterialEntityList;
+    }
+
+    
+    
     public Long getPlannedOrderId() {
         return plannedOrderId;
     }
@@ -72,10 +97,7 @@ public class PlannedOrderEntity implements Serializable {
     public Date getDate() {
         return date;
     }
-  
-    public String getTargetPeriod() {
-        return targetPeriod;
-    }
+
 
     public String getStatus() {
         return status;
@@ -84,7 +106,6 @@ public class PlannedOrderEntity implements Serializable {
     public List<Long> getPurchaseOrders() {
         return purchaseOrderID;
     }
-
 
     public void setPurchaseOrderID(List<Long> purchaseOrderID) {
         this.purchaseOrderID = purchaseOrderID;
@@ -98,7 +119,6 @@ public class PlannedOrderEntity implements Serializable {
         this.productionPlan = productionPlan;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

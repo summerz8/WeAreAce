@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -32,8 +33,8 @@ public class SupplierEntity implements Serializable {
     private Integer Contact;
     private Integer fax;
     private String Remark;
-    @ManyToMany(cascade={CascadeType.ALL},mappedBy="supplier")
-    private Set<RawMaterialEntity> MaterialList=new HashSet<RawMaterialEntity>();
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
     
     public Long getSupplierId() {
         return SupplierID;
@@ -51,12 +52,12 @@ public class SupplierEntity implements Serializable {
         this.Name = Name;
     }
 
-    public Set<RawMaterialEntity> getMaterialList() {
-        return MaterialList;
+    public Set<ContractEntity> getContractList() {
+        return ContractList;
     }
 
-    public void setMaterialList(Set<RawMaterialEntity> MaterialList) {
-        this.MaterialList = MaterialList;
+    public void setContractList(Set<ContractEntity> ContractlList) {
+        this.ContractList = ContractList;
     }
 
     public String getAddress() {
