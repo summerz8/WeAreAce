@@ -26,23 +26,76 @@ public class SupplierEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long SupplierEntity;
+    private Long SupplierID;
     private String Name;
+    private String Address;
+    private Integer Contact;
+    private Integer fax;
+    private String Remark;
     @ManyToMany(cascade={CascadeType.ALL},mappedBy="supplier")
     private Set<RawMaterialEntity> MaterialList=new HashSet<RawMaterialEntity>();
     
-    public Long getId() {
-        return SupplierEntity;
+    public Long getSupplierId() {
+        return SupplierID;
     }
 
-    public void setId(Long id) {
-        this.SupplierEntity = id;
+    public void setSupplierId(Long id) {
+        this.SupplierID = id;
     }
 
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public Set<RawMaterialEntity> getMaterialList() {
+        return MaterialList;
+    }
+
+    public void setMaterialList(Set<RawMaterialEntity> MaterialList) {
+        this.MaterialList = MaterialList;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
+
+    public Integer getContact() {
+        return Contact;
+    }
+
+    public void setContact(Integer Contact) {
+        this.Contact = Contact;
+    }
+
+    public Integer getFax() {
+        return fax;
+    }
+
+    public void setFax(Integer fax) {
+        this.fax = fax;
+    }
+
+    public String getRemark() {
+        return Remark;
+    }
+
+    public void setRemark(String Remark) {
+        this.Remark = Remark;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (SupplierEntity != null ? SupplierEntity.hashCode() : 0);
+        hash += (SupplierID != null ? SupplierID.hashCode() : 0);
         return hash;
     }
 
@@ -53,7 +106,7 @@ public class SupplierEntity implements Serializable {
             return false;
         }
         SupplierEntity other = (SupplierEntity) object;
-        if ((this.SupplierEntity == null && other.SupplierEntity != null) || (this.SupplierEntity != null && !this.SupplierEntity.equals(other.SupplierEntity))) {
+        if ((this.SupplierID == null && other.SupplierID != null) || (this.SupplierID != null && !this.SupplierID.equals(other.SupplierID))) {
             return false;
         }
         return true;
@@ -61,7 +114,7 @@ public class SupplierEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.SupplierEntity[ id=" + SupplierEntity + " ]";
+        return "Entity.Factory.SupplierEntity[ id=" + SupplierID + " ]";
     }
     
 }

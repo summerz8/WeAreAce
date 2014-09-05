@@ -30,7 +30,8 @@ public class ProductionPlanEntity implements Serializable {
     private Date targetSalesStartDate;
     private Date targetSalesEndDate;
     private Integer output;
-
+    private ProductEntity product;
+    
     public Long getProductionPlanId() {
         return productionPlanId;
     }
@@ -87,6 +88,15 @@ public class ProductionPlanEntity implements Serializable {
         this.output = output;
     }
 
+    public ProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
