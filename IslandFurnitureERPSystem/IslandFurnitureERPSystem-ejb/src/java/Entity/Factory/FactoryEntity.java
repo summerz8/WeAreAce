@@ -36,7 +36,7 @@ public class FactoryEntity implements Serializable {
     private String address;
     private String contact;
     private String manager;
-    private Collection<FactoryBinFinishedGoodEntity> factoryBinFinishedGood = new ArrayList<FactoryBinFinishedGoodEntity>();
+    private Collection<FactoryBinInventoryEntity> factoryBinFinishedGood = new ArrayList<FactoryBinInventoryEntity>();
     private Collection<FactoryBinRawMaterialEntity> factoryBinRawMaterial = new ArrayList<FactoryBinRawMaterialEntity>();
     private Collection<FactoryBinRetailProductEntity> factoryBinRetailProduct = new ArrayList<FactoryBinRetailProductEntity>();
     
@@ -86,11 +86,11 @@ public class FactoryEntity implements Serializable {
 
      
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="factory")
-    public Collection<FactoryBinFinishedGoodEntity> getFactoryBinFinishedGood(){
+    public Collection<FactoryBinInventoryEntity> getFactoryBinFinishedGood(){
         return factoryBinFinishedGood;
     }
     
-    public void setFactoryBinFinishedGood(Collection<FactoryBinFinishedGoodEntity> factoryBinFinishedGood){
+    public void setFactoryBinFinishedGood(Collection<FactoryBinInventoryEntity> factoryBinFinishedGood){
         this.factoryBinFinishedGood = factoryBinFinishedGood; 
     }
     
