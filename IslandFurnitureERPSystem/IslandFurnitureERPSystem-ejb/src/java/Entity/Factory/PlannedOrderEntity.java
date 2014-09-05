@@ -35,6 +35,8 @@ public class PlannedOrderEntity implements Serializable {
     private String targetPeriod;
     private String status;
     private List<Long> purchaseOrderID;
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private ProductionPlanEntity productionPlan; 
 
     
     PlannedOrderEntity() {
@@ -83,10 +85,20 @@ public class PlannedOrderEntity implements Serializable {
         return purchaseOrderID;
     }
 
-    public void setPurchaseOrders(List<Long> purchaseOrders) {
-        this.purchaseOrderID = purchaseOrders;
+
+    public void setPurchaseOrderID(List<Long> purchaseOrderID) {
+        this.purchaseOrderID = purchaseOrderID;
     }
 
+    public ProductionPlanEntity getProductionPlan() {
+        return productionPlan;
+    }
+
+    public void setProductionPlan(ProductionPlanEntity productionPlan) {
+        this.productionPlan = productionPlan;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
