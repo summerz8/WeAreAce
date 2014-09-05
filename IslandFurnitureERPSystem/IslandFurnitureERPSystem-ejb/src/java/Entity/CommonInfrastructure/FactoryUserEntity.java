@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Entity;
+package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -17,12 +17,12 @@ import javax.persistence.Table;
  * @author dan
  */
 @Entity
-@Table(name="S_user")
+@Table(name="F_user")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class StoreUserEntity extends UserEntity implements Serializable {
+public class FactoryUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    public StoreUserEntity() {
+
+    public FactoryUserEntity() {
     }
     
 }

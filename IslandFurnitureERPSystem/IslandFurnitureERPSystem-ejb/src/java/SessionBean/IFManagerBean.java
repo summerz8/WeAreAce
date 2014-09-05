@@ -5,8 +5,8 @@
  */
 package SessionBean;
 
-import Entity.IdNumberEntity;
-import Entity.UserEntity;
+import Entity.CommonInfrastructure.IdNumberEntity;
+import Entity.CommonInfrastructure.UserEntity;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
