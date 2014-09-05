@@ -6,31 +6,41 @@
 package Entity.Factory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author apple
  */
-@Entity
+@Entity(name="Planned Order")
 public class PlannedOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long plannedOrderId;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     private String targetPeriod;
     private String status;
     @OneToOne(cascade={CascadeType.PERSIST})
     private BOMEntity bom;
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="plannedOrder")
+    private Collection<PurchaseOrderEntity> purchaseOrders = new ArrayList<PurchaseOrderEntity>();
 
+    PlannedOrderEntity() {
+    }
+     
     public PlannedOrderEntity(Long plannedOrderId, Date date,String targetPeriod, String status, BOMEntity bom) {
         this.plannedOrderId = plannedOrderId;
         this.targetPeriod = targetPeriod;
@@ -38,7 +48,7 @@ public class PlannedOrderEntity implements Serializable {
         this.bom = bom;
         this.date = date;
     }
-
+    
     public void setPlannedOrderId(Long plannedOrderId) {
         this.plannedOrderId = plannedOrderId;
     }
@@ -59,11 +69,6 @@ public class PlannedOrderEntity implements Serializable {
         this.date = date;
     }
 
-    
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     public Long getPlannedOrderId() {
         return plannedOrderId;
     }
@@ -71,8 +76,7 @@ public class PlannedOrderEntity implements Serializable {
     public Date getDate() {
         return date;
     }
-
-    
+  
     public String getTargetPeriod() {
         return targetPeriod;
     }
@@ -85,8 +89,13 @@ public class PlannedOrderEntity implements Serializable {
         return bom;
     }
 
-       
-    
+    public Collection<PurchaseOrderEntity> getPurchaseOrders() {
+        return purchaseOrders;
+    }
+
+    public void setPurchaseOrders(Collection<PurchaseOrderEntity> purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
+    }
 
     @Override
     public int hashCode() {
