@@ -12,61 +12,75 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
- * @author apple
+ * @author Yoky
  */
 @Entity
 public class BOMEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long BOMID;
-    private List<RawMaterialEntity> RawMaterial;
+    private Long BomId;
+    private ProductEntity product;
+    private List<BOMItemEntity> items;
+
+    public BOMEntity() {
+    }
+
+    public Long getBomId() {
+        return BomId;
+    }
+
+    public void setBomId(Long BomId) {
+        this.BomId = BomId;
+    }
+
+    public ProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
+
+    public List<BOMItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<BOMItemEntity> items) {
+        this.items = items;
+    }
+
     
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public Long getBOMID() {
-        return BOMID;
-    }
-
-    public List<RawMaterialEntity> getRawMaterial() {
-        return RawMaterial;
-    }
-
-    public void setBOMID(Long BOMID) {
-        this.BOMID = BOMID;
-    }
-
-    public void setRawMaterial(List<RawMaterialEntity> RawMaterial) {
-        this.RawMaterial = RawMaterial;
-    }
-
-   
     
     
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (BOMID != null ? BOMID.hashCode() : 0);
+        hash += (BomId != null ? BomId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the BomId fields are not set
         if (!(object instanceof BOMEntity)) {
             return false;
         }
         BOMEntity other = (BOMEntity) object;
-        if ((this.BOMID == null && other.BOMID != null) || (this.BOMID != null && !this.BOMID.equals(other.BOMID))) {
+        if ((this.BomId == null && other.BomId != null) || (this.BomId != null && !this.BomId.equals(other.BomId))) {
             return false;
         }
         return true;
@@ -74,7 +88,7 @@ public class BOMEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.BOMEntity[ id=" + BOMID + " ]";
+        return "Entity.BOMEntity[ id=" + BomId + " ]";
     }
     
 }

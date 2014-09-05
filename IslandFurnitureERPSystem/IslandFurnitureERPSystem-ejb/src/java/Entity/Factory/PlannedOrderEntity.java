@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +34,9 @@ public class PlannedOrderEntity implements Serializable {
     private Date date;
     private String targetPeriod;
     private String status;
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private BOMEntity bom;
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="plannedOrder")
-    private Collection<PurchaseOrderEntity> purchaseOrders = new ArrayList<PurchaseOrderEntity>();
+    private List<Long> purchaseOrderID;
 
+    
     PlannedOrderEntity() {
     }
      
@@ -45,7 +44,6 @@ public class PlannedOrderEntity implements Serializable {
         this.plannedOrderId = plannedOrderId;
         this.targetPeriod = targetPeriod;
         this.status = status;
-        this.bom = bom;
         this.date = date;
     }
     
@@ -59,10 +57,6 @@ public class PlannedOrderEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setBom(BOMEntity bom) {
-        this.bom = bom;
     }
 
     public void setDate(Date date) {
@@ -85,16 +79,12 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
-    public BOMEntity getBom() {
-        return bom;
+    public List<Long> getPurchaseOrders() {
+        return purchaseOrderID;
     }
 
-    public Collection<PurchaseOrderEntity> getPurchaseOrders() {
-        return purchaseOrders;
-    }
-
-    public void setPurchaseOrders(Collection<PurchaseOrderEntity> purchaseOrders) {
-        this.purchaseOrders = purchaseOrders;
+    public void setPurchaseOrders(List<Long> purchaseOrders) {
+        this.purchaseOrderID = purchaseOrders;
     }
 
     @Override
