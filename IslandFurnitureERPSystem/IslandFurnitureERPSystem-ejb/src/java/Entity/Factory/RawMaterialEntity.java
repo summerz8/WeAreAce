@@ -8,10 +8,13 @@ package Entity.Factory;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -25,7 +28,9 @@ public class RawMaterialEntity implements Serializable {
     private Long MaterialID;
     private String materialName;
     private String description;
-   // private List<SupplierEntity> supplier;
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="RawMaterial_Supplier")
+    private List<SupplierEntity> supplier;
     
     
     public Long getMaterialID() {
@@ -44,9 +49,9 @@ public class RawMaterialEntity implements Serializable {
         return description;
     }
 
-//    public List<SupplierEntity> getSupplier() {
-//        return supplier;
-//    }
+    public List<SupplierEntity> getSupplier() {
+        return supplier;
+    }
 
     public void setMaterialName(String materialName) {
         this.materialName = materialName;
@@ -55,10 +60,10 @@ public class RawMaterialEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-//
-//    public void setSupplier(List<SupplierEntity> supplier) {
-////        this.supplier = supplier;
-//    }
+
+    public void setSupplier(List<SupplierEntity> supplier) {
+        this.supplier = supplier;
+    }
     
     
 

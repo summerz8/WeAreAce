@@ -28,14 +28,38 @@ public class BOMEntity implements Serializable {
     @OneToOne(mappedBy="bom")
     private PlannedOrderEntity plannedOrder;
     
-    
-    public Long getId() {
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getBOMID() {
         return BOMID;
     }
 
-    public void setId(Long id) {
-        this.BOMID = id;
+    public List<RawMaterialEntity> getRawMaterial() {
+        return RawMaterial;
     }
+
+    public PlannedOrderEntity getPlannedOrder() {
+        return plannedOrder;
+    }
+
+    public void setBOMID(Long BOMID) {
+        this.BOMID = BOMID;
+    }
+
+    public void setRawMaterial(List<RawMaterialEntity> RawMaterial) {
+        this.RawMaterial = RawMaterial;
+    }
+
+    public void setPlannedOrder(PlannedOrderEntity plannedOrder) {
+        this.plannedOrder = plannedOrder;
+    }
+    
+    
+    
+
 
     @Override
     public int hashCode() {
