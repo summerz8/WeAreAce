@@ -7,6 +7,7 @@
 package Entity.Factory;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,20 +22,75 @@ public class ProductionPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long productionPlanId;
 
-    public Long getId() {
-        return id;
+    private String status;
+    private Date generateDate;
+    private Date confirmDate;
+    private Date targetSalesStartDate;
+    private Date targetSalesEndDate;
+    private Integer output;
+
+    public Long getProductionPlanId() {
+        return productionPlanId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductionPlanId(Long productionPlanId) {
+        this.productionPlanId = productionPlanId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getGenerateDate() {
+        return generateDate;
+    }
+
+    public void setGenerateDate(Date generateDate) {
+        this.generateDate = generateDate;
+    }
+
+    public Date getConfirmDate() {
+        return confirmDate;
+    }
+
+    public void setConfirmDate(Date confirmDate) {
+        this.confirmDate = confirmDate;
+    }
+
+    public Date getTargetSalesStartDate() {
+        return targetSalesStartDate;
+    }
+
+    public void setTargetSalesStartDate(Date targetSalesStartDate) {
+        this.targetSalesStartDate = targetSalesStartDate;
+    }
+
+    public Date getTargetSalesEndDate() {
+        return targetSalesEndDate;
+    }
+
+    public void setTargetSalesEndDate(Date targetSalesEndDate) {
+        this.targetSalesEndDate = targetSalesEndDate;
+    }
+
+    public Integer getOutput() {
+        return output;
+    }
+
+    public void setOutput(Integer output) {
+        this.output = output;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (productionPlanId != null ? productionPlanId.hashCode() : 0);
         return hash;
     }
 
@@ -45,7 +101,7 @@ public class ProductionPlanEntity implements Serializable {
             return false;
         }
         ProductionPlanEntity other = (ProductionPlanEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.productionPlanId == null && other.productionPlanId != null) || (this.productionPlanId != null && !this.productionPlanId.equals(other.productionPlanId))) {
             return false;
         }
         return true;
@@ -53,7 +109,7 @@ public class ProductionPlanEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.ProductionPlanEntity[ id=" + id + " ]";
+        return "Entity.Factory.ProductionPlanEntity[ id=" + productionPlanId + " ]";
     }
     
 }
