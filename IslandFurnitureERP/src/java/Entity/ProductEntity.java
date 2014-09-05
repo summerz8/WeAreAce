@@ -27,10 +27,6 @@ public class ProductEntity implements Serializable {
     private double price; // ???
     private String unit;
     private BOMEntity bom;
-    private int monthltSalesForecast;
-    private int weeklyProduction;
-    private int monthlyProduction;
-    private int inventoryBalance;
 
     public ProductEntity() {
     }
@@ -65,38 +61,6 @@ public class ProductEntity implements Serializable {
 
     public void setBom(BOMEntity bom) {
         this.bom = bom;
-    }
-
-    public int getMonthltSalesForecast() {
-        return monthltSalesForecast;
-    }
-
-    public void setMonthltSalesForecast(int monthltSalesForecast) {
-        this.monthltSalesForecast = monthltSalesForecast;
-    }
-
-    public int getWeeklyProduction() {
-        return weeklyProduction;
-    }
-
-    public void setWeeklyProduction(int weeklyProduction) {
-        this.weeklyProduction = weeklyProduction;
-    }
-
-    public int getMonthlyProduction() {
-        return monthlyProduction;
-    }
-
-    public void setMonthlyProduction(int monthlyProduction) {
-        this.monthlyProduction = monthlyProduction;
-    }
-
-    public int getInventoryBalance() {
-        return inventoryBalance;
-    }
-
-    public void setInventoryBalance(int inventoryBalance) {
-        this.inventoryBalance = inventoryBalance;
     }
 
     @Override

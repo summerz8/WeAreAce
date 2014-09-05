@@ -52,20 +52,7 @@ public class BOMEntity implements Serializable {
     public void setItems(List<BOMItemEntity> items) {
         this.items = items;
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     @Override
     public int hashCode() {
         int hash = 0;

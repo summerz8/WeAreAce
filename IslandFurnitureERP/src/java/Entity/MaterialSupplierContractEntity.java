@@ -7,6 +7,7 @@
 package Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,9 @@ public class MaterialSupplierContractEntity implements Serializable {
     private SupplierEntity supplier;
     private double price;
     private int leadtime;
+    private Date startDate;
+    private Date endDate;
+    
 
     public Long getMaterialSupplierContractId() {
         return materialSupplierContractId;
@@ -66,6 +70,23 @@ public class MaterialSupplierContractEntity implements Serializable {
     public void setLeadtime(int leadtime) {
         this.leadtime = leadtime;
     }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
 
     @Override
     public int hashCode() {
