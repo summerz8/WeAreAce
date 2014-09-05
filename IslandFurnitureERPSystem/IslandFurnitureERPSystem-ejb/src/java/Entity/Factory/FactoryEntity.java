@@ -35,7 +35,7 @@ public class FactoryEntity implements Serializable {
     private String country;
     private String address;
     private String contact;
-    private String manager;
+    private String manager; // managerEntity
     private Collection<FactoryBinInventoryEntity> factoryBinFinishedGood = new ArrayList<FactoryBinInventoryEntity>();
     private Collection<FactoryBinRawMaterialEntity> factoryBinRawMaterial = new ArrayList<FactoryBinRawMaterialEntity>();
     private Collection<FactoryBinRetailProductEntity> factoryBinRetailProduct = new ArrayList<FactoryBinRetailProductEntity>();

@@ -25,8 +25,6 @@ public class BOMEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BOMID;
     private List<RawMaterialEntity> RawMaterial;
-    @OneToOne(mappedBy="bom")
-    private PlannedOrderEntity plannedOrder;
     
 
     public static long getSerialVersionUID() {
@@ -41,10 +39,6 @@ public class BOMEntity implements Serializable {
         return RawMaterial;
     }
 
-    public PlannedOrderEntity getPlannedOrder() {
-        return plannedOrder;
-    }
-
     public void setBOMID(Long BOMID) {
         this.BOMID = BOMID;
     }
@@ -53,10 +47,7 @@ public class BOMEntity implements Serializable {
         this.RawMaterial = RawMaterial;
     }
 
-    public void setPlannedOrder(PlannedOrderEntity plannedOrder) {
-        this.plannedOrder = plannedOrder;
-    }
-    
+   
     
     
 

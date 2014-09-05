@@ -30,7 +30,7 @@ public class FactoryBinInventoryEntity implements Serializable {
     private String factoryBinID;
     
     private List<Entity> items;
-    
+    //@ManyToOne?
     private FactoryEntity factory = new FactoryEntity();
 
     public Long getFactoryID() {
