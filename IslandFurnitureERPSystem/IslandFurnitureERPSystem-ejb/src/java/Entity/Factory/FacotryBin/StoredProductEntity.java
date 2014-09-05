@@ -22,24 +22,32 @@ public class StoredProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long StoredProductID;
-    private Double amount;
+    private Long StoredProductId;
+    private double amount;
     private RawMaterialEntity product;
     
     
-    public Long getId() {
-        return StoredProductID;
+    public Long getStoredProductId() {
+        return StoredProductId;
     }
 
-    public void setId(Long id) {
-        this.StoredProductID = id;
+    public void setStoredProductId(Long id) {
+        this.StoredProductId = id;
+    }
+    
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (StoredProductID != null ? StoredProductID.hashCode() : 0);
+        hash += (StoredProductId != null ? StoredProductId.hashCode() : 0);
         return hash;
     }
 
@@ -50,7 +58,7 @@ public class StoredProductEntity implements Serializable {
             return false;
         }
         StoredProductEntity other = (StoredProductEntity) object;
-        if ((this.StoredProductID == null && other.StoredProductID != null) || (this.StoredProductID != null && !this.StoredProductID.equals(other.StoredProductID))) {
+        if ((this.StoredProductId == null && other.StoredProductId != null) || (this.StoredProductId != null && !this.StoredProductId.equals(other.StoredProductId))) {
             return false;
         }
         return true;
@@ -58,7 +66,7 @@ public class StoredProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.StoredProduct[ id=" + StoredProductID + " ]";
+        return "Entity.Factory.StoredProduct[ id=" + StoredProductId + " ]";
     }
     
 }

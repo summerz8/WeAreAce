@@ -24,37 +24,37 @@ public class FactoryBinRawMaterialEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long factoryID;
+    private Long factoryId;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String factoryBinID;
+    private String factoryBinId;
     
-    private List<StoredItem> items;
+    private List<StoredProductEntity> items;
 
     private FactoryEntity factory = new FactoryEntity();
 
-    public Long getFactoryID() {
-        return factoryID;
+    public Long getFactoryId() {
+        return factoryId;
     }
 
-    public void setFactoryID(Long factoryID) {
-        this.factoryID = factoryID;
+    public void setFactoryId(Long factoryId) {
+        this.factoryId = factoryId;
     }
     
-    public String getFactoryBinID() {
-        return factoryBinID;
+    public String getFactoryBinId() {
+        return factoryBinId;
     }
 
-    public void setFactoryBinID(String factoryBinID) {
-        this.factoryBinID = factoryBinID;
+    public void setFactoryBinId(String factoryBinId) {
+        this.factoryBinId = factoryBinId;
     }
     
-    public List<Entity> getItems() {
+    public List<StoredProductEntity> getItems() {
         return items;
     }
 
-    public void setItems(List<Entity> items) {
+    public void setItems(List<StoredProductEntity> items) {
         this.items = items;
     }
     
@@ -69,7 +69,7 @@ public class FactoryBinRawMaterialEntity implements Serializable {
     
     @Override
     public String toString() {
-        return "Entity.Factory.FactoryBinEntity[ factoryBinId=" + factoryBinID + " ]" + "[ factoryId=" + factoryID + " ]";
+        return "Entity.Factory.FactoryBinEntity[ factoryBinId=" + factoryBinId + " ]" + "[ factoryId=" + factoryId + " ]";
     }
     
 }
