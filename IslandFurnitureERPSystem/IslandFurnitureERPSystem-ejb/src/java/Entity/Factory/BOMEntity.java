@@ -25,7 +25,6 @@ public class BOMEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BomId;
-    private ProductEntity product;
     
     public BOMEntity() {
     }
@@ -38,16 +37,6 @@ public class BOMEntity implements Serializable {
         this.BomId = BomId;
     }
 
-    public ProductEntity getProduct() {
-        return product;
-    }
-
-    public void setProduct(ProductEntity product) {
-        this.product = product;
-    }
-
- 
-    
     @Override
     public int hashCode() {
         int hash = 0;

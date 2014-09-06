@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory;
 
 import java.io.Serializable;
@@ -18,8 +17,9 @@ import javax.persistence.Table;
  * @author Yoky
  */
 @Entity
-        @Table(name="Product")
+@Table(name = "Product")
 public class ProductEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +28,6 @@ public class ProductEntity implements Serializable {
     private String description;
     private double price; // ???
     private String unit;
-    private BOMEntity bom;
 
     public ProductEntity() {
     }
@@ -57,14 +56,6 @@ public class ProductEntity implements Serializable {
         this.description = description;
     }
 
-    public BOMEntity getBom() {
-        return bom;
-    }
-
-    public void setBom(BOMEntity bom) {
-        this.bom = bom;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -80,8 +71,6 @@ public class ProductEntity implements Serializable {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -107,5 +96,5 @@ public class ProductEntity implements Serializable {
     public String toString() {
         return "Entity.ProductEntity[ id=" + productEntityID + " ]";
     }
-    
+
 }
