@@ -14,10 +14,13 @@
                     <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+<<<<<<< HEAD
                 <library dirs="200">
                     <file>${libs.PrimeFaces_5.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+=======
+>>>>>>> 11e8cf5ab35a19ba8f7e80e42dc10061e3c47ecd
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
