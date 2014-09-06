@@ -5,9 +5,9 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
      <managed-bean>
         <managed-bean-name>loginBean</managed-bean-name>
-        <managed-bean-class>ManagedBean.LoginBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-class>ManagedBean.CommonInfrastructure.LoginBean</managed-bean-class>
+    
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
     
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
@@ -17,5 +17,9 @@
             <redirect/>
         </navigation-case>                      
     </navigation-rule>
-   
+    <managed-bean>
+        <managed-bean-name>logoutBean</managed-bean-name>
+        <managed-bean-class>ManagedBean.CommonInfrastructure.LogoutBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>
