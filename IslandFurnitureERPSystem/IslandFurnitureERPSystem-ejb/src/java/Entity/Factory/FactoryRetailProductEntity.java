@@ -25,6 +25,7 @@ import javax.persistence.Table;
 public class FactoryRetailProductEntity extends FactoryItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    
     public FactoryRetailProductEntity(){
         
     }
