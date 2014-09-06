@@ -6,9 +6,11 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>/WorkPlace</from-outcome>
-            <to-view-id>WorkPlace.xhtml</to-view-id>
+            <from-action>#{loginBean.getPath}</from-action>
+            <to-view-id>/WorkPlace.xhtml</to-view-id>
             <redirect/>
         </navigation-case>                      
-    </navigation-rule>    
+    </navigation-rule> 
+    
+    
 </faces-config>
