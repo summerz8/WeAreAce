@@ -3,25 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.SCM;
 
+import Entity.Factory.FacotryBin.FactoryBinEntity;
+import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author zhangshiyu
  */
 @Entity
+@Table(name="OutboundMovement")
 public class OutboundMovementEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    private FactoryBinEntity fromBin;
+    @ManyToOne
+    private StoreEntity toStore;
 
     public Long getId() {
         return id;
@@ -31,6 +40,22 @@ public class OutboundMovementEntity implements Serializable {
         this.id = id;
     }
 
+    public FactoryBinEntity getFromBin() {
+        return fromBin;
+    }
+
+    public void setFromBin(FactoryBinEntity fromBin) {
+        this.fromBin = fromBin;
+    }
+
+    public StoreEntity getToStore() {
+        return toStore;
+    }
+
+    public void setToStore(StoreEntity toStore) {
+        this.toStore = toStore;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -55,5 +80,5 @@ public class OutboundMovementEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.SCM.OutboundMovementEntity[ id=" + id + " ]";
     }
-    
+
 }
