@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManagedBean;
+package ManagedBean.CommonInfrastructure;
 
 import SessionBean.IFManagerBeanRemote;
 import com.sun.xml.ws.runtime.dev.Session;
