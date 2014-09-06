@@ -8,10 +8,13 @@ package Entity.Factory;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +30,10 @@ public class BOMEntity implements Serializable {
     private Long BomId;
     private Long ProductId;
     private List<RawMaterialAmountEntity> RawMaterialList;
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private List<RawMaterialAmountEntity> rawmaterialList;
+    @OneToOne(mappedBy="bom")
+    private ProductEntity product;
 
     public BOMEntity() {
     }
@@ -53,6 +60,22 @@ public class BOMEntity implements Serializable {
 
     public void setProductId(Long ProductId) {
         this.ProductId = ProductId;
+    }
+
+    public List<RawMaterialAmountEntity> getRawmaterialList() {
+        return rawmaterialList;
+    }
+
+    public void setRawmaterialList(List<RawMaterialAmountEntity> rawmaterialList) {
+        this.rawmaterialList = rawmaterialList;
+    }
+
+    public ProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
     }
     
     

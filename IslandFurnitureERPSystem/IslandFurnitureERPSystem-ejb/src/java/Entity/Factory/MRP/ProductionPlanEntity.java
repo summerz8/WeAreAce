@@ -5,6 +5,7 @@
  */
 package Entity.Factory.MRP;
 
+import Entity.Factory.BOMEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -48,7 +50,8 @@ public class ProductionPlanEntity implements Serializable {
     private ProductEntity product;
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
     private List<PlannedOrderEntity> plannedOrder=new ArrayList<PlannedOrderEntity>();
-    
+    @OneToOne(cascade={CascadeType.ALL})
+    private BOMEntity bomEntity;
     
     public ProductionPlanEntity(String status, Date generateDate, Date targetSalesStartDate, Date targetSalesEndDate, Integer output, ProductEntity product, String remark){
         this.status = status;
@@ -132,6 +135,24 @@ public class ProductionPlanEntity implements Serializable {
     public void setRemark(String remark){
         this.remark = remark;
     }
+
+    public List<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrder;
+    }
+
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrder = plannedOrder;
+    }
+
+    public BOMEntity getBomEntity() {
+        return bomEntity;
+    }
+
+    public void setBomEntity(BOMEntity bomEntity) {
+        this.bomEntity = bomEntity;
+    }
+    
+    
 
     @Override
     public int hashCode() {

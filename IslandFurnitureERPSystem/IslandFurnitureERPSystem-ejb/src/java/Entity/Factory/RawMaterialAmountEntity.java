@@ -16,7 +16,7 @@ import javax.persistence.Id;
  *
  * @author apple
  */
-@Entity
+@Entity(name="RawMaterialAmount")
 public class RawMaterialAmountEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -6,10 +6,12 @@
 package Entity.Factory;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,6 +30,7 @@ public class ProductEntity implements Serializable {
     private String description;
     private double price; // ???
     private String unit;
+    @OneToOne(cascade={CascadeType.PERSIST})
     public BOMEntity bom;
 
     public ProductEntity() {
