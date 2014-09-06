@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ManagedBean;
+package ManagedBean.CommonInfrastructure;
 
 import SessionBean.IFManagerBeanRemote;
 import javax.annotation.ManagedBean;
