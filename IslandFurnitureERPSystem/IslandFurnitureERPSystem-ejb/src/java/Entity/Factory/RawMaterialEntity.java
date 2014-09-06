@@ -5,19 +5,13 @@ package Entity.Factory;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
-import Entity.Factory.SCM.SupplierEntity;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,61 +19,67 @@ import javax.persistence.Table;
  * @author apple
  */
 @Entity
-        @Table(name="RawMaterial")
+@Table(name = "RawMaterial")
 public class RawMaterialEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long MaterialID;
-    private String materialName;
+    private Long rawMaterialId;
+    private String name;
+    private String unit;
     private String description;
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name="RawMaterial_Supplier")
-    private List<SupplierEntity> supplier;
-    
-    
-    public Long getMaterialID() {
-        return MaterialID;
+    @OneToMany(mappedBy = "rawMaterial")
+    private List<FactoryRawMaterialEntity> factoryRawMaterials;
+
+    public RawMaterialEntity() {
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public Long getRawMaterialId() {
+        return rawMaterialId;
     }
 
-    public String getMaterialName() {
-        return materialName;
+    public void setRawMaterialId(Long rawMaterialId) {
+        this.rawMaterialId = rawMaterialId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public List<SupplierEntity> getSupplier() {
-        return supplier;
-    }
-
-    public void setMaterialName(String materialName) {
-        this.materialName = materialName;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setSupplier(List<SupplierEntity> supplier) {
-        this.supplier = supplier;
-    }
-    
-    
-
-    public void setMaterialID(Long MaterialID) {
-        this.MaterialID = MaterialID;
+    public List<FactoryRawMaterialEntity> getFactoryRawMaterials() {
+        return factoryRawMaterials;
     }
 
+    public void setFactoryRawMaterials(List<FactoryRawMaterialEntity> factoryRawMaterials) {
+        this.factoryRawMaterials = factoryRawMaterials;
+    }
+
+  
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (MaterialID != null ? MaterialID.hashCode() : 0);
+        hash += (rawMaterialId != null ? rawMaterialId.hashCode() : 0);
         return hash;
     }
 
@@ -90,7 +90,7 @@ public class RawMaterialEntity implements Serializable {
             return false;
         }
         RawMaterialEntity other = (RawMaterialEntity) object;
-        if ((this.MaterialID == null && other.MaterialID != null) || (this.MaterialID != null && !this.MaterialID.equals(other.MaterialID))) {
+        if ((this.rawMaterialId == null && other.rawMaterialId != null) || (this.rawMaterialId != null && !this.rawMaterialId.equals(other.rawMaterialId))) {
             return false;
         }
         return true;
@@ -98,7 +98,7 @@ public class RawMaterialEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.MaterialEntity[ id=" + MaterialID + " ]";
+        return "Entity.Factory.MaterialEntity[ id=" + rawMaterialId + " ]";
     }
-    
+
 }

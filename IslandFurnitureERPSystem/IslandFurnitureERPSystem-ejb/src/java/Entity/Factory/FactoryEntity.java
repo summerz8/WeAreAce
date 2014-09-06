@@ -31,62 +31,20 @@ public class FactoryEntity implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long factoryID;
-    private String country;
+    private Long factoryId;
+    private Integer countryCode;
     private String address;
-    private String contact;
-    private String manager; // managerEntity
+    private String tel;
+    private String manager; // should be managerEntity
    
     public FactoryEntity() {
     }
     
-    public long getFactoryId() {
-        return factoryID;
-    }
-
-    public void setUserId(long factoryID) {
-        this.factoryID = factoryID;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getManager() {
-        return manager;
-    }
-
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-     
 
     
     @Override
     public String toString() {
-        return "entity.UserEntity[ id=" + factoryID + " ]";
+        return "entity.UserEntity[ id=" + factoryId + " ]";
     }
     
 }
