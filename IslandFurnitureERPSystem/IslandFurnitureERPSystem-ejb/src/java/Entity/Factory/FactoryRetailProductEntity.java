@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory;
 
 import java.io.Serializable;
@@ -20,13 +19,14 @@ import javax.persistence.Table;
  * @author zhengyuan
  */
 @Entity
-        @Table(name="FactoryRetailProduct")
+@Table(name = "FactoryRetailProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FactoryRetailProductEntity extends FactoryItemEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
-    public FactoryRetailProductEntity(){
-        
+
+    public FactoryRetailProductEntity() {
+
     }
-  
+
 }
