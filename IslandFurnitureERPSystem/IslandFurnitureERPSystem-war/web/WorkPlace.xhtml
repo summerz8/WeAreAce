@@ -24,6 +24,7 @@ and open the template in the editor.
         </h:head>
 
         <h:body>
+            <f:event type="preRenderView" listener="#{loginBean.checkPermissions}" />
             <h:form id="formMain">
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
@@ -32,9 +33,9 @@ and open the template in the editor.
                         <h1>Island Furniture ERP System</h1>  
                         <h2 style="margin-top:0">Global Manager, Ms Zheng
 
-                            <p:button  value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" outcome="/index">
+                            <p:commandButton  id="Logout" value="logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{logoutBean.performLogout}">
                                 <f:param name="productId" value="10" />
-                            </p:button>
+                            </p:commandButton>
 
                             <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                                 <f:param name="productId" value="10" />

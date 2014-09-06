@@ -7,11 +7,16 @@ package Entity.Factory.MRP;
 
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -38,7 +43,10 @@ public class ProductionPlanEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesEndDate;
     private Integer output;
+    @ManyToOne(cascade={CascadeType.ALL})
     private ProductEntity product;
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
+    private List<PlannedOrderEntity> plannedOrder=new ArrayList<PlannedOrderEntity>();
 
     public Long getProductionPlanId() {
         return productionPlanId;
