@@ -25,7 +25,9 @@ public class BOMEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BomId;
-    
+    private Long ProductId;
+    private List<RawMaterialAmountEntity> RawMaterialList;
+
     public BOMEntity() {
     }
 
@@ -37,6 +39,23 @@ public class BOMEntity implements Serializable {
         this.BomId = BomId;
     }
 
+       public List<RawMaterialAmountEntity> getRawMaterialList() {
+        return RawMaterialList;
+    }
+
+    public void setRawMaterialList(List<RawMaterialAmountEntity> RawMaterialList) {
+        this.RawMaterialList = RawMaterialList;
+    }
+
+    public Long getProductId() {
+        return ProductId;
+    }
+
+    public void setProductId(Long ProductId) {
+        this.ProductId = ProductId;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

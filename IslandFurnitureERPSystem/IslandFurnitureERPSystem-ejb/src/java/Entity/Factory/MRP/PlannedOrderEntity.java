@@ -6,7 +6,7 @@
 package Entity.Factory.MRP;
 
 import Entity.Factory.BOMEntity;
-import Entity.Factory.RawMaterialEntity;
+import Entity.Factory.RawMaterialAmountEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import javax.persistence.Temporal;
  * @author apple
  */
 @Entity
-        @Table(name = "PlannedOrder")
+@Table(name = "PlannedOrder")
 public class PlannedOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,27 +42,28 @@ public class PlannedOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesEndDate;
     private String status;
-    
-    private List<RawMaterialEntity> RawMaterialEntityList;
+
+    private List<RawMaterialAmountEntity> RawMaterialList;
     private List<Long> purchaseOrderID;
     @OneToOne(cascade = {CascadeType.PERSIST})
     private ProductionPlanEntity productionPlan;
 
-    PlannedOrderEntity() {
+    public PlannedOrderEntity() {
     }
 
-    public PlannedOrderEntity(Long plannedOrderId, Date date, Date targetSalesStartDate, Date targetSalesEndDate, String status, BOMEntity bom) {
-        this.plannedOrderId = plannedOrderId;
-        this.targetSalesStartDate = targetSalesStartDate;
-        this.targetSalesStartDate = targetSalesEndDate;
-        this.status = status;
-        this.date = date;
+    public void createPlannedOrder(Date date,Date targetStart,Date targetEnd,String status,Long product,Integer Amount) {
+        this.RawMaterialList=;
+        this.date=date;
+        this.productionPlan=em
+        his.status
+        this.targetSalesEndDate
+        this.targetSalesStartDate
+    
     }
 
     public void setPlannedOrderId(Long plannedOrderId) {
         this.plannedOrderId = plannedOrderId;
     }
-
 
     public void setStatus(String status) {
         this.status = status;
@@ -95,8 +97,6 @@ public class PlannedOrderEntity implements Serializable {
         this.RawMaterialEntityList = RawMaterialEntityList;
     }
 
-    
-    
     public Long getPlannedOrderId() {
         return plannedOrderId;
     }
@@ -104,7 +104,6 @@ public class PlannedOrderEntity implements Serializable {
     public Date getDate() {
         return date;
     }
-
 
     public String getStatus() {
         return status;

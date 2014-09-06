@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "SupplierContract")
-public class SupplierContractEntity implements Serializable {
+public class ContractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,7 +32,7 @@ public class SupplierContractEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date contractEndDate;
 
-    public SupplierContractEntity() {
+    public ContractEntity() {
     }
 
     public Long getSupplierContractEntity() {
@@ -77,10 +77,10 @@ public class SupplierContractEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the supplierContractEntity fields are not set
-        if (!(object instanceof SupplierContractEntity)) {
+        if (!(object instanceof ContractEntity)) {
             return false;
         }
-        SupplierContractEntity other = (SupplierContractEntity) object;
+        ContractEntity other = (ContractEntity) object;
         if ((this.supplierContractEntity == null && other.supplierContractEntity != null) || (this.supplierContractEntity != null && !this.supplierContractEntity.equals(other.supplierContractEntity))) {
             return false;
         }

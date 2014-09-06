@@ -28,6 +28,7 @@ public class ProductEntity implements Serializable {
     private String description;
     private double price; // ???
     private String unit;
+    public BOMEntity bom;
 
     public ProductEntity() {
     }
@@ -71,6 +72,15 @@ public class ProductEntity implements Serializable {
     public void setUnit(String unit) {
         this.unit = unit;
     }
+
+    public BOMEntity getBom() {
+        return bom;
+    }
+
+    public void setBom(BOMEntity bom) {
+        this.bom = bom;
+    }
+    
 
     @Override
     public int hashCode() {
