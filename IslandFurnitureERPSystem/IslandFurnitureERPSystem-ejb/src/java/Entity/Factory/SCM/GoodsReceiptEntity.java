@@ -7,11 +7,14 @@ package Entity.Factory.SCM;
 
 import Entity.CommonInfrastructure.FactoryUserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,6 +36,8 @@ public class GoodsReceiptEntity implements Serializable {
     private PurchaseOrderEntity purchaseOder;
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private FactoryUserEntity personInCharge;
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "goodsReceipt")
+    private Collection<InboundMovementEntity> inboundMovement = new ArrayList<InboundMovementEntity>(); 
 
     public GoodsReceiptEntity() {
     }
@@ -73,7 +78,15 @@ public class GoodsReceiptEntity implements Serializable {
     public void setPersonInCharge(FactoryUserEntity personInCharge) {
         this.personInCharge = personInCharge;
     }
-    
+
+    public Collection<InboundMovementEntity> getInboundMovement() {
+        return inboundMovement;
+    }
+
+    public void setInboundMovement(Collection<InboundMovementEntity> inboundMovement) {
+        this.inboundMovement = inboundMovement;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 0;
