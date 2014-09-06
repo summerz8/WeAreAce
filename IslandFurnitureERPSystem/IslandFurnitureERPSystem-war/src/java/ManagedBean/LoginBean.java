@@ -6,13 +6,18 @@
 package ManagedBean;
 
 import SessionBean.IFManagerBeanRemote;
+import com.sun.xml.ws.runtime.dev.Session;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,6 +35,7 @@ public class LoginBean {
     private String pwd;
     private String statusMsg;
     private String path;
+//    private Session Flag;
 
     public LoginBean() {
 
@@ -67,6 +73,20 @@ public class LoginBean {
         this.path = path;
     }
 
+//    public void setLoginFlag(String loginFlag) {
+//        this.loginFlag = loginFlag;
+//    }
+//    public String getLoginFlag() {
+//        return loginFlag;
+//    }
+
+//    public Session getFlag() {
+//        return Flag;
+//    }
+//
+//    public void setFlag(Session Flag) {
+//        this.Flag = Flag;
+//    }
     
     public void checkLogin(ActionEvent event) {
         
@@ -79,14 +99,42 @@ public class LoginBean {
             if (IFMB.checkAccount(checkUserId, checkPwd)) {
                 statusMsg = "Login successfully...";
                 path = "/WorkPlace";
+                HttpServletRequest request= (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                request.getSession().setAttribute("flag", (Object) "userlogin");
+                //System.out.println(FacesContext.getCurrentInstance().getMessages().toString());
+                
             } else {
                 statusMsg = "Incorrect userId or password, please enter again.";
+                System.out.println("haah");
                 //path = "index";
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login result " + statusMsg, ""));
+            
+            //System.out.println();
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    public void checkPermissions(ComponentSystemEvent event) {
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession httpSession = (HttpSession)(fc.getExternalContext().getSession(true)); 
+        
+      
+            String cid = (String) httpSession.getAttribute("flag");
+        
+        
+        //System.out.println(fc.getMessages().toString());
+        
+        if( cid == null){
+            ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler)fc.getApplication().getNavigationHandler();
+            handler.performNavigation("index");
+            //System.out.println(fc.getMessages().toString());
+            //System.out.println("LoginBean: "+ fc.getExternalContext().getRequestContextPath());
+            return;
+        
         }
     }
 }
