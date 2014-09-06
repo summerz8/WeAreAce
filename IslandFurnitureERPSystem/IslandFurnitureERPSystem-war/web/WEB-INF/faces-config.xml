@@ -3,12 +3,19 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+     <managed-bean>
+        <managed-bean-name>loginBean</managed-bean-name>
+        <managed-bean-class>ManagedBean.LoginBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>/WorkPlace</from-outcome>
-            <to-view-id>WorkPlace.xhtml</to-view-id>
+            <from-action>#{loginBean.getPath}</from-action>
+            <to-view-id>/WorkPlace.xhtml</to-view-id>
             <redirect/>
         </navigation-case>                      
-    </navigation-rule>    
+    </navigation-rule>
+   
 </faces-config>
