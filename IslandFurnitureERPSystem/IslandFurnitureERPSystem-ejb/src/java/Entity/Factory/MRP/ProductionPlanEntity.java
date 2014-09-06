@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.MRP;
 
 import Entity.Factory.ProductEntity;
@@ -13,26 +12,34 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author zhangshiyu
  */
 @Entity
+@Table(name = "ProductionPlan")
 public class ProductionPlanEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productionPlanId;
 
     private String status;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date generateDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date confirmDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesStartDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesEndDate;
     private Integer output;
     private ProductEntity product;
-    
+
     public Long getProductionPlanId() {
         return productionPlanId;
     }
@@ -97,7 +104,6 @@ public class ProductionPlanEntity implements Serializable {
         this.product = product;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -122,5 +128,5 @@ public class ProductionPlanEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.ProductionPlanEntity[ id=" + productionPlanId + " ]";
     }
-    
+
 }

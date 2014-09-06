@@ -4,52 +4,62 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory.SCM;
+package Entity.Factory;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
  *
- * @author apple
+ * @author zhengyuan
  */
 @Entity
-        @Table(name="FactoryMovement")
-public class FactoryMovementEntity implements Serializable {
+        @Table(name="FactoryItem")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class FactoryItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long FmovementID;
-    
-    
+    private Long id;
+    private Integer quantity;
+   
+    public Integer getQuantity() {
+        return quantity;
+    }
 
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+    
     public Long getId() {
-        return FmovementID;
+        return id;
     }
 
     public void setId(Long id) {
-        this.FmovementID = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (FmovementID != null ? FmovementID.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FactoryMovementEntity)) {
+        if (!(object instanceof FactoryItemEntity)) {
             return false;
         }
-        FactoryMovementEntity other = (FactoryMovementEntity) object;
-        if ((this.FmovementID == null && other.FmovementID != null) || (this.FmovementID != null && !this.FmovementID.equals(other.FmovementID))) {
+        FactoryItemEntity other = (FactoryItemEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -57,7 +67,7 @@ public class FactoryMovementEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.FactoryMovementEntity[ id=" + FmovementID + " ]";
+        return "Entity.Factory.FactoryInventoryEntity[ id=" + id + " ]";
     }
     
 }

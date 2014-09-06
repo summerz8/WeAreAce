@@ -6,7 +6,7 @@
 package Entity.Factory.MRP;
 
 import Entity.Factory.BOMEntity;
-import Entity.Factory.SCM.RawMaterialEntity;
+import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,13 +19,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
  *
  * @author apple
  */
-@Entity(name = "Planned Order")
+@Entity
+        @Table(name = "PlannedOrder")
 public class PlannedOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,9 +36,12 @@ public class PlannedOrderEntity implements Serializable {
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesStartDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesEndDate;
     private String status;
+    
     private List<RawMaterialEntity> RawMaterialEntityList;
     private List<Long> purchaseOrderID;
     @OneToOne(cascade = {CascadeType.PERSIST})

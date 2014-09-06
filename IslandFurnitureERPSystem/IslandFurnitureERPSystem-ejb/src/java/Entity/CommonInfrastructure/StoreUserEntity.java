@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author dan
  */
 @Entity
-@Table(name="S_user")
+@Table(name="StoreUser")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class StoreUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;

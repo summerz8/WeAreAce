@@ -12,20 +12,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@Table(name="BOM")
 public class BOMEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BomId;
     private ProductEntity product;
-    private List<BOMItemEntity> items;
-
+    
     public BOMEntity() {
     }
 
@@ -45,26 +46,7 @@ public class BOMEntity implements Serializable {
         this.product = product;
     }
 
-    public List<BOMItemEntity> getItems() {
-        return items;
-    }
-
-    public void setItems(List<BOMItemEntity> items) {
-        this.items = items;
-    }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     
     @Override
     public int hashCode() {

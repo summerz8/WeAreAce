@@ -6,13 +6,19 @@
 
 package Entity.CommonInfrastructure;
 
+import Entity.CommonInfrastructure.InternalMessageEntity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -21,7 +27,7 @@ import javax.persistence.Temporal;
  * @author zhangshiyu
  */
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -42,6 +48,10 @@ public class UserEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
+    
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name = "USER_INTERNALMESSAGE")
+    private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
 
     public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
         this.setUserId(department + idNumber);
@@ -178,6 +188,15 @@ public class UserEntity implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Set<InternalMessageEntity> getInMessages() {
+        return inMessages;
+    }
+
+    public void setInMessages(Set<InternalMessageEntity> inMessages) {
+        this.inMessages = inMessages;
+    }
+    
     
     @Override
     public int hashCode() {

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
@@ -14,21 +13,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
  *
  * @author zhangshiyu
  */
-@Entity(name="GoodsReceipt")
+@Entity
+@Table(name = "GoodsReceipt")
 public class GoodsReceiptEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long goodsReceiptId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createDate;
-    @OneToOne(cascade={CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private PurchaseOrderEntity purchaseOder;
 
     public GoodsReceiptEntity() {
@@ -38,7 +40,7 @@ public class GoodsReceiptEntity implements Serializable {
         this.goodsReceiptId = goodsReceiptId;
         this.createDate = createDate;
     }
-    
+
     public Long getGoodsReceiptId() {
         return goodsReceiptId;
     }
@@ -63,7 +65,6 @@ public class GoodsReceiptEntity implements Serializable {
         this.purchaseOder = purchaseOder;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -88,5 +89,5 @@ public class GoodsReceiptEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.GoodsReceiptEntity[ id=" + goodsReceiptId + " ]";
     }
-    
+
 }

@@ -6,19 +6,21 @@
 
 package Entity.Factory.FacotryBin;
 
-import Entity.Factory.SCM.RawMaterialEntity;
+import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author apple
  */
 @Entity
-public class StoredProductEntity implements Serializable {
+        @Table(name="FactoryStoredProduct")
+public class FactoryStoredProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,10 +56,10 @@ public class StoredProductEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StoredProductEntity)) {
+        if (!(object instanceof FactoryStoredProductEntity)) {
             return false;
         }
-        StoredProductEntity other = (StoredProductEntity) object;
+        FactoryStoredProductEntity other = (FactoryStoredProductEntity) object;
         if ((this.StoredProductId == null && other.StoredProductId != null) || (this.StoredProductId != null && !this.StoredProductId.equals(other.StoredProductId))) {
             return false;
         }

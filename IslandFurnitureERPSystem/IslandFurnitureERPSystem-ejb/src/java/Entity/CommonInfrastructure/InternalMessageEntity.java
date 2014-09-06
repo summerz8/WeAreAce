@@ -3,27 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entity.Store;
 
+package Entity.CommonInfrastructure;
+
+import Entity.CommonInfrastructure.UserEntity;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author zhangshiyu
+ * @author zhengyuan
  */
 @Entity
-@Table(name = "Store")
-public class StoreEntity implements Serializable {
-
+        @Table(name="InternalMessage")
+public class InternalMessageEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne(cascade={CascadeType.ALL})
+    private UserEntity sender = new UserEntity();
+    
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "inMessages")
+    private Set<UserEntity> receivers = new HashSet<UserEntity>();
+
 
     public Long getId() {
         return id;
@@ -31,6 +44,22 @@ public class StoreEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public UserEntity getSender() {
+        return sender;
+    }
+
+    public void setSender(UserEntity sender) {
+        this.sender = sender;
+    }
+
+    public Set<UserEntity> getReceivers() {
+        return receivers;
+    }
+
+    public void setReceivers(Set<UserEntity> receivers) {
+        this.receivers = receivers;
     }
 
     @Override
@@ -43,10 +72,10 @@ public class StoreEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StoreEntity)) {
+        if (!(object instanceof InternalMessageEntity)) {
             return false;
         }
-        StoreEntity other = (StoreEntity) object;
+        InternalMessageEntity other = (InternalMessageEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -55,7 +84,7 @@ public class StoreEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.StoreEntity[ id=" + id + " ]";
+        return "Entity.CommonInfrastructure.InternalMessageEntity[ id=" + id + " ]";
     }
-
+    
 }

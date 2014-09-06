@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author dan
  */
 @Entity
-@Table(name="HQ_user")
+@Table(name="HeadQuarterUser")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 
 public class HQUserEntity extends UserEntity implements Serializable {

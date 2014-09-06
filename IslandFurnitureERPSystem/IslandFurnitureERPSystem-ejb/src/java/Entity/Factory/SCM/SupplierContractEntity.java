@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
@@ -12,14 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
  *
  * @author zhangshiyu
  */
-@Entity(name="SupplierContract")
+@Entity
+@Table(name = "SupplierContract")
 public class SupplierContractEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +34,7 @@ public class SupplierContractEntity implements Serializable {
 
     public SupplierContractEntity() {
     }
-    
+
     public Long getSupplierContractEntity() {
         return supplierContractEntity;
     }
@@ -89,5 +91,5 @@ public class SupplierContractEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.SupplierContractEntity[ id=" + supplierContractEntity + " ]";
     }
-    
+
 }

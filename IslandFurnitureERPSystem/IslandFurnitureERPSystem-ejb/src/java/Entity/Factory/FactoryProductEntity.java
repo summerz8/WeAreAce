@@ -4,25 +4,30 @@
  * and open the template in the editor.
  */
 
-package Entity.CommonInfrastructure;
+package Entity.Factory;
 
+import Entity.Factory.FactoryItemEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
  *
- * @author dan
+ * @author zhengyuan
  */
 @Entity
-@Table(name="FactoryUser")
+        @Table(name="FactoryProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class FactoryUserEntity extends UserEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    public FactoryUserEntity() {
-    }
+public class FactoryProductEntity extends FactoryItemEntity implements Serializable {
+    //private static final long serialVersionUID = 1L;
+   
+   public FactoryProductEntity() {
+       
+   }
     
 }

@@ -3,27 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author apple
  */
 @Entity
+@Table(name = "Supplier")
 public class SupplierEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,9 +29,9 @@ public class SupplierEntity implements Serializable {
     private Integer Contact;
     private Integer fax;
     private String Remark;
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
-    
+//    @OneToMany(cascade={CascadeType.PERSIST})
+//    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
+
     public Long getSupplierId() {
         return SupplierID;
     }
@@ -52,14 +48,13 @@ public class SupplierEntity implements Serializable {
         this.Name = Name;
     }
 
-    public Set<ContractEntity> getContractList() {
-        return ContractList;
-    }
-
-    public void setContractList(Set<ContractEntity> ContractlList) {
-        this.ContractList = ContractList;
-    }
-
+//    public Set<ContractEntity> getContractList() {
+//        return ContractList;
+//    }
+//
+//    public void setContractList(Set<ContractEntity> ContractlList) {
+//        this.ContractList = ContractList;
+//    }
     public String getAddress() {
         return Address;
     }
@@ -92,7 +87,6 @@ public class SupplierEntity implements Serializable {
         this.Remark = Remark;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,5 +111,5 @@ public class SupplierEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.SupplierEntity[ id=" + SupplierID + " ]";
     }
-    
+
 }

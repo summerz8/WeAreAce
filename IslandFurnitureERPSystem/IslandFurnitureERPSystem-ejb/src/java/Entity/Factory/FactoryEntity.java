@@ -6,9 +6,6 @@
 
 package Entity.Factory;
 
-import Entity.Factory.FacotryBin.FactoryBinRetailProductEntity;
-import Entity.Factory.FacotryBin.FactoryBinRawMaterialEntity;
-import Entity.Factory.FacotryBin.FactoryBinProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +24,7 @@ import javax.persistence.Table;
  * @author zhangshiyu
  */
 @Entity
-@Table(name = "factory")
+@Table(name = "Factory")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FactoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,10 +36,7 @@ public class FactoryEntity implements Serializable {
     private String address;
     private String contact;
     private String manager; // managerEntity
-    private Collection<FactoryBinProductEntity> factoryBinFinishedGood = new ArrayList<FactoryBinProductEntity>();
-    private Collection<FactoryBinRawMaterialEntity> factoryBinRawMaterial = new ArrayList<FactoryBinRawMaterialEntity>();
-    private Collection<FactoryBinRetailProductEntity> factoryBinRetailProduct = new ArrayList<FactoryBinRetailProductEntity>();
-    
+   
     public FactoryEntity() {
     }
     
@@ -88,31 +82,7 @@ public class FactoryEntity implements Serializable {
     }
 
      
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="factory")
-    public Collection<FactoryBinProductEntity> getFactoryBinFinishedGood(){
-        return factoryBinFinishedGood;
-    }
-    
-    public void setFactoryBinFinishedGood(Collection<FactoryBinProductEntity> factoryBinFinishedGood){
-        this.factoryBinFinishedGood = factoryBinFinishedGood; 
-    }
-    
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="factory")
-    public Collection<FactoryBinRawMaterialEntity> getFactoryBinRawMaterial(){
-        return factoryBinRawMaterial;
-    }
-    
-    public void setFactoryBinRawMaterial(Collection<FactoryBinRawMaterialEntity> factoryBinRawMaterial){
-        this.factoryBinRawMaterial = factoryBinRawMaterial; 
-    }
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="factory")
-    public Collection<FactoryBinRetailProductEntity> getFactoryBinRetailProduct(){
-        return factoryBinRetailProduct;
-    }
-    
-    public void setFactoryBinRetailProduct(Collection<FactoryBinRetailProductEntity> factoryBinRetailProduct){
-        this.factoryBinRetailProduct = factoryBinRetailProduct; 
-    }
+
     
     @Override
     public String toString() {

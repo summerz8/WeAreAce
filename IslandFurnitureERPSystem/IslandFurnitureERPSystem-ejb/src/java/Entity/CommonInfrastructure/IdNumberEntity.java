@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @author zhangshiyu
  */
 @Entity
-@Table(name="idNumber")
+@Table(name="IdNumber")
 public class IdNumberEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
