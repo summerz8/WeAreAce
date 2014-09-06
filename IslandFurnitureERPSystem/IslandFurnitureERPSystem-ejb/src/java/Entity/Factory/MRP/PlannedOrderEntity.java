@@ -52,12 +52,6 @@ public class PlannedOrderEntity implements Serializable {
     }
 
     public void createPlannedOrder(Date date,Date targetStart,Date targetEnd,String status,Long product,Integer Amount) {
-        this.RawMaterialList=;
-        this.date=date;
-        this.productionPlan=em
-        his.status
-        this.targetSalesEndDate
-        this.targetSalesStartDate
     
     }
 
@@ -89,13 +83,13 @@ public class PlannedOrderEntity implements Serializable {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
-    public List<RawMaterialEntity> getRawMaterialEntityList() {
-        return RawMaterialEntityList;
-    }
-
-    public void setRawMaterialEntityList(List<RawMaterialEntity> RawMaterialEntityList) {
-        this.RawMaterialEntityList = RawMaterialEntityList;
-    }
+//    public List<RawMaterialEntity> getRawMaterialEntityList() {
+//        return RawMaterialEntityList;
+//    }
+//
+//    public void setRawMaterialEntityList(List<RawMaterialEntity> RawMaterialEntityList) {
+//        this.RawMaterialEntityList = RawMaterialEntityList;
+//    }
 
     public Long getPlannedOrderId() {
         return plannedOrderId;

@@ -76,37 +76,24 @@ and open the template in the editor.
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
 
-                        <p:panel id="horizontal" header="2014/9/3" toggleable="true" toggleOrientation="horizontal">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <h3>
-                                    <p:panel id="basic" header="Production Plan" footer="18:20" style="margin-bottom:20px">
-                                        <h:panelGrid columns="2" cellpadding="10">
 
-                                            <h:outputText
-                                                value="Production plan report" />
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </h3>
-                                <h3>
-                                    <p:panel id="basicf" header="Production Plan" footer="16:41" style="margin-bottom:20px">
-                                        <h:panelGrid columns="2" cellpadding="10">
+                        <p:dataTable var="car" value="#{dtBasicView.cars}">
+                            <p:column headerText="Id">
+                                <h:outputText value="#{car.id}" />
+                            </p:column>
 
-                                            <h:outputText
-                                                value="Production plan report" />
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </h3>
-                                <h3>
-                                    <p:panel id="basicg" header="Purchasing Order" footer="12:24" style="margin-bottom:20px">
-                                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:column headerText="Year">
+                                <h:outputText value="#{car.year}" />
+                            </p:column>
 
-                                            <h:outputText
-                                                value="Purchasing order report" />
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </h3>
-                            </h:panelGrid>
-                        </p:panel>
+                            <p:column headerText="Brand">
+                                <h:outputText value="#{car.brand}" />
+                            </p:column>
+
+                            <p:column headerText="Color">
+                                <h:outputText value="#{car.color}" />
+                            </p:column>
+                        </p:dataTable>
                     </p:layoutUnit>
 
                     <p:layoutUnit position="east" size="200" resizable="false">
@@ -121,4 +108,3 @@ and open the template in the editor.
     </f:view>
 
 </html>
-                   
