@@ -10,30 +10,10 @@
                     <file>${reference.IslandFurnitureRemoteInterface.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-<<<<<<< HEAD
                 <library dirs="200">
                     <file>${libs.PrimeFace_5.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library dirs="100">
-                    <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
-                </library>
-=======
-                <library dirs="100">
-                    <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-<<<<<<< HEAD
-                <library dirs="200">
-                    <file>${libs.PrimeFaces_5.0.classpath}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-=======
->>>>>>> 11e8cf5ab35a19ba8f7e80e42dc10061e3c47ecd
-<<<<<<< HEAD
->>>>>>> 2c06b2341daeefbd5211f0335b5203c9e3d5425b
-=======
->>>>>>> 2c06b2341daeefbd5211f0335b5203c9e3d5425b
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
