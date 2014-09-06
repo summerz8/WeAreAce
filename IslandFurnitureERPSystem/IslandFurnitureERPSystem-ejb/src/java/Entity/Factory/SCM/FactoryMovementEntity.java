@@ -24,7 +24,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "FactoryMovement")
-public class FactoryMovementEntity implements Serializable {
+public abstract class FactoryMovementEntity implements Serializable {
 
     public FactoryMovementEntity() {
        setFactoryMovementId(System.nanoTime());
@@ -38,9 +38,10 @@ public class FactoryMovementEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date movementDate;
     @ManyToOne
-    private FactoryItemEntity factoryItem = new FactoryItemEntity();
+    private FactoryItemEntity factoryItem;
     private Integer quantity = 0;
     private String remark;
+    @ManyToOne
     private FactoryUserEntity personInCharge;
 
     public Long getFactoryMovementId() {
@@ -91,8 +92,6 @@ public class FactoryMovementEntity implements Serializable {
         this.personInCharge = personInCharge;
     }
     
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
