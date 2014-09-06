@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Entity.Factory.FacotryBin;
 
-import Entity.Factory.FactoryItemEntity;
+import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,68 +19,37 @@ import javax.persistence.Table;
  * @author apple
  */
 @Entity
-@Table(name = "FactoryStoredProduct")
+        @Table(name="FactoryStoredProduct")
 public class FactoryBinStoredProductEntity implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long FactoryBinStoredProductId;
-    private Double amount;
-    private String unit;
-    @ManyToOne
-    private FactoryBinEntity factoryBin;
-    @ManyToOne
-    private FactoryItemEntity factoryItem;
-
-    public FactoryBinStoredProductEntity() {
-        setFactoryBinStoredProductId(System.nanoTime());
+    private Long StoredProductId;
+    private double amount;
+    private RawMaterialEntity product;
+    
+    
+    public Long getStoredProductId() {
+        return StoredProductId;
     }
 
-    public Long getFactoryBinStoredProductId() {
-        return FactoryBinStoredProductId;
+    public void setStoredProductId(Long id) {
+        this.StoredProductId = id;
     }
-
-    public void setFactoryBinStoredProductId(Long id) {
-        this.FactoryBinStoredProductId = id;
-    }
-
-    public Double getAmount() {
+    
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public FactoryBinEntity getFactoryBin() {
-        return factoryBin;
-    }
-
-    public void setFactoryBin(FactoryBinEntity factoryBin) {
-        this.factoryBin = factoryBin;
-    }
-
-    public FactoryItemEntity getFactoryItem() {
-        return factoryItem;
-    }
-
-    public void setFactoryItem(FactoryItemEntity factoryItem) {
-        this.factoryItem = factoryItem;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (FactoryBinStoredProductId != null ? FactoryBinStoredProductId.hashCode() : 0);
+        hash += (StoredProductId != null ? StoredProductId.hashCode() : 0);
         return hash;
     }
 
@@ -91,7 +60,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
             return false;
         }
         FactoryBinStoredProductEntity other = (FactoryBinStoredProductEntity) object;
-        if ((this.FactoryBinStoredProductId == null && other.FactoryBinStoredProductId != null) || (this.FactoryBinStoredProductId != null && !this.FactoryBinStoredProductId.equals(other.FactoryBinStoredProductId))) {
+        if ((this.StoredProductId == null && other.StoredProductId != null) || (this.StoredProductId != null && !this.StoredProductId.equals(other.StoredProductId))) {
             return false;
         }
         return true;
@@ -99,7 +68,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.StoredProduct[ id=" + FactoryBinStoredProductId + " ]";
+        return "Entity.Factory.StoredProduct[ id=" + StoredProductId + " ]";
     }
-
+    
 }

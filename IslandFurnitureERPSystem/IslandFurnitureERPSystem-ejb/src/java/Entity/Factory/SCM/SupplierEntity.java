@@ -6,18 +6,15 @@
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author Yoky
+ * @author apple
  */
 @Entity
 @Table(name = "Supplier")
@@ -26,97 +23,74 @@ public class SupplierEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long supplierId;
-    private String name;
-    private Integer countryCode;
-    private String address;
-    private String tel;
-    private String email;
-    private String fax;
-    private String remark;
-    @OneToMany(mappedBy = "supplierContract")
-    private List<SupplierContractEntity> supplierContracts= new ArrayList<SupplierContractEntity>();
-
-    public SupplierEntity() {
-    }
+    private Long SupplierID;
+    private String Name;
+    private String Address;
+    private Integer Contact;
+    private Integer fax;
+    private String Remark;
+//    @OneToMany(cascade={CascadeType.PERSIST})
+//    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
 
     public Long getSupplierId() {
-        return supplierId;
+        return SupplierID;
     }
 
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
+    public void setSupplierId(Long id) {
+        this.SupplierID = id;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public Integer getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(Integer countryCode) {
-        this.countryCode = countryCode;
-    }
-
+//    public Set<ContractEntity> getContractList() {
+//        return ContractList;
+//    }
+//
+//    public void setContractList(Set<ContractEntity> ContractlList) {
+//        this.ContractList = ContractList;
+//    }
     public String getAddress() {
-        return address;
+        return Address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 
-    public String getTel() {
-        return tel;
+    public Integer getContact() {
+        return Contact;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setContact(Integer Contact) {
+        this.Contact = Contact;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFax() {
+    public Integer getFax() {
         return fax;
     }
 
-    public void setFax(String fax) {
+    public void setFax(Integer fax) {
         this.fax = fax;
     }
 
     public String getRemark() {
-        return remark;
+        return Remark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setRemark(String Remark) {
+        this.Remark = Remark;
     }
 
-    public List<SupplierContractEntity> getSupplierContracts() {
-        return supplierContracts;
-    }
-
-    public void setSupplierContracts(List<SupplierContractEntity> supplierContracts) {
-        this.supplierContracts = supplierContracts;
-    }
-
-    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (supplierId != null ? supplierId.hashCode() : 0);
+        hash += (SupplierID != null ? SupplierID.hashCode() : 0);
         return hash;
     }
 
@@ -127,7 +101,7 @@ public class SupplierEntity implements Serializable {
             return false;
         }
         SupplierEntity other = (SupplierEntity) object;
-        if ((this.supplierId == null && other.supplierId != null) || (this.supplierId != null && !this.supplierId.equals(other.supplierId))) {
+        if ((this.SupplierID == null && other.SupplierID != null) || (this.SupplierID != null && !this.SupplierID.equals(other.SupplierID))) {
             return false;
         }
         return true;
@@ -135,7 +109,7 @@ public class SupplierEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.SupplierEntity[ id=" + supplierId + " ]";
+        return "Entity.Factory.SupplierEntity[ id=" + SupplierID + " ]";
     }
 
 }

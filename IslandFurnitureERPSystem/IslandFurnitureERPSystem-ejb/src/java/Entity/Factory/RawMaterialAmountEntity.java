@@ -11,31 +11,45 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 
 /**
  *
- * @author zhengyuan
+ * @author apple
  */
-@Entity
-        @Table(name="FactoryItem")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class FactoryItemEntity implements Serializable {
+@Entity(name="RawMaterialAmount")
+public class RawMaterialAmountEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer quantity;
-   
-    public Integer getQuantity() {
-        return quantity;
+    private Long RawMaterialId;
+    private String Unit;
+    private Integer Amount;
+
+    public Long getRawMaterialId() {
+        return RawMaterialId;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setRawMaterialId(Long RawMaterialId) {
+        this.RawMaterialId = RawMaterialId;
     }
+
+    public String getUnit() {
+        return Unit;
+    }
+
+    public void setUnit(String Unit) {
+        this.Unit = Unit;
+    }
+
+    public Integer getAmount() {
+        return Amount;
+    }
+
+    public void setAmount(Integer Amount) {
+        this.Amount = Amount;
+    }
+    
     
     public Long getId() {
         return id;
@@ -55,10 +69,10 @@ public class FactoryItemEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FactoryItemEntity)) {
+        if (!(object instanceof RawMaterialAmountEntity)) {
             return false;
         }
-        FactoryItemEntity other = (FactoryItemEntity) object;
+        RawMaterialAmountEntity other = (RawMaterialAmountEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -67,7 +81,7 @@ public class FactoryItemEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.FactoryInventoryEntity[ id=" + id + " ]";
+        return "Entity.Factory.RawMaterialAmountEntity[ id=" + id + " ]";
     }
     
 }

@@ -44,7 +44,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
             case "S":
                 idNumber = idNum.getId_S().intValue() + 1;
                 idNum.setId_H((long) idNumber);
-                break;           
+                break;
         }
         em.flush();
 

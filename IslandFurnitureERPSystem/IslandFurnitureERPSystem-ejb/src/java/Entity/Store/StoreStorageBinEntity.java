@@ -4,39 +4,25 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Store;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 
 /**
  *
- * @author zhengyuan
+ * @author dan
  */
 @Entity
-        @Table(name="FactoryItem")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class FactoryItemEntity implements Serializable {
+public class StoreStorageBinEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer quantity;
-   
-    public Integer getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -55,10 +41,10 @@ public class FactoryItemEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FactoryItemEntity)) {
+        if (!(object instanceof StoreStorageBinEntity)) {
             return false;
         }
-        FactoryItemEntity other = (FactoryItemEntity) object;
+        StoreStorageBinEntity other = (StoreStorageBinEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -67,7 +53,7 @@ public class FactoryItemEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.FactoryInventoryEntity[ id=" + id + " ]";
+        return "Entity.Store.StoreStorageBinEntity[ id=" + id + " ]";
     }
     
 }
