@@ -43,11 +43,24 @@ public class ProductionPlanEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesEndDate;
     private Integer output;
+    private String remark;
     @ManyToOne(cascade={CascadeType.ALL})
     private ProductEntity product;
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
     private List<PlannedOrderEntity> plannedOrder=new ArrayList<PlannedOrderEntity>();
+    
+    
+    public ProductionPlanEntity(String status, Date generateDate, Date targetSalesStartDate, Date targetSalesEndDate, Integer output, ProductEntity product, String remark){
+        this.status = status;
+        this.generateDate = generateDate;
+        this.targetSalesStartDate = targetSalesStartDate;
+        this.targetSalesEndDate = targetSalesEndDate;
+        this.output = output;
+        this.product = product;
+        this.remark = remark;
+    }
 
+    
     public Long getProductionPlanId() {
         return productionPlanId;
     }
@@ -110,6 +123,14 @@ public class ProductionPlanEntity implements Serializable {
 
     public void setProduct(ProductEntity product) {
         this.product = product;
+    }
+    
+    public String getRemark(){
+        return remark;
+    }
+    
+    public void setRemark(String remark){
+        this.remark = remark;
     }
 
     @Override
