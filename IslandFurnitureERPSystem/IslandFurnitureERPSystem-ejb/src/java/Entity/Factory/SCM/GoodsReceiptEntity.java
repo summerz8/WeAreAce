@@ -5,20 +5,20 @@
  */
 package Entity.Factory.SCM;
 
+import Entity.CommonInfrastructure.FactoryUserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
  *
- * @author zhangshiyu
+ * @author Yoky
  */
 @Entity
 @Table(name = "GoodsReceipt")
@@ -26,19 +26,20 @@ public class GoodsReceiptEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long goodsReceiptId;
+    private Long goodsReceiptId;    // the same as the corresponding purchaseOrderId. Assumption: All the raw materials ordered by the same purchase order are received together.
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createDate;
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    private Date creationDate;
+    @OneToOne(mappedBy = "goodsReceipt", cascade = {CascadeType.PERSIST})
     private PurchaseOrderEntity purchaseOder;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryUserEntity personInCharge;
 
     public GoodsReceiptEntity() {
     }
 
-    public GoodsReceiptEntity(Long goodsReceiptId, Date createDate) {
-        this.goodsReceiptId = goodsReceiptId;
-        this.createDate = createDate;
+    public GoodsReceiptEntity(PurchaseOrderEntity purchaseOder) {
+        this.purchaseOder = purchaseOder;
+        this.goodsReceiptId = purchaseOder.getPurchasOrderId();
     }
 
     public Long getGoodsReceiptId() {
@@ -49,12 +50,12 @@ public class GoodsReceiptEntity implements Serializable {
         this.goodsReceiptId = goodsReceiptId;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public PurchaseOrderEntity getPurchaseOder() {
@@ -65,6 +66,14 @@ public class GoodsReceiptEntity implements Serializable {
         this.purchaseOder = purchaseOder;
     }
 
+    public FactoryUserEntity getPersonInCharge() {
+        return personInCharge;
+    }
+
+    public void setPersonInCharge(FactoryUserEntity personInCharge) {
+        this.personInCharge = personInCharge;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
