@@ -29,15 +29,18 @@ public class FactoryBinEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryBinId;
+    
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
-    private Collection<InFactoryMovementEntity> inFactoryMovement_from = new ArrayList<InFactoryMovementEntity>();
+    private Collection<InFactoryMovementEntity> inFactoryMovements_from = new ArrayList<InFactoryMovementEntity>();
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
-    private Collection<InFactoryMovementEntity> inFactoryMovement_to = new ArrayList<InFactoryMovementEntity>();
+    private Collection<InFactoryMovementEntity> inFactoryMovements_to = new ArrayList<InFactoryMovementEntity>();
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
-    private Collection<OutboundMovementEntity> outboundMovement_from = new ArrayList<OutboundMovementEntity>();
+    private Collection<OutboundMovementEntity> outboundMovements_from = new ArrayList<OutboundMovementEntity>();
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
-    private Collection<InboundMovementEntity> inboundMovement = new ArrayList<InboundMovementEntity>();
+    private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryBin")
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
     public Long getFactoryBinId() {
         return factoryBinId;
     }
@@ -46,37 +49,46 @@ public class FactoryBinEntity implements Serializable {
         this.factoryBinId = factoryBinId;
     }
 
-    public Collection<InFactoryMovementEntity> getInFactoryMovement_from() {
-        return inFactoryMovement_from;
+    public Collection<InFactoryMovementEntity> getInFactoryMovements_from() {
+        return inFactoryMovements_from;
     }
 
-    public void setInFactoryMovement_from(Collection<InFactoryMovementEntity> inFactoryMovement_from) {
-        this.inFactoryMovement_from = inFactoryMovement_from;
+    public void setInFactoryMovements_from(Collection<InFactoryMovementEntity> inFactoryMovements_from) {
+        this.inFactoryMovements_from = inFactoryMovements_from;
     }
 
-    public Collection<InFactoryMovementEntity> getInFactoryMovement_to() {
-        return inFactoryMovement_to;
+    public Collection<InFactoryMovementEntity> getInFactoryMovements_to() {
+        return inFactoryMovements_to;
     }
 
-    public void setInFactoryMovement_to(Collection<InFactoryMovementEntity> inFactoryMovement_to) {
-        this.inFactoryMovement_to = inFactoryMovement_to;
+    public void setInFactoryMovements_to(Collection<InFactoryMovementEntity> inFactoryMovements_to) {
+        this.inFactoryMovements_to = inFactoryMovements_to;
     }
 
-    public Collection<OutboundMovementEntity> getOutboundMovement_from() {
-        return outboundMovement_from;
+    public Collection<OutboundMovementEntity> getOutboundMovements_from() {
+        return outboundMovements_from;
     }
 
-    public void setOutboundMovement_from(Collection<OutboundMovementEntity> outboundMovement_from) {
-        this.outboundMovement_from = outboundMovement_from;
+    public void setOutboundMovements_from(Collection<OutboundMovementEntity> outboundMovements_from) {
+        this.outboundMovements_from = outboundMovements_from;
     }
 
-    public Collection<InboundMovementEntity> getInboundMovement() {
-        return inboundMovement;
+    public Collection<InboundMovementEntity> getInboundMovements() {
+        return inboundMovements;
     }
 
-    public void setInboundMovement(Collection<InboundMovementEntity> inboundMovement) {
-        this.inboundMovement = inboundMovement;
+    public void setInboundMovements(Collection<InboundMovementEntity> inboundMovements) {
+        this.inboundMovements = inboundMovements;
     }
+
+    public Collection<FactoryBinStoredProductEntity> getFactoryBinStoredProducts() {
+        return factoryBinStoredProducts;
+    }
+
+    public void setFactoryBinStoredProducts(Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts) {
+        this.factoryBinStoredProducts = factoryBinStoredProducts;
+    }
+
 
     @Override
     public int hashCode() {
