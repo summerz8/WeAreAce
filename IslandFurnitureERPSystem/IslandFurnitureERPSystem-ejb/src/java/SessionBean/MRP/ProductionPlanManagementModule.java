@@ -73,6 +73,21 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
         }
     }
     
-  
+    @Override
+    public String deleteProductionPlan(Long productionPlanId){
+        
+        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+        String status = productionPlan.getStatus();
+        
+        if(status.equals("confirmed") || status.equals("accomplished")){
+            return "Production Plan cannot be deleted, it is already confirmed or accomplished.";
+        }
+        
+        else{
+            em.remove(productionPlan);
+            return "Production Plan is successfully deleted!!";
+        }
+        
+    }
     
 }

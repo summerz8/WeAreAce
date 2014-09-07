@@ -30,7 +30,6 @@ public class LoginBean {
 
     @EJB
     private IFManagerBeanRemote IFMB;
-
     private String userId;
     private String pwd;
     private String statusMsg;

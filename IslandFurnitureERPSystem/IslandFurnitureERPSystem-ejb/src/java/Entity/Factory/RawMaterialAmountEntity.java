@@ -36,19 +36,19 @@ public class RawMaterialAmountEntity implements Serializable {
         this.rawMaterialId = rawMaterialId;
     }
 
-    public String getunit() {
+    public String getUnit() {
         return unit;
     }
 
-    public void setunit(String unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 
-    public Integer getamount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setamount(Integer amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
