@@ -7,7 +7,11 @@
 package Entity.CommonInfrastructure;
 
 import Entity.CommonInfrastructure.UserEntity;
+import java.awt.List;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -17,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,18 +29,26 @@ import javax.persistence.Table;
  * @author zhengyuan
  */
 @Entity
-        @Table(name="InternalMessage")
+@Table(name="InternalMessage")
+
+//send side message 
 public class InternalMessageEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long internalMessageId;
+
+   
+    private String tittle;
+    private String content;
+    private String sendTime;
+    private String senderName;
+    private String status;
+    private String type;
+    @OneToMany (cascade = {CascadeType.ALL},mappedBy = "message")
+    private Collection<InternalMessageReceive> receiverInfo = new ArrayList<InternalMessageReceive>();
     
-    @ManyToOne(cascade={CascadeType.ALL})
-    private UserEntity sender = new UserEntity();
     
-    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "inMessages")
-    private Set<UserEntity> receivers = new HashSet<UserEntity>();
 
 
     public Long getInternalMessageId() {
@@ -46,22 +59,67 @@ public class InternalMessageEntity implements Serializable {
         this.internalMessageId = internalMessageId;
     }
 
-    public UserEntity getSender() {
-        return sender;
+     public String getTittle() {
+        return tittle;
     }
 
-    public void setSender(UserEntity sender) {
-        this.sender = sender;
+    public void setTittle(String tittle) {
+        this.tittle = tittle;
     }
 
-    public Set<UserEntity> getReceivers() {
-        return receivers;
+    public String getContent() {
+        return content;
     }
 
-    public void setReceivers(Set<UserEntity> receivers) {
-        this.receivers = receivers;
+    public void setContent(String content) {
+        this.content = content;
     }
 
+    public String getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Collection<InternalMessageReceive> getReceiverInfo() {
+        return receiverInfo;
+    }
+
+    public void setReceiverInfo(Collection<InternalMessageReceive> receiverInfo) {
+        this.receiverInfo = receiverInfo;
+    }
+    
+    
+    
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

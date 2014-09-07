@@ -17,12 +17,12 @@ import javax.persistence.Table;
 
 /**
  *
- * @author dan
+ * @author zhengyuan
  */
 @Entity
-@Table(name = "StoreRetailProduct")
+@Table(name = "StoreProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class StoreRetailProduct implements Serializable {
+public class StoreProductEntity extends StoreInventoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,10 +46,10 @@ public class StoreRetailProduct implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StoreRetailProduct)) {
+        if (!(object instanceof StoreProductEntity)) {
             return false;
         }
-        StoreRetailProduct other = (StoreRetailProduct) object;
+        StoreProductEntity other = (StoreProductEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -58,7 +58,7 @@ public class StoreRetailProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.StoreRetailProduct[ id=" + id + " ]";
+        return "Entity.Store.StoreProductEntity[ id=" + id + " ]";
     }
     
 }

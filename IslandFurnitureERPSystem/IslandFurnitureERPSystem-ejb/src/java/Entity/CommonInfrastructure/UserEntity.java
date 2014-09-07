@@ -49,9 +49,9 @@ public class UserEntity implements Serializable {
     private String postalCode;
     private String email;
     
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name = "USER_INTERNALMESSAGE")
-    private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
+//    @ManyToMany(cascade={CascadeType.PERSIST})
+//    @JoinTable(name = "USER_INTERNALMESSAGE")
+//    private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
 
     public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
         this.setUserId(department + idNumber);
@@ -189,14 +189,14 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public Set<InternalMessageEntity> getInMessages() {
-        return inMessages;
-    }
-
-    public void setInMessages(Set<InternalMessageEntity> inMessages) {
-        this.inMessages = inMessages;
-    }
-    
+//    public Set<InternalMessageEntity> getInMessages() {
+//        return inMessages;
+//    }
+//
+//    public void setInMessages(Set<InternalMessageEntity> inMessages) {
+//        this.inMessages = inMessages;
+//    }
+//    
     
     @Override
     public int hashCode() {
