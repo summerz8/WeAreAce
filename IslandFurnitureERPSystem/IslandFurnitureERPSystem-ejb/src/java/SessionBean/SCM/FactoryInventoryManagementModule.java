@@ -13,7 +13,7 @@ import javax.ejb.Stateful;
  * @author apple
  */
 @Stateful
-public class FactoryInventoryManagementModule implements MovementManagementModuleRemote {
+public class FactoryInventoryManagementModule implements FactoryInventoryManagementModuleRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

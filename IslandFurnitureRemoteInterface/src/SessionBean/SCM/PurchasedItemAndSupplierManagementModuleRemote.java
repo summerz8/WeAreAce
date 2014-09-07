@@ -10,9 +10,9 @@ import javax.ejb.Remote;
 
 /**
  *
- * @author apple
+ * @author Shiyu
  */
 @Remote
-public interface RawMaterialAndSupplierManagementModuleRemote {
+public interface PurchasedItemAndSupplierManagementModuleRemote {
     
 }

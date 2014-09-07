@@ -13,6 +13,6 @@ import javax.ejb.Remote;
  * @author apple
  */
 @Remote
-public interface OrderManagementModuleRemote {
+public interface PurchaseOrderManagementModuleRemote {
     
 }
