@@ -1,17 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FactoryItemEntity.java
+ * 
+ * This entity is a functional entity.
+ * Used as a quntity record of a specific item (RM, retail products, or products) that a specific factory has,
+ * which means it either can produce or purchase.
  */
 package Entity.Factory;
 
+import Entity.Factory.FacotryBin.FactoryBinStoredProductEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -28,6 +36,15 @@ public class FactoryItemEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryItemId;
     private Integer quantity;
+    
+    //factory entity -- factory item entity: 1 <--> M 
+    @ManyToOne
+    private FactoryEntity factory;
+    
+    //factory item entity -- factory bin stored product entity: 1 <--> M 
+    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "factoryItem")
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+   
 
     public Integer getQuantity() {
         return quantity;

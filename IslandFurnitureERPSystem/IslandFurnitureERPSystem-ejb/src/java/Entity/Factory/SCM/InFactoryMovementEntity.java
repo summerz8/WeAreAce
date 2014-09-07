@@ -7,6 +7,7 @@
 package Entity.Factory.SCM;
 
 import Entity.Factory.FacotryBin.FactoryBinEntity;
+import Entity.Factory.FacotryBin.FactoryBinStoredProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,10 +28,13 @@ public class InFactoryMovementEntity extends FactoryMovementEntity implements Se
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
 //    private Long inFactoryMovementId;
+    
+    //factory bin stored product entity -- in factory movements: 1 <--> M (from which bin)
     @ManyToOne
-    private FactoryBinEntity fromBin;
+    private FactoryBinStoredProductEntity fromBin;
+    //factory bin stored product entity -- in factory movements: 1 <--> M (to which bin)
     @ManyToOne                                                                                                                                                             
-    private FactoryBinEntity toBin;
+    private FactoryBinStoredProductEntity toBin;
 
 //    public Long getInFactoryMovementId() {
 //        return inFactoryMovementId;
@@ -40,19 +44,19 @@ public class InFactoryMovementEntity extends FactoryMovementEntity implements Se
 //        this.inFactoryMovementId = inFactoryMovementId;
 //    }
 
-    public FactoryBinEntity getFromBin() {
+    public FactoryBinStoredProductEntity getFromBin() {
         return fromBin;
     }
 
-    public void setFromBin(FactoryBinEntity fromBin) {
+    public void setFromBin(FactoryBinStoredProductEntity fromBin) {
         this.fromBin = fromBin;
     }
 
-    public FactoryBinEntity getToBin() {
+    public FactoryBinStoredProductEntity getToBin() {
         return toBin;
     }
 
-    public void setToBin(FactoryBinEntity toBin) {
+    public void setToBin(FactoryBinStoredProductEntity toBin) {
         this.toBin = toBin;
     }
     

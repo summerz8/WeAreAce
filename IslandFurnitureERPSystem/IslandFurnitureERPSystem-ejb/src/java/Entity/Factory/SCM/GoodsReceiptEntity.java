@@ -6,12 +6,15 @@
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,8 +33,14 @@ public class GoodsReceiptEntity implements Serializable {
     private Long goodsReceiptId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createDate;
+    
+    //goods receipt entity -- purchase order entity : 1 <--> 1
     @OneToOne(cascade = {CascadeType.PERSIST})
     private PurchaseOrderEntity purchaseOder;
+    
+    //goods receipt entity -- inbound movement enitty: 1 <--> M (from which corresponding goods receipt)
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "goodsReceipt")
+    private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
 
     public GoodsReceiptEntity() {
     }
@@ -65,6 +74,14 @@ public class GoodsReceiptEntity implements Serializable {
         this.purchaseOder = purchaseOder;
     }
 
+    public Collection<InboundMovementEntity> getInboundMovements() {
+        return inboundMovements;
+    }
+
+    public void setInboundMovements(Collection<InboundMovementEntity> inboundMovements) {
+        this.inboundMovements = inboundMovements;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -6,6 +6,7 @@
 package Entity.Factory.SCM;
 
 import Entity.Factory.FacotryBin.FactoryBinEntity;
+import Entity.Factory.FacotryBin.FactoryBinStoredProductEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -20,23 +21,27 @@ import javax.persistence.Table;
  * @author zhangshiyu
  */
 @Entity
-@Table(name="OutboundMovement")
+@Table(name = "OutboundMovement")
 public class OutboundMovementEntity extends FactoryMovementEntity implements Serializable {
 
 //    private static final long serialVersionUID = 1L;
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
 //    private Long id;
+    
+    //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
     @ManyToOne
-    private FactoryBinEntity fromBin;
+    private FactoryBinStoredProductEntity fromBin;
+        
+    //store entity -- outbound movements: 1 <--> M (to which store)
     @ManyToOne
     private StoreEntity toStore;
 
-    public FactoryBinEntity getFromBin() {
+    public FactoryBinStoredProductEntity getFromBin() {
         return fromBin;
     }
 
-    public void setFromBin(FactoryBinEntity fromBin) {
+    public void setFromBin(FactoryBinStoredProductEntity fromBin) {
         this.fromBin = fromBin;
     }
 
@@ -47,7 +52,7 @@ public class OutboundMovementEntity extends FactoryMovementEntity implements Ser
     public void setToStore(StoreEntity toStore) {
         this.toStore = toStore;
     }
-    
+
 //    @Override
 //    public int hashCode() {
 //        int hash = 0;
@@ -72,5 +77,4 @@ public class OutboundMovementEntity extends FactoryMovementEntity implements Ser
 //    public String toString() {
 //        return "Entity.Factory.SCM.OutboundMovementEntity[ id=" + id + " ]";
 //    }
-
 }
