@@ -5,12 +5,15 @@
  */
 package Entity.Factory.SCM;
 
+import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -32,6 +35,18 @@ public class ContractEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date contractEndDate;
 
+    //contract entity -- factory retail product entity: M <--> 1
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct;
+    
+    //contract entity -- factory raw material entity: M <--> 1
+    @ManyToOne
+    private FactoryRawMaterialEntity factoryRawMaterialProduct;
+    
+    //contract entity -- supplier entity: M<-->1
+    @ManyToOne
+    private SupplierEntity supplier;
+    
     public ContractEntity() {
     }
 
@@ -65,6 +80,30 @@ public class ContractEntity implements Serializable {
 
     public void setContractEndDate(Date contractEndDate) {
         this.contractEndDate = contractEndDate;
+    }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
+
+    public FactoryRawMaterialEntity getFactoryRawMaterialProduct() {
+        return factoryRawMaterialProduct;
+    }
+
+    public void setFactoryRawMaterialProduct(FactoryRawMaterialEntity factoryRawMaterialProduct) {
+        this.factoryRawMaterialProduct = factoryRawMaterialProduct;
+    }
+
+    public SupplierEntity getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(SupplierEntity supplier) {
+        this.supplier = supplier;
     }
 
     @Override

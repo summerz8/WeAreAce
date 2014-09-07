@@ -6,10 +6,14 @@
 package Entity.Factory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,6 +29,10 @@ public class RetailProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long retailProductId;
     private String name;
+    
+    //retail product entity -- factory retail product entity: 1<--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
+    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<FactoryRetailProductEntity>();
 
     public Long getRetailProductId() {
         return retailProductId;
@@ -41,6 +49,16 @@ public class RetailProductEntity implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Collection<FactoryRetailProductEntity> getFactoryRetailProducts() {
+        return factoryRetailProducts;
+    }
+
+    public void setFactoryRetailProducts(Collection<FactoryRetailProductEntity> factoryRetailProducts) {
+        this.factoryRetailProducts = factoryRetailProducts;
+    }
+    
+    
 
     @Override
     public int hashCode() {

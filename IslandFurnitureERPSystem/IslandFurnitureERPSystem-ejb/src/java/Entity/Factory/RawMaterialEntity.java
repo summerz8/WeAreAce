@@ -7,6 +7,8 @@ package Entity.Factory;
  */
 import Entity.Factory.SCM.SupplierEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,6 +38,10 @@ public class RawMaterialEntity implements Serializable {
     @JoinTable(name = "RawMaterial_Supplier")
     private List<SupplierEntity> supplier;
 
+    //raw material entity -- factory raw material entity: 1<--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
+    private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<FactoryRawMaterialEntity>();
+    
     public Long getMaterialID() {
         return materialID;
     }

@@ -6,10 +6,14 @@
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,8 +33,10 @@ public class SupplierEntity implements Serializable {
     private Integer supplierContact;
     private Integer supplierFax;
     private String remark;
-//    @OneToMany(cascade={CascadeType.PERSIST})
-//    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
+    
+    //contract entity -- supplier entity: M<-->1
+    @OneToMany(cascade = {CascadeType.PERSIST})
+    private Set<ContractEntity> ContractList = new HashSet<ContractEntity>();
 
     public Long getSupplierId() {
         return supplierId;
@@ -48,13 +54,13 @@ public class SupplierEntity implements Serializable {
         this.supplierName = supplierName;
     }
 
-//    public Set<ContractEntity> getContractList() {
-//        return ContractList;
-//    }
-//
-//    public void setContractList(Set<ContractEntity> ContractlList) {
-//        this.ContractList = ContractList;
-//    }
+    public Set<ContractEntity> getContractList() {
+        return ContractList;
+    }
+
+    public void setContractList(Set<ContractEntity> ContractlList) {
+        this.ContractList = ContractList;
+    }
     public String getSupplierAddress() {
         return supplierAddress;
     }

@@ -7,11 +7,14 @@
 package Entity.Factory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,6 +39,10 @@ public class ProductEntity implements Serializable {
     @OneToOne(cascade={CascadeType.PERSIST})
     public BOMEntity bom;
 
+    //product entity -- factory product entity: 1<--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
+    private Collection<FactoryProductEntity> factoryProducts = new ArrayList<FactoryProductEntity>();
+  
     public ProductEntity() {
     }
 
