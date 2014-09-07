@@ -35,12 +35,14 @@ public class PurchaseOrderEntity implements Serializable {
     private String status;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createDate;
-    @OneToOne(mappedBy="purchaseOrder")
+
+    //goods receipt entity -- purchase order entity : 1 <--> 1
+    @OneToOne(mappedBy = "purchaseOrder")
     private GoodsReceiptEntity goodsReceipt;
     
-    @ManyToMany(cascade={CascadeType.ALL}, mappedBy = "purchaseOrder")
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
     private List<PlannedOrderEntity> plannedOrder;
-    
+
     private SupplierEntity supplierID;
     private List<RawMaterialEntity> purchaseItem;
 
@@ -108,8 +110,6 @@ public class PurchaseOrderEntity implements Serializable {
         this.purchaseItem = purchaseItem;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -134,5 +134,5 @@ public class PurchaseOrderEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.PurchaseOrderEntity[ id=" + purchasOrderId + " ]";
     }
-    
+
 }
