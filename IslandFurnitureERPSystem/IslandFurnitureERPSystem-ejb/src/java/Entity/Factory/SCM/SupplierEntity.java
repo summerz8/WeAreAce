@@ -6,18 +6,15 @@
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author Yoky
+ * @author apple
  */
 @Entity
 @Table(name = "Supplier")
@@ -27,92 +24,69 @@ public class SupplierEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long supplierId;
-    private String name;
-    private Integer countryCode;
-    private String address;
-    private String tel;
-    private String email;
-    private String fax;
+    private String supplierName;
+    private String supplierAddress;
+    private Integer supplierContact;
+    private Integer supplierFax;
     private String remark;
-    @OneToMany(mappedBy = "supplierContract")
-    private List<SupplierContractEntity> supplierContracts= new ArrayList<SupplierContractEntity>();
-
-    public SupplierEntity() {
-    }
+//    @OneToMany(cascade={CascadeType.PERSIST})
+//    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
 
     public Long getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
+    public void setSupplierId(Long id) {
+        this.supplierId = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
-    public Integer getCountryCode() {
-        return countryCode;
+//    public Set<ContractEntity> getContractList() {
+//        return ContractList;
+//    }
+//
+//    public void setContractList(Set<ContractEntity> ContractlList) {
+//        this.ContractList = ContractList;
+//    }
+    public String getSupplierAddress() {
+        return supplierAddress;
     }
 
-    public void setCountryCode(Integer countryCode) {
-        this.countryCode = countryCode;
+    public void setSupplierAddress(String supplierAddress) {
+        this.supplierAddress = supplierAddress;
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getSupplierContact() {
+        return supplierContact;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setSupplierContact(Integer supplierContact) {
+        this.supplierContact = supplierContact;
     }
 
-    public String getTel() {
-        return tel;
+    public Integer getSupplierFax() {
+        return supplierFax;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setSupplierFax(Integer supplierFax) {
+        this.supplierFax = supplierFax;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
-
-    public String getRemark() {
+    public String getremark() {
         return remark;
     }
 
-    public void setRemark(String remark) {
+    public void setremark(String remark) {
         this.remark = remark;
     }
 
-    public List<SupplierContractEntity> getSupplierContracts() {
-        return supplierContracts;
-    }
-
-    public void setSupplierContracts(List<SupplierContractEntity> supplierContracts) {
-        this.supplierContracts = supplierContracts;
-    }
-
-    
     @Override
     public int hashCode() {
         int hash = 0;

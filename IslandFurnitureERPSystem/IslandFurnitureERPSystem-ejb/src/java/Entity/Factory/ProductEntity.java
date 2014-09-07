@@ -6,10 +6,12 @@
 package Entity.Factory;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,21 +25,23 @@ public class ProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long productEntityID;
+    private Long productEntityId;
     private String name;
     private String description;
     private double price; // ???
     private String unit;
+    @OneToOne(cascade={CascadeType.PERSIST})
+    public BOMEntity bom;
 
     public ProductEntity() {
     }
 
     public Long getProductEntity() {
-        return productEntityID;
+        return productEntityId;
     }
 
     public void setProductEntity(Long productEntity) {
-        this.productEntityID = productEntity;
+        this.productEntityId = productEntity;
     }
 
     public String getName() {
@@ -72,10 +76,19 @@ public class ProductEntity implements Serializable {
         this.unit = unit;
     }
 
+    public BOMEntity getBom() {
+        return bom;
+    }
+
+    public void setBom(BOMEntity bom) {
+        this.bom = bom;
+    }
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (productEntityID != null ? productEntityID.hashCode() : 0);
+        hash += (productEntityId != null ? productEntityId.hashCode() : 0);
         return hash;
     }
 
@@ -86,7 +99,7 @@ public class ProductEntity implements Serializable {
             return false;
         }
         ProductEntity other = (ProductEntity) object;
-        if ((this.productEntityID == null && other.productEntityID != null) || (this.productEntityID != null && !this.productEntityID.equals(other.productEntityID))) {
+        if ((this.productEntityId == null && other.productEntityId != null) || (this.productEntityId != null && !this.productEntityId.equals(other.productEntityId))) {
             return false;
         }
         return true;
@@ -94,7 +107,7 @@ public class ProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.ProductEntity[ id=" + productEntityID + " ]";
+        return "Entity.ProductEntity[ id=" + productEntityId + " ]";
     }
 
 }

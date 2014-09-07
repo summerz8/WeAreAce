@@ -14,7 +14,10 @@ import javax.ejb.Stateful;
  */
 @Stateful
 public class RawMaterialAndSupplierManagementModule implements RawMaterialAndSupplierManagementModuleRemote {
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    //add supplier
+    //edit supplier
+    //delete supplier
+    //add item
+    //edit item
+    //delete item
 }

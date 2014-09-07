@@ -31,7 +31,7 @@ public class FactoryEntity implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long factoryID;
+    private long factoryId;
     private String country;
     private String address;
     private String contact;
@@ -41,11 +41,11 @@ public class FactoryEntity implements Serializable {
     }
     
     public long getFactoryId() {
-        return factoryID;
+        return factoryId;
     }
 
     public void setUserId(long factoryID) {
-        this.factoryID = factoryID;
+        this.factoryId = factoryID;
     }
 
     public String getCountry() {
@@ -86,7 +86,7 @@ public class FactoryEntity implements Serializable {
     
     @Override
     public String toString() {
-        return "entity.UserEntity[ id=" + factoryID + " ]";
+        return "entity.UserEntity[ id=" + factoryId + " ]";
     }
     
 }

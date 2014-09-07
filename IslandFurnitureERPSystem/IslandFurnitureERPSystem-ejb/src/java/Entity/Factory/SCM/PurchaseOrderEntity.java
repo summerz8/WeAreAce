@@ -5,10 +5,9 @@
  */
 package Entity.Factory.SCM;
 
-import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -24,7 +23,7 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author Yoky
+ * @author zhangshiyu
  */
 @Entity
 @Table(name = "PurchaseOrder")
@@ -35,17 +34,22 @@ public class PurchaseOrderEntity implements Serializable {
     private Long purchasOrderId;
     private String status;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date creationDate;
-    @OneToOne
+    private Date createDate;
+    @OneToOne(mappedBy="purchaseOrder")
     private GoodsReceiptEntity goodsReceipt;
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    private List<PlannedOrderEntity> plannedOrders = new ArrayList<PlannedOrderEntity>();
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    private SupplierContractEntity supplierContract;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    private FactoryUserEntity personInCharge;
+    
+    @ManyToMany(cascade={CascadeType.ALL}, mappedBy = "purchaseOrder")
+    private List<PlannedOrderEntity> plannedOrder;
+    
+    private SupplierEntity supplierID;
+    private List<RawMaterialEntity> purchaseItem;
 
     public PurchaseOrderEntity() {
+    }
+
+    public PurchaseOrderEntity(Long purchasOrderId, String status) {
+        this.purchasOrderId = purchasOrderId;
+        this.status = status;
     }
 
     public Long getPurchasOrderId() {
@@ -64,12 +68,12 @@ public class PurchaseOrderEntity implements Serializable {
         this.status = status;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public GoodsReceiptEntity getGoodsReceipt() {
@@ -80,29 +84,31 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
-    public List<PlannedOrderEntity> getPlannedOrders() {
-        return plannedOrders;
+    public List<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrder;
     }
 
-    public void setPlannedOrders(List<PlannedOrderEntity> plannedOrders) {
-        this.plannedOrders = plannedOrders;
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrder = plannedOrder;
     }
 
-    public SupplierContractEntity getSupplierContract() {
-        return supplierContract;
+    public SupplierEntity getSupplierID() {
+        return supplierID;
     }
 
-    public void setSupplierContract(SupplierContractEntity supplierContract) {
-        this.supplierContract = supplierContract;
+    public void setSupplierID(SupplierEntity supplierID) {
+        this.supplierID = supplierID;
     }
 
-    public FactoryUserEntity getPersonInCharge() {
-        return personInCharge;
+    public List<RawMaterialEntity> getPurchaseItem() {
+        return purchaseItem;
     }
 
-    public void setPersonInCharge(FactoryUserEntity personInCharge) {
-        this.personInCharge = personInCharge;
+    public void setPurchaseItem(List<RawMaterialEntity> purchaseItem) {
+        this.purchaseItem = purchaseItem;
     }
+
+    
     
     @Override
     public int hashCode() {

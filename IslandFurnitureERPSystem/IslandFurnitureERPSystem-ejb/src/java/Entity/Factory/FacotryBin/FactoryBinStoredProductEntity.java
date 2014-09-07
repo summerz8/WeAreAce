@@ -24,17 +24,17 @@ public class FactoryBinStoredProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long StoredProductId;
+    private Long storedProductId;
     private double amount;
     private RawMaterialEntity product;
     
     
     public Long getStoredProductId() {
-        return StoredProductId;
+        return storedProductId;
     }
 
     public void setStoredProductId(Long id) {
-        this.StoredProductId = id;
+        this.storedProductId = id;
     }
     
     public double getAmount() {
@@ -49,7 +49,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (StoredProductId != null ? StoredProductId.hashCode() : 0);
+        hash += (storedProductId != null ? storedProductId.hashCode() : 0);
         return hash;
     }
 
@@ -60,7 +60,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
             return false;
         }
         FactoryBinStoredProductEntity other = (FactoryBinStoredProductEntity) object;
-        if ((this.StoredProductId == null && other.StoredProductId != null) || (this.StoredProductId != null && !this.StoredProductId.equals(other.StoredProductId))) {
+        if ((this.storedProductId == null && other.storedProductId != null) || (this.storedProductId != null && !this.storedProductId.equals(other.storedProductId))) {
             return false;
         }
         return true;
@@ -68,7 +68,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.StoredProduct[ id=" + StoredProductId + " ]";
+        return "Entity.Factory.StoredProduct[ id=" + storedProductId + " ]";
     }
     
 }

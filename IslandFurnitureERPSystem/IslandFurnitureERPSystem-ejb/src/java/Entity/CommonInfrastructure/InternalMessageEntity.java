@@ -29,7 +29,7 @@ public class InternalMessageEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long internalMessageId;
     
     @ManyToOne(cascade={CascadeType.ALL})
     private UserEntity sender = new UserEntity();
@@ -38,12 +38,12 @@ public class InternalMessageEntity implements Serializable {
     private Set<UserEntity> receivers = new HashSet<UserEntity>();
 
 
-    public Long getId() {
-        return id;
+    public Long getInternalMessageId() {
+        return internalMessageId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setInternalMessageId(Long internalMessageId) {
+        this.internalMessageId = internalMessageId;
     }
 
     public UserEntity getSender() {
@@ -65,18 +65,18 @@ public class InternalMessageEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (internalMessageId != null ? internalMessageId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the internalMessageId fields are not set
         if (!(object instanceof InternalMessageEntity)) {
             return false;
         }
         InternalMessageEntity other = (InternalMessageEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.internalMessageId == null && other.internalMessageId != null) || (this.internalMessageId != null && !this.internalMessageId.equals(other.internalMessageId))) {
             return false;
         }
         return true;
@@ -84,7 +84,7 @@ public class InternalMessageEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.CommonInfrastructure.InternalMessageEntity[ id=" + id + " ]";
+        return "Entity.CommonInfrastructure.InternalMessageEntity[ id=" + internalMessageId + " ]";
     }
     
 }

@@ -8,10 +8,13 @@ package Entity.Factory;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,34 +27,72 @@ public class BOMEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long BomId;
-    
+    private Long BOMId;
+    private Long productId;
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private List<RawMaterialAmountEntity> rawMaterialList;
+    @OneToOne(mappedBy="bom")
+    private ProductEntity product;
+
     public BOMEntity() {
     }
 
-    public Long getBomId() {
-        return BomId;
+    public Long getBOMId() {
+        return BOMId;
     }
 
-    public void setBomId(Long BomId) {
-        this.BomId = BomId;
+    public void setBOMId(Long BOMId) {
+        this.BOMId = BOMId;
     }
 
+       public List<RawMaterialAmountEntity> getRawMaterialList() {
+        return rawMaterialList;
+    }
+
+    public void setRawMaterialList(List<RawMaterialAmountEntity> rawMaterialList) {
+        this.rawMaterialList = rawMaterialList;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long ProductId) {
+        this.productId = ProductId;
+    }
+
+    public List<RawMaterialAmountEntity> getRawmaterialList() {
+        return rawMaterialList;
+    }
+
+    public void setRawmaterialList(List<RawMaterialAmountEntity> rawmaterialList) {
+        this.rawMaterialList = rawmaterialList;
+    }
+
+    public ProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (BomId != null ? BomId.hashCode() : 0);
+        hash += (BOMId != null ? BOMId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the BomId fields are not set
+        // TODO: Warning - this method won't work in the case the BOMId fields are not set
         if (!(object instanceof BOMEntity)) {
             return false;
         }
         BOMEntity other = (BOMEntity) object;
-        if ((this.BomId == null && other.BomId != null) || (this.BomId != null && !this.BomId.equals(other.BomId))) {
+        if ((this.BOMId == null && other.BOMId != null) || (this.BOMId != null && !this.BOMId.equals(other.BOMId))) {
             return false;
         }
         return true;
@@ -59,7 +100,7 @@ public class BOMEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.BOMEntity[ id=" + BomId + " ]";
+        return "Entity.BOMEntity[ id=" + BOMId + " ]";
     }
     
 }
