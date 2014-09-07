@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
@@ -18,27 +17,26 @@ import javax.persistence.Table;
  * @author apple
  */
 @Entity
-        @Table(name="FactoryMovement")
+@Table(name = "FactoryMovement")
 public class FactoryMovementEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long FmovementID;
-    
-    
+    private Long factoryMovementId;
 
     public Long getId() {
-        return FmovementID;
+        return factoryMovementId;
     }
 
     public void setId(Long id) {
-        this.FmovementID = id;
+        this.factoryMovementId = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (FmovementID != null ? FmovementID.hashCode() : 0);
+        hash += (factoryMovementId != null ? factoryMovementId.hashCode() : 0);
         return hash;
     }
 
@@ -49,7 +47,7 @@ public class FactoryMovementEntity implements Serializable {
             return false;
         }
         FactoryMovementEntity other = (FactoryMovementEntity) object;
-        if ((this.FmovementID == null && other.FmovementID != null) || (this.FmovementID != null && !this.FmovementID.equals(other.FmovementID))) {
+        if ((this.factoryMovementId == null && other.factoryMovementId != null) || (this.factoryMovementId != null && !this.factoryMovementId.equals(other.factoryMovementId))) {
             return false;
         }
         return true;
@@ -57,7 +55,7 @@ public class FactoryMovementEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.FactoryMovementEntity[ id=" + FmovementID + " ]";
+        return "Entity.Factory.FactoryMovementEntity[ id=" + factoryMovementId + " ]";
     }
-    
+
 }

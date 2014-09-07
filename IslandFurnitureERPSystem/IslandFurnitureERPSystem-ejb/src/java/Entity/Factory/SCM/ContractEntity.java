@@ -19,13 +19,13 @@ import javax.persistence.Temporal;
  * @author zhangshiyu
  */
 @Entity
-@Table(name = "SupplierContract")
+@Table(name = "Contract")
 public class ContractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long supplierContractEntity;
+    private Long contractId;
     private double price;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date contractStartDate;
@@ -35,12 +35,12 @@ public class ContractEntity implements Serializable {
     public ContractEntity() {
     }
 
-    public Long getSupplierContractEntity() {
-        return supplierContractEntity;
+    public Long getContractId() {
+        return contractId;
     }
 
-    public void setSupplierContractEntity(Long supplierContractEntity) {
-        this.supplierContractEntity = supplierContractEntity;
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
     }
 
     public double getPrice() {
@@ -70,18 +70,18 @@ public class ContractEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (supplierContractEntity != null ? supplierContractEntity.hashCode() : 0);
+        hash += (contractId != null ? contractId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the supplierContractEntity fields are not set
+        // TODO: Warning - this method won't work in the case the contractId fields are not set
         if (!(object instanceof ContractEntity)) {
             return false;
         }
         ContractEntity other = (ContractEntity) object;
-        if ((this.supplierContractEntity == null && other.supplierContractEntity != null) || (this.supplierContractEntity != null && !this.supplierContractEntity.equals(other.supplierContractEntity))) {
+        if ((this.contractId == null && other.contractId != null) || (this.contractId != null && !this.contractId.equals(other.contractId))) {
             return false;
         }
         return true;
@@ -89,7 +89,7 @@ public class ContractEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.SupplierContractEntity[ id=" + supplierContractEntity + " ]";
+        return "Entity.Factory.ContractEntity[ id=" + contractId + " ]";
     }
 
 }

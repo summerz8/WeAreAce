@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory;
 
 import java.io.Serializable;
@@ -11,46 +10,48 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author apple
  */
-@Entity(name="RawMaterialAmount")
+@Entity
+@Table(name = "RawMaterialamount")
 public class RawMaterialAmountEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long RawMaterialId;
-    private String Unit;
-    private Integer Amount;
+    private Long rawMaterialId;
+    private String unit;
+    private Integer amount;
 
     public Long getRawMaterialId() {
-        return RawMaterialId;
+        return rawMaterialId;
     }
 
-    public void setRawMaterialId(Long RawMaterialId) {
-        this.RawMaterialId = RawMaterialId;
+    public void setRawMaterialId(Long rawMaterialId) {
+        this.rawMaterialId = rawMaterialId;
     }
 
-    public String getUnit() {
-        return Unit;
+    public String getunit() {
+        return unit;
     }
 
-    public void setUnit(String Unit) {
-        this.Unit = Unit;
+    public void setunit(String unit) {
+        this.unit = unit;
     }
 
-    public Integer getAmount() {
-        return Amount;
+    public Integer getamount() {
+        return amount;
     }
 
-    public void setAmount(Integer Amount) {
-        this.Amount = Amount;
+    public void setamount(Integer amount) {
+        this.amount = amount;
     }
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -83,5 +84,5 @@ public class RawMaterialAmountEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.RawMaterialAmountEntity[ id=" + id + " ]";
     }
-    
+
 }
