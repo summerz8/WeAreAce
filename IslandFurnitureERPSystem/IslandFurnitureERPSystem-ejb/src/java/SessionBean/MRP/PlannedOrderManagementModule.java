@@ -53,6 +53,8 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             List<Long> rawMaterialList,
             List<Integer> RawAmount,
             List<String> Unit) {
+        
+        try{
 
             //Create RawMaterialAmount Entity for each material in the plannedOrder//
         Date date = dateInput;
@@ -84,11 +86,67 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         PlannedOrderEntity order = null;
         order.createPlannedOrder(date, targetStart, targetEnd, status, productionPlan, MaterialList);
         return true;
+        }catch(Exception ex){
+             System.out.println(ex.getMessage());
+        }
+        return false;
     }
+    
+    public boolean EditPlannedOrder(Long plannedOrderId,Date dateInput,
+            Date targetStartInput,
+            Date targetEndInput,
+            String statusInput,
+            Long productionIdInput,
+            List<Long> rawMaterialList,
+            List<Integer> RawAmount,
+            List<String> Unit){
+        
+        try{
+        PlannedOrderEntity plannedOrder=em.find(PlannedOrderEntity.class,plannedOrderId);
+        plannedOrder.setDate(dateInput);
+        plannedOrder.setTargetSalesEndDate(targetStartInput);
+        plannedOrder.setTargetSalesEndDate(targetStartInput);
+        plannedOrder.setStatus(statusInput);
+        
+        Long MaterialId;
+        String unit;
+        Integer amount;
+        List<RawMaterialAmountEntity> MaterialList = new ArrayList<RawMaterialAmountEntity>();
+        while (!rawMaterialList.isEmpty()) {
+            MaterialId = rawMaterialList.get(0);
+            unit = Unit.get(0);
+            amount = RawAmount.get(0);
+            RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
 
-    @Override
-    public void GeneratePlannedOrder() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            temp.setAmount(amount);
+            temp.setRawMaterialId(MaterialId);
+            temp.setUnit(unit);
+
+            MaterialList.add(temp);
+            rawMaterialList.remove(0);
+        }
+        
+        plannedOrder.setRawMaterialAmount(MaterialList);
+        return true;
+        }catch(Exception ex){
+             System.out.println(ex.getMessage());
+        }
+        return false;
     }
-
-}
+    
+    public boolean DeletePlannedOrder(Long PlannedOrderId){
+        try{
+            PlannedOrderEntity plannedOrder=em.find(PlannedOrderEntity.class,PlannedOrderId);
+            if(plannedOrder.getStatus().equals("Unconfirmed")) {
+                em.remove(plannedOrder);
+                return true;
+            }
+            else return false;
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+ }
+    
+    

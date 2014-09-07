@@ -6,6 +6,7 @@
 
 package SessionBean.MRP;
 
+import Entity.Factory.BOMEntity;
 import javax.ejb.Remote;
 
 /**
@@ -15,6 +16,6 @@ import javax.ejb.Remote;
 @Remote
 public interface PlannedOrderManagementModuleRemote {
 
-    public void GeneratePlannedOrder();
+    public BOMEntity CheckBOM(Long ProductID);
     
 }
