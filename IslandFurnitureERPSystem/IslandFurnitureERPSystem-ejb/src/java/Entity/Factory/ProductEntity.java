@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ProductEntity.java
+ * 
+ * This is a real entity.
+ * Used for product entity, which is the factory self produced prodcuct.
  */
 package Entity.Factory;
 
@@ -30,6 +31,8 @@ public class ProductEntity implements Serializable {
     private String description;
     private double price; // ???
     private String unit;
+    
+    //product entity -- bom entity: 1 <--> 1
     @OneToOne(cascade={CascadeType.PERSIST})
     public BOMEntity bom;
 
