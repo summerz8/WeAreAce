@@ -23,7 +23,8 @@ import javax.persistence.Table;
 public class HQUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public HQUserEntity() {
+    public HQUserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
+        super(department,idNumber, userLevel,lastName,firstName, position,gender);
     }
    
 }

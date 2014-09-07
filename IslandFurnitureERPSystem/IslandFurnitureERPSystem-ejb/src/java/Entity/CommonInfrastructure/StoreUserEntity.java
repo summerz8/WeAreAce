@@ -24,5 +24,8 @@ public class StoreUserEntity extends UserEntity implements Serializable {
     
     public StoreUserEntity() {
     }
+    public StoreUserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
+        super(department,idNumber, userLevel,lastName,firstName, position,gender);
+    }
     
 }
