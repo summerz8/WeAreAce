@@ -24,5 +24,7 @@ public class FactoryUserEntity extends UserEntity implements Serializable {
     
     public FactoryUserEntity() {
     }
-    
+    public FactoryUserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
+        super(department,idNumber, userLevel,lastName,firstName, position,gender);
+    }
 }
