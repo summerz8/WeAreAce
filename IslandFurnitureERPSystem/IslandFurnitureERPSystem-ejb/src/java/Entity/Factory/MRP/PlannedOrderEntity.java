@@ -41,11 +41,8 @@ public class PlannedOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date targetSalesEndDate;
     private String status;
-    
     @OneToMany(cascade={CascadeType.PERSIST})
     private List<RawMaterialAmountEntity> rawMaterialList;
-    private List<Long> purchaseOrderID;
-    
     @OneToOne(cascade = {CascadeType.PERSIST})
     private ProductionPlanEntity productionPlan;
     
@@ -56,8 +53,19 @@ public class PlannedOrderEntity implements Serializable {
     public PlannedOrderEntity() {
     }
 
-    public void createPlannedOrder(Date date,Date targetStart,Date targetEnd,String status,Long product,Integer Amount) {
-    
+    public void createPlannedOrder(Date date,
+                                   Date targetStart,
+                                   Date targetEnd,
+                                   String status,
+                                   ProductionPlanEntity productionPlan, 
+                                   List<RawMaterialAmountEntity> rawMaterialList) {
+        this.date=date;
+        this.targetSalesStartDate=targetStart;
+        this.targetSalesEndDate=targetEnd;
+        this.status=status;
+        this.productionPlan=productionPlan;
+        this.rawMaterialList= rawMaterialList;
+        
     }
 
     public void setPlannedOrderId(Long plannedOrderId) {
@@ -108,13 +116,6 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
-    public List<Long> getPurchaseOrders() {
-        return purchaseOrderID;
-    }
-
-    public void setPurchaseOrderID(List<Long> purchaseOrderID) {
-        this.purchaseOrderID = purchaseOrderID;
-    }
 
     public ProductionPlanEntity getProductionPlan() {
         return productionPlan;
