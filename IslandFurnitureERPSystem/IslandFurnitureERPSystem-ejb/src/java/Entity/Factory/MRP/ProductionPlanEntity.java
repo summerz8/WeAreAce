@@ -50,8 +50,7 @@ public class ProductionPlanEntity implements Serializable {
     private ProductEntity product;
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
     private List<PlannedOrderEntity> plannedOrder=new ArrayList<PlannedOrderEntity>();
-    @OneToOne(cascade={CascadeType.ALL})
-    private BOMEntity bomEntity;
+
     
     public ProductionPlanEntity(String status, Date generateDate, Date targetSalesStartDate, Date targetSalesEndDate, Integer output, ProductEntity product, String remark){
         this.status = status;
@@ -144,13 +143,6 @@ public class ProductionPlanEntity implements Serializable {
         this.plannedOrder = plannedOrder;
     }
 
-    public BOMEntity getBomEntity() {
-        return bomEntity;
-    }
-
-    public void setBomEntity(BOMEntity bomEntity) {
-        this.bomEntity = bomEntity;
-    }
     
     
 
