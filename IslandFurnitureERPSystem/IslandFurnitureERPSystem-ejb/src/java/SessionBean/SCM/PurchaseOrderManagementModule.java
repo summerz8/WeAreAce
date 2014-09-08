@@ -6,7 +6,6 @@
 
 package SessionBean.SCM;
 
-import Entity.Factory.SCM.PurchaseOrderManagementModuleLocal;
 import javax.ejb.Stateful;
 
 /**

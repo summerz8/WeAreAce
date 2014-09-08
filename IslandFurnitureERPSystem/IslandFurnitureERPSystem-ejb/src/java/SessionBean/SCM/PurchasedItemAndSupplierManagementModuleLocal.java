@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory.SCM;
+package SessionBean.SCM;
 
 import javax.ejb.Local;
 

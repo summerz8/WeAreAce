@@ -6,7 +6,6 @@
 
 package SessionBean.SCM;
 
-import Entity.Factory.SCM.DocumentReferenceModuleLocal;
 import javax.ejb.Stateful;
 
 /**

@@ -14,7 +14,6 @@
 
 package SessionBean.SCM;
 
-import Entity.Factory.SCM.PurchasedItemAndSupplierManagementModuleLocal;
 import javax.ejb.Stateful;
 
 /**

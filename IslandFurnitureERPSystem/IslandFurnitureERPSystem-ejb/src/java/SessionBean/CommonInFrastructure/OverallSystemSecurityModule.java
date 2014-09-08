@@ -6,7 +6,6 @@
 
 package SessionBean.CommonInFrastructure;
 
-import Entity.CommonInfrastructure.OverallSystemSecurityModuleLocal;
 import javax.ejb.Stateful;
 
 /**

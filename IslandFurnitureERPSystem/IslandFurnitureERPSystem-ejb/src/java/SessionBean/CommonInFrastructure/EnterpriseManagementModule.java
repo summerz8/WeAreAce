@@ -5,7 +5,6 @@
  */
 package SessionBean.CommonInFrastructure;
 
-import Entity.CommonInfrastructure.EnterpriseManagementModuleLocal;
 import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;

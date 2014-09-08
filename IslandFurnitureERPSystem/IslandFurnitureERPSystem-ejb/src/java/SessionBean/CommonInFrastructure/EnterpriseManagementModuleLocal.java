@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Entity.CommonInfrastructure;
+package SessionBean.CommonInFrastructure;
 
 import javax.ejb.Local;
 
