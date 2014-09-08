@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
  * @author dan
  */
 @Stateful
-public class EnterpriseManagementModule implements EnterpriseManagementModuleRemote {
+public class EnterpriseManagementModule implements EnterpriseManagementModuleLocal {
 
     private EntityManager em;
 

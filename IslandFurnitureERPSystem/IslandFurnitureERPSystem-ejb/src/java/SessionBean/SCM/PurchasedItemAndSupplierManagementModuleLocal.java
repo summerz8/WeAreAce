@@ -6,15 +6,13 @@
 
 package SessionBean.SCM;
 
-import javax.ejb.Stateful;
+import javax.ejb.Local;
 
 /**
  *
  * @author Shiyu
  */
-@Stateful
-public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal {
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+@Local
+public interface PurchasedItemAndSupplierManagementModuleLocal {
+    
 }

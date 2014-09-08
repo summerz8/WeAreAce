@@ -21,7 +21,7 @@ import javax.ejb.Stateful;
  * @author Shiyu
  */
 @Stateful
-public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAndSupplierManagementModuleRemote {
+public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAndSupplierManagementModuleLocal {
     //add supplier
     //edit supplier
     //delete supplier

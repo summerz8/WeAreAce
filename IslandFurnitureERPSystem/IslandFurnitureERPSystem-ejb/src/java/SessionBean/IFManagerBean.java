@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author zhangshiyu
  */
 @Stateful
-public class IFManagerBean implements IFManagerBeanRemote {
+public class IFManagerBean implements IFManagerBeanLocal {
 
     @PersistenceContext
     private EntityManager em;

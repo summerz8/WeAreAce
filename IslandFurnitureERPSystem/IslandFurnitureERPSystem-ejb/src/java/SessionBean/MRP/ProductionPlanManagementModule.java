@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
  * @author hangsun
  */
 @Stateful
-public class ProductionPlanManagementModule implements ProductionPlanManagementModuleRemote {
+public class ProductionPlanManagementModule implements ProductionPlanManagementModuleLocal{
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
