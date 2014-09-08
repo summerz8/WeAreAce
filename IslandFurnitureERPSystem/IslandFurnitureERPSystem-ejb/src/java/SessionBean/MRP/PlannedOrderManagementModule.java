@@ -5,14 +5,11 @@
  */
 package SessionBean.MRP;
 
-import Entity.CommonInfrastructure.IdNumberEntity;
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.BOMEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialAmountEntity;
-import Entity.Factory.RawMaterialEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +22,7 @@ import javax.persistence.PersistenceContext;
  * @author apple
  */
 @Stateful
-public class PlannedOrderManagementModule implements PlannedOrderManagementModuleRemote {
+public class PlannedOrderManagementModule implements PlannedOrderManagementModuleLocal {
 
     @PersistenceContext
     private EntityManager em;
@@ -33,6 +30,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     public PlannedOrderManagementModule() {
     }
 
+    @Override
     public BOMEntity CheckBOM(Long ProductID) {
         Long productID = ProductID;
         ProductEntity product = em.find(ProductEntity.class, productID);
@@ -40,11 +38,13 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     }
 
     //Click the CreatePlannedOrder button when viewing production plan list
+    @Override
     public void CreatePlannedOrder(Long productID, Integer amount) {
 
     }
 
     //Modify the data in the CreatePlannedOrder page//
+    @Override
     public Boolean GeneratePlannedOrder(Date dateInput,
             Date targetStartInput,
             Date targetEndInput,
@@ -92,6 +92,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         return false;
     }
     
+    @Override
     public boolean EditPlannedOrder(Long plannedOrderId,Date dateInput,
             Date targetStartInput,
             Date targetEndInput,
@@ -134,6 +135,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         return false;
     }
     
+    @Override
     public boolean DeletePlannedOrder(Long PlannedOrderId){
         try{
             PlannedOrderEntity plannedOrder=em.find(PlannedOrderEntity.class,PlannedOrderId);

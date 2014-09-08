@@ -7,14 +7,14 @@
 package SessionBean.MRP;
 
 import java.util.Date;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author hangsun
  */
-@Remote
-public interface ProductionPlanManagementModuleRemote {
+@Local
+public interface ProductionPlanManagementModuleLocal {
 
     public void generateProductionPlanManagementModule(String status, Date generateDate, Date targetSalesStartDate, Date targetSalesEndDate, Integer output, Long productId, String remark);
 
