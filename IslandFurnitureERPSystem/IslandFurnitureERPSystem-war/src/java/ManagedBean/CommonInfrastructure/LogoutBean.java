@@ -6,7 +6,7 @@
 
 package ManagedBean.CommonInfrastructure;
 
-import SessionBean.IFManagerBeanRemote;
+import SessionBean.IFManagerBeanLocal;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,7 +28,7 @@ public class LogoutBean {
      * Creates a new instance of LogoutBean
      */
     @EJB
-    private IFManagerBeanRemote IFMB;
+    private IFManagerBeanLocal IFMB;
     
     public LogoutBean() {
         

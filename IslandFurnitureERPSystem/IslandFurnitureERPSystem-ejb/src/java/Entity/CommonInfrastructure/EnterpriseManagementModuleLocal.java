@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 
-package SessionBean.CommonInFrastructure;
+package Entity.CommonInfrastructure;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author dan
  */
-@Remote
-public interface EnterpriseManagementModuleRemote {   
+@Local
+public interface EnterpriseManagementModuleLocal {   
     
     public void AddStaff(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
 

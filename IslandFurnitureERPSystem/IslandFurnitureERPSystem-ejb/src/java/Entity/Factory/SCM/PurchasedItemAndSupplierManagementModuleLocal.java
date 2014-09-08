@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 
-package SessionBean.SCM;
+package Entity.Factory.SCM;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
- * @author apple
+ * @author Shiyu
  */
-@Remote
-public interface PurchaseOrderManagementModuleRemote {
+@Local
+public interface PurchasedItemAndSupplierManagementModuleLocal {
     
 }

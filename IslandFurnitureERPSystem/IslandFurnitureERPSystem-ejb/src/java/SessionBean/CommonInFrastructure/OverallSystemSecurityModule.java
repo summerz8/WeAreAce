@@ -6,6 +6,7 @@
 
 package SessionBean.CommonInFrastructure;
 
+import Entity.CommonInfrastructure.OverallSystemSecurityModuleLocal;
 import javax.ejb.Stateful;
 
 /**
@@ -13,7 +14,7 @@ import javax.ejb.Stateful;
  * @author apple
  */
 @Stateful
-public class OverallSystemSecurityModule implements OverallSystemSecurityModuleRemote {
+public class OverallSystemSecurityModule implements OverallSystemSecurityModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

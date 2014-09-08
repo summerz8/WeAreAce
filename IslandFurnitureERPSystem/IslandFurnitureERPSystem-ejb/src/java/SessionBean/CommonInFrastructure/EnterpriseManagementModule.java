@@ -5,6 +5,7 @@
  */
 package SessionBean.CommonInFrastructure;
 
+import Entity.CommonInfrastructure.EnterpriseManagementModuleLocal;
 import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
@@ -17,7 +18,7 @@ import javax.persistence.EntityManager;
  * @author dan
  */
 @Stateful
-public class EnterpriseManagementModule implements EnterpriseManagementModuleRemote {
+public class EnterpriseManagementModule implements EnterpriseManagementModuleLocal {
 
     private EntityManager em;
 

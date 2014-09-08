@@ -6,6 +6,7 @@
 
 package SessionBean.SCM;
 
+import Entity.Factory.SCM.PurchaseOrderManagementModuleLocal;
 import javax.ejb.Stateful;
 
 /**
@@ -13,7 +14,7 @@ import javax.ejb.Stateful;
  * @author Shiyu
  */
 @Stateful
-public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleRemote {
+public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

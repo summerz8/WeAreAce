@@ -6,14 +6,14 @@
 
 package SessionBean;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author zhangshiyu
  */
-@Remote
-public interface IFManagerBeanRemote {
+@Local
+public interface IFManagerBeanLocal {
     public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
 //    public String getUserId(String userId);
     public boolean checkAccount(String userId, String pwd);

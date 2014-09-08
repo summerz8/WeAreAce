@@ -6,6 +6,7 @@
 
 package SessionBean.SCM;
 
+import Entity.Factory.SCM.DocumentReferenceModuleLocal;
 import javax.ejb.Stateful;
 
 /**
@@ -13,7 +14,7 @@ import javax.ejb.Stateful;
  * @author apple
  */
 @Stateful
-public class DocumentReferenceModule implements DocumentReferenceModuleRemote {
+public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
