@@ -1,11 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * PurchaseItemAndSupplierManagementModuleLocal.java
+ * 
+ * It is a local interface that control the functions for managing purchased items(RM or RP) within a supplier's contract
+ * and the contracted supplier's account information.
+ * (Assumption: a supplier should have at least one contract with the factory)
+ * Basic funtions are: 
+ * 1. Add supplier (with at least one contract information)
+ * 2. Edit supplier account information (e.g. change in price)
+ * 3. Delete supplier account (no more coorperation on the item, which also means delete a specific contract)
+ * 4. Add Item
+ * 5. Edit Item
+ * 6. Delete Item
  */
 
 package SessionBean.SCM;
 
+import java.util.Calendar;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +24,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface PurchasedItemAndSupplierManagementModuleLocal {
+    public String addSupplier(String purchsaeItem, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Calendar contractStartDate, Calendar contractEndDate)  throws Exception;
     
 }
