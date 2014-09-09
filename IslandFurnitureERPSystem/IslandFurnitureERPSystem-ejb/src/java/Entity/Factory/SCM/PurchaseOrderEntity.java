@@ -8,6 +8,7 @@ package Entity.Factory.SCM;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -34,7 +35,7 @@ public class PurchaseOrderEntity implements Serializable {
     private Long purchasOrderId;
     private String status;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createDate;
+    private Calendar createDate;
 
     //goods receipt entity -- purchase order entity : 1 <--> 1
     @OneToOne(mappedBy = "purchaseOrder")
@@ -42,6 +43,10 @@ public class PurchaseOrderEntity implements Serializable {
     //purchase order entity -- planned order entity : M <--> M 
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
     private List<PlannedOrderEntity> plannedOrder;
+    
+    //purchase order entity -- contract entity: M --> 1
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private ContractEntity contract;
 
     private SupplierEntity supplierID;
     private List<RawMaterialEntity> purchaseItem;
@@ -70,11 +75,11 @@ public class PurchaseOrderEntity implements Serializable {
         this.status = status;
     }
 
-    public Date getCreateDate() {
+    public Calendar getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
 
@@ -108,6 +113,14 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setPurchaseItem(List<RawMaterialEntity> purchaseItem) {
         this.purchaseItem = purchaseItem;
+    }
+
+    public ContractEntity getContract() {
+        return contract;
+    }
+
+    public void setContract(ContractEntity contract) {
+        this.contract = contract;
     }
 
     @Override

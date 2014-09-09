@@ -30,13 +30,17 @@ public class SupplierEntity implements Serializable {
     private Long supplierId;
     private String supplierName;
     private String supplierAddress;
-    private Integer supplierContact;
-    private Integer supplierFax;
+    private String supplierContact;
+    private String supplierFax;
     private String remark;
-    
+
     //contract entity -- supplier entity: M<-->1
     @OneToMany(cascade = {CascadeType.PERSIST})
-    private Set<ContractEntity> ContractList = new HashSet<ContractEntity>();
+    private Set<ContractEntity> ContractList = new HashSet<>();
+
+    public SupplierEntity() {
+        setSupplierId(System.nanoTime());
+    }
 
     public Long getSupplierId() {
         return supplierId;
@@ -61,6 +65,7 @@ public class SupplierEntity implements Serializable {
     public void setContractList(Set<ContractEntity> ContractlList) {
         this.ContractList = ContractList;
     }
+
     public String getSupplierAddress() {
         return supplierAddress;
     }
@@ -69,19 +74,19 @@ public class SupplierEntity implements Serializable {
         this.supplierAddress = supplierAddress;
     }
 
-    public Integer getSupplierContact() {
+    public String getSupplierContact() {
         return supplierContact;
     }
 
-    public void setSupplierContact(Integer supplierContact) {
+    public void setSupplierContact(String supplierContact) {
         this.supplierContact = supplierContact;
     }
 
-    public Integer getSupplierFax() {
+    public String getSupplierFax() {
         return supplierFax;
     }
 
-    public void setSupplierFax(Integer supplierFax) {
+    public void setSupplierFax(String supplierFax) {
         this.supplierFax = supplierFax;
     }
 
@@ -90,6 +95,15 @@ public class SupplierEntity implements Serializable {
     }
 
     public void setremark(String remark) {
+        this.remark = remark;
+    }
+
+    //create a new supplier entity with attributes
+    public void create(String name, String address, String contact, String fax, String remark) {
+        this.supplierName = name;
+        this.supplierAddress = address;
+        this.supplierContact = contact;
+        this.supplierFax = fax;
         this.remark = remark;
     }
 

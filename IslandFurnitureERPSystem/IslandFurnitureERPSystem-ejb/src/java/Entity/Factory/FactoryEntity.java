@@ -39,14 +39,22 @@ public class FactoryEntity implements Serializable {
     private String contact;
     private String manager; // managerEntity
 
-    //factory entity -- factory item entity: 1 <--> M 
+    //factory entity -- factory raw material entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
-    private Collection<FactoryItemEntity> factoryItems = new ArrayList<FactoryItemEntity>();
+    private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
+
+    //factory entity -- factory product entity: 1 <--> M 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
+
+    //factory entity -- factory retail product entity: 1 <--> M 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     //facotry entity -- factory bin entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
-    private Collection<FactoryBinEntity> factoryBins = new ArrayList<FactoryBinEntity>();
-    
+    private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
+
     public FactoryEntity() {
     }
 
@@ -90,13 +98,30 @@ public class FactoryEntity implements Serializable {
         this.manager = manager;
     }
 
-    public Collection<FactoryItemEntity> getFactoryItems() {
-        return factoryItems;
+    public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
+        return factoryRawMaterials;
     }
 
-    public void setFactoryItems(Collection<FactoryItemEntity> factoryItems) {
-        this.factoryItems = factoryItems;
+    public void setFactoryRawMaterials(Collection<FactoryRawMaterialEntity> factoryRawMaterials) {
+        this.factoryRawMaterials = factoryRawMaterials;
     }
+
+    public Collection<FactoryProductEntity> getFactoryProducts() {
+        return factoryProducts;
+    }
+
+    public void setFactoryProducts(Collection<FactoryProductEntity> factoryProducts) {
+        this.factoryProducts = factoryProducts;
+    }
+
+    public Collection<FactoryRetailProductEntity> getFactoryRetailProducts() {
+        return factoryRetailProducts;
+    }
+
+    public void setFactoryRetailProducts(Collection<FactoryRetailProductEntity> factoryRetailProducts) {
+        this.factoryRetailProducts = factoryRetailProducts;
+    }
+
 
     public Collection<FactoryBinEntity> getFactoryBins() {
         return factoryBins;
@@ -105,7 +130,6 @@ public class FactoryEntity implements Serializable {
     public void setFactoryBins(Collection<FactoryBinEntity> factoryBins) {
         this.factoryBins = factoryBins;
     }
-    
 
     @Override
     public String toString() {

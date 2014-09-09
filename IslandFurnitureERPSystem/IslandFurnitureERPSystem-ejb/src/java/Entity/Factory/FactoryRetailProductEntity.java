@@ -5,8 +5,10 @@
  */
 package Entity.Factory;
 
+import Entity.Factory.FacotryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,20 +28,64 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "FactoryRetailProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class FactoryRetailProductEntity extends FactoryItemEntity implements Serializable {
+public class FactoryRetailProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long factoryRetailProdctId;
+    private Integer quantity;
 
+    //factory entity -- factory item entity: 1 <--> M 
+    @ManyToOne
+    private FactoryEntity factory;
+
+    //factory item entity -- factory bin stored product entity: 1 <--> M 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+    
     //factory retail product entity -- reatail product entity: M <--> 1
     @ManyToOne
     private RetailProductEntity retailProduct;
-    
+
     //contract entity -- factory retail product entity: M <--> 1
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rettailProduct")
-    private Collection<ContractEntity> contracts;
-    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
+    private Collection<ContractEntity> contracts = new ArrayList<>();
+
     public FactoryRetailProductEntity() {
 
+    }
+
+    public Long getFactoryRetailProdctId() {
+        return factoryRetailProdctId;
+    }
+
+    public void setFactoryRetailProdctId(Long factoryRetailProdctId) {
+        this.factoryRetailProdctId = factoryRetailProdctId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public FactoryEntity getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryEntity factory) {
+        this.factory = factory;
+    }
+
+    public Collection<FactoryBinStoredProductEntity> getFactoryBinStoredProducts() {
+        return factoryBinStoredProducts;
+    }
+
+    public void setFactoryBinStoredProducts(Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts) {
+        this.factoryBinStoredProducts = factoryBinStoredProducts;
     }
 
     public RetailProductEntity getRetailProduct() {
@@ -57,8 +103,5 @@ public class FactoryRetailProductEntity extends FactoryItemEntity implements Ser
     public void setContracts(Collection<ContractEntity> contracts) {
         this.contracts = contracts;
     }
-    
-    
-    
 
 }
