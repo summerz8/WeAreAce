@@ -27,7 +27,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     private EntityManager em;
     
     @Override
-    public void generateProductionPlanManagementModule(String status,Date generateDate,Date targetSalesStartDate,Date targetSalesEndDate,Integer output,Long productId, String remark){
+    public boolean generateProductionPlanManagementModule(String status,Date generateDate,Date targetSalesStartDate,Date targetSalesEndDate,Integer output,Long productId, String remark){
         
         try{
             ProductEntity product = em.find(ProductEntity.class,productId);
@@ -36,7 +36,9 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
             System.out.println("Generate production plan!");
         }catch(Exception ex){
              System.out.println(ex.getMessage());
+             return false;
         }
+        return true;
     }
     
     @Override
@@ -74,18 +76,18 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public String deleteProductionPlan(Long productionPlanId){
+    public boolean deleteProductionPlan(Long productionPlanId){
         
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
         String status = productionPlan.getStatus();
         
         if(status.equals("confirmed") || status.equals("accomplished")){
-            return "Production Plan cannot be deleted, it is already confirmed or accomplished.";
+            return false;
         }
         
         else{
             em.remove(productionPlan);
-            return "Production Plan is successfully deleted!!";
+            return true;
         }
         
     }
