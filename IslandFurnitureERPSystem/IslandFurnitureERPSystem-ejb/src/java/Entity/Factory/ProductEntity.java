@@ -29,7 +29,7 @@ public class ProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long productEntityId;
+    private Long productId;
     private String name;
     private String description;
     private double price; // ???
@@ -46,12 +46,12 @@ public class ProductEntity implements Serializable {
     public ProductEntity() {
     }
 
-    public Long getProductEntity() {
-        return productEntityId;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductEntity(Long productEntity) {
-        this.productEntityId = productEntity;
+    public void setProductEntity(Long productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -98,7 +98,7 @@ public class ProductEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (productEntityId != null ? productEntityId.hashCode() : 0);
+        hash += (productId != null ? productId.hashCode() : 0);
         return hash;
     }
 
@@ -109,7 +109,7 @@ public class ProductEntity implements Serializable {
             return false;
         }
         ProductEntity other = (ProductEntity) object;
-        if ((this.productEntityId == null && other.productEntityId != null) || (this.productEntityId != null && !this.productEntityId.equals(other.productEntityId))) {
+        if ((this.productId == null && other.productId != null) || (this.productId != null && !this.productId.equals(other.productId))) {
             return false;
         }
         return true;
@@ -117,7 +117,7 @@ public class ProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.ProductEntity[ id=" + productEntityId + " ]";
+        return "Entity.ProductEntity[ id=" + productId + " ]";
     }
 
 }

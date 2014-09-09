@@ -8,10 +8,13 @@ package SessionBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,7 +30,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     private EntityManager em;
     
     @Override
-    public boolean generateProductionPlanManagementModule(String status,Date generateDate,Date targetSalesStartDate,Date targetSalesEndDate,Integer output,Long productId, String remark){
+    public boolean generateProductionPlanManagementModule(String status,Calendar generateDate,Calendar targetSalesStartDate,Calendar targetSalesEndDate,Integer output,Long productId, String remark){
         
         try{
             ProductEntity product = em.find(ProductEntity.class,productId);
@@ -48,11 +51,11 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
         
         switch (field) {
             case "targetSalesStartDate":
-                Date startDate = (Date) content;
+                Calendar startDate = (Calendar) content;
                 productionPlan.setTargetSalesStartDate(startDate);
                 break;
             case "targetSalesEndDate":
-                Date endDate = (Date) content;
+                Calendar endDate = (Calendar) content;
                 productionPlan.setTargetSalesEndDate(endDate);
                 break;
             case "productId":
@@ -62,7 +65,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
                 break;
             case "output":
                 Integer output = (Integer) content;
-                productionPlan.setOutput(output);
+                productionPlan.setQuantity(output);
                 break;
             case "status":
                 String status = (String) content;
@@ -90,6 +93,29 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
             return true;
         }
         
+    }
+    
+    @Override
+    public List<ArrayList> getProductionPlan(){
+        Query q = em.createQuery("SELECT pp FROM ProductionPlan pp");
+        List productionPlanList = new ArrayList();
+        for(Object o : q.getResultList()){
+            ProductionPlanEntity pp = (ProductionPlanEntity) o;
+            List productionPlan = new ArrayList();
+            productionPlan.add(0,pp.getProductionPlanId());
+            productionPlan.add(1,pp.getStatus());
+            productionPlan.add(2,pp.getGenerateDate());
+            productionPlan.add(3,pp.getTargetSalesStartDate());
+            productionPlan.add(4,pp.getTargetSalesEndDate());
+            productionPlan.add(5,pp.getProduct().getProductId());
+            productionPlan.add(6,pp.getQuantity());
+            productionPlan.add(7,pp.getConfirmDate());
+            productionPlan.add(8,pp.getRemark());
+            productionPlanList.add(productionPlan);
+        }
+        
+        
+        return productionPlanList;
     }
     
 }
