@@ -29,6 +29,8 @@ public class RetailProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long retailProductId;
     private String name;
+    private String decription;
+    
     
     //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
@@ -48,6 +50,14 @@ public class RetailProductEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDecription() {
+        return decription;
+    }
+
+    public void setDecription(String decription) {
+        this.decription = decription;
     }
 
     public Collection<FactoryRetailProductEntity> getFactoryRetailProducts() {

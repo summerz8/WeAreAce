@@ -6,8 +6,9 @@
  */
 package Entity.Factory.FacotryBin;
 
-import Entity.Factory.FactoryItemEntity;
-import Entity.Factory.RawMaterialEntity;
+import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.SCM.InFactoryMovementEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
@@ -35,12 +36,20 @@ public class FactoryBinStoredProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryBinStoredProductId;
-    private double amount = 0 ;
-    
-    //factory item entity -- factory bin stored products entity: 1 <--> M 
+    private double amount = 0;
+
+    //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne
-    private FactoryItemEntity factoryItem;
-    
+    private FactoryRawMaterialEntity factoryRawMaterial;
+
+    //factory product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryProductEntity factoryProduct;
+
+    //factory retail product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct;
+
     //factory bin entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne
     private FactoryBinEntity factoryBin;
@@ -60,10 +69,9 @@ public class FactoryBinStoredProductEntity implements Serializable {
     //factory bin stored product entity -- inbound movements: 1 <--> M (to which bin)
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
     private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
-    
+
     public FactoryBinStoredProductEntity() {
     }
-    
 
     public Long getFactoryBinStoredProductId() {
         return factoryBinStoredProductId;
@@ -81,12 +89,28 @@ public class FactoryBinStoredProductEntity implements Serializable {
         this.amount = amount;
     }
 
-    public FactoryItemEntity getFactoryItem() {
-        return factoryItem;
+    public FactoryRawMaterialEntity getFactoryRawMaterial() {
+        return factoryRawMaterial;
     }
 
-    public void setFactoryItem(FactoryItemEntity factoryItem) {
-        this.factoryItem = factoryItem;
+    public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
+        this.factoryRawMaterial = factoryRawMaterial;
+    }
+
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
+    }
+
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
+    }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
     }
 
     public FactoryBinEntity getFactoryBin() {
@@ -96,7 +120,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
     public void setFactoryBin(FactoryBinEntity factoryBin) {
         this.factoryBin = factoryBin;
     }
-    
+
     public Collection<InFactoryMovementEntity> getInFactoryMovements_from() {
         return inFactoryMovements_from;
     }
@@ -128,7 +152,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
     public void setInboundMovements(Collection<InboundMovementEntity> inboundMovements) {
         this.inboundMovements = inboundMovements;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
