@@ -14,7 +14,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface IFManagerBeanLocal {
-    public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
+    //public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
 //    public String getUserId(String userId);
     public boolean checkAccount(String userId, String pwd);
+
+    public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender, String departmentId);
 }

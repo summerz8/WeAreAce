@@ -13,13 +13,7 @@ import javax.ejb.Local;
  * @author dan
  */
 @Local
-public interface EnterpriseManagementModuleLocal {   
-    
-    public void AddStaff(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
-
-    public void DeleteStaff();
-
-    public void ModifyStaff();
+public interface Factory_StoreManagementModuleLocal {
 
     public void AddFactory();
 
@@ -33,18 +27,12 @@ public interface EnterpriseManagementModuleLocal {
 
     public void ModifyStore();
 
-    public void AddProduct();
+    public void ListStore();
 
-    public void DeleteProduct();
+    public void searchStore();
 
-    public void ModifyProduct();
+    public void searchFactory();
 
-    public void AddRetailProduct();
-
-    public void DeleteRetailProduct();
-
-    public void ModifyRetailProduct();
-
-    
+    public void ListFactory();
     
 }
