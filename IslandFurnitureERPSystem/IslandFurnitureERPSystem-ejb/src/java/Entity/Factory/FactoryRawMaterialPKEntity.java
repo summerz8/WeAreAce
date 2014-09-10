@@ -9,6 +9,7 @@ package Entity.Factory;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 
 /**
  *
@@ -17,9 +18,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class FactoryRawMaterialPKEntity implements Serializable {
 //    private static final long serialVersionUID = 1L;
-    @Column(name = "FACTORYRAWMATERIAL_FACTORY")
+    @JoinColumn(name = "FACTORYRAWMATERIAL_FACTORY")
     private FactoryEntity factory;
-    @Column(name = "FACTORYRAWMATERIAL_RAWMATERIAL")
+    @JoinColumn(name = "FACTORYRAWMATERIAL_RAWMATERIAL")
     private RawMaterialEntity rawMaterial;
 
     public FactoryRawMaterialPKEntity() {

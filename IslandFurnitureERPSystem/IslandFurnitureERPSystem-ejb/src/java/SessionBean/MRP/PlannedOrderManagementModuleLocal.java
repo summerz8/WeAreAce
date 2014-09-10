@@ -7,7 +7,8 @@
 package SessionBean.MRP;
 
 import Entity.Factory.BOMEntity;
-import java.util.Date;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -20,11 +21,11 @@ public interface PlannedOrderManagementModuleLocal {
 
     public BOMEntity CheckBOM(Long ProductID);
 
-    public void CreatePlannedOrder(Long productID, Integer amount);
+    public PlannedOrderEntity CreatePlannedOrder(Long productID, Integer amount);
 
-    public Boolean GeneratePlannedOrder(Date dateInput, Date targetStartInput, Date targetEndInput, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Integer> RawAmount, List<String> Unit);
+    public PlannedOrderEntity GeneratePlannedOrder(Calendar dateInput, Calendar targetStartInput, Calendar targetEndInput, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Integer> RawAmount, List<String> Unit);
 
-    public boolean EditPlannedOrder(Long plannedOrderId, Date dateInput, Date targetStartInput, Date targetEndInput, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Integer> RawAmount, List<String> Unit);
+    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetStartInput, Calendar targetEndInput, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Integer> RawAmount, List<String> Unit);
 
     public boolean DeletePlannedOrder(Long PlannedOrderId);
     

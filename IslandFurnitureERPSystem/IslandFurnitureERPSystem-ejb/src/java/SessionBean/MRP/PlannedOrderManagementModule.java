@@ -11,7 +11,7 @@ import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialAmountEntity;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -39,15 +39,23 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 
     //Click the CreatePlannedOrder button when viewing production plan list
     @Override
-    public void CreatePlannedOrder(Long productID, Integer amount) {
-
+    public PlannedOrderEntity CreatePlannedOrder(Long productID, Integer amount) {
+                ProductEntity product=em.find(ProductEntity.class,productID);
+        List<RawMaterialAmountEntity> rawMaterial=new ArrayList<RawMaterialAmountEntity>();
+        BOMEntity bom=product.getBom();
+        rawMaterial=bom.getRawmaterialList();
+        int size=rawMaterial.size();
+        for(int a=0;a<size;a++)rawMaterial.get(a).setAmount(amount*rawMaterial.get(a).getAmount());
+        PlannedOrderEntity plannedOrder=new PlannedOrderEntity();
+        plannedOrder.setRawMaterialAmount(rawMaterial);
+        return plannedOrder;
     }
 
     //Modify the data in the CreatePlannedOrder page//
     @Override
-    public Boolean GeneratePlannedOrder(Date dateInput,
-            Date targetStartInput,
-            Date targetEndInput,
+    public PlannedOrderEntity GeneratePlannedOrder(Calendar dateInput,
+            Calendar targetStartInput,
+            Calendar targetEndInput,
             String statusInput,
             Long productionIdInput,
             List<Long> rawMaterialList,
@@ -57,9 +65,9 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         try{
 
             //Create RawMaterialAmount Entity for each material in the plannedOrder//
-        Date date = dateInput;
-        Date targetStart = targetStartInput;
-        Date targetEnd = targetEndInput;
+        Calendar date = dateInput;
+        Calendar targetStart = targetStartInput;
+        Calendar targetEnd = targetEndInput;
         String status = statusInput;
         List<RawMaterialAmountEntity> MaterialList = new ArrayList<RawMaterialAmountEntity>();
 
@@ -85,17 +93,17 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 
         PlannedOrderEntity order = null;
         order.createPlannedOrder(date, targetStart, targetEnd, status, productionPlan, MaterialList);
-        return true;
+        return order;
         }catch(Exception ex){
              System.out.println(ex.getMessage());
         }
-        return false;
+        return null;
     }
     
     @Override
-    public boolean EditPlannedOrder(Long plannedOrderId,Date dateInput,
-            Date targetStartInput,
-            Date targetEndInput,
+    public boolean EditPlannedOrder(Long plannedOrderId,Calendar dateInput,
+            Calendar targetStartInput,
+            Calendar targetEndInput,
             String statusInput,
             Long productionIdInput,
             List<Long> rawMaterialList,
