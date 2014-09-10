@@ -33,7 +33,8 @@ public class FactoryProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryProductId;
-    private Integer quantity;
+    private Integer inventory = 0;
+    private Integer plannedEndMonthInventory;
 
     private Integer minimumInventory = 50;
 
@@ -82,12 +83,12 @@ public class FactoryProductEntity implements Serializable {
         this.product = product;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getInventory() {
+        return inventory;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 
     public Integer getMinimumInventory() {

@@ -31,7 +31,7 @@ public class FactoryRawMaterialEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRawMaterialId;
-    private Integer quantity = 0;//start with 0
+    private Integer inventory = 0;//start with 0
     private String materialName;
     private String description;
     private Integer minimumInventory = 50;
@@ -42,7 +42,7 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     //factory raw material entity -- factory bin stored product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterial")
-    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<>();
 
     //factory raw material entity -- raw material entity: M <--> 1
     @ManyToOne
@@ -65,12 +65,12 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.factoryRawMaterialId = factoryRawMaterialId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getInventory() {
+        return inventory;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 
     public String getMaterialName() {

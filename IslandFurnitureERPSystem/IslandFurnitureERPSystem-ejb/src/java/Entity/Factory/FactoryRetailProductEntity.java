@@ -34,7 +34,7 @@ public class FactoryRetailProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRetailProdctId;
-    private Integer quantity = 0;//start with 0
+    private Integer inventory = 0;//start with 0
     private String name;
     private String description;
     
@@ -69,12 +69,12 @@ public class FactoryRetailProductEntity implements Serializable {
         this.factoryRetailProdctId = factoryRetailProdctId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getInventory() {
+        return inventory;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 
     public String getName() {
