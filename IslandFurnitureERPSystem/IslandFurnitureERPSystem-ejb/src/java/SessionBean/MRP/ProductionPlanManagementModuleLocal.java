@@ -18,7 +18,7 @@ import javax.ejb.Local;
 @Local
 public interface ProductionPlanManagementModuleLocal {
 
-    public boolean generateProductionPlanManagementModule(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, Long productId, String remark);
+    public boolean generateProductionPlan(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, Long productId, String remark);
 
     public void editProductionPlan(Long productionPlanId, String field, Object content);
 
