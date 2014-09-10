@@ -8,8 +8,9 @@ package Entity.Factory.SCM;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,9 @@ public class ContractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long contractId;
-    private double contactPrice;
+    private double contractPrice;
+
+    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -39,16 +42,17 @@ public class ContractEntity implements Serializable {
     //contract entity -- factory retail product entity: M <--> 1
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
-    
+
     //contract entity -- factory raw material entity: M <--> 1
     @ManyToOne
     private FactoryRawMaterialEntity factoryRawMaterialProduct;
-    
+
     //contract entity -- supplier entity: M<-->1
     @ManyToOne
     private SupplierEntity supplier;
-    
+
     public ContractEntity() {
+        //may be changed later
         setContractId(System.nanoTime());
     }
 
@@ -60,12 +64,12 @@ public class ContractEntity implements Serializable {
         this.contractId = contractId;
     }
 
-    public double getContactPrice() {
-        return contactPrice;
+    public double getContractPrice() {
+        return contractPrice;
     }
 
-    public void setContactPrice(double contactPrice) {
-        this.contactPrice = contactPrice;
+    public void setContractPrice(double contractPrice) {
+        this.contractPrice = contractPrice;
     }
 
     public Calendar getContractStartDate() {
@@ -107,10 +111,10 @@ public class ContractEntity implements Serializable {
     public void setSupplier(SupplierEntity supplier) {
         this.supplier = supplier;
     }
-    
+
     //create a new contract entity with attributes
-    public void create(Double contractPrice, Calendar contractStartDate, Calendar contractEndDate){
-        this.contactPrice = contractPrice;
+    public void create(Double contractPrice, Calendar contractStartDate, Calendar contractEndDate) {
+        this.contractPrice = contractPrice;
         this.contractStartDate = contractStartDate;
         this.contractEndDate = contractEndDate;
     }

@@ -29,6 +29,7 @@ public class BOMEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BOMId;
     private Long productId;
+    
     @OneToMany(cascade={CascadeType.PERSIST})
     private List<RawMaterialAmountEntity> rawMaterialList;
     @OneToOne(mappedBy="bom")

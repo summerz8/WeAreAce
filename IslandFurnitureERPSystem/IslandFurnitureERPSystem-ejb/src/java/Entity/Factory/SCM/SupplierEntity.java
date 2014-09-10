@@ -36,9 +36,10 @@ public class SupplierEntity implements Serializable {
 
     //contract entity -- supplier entity: M<-->1
     @OneToMany(cascade = {CascadeType.PERSIST})
-    private Set<ContractEntity> ContractList = new HashSet<>();
+    private HashSet<ContractEntity> ContractList = new HashSet<>();
 
     public SupplierEntity() {
+        //may be changed later
         setSupplierId(System.nanoTime());
     }
 
@@ -58,11 +59,11 @@ public class SupplierEntity implements Serializable {
         this.supplierName = supplierName;
     }
 
-    public Set<ContractEntity> getContractList() {
+    public HashSet<ContractEntity> getContractList() {
         return ContractList;
     }
 
-    public void setContractList(Set<ContractEntity> ContractlList) {
+    public void setContractList(HashSet<ContractEntity> ContractlList) {
         this.ContractList = ContractList;
     }
 

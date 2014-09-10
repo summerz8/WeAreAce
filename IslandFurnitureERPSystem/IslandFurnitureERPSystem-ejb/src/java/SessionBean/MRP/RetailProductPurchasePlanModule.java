@@ -21,8 +21,8 @@ import javax.persistence.Query;
  * @author hangsun
  */
 @Stateful
-public class ProductionPlanManagementModule implements ProductionPlanManagementModuleLocal{
-    
+public class RetailProductPurchasePlanModule implements RetailProductPurchasePlanModuleLocal {
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
@@ -30,7 +30,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     private EntityManager em;
     
     @Override
-    public boolean generateProductionPlan(String status,Calendar generateDate,Calendar targetSalesStartDate,Calendar targetSalesEndDate,Integer output,Long productId, String remark){
+    public boolean generateRetailProductPurchasePlan(String status,Calendar generateDate,Calendar targetSalesStartDate,Calendar targetSalesEndDate,Integer output,Long productId, String remark){
         
         try{
             ProductEntity product = em.find(ProductEntity.class,productId);
@@ -45,7 +45,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public void editProductionPlan(Long productionPlanId, String field,Object content){
+    public void editRetailProductPurchasePlan(Long productionPlanId, String field,Object content){
         
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
         
@@ -79,7 +79,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public boolean deleteProductionPlan(Long productionPlanId){
+    public boolean deleteRetailProductPurchasePlan(Long productionPlanId){
         
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
         String status = productionPlan.getStatus();
@@ -117,5 +117,4 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
         
         return productionPlanList;
     }
-    
 }

@@ -50,13 +50,16 @@ public class ProductionPlanEntity implements Serializable {
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
     private List<PlannedOrderEntity> plannedOrder=new ArrayList();
 
+    public ProductionPlanEntity() {
+    }
+
     
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product, String remark){
+    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer quantity, ProductEntity product, String remark){
         this.status = status;
         this.generateDate = generateDate;
         this.targetSalesStartDate = targetSalesStartDate;
         this.targetSalesEndDate = targetSalesEndDate;
-        this.quantity = output;
+        this.quantity = quantity;
         this.product = product;
         this.remark = remark;
     }

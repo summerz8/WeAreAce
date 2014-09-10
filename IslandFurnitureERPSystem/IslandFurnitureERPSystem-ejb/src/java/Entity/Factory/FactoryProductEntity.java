@@ -35,6 +35,8 @@ public class FactoryProductEntity implements Serializable {
     private Long factoryProductId;
     private Integer quantity;
 
+    private Integer minimumInventory = 50;
+
     //factory entity -- factory item entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
@@ -78,6 +80,22 @@ public class FactoryProductEntity implements Serializable {
 
     public void setProduct(ProductEntity product) {
         this.product = product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getMinimumInventory() {
+        return minimumInventory;
+    }
+
+    public void setMinimumInventory(Integer minimumInventory) {
+        this.minimumInventory = minimumInventory;
     }
 
 }
