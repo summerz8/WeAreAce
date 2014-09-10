@@ -9,6 +9,7 @@ import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.StoreUserEntity;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -28,8 +29,9 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void AddStaff(String department, Integer userLevel, String lastName,
-            String firstName, String position, String gender, String departmentID) {
+    public void AddStaff(String department, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, String departmentID) {
         //departmentID refers to the respective Factory, Store or HQ id
         System.out.println("EnterpriseManagementModule: addStaff():");
 

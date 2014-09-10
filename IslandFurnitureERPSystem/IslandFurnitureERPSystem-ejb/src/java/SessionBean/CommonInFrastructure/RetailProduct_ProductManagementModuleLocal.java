@@ -28,5 +28,7 @@ public interface RetailProduct_ProductManagementModuleLocal {
     public void DeleteProduct();
 
     public void AddProduct();
+
+    public void ListProduct();
     
 }

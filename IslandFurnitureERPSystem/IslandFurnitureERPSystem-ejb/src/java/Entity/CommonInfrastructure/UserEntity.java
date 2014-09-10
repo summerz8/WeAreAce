@@ -8,6 +8,7 @@ package Entity.CommonInfrastructure;
 
 import Entity.CommonInfrastructure.InternalMessageEntity;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
@@ -42,7 +43,7 @@ public class UserEntity implements Serializable {
     private String position;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date birthday;
+    private Calendar birthday;
     private String gender;
     private String title;
     private String address;
@@ -142,11 +143,11 @@ public class UserEntity implements Serializable {
         this.position = position;
     }
 
-    public Date getBirthday() {
+    public Calendar getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
     }
 
