@@ -15,8 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,7 +31,10 @@ public class FactoryRawMaterialEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRawMaterialId;
-    private Integer quantity;
+    private Integer quantity = 0;//start with 0
+    private String materialName;
+    private String description;
+    private Integer minimumInventory = 50;
 
     //factory entity -- factory item entity: 1 <--> M 
     @ManyToOne
@@ -52,7 +53,8 @@ public class FactoryRawMaterialEntity implements Serializable {
     private Collection<ContractEntity> contracts = new ArrayList<>();
 
     public FactoryRawMaterialEntity() {
-
+        //may be changed later
+        setFactoryRawMaterialId(System.nanoTime());
     }
 
     public Long getFactoryRawMaterialId() {
@@ -69,6 +71,22 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public FactoryEntity getFactory() {
@@ -101,6 +119,19 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     public void setContracts(Collection<ContractEntity> contracts) {
         this.contracts = contracts;
+    }
+
+    public Integer getMinimumInventory() {
+        return minimumInventory;
+    }
+
+    public void setMinimumInventory(Integer minimumInventory) {
+        this.minimumInventory = minimumInventory;
+    }
+
+    public void create(String materialName, String description) {
+        setMaterialName(materialName);
+        setDescription(description);
     }
 
 }

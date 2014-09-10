@@ -5,17 +5,14 @@ package Entity.Factory;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Entity.Factory.SCM.SupplierEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,13 +31,11 @@ public class RawMaterialEntity implements Serializable {
     private Long materialID;
     private String materialName;
     private String description;
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "RawMaterial_Supplier")
-    private List<SupplierEntity> supplier;
 
     //raw material entity -- factory raw material entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
-    private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<FactoryRawMaterialEntity>();
+    private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
+    
     
     public Long getMaterialID() {
         return materialID;
@@ -58,10 +53,6 @@ public class RawMaterialEntity implements Serializable {
         return description;
     }
 
-    public List<SupplierEntity> getSupplier() {
-        return supplier;
-    }
-
     public void setMaterialName(String materialName) {
         this.materialName = materialName;
     }
@@ -70,14 +61,18 @@ public class RawMaterialEntity implements Serializable {
         this.description = description;
     }
 
-    public void setSupplier(List<SupplierEntity> supplier) {
-        this.supplier = supplier;
-    }
-
     public void setMaterialID(Long MaterialID) {
         this.materialID = MaterialID;
     }
 
+    public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
+        return factoryRawMaterials;
+    }
+
+    public void setFactoryRawMaterials(Collection<FactoryRawMaterialEntity> factoryRawMaterials) {
+        this.factoryRawMaterials = factoryRawMaterials;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 0;
