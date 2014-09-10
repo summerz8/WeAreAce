@@ -34,7 +34,11 @@ public class FactoryRetailProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRetailProdctId;
-    private Integer quantity;
+    private Integer quantity = 0;//start with 0
+    private String name;
+    private String description;
+    
+    private Integer minimumInventory = 50;
 
     //factory entity -- factory item entity: 1 <--> M 
     @ManyToOne
@@ -52,8 +56,9 @@ public class FactoryRetailProductEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
     private Collection<ContractEntity> contracts = new ArrayList<>();
 
-    public FactoryRetailProductEntity() {
-
+    public FactoryRetailProductEntity(){
+        //may be changed later
+        setFactoryRetailProdctId(System.nanoTime());
     }
 
     public Long getFactoryRetailProdctId() {
@@ -70,6 +75,22 @@ public class FactoryRetailProductEntity implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public FactoryEntity getFactory() {
@@ -102,6 +123,19 @@ public class FactoryRetailProductEntity implements Serializable {
 
     public void setContracts(Collection<ContractEntity> contracts) {
         this.contracts = contracts;
+    }
+
+    public Integer getMinimumInventory() {
+        return minimumInventory;
+    }
+
+    public void setMinimumInventory(Integer minimumInventory) {
+        this.minimumInventory = minimumInventory;
+    }
+    
+    public void create(String name, String description){
+        setName(name);
+        setDescription(description);
     }
 
 }
