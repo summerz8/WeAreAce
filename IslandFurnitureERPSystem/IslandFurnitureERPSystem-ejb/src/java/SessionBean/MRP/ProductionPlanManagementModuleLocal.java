@@ -6,7 +6,9 @@
 
 package SessionBean.MRP;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,10 +18,12 @@ import javax.ejb.Local;
 @Local
 public interface ProductionPlanManagementModuleLocal {
 
-    public boolean generateProductionPlanManagementModule(String status, Date generateDate, Date targetSalesStartDate, Date targetSalesEndDate, Integer output, Long productId, String remark);
+    public boolean generateProductionPlanManagementModule(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, Long productId, String remark);
 
     public void editProductionPlan(Long productionPlanId, String field, Object content);
 
     public boolean deleteProductionPlan(Long productionPlanId);
+
+    public List<ArrayList> getProductionPlan();
     
 }
