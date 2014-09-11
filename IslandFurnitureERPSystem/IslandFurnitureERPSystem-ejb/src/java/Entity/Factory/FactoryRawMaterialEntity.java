@@ -32,7 +32,7 @@ public class FactoryRawMaterialEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRawMaterialId;
     private Integer quantity = 0;//start with 0
-    private String materialName;
+    private String materialName;    // can get from rawMaterial
     private String description;
     private Integer minimumInventory = 50;
 

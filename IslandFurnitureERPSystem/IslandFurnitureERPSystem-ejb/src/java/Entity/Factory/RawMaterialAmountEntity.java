@@ -24,7 +24,7 @@ public class RawMaterialAmountEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long rawMaterialId;
+    private Long rawMaterialId; //Why not use rawMaterialEntity?
     private String unit;
     private Integer amount;
 

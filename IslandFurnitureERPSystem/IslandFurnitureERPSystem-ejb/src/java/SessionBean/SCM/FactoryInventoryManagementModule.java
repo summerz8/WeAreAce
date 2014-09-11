@@ -6,7 +6,10 @@
 
 package SessionBean.SCM;
 
+import java.util.List;
 import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -14,7 +17,15 @@ import javax.ejb.Stateful;
  */
 @Stateful
 public class FactoryInventoryManagementModule implements FactoryInventoryManagementModuleLocal {
+    
+    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
+    private EntityManager em;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @Override
+    public List listStorageBinInformation() {
+        
+        return null;
+    }
+
+  
 }

@@ -46,9 +46,9 @@ public class ProductionPlanEntity implements Serializable {
     private Integer quantity;
     private String remark;
     @ManyToOne(cascade={CascadeType.ALL})
-    private ProductEntity product;
+    private ProductEntity product;  //should be FactoryProductEntity
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
-    private List<PlannedOrderEntity> plannedOrder=new ArrayList();
+    private List<PlannedOrderEntity> plannedOrder=new ArrayList(); //OneToOne???
 
     public ProductionPlanEntity() {
     }
