@@ -50,7 +50,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         productionPlanInfo.add(2, productionPlan.getProduct().getName());
         productionPlanInfo.add(3, productionPlan.getTargetSalesStartDate());
         productionPlanInfo.add(4, productionPlan.getTargetSalesEndDate());
-        productionPlanInfo.add(5, productionPlan.getQuantity());
+        productionPlanInfo.add(5, productionPlan.getOutput());
         productionPlanInfo.add(6, productionPlan.getGenerateDate());
         productionPlanInfo.add(7, productionPlan.getConfirmDate());
         productionPlanInfo.add(8, productionPlan.getStatus());
@@ -228,7 +228,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         supplierInfo.add(4, supplier.getSupplierAddress());
         supplierInfo.add(5, supplier.getremark());
 
-        HashSet cl = supplier.getContractList();
+        Collection cl = supplier.getContractList();
         List contractList = new ArrayList();
 
         for (Object o : cl) {

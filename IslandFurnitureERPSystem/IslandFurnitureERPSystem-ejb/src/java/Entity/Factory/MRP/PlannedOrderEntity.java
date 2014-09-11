@@ -37,11 +37,8 @@ public class PlannedOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
-<<<<<<< HEAD
-    private Date date;  // What date?
-=======
+
     private Calendar date;
->>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -50,38 +47,16 @@ public class PlannedOrderEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST})
     private List<RawMaterialAmountEntity> rawMaterialList;
     @OneToOne(cascade = {CascadeType.PERSIST})
-<<<<<<< HEAD
-    private ProductionPlanEntity productionPlan;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "PlannedOrder_PurchaseOrder")
-    private List<PurchaseOrderEntity> purchaseOrders;
-=======
     private ProductionPlanEntity productionplan;
     
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="PlannedOrder_PurchaseOrder")
     private List<PurchaseOrderEntity> purchaseOrder;
->>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
 
     public PlannedOrderEntity() {
     }
 
-<<<<<<< HEAD
-    public void createPlannedOrder(Date date,
-            Date targetStart,
-            Date targetEnd,
-            String status,
-            ProductionPlanEntity productionPlan,
-            List<RawMaterialAmountEntity> rawMaterialList) {
-        this.date = date;
-        this.targetSalesStartDate = targetStart;
-        this.targetSalesEndDate = targetEnd;
-        this.status = status;
-        this.productionPlan = productionPlan;
-        this.rawMaterialList = rawMaterialList;
 
-=======
     public void createPlannedOrder(Calendar date,
                                    Calendar targetStart,
                                    Calendar targetEnd,
@@ -94,9 +69,7 @@ public class PlannedOrderEntity implements Serializable {
         this.status=status;
         this.productionplan=productionPlan;
         this.rawMaterialList= rawMaterialList;
-        
->>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
-    }
+            }
 
     public void setPlannedOrderId(Long plannedOrderId) {
         this.plannedOrderId = plannedOrderId;
@@ -146,10 +119,6 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
-<<<<<<< HEAD
-=======
-//
->>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     public ProductionPlanEntity getProductionPlan() {
         return productionplan;
     }
@@ -157,20 +126,12 @@ public class PlannedOrderEntity implements Serializable {
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
         this.productionplan = productionPlan;
     }
-<<<<<<< HEAD
 
-    public List<PurchaseOrderEntity> setPurchaseOrder() {
-        return purchaseOrders;
-=======
-//    
     public List<PurchaseOrderEntity> setPurchaseOrder(){
         return purchaseOrder;
->>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     }
 
-    public void setPurchaseOrders(List<PurchaseOrderEntity> purchaseOrders) {
-        this.purchaseOrders = purchaseOrders;
-    }
+   
 
     @Override
     public int hashCode() {

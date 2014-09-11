@@ -5,13 +5,10 @@
  */
 package Entity.Factory.MRP;
 
-import Entity.Factory.BOMEntity;
-import Entity.Factory.ProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -49,20 +45,16 @@ public class ProductionPlanEntity implements Serializable {
     private Integer output;
     private String remark;
 
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private ProductEntity product;  //should be FactoryProductEntity
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
-<<<<<<< HEAD
-    private List<PlannedOrderEntity> plannedOrder=new ArrayList(); //OneToOne???
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "productionplan")
 
-=======
-    private List<PlannedOrderEntity> plannedOrder=new ArrayList<>();
-//
->>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
+    private List<PlannedOrderEntity> plannedOrder = new ArrayList<>();
+
     public ProductionPlanEntity() {
     }
-    
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product,String remark){
+
+    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product, String remark) {
         this.status = status;
         this.generateDate = generateDate;
         this.targetSalesStartDate = targetSalesStartDate;
@@ -72,7 +64,6 @@ public class ProductionPlanEntity implements Serializable {
         this.remark = remark;
     }
 
-    
     public Long getProductionPlanId() {
         return productionPlanId;
     }
@@ -136,12 +127,12 @@ public class ProductionPlanEntity implements Serializable {
     public void setProduct(ProductEntity product) {
         this.product = product;
     }
-    
-    public String getRemark(){
+
+    public String getRemark() {
         return remark;
     }
-    
-    public void setRemark(String remark){
+
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 
@@ -152,9 +143,6 @@ public class ProductionPlanEntity implements Serializable {
     public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
         this.plannedOrder = plannedOrder;
     }
-
-    
-    
 
     @Override
     public int hashCode() {
