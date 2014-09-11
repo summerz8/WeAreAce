@@ -5,10 +5,13 @@
  */
 package Entity.Factory.MRP;
 
+import Entity.Factory.BOMEntity;
+import Entity.Factory.ProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -34,7 +38,6 @@ public class ProductionPlanEntity implements Serializable {
     private Long productionPlanId;
 
     private String status;
-   
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar generateDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -43,23 +46,23 @@ public class ProductionPlanEntity implements Serializable {
     private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesEndDate;
-    private Integer quantity;
+    private Integer output;
     private String remark;
+
     @ManyToOne(cascade={CascadeType.ALL})
     private ProductEntity product;
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionplan")
-    private List<PlannedOrderEntity> plannedOrder=new ArrayList();
-
+    private List<PlannedOrderEntity> plannedOrder=new ArrayList<>();
+//
     public ProductionPlanEntity() {
     }
-
     
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer quantity, ProductEntity product, String remark){
+    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product,String remark){
         this.status = status;
         this.generateDate = generateDate;
         this.targetSalesStartDate = targetSalesStartDate;
         this.targetSalesEndDate = targetSalesEndDate;
-        this.quantity = quantity;
+        this.output = output;
         this.product = product;
         this.remark = remark;
     }
@@ -113,12 +116,12 @@ public class ProductionPlanEntity implements Serializable {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getOutput() {
+        return output;
     }
 
-    public void setQuantity(Integer output) {
-        this.quantity = output;
+    public void setOutput(Integer output) {
+        this.output = output;
     }
 
     public ProductEntity getProduct() {

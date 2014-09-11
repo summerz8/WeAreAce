@@ -35,11 +35,11 @@ public class GoodsReceiptEntity implements Serializable {
     private Date createDate;
     
     //goods receipt entity -- purchase order entity : 1 <--> 1
-    @OneToOne(cascade = {CascadeType.PERSIST})
-    private PurchaseOrderEntity purchaseOder;
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private PurchaseOrderEntity purchaseOrder;
     
     //goods receipt entity -- inbound movement enitty: 1 <--> M (from which corresponding goods receipt)
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "goodsReceipt")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromGoodsRecipt")
     private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
 
     public GoodsReceiptEntity() {
@@ -67,11 +67,11 @@ public class GoodsReceiptEntity implements Serializable {
     }
 
     public PurchaseOrderEntity getPurchaseOder() {
-        return purchaseOder;
+        return purchaseOrder;
     }
 
     public void setPurchaseOder(PurchaseOrderEntity purchaseOder) {
-        this.purchaseOder = purchaseOder;
+        this.purchaseOrder = purchaseOder;
     }
 
     public Collection<InboundMovementEntity> getInboundMovements() {

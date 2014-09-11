@@ -3,11 +3,9 @@
  * This is a real entity for storage bin in the factory.
  * It's unqiue in each factory and can store more than 1 item in it.
  */
-package Entity.Factory.FacotryBin;
+package Entity.Factory.FactoryBin;
 
-import Entity.Factory.SCM.InFactoryMovementEntity;
-import Entity.Factory.SCM.InboundMovementEntity;
-import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.FactoryEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,13 +14,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author zhangshiyu
  */
-@Entity
+@Entity(name="FactoryBin")
 public class FactoryBinEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +32,13 @@ public class FactoryBinEntity implements Serializable {
     //factory bin entity -- factory bin stroed products entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryBin")
     private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
-
+    
+    @ManyToOne
+    FactoryEntity factory = new FactoryEntity();
+    
+    public FactoryBinEntity(){
+    }
+    
     public Long getFactoryBinId() {
         return factoryBinId;
     }
@@ -41,8 +46,15 @@ public class FactoryBinEntity implements Serializable {
     public void setFactoryBinId(Long factoryBinId) {
         this.factoryBinId = factoryBinId;
     }
-
     
+    
+    public FactoryEntity getFactory(){
+        return factory;
+    }
+    
+    public void setFactory(FactoryEntity factory){
+        this.factory = factory;
+    }
 
     public Collection<FactoryBinStoredProductEntity> getFactoryBinStoredProducts() {
         return factoryBinStoredProducts;

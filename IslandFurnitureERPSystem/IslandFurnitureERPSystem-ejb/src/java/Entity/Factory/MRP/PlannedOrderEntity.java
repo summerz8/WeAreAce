@@ -1,15 +1,16 @@
+package Entity.Factory.MRP;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entity.Factory.MRP;
 
-import Entity.Factory.RawMaterialAmountEntity;
+
 import Entity.Factory.SCM.PurchaseOrderEntity;
+import Entity.Factory.RawMaterialAmountEntity;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -117,7 +118,7 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
-
+//
     public ProductionPlanEntity getProductionPlan() {
         return productionplan;
     }
@@ -125,7 +126,7 @@ public class PlannedOrderEntity implements Serializable {
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
         this.productionplan = productionPlan;
     }
-    
+//    
     public List<PurchaseOrderEntity> setPurchaseOrder(){
         return purchaseOrder;
     }
