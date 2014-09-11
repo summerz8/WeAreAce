@@ -7,6 +7,8 @@ package Entity.Factory.SCM;
 
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -103,7 +105,7 @@ public class ContractEntity implements Serializable {
     public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
         this.factoryRetailProduct = factoryRetailProduct;
     }
-
+//
     public FactoryRawMaterialEntity getFactoryRawMaterialProduct() {
         return factoryRawMaterialProduct;
     }

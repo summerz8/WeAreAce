@@ -6,7 +6,7 @@
  */
 package Entity.Factory;
 
-import Entity.Factory.FacotryBin.FactoryBinEntity;
+import Entity.Factory.FactoryBin.FactoryBinEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,7 +52,7 @@ public class FactoryEntity implements Serializable {
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     //facotry entity -- factory bin entity: 1 <--> M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "factory")
     private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
 
     public FactoryEntity() {

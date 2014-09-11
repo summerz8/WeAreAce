@@ -6,6 +6,8 @@
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -36,7 +38,7 @@ public class SupplierEntity implements Serializable {
 
     //contract entity -- supplier entity: M<-->1
     @OneToMany(cascade = {CascadeType.PERSIST})
-    private HashSet<ContractEntity> ContractList = new HashSet<>();
+    private Collection<ContractEntity> ContractList = new ArrayList<ContractEntity>();
 
     public SupplierEntity() {
         //may be changed later
@@ -59,11 +61,11 @@ public class SupplierEntity implements Serializable {
         this.supplierName = supplierName;
     }
 
-    public HashSet<ContractEntity> getContractList() {
+    public Collection<ContractEntity> getContractList() {
         return ContractList;
     }
 
-    public void setContractList(HashSet<ContractEntity> ContractlList) {
+    public void setContractList(Collection<ContractEntity> ContractlList) {
         this.ContractList = ContractList;
     }
 

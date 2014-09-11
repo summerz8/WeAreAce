@@ -1,14 +1,16 @@
+package Entity.Factory.MRP;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entity.Factory.MRP;
 
-import Entity.Factory.RawMaterialAmountEntity;
+
 import Entity.Factory.SCM.PurchaseOrderEntity;
+import Entity.Factory.RawMaterialAmountEntity;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,24 +37,37 @@ public class PlannedOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
+<<<<<<< HEAD
     private Date date;  // What date?
+=======
+    private Calendar date;
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date targetSalesStartDate;
+    private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date targetSalesEndDate;
+    private Calendar targetSalesEndDate;
     private String status;
     @OneToMany(cascade = {CascadeType.PERSIST})
     private List<RawMaterialAmountEntity> rawMaterialList;
     @OneToOne(cascade = {CascadeType.PERSIST})
+<<<<<<< HEAD
     private ProductionPlanEntity productionPlan;
 
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name = "PlannedOrder_PurchaseOrder")
     private List<PurchaseOrderEntity> purchaseOrders;
+=======
+    private ProductionPlanEntity productionplan;
+    
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="PlannedOrder_PurchaseOrder")
+    private List<PurchaseOrderEntity> purchaseOrder;
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
 
     public PlannedOrderEntity() {
     }
 
+<<<<<<< HEAD
     public void createPlannedOrder(Date date,
             Date targetStart,
             Date targetEnd,
@@ -66,6 +81,21 @@ public class PlannedOrderEntity implements Serializable {
         this.productionPlan = productionPlan;
         this.rawMaterialList = rawMaterialList;
 
+=======
+    public void createPlannedOrder(Calendar date,
+                                   Calendar targetStart,
+                                   Calendar targetEnd,
+                                   String status,
+                                   ProductionPlanEntity productionPlan, 
+                                   List<RawMaterialAmountEntity> rawMaterialList) {
+        this.date=date;
+        this.targetSalesStartDate=targetStart;
+        this.targetSalesEndDate=targetEnd;
+        this.status=status;
+        this.productionplan=productionPlan;
+        this.rawMaterialList= rawMaterialList;
+        
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     }
 
     public void setPlannedOrderId(Long plannedOrderId) {
@@ -76,23 +106,23 @@ public class PlannedOrderEntity implements Serializable {
         this.status = status;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
-    public Date getTargetSalesStartDate() {
+    public Calendar getTargetSalesStartDate() {
         return targetSalesStartDate;
     }
 
-    public void setTargetSalesStartDate(Date targetSalesStartDate) {
+    public void setTargetSalesStartDate(Calendar targetSalesStartDate) {
         this.targetSalesStartDate = targetSalesStartDate;
     }
 
-    public Date getTargetSalesEndDate() {
+    public Calendar getTargetSalesEndDate() {
         return targetSalesEndDate;
     }
 
-    public void setTargetSalesEndDate(Date targetSalesEndDate) {
+    public void setTargetSalesEndDate(Calendar targetSalesEndDate) {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
@@ -108,7 +138,7 @@ public class PlannedOrderEntity implements Serializable {
         return plannedOrderId;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
@@ -116,16 +146,26 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
+<<<<<<< HEAD
+=======
+//
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     public ProductionPlanEntity getProductionPlan() {
-        return productionPlan;
+        return productionplan;
     }
 
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
-        this.productionPlan = productionPlan;
+        this.productionplan = productionPlan;
     }
+<<<<<<< HEAD
 
     public List<PurchaseOrderEntity> setPurchaseOrder() {
         return purchaseOrders;
+=======
+//    
+    public List<PurchaseOrderEntity> setPurchaseOrder(){
+        return purchaseOrder;
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     }
 
     public void setPurchaseOrders(List<PurchaseOrderEntity> purchaseOrders) {

@@ -6,10 +6,8 @@
 package Entity.Factory.SCM;
 
 import Entity.Factory.MRP.PlannedOrderEntity;
-import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -41,6 +39,7 @@ public class PurchaseOrderEntity implements Serializable {
     //goods receipt entity -- purchase order entity : 1 <--> 1
     @OneToOne(mappedBy = "purchaseOrder")
     private GoodsReceiptEntity goodsReceipt;
+<<<<<<< HEAD
     //purchase order entity -- planned order entity : M <--> M 
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrders")
     private List<PlannedOrderEntity> plannedOrders;
@@ -52,6 +51,17 @@ public class PurchaseOrderEntity implements Serializable {
 //    private SupplierEntity supplierID;  //no Id
 //    private List<RawMaterialEntity> purchaseItems;   //only one item
     private double total; // the total price
+=======
+    
+//purchase order entity -- planned order entity : M <--> M 
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
+    private List<PlannedOrderEntity> plannedOrder;
+    
+    //purchase order entity -- contract entity: M --> 1
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private ContractEntity contract;
+//
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
 
     public PurchaseOrderEntity() {
     }
@@ -93,6 +103,7 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
+<<<<<<< HEAD
     public List<PlannedOrderEntity> getPlannedOrders() {
         return plannedOrders;
     }
@@ -116,6 +127,17 @@ public class PurchaseOrderEntity implements Serializable {
 //    public void setPurchaseItems(List<RawMaterialEntity> purchaseItems) {
 //        this.purchaseItems = purchaseItems;
 //    }
+=======
+    public List<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrder;
+    }
+
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrder = plannedOrder;
+    }
+
+//
+>>>>>>> 4e65827786ccd7a9031d58a89eba01c6f9f21db0
     public ContractEntity getContract() {
         return contract;
     }
@@ -123,6 +145,7 @@ public class PurchaseOrderEntity implements Serializable {
     public void setContract(ContractEntity contract) {
         this.contract = contract;
     }
+      
 
     public double getTotal() {
         return total;

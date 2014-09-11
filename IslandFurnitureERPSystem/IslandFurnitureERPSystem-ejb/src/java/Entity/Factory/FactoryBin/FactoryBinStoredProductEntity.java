@@ -4,7 +4,7 @@
  * This entity is a functional entity.
  * Used as a quantity record of a specific item in a specific bin.
  */
-package Entity.Factory.FacotryBin;
+package Entity.Factory.FactoryBin;
 
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
@@ -12,6 +12,12 @@ import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.SCM.InFactoryMovementEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.SCM.InboundMovementEntity;
+import Entity.Factory.SCM.InFactoryMovementEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,23 +56,23 @@ public class FactoryBinStoredProductEntity implements Serializable {
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
 
-    //factory bin entity -- factory bin stored products entity: 1 <--> M 
+//    //factory bin entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne
     private FactoryBinEntity factoryBin;
-
-    //factory bin stored product entity -- in factory movements: 1 <--> M (from which bin)
+//
+//    //factory bin stored product entity -- in factory movements: 1 <--> M (from which bin)
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
     private Collection<InFactoryMovementEntity> inFactoryMovements_from = new ArrayList<InFactoryMovementEntity>();
-
-    //factory bin stored product entity -- in factory movements: 1 <--> M (to which bin)
+//
+//    //factory bin stored product entity -- in factory movements: 1 <--> M (to which bin)
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
     private Collection<InFactoryMovementEntity> inFactoryMovements_to = new ArrayList<InFactoryMovementEntity>();
 
-    //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
+//    //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
     private Collection<OutboundMovementEntity> outboundMovements_from = new ArrayList<OutboundMovementEntity>();
 
-    //factory bin stored product entity -- inbound movements: 1 <--> M (to which bin)
+//    //factory bin stored product entity -- inbound movements: 1 <--> M (to which bin)
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
     private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
 
@@ -120,7 +126,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
     public void setFactoryBin(FactoryBinEntity factoryBin) {
         this.factoryBin = factoryBin;
     }
-
+//
     public Collection<InFactoryMovementEntity> getInFactoryMovements_from() {
         return inFactoryMovements_from;
     }
