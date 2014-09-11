@@ -6,6 +6,7 @@
 
 package SessionBean.SCM;
 
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface FactoryInventoryManagementModuleLocal {
+
+    List listStorageBinInformation();
     
 }

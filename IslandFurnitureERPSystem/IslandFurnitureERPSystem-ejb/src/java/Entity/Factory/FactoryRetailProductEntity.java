@@ -36,7 +36,7 @@ public class FactoryRetailProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRetailProdctId;
     private Integer quantity = 0;//start with 0
-    private String name;
+    private String name;    // can get from retailProduct
     private String description;
     
     private Integer minimumInventory = 50;

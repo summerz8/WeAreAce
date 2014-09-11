@@ -33,8 +33,8 @@ public class ContractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long contractId;
-    private double contractPrice;
-
+    private double contractPrice;   // in US$ per unit
+    private String unit;
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractStartDate;
@@ -72,6 +72,14 @@ public class ContractEntity implements Serializable {
 
     public void setContractPrice(double contractPrice) {
         this.contractPrice = contractPrice;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Calendar getContractStartDate() {

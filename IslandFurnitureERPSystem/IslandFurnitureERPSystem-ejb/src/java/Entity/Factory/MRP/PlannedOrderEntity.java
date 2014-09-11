@@ -37,13 +37,14 @@ public class PlannedOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
+
     private Calendar date;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesEndDate;
     private String status;
-    @OneToMany(cascade={CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.PERSIST})
     private List<RawMaterialAmountEntity> rawMaterialList;
     @OneToOne(cascade = {CascadeType.PERSIST})
     private ProductionPlanEntity productionplan;
@@ -54,6 +55,7 @@ public class PlannedOrderEntity implements Serializable {
 
     public PlannedOrderEntity() {
     }
+
 
     public void createPlannedOrder(Calendar date,
                                    Calendar targetStart,
@@ -67,8 +69,7 @@ public class PlannedOrderEntity implements Serializable {
         this.status=status;
         this.productionplan=productionPlan;
         this.rawMaterialList= rawMaterialList;
-        
-    }
+            }
 
     public void setPlannedOrderId(Long plannedOrderId) {
         this.plannedOrderId = plannedOrderId;
@@ -98,7 +99,7 @@ public class PlannedOrderEntity implements Serializable {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
-    public List<RawMaterialAmountEntity> getRawMaterialAmount() {
+    public List<RawMaterialAmountEntity> getRawMaterialAmount() { // why not use the same name?
         return rawMaterialList;
     }
 
@@ -118,7 +119,6 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
-//
     public ProductionPlanEntity getProductionPlan() {
         return productionplan;
     }
@@ -126,15 +126,12 @@ public class PlannedOrderEntity implements Serializable {
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
         this.productionplan = productionPlan;
     }
-//    
+
     public List<PurchaseOrderEntity> setPurchaseOrder(){
         return purchaseOrder;
     }
-    
-    public void setPurchaseOrder(List<PurchaseOrderEntity> purchaseOrder){
-        this.purchaseOrder = purchaseOrder;
-    }
-    
+
+   
 
     @Override
     public int hashCode() {
