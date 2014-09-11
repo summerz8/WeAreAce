@@ -11,17 +11,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author apple
  */
 @Entity
-public class DemandManagementEntity implements Serializable {
+public class SalesOperationPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private ProductionPlanEntity productionPlan;
+    private Integer year;
     private String month;
     private Integer salesForecast;
     private Integer plannedEndMonthInventory;
@@ -67,6 +70,22 @@ public class DemandManagementEntity implements Serializable {
         this.workingDay = workingDay;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public ProductionPlanEntity getProductPlan() {
+        return productionPlan;
+    }
+
+    public void setProductionPlan(ProductionPlanEntity productionPlan) {
+        this.productionPlan = productionPlan;
+    }
+
     
     @Override
     public int hashCode() {
@@ -78,10 +97,10 @@ public class DemandManagementEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DemandManagementEntity)) {
+        if (!(object instanceof SalesOperationPlanEntity)) {
             return false;
         }
-        DemandManagementEntity other = (DemandManagementEntity) object;
+        SalesOperationPlanEntity other = (SalesOperationPlanEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

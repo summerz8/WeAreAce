@@ -7,6 +7,7 @@
 package Entity.Factory.MRP;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author apple
+ * @author apple   这个record产生于每周最后一天
  */
 @Entity
 public class WeeklyRawMaterialRecordEntity implements Serializable {
@@ -22,7 +23,7 @@ public class WeeklyRawMaterialRecordEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer weeklyDemand;
+    private Calendar date;
     private Double grossRequirement;
     private Double plannedReceipts;
     private Double scheduledReceipts;
@@ -34,14 +35,6 @@ public class WeeklyRawMaterialRecordEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getWeeklyDemand() {
-        return weeklyDemand;
-    }
-
-    public void setWeeklyDemand(Integer weeklyDemand) {
-        this.weeklyDemand = weeklyDemand;
     }
 
     public Double getGrossRequirement() {
@@ -83,6 +76,15 @@ public class WeeklyRawMaterialRecordEntity implements Serializable {
     public void setPlannedOrder(Double plannedOrder) {
         this.plannedOrder = plannedOrder;
     }
+
+    public Calendar getDate() {
+        return date;
+    }
+
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+    
     
     
     @Override

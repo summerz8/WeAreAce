@@ -29,7 +29,6 @@ public class WeeklyProductionPlanEntity implements Serializable {
     private Integer workingDayInMonth;
     private Integer weeklyDemand;
     private ProductionPlanEntity productionPlan;
-    private List<WeeklyRawMaterialRecordEntity> weeklyRawMaterialRecord;
     
     
     public Long getId() {
