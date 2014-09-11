@@ -116,11 +116,11 @@ public class ProductionPlanEntity implements Serializable {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
-    public Integer getOutput() {
+    public Integer getQuantity() {
         return output;
     }
 
-    public void setOutput(Integer output) {
+    public void setQuantity(Integer output) {
         this.output = output;
     }
 

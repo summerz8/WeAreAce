@@ -23,6 +23,7 @@ import Entity.Factory.SCM.SupplierEntity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import javax.ejb.Stateful;
@@ -126,7 +127,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         try {
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
             String supplierName = supplier.getSupplierName();
-            HashSet<ContractEntity> contractList = supplier.getContractList();
+            Collection<ContractEntity> contractList = supplier.getContractList();
             Iterator iterator = contractList.iterator();
 
             //check whether there is an unexpired contract with the supplier
