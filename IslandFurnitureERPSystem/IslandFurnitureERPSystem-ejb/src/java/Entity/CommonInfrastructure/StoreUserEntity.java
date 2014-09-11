@@ -22,10 +22,23 @@ import javax.persistence.Table;
 public class StoreUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    private String storeId; //storeId is a string made up of one 'S' and 5 digit number eg.S000001
+    
     public StoreUserEntity() {
     }
-    public StoreUserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
+    public StoreUserEntity(String department, String idNumber, Integer userLevel, 
+            String lastName, String firstName, String position, String gender, String departmentId) {
         super(department,idNumber, userLevel,lastName,firstName, position,gender);
+        storeId = departmentId;
     }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+    
     
 }

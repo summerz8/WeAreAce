@@ -8,6 +8,7 @@ package Entity.CommonInfrastructure;
 
 import Entity.CommonInfrastructure.InternalMessageEntity;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
@@ -34,7 +35,7 @@ public class UserEntity implements Serializable {
     @Id
     private String userId;
     private String pwd;
-    private String department;
+    private String department; //includes HQ, FSCM, FMRP, S
     private Integer userLevel;
     private String lastName;
     private String midName;
@@ -42,7 +43,7 @@ public class UserEntity implements Serializable {
     private String position;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date birthday;
+    private Calendar birthday;
     private String gender;
     private String title;
     private String address;
@@ -53,7 +54,8 @@ public class UserEntity implements Serializable {
     @JoinTable(name = "USER_INTERNALMESSAGE")
     private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
 
-    public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String firstName, String position, String gender) {
+    public UserEntity(String department, String idNumber, Integer userLevel, String lastName, 
+            String firstName, String position, String gender) {
         this.setUserId(department + idNumber);
         String PWD;
         String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
@@ -141,11 +143,11 @@ public class UserEntity implements Serializable {
         this.position = position;
     }
 
-    public Date getBirthday() {
+    public Calendar getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
     }
 

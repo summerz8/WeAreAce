@@ -25,23 +25,23 @@ public class IFManagerBean implements IFManagerBeanLocal {
     }
 
     @Override
-    public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender) {
+    public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender, String departmentId) {
         System.out.println("IFManagerBean: createUser():");
 
         Integer idNumber = 0;
         UserEntity user;
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
 
-        switch (department) {
-            case "H":
+        switch (departmentId.charAt(0)) {
+            case 'H':
                 idNumber = idNum.getId_H().intValue() + 1;
                 idNum.setId_H((long) idNumber);
                 break;
-            case "F":
+            case 'F':
                 idNumber = idNum.getId_F().intValue() + 1;
                 idNum.setId_H((long) idNumber);
                 break;
-            case "S":
+            case 'S':
                 idNumber = idNum.getId_S().intValue() + 1;
                 idNum.setId_H((long) idNumber);
                 break;
@@ -49,7 +49,8 @@ public class IFManagerBean implements IFManagerBeanLocal {
         em.flush();
 
         try {
-            user = new UserEntity(department, idNumber.toString(), userLevel, lastName, firstName, position, gender);
+            user = new UserEntity(department, idNumber.toString(), userLevel, lastName, 
+                    firstName, position, gender);
             em.persist(user);
             System.out.println("User created!");
             return user.getUserId()+ " " +user.getPwd();
