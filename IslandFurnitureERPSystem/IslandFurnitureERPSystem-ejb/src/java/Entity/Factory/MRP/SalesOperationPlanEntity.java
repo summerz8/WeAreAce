@@ -7,6 +7,7 @@
 package Entity.Factory.MRP;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,18 +18,22 @@ import javax.persistence.OneToOne;
  *
  * @author apple
  */
-@Entity
+@Entity(name = "SalesOperationPlan")
 public class SalesOperationPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @OneToOne(cascade={CascadeType.PERSIST})
     private ProductionPlanEntity productionPlan;
     private Integer year;
     private String month;
     private Integer salesForecast;
     private Integer plannedEndMonthInventory;
     private Integer workingDay;
+    
+    public SalesOperationPlanEntity(){
+    }
     
     public Long getId() {
         return id;

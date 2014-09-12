@@ -8,27 +8,38 @@ package Entity.Factory.MRP;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author apple   这个record产生于每周最后一天
  */
-@Entity
+@Entity(name = "WeekLyRawMaterialRecord")
 public class WeeklyRawMaterialRecordEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar date;
     private Double grossRequirement;
     private Double plannedReceipts;
     private Double scheduledReceipts;
     private Double onHand;
     private Double plannedOrder;
+    
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private WeeklyProductionPlanEntity weeklyProductionPlan;
+    
+    public WeeklyRawMaterialRecordEntity(){
+    }
+    
     public Long getId() {
         return id;
     }
@@ -83,6 +94,14 @@ public class WeeklyRawMaterialRecordEntity implements Serializable {
 
     public void setDate(Calendar date) {
         this.date = date;
+    }
+
+    public WeeklyProductionPlanEntity getWeeklyProductionPlan(){
+        return weeklyProductionPlan;
+    }
+    
+    public void setWeeklyProductionPlan(WeeklyProductionPlanEntity weeklyProductionPlan) {
+        this.weeklyProductionPlan = weeklyProductionPlan;
     }
     
     
