@@ -10,14 +10,11 @@ import javax.ejb.Stateful;
 
 /**
  *
- * @author apple
+ * @author Shiyu
  */
 @Stateful
-public class RawMaterialAndSupplierManagementModule implements RawMaterialAndSupplierManagementModuleRemote {
-    //add supplier
-    //edit supplier
-    //delete supplier
-    //add item
-    //edit item
-    //delete item
+public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal {
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
 }

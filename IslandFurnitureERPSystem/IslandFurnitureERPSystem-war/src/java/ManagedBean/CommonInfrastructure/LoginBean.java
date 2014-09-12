@@ -5,8 +5,7 @@
  */
 package ManagedBean.CommonInfrastructure;
 
-import SessionBean.IFManagerBeanRemote;
-import com.sun.xml.ws.runtime.dev.Session;
+import SessionBean.IFManagerBeanLocal;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -29,7 +28,7 @@ import javax.servlet.http.HttpSession;
 public class LoginBean {
 
     @EJB
-    private IFManagerBeanRemote IFMB;
+    private IFManagerBeanLocal IFMB;
     private String userId;
     private String pwd;
     private String statusMsg;

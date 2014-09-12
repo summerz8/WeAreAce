@@ -5,7 +5,11 @@
  */
 package superuserclient;
 
+<<<<<<< .merge_file_RjyTaZ
 import SessionBean.IFManagerBeanRemote;
+=======
+import SessionBean.IFManagerBeanLocal;
+>>>>>>> .merge_file_g2dEZj
 import java.util.Scanner;
 import javax.ejb.EJB;
 
@@ -16,7 +20,11 @@ import javax.ejb.EJB;
 public class Main {
 
     @EJB
+<<<<<<< .merge_file_RjyTaZ
     private static IFManagerBeanRemote IFMB;
+=======
+    private static IFManagerBeanLocal IFMB;
+>>>>>>> .merge_file_g2dEZj
 
     public static void main(String[] args) {
         Main superUser = new Main();
@@ -51,7 +59,12 @@ public class Main {
     }
 
     private void createGlobalHQ(Scanner sc) {
+<<<<<<< .merge_file_RjyTaZ
         String department = "H";
+=======
+        String department = "HQ";
+        String departmentId = "HQ0001";
+>>>>>>> .merge_file_g2dEZj
         Integer userLevel =  0;
         System.out.println("Please enter user's lastname:");
         String lastName = sc.nextLine();
@@ -62,7 +75,11 @@ public class Main {
         System.out.println("Please enter user's gender:");
         String gender = sc.nextLine();
         
+<<<<<<< .merge_file_RjyTaZ
         String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender);
+=======
+        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, departmentId);
+>>>>>>> .merge_file_g2dEZj
         String userId = info.substring(0, 8);
         String pwd = info.substring(9);
         

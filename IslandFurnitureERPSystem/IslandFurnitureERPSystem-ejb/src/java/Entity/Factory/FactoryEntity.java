@@ -1,11 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FactoryEntity.java
+ *
+ * This is a real entity for the factory.
+ * It's an entity of factory.
  */
-
 package Entity.Factory;
 
+import Entity.Factory.FactoryBin.FactoryBinEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,8 +28,9 @@ import javax.persistence.Table;
 @Table(name = "Factory")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FactoryEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long factoryId;
@@ -36,10 +38,26 @@ public class FactoryEntity implements Serializable {
     private String address;
     private String contact;
     private String manager; // managerEntity
-   
+
+    //factory entity -- factory raw material entity: 1 <--> M 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
+
+    //factory entity -- factory product entity: 1 <--> M 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
+
+    //factory entity -- factory retail product entity: 1 <--> M 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
+
+    //facotry entity -- factory bin entity: 1 <--> M
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "factory")
+    private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
+
     public FactoryEntity() {
     }
-    
+
     public long getFactoryId() {
         return factoryId;
     }
@@ -64,7 +82,6 @@ public class FactoryEntity implements Serializable {
         this.address = address;
     }
 
-
     public String getContact() {
         return contact;
     }
@@ -81,12 +98,42 @@ public class FactoryEntity implements Serializable {
         this.manager = manager;
     }
 
-     
+    public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
+        return factoryRawMaterials;
+    }
 
-    
+    public void setFactoryRawMaterials(Collection<FactoryRawMaterialEntity> factoryRawMaterials) {
+        this.factoryRawMaterials = factoryRawMaterials;
+    }
+
+    public Collection<FactoryProductEntity> getFactoryProducts() {
+        return factoryProducts;
+    }
+
+    public void setFactoryProducts(Collection<FactoryProductEntity> factoryProducts) {
+        this.factoryProducts = factoryProducts;
+    }
+
+    public Collection<FactoryRetailProductEntity> getFactoryRetailProducts() {
+        return factoryRetailProducts;
+    }
+
+    public void setFactoryRetailProducts(Collection<FactoryRetailProductEntity> factoryRetailProducts) {
+        this.factoryRetailProducts = factoryRetailProducts;
+    }
+
+
+    public Collection<FactoryBinEntity> getFactoryBins() {
+        return factoryBins;
+    }
+
+    public void setFactoryBins(Collection<FactoryBinEntity> factoryBins) {
+        this.factoryBins = factoryBins;
+    }
+
     @Override
     public String toString() {
         return "entity.UserEntity[ id=" + factoryId + " ]";
     }
-    
+
 }

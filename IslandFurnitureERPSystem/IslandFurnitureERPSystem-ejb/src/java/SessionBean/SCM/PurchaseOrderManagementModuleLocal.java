@@ -6,13 +6,13 @@
 
 package SessionBean.SCM;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author apple
  */
-@Remote
-public interface RawMaterialAndSupplierManagementModuleRemote {
+@Local
+public interface PurchaseOrderManagementModuleLocal {
     
 }

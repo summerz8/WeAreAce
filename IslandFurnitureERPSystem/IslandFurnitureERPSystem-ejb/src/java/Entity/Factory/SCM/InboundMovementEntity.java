@@ -6,7 +6,8 @@
 
 package Entity.Factory.SCM;
 
-import Entity.Factory.FacotryBin.FactoryBinEntity;
+
+import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,10 +27,13 @@ public class InboundMovementEntity extends FactoryMovementEntity implements Seri
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
 //    private Long InboundMovementId;
+    
+    //goods receipt entity -- inbound movements: 1 <--> M (from which corresponding goods receipt)
     @ManyToOne
-    private PurchaseOrderEntity fromGoodsRecipt;
+    private GoodsReceiptEntity fromGoodsRecipt;
+    //factory bin stored product entity -- inbound movements: 1 <--> M (to which bin)
     @ManyToOne                                                                                                                                                             
-    private FactoryBinEntity toBin;
+    private FactoryBinStoredProductEntity toBin;
 
 //    public Long getInboundMovementId() {
 //        return InboundMovementId;
@@ -39,19 +43,19 @@ public class InboundMovementEntity extends FactoryMovementEntity implements Seri
 //        this.InboundMovementId = InboundMovementId;
 //    }
 
-    public PurchaseOrderEntity getFromGoodsRecipt() {
+    public GoodsReceiptEntity getFromGoodsRecipt() {
         return fromGoodsRecipt;
     }
 
-    public void setFromGoodsRecipt(PurchaseOrderEntity fromGoodsRecipt) {
+    public void setFromGoodsRecipt(GoodsReceiptEntity fromGoodsRecipt) {
         this.fromGoodsRecipt = fromGoodsRecipt;
     }
  
-    public FactoryBinEntity getToBin() {
+    public FactoryBinStoredProductEntity getToBin() {
         return toBin;
     }
 
-    public void setToBin(FactoryBinEntity toBin) {
+    public void setToBin(FactoryBinStoredProductEntity toBin) {
         this.toBin = toBin;
     }
 

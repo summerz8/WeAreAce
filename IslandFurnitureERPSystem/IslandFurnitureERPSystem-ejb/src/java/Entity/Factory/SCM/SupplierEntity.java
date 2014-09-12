@@ -6,10 +6,16 @@
 package Entity.Factory.SCM;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,11 +32,18 @@ public class SupplierEntity implements Serializable {
     private Long supplierId;
     private String supplierName;
     private String supplierAddress;
-    private Integer supplierContact;
-    private Integer supplierFax;
+    private String supplierContact;
+    private String supplierFax;
     private String remark;
-//    @OneToMany(cascade={CascadeType.PERSIST})
-//    private Set<ContractEntity> ContractList=new HashSet<ContractEntity>();
+
+    //contract entity -- supplier entity: M<-->1
+    @OneToMany(cascade = {CascadeType.PERSIST})
+    private Collection<ContractEntity> ContractList = new ArrayList<ContractEntity>();
+
+    public SupplierEntity() {
+        //may be changed later
+        setSupplierId(System.nanoTime());
+    }
 
     public Long getSupplierId() {
         return supplierId;
@@ -48,13 +61,14 @@ public class SupplierEntity implements Serializable {
         this.supplierName = supplierName;
     }
 
-//    public Set<ContractEntity> getContractList() {
-//        return ContractList;
-//    }
-//
-//    public void setContractList(Set<ContractEntity> ContractlList) {
-//        this.ContractList = ContractList;
-//    }
+    public Collection<ContractEntity> getContractList() {
+        return ContractList;
+    }
+
+    public void setContractList(Collection<ContractEntity> ContractlList) {
+        this.ContractList = ContractList;
+    }
+
     public String getSupplierAddress() {
         return supplierAddress;
     }
@@ -63,19 +77,19 @@ public class SupplierEntity implements Serializable {
         this.supplierAddress = supplierAddress;
     }
 
-    public Integer getSupplierContact() {
+    public String getSupplierContact() {
         return supplierContact;
     }
 
-    public void setSupplierContact(Integer supplierContact) {
+    public void setSupplierContact(String supplierContact) {
         this.supplierContact = supplierContact;
     }
 
-    public Integer getSupplierFax() {
+    public String getSupplierFax() {
         return supplierFax;
     }
 
-    public void setSupplierFax(Integer supplierFax) {
+    public void setSupplierFax(String supplierFax) {
         this.supplierFax = supplierFax;
     }
 
@@ -84,6 +98,15 @@ public class SupplierEntity implements Serializable {
     }
 
     public void setremark(String remark) {
+        this.remark = remark;
+    }
+
+    //create a new supplier entity with attributes
+    public void create(String name, String address, String contact, String fax, String remark) {
+        this.supplierName = name;
+        this.supplierAddress = address;
+        this.supplierContact = contact;
+        this.supplierFax = fax;
         this.remark = remark;
     }
 

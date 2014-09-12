@@ -6,13 +6,16 @@
 
 package SessionBean.SCM;
 
-import javax.ejb.Remote;
+import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author apple
  */
-@Remote
-public interface MovementManagementModuleRemote {
+@Local
+public interface FactoryInventoryManagementModuleLocal {
+
+    List listStorageBinInformation();
     
 }
