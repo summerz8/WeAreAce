@@ -5,6 +5,7 @@
  */
 package Entity.Factory.SCM;
 
+import Entity.Factory.FactoryEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -30,11 +31,19 @@ public class PurchaseOrderEntity implements Serializable {
 // one purchase order for one raw material from the same supplier during a specified time period
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long purchasOrderId;
     private String status;
+    private Integer amount = 0;
+    private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
+    private String destination;
+    private Integer leadTime;
+
+    //purchase order entity -- factory entity: M <--> 1 
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryEntity factory;
 
     //goods receipt entity -- purchase order entity : 1 <--> 1
     @OneToOne(mappedBy = "purchaseOrder")
@@ -49,7 +58,6 @@ public class PurchaseOrderEntity implements Serializable {
     private ContractEntity contract;
 
     private double total; // the total price
-
 
     public PurchaseOrderEntity() {
     }
@@ -83,6 +91,30 @@ public class PurchaseOrderEntity implements Serializable {
         this.createDate = createDate;
     }
 
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public FactoryEntity getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryEntity factory) {
+        this.factory = factory;
+    }
+
     public GoodsReceiptEntity getGoodsReceipt() {
         return goodsReceipt;
     }
@@ -110,7 +142,6 @@ public class PurchaseOrderEntity implements Serializable {
     public void setContract(ContractEntity contract) {
         this.contract = contract;
     }
-      
 
     public double getTotal() {
         return total;
@@ -118,6 +149,19 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public void create(FactoryEntity factory, ContractEntity contract, String status,
+            Integer amount, String unit, String destination, Double total_price, Integer leadTime) {
+        this.factory = factory;
+        this.contract = contract;
+        this.status = status;
+        this.amount = amount;
+        this.unit = unit;
+        this.createDate = Calendar.getInstance();
+        this.destination = destination;
+        this.total = total_price;
+        this.leadTime = leadTime;
     }
 
     @Override

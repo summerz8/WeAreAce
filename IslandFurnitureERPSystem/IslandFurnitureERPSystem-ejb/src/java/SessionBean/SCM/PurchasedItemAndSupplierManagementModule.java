@@ -8,8 +8,7 @@
  * 2. Edit supplier account information (e.g. change in price)
  * 3. Delete supplier account (no more coorperation on the item, which also means delete a specific contract)
  * 4. Add Item
- * 5. Edit Item (X)
- * 6. Delete Item
+ * 5. Delete Item
  */
 package SessionBean.SCM;
 
@@ -48,7 +47,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //post-condition:
     @Override
     public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax,
-            String remark, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate)
+            String remark, Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate)
             throws Exception {
         System.out.println("addSupplier():");
 
@@ -60,7 +59,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         try {
             //create new supplier entity and contract entity
             supplier.create(name, address, telephone, fax, remark);
-            contract.create(contractPrice, leadTime, contractStartDate, contractEndDate);
+            contract.create(contractPrice, leadTime, unit, contractStartDate, contractEndDate);
             //create relationship between supplier ad contract
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
@@ -139,7 +138,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 Calendar contractEndDate = contract.getContractEndDate();
                 Calendar today = Calendar.getInstance();
 
-                if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
+                if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//get unexpired contract
                     result = "Supplier " + supplierName + " contains at least one unexpired contract, it cannot be deleted ";
                     System.out.println(result);
                     return result;
@@ -163,7 +162,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //user chooses from the list of available items (raw materials or retail products)
     //
     @Override
-    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate)
+    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId,  Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate)
             throws Exception {
         System.out.println("addItem():");
 
@@ -173,7 +172,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
             //create a new contract with given price and date
             ContractEntity contract = new ContractEntity();
-            contract.create(contractPrice, leadTime, contractStartDate, contractEndDate);
+            contract.create(contractPrice, leadTime, unit, contractStartDate, contractEndDate);
             //create relationship between supplier and contract
             contract.setSupplier(supplier);
             supplier.getContractList().add(contract);
@@ -278,7 +277,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     Calendar contractEndDate = contract.getContractEndDate();
                     Calendar today = Calendar.getInstance();
 
-                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
+                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//check unexpired contract
                         result = "Retail Product " + factoryRetailProduct.getName() + " contains at least one unexpired contract, it cannot be deleted ";
                         System.out.println(result);
                         return result;
