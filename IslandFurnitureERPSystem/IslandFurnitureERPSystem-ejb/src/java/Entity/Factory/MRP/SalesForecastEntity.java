@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
  * @author apple
  */
 @Entity
-public class SalsForecastEntity implements Serializable {
+public class SalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,10 +29,7 @@ public class SalsForecastEntity implements Serializable {
     private Long storeId;
     private List<ProductEntity> productList;
     private List<Integer> amount; 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDateStart;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDateEnd;
+    private Calendar targetPeriod;
     private String status;
     
         
@@ -68,21 +65,15 @@ public class SalsForecastEntity implements Serializable {
         this.amount = amount;
     }
 
-    public Calendar getTargetDateStart() {
-        return targetDateStart;
+    public Calendar getTargetPeriod() {
+        return targetPeriod;
     }
 
-    public void setTargetDateStart(Calendar targetDateStart) {
-        this.targetDateStart = targetDateStart;
+    public void setTargetPeriod(Calendar targetPeriod) {
+        this.targetPeriod = targetPeriod;
     }
 
-    public Calendar getTargetDateEnd() {
-        return targetDateEnd;
-    }
-
-    public void setTargetDateEnd(Calendar targetDateEnd) {
-        this.targetDateEnd = targetDateEnd;
-    }
+    
 
     public String getStatus() {
         return status;
@@ -100,18 +91,18 @@ public class SalsForecastEntity implements Serializable {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SalsForecastEntity)) {
-            return false;
-        }
-        SalsForecastEntity other = (SalsForecastEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceofSalesForecastEntity)) {
+//            return false;
+//        }
+//      SalesForecastEntity other SalesForecastEntity) object;
+//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString() {
