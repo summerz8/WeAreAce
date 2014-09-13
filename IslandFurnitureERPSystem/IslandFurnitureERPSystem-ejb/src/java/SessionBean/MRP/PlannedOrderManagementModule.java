@@ -40,7 +40,8 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     //Click the CreatePlannedOrder button when viewing production plan list
     @Override
     public PlannedOrderEntity CreatePlannedOrder(Long productID, Integer amount) {
-                ProductEntity product=em.find(ProductEntity.class,productID);
+        try{
+        ProductEntity product=em.find(ProductEntity.class,productID);
         List<RawMaterialAmountEntity> rawMaterial=new ArrayList<RawMaterialAmountEntity>();
         BOMEntity bom=product.getBom();
         rawMaterial=bom.getRawmaterialList();
@@ -49,6 +50,10 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         PlannedOrderEntity plannedOrder=new PlannedOrderEntity();
         plannedOrder.setRawMaterialAmount(rawMaterial);
         return plannedOrder;
+        }catch(Exception ex){
+             System.out.println(ex.getMessage());
+        }
+        return null;
     }
 
     //Modify the data in the CreatePlannedOrder page//

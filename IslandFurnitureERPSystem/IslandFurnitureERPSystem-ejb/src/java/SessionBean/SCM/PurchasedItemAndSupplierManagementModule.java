@@ -8,8 +8,7 @@
  * 2. Edit supplier account information (e.g. change in price)
  * 3. Delete supplier account (no more coorperation on the item, which also means delete a specific contract)
  * 4. Add Item
- * 5. Edit Item (X)
- * 6. Delete Item
+ * 5. Delete Item
  */
 package SessionBean.SCM;
 
@@ -25,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
-
 import java.util.Iterator;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -140,7 +138,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 Calendar contractEndDate = contract.getContractEndDate();
                 Calendar today = Calendar.getInstance();
 
-                if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
+                if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//get unexpired contract
                     result = "Supplier " + supplierName + " contains at least one unexpired contract, it cannot be deleted ";
                     System.out.println(result);
                     return result;
@@ -279,7 +277,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     Calendar contractEndDate = contract.getContractEndDate();
                     Calendar today = Calendar.getInstance();
 
-                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
+                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//check unexpired contract
                         result = "Retail Product " + factoryRetailProduct.getName() + " contains at least one unexpired contract, it cannot be deleted ";
                         System.out.println(result);
                         return result;

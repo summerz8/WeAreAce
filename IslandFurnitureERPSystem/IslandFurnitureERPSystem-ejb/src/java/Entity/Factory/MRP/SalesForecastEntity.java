@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
  *
  * @author apple
  */
+
 @Entity(name = "SalesForecast")
 public class SalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,10 +33,7 @@ public class SalesForecastEntity implements Serializable {
     @OneToMany(cascade={CascadeType.PERSIST})
     private List<ProductEntity> productList;
     private List<Integer> amount; 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDateStart;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDateEnd;
+    private Calendar targetPeriod;
     private String status;
     
         
@@ -74,21 +72,15 @@ public class SalesForecastEntity implements Serializable {
         this.amount = amount;
     }
 
-    public Calendar getTargetDateStart() {
-        return targetDateStart;
+    public Calendar getTargetPeriod() {
+        return targetPeriod;
     }
 
-    public void setTargetDateStart(Calendar targetDateStart) {
-        this.targetDateStart = targetDateStart;
+    public void setTargetPeriod(Calendar targetPeriod) {
+        this.targetPeriod = targetPeriod;
     }
 
-    public Calendar getTargetDateEnd() {
-        return targetDateEnd;
-    }
-
-    public void setTargetDateEnd(Calendar targetDateEnd) {
-        this.targetDateEnd = targetDateEnd;
-    }
+    
 
     public String getStatus() {
         return status;
@@ -105,6 +97,7 @@ public class SalesForecastEntity implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
 
     @Override
     public boolean equals(Object object) {

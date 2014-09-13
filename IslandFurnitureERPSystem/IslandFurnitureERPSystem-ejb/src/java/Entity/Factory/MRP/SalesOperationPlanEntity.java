@@ -7,6 +7,7 @@
 package Entity.Factory.MRP;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,9 @@ public class SalesOperationPlanEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long productId;
+    private String FactoryId;
+    private Calendar period;
     @OneToOne(cascade={CascadeType.PERSIST})
     private ProductionPlanEntity productionPlan;
     private Integer year;
@@ -31,6 +35,28 @@ public class SalesOperationPlanEntity implements Serializable {
     private Integer salesForecast;
     private Integer plannedEndMonthInventory;
     private Integer workingDay;
+
+    public SalesOperationPlanEntity(Long productId, String FactoryId, ProductionPlanEntity productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
+  
+        this.productId = productId;
+        this.FactoryId = FactoryId;
+        this.productionPlan = productionPlan;
+        this.period = period;
+        this.salesForecast = salesForecast;
+        this.plannedEndMonthInventory = plannedEndMonthInventory;
+        this.workingDay = workingDay;
+    }
+    
+    public void EditOperationPlanEntity(Long productId, String FactoryId, ProductionPlanEntity productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
+  
+        this.productId = productId;
+        this.FactoryId = FactoryId;
+        this.productionPlan = productionPlan;
+        this.period = period;
+        this.salesForecast = salesForecast;
+        this.plannedEndMonthInventory = plannedEndMonthInventory;
+        this.workingDay = workingDay;
+    }
     
     public SalesOperationPlanEntity(){
     }
@@ -41,14 +67,6 @@ public class SalesOperationPlanEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
     }
 
     public Integer getSalesForecast() {
@@ -75,21 +93,39 @@ public class SalesOperationPlanEntity implements Serializable {
         this.workingDay = workingDay;
     }
 
-    public Integer getYear() {
-        return year;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public ProductionPlanEntity getProductPlan() {
+    public String getFactoryId() {
+        return FactoryId;
+    }
+
+    public void setFactoryId(String FactoryId) {
+        this.FactoryId = FactoryId;
+    }
+
+    public ProductionPlanEntity getProductionPlan() {
         return productionPlan;
     }
 
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
         this.productionPlan = productionPlan;
     }
+
+    public Calendar getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Calendar period) {
+        this.period = period;
+    }
+
+
 
     
     @Override
