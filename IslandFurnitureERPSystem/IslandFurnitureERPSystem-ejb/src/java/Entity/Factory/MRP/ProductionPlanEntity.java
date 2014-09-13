@@ -34,7 +34,6 @@ public class ProductionPlanEntity implements Serializable {
     private Long productionPlanId;
 
     private String status;
-   
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar generateDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -43,25 +42,35 @@ public class ProductionPlanEntity implements Serializable {
     private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesEndDate;
-    private Integer quantity;
+    private Integer output;
     private String remark;
+<<<<<<< HEAD
     @ManyToOne(cascade={CascadeType.ALL})
     private ProductEntity product;
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionPlan")
     private List<PlannedOrderEntity> plannedOrder=new ArrayList();
+=======
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
-    
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product, String remark){
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private ProductEntity product;  //should be FactoryProductEntity
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "productionplan")
+
+    private List<PlannedOrderEntity> plannedOrder = new ArrayList<>();
+
+    public ProductionPlanEntity() {
+    }
+
+    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product, String remark) {
         this.status = status;
         this.generateDate = generateDate;
         this.targetSalesStartDate = targetSalesStartDate;
         this.targetSalesEndDate = targetSalesEndDate;
-        this.quantity = output;
+        this.output = output;
         this.product = product;
         this.remark = remark;
     }
 
-    
     public Long getProductionPlanId() {
         return productionPlanId;
     }
@@ -111,11 +120,11 @@ public class ProductionPlanEntity implements Serializable {
     }
 
     public Integer getQuantity() {
-        return quantity;
+        return output;
     }
 
     public void setQuantity(Integer output) {
-        this.quantity = output;
+        this.output = output;
     }
 
     public ProductEntity getProduct() {
@@ -125,12 +134,12 @@ public class ProductionPlanEntity implements Serializable {
     public void setProduct(ProductEntity product) {
         this.product = product;
     }
-    
-    public String getRemark(){
+
+    public String getRemark() {
         return remark;
     }
-    
-    public void setRemark(String remark){
+
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 
@@ -141,9 +150,6 @@ public class ProductionPlanEntity implements Serializable {
     public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
         this.plannedOrder = plannedOrder;
     }
-
-    
-    
 
     @Override
     public int hashCode() {

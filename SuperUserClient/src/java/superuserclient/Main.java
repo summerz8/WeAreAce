@@ -51,7 +51,8 @@ public class Main {
     }
 
     private void createGlobalHQ(Scanner sc) {
-        String department = "H";
+        String department = "HQ";
+        String departmentId = "HQ0001";
         Integer userLevel =  0;
         System.out.println("Please enter user's lastname:");
         String lastName = sc.nextLine();
@@ -62,7 +63,7 @@ public class Main {
         System.out.println("Please enter user's gender:");
         String gender = sc.nextLine();
         
-        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender);
+        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, departmentId);
         String userId = info.substring(0, 8);
         String pwd = info.substring(9);
         

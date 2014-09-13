@@ -5,8 +5,7 @@
  */
 package Entity.Factory.SCM;
 
-import Entity.Factory.FacotryBin.FactoryBinEntity;
-import Entity.Factory.FacotryBin.FactoryBinStoredProductEntity;
+import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;

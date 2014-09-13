@@ -6,10 +6,8 @@
 package Entity.Factory.SCM;
 
 import Entity.Factory.MRP.PlannedOrderEntity;
-import Entity.Factory.RawMaterialEntity;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,6 +27,7 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "PurchaseOrder")
 public class PurchaseOrderEntity implements Serializable {
+// one purchase order for one raw material from the same supplier during a specified time period
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,14 +39,22 @@ public class PurchaseOrderEntity implements Serializable {
     //goods receipt entity -- purchase order entity : 1 <--> 1
     @OneToOne(mappedBy = "purchaseOrder")
     private GoodsReceiptEntity goodsReceipt;
+
     //purchase order entity -- planned order entity : M <--> M 
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
-    private List<PlannedOrderEntity> plannedOrder;
-    
+    private List<PlannedOrderEntity> plannedOrders;
+
     //purchase order entity -- contract entity: M --> 1
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private ContractEntity contract;
 
+<<<<<<< HEAD
+=======
+//    private SupplierEntity supplierID;  //no Id
+//    private List<RawMaterialEntity> purchaseItems;   //only one item
+    private double total; // the total price
+
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
     public PurchaseOrderEntity() {
     }
@@ -89,6 +96,7 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
+<<<<<<< HEAD
     public List<PlannedOrderEntity> getPlannedOrder() {
         return plannedOrder;
     }
@@ -96,6 +104,31 @@ public class PurchaseOrderEntity implements Serializable {
     public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
         this.plannedOrder = plannedOrder;
     }
+=======
+    public List<PlannedOrderEntity> getPlannedOrders() {
+        return plannedOrders;
+    }
+
+    public void setPlannedOrders(List<PlannedOrderEntity> plannedOrders) {
+        this.plannedOrders = plannedOrders;
+    }
+//
+//    public SupplierEntity getSupplierID() {
+//        return supplierID;
+//    }
+//
+//    public void setSupplierID(SupplierEntity supplierID) {
+//        this.supplierID = supplierID;
+//    }
+
+//    public List<RawMaterialEntity> getPurchaseItems() {
+//        return purchaseItems;
+//    }
+//
+//    public void setPurchaseItems(List<RawMaterialEntity> purchaseItems) {
+//        this.purchaseItems = purchaseItems;
+//    }
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
     public ContractEntity getContract() {
         return contract;
@@ -103,6 +136,15 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setContract(ContractEntity contract) {
         this.contract = contract;
+    }
+      
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     @Override

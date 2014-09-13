@@ -24,8 +24,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
+<<<<<<< HEAD
 import java.util.Date;
+=======
+
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 import java.util.HashSet;
+
 import java.util.Iterator;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -128,7 +133,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         try {
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
             String supplierName = supplier.getSupplierName();
-            HashSet<ContractEntity> contractList = supplier.getContractList();
+            Collection<ContractEntity> contractList = supplier.getContractList();
             Iterator iterator = contractList.iterator();
 
             //check whether there is an unexpired contract with the supplier

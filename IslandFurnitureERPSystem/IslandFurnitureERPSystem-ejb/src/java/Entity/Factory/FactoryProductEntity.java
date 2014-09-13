@@ -5,7 +5,8 @@
  */
 package Entity.Factory;
 
-import Entity.Factory.FacotryBin.FactoryBinStoredProductEntity;
+
+import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

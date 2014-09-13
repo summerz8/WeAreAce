@@ -7,6 +7,8 @@ package Entity.Factory.SCM;
 
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -31,9 +33,14 @@ public class ContractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long contractId;
+<<<<<<< HEAD
     private Double contractPrice;
     private Integer leadTime;
 
+=======
+    private double contractPrice;   // in US$ per unit
+    private String unit;
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractStartDate;
@@ -73,6 +80,7 @@ public class ContractEntity implements Serializable {
         this.contractPrice = contractPrice;
     }
 
+<<<<<<< HEAD
     public Integer getLeadTime() {
         return leadTime;
     }
@@ -81,6 +89,16 @@ public class ContractEntity implements Serializable {
         this.leadTime = leadTime;
     }
     
+=======
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
     public Calendar getContractStartDate() {
         return contractStartDate;
     }
@@ -104,7 +122,7 @@ public class ContractEntity implements Serializable {
     public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
         this.factoryRetailProduct = factoryRetailProduct;
     }
-
+//
     public FactoryRawMaterialEntity getFactoryRawMaterialProduct() {
         return factoryRawMaterialProduct;
     }

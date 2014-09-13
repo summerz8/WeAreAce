@@ -6,6 +6,12 @@
             <name>IslandFurnitureERPSystem-war</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
+<<<<<<< HEAD
+=======
+                <library dirs="200">
+                    <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD}</file>
+                </library>
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
                 <library dirs="100">
                     <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
