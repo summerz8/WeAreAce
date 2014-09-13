@@ -33,19 +33,11 @@ public class ContractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long contractId;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private Double contractPrice;
-    private Integer leadTime;
 
-=======
-    private double contractPrice;   // in US$ per unit
+    private Double contractPrice;// in US$ per unit
+    private Integer leadTime;
     private String unit;
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-=======
-    private double contractPrice;   // in US$ per unit
-    private String unit;
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
+
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractStartDate;
@@ -85,8 +77,6 @@ public class ContractEntity implements Serializable {
         this.contractPrice = contractPrice;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     public Integer getLeadTime() {
         return leadTime;
     }
@@ -95,9 +85,6 @@ public class ContractEntity implements Serializable {
         this.leadTime = leadTime;
     }
     
-=======
-=======
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
     public String getUnit() {
         return unit;
     }
@@ -106,10 +93,6 @@ public class ContractEntity implements Serializable {
         this.unit = unit;
     }
 
-<<<<<<< HEAD
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-=======
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
     public Calendar getContractStartDate() {
         return contractStartDate;
     }

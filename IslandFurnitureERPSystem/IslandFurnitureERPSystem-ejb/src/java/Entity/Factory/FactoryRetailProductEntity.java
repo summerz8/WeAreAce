@@ -35,18 +35,10 @@ public class FactoryRetailProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryRetailProdctId;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     private Integer inventory = 0;//start with 0
     private String name;
-=======
-    private Integer quantity = 0;//start with 0
-    private String name;    // can get from retailProduct
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-=======
-    private Integer quantity = 0;//start with 0
-    private String name;    // can get from retailProduct
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
+
     private String description;
     
     private Integer minimumInventory = 50;

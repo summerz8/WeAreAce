@@ -24,15 +24,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import java.util.Date;
-=======
-
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-=======
-
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 import java.util.HashSet;
 
 import java.util.Iterator;

@@ -48,19 +48,8 @@ public class PurchaseOrderEntity implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private ContractEntity contract;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-//    private SupplierEntity supplierID;  //no Id
-//    private List<RawMaterialEntity> purchaseItems;   //only one item
     private double total; // the total price
 
-<<<<<<< HEAD
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-=======
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
     public PurchaseOrderEntity() {
     }
@@ -102,18 +91,10 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public List<PlannedOrderEntity> getPlannedOrder() {
-        return plannedOrder;
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrders = plannedOrders;
     }
 
-    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
-        this.plannedOrder = plannedOrder;
-    }
-=======
-=======
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
     public List<PlannedOrderEntity> getPlannedOrders() {
         return plannedOrders;
     }
@@ -121,26 +102,6 @@ public class PurchaseOrderEntity implements Serializable {
     public void setPlannedOrders(List<PlannedOrderEntity> plannedOrders) {
         this.plannedOrders = plannedOrders;
     }
-//
-//    public SupplierEntity getSupplierID() {
-//        return supplierID;
-//    }
-//
-//    public void setSupplierID(SupplierEntity supplierID) {
-//        this.supplierID = supplierID;
-//    }
-
-//    public List<RawMaterialEntity> getPurchaseItems() {
-//        return purchaseItems;
-//    }
-//
-//    public void setPurchaseItems(List<RawMaterialEntity> purchaseItems) {
-//        this.purchaseItems = purchaseItems;
-//    }
-<<<<<<< HEAD
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
-=======
->>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
     public ContractEntity getContract() {
         return contract;
