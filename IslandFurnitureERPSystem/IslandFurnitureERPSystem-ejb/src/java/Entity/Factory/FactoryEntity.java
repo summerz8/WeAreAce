@@ -7,6 +7,7 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,6 +44,10 @@ public class FactoryEntity implements Serializable {
     private String address;
     private String contact;
     private String manager; // managerEntity
+    
+    //purchase order entity -- factory entity: M <--> 1 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
+    private Collection<PurchaseOrderEntity> purchaseOrders = new ArrayList<>();
 
     //factory entity -- factory raw material entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
@@ -108,6 +113,15 @@ public class FactoryEntity implements Serializable {
         this.manager = manager;
     }
 
+    public Collection<PurchaseOrderEntity> getPurchaseOrders() {
+        return purchaseOrders;
+    }
+
+    public void setPurchaseOrders(Collection<PurchaseOrderEntity> purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
+    }
+
+    
     public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
         return factoryRawMaterials;
     }

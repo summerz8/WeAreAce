@@ -63,14 +63,14 @@ public class Main {
         System.out.println("Please enter user's gender:");
         String gender = sc.nextLine();
         
-        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, departmentId);
-        String userId = info.substring(0, 8);
-        String pwd = info.substring(9);
+//        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, departmentId);
+//        String userId = info.substring(0, 8);
+//        String pwd = info.substring(9);
         
-        System.out.println("The new created user account id is: " + userId);
-        System.out.println(userId);
-        System.out.println("The new created user account password is: " + pwd);
-        System.out.println("Please change this system self-genereated password as soon as possible for security concern.");       
+//        System.out.println("The new created user account id is: " + userId);
+//        System.out.println(userId);
+//        System.out.println("The new created user account password is: " + pwd);
+//        System.out.println("Please change this system self-genereated password as soon as possible for security concern.");       
     }
 
 }
