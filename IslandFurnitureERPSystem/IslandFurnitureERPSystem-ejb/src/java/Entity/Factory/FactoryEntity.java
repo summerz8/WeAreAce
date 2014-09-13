@@ -40,15 +40,15 @@ public class FactoryEntity implements Serializable {
     private String manager; // managerEntity
 
     //factory entity -- factory raw material entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
 
     //factory entity -- factory product entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
     private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
 
     //factory entity -- factory retail product entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     //facotry entity -- factory bin entity: 1 <--> M

@@ -32,10 +32,8 @@
                             <br />  
                             
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-                            <p:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}" action="#{loginBean.getPath}"/>
+                            <p:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}"/>
                             
-                           
-                            <h:outputText id="statusMsg"  value="#{loginBean.statusMsg}"/>
                             <div class="component-spacing-top"/>
                         </div>
                     </div>

@@ -41,15 +41,13 @@ public class PurchaseOrderEntity implements Serializable {
     private GoodsReceiptEntity goodsReceipt;
 
     //purchase order entity -- planned order entity : M <--> M 
-    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrders")
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
     private List<PlannedOrderEntity> plannedOrders;
 
     //purchase order entity -- contract entity: M --> 1
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private ContractEntity contract;
 
-//    private SupplierEntity supplierID;  //no Id
-//    private List<RawMaterialEntity> purchaseItems;   //only one item
     private double total; // the total price
 
 
@@ -93,6 +91,10 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrders = plannedOrders;
+    }
+
     public List<PlannedOrderEntity> getPlannedOrders() {
         return plannedOrders;
     }
@@ -100,22 +102,6 @@ public class PurchaseOrderEntity implements Serializable {
     public void setPlannedOrders(List<PlannedOrderEntity> plannedOrders) {
         this.plannedOrders = plannedOrders;
     }
-//
-//    public SupplierEntity getSupplierID() {
-//        return supplierID;
-//    }
-//
-//    public void setSupplierID(SupplierEntity supplierID) {
-//        this.supplierID = supplierID;
-//    }
-
-//    public List<RawMaterialEntity> getPurchaseItems() {
-//        return purchaseItems;
-//    }
-//
-//    public void setPurchaseItems(List<RawMaterialEntity> purchaseItems) {
-//        this.purchaseItems = purchaseItems;
-//    }
 
     public ContractEntity getContract() {
         return contract;

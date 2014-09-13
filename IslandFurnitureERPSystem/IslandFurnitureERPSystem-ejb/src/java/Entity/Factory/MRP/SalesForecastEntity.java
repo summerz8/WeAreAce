@@ -10,29 +10,36 @@ import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
  *
  * @author apple
  */
-@Entity
+
+@Entity(name = "SalesForecast")
 public class SalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long storeId;
+    @OneToMany(cascade={CascadeType.PERSIST})
     private List<ProductEntity> productList;
     private List<Integer> amount; 
     private Calendar targetPeriod;
     private String status;
     
         
+    public SalesForecastEntity(){
+    }
+    
     public Long getId() {
         return id;
     }
@@ -91,18 +98,19 @@ public class SalesForecastEntity implements Serializable {
         return hash;
     }
 
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceofSalesForecastEntity)) {
-//            return false;
-//        }
-//      SalesForecastEntity other SalesForecastEntity) object;
-//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-//            return false;
-//        }
-//        return true;
-//    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof SalesForecastEntity)) {
+            return false;
+        }
+        SalesForecastEntity other = (SalesForecastEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {

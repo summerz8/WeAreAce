@@ -8,6 +8,7 @@ package Entity.Factory.MRP;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ import javax.persistence.OneToOne;
  *
  * @author apple
  */
-@Entity
+@Entity(name = "SalesOperationPlan")
 public class SalesOperationPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -26,13 +27,16 @@ public class SalesOperationPlanEntity implements Serializable {
     private Long id;
     private Long productId;
     private String FactoryId;
-    private Integer productionPlan;
     private Calendar period;
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private ProductionPlanEntity productionPlan;
+    private Integer year;
+    private String month;
     private Integer salesForecast;
     private Integer plannedEndMonthInventory;
     private Integer workingDay;
 
-    public SalesOperationPlanEntity(Long productId, String FactoryId, Integer productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
+    public SalesOperationPlanEntity(Long productId, String FactoryId, ProductionPlanEntity productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
   
         this.productId = productId;
         this.FactoryId = FactoryId;
@@ -43,7 +47,7 @@ public class SalesOperationPlanEntity implements Serializable {
         this.workingDay = workingDay;
     }
     
-    public void EditOperationPlanEntity(Long productId, String FactoryId, Integer productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
+    public void EditOperationPlanEntity(Long productId, String FactoryId, ProductionPlanEntity productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
   
         this.productId = productId;
         this.FactoryId = FactoryId;
@@ -52,6 +56,9 @@ public class SalesOperationPlanEntity implements Serializable {
         this.salesForecast = salesForecast;
         this.plannedEndMonthInventory = plannedEndMonthInventory;
         this.workingDay = workingDay;
+    }
+    
+    public SalesOperationPlanEntity(){
     }
     
     public Long getId() {
@@ -102,11 +109,11 @@ public class SalesOperationPlanEntity implements Serializable {
         this.FactoryId = FactoryId;
     }
 
-    public Integer getProductionPlan() {
+    public ProductionPlanEntity getProductionPlan() {
         return productionPlan;
     }
 
-    public void setProductionPlan(Integer productionPlan) {
+    public void setProductionPlan(ProductionPlanEntity productionPlan) {
         this.productionPlan = productionPlan;
     }
 

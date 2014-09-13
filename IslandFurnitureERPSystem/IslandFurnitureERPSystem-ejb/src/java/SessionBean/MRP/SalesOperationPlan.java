@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
 import Entity.Factory.MRP.SalesOperationPlanEntity;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     public SalesOperationPlanEntity GenerateSalesOperationPlan(Long productId,
             String FactoryId,
-            Integer productionPlan,
+            ProductionPlanEntity productionPlan,
             Calendar period,
             Integer salesForecast,
             Integer plannedEndMonthInventory,
@@ -50,7 +51,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
             Long Id,
             Long productId,
             String FactoryId,
-            Integer productionPlan,
+            ProductionPlanEntity productionPlan,
             Calendar period,
             Integer salesForecast,
             Integer plannedEndMonthInventory,

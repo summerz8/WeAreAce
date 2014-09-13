@@ -8,7 +8,7 @@
  * 2. Edit supplier account information (e.g. change in price)
  * 3. Delete supplier account (no more coorperation on the item, which also means delete a specific contract)
  * 4. Add Item
- * 5. Edit Item
+ * 5. Edit Item (X)
  * 6. Delete Item
  */
 package SessionBean.SCM;
@@ -48,7 +48,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //post-condition:
     @Override
     public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax,
-            String remark, Double contractPrice, Calendar contractStartDate, Calendar contractEndDate)
+            String remark, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate)
             throws Exception {
         System.out.println("addSupplier():");
 
@@ -60,7 +60,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         try {
             //create new supplier entity and contract entity
             supplier.create(name, address, telephone, fax, remark);
-            contract.create(contractPrice, contractStartDate, contractEndDate);
+            contract.create(contractPrice, leadTime, contractStartDate, contractEndDate);
             //create relationship between supplier ad contract
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
@@ -137,11 +137,12 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 ContractEntity contract = (ContractEntity) obj;
 
                 Calendar contractEndDate = contract.getContractEndDate();
-
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar today = Calendar.getInstance();
-                if (today.compareTo(contractEndDate) <= 0) {
+
+                if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
                     result = "Supplier " + supplierName + " contains at least one unexpired contract, it cannot be deleted ";
+                    System.out.println(result);
+                    return result;
                 }
             }
             em.remove(supplier);
@@ -162,7 +163,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //user chooses from the list of available items (raw materials or retail products)
     //
     @Override
-    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice, Calendar contractStartDate, Calendar contractEndDate) throws Exception {
+    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate)
+            throws Exception {
         System.out.println("addItem():");
 
         String result = null;
@@ -171,7 +173,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
             //create a new contract with given price and date
             ContractEntity contract = new ContractEntity();
-            contract.create(contractPrice, contractStartDate, contractEndDate);
+            contract.create(contractPrice, leadTime, contractStartDate, contractEndDate);
             //create relationship between supplier and contract
             contract.setSupplier(supplier);
             supplier.getContractList().add(contract);
@@ -217,7 +219,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             }
             em.persist(contract);
             em.flush();
-            
+
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -228,6 +230,81 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
     }
 
-    //edit item
     //delete item
+    @Override
+    public String deleteItem(String itemType, Long itemFactoryId) throws Exception {
+        System.out.println("addSupplier():");
+
+        String result = null;
+
+        try {
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemFactoryId);
+                String rmName = factoryRawMaterial.getMaterialName();
+                Collection<ContractEntity> contractList = factoryRawMaterial.getContracts();
+
+                Iterator iterator = contractList.iterator();
+                //check whether there is an unexpired contract with the supplier
+                //if at least one is unexpired, the supplier cannot be deleted
+                while (iterator.hasNext()) {
+                    Object obj = iterator.next();
+                    ContractEntity contract = (ContractEntity) obj;
+
+                    Calendar contractEndDate = contract.getContractEndDate();
+                    Calendar today = Calendar.getInstance();
+
+                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
+                        result = "Raw Material " + factoryRawMaterial.getMaterialName() + " contains at least one unexpired contract, it cannot be deleted ";
+                        System.out.println(result);
+                        return result;
+                    }
+                }
+                em.remove(factoryRawMaterial);
+                result = "Raw Material " + rmName + " has been deleted.";
+                em.flush();
+
+            } else {//itemType.equals("RetailProduct")
+                FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemFactoryId);
+                String rpName = factoryRetailProduct.getName();
+                Collection<ContractEntity> contractList = factoryRetailProduct.getContracts();
+                Iterator iterator = contractList.iterator();
+
+                //check whether there is an unexpired contract with the supplier
+                //if at least one is unexpired, the supplier cannot be deleted
+                while (iterator.hasNext()) {
+                    Object obj = iterator.next();
+                    ContractEntity contract = (ContractEntity) obj;
+
+                    Calendar contractEndDate = contract.getContractEndDate();
+                    Calendar today = Calendar.getInstance();
+
+                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {
+                        result = "Retail Product " + factoryRetailProduct.getName() + " contains at least one unexpired contract, it cannot be deleted ";
+                        System.out.println(result);
+                        return result;
+                    }
+                }
+                em.remove(factoryRetailProduct);
+                result = "Retail Product " + rpName + " has been deleted.";
+                em.flush();
+            }
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+            result = "Supplier has not been created successfully.../nPlease try again...";
+        }
+        System.out.println(result);
+        return result;
+    }
+
+    // for comparing two dates
+    //function to set all the other attributes to be 0
+    public Calendar removeTime(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
 }
