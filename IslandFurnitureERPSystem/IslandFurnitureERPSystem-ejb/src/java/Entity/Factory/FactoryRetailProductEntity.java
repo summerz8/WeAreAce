@@ -53,7 +53,7 @@ public class FactoryRetailProductEntity implements Serializable {
     private RetailProductEntity retailProduct;
 
     //contract entity -- factory retail product entity: M <--> 1
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
     private Collection<ContractEntity> contracts = new ArrayList<>();
 
     public FactoryRetailProductEntity(){

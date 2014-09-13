@@ -29,7 +29,7 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryRawMaterialId;
     private Integer inventory = 0;//start with 0
     private String materialName;
@@ -49,7 +49,7 @@ public class FactoryRawMaterialEntity implements Serializable {
     private RawMaterialEntity rawMaterial;
 
     //contract entity -- factory raw material entity: M <--> 1
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterialProduct")
     private Collection<ContractEntity> contracts = new ArrayList<>();
 
     public FactoryRawMaterialEntity() {

@@ -48,8 +48,6 @@ public class PurchaseOrderEntity implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private ContractEntity contract;
 
-    private SupplierEntity supplierID;
-    private List<RawMaterialEntity> purchaseItem;
 
     public PurchaseOrderEntity() {
     }
@@ -97,22 +95,6 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
         this.plannedOrder = plannedOrder;
-    }
-
-    public SupplierEntity getSupplierID() {
-        return supplierID;
-    }
-
-    public void setSupplierID(SupplierEntity supplierID) {
-        this.supplierID = supplierID;
-    }
-
-    public List<RawMaterialEntity> getPurchaseItem() {
-        return purchaseItem;
-    }
-
-    public void setPurchaseItem(List<RawMaterialEntity> purchaseItem) {
-        this.purchaseItem = purchaseItem;
     }
 
     public ContractEntity getContract() {

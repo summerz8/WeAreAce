@@ -18,7 +18,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="FactoryUser")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FactoryUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
