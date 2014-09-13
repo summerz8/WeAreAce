@@ -6,16 +6,15 @@
 package ManagedBean.CommonInfrastructure;
 
 import SessionBean.IFManagerBeanLocal;
+import java.io.IOException;
+import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.ConfigurableNavigationHandler;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -24,17 +23,18 @@ import javax.servlet.http.HttpSession;
  */
 @Named(value = "loginBean")
 @ManagedBean
-@RequestScoped
-public class LoginBean {
+@SessionScoped
+public class LoginBean implements Serializable {
 
     @EJB
     private IFManagerBeanLocal IFMB;
+
     private String userId;
     private String pwd;
     private String statusMsg;
     private String path;
-//    private Session Flag;
-
+    private Boolean Flag=false;
+    
     public LoginBean() {
 
     }
@@ -71,20 +71,14 @@ public class LoginBean {
         this.path = path;
     }
 
-//    public void setLoginFlag(String loginFlag) {
-//        this.loginFlag = loginFlag;
-//    }
-//    public String getLoginFlag() {
-//        return loginFlag;
-//    }
+    public Boolean isLoggedIn() {
+        return Flag;
+    }
 
-//    public Session getFlag() {
-//        return Flag;
-//    }
-//
-//    public void setFlag(Session Flag) {
-//        this.Flag = Flag;
-//    }
+    public void setLoggedIn(Boolean Flag) {
+        this.Flag = Flag;
+    }
+
     
     public void checkLogin(ActionEvent event) {
         
@@ -95,44 +89,32 @@ public class LoginBean {
 
         try {
             if (IFMB.checkAccount(checkUserId, checkPwd)) {
+                Flag=true;
                 statusMsg = "Login successfully...";
-                path = "/WorkPlace";
-                HttpServletRequest request= (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                request.getSession().setAttribute("flag", (Object) "userlogin");
-                //System.out.println(FacesContext.getCurrentInstance().getMessages().toString());
+                path = "secured/WorkPlace.xhtml";
+                
+                ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("isLogin", true);
+                FacesContext.getCurrentInstance().getExternalContext().redirect(path);
                 
             } else {
                 statusMsg = "Incorrect userId or password, please enter again.";
-                System.out.println("haah");
                 //path = "index";
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login result " + statusMsg, ""));
-            
-            //System.out.println();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void checkPermissions(ComponentSystemEvent event) {
-
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpSession httpSession = (HttpSession)(fc.getExternalContext().getSession(true)); 
-        
-      
-            String cid = (String) httpSession.getAttribute("flag");
-        
-        
-        //System.out.println(fc.getMessages().toString());
-        
-        if( cid == null){
-            ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler)fc.getApplication().getNavigationHandler();
-            handler.performNavigation("index");
-            //System.out.println(fc.getMessages().toString());
-            //System.out.println("LoginBean: "+ fc.getExternalContext().getRequestContextPath());
-            return;
-        
-        }
-    }
+     public void performLogout(ActionEvent event) throws IOException{
+        System.out.println("LogoutBean: performLogout:()");
+        Flag=false;
+        statusMsg="Logout successfully...";
+        path="/loginPage.xhtml";
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("isLogin");
+        String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url+path);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout result " + statusMsg, ""));
+     }
 }
