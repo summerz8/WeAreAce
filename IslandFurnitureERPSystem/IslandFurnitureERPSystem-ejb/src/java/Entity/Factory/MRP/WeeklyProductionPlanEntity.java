@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -29,12 +30,9 @@ public class WeeklyProductionPlanEntity implements Serializable {
     private Integer workingDayInWeek;
     private Integer workingDayInMonth;
     private Integer weeklyDemand;
-    
-    @OneToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne
     private ProductionPlanEntity productionPlan;
     
-    @OneToOne(mappedBy="weeklyProductionPlan")
-    private WeeklyRawMaterialRecordEntity weeklyRawMaterialRecord;
     
     public WeeklyProductionPlanEntity(){
     }
@@ -95,13 +93,6 @@ public class WeeklyProductionPlanEntity implements Serializable {
         this.productionPlan = productionPlan;
     }
 
-    public WeeklyRawMaterialRecordEntity getRawMaterialRecord(){
-        return weeklyRawMaterialRecord;
-    }
-    
-    public void setWeeklyRawMaterialRecord(WeeklyRawMaterialRecordEntity weeklyRawMaterialRecord) {
-        this.weeklyRawMaterialRecord = weeklyRawMaterialRecord;
-    }
 
     
     
