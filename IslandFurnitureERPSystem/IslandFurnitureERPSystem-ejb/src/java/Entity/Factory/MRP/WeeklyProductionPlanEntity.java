@@ -39,6 +39,15 @@ public class WeeklyProductionPlanEntity implements Serializable {
     public WeeklyProductionPlanEntity(){
     }
     
+    public void createWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Integer weeklyDemand){
+        this.id = id;
+        this.month = month;
+        this.week = week;
+        this.workingDayInWeek = workingDayInWeek;
+        this.workingDayInMonth = workingDayInMonth;
+        this.weeklyDemand = weeklyDemand;
+    }
+    
     public Long getId() {
         return id;
     }
