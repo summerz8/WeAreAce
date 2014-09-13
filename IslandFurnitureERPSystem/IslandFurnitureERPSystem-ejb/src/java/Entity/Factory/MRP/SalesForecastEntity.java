@@ -10,23 +10,26 @@ import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
  *
  * @author apple
  */
-@Entity
-public class SalsForecastEntity implements Serializable {
+@Entity(name = "SalesForecast")
+public class SalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long storeId;
+    @OneToMany(cascade={CascadeType.PERSIST})
     private List<ProductEntity> productList;
     private List<Integer> amount; 
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -36,6 +39,9 @@ public class SalsForecastEntity implements Serializable {
     private String status;
     
         
+    public SalesForecastEntity(){
+    }
+    
     public Long getId() {
         return id;
     }
@@ -103,10 +109,10 @@ public class SalsForecastEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SalsForecastEntity)) {
+        if (!(object instanceof SalesForecastEntity)) {
             return false;
         }
-        SalsForecastEntity other = (SalsForecastEntity) object;
+        SalesForecastEntity other = (SalesForecastEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

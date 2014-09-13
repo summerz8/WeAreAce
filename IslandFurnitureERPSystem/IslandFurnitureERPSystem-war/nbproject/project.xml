@@ -7,11 +7,23 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
+<<<<<<< HEAD
                     <file>${libs.PrimeFace_5.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="100">
                     <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
+=======
+                    <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD}</file>
+                </library>
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
+                <library dirs="100">
+                    <file>${reference.IslandFurnitureERPSystem-ejb.dist}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${libs.PrimesFaces_5.0.classpath}</file>
+>>>>>>> 9f2edbf34650564d85530496b0e91c603c13b3ba
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

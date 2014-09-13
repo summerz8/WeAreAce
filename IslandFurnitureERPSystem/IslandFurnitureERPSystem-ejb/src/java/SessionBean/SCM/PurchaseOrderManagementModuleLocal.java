@@ -1,7 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * PurchaseOrderManagementModuleLocal.java
+ * 
+ * 
+ * 1. Select Item for purcahse.
+ * 2. Generate purcahse amount
+ * 3. Select Supplier
+ * 4. Select delivery address (for stores only)
+ * 5. Generate purchase order
+ * 6. Edit unconfirmed prucashe order
+ * 7. Cancel purchase order
+ * 8. Generate Goods Receipt
  */
 
 package SessionBean.SCM;

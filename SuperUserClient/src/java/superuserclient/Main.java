@@ -5,7 +5,7 @@
  */
 package superuserclient;
 
-import SessionBean.IFManagerBeanLocal;
+import SessionBean.IFManagerBeanRemote;
 import java.util.Scanner;
 import javax.ejb.EJB;
 
@@ -16,7 +16,7 @@ import javax.ejb.EJB;
 public class Main {
 
     @EJB
-    private static IFManagerBeanLocal IFMB;
+    private static IFManagerBeanRemote IFMB;
 
     public static void main(String[] args) {
         Main superUser = new Main();
