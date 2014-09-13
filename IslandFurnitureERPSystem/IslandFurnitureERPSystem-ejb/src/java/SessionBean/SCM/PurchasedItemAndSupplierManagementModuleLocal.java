@@ -9,8 +9,7 @@
  * 2. Edit supplier account information (e.g. change in price)
  * 3. Delete supplier account (no more coorperation on the item, which also means delete a specific contract)
  * 4. Add Item (a. add new item contract with a existing supplier)
- * 5. Edit Item
- * 6. Delete Item
+ * 5. Delete Item
  */
 package SessionBean.SCM;
 
@@ -24,11 +23,14 @@ import javax.ejb.Local;
 @Local
 public interface PurchasedItemAndSupplierManagementModuleLocal {
 
-    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public String editSupplier(Long supplierId, String name, String address, String telephone, String fax) throws Exception;
 
     public String deleteSupplier(Long supplierId) throws Exception;
     
-    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice,  Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    
+    public String deleteItem(String itemType, Long itemFactoryId) throws Exception;
+            
 }

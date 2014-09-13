@@ -7,6 +7,7 @@
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -18,17 +19,28 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="FactoryUser")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FactoryUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     private String factoryId; //factoryId is a string made up of one 'F' and 5 digit number eg.F000001
-    
-    
+
     public FactoryUserEntity() {
     }
-    public FactoryUserEntity(String department, String idNumber, Integer userLevel, 
-            String lastName, String firstName, String position, String gender, String departmentId) {
-        super(department,idNumber, userLevel,lastName,firstName, position,gender);
+    
+    
+    public FactoryUserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, String departmentId, Boolean deleteFlag) {
+        super(department,idNumber, userLevel,lastName,midName, firstName, position, 
+                birthday,gender,title, address, postalCode, email, deleteFlag);
+        factoryId = departmentId;
+        
+    }
+    
+    public void editFactoryUserEntity(String department, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, String departmentId, Boolean deleteFlag) {
+        super.editUserEntity(department, userLevel, lastName, midName, firstName,
+                position, birthday, gender, title, address, postalCode, email, deleteFlag);
         factoryId = departmentId;
         
     }

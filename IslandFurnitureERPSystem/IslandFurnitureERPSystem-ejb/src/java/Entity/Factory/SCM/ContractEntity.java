@@ -33,8 +33,11 @@ public class ContractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long contractId;
-    private double contractPrice;   // in US$ per unit
+
+    private Double contractPrice;// in US$ per unit
+    private Integer leadTime;
     private String unit;
+
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractStartDate;
@@ -66,14 +69,22 @@ public class ContractEntity implements Serializable {
         this.contractId = contractId;
     }
 
-    public double getContractPrice() {
+    public Double getContractPrice() {
         return contractPrice;
     }
 
-    public void setContractPrice(double contractPrice) {
+    public void setContractPrice(Double contractPrice) {
         this.contractPrice = contractPrice;
     }
 
+    public Integer getLeadTime() {
+        return leadTime;
+    }
+
+    public void setLeadTime(Integer leadTime) {
+        this.leadTime = leadTime;
+    }
+    
     public String getUnit() {
         return unit;
     }
@@ -123,8 +134,10 @@ public class ContractEntity implements Serializable {
     }
 
     //create a new contract entity with attributes
-    public void create(Double contractPrice, Calendar contractStartDate, Calendar contractEndDate) {
+    public void create(Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) {
         this.contractPrice = contractPrice;
+        this.leadTime = leadTime;
+        this.unit = unit;
         this.contractStartDate = contractStartDate;
         this.contractEndDate = contractEndDate;
     }

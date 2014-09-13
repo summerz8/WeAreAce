@@ -7,6 +7,7 @@
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -18,7 +19,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="HeadQuarterUser")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 
 public class HQUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,12 +26,22 @@ public class HQUserEntity extends UserEntity implements Serializable {
 
     public HQUserEntity() {
     }
+
     
-    public HQUserEntity(String department, String idNumber, Integer userLevel, 
-            String lastName, String firstName, String position, String gender) {
-        super(department,idNumber, userLevel,lastName,firstName, position,gender);
+    public HQUserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+        super(department,idNumber, userLevel,lastName,midName, firstName, position, 
+                birthday,gender,title, address, postalCode, email, deleteFlag);
     }
 
+    public void editHQUserEntity(String department, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+        
+        super.editUserEntity(department, userLevel, lastName, midName, firstName, 
+                position, birthday, gender, title, address, postalCode, email, deleteFlag);       
+    }
     public String getHQId() {
         return HQId;
     }

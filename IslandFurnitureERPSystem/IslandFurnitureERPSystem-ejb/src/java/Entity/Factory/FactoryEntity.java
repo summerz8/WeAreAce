@@ -7,9 +7,13 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
+import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +21,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,23 +44,32 @@ public class FactoryEntity implements Serializable {
     private String address;
     private String contact;
     private String manager; // managerEntity
+    
+    //purchase order entity -- factory entity: M <--> 1 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
+    private Collection<PurchaseOrderEntity> purchaseOrders = new ArrayList<>();
 
     //factory entity -- factory raw material entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
 
     //factory entity -- factory product entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
     private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
 
     //factory entity -- factory retail product entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     //facotry entity -- factory bin entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "factory")
     private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
-
+    
+    //factory entity -- store entity: M <--> M 
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "FACTORY_STORE")
+    private Set<StoreEntity> stores = new HashSet<>();
+    
     public FactoryEntity() {
     }
 
@@ -98,6 +113,15 @@ public class FactoryEntity implements Serializable {
         this.manager = manager;
     }
 
+    public Collection<PurchaseOrderEntity> getPurchaseOrders() {
+        return purchaseOrders;
+    }
+
+    public void setPurchaseOrders(Collection<PurchaseOrderEntity> purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
+    }
+
+    
     public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
         return factoryRawMaterials;
     }
@@ -129,6 +153,14 @@ public class FactoryEntity implements Serializable {
 
     public void setFactoryBins(Collection<FactoryBinEntity> factoryBins) {
         this.factoryBins = factoryBins;
+    }
+
+    public Set<StoreEntity> getStores() {
+        return stores;
+    }
+
+    public void setStores(Set<StoreEntity> stores) {
+        this.stores = stores;
     }
 
     @Override

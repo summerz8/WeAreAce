@@ -7,17 +7,19 @@
 package Entity.Factory.MRP;
 
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author apple
  */
-@Entity
+@Entity(name = "WeeklyProductionPlan")
 public class WeeklyProductionPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,8 +30,21 @@ public class WeeklyProductionPlanEntity implements Serializable {
     private Integer workingDayInWeek;
     private Integer workingDayInMonth;
     private Integer weeklyDemand;
+    @ManyToOne
     private ProductionPlanEntity productionPlan;
     
+    
+    public WeeklyProductionPlanEntity(){
+    }
+    
+    public void createWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Integer weeklyDemand){
+        this.id = id;
+        this.month = month;
+        this.week = week;
+        this.workingDayInWeek = workingDayInWeek;
+        this.workingDayInMonth = workingDayInMonth;
+        this.weeklyDemand = weeklyDemand;
+    }
     
     public Long getId() {
         return id;
@@ -86,6 +101,7 @@ public class WeeklyProductionPlanEntity implements Serializable {
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
         this.productionPlan = productionPlan;
     }
+
 
     
     

@@ -7,49 +7,48 @@
 package Entity.Factory.MRP;
 
 import Entity.Factory.ProductEntity;
+import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
  *
  * @author apple
  */
-@Entity
-public class SalsForecastEntity implements Serializable {
+
+@Entity(name = "SalesForecast")
+public class SalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long storeId;
+    @ManyToOne
+    private StoreEntity store;
+    @OneToMany(cascade={CascadeType.PERSIST})
     private List<ProductEntity> productList;
     private List<Integer> amount; 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDateStart;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDateEnd;
+    private Calendar targetPeriod;
     private String status;
     
         
+    public SalesForecastEntity(){
+    }
+    
     public Long getId() {
         return id;
     }
     
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 
     public List<ProductEntity> getProductList() {
@@ -68,21 +67,15 @@ public class SalsForecastEntity implements Serializable {
         this.amount = amount;
     }
 
-    public Calendar getTargetDateStart() {
-        return targetDateStart;
+    public Calendar getTargetPeriod() {
+        return targetPeriod;
     }
 
-    public void setTargetDateStart(Calendar targetDateStart) {
-        this.targetDateStart = targetDateStart;
+    public void setTargetPeriod(Calendar targetPeriod) {
+        this.targetPeriod = targetPeriod;
     }
 
-    public Calendar getTargetDateEnd() {
-        return targetDateEnd;
-    }
-
-    public void setTargetDateEnd(Calendar targetDateEnd) {
-        this.targetDateEnd = targetDateEnd;
-    }
+    
 
     public String getStatus() {
         return status;
@@ -90,6 +83,14 @@ public class SalsForecastEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
     
     
@@ -100,13 +101,14 @@ public class SalsForecastEntity implements Serializable {
         return hash;
     }
 
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SalsForecastEntity)) {
+        if (!(object instanceof SalesForecastEntity)) {
             return false;
         }
-        SalsForecastEntity other = (SalsForecastEntity) object;
+        SalesForecastEntity other = (SalesForecastEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

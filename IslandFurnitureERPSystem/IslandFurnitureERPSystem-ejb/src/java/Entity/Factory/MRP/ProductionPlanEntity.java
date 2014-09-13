@@ -42,14 +42,14 @@ public class ProductionPlanEntity implements Serializable {
     private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesEndDate;
-    private Integer output;
+    private Integer quantity;
     private String remark;
-
     @ManyToOne(cascade = {CascadeType.ALL})
     private ProductEntity product;  //should be FactoryProductEntity
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "productionplan")
-
-    private List<PlannedOrderEntity> plannedOrder = new ArrayList<>();
+    private List<PlannedOrderEntity> plannedOrder = new ArrayList();
+    @OneToMany(cascade={CascadeType.ALL},mappedBy="productionPlan")
+    private List<WeeklyProductionPlanEntity> weeklyProductionPlanEntity;
 
     public ProductionPlanEntity() {
     }
@@ -59,7 +59,7 @@ public class ProductionPlanEntity implements Serializable {
         this.generateDate = generateDate;
         this.targetSalesStartDate = targetSalesStartDate;
         this.targetSalesEndDate = targetSalesEndDate;
-        this.output = output;
+        this.quantity = output;
         this.product = product;
         this.remark = remark;
     }
@@ -112,12 +112,12 @@ public class ProductionPlanEntity implements Serializable {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
-    public Integer getOutput() {
-        return output;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setOutput(Integer output) {
-        this.output = output;
+    public void setQuantity(Integer output) {
+        this.quantity = output;
     }
 
     public ProductEntity getProduct() {
@@ -144,6 +144,15 @@ public class ProductionPlanEntity implements Serializable {
         this.plannedOrder = plannedOrder;
     }
 
+    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlanEntity() {
+        return weeklyProductionPlanEntity;
+    }
+
+    public void setWeeklyProductionPlanEntity(List<WeeklyProductionPlanEntity> weeklyProductionPlanEntity) {
+        this.weeklyProductionPlanEntity = weeklyProductionPlanEntity;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

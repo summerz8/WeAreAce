@@ -75,6 +75,7 @@ public class Main {
         System.out.println("Please enter user's gender:");
         String gender = sc.nextLine();
         
+<<<<<<< .merge_file_8gprvK
 <<<<<<< .merge_file_RjyTaZ
         String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender);
 =======
@@ -82,11 +83,16 @@ public class Main {
 >>>>>>> .merge_file_g2dEZj
         String userId = info.substring(0, 8);
         String pwd = info.substring(9);
+=======
+//        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, departmentId);
+//        String userId = info.substring(0, 8);
+//        String pwd = info.substring(9);
+>>>>>>> .merge_file_pOyBN6
         
-        System.out.println("The new created user account id is: " + userId);
-        System.out.println(userId);
-        System.out.println("The new created user account password is: " + pwd);
-        System.out.println("Please change this system self-genereated password as soon as possible for security concern.");       
+//        System.out.println("The new created user account id is: " + userId);
+//        System.out.println(userId);
+//        System.out.println("The new created user account password is: " + pwd);
+//        System.out.println("Please change this system self-genereated password as soon as possible for security concern.");       
     }
 
 }
