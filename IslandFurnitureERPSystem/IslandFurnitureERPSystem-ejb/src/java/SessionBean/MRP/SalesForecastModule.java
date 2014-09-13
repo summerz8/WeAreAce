@@ -32,7 +32,7 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
             templist = (List<SalesForecastEntity>) query.getResultList();
             if (StoreId != 0L && Period != null) {
                 while (!templist.isEmpty()) {
-                    if (StoreId == templist.get(0).getStore().getId() && Period.equals(templist.get(0).getTargetPeriod())) {
+                    if (StoreId == templist.get(0).getStore().getStoreId() && Period.equals(templist.get(0).getTargetPeriod())) {
                         list.add(templist.get(0));
                         templist.remove(0);
                     }
@@ -47,7 +47,7 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                 }
             } else if (StoreId != 0L && Period == null) {
                 while (!templist.isEmpty()) {
-                    if (StoreId == templist.get(0).getStore().getId()) {
+                    if (StoreId == templist.get(0).getStore().getStoreId()) {
                         list.add(templist.get(0));
                         templist.remove(0);
                     }
@@ -64,5 +64,5 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
         return null;
     }
     
-
+    //Forecast Integration will be handled in managed bean
 }
