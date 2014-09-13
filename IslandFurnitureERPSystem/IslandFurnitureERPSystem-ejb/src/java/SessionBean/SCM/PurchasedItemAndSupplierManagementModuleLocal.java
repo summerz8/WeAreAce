@@ -23,13 +23,13 @@ import javax.ejb.Local;
 @Local
 public interface PurchasedItemAndSupplierManagementModuleLocal {
 
-    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public String editSupplier(Long supplierId, String name, String address, String telephone, String fax) throws Exception;
 
     public String deleteSupplier(Long supplierId) throws Exception;
     
-    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice,  Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public String addItem(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice,  Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
     
     public String deleteItem(String itemType, Long itemFactoryId) throws Exception;
             

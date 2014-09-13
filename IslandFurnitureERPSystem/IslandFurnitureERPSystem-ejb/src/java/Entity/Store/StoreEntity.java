@@ -29,6 +29,7 @@ public class StoreEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long storeId;
+    private String address;
 
     //factory entity -- store entity: M <--> M 
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
@@ -40,6 +41,14 @@ public class StoreEntity implements Serializable {
 
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Set<FactoryEntity> getStores() {

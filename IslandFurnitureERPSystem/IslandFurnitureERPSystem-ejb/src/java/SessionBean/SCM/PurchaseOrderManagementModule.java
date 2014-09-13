@@ -17,6 +17,7 @@ import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.SCM.ContractEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import java.util.ArrayList;
@@ -147,6 +148,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return supplierList;
     }
+
     //select a unexpired contract with given supplier and given raw material
     public ContractEntity selectSupplier(String itemType, Long itemId, Long supplierId) throws Exception {
         try {
@@ -196,27 +198,60 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
     }
 
-    //4. Select delivery address (for stores)
+    //4. Select delivery address (for retail products)
+    //display all the available store
     @Override
     public Set<StoreEntity> viewAvailStore(Long factoryId) throws Exception {
         Set<StoreEntity> storeList = new HashSet<>();
-        try{
+        try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             storeList = factory.getStores();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
-            ex.printStackTrace();  
+            ex.printStackTrace();
         }
         return storeList;
     }
-    
+
     //5. Generate purchase order
+    //by manually input the purcahse item related information
+
+    @Override
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination)
+            throws Exception {
+        PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
+
+        try {
+            em.flush();
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            ContractEntity contract = em.find(ContractEntity.class, contractId);
+            String status = "Unconfirmed";
+            String unit = contract.getUnit();
+            if (destination.equals("store")) {
+                StoreEntity store = em.find(StoreEntity.class, storeId);
+                destination = store.getAddress();
+            } else {//destination is the factory that sends out the purchase order
+                destination = factory.getAddress();
+            }
+            Double total_price = amount * contract.getContractPrice();
+            Integer leadTime = contract.getLeadTime();
+
+            purchaseOrder.create(factory, contract, status, amount, unit, destination, total_price, leadTime);
+            em.persist(purchaseOrder);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        em.flush();
+        return purchaseOrder;
+
+    }
+
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
     // for comparing two dates
     //function to set all the other attributes to be 0
-
     public Calendar removeTime(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -225,5 +260,4 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return cal;
     }
 
-    
 }

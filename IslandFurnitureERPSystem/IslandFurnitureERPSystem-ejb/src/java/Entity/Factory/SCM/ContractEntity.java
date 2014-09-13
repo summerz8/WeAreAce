@@ -134,9 +134,10 @@ public class ContractEntity implements Serializable {
     }
 
     //create a new contract entity with attributes
-    public void create(Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) {
+    public void create(Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) {
         this.contractPrice = contractPrice;
         this.leadTime = leadTime;
+        this.unit = unit;
         this.contractStartDate = contractStartDate;
         this.contractEndDate = contractEndDate;
     }

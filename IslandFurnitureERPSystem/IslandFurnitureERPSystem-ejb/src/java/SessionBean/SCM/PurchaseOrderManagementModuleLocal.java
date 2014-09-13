@@ -14,6 +14,7 @@
 package SessionBean.SCM;
 
 import Entity.Factory.SCM.ContractEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import java.util.Collection;
@@ -37,12 +38,17 @@ public interface PurchaseOrderManagementModuleLocal {
     //3. View and Select Available Supplier
     public Set<SupplierEntity> viewAvailSupplier(String itemType, Long itemId) throws Exception;
     //select a unexpired contract with given supplier and given raw material
+    //this contract will later be passed to createPurchaseOrder() method
     public ContractEntity selectSupplier(String itemType, Long itemId, Long supplierId) throws Exception;
 
     //4. View and Select delivery address (for retail products)
+    //display all available stores
     public Set<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
     
     //5. Generate purchase order
+    //by manually input the purcahse item related information
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination) throws Exception;  
+    
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
