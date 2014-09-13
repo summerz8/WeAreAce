@@ -7,9 +7,12 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -54,7 +59,12 @@ public class FactoryEntity implements Serializable {
     //facotry entity -- factory bin entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "factory")
     private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
-
+    
+    //factory entity -- store entity: M <--> M 
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "FACTORY_STORE")
+    private Set<StoreEntity> stores = new HashSet<>();
+    
     public FactoryEntity() {
     }
 
@@ -129,6 +139,14 @@ public class FactoryEntity implements Serializable {
 
     public void setFactoryBins(Collection<FactoryBinEntity> factoryBins) {
         this.factoryBins = factoryBins;
+    }
+
+    public Set<StoreEntity> getStores() {
+        return stores;
+    }
+
+    public void setStores(Set<StoreEntity> stores) {
+        this.stores = stores;
     }
 
     @Override

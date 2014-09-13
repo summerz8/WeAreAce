@@ -9,8 +9,7 @@
  * 2. Edit supplier account information (e.g. change in price)
  * 3. Delete supplier account (no more coorperation on the item, which also means delete a specific contract)
  * 4. Add Item (a. add new item contract with a existing supplier)
- * 5. Edit Item (X)
- * 6. Delete Item
+ * 5. Delete Item
  */
 package SessionBean.SCM;
 
