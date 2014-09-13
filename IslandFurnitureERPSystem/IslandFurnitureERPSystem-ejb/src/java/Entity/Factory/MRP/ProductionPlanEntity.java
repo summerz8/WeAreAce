@@ -45,10 +45,13 @@ public class ProductionPlanEntity implements Serializable {
     private Integer output;
     private String remark;
 <<<<<<< HEAD
+<<<<<<< HEAD
     @ManyToOne(cascade={CascadeType.ALL})
     private ProductEntity product;
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="productionPlan")
     private List<PlannedOrderEntity> plannedOrder=new ArrayList();
+=======
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 =======
 >>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 

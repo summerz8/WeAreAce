@@ -49,11 +49,17 @@ public class PurchaseOrderEntity implements Serializable {
     private ContractEntity contract;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 //    private SupplierEntity supplierID;  //no Id
 //    private List<RawMaterialEntity> purchaseItems;   //only one item
     private double total; // the total price
 
+<<<<<<< HEAD
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
+=======
 >>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
     public PurchaseOrderEntity() {
@@ -97,6 +103,7 @@ public class PurchaseOrderEntity implements Serializable {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public List<PlannedOrderEntity> getPlannedOrder() {
         return plannedOrder;
     }
@@ -105,6 +112,8 @@ public class PurchaseOrderEntity implements Serializable {
         this.plannedOrder = plannedOrder;
     }
 =======
+=======
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
     public List<PlannedOrderEntity> getPlannedOrders() {
         return plannedOrders;
     }
@@ -128,6 +137,9 @@ public class PurchaseOrderEntity implements Serializable {
 //    public void setPurchaseItems(List<RawMaterialEntity> purchaseItems) {
 //        this.purchaseItems = purchaseItems;
 //    }
+<<<<<<< HEAD
+>>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
+=======
 >>>>>>> e7f7d6f925185cf2a916a2f547520582e1d869d0
 
     public ContractEntity getContract() {
