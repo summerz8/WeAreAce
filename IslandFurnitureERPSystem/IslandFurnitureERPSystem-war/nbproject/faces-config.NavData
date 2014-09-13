@@ -4,7 +4,6 @@
     <Scope Scope="Project">
         <Node id="WorkPlace.xhtml" x="150" y="150" zoom="true"/>
         <Node id="index.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="Login/loginPage.xhtml" x="150" y="300" zoom="false"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

@@ -51,6 +51,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         productionPlanInfo.add(3, productionPlan.getTargetSalesStartDate());
         productionPlanInfo.add(4, productionPlan.getTargetSalesEndDate());
         productionPlanInfo.add(5, productionPlan.getQuantity());
+        productionPlanInfo.add(5, productionPlan.getQuantity());
         productionPlanInfo.add(6, productionPlan.getGenerateDate());
         productionPlanInfo.add(7, productionPlan.getConfirmDate());
         productionPlanInfo.add(8, productionPlan.getStatus());
