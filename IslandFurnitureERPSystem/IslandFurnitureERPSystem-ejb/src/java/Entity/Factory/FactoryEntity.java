@@ -7,12 +7,15 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import static Entity.Factory.MRP.ProductionPlanEntity_.plannedOrder;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -69,6 +72,9 @@ public class FactoryEntity implements Serializable {
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name = "FACTORY_STORE")
     private Set<StoreEntity> stores = new HashSet<>();
+    
+    @OneToMany(mappedBy="factory")
+    private List<PlannedOrderEntity> plannedOrder;
     
     public FactoryEntity() {
     }
@@ -163,6 +169,14 @@ public class FactoryEntity implements Serializable {
         this.stores = stores;
     }
 
+    public List<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrder;
+    }
+
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrder = plannedOrder;
+    }
+    
     @Override
     public String toString() {
         return "entity.UserEntity[ id=" + factoryId + " ]";

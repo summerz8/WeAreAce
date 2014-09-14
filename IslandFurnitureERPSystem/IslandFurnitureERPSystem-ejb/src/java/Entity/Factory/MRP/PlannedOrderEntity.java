@@ -7,8 +7,9 @@ package Entity.Factory.MRP;
  */
 
 
-import Entity.Factory.SCM.PurchaseOrderEntity;
+import Entity.Factory.FactoryEntity;
 import Entity.Factory.RawMaterialAmountEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,10 +50,11 @@ public class PlannedOrderEntity implements Serializable {
     private List<RawMaterialAmountEntity> rawMaterialList;
     @OneToOne(cascade = {CascadeType.PERSIST})
     private ProductionPlanEntity productionplan;
-    
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="PlannedOrder_PurchaseOrder")
     private List<PurchaseOrderEntity> purchaseOrder;
+    @ManyToOne
+    private FactoryEntity factory;
 
     public PlannedOrderEntity() {
     }
