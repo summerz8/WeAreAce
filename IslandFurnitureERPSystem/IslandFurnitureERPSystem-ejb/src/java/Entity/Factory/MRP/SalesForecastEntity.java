@@ -7,6 +7,7 @@
 package Entity.Factory.MRP;
 
 import Entity.Factory.ProductEntity;
+import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
@@ -29,7 +31,8 @@ public class SalesForecastEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long storeId;
+    @ManyToOne
+    private StoreEntity store;
     @OneToMany(cascade={CascadeType.PERSIST})
     private List<ProductEntity> productList;
     private List<Integer> amount; 
@@ -46,14 +49,6 @@ public class SalesForecastEntity implements Serializable {
     
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 
     public List<ProductEntity> getProductList() {
@@ -88,6 +83,14 @@ public class SalesForecastEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
     
     

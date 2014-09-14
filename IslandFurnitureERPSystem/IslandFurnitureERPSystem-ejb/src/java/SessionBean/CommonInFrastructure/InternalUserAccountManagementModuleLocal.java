@@ -18,10 +18,14 @@ public interface InternalUserAccountManagementModuleLocal {
 
     //public void AddStaff(String department, Integer userLevel, String lastName, String firstName, String position, String gender, String departmentID);
 
-    public void DeleteStaff();
+    //public void DeleteStaff();
 
-    public void ModifyStaff();
+    //public void ModifyStaff();
 
     public void AddStaff(String department, Integer userLevel, String lastName, String midName, String firstName, String position, Calendar birthday, String gender, String title, String address, String postalCode, String email, String departmentID);
+
+    public void DeleteStaff(String userId);
+
+    public void ModifyStaff(String userId, String department, Integer userLevel, String lastName, String midName, String firstName, String position, Calendar birthday, String gender, String title, String address, String postalCode, String email, String departmentId);
     
 }

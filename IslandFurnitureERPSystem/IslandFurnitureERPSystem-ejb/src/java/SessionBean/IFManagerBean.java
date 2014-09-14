@@ -49,8 +49,8 @@ public class IFManagerBean implements IFManagerBeanLocal {
         em.flush();
 
         try {
-            user = new UserEntity(department, idNumber.toString(), userLevel, lastName, 
-                    firstName, position, gender);
+            user = new UserEntity(department,idNumber.toString(), userLevel,lastName,null, firstName, position, 
+                null,gender,null, null, null, null, true);
             em.persist(user);
             System.out.println("User created!");
             return user.getUserId()+ " " +user.getPwd();

@@ -26,7 +26,6 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
     public SalesOperationPlanEntity GenerateSalesOperationPlan(Long productId,
             String FactoryId,
             ProductionPlanEntity productionPlan,
@@ -67,19 +66,36 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
             System.out.println(ex.getMessage());
         }
         return null;
-    
-    
 
-//    public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long productId, String FactoryId, Calendar startPeriod, Calendar endPeriod){
-//        List<SalesOperationPlanEntity> list=new ArrayList<SalesOperationPlanEntity>();
-//        List<SalesOperationPlanEntity> templist=new ArrayList<SalesOperationPlanEntity>();
-//        Query query = em.createQuery("SELECT t FROM SalesOperationPlanEntity t WHERE t.productId=productId AND t.FactoryId=FactoryId ORDER BY t.period DESC");
-//        templist = (List<SalesOperationPlanEntity>) query.getResultList();
-//        if(templist)                                                         
-//    
-//    
-//    
-//    }
+    }
 
-}
+    public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long productId, String FactoryId, Calendar startPeriod, Calendar endPeriod) {
+        List<SalesOperationPlanEntity> list = new ArrayList<SalesOperationPlanEntity>();
+        List<SalesOperationPlanEntity> templist = new ArrayList<SalesOperationPlanEntity>();
+        try{
+        Query query = em.createQuery("SELECT t FROM SalesOperationPlanEntity t WHERE t.productId=productId AND t.FactoryId=FactoryId ORDER BY t.period DESC");
+        templist = (List<SalesOperationPlanEntity>) query.getResultList();
+
+        while (!templist.isEmpty()) {
+            Calendar tempPeriod = templist.get(0).getPeriod();
+            if ((removeTime(tempPeriod).compareTo(removeTime(startPeriod)) >= 0)&&(removeTime(tempPeriod).compareTo(removeTime(endPeriod))<=0))
+                list.add(templist.get(0));
+            templist.remove(0);
+        }
+        
+        return list;
+        }   catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+
+    
+    public Calendar removeTime(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
 }

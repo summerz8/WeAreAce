@@ -50,12 +50,19 @@ public class UserEntity implements Serializable {
     private String postalCode;
     private String email;
     
+    private Boolean deleteFlag;//used to identify whether this user has been deleted
+   
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name = "USER_INTERNALMESSAGE")
     private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
 
-    public UserEntity(String department, String idNumber, Integer userLevel, String lastName, 
-            String firstName, String position, String gender) {
+    public UserEntity() {
+    }
+
+    
+    public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, Boolean deleteFlag) {
         this.setUserId(department + idNumber);
         String PWD;
         String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
@@ -74,9 +81,33 @@ public class UserEntity implements Serializable {
         this.firstName = firstName;
         this.position = position;
         this.gender = gender;
+        this.address= address;
+        this.birthday = birthday;
+        this.department = department;
+        this.email = email;
+        this.midName = midName;
+        this.postalCode = postalCode;
+        this.title = title;
+        this.deleteFlag = deleteFlag;
     }
 
-    public UserEntity() {
+    public void editUserEntity(String department, Integer userLevel, String lastName, String midName,
+            String firstName, String position,  Calendar birthday, String gender, 
+            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+        
+        this.userLevel = userLevel;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.position = position;
+        this.gender = gender;
+        this.address= address;
+        this.birthday = birthday;
+        this.department = department;
+        this.email = email;
+        this.midName = midName;
+        this.postalCode = postalCode;
+        this.title = title;
+        this.deleteFlag = deleteFlag;
     }
     
     public String getUserId() {
@@ -197,6 +228,14 @@ public class UserEntity implements Serializable {
 
     public void setInMessages(Set<InternalMessageEntity> inMessages) {
         this.inMessages = inMessages;
+    }
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
     
     
