@@ -6,7 +6,6 @@
 package Entity.Factory.MRP;
 
 import Entity.Factory.FactoryProductEntity;
-import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +54,7 @@ public class ProductionPlanEntity implements Serializable {
     public ProductionPlanEntity() {
     }
 
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, ProductEntity product, String remark) {
+    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, FactoryProductEntity product, String remark) {
         this.status = status;
         this.generateDate = generateDate;
         this.targetSalesStartDate = targetSalesStartDate;
@@ -121,11 +120,11 @@ public class ProductionPlanEntity implements Serializable {
         this.quantity = output;
     }
 
-    public ProductEntity getProduct() {
+    public FactoryProductEntity getProduct() {
         return factoryProduct;
     }
 
-    public void setProduct(ProductEntity product) {
+    public void setProduct(FactoryProductEntity product) {
         this.factoryProduct = product;
     }
 
