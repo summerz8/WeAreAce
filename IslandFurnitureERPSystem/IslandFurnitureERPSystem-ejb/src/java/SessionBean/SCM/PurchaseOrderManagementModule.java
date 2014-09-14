@@ -262,19 +262,15 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
                 if(!plannedOrder.getPurchaseOrder().isEmpty())
                     availPlannedOrderList.add(plannedOrder);
-                
             }
             
         }catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
-        }
-        
-        return plannedOrderList
+        }       
+        return plannedOrderList;
     }
-
     
-
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
