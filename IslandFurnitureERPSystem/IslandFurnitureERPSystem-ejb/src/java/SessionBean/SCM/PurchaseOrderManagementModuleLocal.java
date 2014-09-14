@@ -13,10 +13,12 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
+import java.awt.List;
 import java.util.Collection;
 import java.util.Set;
 import javax.ejb.Local;
@@ -48,6 +50,9 @@ public interface PurchaseOrderManagementModuleLocal {
     //5. Generate purchase order
     //by manually input the purcahse item related information
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination) throws Exception;  
+    //by reference to selected planned order
+    public Set<PlannedOrderEntity> viewAvailPlannedOrder() throws Exception;
+
     
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order

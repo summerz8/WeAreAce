@@ -215,7 +215,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
     //5. Generate purchase order
     //by manually input the purcahse item related information
-
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination)
             throws Exception {
@@ -246,6 +245,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return purchaseOrder;
 
     }
+    //by given
 
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
