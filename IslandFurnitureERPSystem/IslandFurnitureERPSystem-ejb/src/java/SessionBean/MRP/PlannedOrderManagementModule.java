@@ -6,6 +6,8 @@
 package SessionBean.MRP;
 
 import Entity.Factory.BOMEntity;
+import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
@@ -58,22 +60,19 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 
     //Modify the data in the CreatePlannedOrder page//
     @Override
-    public PlannedOrderEntity GeneratePlannedOrder(Calendar dateInput,
-            Calendar targetStartInput,
-            Calendar targetEndInput,
-            String statusInput,
-            Long productionIdInput,
+    public PlannedOrderEntity GeneratePlannedOrder(Calendar date,
+            Calendar targetPeriod,
+            String status,
+            Long productionId,
             List<Long> rawMaterialList,
             List<Integer> RawAmount,
-            List<String> Unit) {
+            List<String> Unit,
+            FactoryEntity factory) {
         
         try{
 
             //Create RawMaterialAmount Entity for each material in the plannedOrder//
-        Calendar date = dateInput;
-        Calendar targetStart = targetStartInput;
-        Calendar targetEnd = targetEndInput;
-        String status = statusInput;
+ 
         List<RawMaterialAmountEntity> MaterialList = new ArrayList<RawMaterialAmountEntity>();
 
         Long MaterialId;
@@ -84,20 +83,21 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             MaterialId = rawMaterialList.get(0);
             unit = Unit.get(0);
             amount = RawAmount.get(0);
+            FactoryRawMaterialEntity tempRaw=em.find(FactoryRawMaterialEntity.class,MaterialId);
             RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
 
             temp.setAmount(amount);
-            temp.setRawMaterialId(MaterialId);
+            temp.setFactoryRawMaterial(tempRaw);
             temp.setUnit(unit);
 
             MaterialList.add(temp);
             rawMaterialList.remove(0);
         }
 
-        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionIdInput);
+        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionId);
 
         PlannedOrderEntity order = null;
-        order.createPlannedOrder(date, targetStart, targetEnd, status, productionPlan, MaterialList);
+        order.createPlannedOrder(date, targetPeriod, status, productionPlan, MaterialList,factory);
         return order;
         }catch(Exception ex){
              System.out.println(ex.getMessage());
@@ -107,8 +107,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     
     @Override
     public boolean EditPlannedOrder(Long plannedOrderId,Calendar dateInput,
-            Calendar targetStartInput,
-            Calendar targetEndInput,
+            Calendar targetDate,
             String statusInput,
             Long productionIdInput,
             List<Long> rawMaterialList,
@@ -118,8 +117,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         try{
         PlannedOrderEntity plannedOrder=em.find(PlannedOrderEntity.class,plannedOrderId);
         plannedOrder.setDate(dateInput);
-        plannedOrder.setTargetSalesEndDate(targetStartInput);
-        plannedOrder.setTargetSalesEndDate(targetStartInput);
+        plannedOrder.setTargeDate(targetDate);
         plannedOrder.setStatus(statusInput);
         
         Long MaterialId;
@@ -130,10 +128,11 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             MaterialId = rawMaterialList.get(0);
             unit = Unit.get(0);
             amount = RawAmount.get(0);
+            FactoryRawMaterialEntity tempRaw=em.find(FactoryRawMaterialEntity.class,MaterialId);
             RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
 
             temp.setAmount(amount);
-            temp.setRawMaterialId(MaterialId);
+            temp.setFactoryRawMaterial(tempRaw);
             temp.setUnit(unit);
 
             MaterialList.add(temp);
