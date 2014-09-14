@@ -248,7 +248,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
     //by reference to selected planned order
     @Override
-    public Set<PlannedOrderEntity> viewAvailPlannedOrder(Long factoryId) throws Exception {
+    public Set<RetailProductPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
         Set<PlannedOrderEntity> plannedOrderList = new HashSet<>();
         Set<PlannedOrderEntity> availPlannedOrderList = new HashSet<>();
         
@@ -304,8 +304,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         boolean isSameItem = true;
         Iterator iterator = plannedOrderList.iterator();
         
-        while(iterator.hasNext()){
+        if(iterator.hasNext()){
             Object obj = iterator.next();
+            PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
+            RawMaterialAmountEntity rawMaterial = plannedOrder.getRawMaterialList()
+            
+            
             
         }
 
