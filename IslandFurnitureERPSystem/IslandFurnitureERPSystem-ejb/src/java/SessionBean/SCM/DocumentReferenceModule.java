@@ -88,7 +88,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         for (Object o : rawMaterialList) {
             RawMaterialAmountEntity rma = (RawMaterialAmountEntity) o;
             List item = new ArrayList();
-            item.add(0, rma.getId());
+            item.add(0, rma.getRawMaterialAmountId());
             item.add(0, rma.getRawMaterialId());
             item.add(0, rma.getAmount());
             item.add(0, rma.getUnit());
