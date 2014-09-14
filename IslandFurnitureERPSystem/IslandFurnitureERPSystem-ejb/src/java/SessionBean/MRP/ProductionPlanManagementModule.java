@@ -6,6 +6,7 @@
 
 package SessionBean.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     public boolean generateProductionPlan(String status,Calendar generateDate,Calendar targetSalesStartDate,Calendar targetSalesEndDate,Integer output,Long productId, String remark){
         
         try{
-            ProductEntity product = em.find(ProductEntity.class,productId);
+            FactoryProductEntity product=em.find(FactoryProductEntity.class, productId);
             ProductionPlanEntity productionPlan = new ProductionPlanEntity(status,generateDate,targetSalesStartDate,targetSalesEndDate,output,product,remark);
             em.persist(productionPlan);
             System.out.println("Generate production plan!");
@@ -60,7 +61,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
                 break;
             case "productId":
                 Long productId = (Long) content;
-                ProductEntity product = em.find(ProductEntity.class,productId);
+                FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
                 productionPlan.setProduct(product);
                 break;
             case "output":
@@ -107,7 +108,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
             productionPlan.add(2,pp.getGenerateDate());
             productionPlan.add(3,pp.getTargetSalesStartDate());
             productionPlan.add(4,pp.getTargetSalesEndDate());
-            productionPlan.add(5,pp.getProduct().getProductId());
+            productionPlan.add(5,pp.getProduct().getFactoryProductId());
             productionPlan.add(6,pp.getQuantity());
             productionPlan.add(7,pp.getConfirmDate());
             productionPlan.add(8,pp.getRemark());
