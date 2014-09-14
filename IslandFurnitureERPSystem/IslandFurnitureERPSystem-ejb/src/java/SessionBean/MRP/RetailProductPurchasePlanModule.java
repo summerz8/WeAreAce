@@ -31,11 +31,11 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     private EntityManager em;
     
     @Override
-    public boolean generateRetailProductPurchasePlan(String status,Calendar generateDate,Calendar targetSalesStartDate,Calendar targetSalesEndDate,Integer output,Long productId, String remark){
+    public boolean generateRetailProductPurchasePlan(String status,Calendar generateDate,Calendar targetPeriod,Integer output,Long productId, String remark){
         
         try{
             FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
-            ProductionPlanEntity productionPlan = new ProductionPlanEntity(status,generateDate,targetSalesStartDate,targetSalesEndDate,output,product,remark);
+            ProductionPlanEntity productionPlan = new ProductionPlanEntity(status,generateDate,targetPeriod,output,product,remark);
             em.persist(productionPlan);
             System.out.println("Generate production plan!");
         }catch(Exception ex){
@@ -52,12 +52,8 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
         
         switch (field) {
             case "targetSalesStartDate":
-                Calendar startDate = (Calendar) content;
-                productionPlan.setTargetSalesStartDate(startDate);
-                break;
-            case "targetSalesEndDate":
-                Calendar endDate = (Calendar) content;
-                productionPlan.setTargetSalesEndDate(endDate);
+                Calendar targetPeriod = (Calendar) content;
+                productionPlan.setTargetPeriod(targetPeriod);
                 break;
             case "productId":
                 Long productId = (Long) content;
@@ -106,12 +102,11 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
             productionPlan.add(0,pp.getProductionPlanId());
             productionPlan.add(1,pp.getStatus());
             productionPlan.add(2,pp.getGenerateDate());
-            productionPlan.add(3,pp.getTargetSalesStartDate());
-            productionPlan.add(4,pp.getTargetSalesEndDate());
-            productionPlan.add(5,pp.getProduct().getFactoryProductId());
-            productionPlan.add(6,pp.getQuantity());
-            productionPlan.add(7,pp.getConfirmDate());
-            productionPlan.add(8,pp.getRemark());
+            productionPlan.add(3,pp.getTargetPeriod());
+            productionPlan.add(4,pp.getProduct().getFactoryProductId());
+            productionPlan.add(5,pp.getQuantity());
+            productionPlan.add(6,pp.getConfirmDate());
+            productionPlan.add(7,pp.getRemark());
             productionPlanList.add(productionPlan);
         }
         
