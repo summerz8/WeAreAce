@@ -6,6 +6,8 @@
 package SessionBean.MRP;
 
 import Entity.Factory.BOMEntity;
+import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
@@ -65,7 +67,8 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             Long productionIdInput,
             List<Long> rawMaterialList,
             List<Integer> RawAmount,
-            List<String> Unit) {
+            List<String> Unit,
+            FactoryEntity factory) {
         
         try{
 
@@ -84,10 +87,11 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             MaterialId = rawMaterialList.get(0);
             unit = Unit.get(0);
             amount = RawAmount.get(0);
+            FactoryRawMaterialEntity tempRaw=em.find(FactoryRawMaterialEntity.class,MaterialId);
             RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
 
             temp.setAmount(amount);
-            temp.setRawMaterialId(MaterialId);
+            temp.setFactoryRawMaterial(tempRaw);
             temp.setUnit(unit);
 
             MaterialList.add(temp);
@@ -97,7 +101,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionIdInput);
 
         PlannedOrderEntity order = null;
-        order.createPlannedOrder(date, targetStart, targetEnd, status, productionPlan, MaterialList);
+        order.createPlannedOrder(date, targetStart, targetEnd, status, productionPlan, MaterialList,factory);
         return order;
         }catch(Exception ex){
              System.out.println(ex.getMessage());
@@ -130,10 +134,11 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             MaterialId = rawMaterialList.get(0);
             unit = Unit.get(0);
             amount = RawAmount.get(0);
+            FactoryRawMaterialEntity tempRaw=em.find(FactoryRawMaterialEntity.class,MaterialId);
             RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
 
             temp.setAmount(amount);
-            temp.setRawMaterialId(MaterialId);
+            temp.setFactoryRawMaterial(tempRaw);
             temp.setUnit(unit);
 
             MaterialList.add(temp);

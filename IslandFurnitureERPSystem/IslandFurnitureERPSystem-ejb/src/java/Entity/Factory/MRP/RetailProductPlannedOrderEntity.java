@@ -1,16 +1,15 @@
-package Entity.Factory.MRP;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+package Entity.Factory.MRP;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.RawMaterialAmountEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -29,13 +28,12 @@ import javax.persistence.Temporal;
  * @author apple
  */
 @Entity
-@Table(name = "PlannedOrder")
-public class PlannedOrderEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Table(name = "RetaiProductPlannedOrder")
+public class RetailProductPlannedOrderEntity {
+        private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long plannedOrderId;
+    private Long retailPlannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar date;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -44,11 +42,8 @@ public class PlannedOrderEntity implements Serializable {
     private Calendar targetSalesEndDate;
     private String status;//waiting, processing, cancelled, and accomplished
     
-    @OneToMany(cascade = {CascadeType.PERSIST})
-    private List<RawMaterialAmountEntity> rawMaterialList;
-    
-    @OneToOne(cascade = {CascadeType.PERSIST})
-    private ProductionPlanEntity productionPlan;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryRetailProductEntity retailProduct;
     
     //planned order entity -- purchase order entity: 1 <--> M
     @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "plannedOrder")
@@ -57,28 +52,27 @@ public class PlannedOrderEntity implements Serializable {
     @ManyToOne
     private FactoryEntity factory;
 
-    public PlannedOrderEntity() {
+    public RetailProductPlannedOrderEntity() {
     }
 
 
-    public void createPlannedOrder(Calendar date,
+    public void createRetailProductPlannedOrder(Calendar date,
                                    Calendar targetStart,
                                    Calendar targetEnd,
                                    String status,
-                                   ProductionPlanEntity productionPlan, 
-                                   List<RawMaterialAmountEntity> rawMaterialList,
-                                   FactoryEntity factory) {
+                                   FactoryRetailProductEntity retailproduct,
+                                   FactoryEntity factory
+                                   ){
         this.date=date;
         this.targetSalesStartDate=targetStart;
         this.targetSalesEndDate=targetEnd;
         this.status=status;
-        this.productionPlan=productionPlan;
-        this.rawMaterialList= rawMaterialList;
+        this.retailProduct=retailproduct;
         this.factory=factory;
             }
 
     public void setPlannedOrderId(Long plannedOrderId) {
-        this.plannedOrderId = plannedOrderId;
+        this.retailPlannedOrderId = plannedOrderId;
     }
 
     public void setStatus(String status) {
@@ -105,16 +99,9 @@ public class PlannedOrderEntity implements Serializable {
         this.targetSalesEndDate = targetSalesEndDate;
     }
 
-    public List<RawMaterialAmountEntity> getRawMaterialAmount() { // why not use the same name?
-        return rawMaterialList;
-    }
-
-    public void setRawMaterialAmount(List<RawMaterialAmountEntity> rawMaterialList) {
-        this.rawMaterialList = rawMaterialList;
-    }
 
     public Long getPlannedOrderId() {
-        return plannedOrderId;
+        return retailPlannedOrderId;
     }
 
     public Calendar getDate() {
@@ -125,33 +112,10 @@ public class PlannedOrderEntity implements Serializable {
         return status;
     }
 
-    public ProductionPlanEntity getProductionPlan() {
-        return productionPlan;
-    }
-
-    public void setProductionPlan(ProductionPlanEntity productionPlan) {
-        this.productionPlan = productionPlan;
-    }
-
     public List<PurchaseOrderEntity> setPurchaseOrder(){
         return purchaseOrder;
     }
 
-    public List<RawMaterialAmountEntity> getRawMaterialList() {
-        return rawMaterialList;
-    }
-
-    public void setRawMaterialList(List<RawMaterialAmountEntity> rawMaterialList) {
-        this.rawMaterialList = rawMaterialList;
-    }
-
-    public ProductionPlanEntity getProductionplan() {
-        return productionPlan;
-    }
-
-    public void setProductionplan(ProductionPlanEntity productionplan) {
-        this.productionPlan = productionplan;
-    }
 
     public List<PurchaseOrderEntity> getPurchaseOrder() {
         return purchaseOrder;
@@ -169,29 +133,38 @@ public class PlannedOrderEntity implements Serializable {
         this.factory = factory;
     }
 
+    public FactoryRetailProductEntity getRetailProduct() {
+        return retailProduct;
+    }
+
+    public void setRetailProduct(FactoryRetailProductEntity retailProduct) {
+        this.retailProduct = retailProduct;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (plannedOrderId != null ? plannedOrderId.hashCode() : 0);
+        hash += (retailPlannedOrderId != null ? retailPlannedOrderId.hashCode() : 0);
         return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PlannedOrderEntity)) {
-            return false;
-        }
-        PlannedOrderEntity other = (PlannedOrderEntity) object;
-        if ((this.plannedOrderId == null && other.plannedOrderId != null) || (this.plannedOrderId != null && !this.plannedOrderId.equals(other.plannedOrderId))) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof RetailProductPlannedOrderEntity)) {
+//            return false;
+//        }
+//        PlannedOrderEntity other = (PlannedOrderEntity) object;
+//        if ((this.retailPlannedOrderId == null && other.retailPlannedOrderId != null) || (this.retailPlannedOrderId != null && !this.retailPlannedOrderId.equals(other.retailPlannedOrderId))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString() {
-        return "Entity.Factory.PlannedOrderEntity[ id=" + plannedOrderId + " ]";
+        return "Entity.Factory.PlannedOrderEntity[ id=" + retailPlannedOrderId + " ]";
     }
-
 }
