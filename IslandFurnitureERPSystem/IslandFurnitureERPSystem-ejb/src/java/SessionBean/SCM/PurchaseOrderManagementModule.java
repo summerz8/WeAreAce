@@ -278,7 +278,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             boolean isSameItem = checkPlannedOrders(plannedOrderList);
             
             
-            FactoryEntity factory = p
+        //    FactoryEntity factory = p
             purchaseOrder.create(null, null, null, Integer.SIZE, null, null, Double.NaN, Integer.SIZE);
             
         }catch(Exception ex){
