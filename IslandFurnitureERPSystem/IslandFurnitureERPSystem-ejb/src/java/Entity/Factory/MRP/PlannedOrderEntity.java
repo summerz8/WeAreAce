@@ -37,11 +37,9 @@ public class PlannedOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar date;
+    private Calendar geratedDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetSalesStartDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetSalesEndDate;
+    private Calendar targetDate;
     private String status;//waiting, processing, cancelled, and accomplished
     
     @OneToMany(cascade = {CascadeType.PERSIST})
@@ -62,15 +60,13 @@ public class PlannedOrderEntity implements Serializable {
 
 
     public void createPlannedOrder(Calendar date,
-                                   Calendar targetStart,
-                                   Calendar targetEnd,
+                                   Calendar targetDate,
                                    String status,
                                    ProductionPlanEntity productionPlan, 
                                    List<RawMaterialAmountEntity> rawMaterialList,
                                    FactoryEntity factory) {
-        this.date=date;
-        this.targetSalesStartDate=targetStart;
-        this.targetSalesEndDate=targetEnd;
+        this.geratedDate=date;
+        this.targetDate=targetDate;
         this.status=status;
         this.productionPlan=productionPlan;
         this.rawMaterialList= rawMaterialList;
@@ -86,23 +82,16 @@ public class PlannedOrderEntity implements Serializable {
     }
 
     public void setDate(Calendar date) {
-        this.date = date;
+        this.geratedDate = date;
     }
 
-    public Calendar getTargetSalesStartDate() {
-        return targetSalesStartDate;
+
+    public Calendar TargetDate() {
+        return targetDate;
     }
 
-    public void setTargetSalesStartDate(Calendar targetSalesStartDate) {
-        this.targetSalesStartDate = targetSalesStartDate;
-    }
-
-    public Calendar getTargetSalesEndDate() {
-        return targetSalesEndDate;
-    }
-
-    public void setTargetSalesEndDate(Calendar targetSalesEndDate) {
-        this.targetSalesEndDate = targetSalesEndDate;
+    public void setTargeDate(Calendar targetDate) {
+        this.targetDate = targetDate;
     }
 
     public List<RawMaterialAmountEntity> getRawMaterialAmount() { // why not use the same name?
@@ -118,7 +107,7 @@ public class PlannedOrderEntity implements Serializable {
     }
 
     public Calendar getDate() {
-        return date;
+        return geratedDate;
     }
 
     public String getStatus() {
