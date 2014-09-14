@@ -123,7 +123,7 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
-    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrders) {
         this.plannedOrders = plannedOrders;
     }
 
@@ -151,6 +151,22 @@ public class PurchaseOrderEntity implements Serializable {
         this.total = total;
     }
 
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public Integer getLeadTime() {
+        return leadTime;
+    }
+
+    public void setLeadTime(Integer leadTime) {
+        this.leadTime = leadTime;
+    }
+  
     public void create(FactoryEntity factory, ContractEntity contract, String status,
             Integer amount, String unit, String destination, Double total_price, Integer leadTime) {
         this.factory = factory;

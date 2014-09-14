@@ -5,6 +5,7 @@
  */
 package Entity.Factory.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ProductionPlanEntity implements Serializable {
     private Integer quantity;
     private String remark;
     @ManyToOne(cascade = {CascadeType.ALL})
-    private ProductEntity product;  //should be FactoryProductEntity
+    private FactoryProductEntity factoryProduct;  //should be FactoryProductEntity
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "productionPlan")
     private List<PlannedOrderEntity> plannedOrder = new ArrayList();
     @OneToMany(cascade={CascadeType.ALL},mappedBy="productionPlan")
@@ -60,7 +61,7 @@ public class ProductionPlanEntity implements Serializable {
         this.targetSalesStartDate = targetSalesStartDate;
         this.targetSalesEndDate = targetSalesEndDate;
         this.quantity = output;
-        this.product = product;
+        this.factoryProduct = product;
         this.remark = remark;
     }
 
@@ -121,11 +122,11 @@ public class ProductionPlanEntity implements Serializable {
     }
 
     public ProductEntity getProduct() {
-        return product;
+        return factoryProduct;
     }
 
     public void setProduct(ProductEntity product) {
-        this.product = product;
+        this.factoryProduct = product;
     }
 
     public String getRemark() {

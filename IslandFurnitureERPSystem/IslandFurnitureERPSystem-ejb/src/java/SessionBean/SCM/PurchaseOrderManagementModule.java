@@ -270,7 +270,23 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }       
         return plannedOrderList;
     }
-    
+    @Override
+    public PurchaseOrderEntity genratePurchaseOrder(Set<PlannedOrderEntity> plannedOrderList) throws Exception {
+        PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
+        try{
+            // check whether the raw materials/retail products in the planned orders are the same
+            boolean isSameItem = checkPlannedOrders(plannedOrderList);
+            
+            
+            FactoryEntity factory = p
+            purchaseOrder.create(null, null, null, Integer.SIZE, null, null, Double.NaN, Integer.SIZE);
+            
+        }catch(Exception ex){
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return purchaseOrder;
+    }
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
@@ -283,6 +299,21 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
     }
+
+    private boolean checkPlannedOrders(Set<PlannedOrderEntity> plannedOrderList) {
+        boolean isSameItem = true;
+        Iterator iterator = plannedOrderList.iterator();
+        
+        while(iterator.hasNext()){
+            Object obj = iterator.next();
+            
+        }
+
+        
+        return isSameItem;
+    }
+
+    
 
     
 }

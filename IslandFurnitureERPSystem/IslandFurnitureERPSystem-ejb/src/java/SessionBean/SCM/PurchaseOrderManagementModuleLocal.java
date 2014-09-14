@@ -18,7 +18,6 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
-import java.awt.List;
 import java.util.Collection;
 import java.util.Set;
 import javax.ejb.Local;
@@ -52,6 +51,7 @@ public interface PurchaseOrderManagementModuleLocal {
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination) throws Exception;  
     //by reference to selected planned order
     public Set<PlannedOrderEntity> viewAvailPlannedOrder(Long factoryId) throws Exception;
+    public PurchaseOrderEntity genratePurchaseOrder(Set<PlannedOrderEntity> plannedOrderList) throws Exception;
 
     
     //6. Edit unconfirmed purchase order
