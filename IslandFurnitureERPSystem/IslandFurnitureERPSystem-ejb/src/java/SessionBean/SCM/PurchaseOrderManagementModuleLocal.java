@@ -51,7 +51,7 @@ public interface PurchaseOrderManagementModuleLocal {
     //by manually input the purcahse item related information
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination) throws Exception;  
     //by reference to selected planned order
-    public Set<PlannedOrderEntity> viewAvailPlannedOrder() throws Exception;
+    public Set<PlannedOrderEntity> viewAvailPlannedOrder(Long factoryId) throws Exception;
 
     
     //6. Edit unconfirmed purchase order

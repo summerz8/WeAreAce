@@ -16,6 +16,7 @@ package SessionBean.SCM;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
@@ -245,7 +246,34 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return purchaseOrder;
 
     }
-    //by given
+    //by reference to selected planned order
+    @Override
+    public Set<PlannedOrderEntity> viewAvailPlannedOrder(Long factoryId) throws Exception {
+        Set<PlannedOrderEntity> plannedOrderList = new HashSet<>();
+        Set<PlannedOrderEntity> availPlannedOrderList = new HashSet<>();
+        
+        try{
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            plannedOrderList = factory.getPlannedOrder();
+            Iterator iterator = plannedOrderList.iterator();
+            
+            while(iterator.hasNext()){
+                Object obj = iterator.next();
+                PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
+                if(!plannedOrder.getPurchaseOrder().isEmpty())
+                    availPlannedOrderList.add(plannedOrder);
+                
+            }
+            
+        }catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        
+        return plannedOrderList
+    }
+
+    
 
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
@@ -260,4 +288,5 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return cal;
     }
 
+    
 }

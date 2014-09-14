@@ -49,8 +49,8 @@ public class PurchaseOrderEntity implements Serializable {
     @OneToOne(mappedBy = "purchaseOrder")
     private GoodsReceiptEntity goodsReceipt;
 
-    //purchase order entity -- planned order entity : M <--> M 
-    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
+    //purchase order entity -- planned order entity : M <--> 1 
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private List<PlannedOrderEntity> plannedOrders;
 
     //purchase order entity -- contract entity: M --> 1

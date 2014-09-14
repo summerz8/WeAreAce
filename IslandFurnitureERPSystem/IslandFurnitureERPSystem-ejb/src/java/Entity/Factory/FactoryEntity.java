@@ -42,7 +42,7 @@ public class FactoryEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long factoryId;
+    private Long factoryId;
     private String country;
     private String address;
     private String contact;
@@ -73,18 +73,19 @@ public class FactoryEntity implements Serializable {
     @JoinTable(name = "FACTORY_STORE")
     private Set<StoreEntity> stores = new HashSet<>();
     
+    //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(mappedBy="factory")
-    private List<PlannedOrderEntity> plannedOrder;
+    private Set<PlannedOrderEntity> plannedOrders = new HashSet<>();
     
     public FactoryEntity() {
     }
 
-    public long getFactoryId() {
+    public Long getFactoryId() {
         return factoryId;
     }
 
-    public void setUserId(long factoryID) {
-        this.factoryId = factoryID;
+    public void setFactoryId(Long factoryId) {
+        this.factoryId = factoryId;
     }
 
     public String getCountry() {
@@ -169,13 +170,14 @@ public class FactoryEntity implements Serializable {
         this.stores = stores;
     }
 
-    public List<PlannedOrderEntity> getPlannedOrder() {
-        return plannedOrder;
+    public Set<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrders;
     }
 
-    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
-        this.plannedOrder = plannedOrder;
+    public void setPlannedOrder(Set<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrders = plannedOrder;
     }
+    
     
     @Override
     public String toString() {

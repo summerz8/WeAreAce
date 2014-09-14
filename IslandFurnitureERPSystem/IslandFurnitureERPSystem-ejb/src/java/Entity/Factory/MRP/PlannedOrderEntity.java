@@ -45,14 +45,18 @@ public class PlannedOrderEntity implements Serializable {
     private Calendar targetSalesStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetSalesEndDate;
-    private String status;
+    private String status;//waiting, processing, cancelled, and accomplished
+    
     @OneToMany(cascade = {CascadeType.PERSIST})
     private List<RawMaterialAmountEntity> rawMaterialList;
+    
     @OneToOne(cascade = {CascadeType.PERSIST})
-    private ProductionPlanEntity productionplan;
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name="PlannedOrder_PurchaseOrder")
-    private List<PurchaseOrderEntity> purchaseOrder;
+    private ProductionPlanEntity productionPlan;
+    
+    //planned order entity -- purchase order entity: 1 <--> M
+    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "plannedOrder")
+    private List<PurchaseOrderEntity> purchaseOrder = null;
+    
     @ManyToOne
     private FactoryEntity factory;
 
@@ -70,7 +74,7 @@ public class PlannedOrderEntity implements Serializable {
         this.targetSalesStartDate=targetStart;
         this.targetSalesEndDate=targetEnd;
         this.status=status;
-        this.productionplan=productionPlan;
+        this.productionPlan=productionPlan;
         this.rawMaterialList= rawMaterialList;
             }
 
@@ -123,18 +127,48 @@ public class PlannedOrderEntity implements Serializable {
     }
 
     public ProductionPlanEntity getProductionPlan() {
-        return productionplan;
+        return productionPlan;
     }
 
     public void setProductionPlan(ProductionPlanEntity productionPlan) {
-        this.productionplan = productionPlan;
+        this.productionPlan = productionPlan;
     }
 
     public List<PurchaseOrderEntity> setPurchaseOrder(){
         return purchaseOrder;
     }
 
-   
+    public List<RawMaterialAmountEntity> getRawMaterialList() {
+        return rawMaterialList;
+    }
+
+    public void setRawMaterialList(List<RawMaterialAmountEntity> rawMaterialList) {
+        this.rawMaterialList = rawMaterialList;
+    }
+
+    public ProductionPlanEntity getProductionplan() {
+        return productionPlan;
+    }
+
+    public void setProductionplan(ProductionPlanEntity productionplan) {
+        this.productionPlan = productionplan;
+    }
+
+    public List<PurchaseOrderEntity> getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(List<PurchaseOrderEntity> purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public FactoryEntity getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryEntity factory) {
+        this.factory = factory;
+    }
 
     @Override
     public int hashCode() {
