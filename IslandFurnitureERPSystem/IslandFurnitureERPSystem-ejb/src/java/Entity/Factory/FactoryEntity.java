@@ -41,13 +41,9 @@ public class FactoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-<<<<<<< HEAD
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long factoryId;
-=======
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long factoryId;
->>>>>>> 1d5c449bddb95f19bd72bb2af410162ccd0da285
+  
     private String country;
     private String address;
     private String contact;
@@ -86,7 +82,6 @@ public class FactoryEntity implements Serializable {
     public FactoryEntity() {
     }
 
-<<<<<<< HEAD
     public FactoryEntity(String country, String address, String contact, String manager, Boolean deleteFlag) {
         this.country = country;
         this.address = address;
@@ -97,9 +92,6 @@ public class FactoryEntity implements Serializable {
 
     
     public long getFactoryId() {
-=======
-    public Long getFactoryId() {
->>>>>>> 1d5c449bddb95f19bd72bb2af410162ccd0da285
         return factoryId;
     }
 
