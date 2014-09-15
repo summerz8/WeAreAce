@@ -38,12 +38,13 @@ public class FactoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long factoryId;
     private String country;
     private String address;
     private String contact;
     private String manager; // managerEntity
+    private Boolean deleteFlag;//a flag used to mark as deleted or not
     
     //purchase order entity -- factory entity: M <--> 1 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
@@ -73,6 +74,15 @@ public class FactoryEntity implements Serializable {
     public FactoryEntity() {
     }
 
+    public FactoryEntity(String country, String address, String contact, String manager, Boolean deleteFlag) {
+        this.country = country;
+        this.address = address;
+        this.contact = contact;
+        this.manager = manager;
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public long getFactoryId() {
         return factoryId;
     }
@@ -113,6 +123,15 @@ public class FactoryEntity implements Serializable {
         this.manager = manager;
     }
 
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public Collection<PurchaseOrderEntity> getPurchaseOrders() {
         return purchaseOrders;
     }
