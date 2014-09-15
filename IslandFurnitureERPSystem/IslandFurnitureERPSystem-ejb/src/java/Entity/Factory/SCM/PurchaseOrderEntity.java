@@ -49,9 +49,13 @@ public class PurchaseOrderEntity implements Serializable {
     @OneToOne(mappedBy = "purchaseOrder")
     private GoodsReceiptEntity goodsReceipt;
 
-    //purchase order entity -- planned order entity : M <--> M 
-    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "purchaseOrder")
+    //purchase order entity -- planned order entity : M <--> 1 
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private List<PlannedOrderEntity> plannedOrders;
+    
+    //purchase order entity -- planned order entity : M <--> 1 
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private List<RetailProductPlannedOrderEntity> retailProductPlannedOrders;
 
     //purchase order entity -- contract entity: M --> 1
     @ManyToOne(cascade = {CascadeType.PERSIST})
@@ -123,7 +127,7 @@ public class PurchaseOrderEntity implements Serializable {
         this.goodsReceipt = goodsReceipt;
     }
 
-    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrders) {
         this.plannedOrders = plannedOrders;
     }
 
@@ -151,6 +155,30 @@ public class PurchaseOrderEntity implements Serializable {
         this.total = total;
     }
 
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public Integer getLeadTime() {
+        return leadTime;
+    }
+
+    public void setLeadTime(Integer leadTime) {
+        this.leadTime = leadTime;
+    }
+
+    public List<RetailProductPlannedOrderEntity> getRetailProductPlannedOrders() {
+        return retailProductPlannedOrders;
+    }
+
+    public void setRetailProductPlannedOrders(List<RetailProductPlannedOrderEntity> retailProductPlannedOrders) {
+        this.retailProductPlannedOrders = retailProductPlannedOrders;
+    }
+  
     public void create(FactoryEntity factory, ContractEntity contract, String status,
             Integer amount, String unit, String destination, Double total_price, Integer leadTime) {
         this.factory = factory;

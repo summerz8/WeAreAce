@@ -35,7 +35,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void AddStaff(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String departmentId) {
+            String title, String address, String postalCode, String email, long departmentId) {
         //departmentID refers to the respective Factory, Store or HQ id
         System.out.println("InternalUserAccountModule: addStaff():");
 
@@ -46,7 +46,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
 
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
 
-        switch (departmentId.charAt(0)) {
+        switch (department.charAt(0)) {
             case 'H':
                 idNumber = idNum.getId_H().intValue() + 1;
                 idNum.setId_H((long) idNumber);
@@ -108,7 +108,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void ModifyStaff(String userId, String department, Integer userLevel, String lastName, String midName,
             String firstName, String position, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String departmentId) {
+            String title, String address, String postalCode, String email, long departmentId) {
 
         System.out.println("InternalUserAccountModule: ModifyStaff():" + userId);
         Query query;
@@ -138,13 +138,29 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     
     //don't know how to implement this
 
-//    public List<String> ListUser() {
-//        return null;
-//    }
-//
-//    public List<Vector> searchUser(String userId, String department, String lastName, String midName,
-//            String firstName, String position, String gender,
-//            String title, String postalCode, String departmentId) {
+    public List<ArrayList> ListUser() {
+        System.out.println("InternalUserAccountModule: ListUser():");
+        Query q = em.createQuery("SELECT t FROM UserEntity t");
+        List requiredUserList = new ArrayList();
+        for(Object o:q.getResultList()){
+            UserEntity u = (UserEntity) o;
+            List Userinfo = new ArrayList();
+            Userinfo.add(0, u.getUserId());
+            Userinfo.add(1, u.getTitle());
+            Userinfo.add(2, u.getFirstName());
+            Userinfo.add(3, u.getMidName());
+            Userinfo.add(4, u.getLastName());
+            Userinfo.add(5, u.getGender());
+            Userinfo.add(6, u.getDepartment());
+            Userinfo.add(7, u.getPosition());
+            Userinfo.add(8, u.getEmail());
+            requiredUserList.add(Userinfo);         
+        }       
+        return requiredUserList;
+    }
+
+//    public List<Vector> searchUser(String userId, String department, String lastName, 
+//            String firstName, String position){
 //        System.out.println("InternalUserAccountModule: searchUser():");
 //        Query query;
 //        if (department != null) {

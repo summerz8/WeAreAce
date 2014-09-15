@@ -18,7 +18,7 @@ import javax.ejb.Local;
 @Local
 public interface RetailProductPurchasePlanModuleLocal {
 
-    public boolean generateRetailProductPurchasePlan(String status, Calendar generateDate, Calendar targetSalesStartDate, Calendar targetSalesEndDate, Integer output, Long productId, String remark);
+    public boolean generateRetailProductPurchasePlan(String status, Calendar generateDate, Calendar targetPeriod,  Integer output, Long productId, String remark);
 
     public void editRetailProductPurchasePlan(Long productionPlanId, String field, Object content);
 

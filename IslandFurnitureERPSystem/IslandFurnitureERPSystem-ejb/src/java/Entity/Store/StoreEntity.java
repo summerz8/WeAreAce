@@ -27,14 +27,32 @@ public class StoreEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;
     private String address;
+    private String country;
+    private String contact;
+    private String manager;
+    private Boolean deleteFlag;
 
     //factory entity -- store entity: M <--> M 
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
     private Set<FactoryEntity> stores = new HashSet<FactoryEntity>();
 
+    
+    public StoreEntity() {
+    }
+
+    public StoreEntity(String address, String country, String contact, String manager, Boolean deleteFlag) {
+        this.address = address;
+        this.country = country;
+        this.contact = contact;
+        this.manager = manager;
+        this.deleteFlag = deleteFlag;
+    }
+    
+    
+    
     public Long getStoreId() {
         return storeId;
     }
@@ -58,6 +76,40 @@ public class StoreEntity implements Serializable {
     public void setStores(Set<FactoryEntity> stores) {
         this.stores = stores;
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+    
+    
     
     @Override
     public int hashCode() {

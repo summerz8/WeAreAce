@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="FactoryUser")
 public class FactoryUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String factoryId; //factoryId is a string made up of one 'F' and 5 digit number eg.F000001
+    private long factoryId; //factoryId is a long number auto generated 
 
     public FactoryUserEntity() {
     }
@@ -29,7 +29,7 @@ public class FactoryUserEntity extends UserEntity implements Serializable {
     
     public FactoryUserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, String departmentId, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
                 birthday,gender,title, address, postalCode, email, deleteFlag);
         factoryId = departmentId;
@@ -38,18 +38,18 @@ public class FactoryUserEntity extends UserEntity implements Serializable {
     
     public void editFactoryUserEntity(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, String departmentId, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super.editUserEntity(department, userLevel, lastName, midName, firstName,
                 position, birthday, gender, title, address, postalCode, email, deleteFlag);
         factoryId = departmentId;
         
     }
 
-    public String getFactoryId() {
+    public long getFactoryId() {
         return factoryId;
     }
 
-    public void setFactoryId(String factoryId) {
+    public void setFactoryId(long factoryId) {
         this.factoryId = factoryId;
     }
     

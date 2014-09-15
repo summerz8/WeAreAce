@@ -50,6 +50,10 @@ public class FactoryRawMaterialEntity implements Serializable {
     //factory raw material entity -- raw material entity: M <--> 1
     @ManyToOne
     private RawMaterialEntity rawMaterial;
+    
+    //raw material amount entity -- factory raw material entity: M <--> 1
+    @OneToMany
+    private Collection<RawMaterialAmountEntity> rawMaterialAmounts = new ArrayList<>();
 
     //contract entity -- factory raw material entity: M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterialProduct")
@@ -131,6 +135,15 @@ public class FactoryRawMaterialEntity implements Serializable {
     public void setMinimumInventory(Integer minimumInventory) {
         this.minimumInventory = minimumInventory;
     }
+
+    public Collection<RawMaterialAmountEntity> getRawMaterialAmounts() {
+        return rawMaterialAmounts;
+    }
+
+    public void setRawMaterialAmounts(Collection<RawMaterialAmountEntity> rawMaterialAmounts) {
+        this.rawMaterialAmounts = rawMaterialAmounts;
+    }
+
 
     public void create(String materialName, String description) {
         setMaterialName(materialName);

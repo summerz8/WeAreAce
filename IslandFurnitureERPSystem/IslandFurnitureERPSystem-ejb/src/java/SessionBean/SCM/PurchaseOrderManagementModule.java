@@ -16,6 +16,7 @@ package SessionBean.SCM;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
@@ -215,7 +216,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
     //5. Generate purchase order
     //by manually input the purcahse item related information
-
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination)
             throws Exception {
@@ -246,7 +246,47 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return purchaseOrder;
 
     }
-
+    //by reference to selected planned order
+    @Override
+    public Set<RetailProductPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
+        Set<PlannedOrderEntity> plannedOrderList = new HashSet<>();
+        Set<PlannedOrderEntity> availPlannedOrderList = new HashSet<>();
+        
+        try{
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            plannedOrderList = factory.getPlannedOrder();
+            Iterator iterator = plannedOrderList.iterator();
+            
+            while(iterator.hasNext()){
+                Object obj = iterator.next();
+                PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
+                if(!plannedOrder.getPurchaseOrder().isEmpty())
+                    availPlannedOrderList.add(plannedOrder);
+            }
+            
+        }catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }       
+        return plannedOrderList;
+    }
+    @Override
+    public PurchaseOrderEntity genratePurchaseOrder(Set<PlannedOrderEntity> plannedOrderList) throws Exception {
+        PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
+        try{
+            // check whether the raw materials/retail products in the planned orders are the same
+            boolean isSameItem = checkPlannedOrders(plannedOrderList);
+            
+            
+        //    FactoryEntity factory = p
+            purchaseOrder.create(null, null, null, Integer.SIZE, null, null, Double.NaN, Integer.SIZE);
+            
+        }catch(Exception ex){
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return purchaseOrder;
+    }
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
@@ -260,4 +300,24 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return cal;
     }
 
+    private boolean checkPlannedOrders(Set<PlannedOrderEntity> plannedOrderList) {
+        boolean isSameItem = true;
+        Iterator iterator = plannedOrderList.iterator();
+        
+        if(iterator.hasNext()){
+            Object obj = iterator.next();
+            PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
+            RawMaterialAmountEntity rawMaterial = plannedOrder.getRawMaterialList()
+            
+            
+            
+        }
+
+        
+        return isSameItem;
+    }
+
+    
+
+    
 }

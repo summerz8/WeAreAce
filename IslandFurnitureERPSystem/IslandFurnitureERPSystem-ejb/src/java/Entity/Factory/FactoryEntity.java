@@ -7,12 +7,15 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import static Entity.Factory.MRP.ProductionPlanEntity_.plannedOrder;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,12 +41,14 @@ public class FactoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long factoryId;
+  
     private String country;
     private String address;
     private String contact;
     private String manager; // managerEntity
+    private Boolean deleteFlag;//a flag used to mark as deleted or not
     
     //purchase order entity -- factory entity: M <--> 1 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
@@ -70,15 +75,28 @@ public class FactoryEntity implements Serializable {
     @JoinTable(name = "FACTORY_STORE")
     private Set<StoreEntity> stores = new HashSet<>();
     
+    //facotry entity -- planned order entity: 1 <--> M
+    @OneToMany(mappedBy="factory")
+    private Set<PlannedOrderEntity> plannedOrders = new HashSet<>();
+    
     public FactoryEntity() {
     }
 
+    public FactoryEntity(String country, String address, String contact, String manager, Boolean deleteFlag) {
+        this.country = country;
+        this.address = address;
+        this.contact = contact;
+        this.manager = manager;
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public long getFactoryId() {
         return factoryId;
     }
 
-    public void setUserId(long factoryID) {
-        this.factoryId = factoryID;
+    public void setFactoryId(Long factoryId) {
+        this.factoryId = factoryId;
     }
 
     public String getCountry() {
@@ -113,6 +131,15 @@ public class FactoryEntity implements Serializable {
         this.manager = manager;
     }
 
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public Collection<PurchaseOrderEntity> getPurchaseOrders() {
         return purchaseOrders;
     }
@@ -163,6 +190,15 @@ public class FactoryEntity implements Serializable {
         this.stores = stores;
     }
 
+    public Set<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrders;
+    }
+
+    public void setPlannedOrder(Set<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrders = plannedOrder;
+    }
+    
+    
     @Override
     public String toString() {
         return "entity.UserEntity[ id=" + factoryId + " ]";
