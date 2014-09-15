@@ -50,7 +50,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         int size=rawMaterial.size();
         for(int a=0;a<size;a++)rawMaterial.get(a).setAmount(amount*rawMaterial.get(a).getAmount());
         PlannedOrderEntity plannedOrder=new PlannedOrderEntity();
-        plannedOrder.setRawMaterialAmount(rawMaterial);
+        plannedOrder.setFactoryRawMaterialList(rawMaterial);
         return plannedOrder;
         }catch(Exception ex){
              System.out.println(ex.getMessage());
@@ -116,8 +116,8 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         
         try{
         PlannedOrderEntity plannedOrder=em.find(PlannedOrderEntity.class,plannedOrderId);
-        plannedOrder.setDate(dateInput);
-        plannedOrder.setTargeDate(targetDate);
+        plannedOrder.setTargetDate(targetDate);
+        plannedOrder.setGeneratedDate(dateInput);
         plannedOrder.setStatus(statusInput);
         
         Long MaterialId;
@@ -139,7 +139,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             rawMaterialList.remove(0);
         }
         
-        plannedOrder.setRawMaterialAmount(MaterialList);
+        plannedOrder.setFactoryRawMaterialList(MaterialList);
         return true;
         }catch(Exception ex){
              System.out.println(ex.getMessage());
