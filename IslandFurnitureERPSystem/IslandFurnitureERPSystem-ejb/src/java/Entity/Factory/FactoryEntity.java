@@ -7,8 +7,8 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
-import static Entity.Factory.MRP.ProductionPlanEntity_.plannedOrder;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
@@ -76,6 +76,10 @@ public class FactoryEntity implements Serializable {
     //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(mappedBy="factory")
     private Set<PlannedOrderEntity> plannedOrders = new HashSet<>();
+    
+    //facotry entity -- integrated planned order entity: 1 <--> M
+    @OneToMany(mappedBy="factory")
+    private Set<IntegratedPlannedOrderEntity> integratedPlannedOrders = new HashSet<>();
     
     public FactoryEntity() {
     }

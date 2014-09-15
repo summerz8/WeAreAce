@@ -3,20 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.MRP;
 
 import Entity.Factory.FactoryEntity;
-import Entity.Factory.RawMaterialAmountEntity;
+import Entity.Factory.FactoryRawMaterialAmountEntity;
+import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -28,24 +32,35 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class IntegratedPlannedOrderEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar date;
+    private Calendar  generatedDate;//generate generatedDate
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDate;
-    private RawMaterialAmountEntity rawMaterial;
+    private Calendar targetDate;//target production generatedDate
     private String status;//waiting, processing, cancelled, and accomplished
-    
-    @OneToMany
-    private List<PlannedOrderEntity> plannedOrderList;
-    
-     //planned order entity -- purchase order entity: 1 <--> M
-    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "integratedPlannedOrder")
+
+    //raw material amount entity -- integrated planned order entity: 1 <-- 1
+    @OneToOne
+    private FactoryRawMaterialAmountEntity factoryRawMaterialAmount;
+
+    //factory retail product amount entity -- integrated planned order entity: 1 <-- 1
+    @OneToOne
+    private FactoryRetailProductAmountEntity factoryRetailProductAmount;
+
+    //planned order entity -- integrated planned order entity: M <-- M
+    @ManyToMany(cascade={CascadeType.ALL})
+    @JoinTable(name="INTEGRATEDPLANNEDORDER_PLANNEDORDER")
+    private Set<PlannedOrderEntity> plannedOrderList=new HashSet<>();
+
+    //integrated planned order entity -- purchase order entity: 1 <--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "integratedPlannedOrder")
     private List<PurchaseOrderEntity> purchaseOrder = null;
-    
+
+    //integrated planned order entity -- factory entity: M <--> 1
     @ManyToOne
     private FactoryEntity factory;
 
@@ -57,12 +72,12 @@ public class IntegratedPlannedOrderEntity implements Serializable {
         this.id = id;
     }
 
-    public Calendar getDate() {
-        return date;
+    public Calendar getGeneratedDate() {
+        return generatedDate;
     }
 
-    public void setDate(Calendar date) {
-        this.date = date;
+    public void setGeneratedDate(Calendar generatedDate) {
+        this.generatedDate = generatedDate;
     }
 
     public Calendar getTargetDate() {
@@ -73,12 +88,12 @@ public class IntegratedPlannedOrderEntity implements Serializable {
         this.targetDate = targetDate;
     }
 
-    public RawMaterialAmountEntity getRawMaterial() {
-        return rawMaterial;
+    public FactoryRawMaterialAmountEntity getFactoryRawMaterialAmount() {
+        return factoryRawMaterialAmount;
     }
 
-    public void setRawMaterial(RawMaterialAmountEntity rawMaterial) {
-        this.rawMaterial = rawMaterial;
+    public void setFactoryRawMaterialAmount(FactoryRawMaterialAmountEntity factoryRawMaterialAmount) {
+        this.factoryRawMaterialAmount = factoryRawMaterialAmount;
     }
 
     public String getStatus() {
@@ -89,11 +104,11 @@ public class IntegratedPlannedOrderEntity implements Serializable {
         this.status = status;
     }
 
-    public List<PlannedOrderEntity> getPlannedOrderList() {
+    public Set<PlannedOrderEntity> getPlannedOrderList() {
         return plannedOrderList;
     }
 
-    public void setPlannedOrderList(List<PlannedOrderEntity> plannedOrderList) {
+    public void setPlannedOrderList(Set<PlannedOrderEntity> plannedOrderList) {
         this.plannedOrderList = plannedOrderList;
     }
 
@@ -113,7 +128,14 @@ public class IntegratedPlannedOrderEntity implements Serializable {
         this.factory = factory;
     }
 
-    
+    public FactoryRetailProductAmountEntity getFactoryRetailProductAmount() {
+        return factoryRetailProductAmount;
+    }
+
+    public void setFactoryRetailProductAmount(FactoryRetailProductAmountEntity factoryRetailProduct) {
+        this.factoryRetailProductAmount = factoryRetailProduct;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -138,5 +160,5 @@ public class IntegratedPlannedOrderEntity implements Serializable {
     public String toString() {
         return "Entity.Factory.MRP.IntegratedPlannedOrderEntity[ id=" + id + " ]";
     }
-    
+
 }

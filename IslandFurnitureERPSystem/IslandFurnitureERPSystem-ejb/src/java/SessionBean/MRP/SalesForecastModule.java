@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
 import java.util.ArrayList;
 import java.util.Calendar;

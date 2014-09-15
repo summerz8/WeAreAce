@@ -5,6 +5,7 @@
  */
 package Entity.Factory;
 
+import Entity.Factory.MRP.PlannedOrderEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "RawMaterialamount")
-public class RawMaterialAmountEntity implements Serializable {
+public class FactoryRawMaterialAmountEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,7 +32,7 @@ public class RawMaterialAmountEntity implements Serializable {
     //raw material amount entity -- factory raw material entity: M <--> 1
     @ManyToOne
     private FactoryRawMaterialEntity factoryRawMaterial;
-
+    
   
     public String getUnit() {
         return unit;
@@ -75,10 +76,10 @@ public class RawMaterialAmountEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the rawMaterialAmountId fields are not set
-        if (!(object instanceof RawMaterialAmountEntity)) {
+        if (!(object instanceof FactoryRawMaterialAmountEntity)) {
             return false;
         }
-        RawMaterialAmountEntity other = (RawMaterialAmountEntity) object;
+        FactoryRawMaterialAmountEntity other = (FactoryRawMaterialAmountEntity) object;
         if ((this.rawMaterialAmountId == null && other.rawMaterialAmountId != null) || (this.rawMaterialAmountId != null && !this.rawMaterialAmountId.equals(other.rawMaterialAmountId))) {
             return false;
         }

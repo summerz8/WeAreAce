@@ -11,7 +11,7 @@ import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
-import Entity.Factory.RawMaterialAmountEntity;
+import Entity.Factory.FactoryRawMaterialAmountEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -44,7 +44,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     public PlannedOrderEntity CreatePlannedOrder(Long productID, Integer amount) {
         try{
         ProductEntity product=em.find(ProductEntity.class,productID);
-        List<RawMaterialAmountEntity> rawMaterial=new ArrayList<RawMaterialAmountEntity>();
+        List<FactoryRawMaterialAmountEntity> rawMaterial=new ArrayList<FactoryRawMaterialAmountEntity>();
         BOMEntity bom=product.getBom();
         rawMaterial=bom.getRawmaterialList();
         int size=rawMaterial.size();
@@ -73,7 +73,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 
             //Create RawMaterialAmount Entity for each material in the plannedOrder//
  
-        List<RawMaterialAmountEntity> MaterialList = new ArrayList<RawMaterialAmountEntity>();
+        List<FactoryRawMaterialAmountEntity> MaterialList = new ArrayList<FactoryRawMaterialAmountEntity>();
 
         Long MaterialId;
         String unit;
@@ -84,7 +84,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             unit = Unit.get(0);
             amount = RawAmount.get(0);
             FactoryRawMaterialEntity tempRaw=em.find(FactoryRawMaterialEntity.class,MaterialId);
-            RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
+            FactoryRawMaterialAmountEntity temp = new FactoryRawMaterialAmountEntity();
 
             temp.setAmount(amount);
             temp.setFactoryRawMaterial(tempRaw);
@@ -123,13 +123,13 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         Long MaterialId;
         String unit;
         Integer amount;
-        List<RawMaterialAmountEntity> MaterialList = new ArrayList<RawMaterialAmountEntity>();
+        List<FactoryRawMaterialAmountEntity> MaterialList = new ArrayList<FactoryRawMaterialAmountEntity>();
         while (!rawMaterialList.isEmpty()) {
             MaterialId = rawMaterialList.get(0);
             unit = Unit.get(0);
             amount = RawAmount.get(0);
             FactoryRawMaterialEntity tempRaw=em.find(FactoryRawMaterialEntity.class,MaterialId);
-            RawMaterialAmountEntity temp = new RawMaterialAmountEntity();
+            FactoryRawMaterialAmountEntity temp = new FactoryRawMaterialAmountEntity();
 
             temp.setAmount(amount);
             temp.setFactoryRawMaterial(tempRaw);

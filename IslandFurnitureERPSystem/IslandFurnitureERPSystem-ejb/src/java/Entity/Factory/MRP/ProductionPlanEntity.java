@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -42,13 +43,19 @@ public class ProductionPlanEntity implements Serializable {
     private Calendar targetPeriod;
     private Integer quantity;
     private String remark;
+    
+    //factory product entity -- production plan entity: 1 <-- M
     @ManyToOne(cascade = {CascadeType.ALL})
-    private FactoryProductEntity factoryProduct;  //should be FactoryProductEntity
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "productionPlan")
-    private List<PlannedOrderEntity> plannedOrder = new ArrayList();
+    private FactoryProductEntity factoryProduct;  
+    
     @OneToMany(cascade={CascadeType.ALL},mappedBy="productionPlan")
     private List<WeeklyProductionPlanEntity> weeklyProductionPlanEntity;
 
+    //planned order entity -- production plan entity 1 <--> 1
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private PlannedOrderEntity plannedOrder;
+    
+    
     public ProductionPlanEntity() {
     }
 
@@ -124,14 +131,6 @@ public class ProductionPlanEntity implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public List<PlannedOrderEntity> getPlannedOrder() {
-        return plannedOrder;
-    }
-
-    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
-        this.plannedOrder = plannedOrder;
     }
 
     public List<WeeklyProductionPlanEntity> getWeeklyProductionPlanEntity() {

@@ -31,7 +31,7 @@ public class BOMEntity implements Serializable {
     private Long productId;
     
     @OneToMany(cascade={CascadeType.PERSIST})
-    private List<RawMaterialAmountEntity> rawMaterialList;
+    private List<FactoryRawMaterialAmountEntity> rawMaterialList;
     @OneToOne(mappedBy="bom")
     private ProductEntity product;
 
@@ -46,11 +46,11 @@ public class BOMEntity implements Serializable {
         this.BOMId = BOMId;
     }
 
-       public List<RawMaterialAmountEntity> getRawMaterialList() {
+       public List<FactoryRawMaterialAmountEntity> getRawMaterialList() {
         return rawMaterialList;
     }
 
-    public void setRawMaterialList(List<RawMaterialAmountEntity> rawMaterialList) {
+    public void setRawMaterialList(List<FactoryRawMaterialAmountEntity> rawMaterialList) {
         this.rawMaterialList = rawMaterialList;
     }
 
@@ -62,11 +62,11 @@ public class BOMEntity implements Serializable {
         this.productId = ProductId;
     }
 
-    public List<RawMaterialAmountEntity> getRawmaterialList() {
+    public List<FactoryRawMaterialAmountEntity> getRawmaterialList() {
         return rawMaterialList;
     }
 
-    public void setRawmaterialList(List<RawMaterialAmountEntity> rawmaterialList) {
+    public void setRawmaterialList(List<FactoryRawMaterialAmountEntity> rawmaterialList) {
         this.rawMaterialList = rawmaterialList;
     }
 

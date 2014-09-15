@@ -7,7 +7,7 @@ package SessionBean.SCM;
 
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
-import Entity.Factory.RawMaterialAmountEntity;
+import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.GoodsReceiptEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
@@ -86,7 +86,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         List rawMaterialList = plannedOrder.getRawMaterialAmount();
         List items = new ArrayList();
         for (Object o : rawMaterialList) {
-            RawMaterialAmountEntity rma = (RawMaterialAmountEntity) o;
+            FactoryRawMaterialAmountEntity rma = (FactoryRawMaterialAmountEntity) o;
             List item = new ArrayList();
             item.add(0, rma.getRawMaterialAmountId());
             item.add(1, rma.getFactoryRawMaterial().getRawMaterial().getMaterialID());

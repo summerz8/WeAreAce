@@ -10,6 +10,7 @@ import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,11 +35,10 @@ public class FactoryProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryProductId;
-    private Integer inventory = 0;
-    private Integer plannedEndMonthInventory;
-
-    private Integer minimumInventory = 50;
-
+    private Double inventory = 0D;
+    @OneToMany(cascade= {CascadeType.PERSIST})
+    private List<InventoryRecordEntity> record;
+    
     //factory entity -- factory item entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
@@ -84,20 +84,21 @@ public class FactoryProductEntity implements Serializable {
         this.product = product;
     }
 
-    public Integer getInventory() {
+    public Double getInventory() {
         return inventory;
     }
 
-    public void setInventory(Integer inventory) {
+    public void setInventory(Double inventory) {
         this.inventory = inventory;
     }
 
-    public Integer getMinimumInventory() {
-        return minimumInventory;
+    public List<InventoryRecordEntity> getRecord() {
+        return record;
     }
 
-    public void setMinimumInventory(Integer minimumInventory) {
-        this.minimumInventory = minimumInventory;
+    public void setRecord(List<InventoryRecordEntity> record) {
+        this.record = record;
     }
+
 
 }
