@@ -7,7 +7,7 @@
 package Entity.CommonInfrastructure;
 
 import Entity.CommonInfrastructure.UserEntity;
-import java.awt.List;
+import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,22 +35,40 @@ import javax.persistence.Table;
 public class InternalMessageEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long internalMessageId;
 
-   
-    private String tittle;
+    private String title;
     private String content;
     private String sendTime;
     private String senderName;
-    private String status;
-    private String type;
-    @OneToMany (cascade = {CascadeType.ALL},mappedBy = "message")
-    private Collection<InternalMessageReceive> receiverInfo = new ArrayList<InternalMessageReceive>();
+    private String status;  //ignore
+    private String type;    //ignore
     
     
+    private UserEntity sender = new UserEntity();
+   
+    
+    @OneToMany (cascade = {CascadeType.PERSIST},mappedBy = "message")
+    private Collection<InternalMessageReceive> receiveMessages = new ArrayList<InternalMessageReceive>();
 
+    public InternalMessageEntity() {
+    }
 
+    
+    
+    public InternalMessageEntity(String senderName, String title, String content, String sendTime,  String status, String type) {
+  
+        this.title = title;
+        this.content = content;
+        this.sendTime = sendTime;
+        this.senderName = senderName;
+        this.status = status;
+        this.type = type;
+        
+    }
+    
+    
     public Long getInternalMessageId() {
         return internalMessageId;
     }
@@ -59,12 +77,12 @@ public class InternalMessageEntity implements Serializable {
         this.internalMessageId = internalMessageId;
     }
 
-     public String getTittle() {
-        return tittle;
+     public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
@@ -107,12 +125,20 @@ public class InternalMessageEntity implements Serializable {
         this.type = type;
     }
 
-    public Collection<InternalMessageReceive> getReceiverInfo() {
-        return receiverInfo;
+    public Collection<InternalMessageReceive> getReceiveMessages() {
+        return receiveMessages;
     }
 
-    public void setReceiverInfo(Collection<InternalMessageReceive> receiverInfo) {
-        this.receiverInfo = receiverInfo;
+    public void setReceiveMessages(Collection<InternalMessageReceive> receiveMessages) {
+        this.receiveMessages = receiveMessages;
+    }
+
+    public UserEntity getSender() {
+        return sender;
+    }
+
+    public void setSender(UserEntity sender) {
+        this.sender = sender;
     }
     
     

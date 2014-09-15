@@ -6,20 +6,17 @@
 
 package Entity.CommonInfrastructure;
 
-import Entity.CommonInfrastructure.InternalMessageEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -50,17 +47,16 @@ public class UserEntity implements Serializable {
     private String postalCode;
     private String email;
     
-<<<<<<< HEAD
-//    @ManyToMany(cascade={CascadeType.PERSIST})
-//    @JoinTable(name = "USER_INTERNALMESSAGE")
-//    private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
-=======
+    
+
+
     private Boolean deleteFlag;//used to identify whether this user has been deleted
    
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name = "USER_INTERNALMESSAGE")
-    private Set<InternalMessageEntity> inMessages = new HashSet<InternalMessageEntity>();
->>>>>>> 4f108503ce3490ba2703c0fc2a2abbb3286addbb
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "sender")
+    private Collection<InternalMessageEntity> sendMessage = new ArrayList<InternalMessageEntity>();
+    
+    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "receiver")
+    private Collection<InternalMessageReceive> receiveMessage = new ArrayList<InternalMessageReceive>();
 
     public UserEntity() {
     }
@@ -228,23 +224,7 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-<<<<<<< HEAD
-//    public Set<InternalMessageEntity> getInMessages() {
-//        return inMessages;
-//    }
-//
-//    public void setInMessages(Set<InternalMessageEntity> inMessages) {
-//        this.inMessages = inMessages;
-//    }
-//    
-=======
-    public Set<InternalMessageEntity> getInMessages() {
-        return inMessages;
-    }
 
-    public void setInMessages(Set<InternalMessageEntity> inMessages) {
-        this.inMessages = inMessages;
-    }
 
     public Boolean getDeleteFlag() {
         return deleteFlag;
@@ -253,8 +233,24 @@ public class UserEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+    public Collection<InternalMessageEntity> getSendMessage() {
+        return sendMessage;
+    }
+
+    public void setSendMessage(Collection<InternalMessageEntity> sendMessage) {
+        this.sendMessage = sendMessage;
+    }
+
+    public Collection<InternalMessageReceive> getReceiveMessage() {
+        return receiveMessage;
+    }
+
+    public void setReceiveMessage(Collection<InternalMessageReceive> receiveMessage) {
+        this.receiveMessage = receiveMessage;
+    }
     
->>>>>>> 4f108503ce3490ba2703c0fc2a2abbb3286addbb
+   
     
     @Override
     public int hashCode() {

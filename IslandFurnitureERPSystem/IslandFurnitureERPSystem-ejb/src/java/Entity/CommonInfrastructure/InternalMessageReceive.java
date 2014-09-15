@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 public class InternalMessageReceive implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long receivedMessageid;
     private boolean deleted;
     private boolean opened;
@@ -29,6 +29,22 @@ public class InternalMessageReceive implements Serializable {
     private long receiverId;
     @ManyToOne (targetEntity = InternalMessageEntity.class)
     private InternalMessageEntity message;
+    
+    
+    private UserEntity receiver = new UserEntity();
+    
+    public InternalMessageReceive() {
+    }
+
+    
+    
+    public InternalMessageReceive(InternalMessageEntity message) {
+     
+        this.deleted = false;
+        this.opened = false;
+    
+        this.message = message;
+    }
 
     
     
@@ -79,6 +95,22 @@ public class InternalMessageReceive implements Serializable {
 
     public void setSendMessage(InternalMessageEntity sendMessage) {
         this.message = sendMessage;
+    }
+
+    public InternalMessageEntity getMessage() {
+        return message;
+    }
+
+    public void setMessage(InternalMessageEntity message) {
+        this.message = message;
+    }
+
+    public UserEntity getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserEntity receiver) {
+        this.receiver = receiver;
     }
     
    

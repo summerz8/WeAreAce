@@ -13,7 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,59 +23,217 @@ import javax.persistence.PersistenceContext;
  *
  * @author zhengyuan
  */
-@Stateless
-public class InternalMessageModule implements InternalMessageModuleRemote {
 
-     @PersistenceContext
+
+
+/*
+   Session Bean Functionality:
+   sendMessage (One to One, One to Many)
+   readMessage 
+   delete sent Mesage
+   delete received Message
+   Dispaly receive Message List
+   Display receive Message List by Sender
+   Display sent Message List
+   Display send Message List by Receiver
+
+*/
+@Stateless
+public class InternalMessageModule implements InternalMessageModuleLocal {
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
+
+    @PersistenceContext
      private EntityManager em;
+    
+    public void sendMessage(long senderId, String title, String content, String status, String type, String receiverIdString) throws Exception{
+        
+        UserEntity sender = em.find(UserEntity.class, senderId);
+        if(sender == null){
+            throw new Exception("Sender is not found");
+        }
+        else{
+            
+        //initialise the new message
+        //get the list of receiver
+        String demins = ";";
+        StringTokenizer st = new StringTokenizer(receiverIdString, demins);
+        ArrayList<Long> receiverIds = new ArrayList<Long>();
+        while(st.hasMoreElements()){
+            receiverIds.add(Long.valueOf(st.nextElement().toString()));  
+        }
+        
+        //set the senderName
+        String firstName = sender.getFirstName();
+        String lastName = sender.getLastName();
+        String senderName = firstName + " " + lastName;
+        
+        //set the time
+        Calendar sendTime = Calendar.getInstance();
+        sendTime.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String time = sdf.format(sendTime.getTime()).toString();
+        
+        //instanlise a sendmessage entity
+        InternalMessageEntity sendNewMessage  = new InternalMessageEntity(senderName, title, content, time, status, type);
+        sendNewMessage.setSender(sender);
+        sender.getSendMessage().add(sendNewMessage);
      
-     public InternalMessageEntity getMessageById( Long id ) throws Exception {
-         InternalMessageEntity message = em.find(InternalMessageEntity.class, id);
-         if(message == null){
-             throw new Exception("Message does not exist.");
-         }
-         return message;
-     }
-     
-     public void createNewMessage(long senderId, long receiverId, String title, String msg, String type){
-         System.out.println("InternalMessageModule ... createNewMessage starts");
-         InternalMessageEntity message = new InternalMessageEntity();
-         InternalMessageReceive msgReceiver = new InternalMessageReceive();
-         msgReceiver.setDeleted(false);
-         msgReceiver.setOpened(false);
-         msgReceiver.setSenderId(senderId);
-         msgReceiver.setReceiverId(receiverId);
-         msgReceiver.setSendMessage(message);
+        Integer i;
+       
+        for( i = 0 ; i < receiverIds.size(); i++ ){
+            UserEntity receiver = em.find(UserEntity.class, receiverIds.get(i));  
+            if(receiver == null){
+              throw new Exception("Receiver is not found!");  
+            }else{
+                
+              InternalMessageReceive receiveMessage = new InternalMessageReceive();   
+             // receiveMessage.setSenderId(senderId);
+              receiveMessage.setMessage(sendNewMessage);
+              receiveMessage.setReceiver(receiver);
+              receiver.getReceiveMessage().add(receiveMessage);
+              
+              sendNewMessage.getReceiveMessages().add(receiveMessage);
+              
+              }
+        
+        }
+           em.flush();
+ 
+        }
+        
+    }
+    
+    @Override
+    public void deleteSendMessage (long sendMessageId) throws Exception{
+        
+        InternalMessageEntity sendMessage = em.find(InternalMessageEntity.class,sendMessageId);
+        if (sendMessage == null){
+            throw new Exception("Sent Message is not found!");
+        }
+        else{
+            em.remove(sendMessage);
+        }
+ 
+    }  
+    
+    
+    
+    
+    
+        
+    @Override
+    public Collection<InternalMessageEntity> viewSendMessage(long senderId) throws Exception{
+         Collection<InternalMessageEntity> sendMessageList = new ArrayList<InternalMessageEntity>();
          UserEntity sender = em.find(UserEntity.class, senderId);
-         message.setSenderName(sender.getFirstName());
-         Collection<InternalMessageReceive> receiverInfo = new ArrayList<InternalMessageReceive>();
-         receiverInfo.add(msgReceiver);
-         message.setReceiverInfo(receiverInfo);
-         message.setTittle(title);
-         message.setContent(msg);
-         message.setType(type);
-         Calendar calendar = Calendar.getInstance();
-         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-         
-         try
-         {
-             
-         
-         String sendTime = dateFormat.format(calendar.getTime());
-         message.setSendTime(sendTime);
-         }
-         catch (Exception e){
-             e.printStackTrace();
-         }
-         
-         
-         
-         System.out.println("InternalMessageModule ... createNewMessage ends");
-         em.persist(message);
-           
-                  
-     }
+        if(sender == null){
+            throw new Exception("Sender is not found");
+        }
+        else{
+           sendMessageList = sender.getSendMessage();
+        }
+        return sendMessageList;
+    }
+    
+    
+    
+    
+    @Override
+    public void deleteReceiveMessage(long receiveMessageId) throws Exception{
+        InternalMessageReceive receiveMessage = em.find(InternalMessageReceive.class, receiveMessageId);
+        if(receiveMessage == null){
+            throw new Exception("Received Message is not found!");
+        }
+        else{
+            receiveMessage.setDeleted(true);
+        }
+        
+    }
+    
+    @Override
+    public void readReceiveMessage(long receiveMessageId) throws Exception {
+         InternalMessageReceive receiveMessage = em.find(InternalMessageReceive.class, receiveMessageId);
+        if(receiveMessage == null){
+            throw new Exception("Received Message is not found!");
+        }
+        else{
+           receiveMessage.setOpened(true);
+        }  
+        
+    }
+     
+    
+    //
+    @Override
+    public Collection<InternalMessageReceive> viewReceiveMessage(long receiverId) throws Exception{
+        Collection<InternalMessageReceive> receiveMessageList = new ArrayList<InternalMessageReceive>();
+        UserEntity receiver = em.find(UserEntity.class, receiverId);
+        if(receiver == null){
+            throw new Exception("Sender is not found");
+        }
+        else{
+            receiveMessageList = receiver.getReceiveMessage();
+        }
+         return receiveMessageList;
+    }
+    
+    
+    @Override
+    public Collection<InternalMessageReceive> viewReceiveMessageBySender (long receiverId, long senderId) throws Exception{
+       Collection<InternalMessageReceive> receiveMessageList = null;
+       Collection<InternalMessageReceive> receiveMessageListBySender = null;
+       receiveMessageList = viewReceiveMessage(receiverId);
+       for( Object o : receiveMessageList) {
+           InternalMessageReceive receiveMessage = (InternalMessageReceive) o;
+           if (receiveMessage.getSenderId() == senderId){
+             receiveMessageListBySender.add(receiveMessage);
+           }
+       }
+       if(receiveMessageListBySender.size() == 0 ) {
+           System.out.println("InternalMessageModule: ---> Sender info not found");
+       }else{
+           System.out.println("InternalMessageModule: ---> display a list of message received from sender ");
+       }
+       return receiveMessageListBySender;   
+    }
+    
+    
+    @Override
+   public Collection<InternalMessageEntity> viewSendMessageByReceiver ( long senderId, long receiverId) throws Exception{
+       Collection<InternalMessageEntity> sendMessageList = null;
+       Collection<InternalMessageEntity> sendMessageListByReceiver = null;
+       sendMessageList = viewSendMessage(senderId);
+       for( Object o : sendMessageList) {
+           InternalMessageEntity sendMessage = (InternalMessageEntity) o;
+           for( Object e: sendMessage.getReceiveMessages()){
+               InternalMessageReceive receiveMessage = (InternalMessageReceive) e;
+              if(receiveMessage.getReceiverId() == receiverId) {
+                sendMessageListByReceiver.add(sendMessage);
+                break;
+             }
+               
+           }
+       } 
+       if(sendMessageListByReceiver.size() == 0){
+           System.out.println("InternalMessageModule: ---> Receiver info not found");
+       }else{
+           System.out.println("InternalMessageModule: ---> display a list of message received from sender");
+       }
+       return sendMessageListByReceiver;
+  }
+    
+        
+       
     
 }
+    
+    
+    
+    
      
-     
+    
+           
+    
+    
+    
