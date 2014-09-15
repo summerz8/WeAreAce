@@ -6,6 +6,8 @@
 
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.FactoryEntity;
+import Entity.Store.StoreEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
@@ -21,11 +23,11 @@ public interface Factory_StoreManagementModuleLocal {
 
     public void AddFactory(String country, String address, String contact, String manager);
 
-    public void DeleteFactory(String factoryId);
+    public void DeleteFactory(long factoryId);
 
     public void ModifyFactory(long factoryId, String country, String address, String contact, String manager);
 
-    public List<ArrayList> ListFactory();
+    public List<FactoryEntity> ListFactory();
 
     public void AddStore(String country, String address, String contact, String manager);
 
@@ -33,6 +35,6 @@ public interface Factory_StoreManagementModuleLocal {
 
     public void ModifyStore(long storeId, String country, String address, String contact, String manager);
 
-    public List<ArrayList> ListStore();
+    public List<StoreEntity> ListStore();
     
 }

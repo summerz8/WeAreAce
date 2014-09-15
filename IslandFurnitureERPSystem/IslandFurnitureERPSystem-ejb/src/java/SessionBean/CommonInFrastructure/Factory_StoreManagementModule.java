@@ -36,7 +36,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     }
 
     @Override
-    public void DeleteFactory(String factoryId) {
+    public void DeleteFactory(long factoryId) {
         System.out.println("Factory_StoreManagementModule: DeleteFactory(): ");
         FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
         fe.setDeleteFlag(Boolean.FALSE);
@@ -55,18 +55,13 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     }
     
     @Override
-    public List<ArrayList> ListFactory(){
+    public List<FactoryEntity> ListFactory(){
         System.out.println("Factory_StoreManagementModule: ListFactory(): ");
         Query q = em.createQuery("SELECT t FROM FactoryEntity t");
         List requiredFactoryList = new ArrayList();
         for(Object o:q.getResultList()){
-            FactoryEntity u = (FactoryEntity) o;
-            List Factoryinfo = new ArrayList();
-            Factoryinfo.add(0, u.getCountry());
-            Factoryinfo.add(1, u.getAddress());
-            Factoryinfo.add(2, u.getContact());
-            Factoryinfo.add(3, u.getManager());           
-            requiredFactoryList.add(Factoryinfo);         
+            FactoryEntity u = (FactoryEntity) o;                    
+            requiredFactoryList.add(u);         
         }       
         return requiredFactoryList;
     }
@@ -100,18 +95,13 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     }
     
     @Override
-    public List<ArrayList> ListStore(){
+    public List<StoreEntity> ListStore(){
     System.out.println("Factory_StoreManagementModule: ListStore(): ");
         Query q = em.createQuery("SELECT t FROM StoreEntity t");
         List requiredStoreList = new ArrayList();
         for(Object o:q.getResultList()){
-            StoreEntity u = (StoreEntity) o;
-            List Storeinfo = new ArrayList();
-            Storeinfo.add(0, u.getCountry());
-            Storeinfo.add(1, u.getAddress());
-            Storeinfo.add(2, u.getContact());
-            Storeinfo.add(3, u.getManager());           
-            requiredStoreList.add(Storeinfo);         
+            StoreEntity u = (StoreEntity) o;          
+            requiredStoreList.add(u);         
         }       
         return requiredStoreList;
     }
