@@ -46,8 +46,8 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         ProductionPlanEntity productionPlan = (ProductionPlanEntity) p;
         List productionPlanInfo = new ArrayList();
         productionPlanInfo.add(0, productionPlan.getProductionPlanId());
-        productionPlanInfo.add(1, productionPlan.getProduct().getProductId());
-        productionPlanInfo.add(2, productionPlan.getProduct().getName());
+        productionPlanInfo.add(1, productionPlan.getProduct().getFactoryProductId());
+        productionPlanInfo.add(2, productionPlan.getProduct().getProduct().getName());
         productionPlanInfo.add(3, productionPlan.getTargetSalesStartDate());
         productionPlanInfo.add(4, productionPlan.getTargetSalesEndDate());
         productionPlanInfo.add(5, productionPlan.getQuantity());
@@ -88,10 +88,10 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         for (Object o : rawMaterialList) {
             RawMaterialAmountEntity rma = (RawMaterialAmountEntity) o;
             List item = new ArrayList();
-            item.add(0, rma.getId());
-            item.add(0, rma.getRawMaterialId());
-            item.add(0, rma.getAmount());
-            item.add(0, rma.getUnit());
+            item.add(0, rma.getRawMaterialAmountId());
+            item.add(1, rma.getFactoryRawMaterial().getRawMaterial().getMaterialID());
+            item.add(2, rma.getAmount());
+            item.add(3, rma.getUnit());
             items.add(item);
         }
 

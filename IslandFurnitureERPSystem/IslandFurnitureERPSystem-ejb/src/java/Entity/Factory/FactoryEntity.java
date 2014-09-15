@@ -7,12 +7,15 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import static Entity.Factory.MRP.ProductionPlanEntity_.plannedOrder;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,8 +41,13 @@ public class FactoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+<<<<<<< HEAD
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long factoryId;
+=======
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long factoryId;
+>>>>>>> 1d5c449bddb95f19bd72bb2af410162ccd0da285
     private String country;
     private String address;
     private String contact;
@@ -71,9 +79,14 @@ public class FactoryEntity implements Serializable {
     @JoinTable(name = "FACTORY_STORE")
     private Set<StoreEntity> stores = new HashSet<>();
     
+    //facotry entity -- planned order entity: 1 <--> M
+    @OneToMany(mappedBy="factory")
+    private Set<PlannedOrderEntity> plannedOrders = new HashSet<>();
+    
     public FactoryEntity() {
     }
 
+<<<<<<< HEAD
     public FactoryEntity(String country, String address, String contact, String manager, Boolean deleteFlag) {
         this.country = country;
         this.address = address;
@@ -84,11 +97,14 @@ public class FactoryEntity implements Serializable {
 
     
     public long getFactoryId() {
+=======
+    public Long getFactoryId() {
+>>>>>>> 1d5c449bddb95f19bd72bb2af410162ccd0da285
         return factoryId;
     }
 
-    public void setUserId(long factoryID) {
-        this.factoryId = factoryID;
+    public void setFactoryId(Long factoryId) {
+        this.factoryId = factoryId;
     }
 
     public String getCountry() {
@@ -182,6 +198,15 @@ public class FactoryEntity implements Serializable {
         this.stores = stores;
     }
 
+    public Set<PlannedOrderEntity> getPlannedOrder() {
+        return plannedOrders;
+    }
+
+    public void setPlannedOrder(Set<PlannedOrderEntity> plannedOrder) {
+        this.plannedOrders = plannedOrder;
+    }
+    
+    
     @Override
     public String toString() {
         return "entity.UserEntity[ id=" + factoryId + " ]";

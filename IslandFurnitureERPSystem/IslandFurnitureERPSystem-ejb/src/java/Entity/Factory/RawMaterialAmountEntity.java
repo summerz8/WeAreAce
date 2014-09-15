@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,23 +24,18 @@ public class RawMaterialAmountEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Long rawMaterialId; //Why not use rawMaterialEntity?
+    private Long rawMaterialAmountId;
     private String unit;
     private Integer amount;
+    
+    //raw material amount entity -- factory raw material entity: M <--> 1
+    @ManyToOne
+    private FactoryRawMaterialEntity factoryRawMaterial;
 
-    public Long getRawMaterialId() {
-        return rawMaterialId;
-    }
-
-    public void setRawMaterialId(Long rawMaterialId) {
-        this.rawMaterialId = rawMaterialId;
-    }
-
+  
     public String getUnit() {
         return unit;
     }
-
     public void setUnit(String unit) {
         this.unit = unit;
     }
@@ -52,29 +48,38 @@ public class RawMaterialAmountEntity implements Serializable {
         this.amount = amount;
     }
 
-    public Long getId() {
-        return id;
+    public Long getRawMaterialAmountId() {
+        return rawMaterialAmountId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRawMaterialAmountId(Long rawMaterialAmountId) {
+        this.rawMaterialAmountId = rawMaterialAmountId;
     }
+
+    public FactoryRawMaterialEntity getFactoryRawMaterial() {
+        return factoryRawMaterial;
+    }
+
+    public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
+        this.factoryRawMaterial = factoryRawMaterial;
+    }
+    
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (rawMaterialAmountId != null ? rawMaterialAmountId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the rawMaterialAmountId fields are not set
         if (!(object instanceof RawMaterialAmountEntity)) {
             return false;
         }
         RawMaterialAmountEntity other = (RawMaterialAmountEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.rawMaterialAmountId == null && other.rawMaterialAmountId != null) || (this.rawMaterialAmountId != null && !this.rawMaterialAmountId.equals(other.rawMaterialAmountId))) {
             return false;
         }
         return true;
@@ -82,7 +87,7 @@ public class RawMaterialAmountEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.RawMaterialAmountEntity[ id=" + id + " ]";
+        return "Entity.Factory.RawMaterialAmountEntity[ id=" + rawMaterialAmountId + " ]";
     }
 
 }
