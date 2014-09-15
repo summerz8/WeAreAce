@@ -27,7 +27,7 @@ public class FactoryRawMaterialAmountEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long rawMaterialAmountId;
     private String unit;
-    private Integer amount;
+    private Double amount;
     
     //raw material amount entity -- factory raw material entity: M <--> 1
     @ManyToOne
@@ -41,11 +41,11 @@ public class FactoryRawMaterialAmountEntity implements Serializable {
         this.unit = unit;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

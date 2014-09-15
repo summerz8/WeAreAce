@@ -9,6 +9,7 @@ package Entity.Factory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,8 +38,8 @@ public class ProductEntity implements Serializable {
     private Boolean deleteFlag;
     
     //product entity -- bom entity: 1 <--> 1
-    @OneToOne(cascade={CascadeType.PERSIST})
-    public BOMEntity bom;
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="product")
+    public List<BOMEntity> bom;
 
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
@@ -47,12 +48,11 @@ public class ProductEntity implements Serializable {
     public ProductEntity() {
     }
 
-    public ProductEntity(String name, String description, double price, String unit, BOMEntity bom, Boolean deleteFlag) {
+    public ProductEntity(String name, String description, double price, String unit, Boolean deleteFlag) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.unit = unit;
-        this.bom = bom;
         this.deleteFlag = deleteFlag;
     }
 
@@ -97,11 +97,11 @@ public class ProductEntity implements Serializable {
         this.unit = unit;
     }
 
-    public BOMEntity getBom() {
+    public List<BOMEntity> getBom() {
         return bom;
     }
 
-    public void setBom(BOMEntity bom) {
+    public void setBom(List<BOMEntity> bom) {
         this.bom = bom;
     }
 

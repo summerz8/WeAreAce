@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,16 +29,24 @@ public class BOMEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long BOMId;
-    private Long productId;
-    
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private List<FactoryRawMaterialAmountEntity> rawMaterialList;
-    @OneToOne(mappedBy="bom")
+    private String unit;
+    private Double amount;
+   // Raw material entity ---- bom : 1 <-- M
+    @ManyToOne
+    private RawMaterialEntity rawMaterial;
+    //product entity  ---- bom:   1 <------> M
+    @ManyToOne
     private ProductEntity product;
 
     public BOMEntity() {
     }
-
+    
+    public BOMEntity(RawMaterialEntity rawMaterial, String unit, Double amount, ProductEntity product){
+        this.amount=amount;
+        this.rawMaterial=rawMaterial;
+        this.unit=unit;
+        this.product=product;
+    }
     public Long getBOMId() {
         return BOMId;
     }
@@ -46,28 +55,28 @@ public class BOMEntity implements Serializable {
         this.BOMId = BOMId;
     }
 
-       public List<FactoryRawMaterialAmountEntity> getRawMaterialList() {
-        return rawMaterialList;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setRawMaterialList(List<FactoryRawMaterialAmountEntity> rawMaterialList) {
-        this.rawMaterialList = rawMaterialList;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setProductId(Long ProductId) {
-        this.productId = ProductId;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
-    public List<FactoryRawMaterialAmountEntity> getRawmaterialList() {
-        return rawMaterialList;
+    public RawMaterialEntity getRawMaterial() {
+        return rawMaterial;
     }
 
-    public void setRawmaterialList(List<FactoryRawMaterialAmountEntity> rawmaterialList) {
-        this.rawMaterialList = rawmaterialList;
+    public void setRawMaterial(RawMaterialEntity rawMaterial) {
+        this.rawMaterial = rawMaterial;
     }
 
     public ProductEntity getProduct() {
@@ -77,6 +86,7 @@ public class BOMEntity implements Serializable {
     public void setProduct(ProductEntity product) {
         this.product = product;
     }
+
     
     
     @Override

@@ -39,7 +39,7 @@ public class FactoryProductEntity implements Serializable {
     @OneToMany(cascade= {CascadeType.PERSIST})
     private List<InventoryRecordEntity> record;
     
-    //factory entity -- factory item entity: 1 <--> M 
+    //factory entity -- factory product entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
 
