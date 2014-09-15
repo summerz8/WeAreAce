@@ -34,6 +34,7 @@ public class ProductEntity implements Serializable {
     private String description;
     private double price; // ???
     private String unit;
+    private Boolean deleteFlag;
     
     //product entity -- bom entity: 1 <--> 1
     @OneToOne(cascade={CascadeType.PERSIST})
@@ -46,6 +47,16 @@ public class ProductEntity implements Serializable {
     public ProductEntity() {
     }
 
+    public ProductEntity(String name, String description, double price, String unit, BOMEntity bom, Boolean deleteFlag) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.unit = unit;
+        this.bom = bom;
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public Long getProductId() {
         return productId;
     }
@@ -93,6 +104,15 @@ public class ProductEntity implements Serializable {
     public void setBom(BOMEntity bom) {
         this.bom = bom;
     }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+    
     
     public Collection<FactoryProductEntity> getFactoryProduct(){
         return factoryProduct;

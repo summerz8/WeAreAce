@@ -6,6 +6,10 @@
 
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.BOMEntity;
+import Entity.Factory.ProductEntity;
+import Entity.Factory.RetailProductEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,20 +19,20 @@ import javax.ejb.Local;
 @Local
 public interface RetailProduct_ProductManagementModuleLocal {
 
-    public void ListRetailProduct();
+    public List<ProductEntity> ListProduct();
 
-    public void ModifyRetailProduct();
+    public void AddProduct(String name, String description, double price, String unit, BOMEntity bom);
 
-    public void DeleteRetailProduct();
+    public void DeleteProduct(Long productId);
 
-    public void AddRetailProduct();
+    public void ModifyProduct(Long productId, String name, String description, double price, String unit, BOMEntity bom);
 
-    public void ModifyProduct();
+    public void AddRetailProduct(String name, String description);
 
-    public void DeleteProduct();
+    public void DeleteRetailProduct(Long retailProductId);
 
-    public void AddProduct();
+    public void ModifyRetailProduct(Long retailProductId, String name, String description);
 
-    public void ListProduct();
+    public List<RetailProductEntity> ListRetailProduct();
     
 }

@@ -6,6 +6,10 @@
 
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.FactoryEntity;
+import Entity.Store.StoreEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,25 +18,23 @@ import javax.ejb.Local;
  */
 @Local
 public interface Factory_StoreManagementModuleLocal {
+    //public void searchStore();
+    //public void searchFactory();
 
-    public void AddFactory();
+    public void AddFactory(String country, String address, String contact, String manager);
 
-    public void DeleteFactory();
+    public void DeleteFactory(long factoryId);
 
-    public void ModifyFactory();
+    public void ModifyFactory(long factoryId, String country, String address, String contact, String manager);
 
-    public void AddStore();
+    public List<FactoryEntity> ListFactory();
 
-    public void DeleteStore();
+    public void AddStore(String country, String address, String contact, String manager);
 
-    public void ModifyStore();
+    public void DeleteStore(Long storeId);
 
-    public void ListStore();
+    public void ModifyStore(long storeId, String country, String address, String contact, String manager);
 
-    public void searchStore();
-
-    public void searchFactory();
-
-    public void ListFactory();
+    public List<StoreEntity> ListStore();
     
 }

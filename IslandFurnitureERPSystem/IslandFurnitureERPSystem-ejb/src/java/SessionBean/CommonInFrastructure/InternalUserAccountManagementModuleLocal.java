@@ -6,7 +6,9 @@
 
 package SessionBean.CommonInFrastructure;
 
+import Entity.CommonInfrastructure.UserEntity;
 import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -22,10 +24,17 @@ public interface InternalUserAccountManagementModuleLocal {
 
     //public void ModifyStaff();
 
-    public void AddStaff(String department, Integer userLevel, String lastName, String midName, String firstName, String position, Calendar birthday, String gender, String title, String address, String postalCode, String email, String departmentID);
+    public void AddStaff(String department, Integer userLevel, String lastName, 
+            String midName, String firstName, String position, Calendar birthday, 
+            String gender, String title, String address, String postalCode, String email, long departmentId);
 
     public void DeleteStaff(String userId);
 
-    public void ModifyStaff(String userId, String department, Integer userLevel, String lastName, String midName, String firstName, String position, Calendar birthday, String gender, String title, String address, String postalCode, String email, String departmentId);
+    public void ModifyStaff(String userId, String department, Integer userLevel, 
+            String lastName, String midName, String firstName, String position, 
+            Calendar birthday, String gender, String title, String address, String postalCode, 
+            String email, long departmentId);
+
+    public List<UserEntity> ListUser();
     
 }

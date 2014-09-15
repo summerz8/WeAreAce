@@ -35,7 +35,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void AddStaff(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String departmentId) {
+            String title, String address, String postalCode, String email, long departmentId) {
         //departmentID refers to the respective Factory, Store or HQ id
         System.out.println("InternalUserAccountModule: addStaff():");
 
@@ -46,7 +46,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
 
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
 
-        switch (departmentId.charAt(0)) {
+        switch (department.charAt(0)) {
             case 'H':
                 idNumber = idNum.getId_H().intValue() + 1;
                 idNum.setId_H((long) idNumber);
@@ -108,13 +108,13 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void ModifyStaff(String userId, String department, Integer userLevel, String lastName, String midName,
             String firstName, String position, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String departmentId) {
+            String title, String address, String postalCode, String email, long departmentId) {
 
         System.out.println("InternalUserAccountModule: ModifyStaff():" + userId);
         Query query;
         switch (userId.charAt(0)) {
             case 'H':
-                query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=userId");
+                query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=:userId");
                 HQUserEntity HQUser = (HQUserEntity) query.getSingleResult();
                 HQUser.editHQUserEntity(department, userLevel, lastName, midName,
                         firstName, position, birthday, gender, title, address, postalCode, email, Boolean.TRUE);
@@ -138,33 +138,32 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     
     //don't know how to implement this
 
-//    public List<String> ListUser() {
-//        return null;
-//    }
-//
-//    public List<Vector> searchUser(String userId, String department, String lastName, String midName,
-//            String firstName, String position, String gender,
-//            String title, String postalCode, String departmentId) {
+    @Override
+    public List<UserEntity> ListUser() {
+        System.out.println("InternalUserAccountModule: ListUser():");
+        Query q = em.createQuery("SELECT t FROM UserEntity t");
+        List requiredUserList = new ArrayList();
+        for(Object o:q.getResultList()){
+            UserEntity u = (UserEntity) o;            
+            requiredUserList.add(u);         
+        }       
+        return requiredUserList;
+    }
+
+//    public List<UserEntity> searchUser(String userId, String department, Long departmentId, String lastName, 
+//            String firstName, String position){
 //        System.out.println("InternalUserAccountModule: searchUser():");
 //        Query query;
 //        if (department != null) {
-//            query = em.createQuery("SELECT c FROM UserEntity WHERE c.department = department");
-//            List<Vector> userList = new ArrayList();
+//            query = em.createQuery("SELECT c FROM UserEntity c WHERE c.department = department");
+//            List<UserEntity> userList = new ArrayList();
 //            for(Object o: query.getResultList()){
 //            UserEntity u = (UserEntity) o;
-//            Vector user = new Vector();
-//            user.add(u.getUserId());
-//            user.add(u.getFirstName());
-//            user.add(u.getMidName());
-//            user.add(u.getLastName());
-//            user.add(u.getPosition());
-//            user.add(u.)
+//            userList.add(0,u);
 //            }
 //            
 //        }
-//        if (departmentId != null) {
-//
-//        }
+//        
 //        if (userId != null) {
 //            switch (userId.charAt(0)) {
 //                case 'H':
@@ -181,6 +180,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
 //                    em.persist(StoreUser);
 //            }
 //        }
+//        
 //        return;
 //
 //    }

@@ -5,7 +5,11 @@
  */
 package superuserclient;
 
+
+import SessionBean.IFManagerBeanRemote;
+
 import SessionBean.IFManagerBeanLocal;
+
 import java.util.Scanner;
 import javax.ejb.EJB;
 
@@ -16,7 +20,10 @@ import javax.ejb.EJB;
 public class Main {
 
     @EJB
-    private static IFManagerBeanLocal IFMB;
+
+    private static IFManagerBeanRemote IFMB;
+
+
 
     public static void main(String[] args) {
         Main superUser = new Main();
@@ -51,8 +58,12 @@ public class Main {
     }
 
     private void createGlobalHQ(Scanner sc) {
+
+
+
         String department = "HQ";
         String departmentId = "HQ0001";
+
         Integer userLevel =  0;
         System.out.println("Please enter user's lastname:");
         String lastName = sc.nextLine();
@@ -63,9 +74,17 @@ public class Main {
         System.out.println("Please enter user's gender:");
         String gender = sc.nextLine();
         
+
+        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender);
+
+      
+        String userId = info.substring(0, 8);
+        String pwd = info.substring(9);
+
 //        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, departmentId);
 //        String userId = info.substring(0, 8);
 //        String pwd = info.substring(9);
+
         
 //        System.out.println("The new created user account id is: " + userId);
 //        System.out.println(userId);
