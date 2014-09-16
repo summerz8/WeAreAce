@@ -25,6 +25,7 @@ import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -211,7 +212,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         List<StoreEntity> storeList = new ArrayList<>();
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-            storeList = factory.getStores();
+            List<StoreProductEntity> storeProductList = factory.getStoreProduct();
+            for(Object o : storeProductList){
+                StoreProductEntity storeProduct = (StoreProductEntity) o;
+                storeList.add(storeProduct.getStore());
+            }
+
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -228,23 +234,28 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             Calendar beginOfNextMonth = Calendar.getInstance();
             beginOfNextMonth.add(Calendar.MONTH, 1);
             beginOfNextMonth.set(Calendar.DAY_OF_MONTH, 1);
-            
-            
+
+            //
+            //
+            //
+            //
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-
+        return deliveryOrderList;
     }
 
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
-    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double amount, Long storeId, String destination)
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, 
+            Double purchaseAmount, Long storeId, String destination, 
+            List<DeliveryOrderEntity> deliveryOrderList)
             throws Exception {
         System.out.println("createPurchaseOrder():");
 
-        PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
+        PurchaseOrderEntity purchaseOrder = null;
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
@@ -264,11 +275,11 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             Calendar createDate = Calendar.getInstance();
 
             //totalPrice
-            Double totalPrice = amount * contract.getContractPrice();
+            Double totalPrice = purchaseAmount * contract.getContractPrice();
             //leadTime
             Integer leadTime = contract.getLeadTime();
 
-            purchaseOrder.create(factory, contract, status, amount, unit, destination, totalPrice, leadTime);
+            purchaseOrder = new PurchaseOrderEntity(status, purchaseAmount, unit, createDate, destination, leadTime, totalPrice, factory, contract, deliveryOrderList);
             em.persist(purchaseOrder);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -354,7 +365,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
     //output: display the generated amount for purchase
     @Override
-    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, Long supplierId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
+    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, 
+            Long supplierId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
         System.out.println("generatePurchaseAmount():");
         Double purchaseAmount = 0D;
         Double monthBeginInventory = -1D;
@@ -412,7 +424,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Step 5: user select a address for delivery
     //output: purchase order
     @Override
-    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId, Long storeId, String destination, String itemType) throws Exception {
+    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, 
+            Double purchaseAmount, Long supplierId, Long storeId, 
+            String destination, String itemType) throws Exception {
         System.out.println("generatePurchaseOrder():");
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
         Long itemId;
@@ -424,10 +438,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             } else {
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
-
+            
             ContractEntity contract = selectSupplier(itemType, itemId, supplierId);
-            purchaseOrder = createPurchaseOrder();
+            List<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmount(purchaseAmount);
+            purchaseOrder = createPurchaseOrder(factoryId, contract.getContractId(), purchaseAmount, storeId, destination, deliveryOrderList);
 
+            purchaseOrder.setIntegratedPlannedOrder(integratedPlannedOrder);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -438,6 +454,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //6. Edit unconfirmed purchase order
+    
+    
     //7. Cancel purchase order
     //8. Generate Goods Receipt
     // for comparing two dates

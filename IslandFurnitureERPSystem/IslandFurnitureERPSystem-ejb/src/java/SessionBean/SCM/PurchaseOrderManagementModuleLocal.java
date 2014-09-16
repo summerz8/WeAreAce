@@ -53,7 +53,7 @@ public interface PurchaseOrderManagementModuleLocal {
             
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
-    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double purchaseAmount, Long storeId, String destination) throws Exception;
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double purchaseAmount, Long storeId, String destination, List<DeliveryOrderEntity> deliveryOrderList) throws Exception;
 
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
@@ -74,6 +74,8 @@ public interface PurchaseOrderManagementModuleLocal {
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId, Long storeId, String destination, String itemType) throws Exception;
 
     //6. Edit unconfirmed purchase order
+    
+    
     //7. Cancel purchase order
     //8. Generate Goods Receipt
 }

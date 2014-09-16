@@ -35,13 +35,13 @@ public class PurchaseOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
-    private Double totalAmount = 0D;
+    private Double totalAmount;
     private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
     private String destination;
     private Integer leadTime;
-    private double totalPrice; // the totalPrice price
+    private Double totalPrice; // the totalPrice price
     
 
     //purchase order entity -- factory entity: M <--> 1 
@@ -67,11 +67,23 @@ public class PurchaseOrderEntity implements Serializable {
     public PurchaseOrderEntity() {
     }
 
-    public PurchaseOrderEntity(Long purchasOrderId, String status) {
-        this.id = purchasOrderId;
+    public PurchaseOrderEntity(String status, Double totalAmount, String unit, 
+            Calendar createDate, String destination, Integer leadTime, 
+            Double totalPrice, FactoryEntity factory, ContractEntity contract, 
+            List<DeliveryOrderEntity> deliveryOrderList) {
         this.status = status;
+        this.totalAmount = totalAmount;
+        this.unit = unit;
+        this.createDate = createDate;
+        this.destination = destination;
+        this.leadTime = leadTime;
+        this.totalPrice = totalPrice;
+        this.factory = factory;
+        this.contract = contract;
+        this.deliveryOrderList = deliveryOrderList;
     }
 
+    
     public Long getId() {
         return id;
     }
@@ -160,25 +172,20 @@ public class PurchaseOrderEntity implements Serializable {
         this.leadTime = leadTime;
     }
   
-    public void create(FactoryEntity factory, ContractEntity contract, String status,
-            Double amount, String unit, String destination, Double total_price, Integer leadTime) {
-        this.factory = factory;
-        this.contract = contract;
-        this.status = status;
-        this.totalAmount = amount;
-        this.unit = unit;
-        this.createDate = Calendar.getInstance();
-        this.destination = destination;
-        this.totalPrice = total_price;
-        this.leadTime = leadTime;
-    }
-
     public IntegratedPlannedOrderEntity getIntegratedPlannedOrder() {
         return integratedPlannedOrder;
     }
 
     public void setIntegratedPlannedOrder(IntegratedPlannedOrderEntity integratedPlannedOrder) {
         this.integratedPlannedOrder = integratedPlannedOrder;
+    }
+
+    public List<DeliveryOrderEntity> getDeliveryOrderList() {
+        return deliveryOrderList;
+    }
+
+    public void setDeliveryOrderList(List<DeliveryOrderEntity> deliveryOrderList) {
+        this.deliveryOrderList = deliveryOrderList;
     }
 
     
