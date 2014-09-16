@@ -47,15 +47,15 @@ public interface PurchaseOrderManagementModuleLocal {
 
     //4. View and Select delivery address (for retail products)
     //display all available stores
-    public Set<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
+    public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
 
     //5. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
-    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination) throws Exception;
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double amount, Long storeId, String destination) throws Exception;
 
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
-    public Set<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception;
+    public List<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception;
     
     //Step 2: user choose one of the integrated planned order(either RM or RP)
     //input : integratedPlannedOrderId

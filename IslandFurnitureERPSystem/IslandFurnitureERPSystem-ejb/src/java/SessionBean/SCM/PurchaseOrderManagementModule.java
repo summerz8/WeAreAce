@@ -16,6 +16,7 @@ package SessionBean.SCM;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
@@ -201,10 +202,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //4. Select delivery address (for retail products)
     //display all the available store
     @Override
-    public Set<StoreEntity> viewAvailStore(Long factoryId) throws Exception {
+    public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception {
         System.out.println("viewAvailStore():");
 
-        Set<StoreEntity> storeList = new HashSet<>();
+        List<StoreEntity> storeList = new ArrayList<>();
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             storeList = factory.getStores();
@@ -218,7 +219,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //5. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
-    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination)
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double amount, Long storeId, String destination)
             throws Exception {
         System.out.println("createPurchaseOrder():");
 
@@ -253,10 +254,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
     @Override
-    public Set<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
+    public List<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
         System.out.println("viewAvailIntegratedPlannedOrder():");
-        Set<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new HashSet<>();
-        Set<IntegratedPlannedOrderEntity> availIntegratedPlannedOrderList = new HashSet<>();
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList<>();
+        List<IntegratedPlannedOrderEntity> availIntegratedPlannedOrderList = new ArrayList<>();
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
@@ -368,24 +369,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return cal;
     }
 
-<<<<<<< HEAD
     //check whether a contract has expired
     private boolean isExpired(ContractEntity contract) {
         boolean isExpired = true;
-=======
-    private boolean checkPlannedOrders(Set<PlannedOrderEntity> plannedOrderList) {
-        boolean isSameItem = true;
-        Iterator iterator = plannedOrderList.iterator();
-        
-        if(iterator.hasNext()){
-            Object obj = iterator.next();
-            PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
-            RawMaterialAmountEntity rawMaterial = plannedOrder.getFactoryRawMaterialAmountList()
-            
-            
-            
-        }
->>>>>>> aeaee65d132b94d91049e4048830d44eb4971707
 
         Calendar contractEndDate = contract.getContractEndDate();
         Calendar today = Calendar.getInstance();
@@ -395,5 +381,4 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return isExpired;
     }
-
 }

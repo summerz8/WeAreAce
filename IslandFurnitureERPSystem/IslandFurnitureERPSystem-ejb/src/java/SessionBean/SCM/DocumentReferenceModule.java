@@ -5,9 +5,10 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.FactoryRawMaterialAmountEntity;
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
-import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.GoodsReceiptEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
@@ -48,8 +49,8 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         productionPlanInfo.add(0, productionPlan.getProductionPlanId());
         productionPlanInfo.add(1, productionPlan.getProduct().getFactoryProductId());
         productionPlanInfo.add(2, productionPlan.getProduct().getProduct().getName());
-        productionPlanInfo.add(3, productionPlan.getTargetSalesStartDate());
-        productionPlanInfo.add(4, productionPlan.getTargetSalesEndDate());
+        productionPlanInfo.add(3, productionPlan.getTargetPeriod());
+        productionPlanInfo.add(4, productionPlan.getTargetPeriod());
         productionPlanInfo.add(5, productionPlan.getQuantity());
         productionPlanInfo.add(5, productionPlan.getQuantity());
         productionPlanInfo.add(6, productionPlan.getGenerateDate());
@@ -78,14 +79,14 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
 
         plannedOrderInfo.add(0, plannedOrder.getPlannedOrderId());
         plannedOrderInfo.add(1, plannedOrder.getProductionPlan().getProductionPlanId());
-        plannedOrderInfo.add(2, plannedOrder.getDate());
-        plannedOrderInfo.add(3, plannedOrder.getTargetSalesStartDate());
-        plannedOrderInfo.add(4, plannedOrder.getTargetSalesEndDate());
+        plannedOrderInfo.add(2, plannedOrder.getGeneratedDate());
+        plannedOrderInfo.add(3, plannedOrder.getTargetPeriod());
+        plannedOrderInfo.add(4, plannedOrder.getTargetPeriod());
         plannedOrderInfo.add(5, plannedOrder.getStatus());
 
-        List rawMaterialList = plannedOrder.getRawMaterialAmount();
+        List rawMaterialAmountList = plannedOrder.getFactoryRawMaterialAmountList();
         List items = new ArrayList();
-        for (Object o : rawMaterialList) {
+        for (Object o : rawMaterialAmountList) {
             FactoryRawMaterialAmountEntity rma = (FactoryRawMaterialAmountEntity) o;
             List item = new ArrayList();
             item.add(0, rma.getRawMaterialAmountId());
@@ -132,13 +133,13 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         purchaseOrderInfo.add(4, purchaseOrder.getStatus());
         purchaseOrderInfo.add(5, purchaseOrder.getContract().getContractId());
 
-        List plannedOrders = purchaseOrder.getPlannedOrders();
-        for (Object o : plannedOrders) {
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            plannedOrders.add(po.getPlannedOrderId());
-        }
+        IntegratedPlannedOrderEntity integratedPlannedOrder = purchaseOrder.getIntegratedPlannedOrder();
+//        for (Object o : plannedOrders) {
+//            PlannedOrderEntity po = (PlannedOrderEntity) o;
+//            plannedOrders.add(po.getPlannedOrderId());
+//        }
 
-        purchaseOrderInfo.add(6, plannedOrders);
+//        purchaseOrderInfo.add(6, plannedOrders);
         purchaseOrderInfo.add(7, purchaseOrder.getTotalPrice());
         purchaseOrderInfo.add(8, purchaseOrder.getGoodsReceipt().getGoodsReceiptId());
 
@@ -193,8 +194,8 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         List contractInfo = new ArrayList();
 
         contractInfo.add(0, contract.getContractId());
-        contractInfo.add(1, contract.getFactoryRawMaterialProduct().getFactoryRawMaterialId());
-        contractInfo.add(2, contract.getFactoryRawMaterialProduct().getRawMaterial().getMaterialName());
+        contractInfo.add(1, contract.getFactoryRawMaterial().getFactoryRawMaterialId());
+        contractInfo.add(2, contract.getFactoryRawMaterial().getRawMaterial().getMaterialName());
         contractInfo.add(3, contract.getFactoryRetailProduct().getFactoryRetailProdctId());
         contractInfo.add(4, contract.getFactoryRetailProduct().getRetailProduct().getName());
         contractInfo.add(5, contract.getSupplier().getSupplierId());
@@ -236,7 +237,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
             ContractEntity c = (ContractEntity) o;
             List contract = new ArrayList();
             contract.add(0, c.getContractId());
-            contract.add(1, c.getFactoryRawMaterialProduct().getRawMaterial().getMaterialName());
+            contract.add(1, c.getFactoryRawMaterial().getRawMaterial().getMaterialName());
             contractList.add(contract);
         }
 
