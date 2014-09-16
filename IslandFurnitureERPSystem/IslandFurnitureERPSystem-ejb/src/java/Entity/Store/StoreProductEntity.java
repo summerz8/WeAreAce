@@ -36,7 +36,7 @@ public class StoreProductEntity  implements Serializable {
     
     //store product entity -- stores entity: M <--> 1
     @ManyToOne
-    private StoreEntity stores;
+    private StoreEntity store;
 
     public Long getStoreProductId() {
         return storeProductId;
@@ -54,12 +54,12 @@ public class StoreProductEntity  implements Serializable {
         this.factory = factory;
     }
 
-    public StoreEntity getStores() {
-        return stores;
+    public StoreEntity getStore() {
+        return store;
     }
 
-    public void setStores(StoreEntity stores) {
-        this.stores = stores;
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
 
     

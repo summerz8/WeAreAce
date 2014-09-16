@@ -41,7 +41,7 @@ public class StoreEntity implements Serializable {
 //    private List<FactoryEntity> factorys = new ArrayList<>();
     
     //store entity -- store product entity: 1 <--> M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     private List<StoreProductEntity> storeProduct = new ArrayList<>();
     
     public StoreEntity() {
