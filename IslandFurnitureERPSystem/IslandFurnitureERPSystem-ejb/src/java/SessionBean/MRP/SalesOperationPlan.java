@@ -27,6 +27,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    @Override
     public SalesOperationPlanEntity GenerateSalesOperationPlan(Long productId,
             FactoryProductEntity factoryProductEntity,
             ProductionPlanEntity productionPlan,
@@ -54,6 +55,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         return null;
     }
 
+    @Override
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
             Long productId,
@@ -83,6 +85,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     }
 
+    @Override
     public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long productId, String FactoryId, Calendar startPeriod, Calendar endPeriod) {
         List<SalesOperationPlanEntity> list = new ArrayList<SalesOperationPlanEntity>();
         List<SalesOperationPlanEntity> templist = new ArrayList<SalesOperationPlanEntity>();
@@ -105,6 +108,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     }
 
     
+    @Override
     public Calendar removeTime(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
