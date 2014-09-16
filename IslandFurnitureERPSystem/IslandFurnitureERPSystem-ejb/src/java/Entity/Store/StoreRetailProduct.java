@@ -6,6 +6,7 @@
 
 package Entity.Store;
 
+import Entity.Factory.FactoryEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -25,32 +27,59 @@ import javax.persistence.Table;
 public class StoreRetailProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long storeRetailProductId;
 
-    public Long getId() {
-        return id;
+    //store retail product entity -- factory entity: M <--> 1 
+    @ManyToOne
+    private FactoryEntity factory;
+    
+    //store retail product entity -- stores entity: M <--> 1
+    @ManyToOne
+    private StoreEntity store;
+    
+    
+    public Long getStoreRetailProductId() {
+        return storeRetailProductId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStoreRetailProductId(Long storeRetailProductId) {
+        this.storeRetailProductId = storeRetailProductId;
     }
+
+    public FactoryEntity getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryEntity factory) {
+        this.factory = factory;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+    
+    
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (storeRetailProductId != null ? storeRetailProductId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the storeRetailProductId fields are not set
         if (!(object instanceof StoreRetailProduct)) {
             return false;
         }
         StoreRetailProduct other = (StoreRetailProduct) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.storeRetailProductId == null && other.storeRetailProductId != null) || (this.storeRetailProductId != null && !this.storeRetailProductId.equals(other.storeRetailProductId))) {
             return false;
         }
         return true;
@@ -58,7 +87,7 @@ public class StoreRetailProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.StoreRetailProduct[ id=" + id + " ]";
+        return "Entity.Store.StoreRetailProduct[ id=" + storeRetailProductId + " ]";
     }
     
 }
