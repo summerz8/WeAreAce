@@ -199,7 +199,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 RetailProductEntity retailProduct = em.find(RetailProductEntity.class, itemId);
                 FactoryRetailProductEntity factoryRetailProduct = new FactoryRetailProductEntity();
 
-                factoryRetailProduct.create(retailProduct.getName(), retailProduct.getDecription());
+                factoryRetailProduct.create(retailProduct.getName(), retailProduct.getDescription());
 
                 //create relationship between factory and factory retail product
                 factory.getFactoryRetailProducts().add(factoryRetailProduct);

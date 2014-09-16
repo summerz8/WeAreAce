@@ -14,9 +14,10 @@
 package SessionBean.SCM;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
-import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
@@ -26,6 +27,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -49,6 +51,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //post-con: a list of item of the select type(RM / RP)
     @Override
     public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception {
+        System.out.println("viewItemwithSelectType():");
+
         Collection<Object> itemList = new ArrayList<>();
 
         try {
@@ -82,6 +86,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //select an item for purchase
     @Override
     public Object selectItem(String itemType, Long itemId) throws Exception {
+        System.out.println("selectItem():");
+
         try {
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity rawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
@@ -101,6 +107,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //3. View and Select Available Supplier(whose contract has not expired)
     @Override
     public Set<SupplierEntity> viewAvailSupplier(String itemType, Long itemId) throws Exception {
+        System.out.println("viewAvailSupplier():");
+
         Set<SupplierEntity> supplierList = new HashSet<>();
 
         try {
@@ -113,10 +121,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     Object obj = iterator.next();
                     ContractEntity contract = (ContractEntity) obj;
 
-                    Calendar contractEndDate = contract.getContractEndDate();
-                    Calendar today = Calendar.getInstance();
-
-                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//check unexpired contract
+                    if (!isExpired(contract)) {//check unexpired contract
                         SupplierEntity supplier = contract.getSupplier();
                         supplierList.add(supplier);
                     }
@@ -132,10 +137,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     Object obj = iterator.next();
                     ContractEntity contract = (ContractEntity) obj;
 
-                    Calendar contractEndDate = contract.getContractEndDate();
-                    Calendar today = Calendar.getInstance();
-
-                    if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//check unexpired contract
+                    if (!isExpired(contract)) {//check unexpired contract
                         SupplierEntity supplier = contract.getSupplier();
                         supplierList.add(supplier);
                     }
@@ -151,7 +153,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //select a unexpired contract with given supplier and given raw material
+    @Override
     public ContractEntity selectSupplier(String itemType, Long itemId, Long supplierId) throws Exception {
+        System.out.println("selectSupplier():");
+
         try {
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
@@ -163,10 +168,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     Object obj = iterator.next();
                     ContractEntity contract = (ContractEntity) obj;
 
-                    Calendar contractEndDate = contract.getContractEndDate();
-                    Calendar today = Calendar.getInstance();
-
-                    if ((removeTime(today).compareTo(removeTime(contractEndDate)) <= 0)
+                    if (!isExpired(contract)
                             && (contract.getSupplier().getSupplierId().equals(supplierId))) {//check unexpired contract
                         return contract;
                     }
@@ -182,10 +184,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     Object obj = iterator.next();
                     ContractEntity contract = (ContractEntity) obj;
 
-                    Calendar contractEndDate = contract.getContractEndDate();
-                    Calendar today = Calendar.getInstance();
-
-                    if ((removeTime(today).compareTo(removeTime(contractEndDate)) <= 0)
+                    if (!isExpired(contract)
                             && (contract.getSupplier().getSupplierId().equals(supplierId))) {//check unexpired contract
                         return contract;
                     }
@@ -203,6 +202,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //display all the available store
     @Override
     public Set<StoreEntity> viewAvailStore(Long factoryId) throws Exception {
+        System.out.println("viewAvailStore():");
+
         Set<StoreEntity> storeList = new HashSet<>();
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
@@ -215,10 +216,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //5. Generate purchase order
-    //by manually input the purcahse item related information
+    //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Integer amount, Long storeId, String destination)
             throws Exception {
+        System.out.println("createPurchaseOrder():");
+
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
 
         try {
@@ -246,50 +249,115 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return purchaseOrder;
 
     }
-    //by reference to selected planned order
+
+    //Method 2 : by reference to an integrated planned order
+    //Step 1: system display a list of available integrated planned order for RM and RP 
     @Override
-    public Set<RetailProductPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
-        Set<PlannedOrderEntity> plannedOrderList = new HashSet<>();
-        Set<PlannedOrderEntity> availPlannedOrderList = new HashSet<>();
-        
-        try{
+    public Set<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
+        System.out.println("viewAvailIntegratedPlannedOrder():");
+        Set<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new HashSet<>();
+        Set<IntegratedPlannedOrderEntity> availIntegratedPlannedOrderList = new HashSet<>();
+
+        try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-            plannedOrderList = factory.getPlannedOrder();
-            Iterator iterator = plannedOrderList.iterator();
-            
-            while(iterator.hasNext()){
+            integratedPlannedOrderList = factory.getIntegratedPlannedOrders();
+            Iterator iterator = integratedPlannedOrderList.iterator();
+
+            while (iterator.hasNext()) {
                 Object obj = iterator.next();
-                PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
-                if(!plannedOrder.getPurchaseOrder().isEmpty())
-                    availPlannedOrderList.add(plannedOrder);
+                IntegratedPlannedOrderEntity integratedPlannedOrder = (IntegratedPlannedOrderEntity) obj;
+                if (!integratedPlannedOrder.getPurchaseOrder().isEmpty()) {
+                    availIntegratedPlannedOrderList.add(integratedPlannedOrder);
+                }
             }
-            
-        }catch (Exception ex) {
-            System.err.println("Caught an unexpected exception!");
-            ex.printStackTrace();
-        }       
-        return plannedOrderList;
-    }
-    @Override
-    public PurchaseOrderEntity genratePurchaseOrder(Set<PlannedOrderEntity> plannedOrderList) throws Exception {
-        PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
-        try{
-            // check whether the raw materials/retail products in the planned orders are the same
-            boolean isSameItem = checkPlannedOrders(plannedOrderList);
-            
-            
-        //    FactoryEntity factory = p
-            purchaseOrder.create(null, null, null, Integer.SIZE, null, null, Double.NaN, Integer.SIZE);
-            
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return purchaseOrder;
+        return availIntegratedPlannedOrderList;
     }
+
+    //Step 2: user choose one of the integrated planned order(either RM or RP)
+    //input : integratedPlannedOrderId
+    //output: display a list of available suppliers for the choose RM or RP   
+    @Override
+    public List<SupplierEntity> viewAvailSupplier(Long factoryId, Long integratedPlannedOrderId, String itemType) throws Exception {
+        System.out.println("viewAvailSupplier():");
+
+        List<SupplierEntity> availSupplierList = new ArrayList<>();
+
+        try {
+            IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialAmountEntity factoryRawMaterialAmount = integratedPlannedOrder.getFactoryRawMaterialAmount();
+                FactoryRawMaterialEntity factoryRawMaterial = factoryRawMaterialAmount.getFactoryRawMaterial();
+                Collection<ContractEntity> contractList = factoryRawMaterial.getContracts();
+
+                for (ContractEntity contract : contractList) {
+                    if (!isExpired(contract)) {//check unexpired contract
+                        SupplierEntity supplier = contract.getSupplier();
+                        availSupplierList.add(supplier);
+                    }
+                }
+            } else {//itemType.equals("RetailProduct")
+                FactoryRetailProductAmountEntity factoryRetailProductAmount = integratedPlannedOrder.getFactoryRetailProductAmount();
+                FactoryRetailProductEntity factoryRetailProduct = factoryRetailProductAmount.getFactoryRetailProduct();
+                Collection<ContractEntity> contractList = factoryRetailProduct.getContracts();
+                Iterator iterator = contractList.iterator();
+
+                while (iterator.hasNext()) {
+                    ContractEntity contract = (ContractEntity) iterator.next();
+
+                    if (!isExpired(contract)) {//check unexpired contract
+                        SupplierEntity supplier = contract.getSupplier();
+                        availSupplierList.add(supplier);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return availSupplierList;
+    }
+
+    //Step 3: user choose one of the suppliers displayed
+    //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
+    //output: display the generated amount for purchase
+    @Override
+    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, Long supplierId, Double nextMonthPlannedAmount) throws Exception {
+        System.out.println("generatePurchaseAmount():");
+        Double purchaseAmount = 0D;
+        try{
+            
+        }catch(Exception ex){
+            
+        }
+        
+        return purchaseAmount;
+
+    }
+
+    //Step 4: user confirm the displayed amount 
+    //output: purchase order
+    @Override
+    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId) throws Exception {
+        System.out.println("generatePurchaseOrder():");
+        PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
+        try{
+            
+        }catch(Exception ex){
+            
+        }
+        
+        return purchaseOrder;
+
+    }
+
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
+
     // for comparing two dates
     //function to set all the other attributes to be 0
     public Calendar removeTime(Calendar cal) {
@@ -300,24 +368,17 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return cal;
     }
 
-    private boolean checkPlannedOrders(Set<PlannedOrderEntity> plannedOrderList) {
-        boolean isSameItem = true;
-        Iterator iterator = plannedOrderList.iterator();
-        
-        if(iterator.hasNext()){
-            Object obj = iterator.next();
-            PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
-            RawMaterialAmountEntity rawMaterial = plannedOrder.getFactoryRawMaterialList()
-            
-            
-            
-        }
+    //check whether a contract has expired
+    private boolean isExpired(ContractEntity contract) {
+        boolean isExpired = true;
 
-        
-        return isSameItem;
+        Calendar contractEndDate = contract.getContractEndDate();
+        Calendar today = Calendar.getInstance();
+
+        if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//if not expired
+            isExpired = false;
+        }
+        return isExpired;
     }
 
-    
-
-    
 }
