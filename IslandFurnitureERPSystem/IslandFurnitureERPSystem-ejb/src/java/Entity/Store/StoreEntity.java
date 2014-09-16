@@ -44,6 +44,10 @@ public class StoreEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     private List<StoreProductEntity> storeProduct = new ArrayList<>();
     
+    //store entity -- store retail product entity: 1 <--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<StoreRetailProduct> storeRetailProduct = new ArrayList<>();
+    
     public StoreEntity() {
     }
 
@@ -77,6 +81,14 @@ public class StoreEntity implements Serializable {
 
     public void setStoreProduct(List<StoreProductEntity> storeProduct) {
         this.storeProduct = storeProduct;
+    }
+
+    public List<StoreRetailProduct> getStoreRetailProduct() {
+        return storeRetailProduct;
+    }
+
+    public void setStoreRetailProduct(List<StoreRetailProduct> storeRetailProduct) {
+        this.storeRetailProduct = storeRetailProduct;
     }
 
    
