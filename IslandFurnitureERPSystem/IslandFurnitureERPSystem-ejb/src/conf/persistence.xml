@@ -43,7 +43,6 @@
     <class>Entity.Store.StoreEntity</class>
     <class>Entity.Store.StoreInStoreEntity</class>
     <class>Entity.Store.StoreInboundEntity</class>
-    <class>Entity.Store.StoreInventoryEntity</class>
     <class>Entity.Store.StoreInventoryMovement</class>
     <class>Entity.Store.StoreOutboundEntity</class>
     <class>Entity.Store.StoreProductEntity</class>
