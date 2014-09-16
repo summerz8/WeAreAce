@@ -5,7 +5,7 @@
  */
 package ManagedBean.CommonInfrastructure;
 
-import SessionBean.IFManagerBeanLocal;
+import SessionBean.IFManagerBeanRemote;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 public class LoginBean implements Serializable {
 
     @EJB
-    private IFManagerBeanLocal IFMB;
+    private IFManagerBeanRemote IFMB;
 
     private String userId;
     private String pwd;
