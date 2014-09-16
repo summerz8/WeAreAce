@@ -29,7 +29,9 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
     @Override
     public void addRawMaterial(String name, String description){
        System.out.println("EnterpriseInventoryManagementModule_RawMaterial: add Raw Material()");
-       RawMaterialEntity rawMaterial = new RawMaterialEntity(name, description);
+       RawMaterialEntity rawMaterial = new RawMaterialEntity();
+       rawMaterial.setMaterialName(name);
+       rawMaterial.setDescription(description);
        em.persist(rawMaterial);
     }
     @Override
@@ -41,7 +43,7 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
        }
        else{
        
-           rawMaterial.setDeleteFlag(false);
+             
        
        }
        

@@ -31,40 +31,22 @@ public class RawMaterialEntity implements Serializable {
     private Long materialId;
     private String materialName;
     private String description;
-    private boolean deleteFlag;
 
     //raw material entity -- factory raw material entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
 
-<<<<<<< HEAD
-    public RawMaterialEntity(String materialName, String description) {
-        this.materialID = materialID;
-        this.materialName = materialName;
-        this.description = description;
-        this.deleteFlag = false;
-    }
-    
-    public RawMaterialEntity(){
-        
-    }
-    
-=======
     //raw material entity -- bom entity:    1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
     private List<BOMEntity> bomList= new ArrayList<>();;
->>>>>>> 54c9e8b7847665dec221f588e58de206d5034f21
     
     public RawMaterialEntity() {
     }
-<<<<<<< HEAD
-=======
     
     
     public Long getMaterialId() {
         return materialId;
     }
->>>>>>> 54c9e8b7847665dec221f588e58de206d5034f21
 
     public String getMaterialName() {
         return materialName;
@@ -94,21 +76,12 @@ public class RawMaterialEntity implements Serializable {
         this.factoryRawMaterials = factoryRawMaterials;
     }
 
-<<<<<<< HEAD
-    public boolean getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
-=======
     public List<BOMEntity> getBomList() {
         return bomList;
     }
 
     public void setBomList(List<BOMEntity> bomList) {
         this.bomList = bomList;
->>>>>>> 54c9e8b7847665dec221f588e58de206d5034f21
     }
    
     

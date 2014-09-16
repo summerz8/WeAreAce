@@ -7,7 +7,7 @@
 package ManagedBean.CommonInfrastructure;
 
 
-import SessionBean.CommonInFrastructure.InternalMessageModule;
+import SessionBean.CommonInFrastructure.InternalMessageModuleLocal;
 import java.util.ArrayList;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -42,17 +42,17 @@ public class InternalMessageManageBean {
     private String statusMessage;
     
     @EJB
-    private InternalMessageModule im;
+    private InternalMessageModuleLocal im;
         
         
     public InternalMessageManageBean() {
     }
     
-    public InternalMessageModule getIm() {
+    public InternalMessageModuleLocal getIm() {
         return im;
     }
 
-    public void setIm(InternalMessageModule im) {
+    public void setIm(InternalMessageModuleLocal im) {
         this.im = im;
     }
 
