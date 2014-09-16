@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author zhangshiyu
  */
 @Stateful
-public class IFManagerBean implements IFManagerBeanLocal {
+public class IFManagerBean implements IFManagerBeanRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -25,7 +25,8 @@ public class IFManagerBean implements IFManagerBeanLocal {
     }
 
     @Override
-    public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender, String departmentId) {
+    public String createUser(String department, Integer userLevel, String lastName, 
+            String firstName, String position, String gender, String departmentId) {
         System.out.println("IFManagerBean: createUser():");
 
         Integer idNumber = 0;

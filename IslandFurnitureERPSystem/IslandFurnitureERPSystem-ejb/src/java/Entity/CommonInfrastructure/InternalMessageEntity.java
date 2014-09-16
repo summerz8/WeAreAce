@@ -46,6 +46,7 @@ public class InternalMessageEntity implements Serializable {
     private String type;    //ignore
     
     
+    @ManyToOne
     private UserEntity sender = new UserEntity();
    
     

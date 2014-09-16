@@ -18,7 +18,8 @@ import javax.inject.Named;
 @Named(value = "productionPlanBean")
 @Dependent
 public class ProductionPlanBean {
-    @EJB ProductionPlanManagementModuleLocal plan;
+    @EJB 
+    ProductionPlanManagementModuleLocal plan;
       
     /**
      * Creates a new instance of ProductionPlanBean

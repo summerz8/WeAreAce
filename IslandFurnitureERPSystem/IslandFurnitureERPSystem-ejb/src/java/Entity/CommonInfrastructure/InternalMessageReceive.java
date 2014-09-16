@@ -12,12 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author zhengyuan
  */
 @Entity
+@Table (name = "InternalMessageReceive")
 public class InternalMessageReceive implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,13 +27,14 @@ public class InternalMessageReceive implements Serializable {
     private Long receivedMessageid;
     private boolean deleted;
     private boolean opened;
-    private long senderId;
-    private long receiverId;
-    @ManyToOne (targetEntity = InternalMessageEntity.class)
-    private InternalMessageEntity message;
     
     
+    @ManyToOne
+    private InternalMessageEntity message = new InternalMessageEntity();
+    
+    @ManyToOne 
     private UserEntity receiver = new UserEntity();
+    
     
     public InternalMessageReceive() {
     }
@@ -73,22 +76,7 @@ public class InternalMessageReceive implements Serializable {
         this.opened = opened;
     }
 
-    public long getSenderId() {
-        return senderId;
-    }
 
-    public void setSenderId(long senderId) {
-        this.senderId = senderId;
-    }
-
-    public long getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(long receiverId) {
-        this.receiverId = receiverId;
-    }
-    
     public InternalMessageEntity getSendMessage() {
         return message;
     }
