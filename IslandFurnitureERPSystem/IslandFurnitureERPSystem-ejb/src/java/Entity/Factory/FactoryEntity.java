@@ -11,6 +11,7 @@ import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,36 +50,38 @@ public class FactoryEntity implements Serializable {
     private Boolean deleteFlag;//a flag used to mark as deleted or not
     
     //purchase order entity -- factory entity: M <--> 1 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
     private Collection<PurchaseOrderEntity> purchaseOrders = new ArrayList<>();
 
     //factory entity -- factory raw material entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
 
     //factory entity -- factory product entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
     private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
 
     //factory entity -- factory retail product entity: 1 <--> M 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     //facotry entity -- factory bin entity: 1 <--> M
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
     private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
-    
-    //factory entity -- store entity: M <--> M 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "FACTORY_STORE")
-    private List<StoreEntity> stores = new ArrayList<>();
-    
+//    
+//    //factory entity -- store entity: M <--> M 
+//    @ManyToMany(cascade = {CascadeType.PERSIST})
+//    @JoinTable(name = "FACTORY_STORE")
+//    private List<StoreEntity> stores = new ArrayList<>();
+    //factory entity -- store product entity: 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    private List<StoreProductEntity> storeProduct = new ArrayList<>();
     //facotry entity -- planned order entity: 1 <--> M
-    @OneToMany(mappedBy="factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
     private List<PlannedOrderEntity> plannedOrders = new ArrayList<>();
     
     //facotry entity -- integrated planned order entity: 1 <--> M
-    @OneToMany(mappedBy="factory")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy="factory")
     private List<IntegratedPlannedOrderEntity> integratedPlannedOrders = new ArrayList<>();
     
     public FactoryEntity() {
@@ -184,14 +187,15 @@ public class FactoryEntity implements Serializable {
         this.factoryBins = factoryBins;
     }
 
-    public List<StoreEntity> getStores() {
-        return stores;
+    public List<StoreProductEntity> getStoreProduct() {
+        return storeProduct;
     }
 
-    public void setStores(List<StoreEntity> stores) {
-        this.stores = stores;
+    public void setStoreProduct(List<StoreProductEntity> storeProduct) {
+        this.storeProduct = storeProduct;
     }
 
+    
     public List<PlannedOrderEntity> getPlannedOrder() {
         return plannedOrders;
     }
