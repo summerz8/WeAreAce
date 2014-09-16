@@ -50,7 +50,7 @@
     <class>Entity.Store.StoreRetailProduct</class>
     <class>Entity.Store.StoreStorageBinEntity</class>
 
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
