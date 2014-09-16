@@ -6,9 +6,9 @@
 package Entity.Store;
 
 import Entity.Factory.FactoryEntity;
+import java.util.List;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,8 +37,7 @@ public class StoreEntity implements Serializable {
 
     //factory entity -- store entity: M <--> M 
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
-    private Set<FactoryEntity> stores = new HashSet<FactoryEntity>();
-
+    private List<FactoryEntity> factorys = new ArrayList<>();
     
     public StoreEntity() {
     }
@@ -50,9 +49,7 @@ public class StoreEntity implements Serializable {
         this.manager = manager;
         this.deleteFlag = deleteFlag;
     }
-    
-    
-    
+      
     public Long getStoreId() {
         return storeId;
     }
@@ -69,12 +66,12 @@ public class StoreEntity implements Serializable {
         this.address = address;
     }
 
-    public Set<FactoryEntity> getStores() {
-        return stores;
+    public List<FactoryEntity> getFactorys() {
+        return factorys;
     }
 
-    public void setStores(Set<FactoryEntity> stores) {
-        this.stores = stores;
+    public void setFactorys(List<FactoryEntity> factorys){
+        this.factorys = factorys;
     }
 
     public String getCountry() {
@@ -108,9 +105,7 @@ public class StoreEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
-    
-    
-    
+     
     @Override
     public int hashCode() {
         int hash = 0;

@@ -26,7 +26,7 @@ public class RetailProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long retailProductId;
     private String name;
     private String description;
@@ -35,7 +35,7 @@ public class RetailProductEntity implements Serializable {
     
     //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
-    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<FactoryRetailProductEntity>();
+    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     public RetailProductEntity() {
     }

@@ -368,9 +368,24 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return cal;
     }
 
+<<<<<<< HEAD
     //check whether a contract has expired
     private boolean isExpired(ContractEntity contract) {
         boolean isExpired = true;
+=======
+    private boolean checkPlannedOrders(Set<PlannedOrderEntity> plannedOrderList) {
+        boolean isSameItem = true;
+        Iterator iterator = plannedOrderList.iterator();
+        
+        if(iterator.hasNext()){
+            Object obj = iterator.next();
+            PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
+            RawMaterialAmountEntity rawMaterial = plannedOrder.getFactoryRawMaterialAmountList()
+            
+            
+            
+        }
+>>>>>>> aeaee65d132b94d91049e4048830d44eb4971707
 
         Calendar contractEndDate = contract.getContractEndDate();
         Calendar today = Calendar.getInstance();

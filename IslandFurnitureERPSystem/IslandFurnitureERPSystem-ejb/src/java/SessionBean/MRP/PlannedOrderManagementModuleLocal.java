@@ -20,13 +20,13 @@ import javax.ejb.Local;
 @Local
 public interface PlannedOrderManagementModuleLocal {
 
-    public BOMEntity CheckBOM(Long ProductID);
+    public List<BOMEntity> CheckBOM(Long ProductID);
 
-    public PlannedOrderEntity CreatePlannedOrder(Long productID, Integer amount);
+    public PlannedOrderEntity CreatePlannedOrder(Long productID, Double amount);
 
-    public PlannedOrderEntity GeneratePlannedOrder(Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Integer> RawAmount, List<String> Unit,FactoryEntity factory);
+    public PlannedOrderEntity CompletePlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit,FactoryEntity factory);
 
-    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Integer> RawAmount, List<String> Unit);
+    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit);
 
     public boolean DeletePlannedOrder(Long PlannedOrderId);
     

@@ -6,12 +6,6 @@
  */
 package Entity.Factory.FactoryBin;
 
-import Entity.Factory.FactoryProductEntity;
-import Entity.Factory.FactoryRawMaterialEntity;
-import Entity.Factory.FactoryRetailProductEntity;
-import Entity.Factory.SCM.InFactoryMovementEntity;
-import Entity.Factory.SCM.InboundMovementEntity;
-import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
 import Entity.Factory.SCM.InFactoryMovementEntity;
@@ -40,9 +34,9 @@ public class FactoryBinStoredProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryBinStoredProductId;
-    private double amount = 0;
+    private Double amount = 0D;
 
     //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne

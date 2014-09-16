@@ -21,10 +21,10 @@ import javax.persistence.ManyToOne;
 public class FactoryRetailProductAmountEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryRetailProductAmountId;
     private String unit;
-    private Integer amount;
+    private Double amount;
     
     //retail product amount entity -- factory retail product amount entity: M <--> 1
     @ManyToOne
@@ -54,12 +54,20 @@ public class FactoryRetailProductAmountEntity implements Serializable {
         this.unit = unit;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
     }
 
     

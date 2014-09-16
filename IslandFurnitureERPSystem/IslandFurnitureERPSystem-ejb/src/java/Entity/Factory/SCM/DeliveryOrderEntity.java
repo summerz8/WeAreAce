@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Entity.Factory;
+package Entity.Factory.SCM;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -20,24 +20,20 @@ import javax.persistence.Temporal;
  * @author apple
  */
 @Entity
-public class InventoryRecordEntity implements Serializable {
+public class DeliveryOrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar recordDate;
-    private Double amount;
-    private String unit;
+    private Calendar deliveryDate;
+    private Double amount = 0D;
     
-    //inventory record entity -- factory raw material entity : M <--> 1
+    //purchase order entity -- delivery order entity : 1 <--> M
     @ManyToOne
-    private FactoryRawMaterialEntity factoryRawMaterial;
-    
-    //inventory record entity -- factory product entity : M <--> 1
-    @ManyToOne
-    private FactoryProductEntity factoryProduct;
-            
+    private PurchaseOrderEntity purchaseOrder;
+
     public Long getId() {
         return id;
     }
@@ -46,12 +42,12 @@ public class InventoryRecordEntity implements Serializable {
         this.id = id;
     }
 
-    public Calendar getRecordDate() {
-        return recordDate;
+    public Calendar getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setRecordDate(Calendar recordDate) {
-        this.recordDate = recordDate;
+    public void setDeliveryDate(Calendar deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public Double getAmount() {
@@ -62,31 +58,14 @@ public class InventoryRecordEntity implements Serializable {
         this.amount = amount;
     }
 
-    public String getUnit() {
-        return unit;
+    public PurchaseOrderEntity getPurchaseOrder() {
+        return purchaseOrder;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
-    public FactoryRawMaterialEntity getFactoryRawMaterial() {
-        return factoryRawMaterial;
-    }
-
-    public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
-        this.factoryRawMaterial = factoryRawMaterial;
-    }
-
-    public FactoryProductEntity getFactoryProduct() {
-        return factoryProduct;
-    }
-
-    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
-        this.factoryProduct = factoryProduct;
-    }
-
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -97,10 +76,10 @@ public class InventoryRecordEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InventoryRecordEntity)) {
+        if (!(object instanceof DeliveryOrderEntity)) {
             return false;
         }
-        InventoryRecordEntity other = (InventoryRecordEntity) object;
+        DeliveryOrderEntity other = (DeliveryOrderEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -109,7 +88,7 @@ public class InventoryRecordEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.InventoryRecordEntity[ id=" + id + " ]";
+        return "Entity.Factory.SCM.DeliveryOrderEntity[ id=" + id + " ]";
     }
     
 }

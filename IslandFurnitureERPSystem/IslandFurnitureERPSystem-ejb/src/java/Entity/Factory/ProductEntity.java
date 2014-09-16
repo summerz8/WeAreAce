@@ -9,13 +9,13 @@ package Entity.Factory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,27 +32,26 @@ public class ProductEntity implements Serializable {
     private Long productId;
     private String name;
     private String description;
-    private double price; // ???
+    private Double price; // ???
     private String unit;
     private Boolean deleteFlag;
     
-    //product entity -- bom entity: 1 <--> 1
-    @OneToOne(cascade={CascadeType.PERSIST})
-    public BOMEntity bom;
+    //product entity -- bom entity: 1 <--> M
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="product")
+    public List<BOMEntity> bom= new ArrayList<>();;
 
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
-    private Collection<FactoryProductEntity> factoryProduct = new ArrayList<FactoryProductEntity>();
+    private Collection<FactoryProductEntity> factoryProduct = new ArrayList<>();
   
     public ProductEntity() {
     }
 
-    public ProductEntity(String name, String description, double price, String unit, BOMEntity bom, Boolean deleteFlag) {
+    public ProductEntity(String name, String description, Double price, String unit, Boolean deleteFlag) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.unit = unit;
-        this.bom = bom;
         this.deleteFlag = deleteFlag;
     }
 
@@ -81,11 +80,11 @@ public class ProductEntity implements Serializable {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -97,11 +96,11 @@ public class ProductEntity implements Serializable {
         this.unit = unit;
     }
 
-    public BOMEntity getBom() {
+    public List<BOMEntity> getBom() {
         return bom;
     }
 
-    public void setBom(BOMEntity bom) {
+    public void setBom(List<BOMEntity> bom) {
         this.bom = bom;
     }
 

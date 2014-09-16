@@ -6,9 +6,10 @@
 
 package Entity.Factory.MRP;
 
-import Entity.Factory.ProductEntity;
+import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
@@ -25,19 +27,22 @@ import javax.persistence.Temporal;
  * @author apple
  */
 
-@Entity(name = "SalesForecast")
+@Entity
+@Table(name = "SalesForecast")
 public class SalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private StoreEntity store;
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private List<ProductEntity> productList;
-    private List<Integer> amount; 
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetPeriod;
-    private String status;
+    private String status; // unconfirmed, confirmed
+    //factory product amount entity -- sales forecast entity M <--> 1
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private List<FactoryProductAmountEntity> factoryProductList = new ArrayList<>();
+
     
         
     public SalesForecastEntity(){
@@ -51,20 +56,12 @@ public class SalesForecastEntity implements Serializable {
         this.id = id;
     }
 
-    public List<ProductEntity> getProductList() {
-        return productList;
+    public List<FactoryProductAmountEntity> getFactoryProductList() {
+        return factoryProductList;
     }
 
-    public void setProductList(List<ProductEntity> productList) {
-        this.productList = productList;
-    }
-
-    public List<Integer> getAmount() {
-        return amount;
-    }
-
-    public void setAmount(List<Integer> amount) {
-        this.amount = amount;
+    public void setFactoryProductList(List<FactoryProductAmountEntity> productList) {
+        this.factoryProductList = productList;
     }
 
     public Calendar getTargetPeriod() {
@@ -74,8 +71,6 @@ public class SalesForecastEntity implements Serializable {
     public void setTargetPeriod(Calendar targetPeriod) {
         this.targetPeriod = targetPeriod;
     }
-
-    
 
     public String getStatus() {
         return status;

@@ -8,8 +8,6 @@ package Entity.Factory.SCM;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +26,7 @@ public class SupplierEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long supplierId;
     private String supplierName;
     private String supplierAddress;
@@ -37,12 +35,10 @@ public class SupplierEntity implements Serializable {
     private String remark;
 
     //contract entity -- supplier entity: M<-->1
-    @OneToMany(cascade = {CascadeType.PERSIST})
-    private Collection<ContractEntity> ContractList = new ArrayList<ContractEntity>();
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "supplier")
+    private Collection<ContractEntity> ContractList = new ArrayList<>();
 
     public SupplierEntity() {
-        //may be changed later
-        setSupplierId(System.nanoTime());
     }
 
     public Long getSupplierId() {

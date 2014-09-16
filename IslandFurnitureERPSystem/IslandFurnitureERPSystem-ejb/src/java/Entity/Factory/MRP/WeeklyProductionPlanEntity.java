@@ -7,29 +7,30 @@
 package Entity.Factory.MRP;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author apple
  */
-@Entity(name = "WeeklyProductionPlan")
+@Entity
+@Table(name = "WeeklyProductionPlan")
 public class WeeklyProductionPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String month;
+    private String productionMonth;
     private Integer week;
     private Integer workingDayInWeek;
     private Integer workingDayInMonth;
-    private Integer weeklyDemand;
+    private Double weeklyDemand;
+    
     @ManyToOne
     private ProductionPlanEntity productionPlan;
     
@@ -37,9 +38,9 @@ public class WeeklyProductionPlanEntity implements Serializable {
     public WeeklyProductionPlanEntity(){
     }
     
-    public void createWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Integer weeklyDemand){
+    public void createWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
         this.id = id;
-        this.month = month;
+        this.productionMonth = month;
         this.week = week;
         this.workingDayInWeek = workingDayInWeek;
         this.workingDayInMonth = workingDayInMonth;
@@ -54,12 +55,12 @@ public class WeeklyProductionPlanEntity implements Serializable {
         this.id = id;
     }
 
-    public String getMonth() {
-        return month;
+    public String getProductionMonth() {
+        return productionMonth;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setProductionMonth(String productionMonth) {
+        this.productionMonth = productionMonth;
     }
 
     public Integer getWeek() {
@@ -86,11 +87,11 @@ public class WeeklyProductionPlanEntity implements Serializable {
         this.workingDayInMonth = workingDayInMonth;
     }
 
-    public Integer getWeeklyDemand() {
+    public Double getWeeklyDemand() {
         return weeklyDemand;
     }
 
-    public void setWeeklyDemand(Integer weeklyDemand) {
+    public void setWeeklyDemand(Double weeklyDemand) {
         this.weeklyDemand = weeklyDemand;
     }
 

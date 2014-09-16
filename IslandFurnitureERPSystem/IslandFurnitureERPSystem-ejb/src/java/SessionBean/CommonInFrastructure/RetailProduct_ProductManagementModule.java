@@ -31,9 +31,9 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void AddProduct(String name, String description, double price, String unit, BOMEntity bom) {
+    public void AddProduct(String name, String description, Double price, String unit, Boolean deleteFlag) {
         System.out.println("RetailProduct_ProductManagementModule: AddProduct(): ");
-        ProductEntity pe = new ProductEntity(name, description, price, unit, bom, Boolean.TRUE);
+        ProductEntity pe = new ProductEntity(name, description, price, unit,Boolean.TRUE);
     }
 
     @Override
@@ -45,14 +45,13 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
 
     @Override
     public void ModifyProduct(Long productId, String name, String description,
-            double price, String unit, BOMEntity bom) {
+            double price, String unit) {
         System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): ");
         ProductEntity pe = em.find(ProductEntity.class, productId);
         pe.setName(name);
         pe.setDescription(description);
         pe.setPrice(price);
         pe.setUnit(unit);
-        pe.setBom(bom);
     }
 
     @Override

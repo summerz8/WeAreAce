@@ -8,7 +8,6 @@ package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
-import Entity.Factory.ProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -31,7 +30,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     private EntityManager em;
     
     @Override
-    public boolean generateProductionPlan(String status,Calendar generateDate,Calendar targetPeriod,Integer output,Long productId, String remark){
+    public boolean generateProductionPlan(String status,Calendar generateDate,Calendar targetPeriod,Double output,Long productId, String remark){
         
         try{
             FactoryProductEntity product=em.find(FactoryProductEntity.class, productId);
@@ -62,7 +61,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
                 productionPlan.setProduct(product);
                 break;
             case "output":
-                Integer output = (Integer) content;
+                Double output = (Double) content;
                 productionPlan.setQuantity(output);
                 break;
             case "status":

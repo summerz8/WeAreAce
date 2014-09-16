@@ -11,6 +11,7 @@ import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -34,21 +35,21 @@ public class PlannedOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long plannedOrderId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar generatedDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetDate;
-    private String status;//waiting, processing, cancelled, and accomplished
+    private Calendar targetPeriod;
+    private String status;//unconfirmed, confirmed
     
     //raw mterial amount entity -- planned order entity : M <-- 1
     @OneToMany(cascade = {CascadeType.PERSIST})
-    private List<FactoryRawMaterialAmountEntity> factoryRawMaterialList;
+    private List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList=null;
     
     //factory retail product amount entity -- planned order entity: 1 <-- 1
     @OneToOne(cascade={CascadeType.PERSIST})
-    private FactoryRetailProductAmountEntity factoryRetailProductAmount;
+    private FactoryRetailProductAmountEntity factoryRetailProductAmount=null;
     
     //planned order entity -- production plan entity 1 <--> 1
     @OneToOne(cascade = {CascadeType.PERSIST})
@@ -69,10 +70,10 @@ public class PlannedOrderEntity implements Serializable {
                                    List<FactoryRawMaterialAmountEntity> rawMaterialList,
                                    FactoryEntity factory) {
         this.generatedDate=date;
-        this.targetDate=targetDate;
+        this.targetPeriod=targetDate;
         this.status=status;
         this.productionPlan=productionPlan;
-        this.factoryRawMaterialList= rawMaterialList;
+        this.factoryRawMaterialAmountList= rawMaterialList;
         this.factory=factory;
             }
 
@@ -92,12 +93,12 @@ public class PlannedOrderEntity implements Serializable {
         this.generatedDate = generatedDate;
     }
 
-    public Calendar getTargetDate() {
-        return targetDate;
+    public Calendar getTargetPeriod() {
+        return targetPeriod;
     }
 
-    public void setTargetDate(Calendar targetDate) {
-        this.targetDate = targetDate;
+    public void setTargetPeriod(Calendar targetPeriod) {
+        this.targetPeriod = targetPeriod;
     }
 
     public String getStatus() {
@@ -108,12 +109,12 @@ public class PlannedOrderEntity implements Serializable {
         this.status = status;
     }
 
-    public List<FactoryRawMaterialAmountEntity> getFactoryRawMaterialList() {
-        return factoryRawMaterialList;
+    public List<FactoryRawMaterialAmountEntity> getFactoryRawMaterialAmountList() {
+        return factoryRawMaterialAmountList;
     }
 
-    public void setFactoryRawMaterialList(List<FactoryRawMaterialAmountEntity> factoryRawMaterialList) {
-        this.factoryRawMaterialList = factoryRawMaterialList;
+    public void setFactoryRawMaterialAmountList(List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList) {
+        this.factoryRawMaterialAmountList = factoryRawMaterialAmountList;
     }
 
     public FactoryRetailProductAmountEntity getFactoryRetailProductAmount() {
