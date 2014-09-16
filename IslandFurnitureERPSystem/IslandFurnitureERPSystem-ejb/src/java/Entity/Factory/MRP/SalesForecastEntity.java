@@ -43,8 +43,9 @@ public class SalesForecastEntity implements Serializable {
     @OneToMany(cascade={CascadeType.PERSIST})
     private List<FactoryProductAmountEntity> factoryProductList = new ArrayList<>();
 
-    
-        
+    @ManyToOne
+    private SalesOperationPlanEntity salesOperationPlan;
+     
     public SalesForecastEntity(){
     }
     
@@ -86,6 +87,14 @@ public class SalesForecastEntity implements Serializable {
 
     public void setStore(StoreEntity store) {
         this.store = store;
+    }
+
+    public SalesOperationPlanEntity getSalesOperationPlan() {
+        return salesOperationPlan;
+    }
+
+    public void setSalesOperationPlan(SalesOperationPlanEntity salesOperationPlan) {
+        this.salesOperationPlan = salesOperationPlan;
     }
     
     
