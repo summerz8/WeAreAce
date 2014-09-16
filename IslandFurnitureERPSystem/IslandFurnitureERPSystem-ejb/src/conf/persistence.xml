@@ -49,11 +49,9 @@
     <class>Entity.Store.StorePurchaseRecordEntity</class>
     <class>Entity.Store.StoreRetailProduct</class>
     <class>Entity.Store.StoreStorageBinEntity</class>
-<<<<<<< HEAD
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-=======
+
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
->>>>>>> 9ef762d1b93ebc89535a168467f919419ee0aa0d
+
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
