@@ -23,7 +23,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     // "Insert Code > Add Business Method")
     private EntityManager em;
     
-    public WeeklyProductionPlanEntity generateWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Integer weeklyDemand){
+    public WeeklyProductionPlanEntity generateWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
         try{
             WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
             weeklyProductionPlan.createWeeklyProductionPlan(id, month, week, workingDayInWeek, workingDayInMonth, weeklyDemand);
@@ -36,10 +36,10 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
         return null;
     } 
     
-    public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Integer weeklyDemand){
+    public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
         try{
            WeeklyProductionPlanEntity weeklyProductionPlan = em.find(WeeklyProductionPlanEntity.class,id);
-           weeklyProductionPlan.setMonth(month);
+           weeklyProductionPlan.setProductionMonth(month);
            weeklyProductionPlan.setWeek(week);
            weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
            weeklyProductionPlan.setWorkingDayInMonth(workingDayInMonth);
@@ -61,7 +61,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
             WeeklyProductionPlanEntity wpp = (WeeklyProductionPlanEntity) o;
             List weeklyProductionPlan = new ArrayList();
             weeklyProductionPlan.add(0,wpp.getId());
-            weeklyProductionPlan.add(1,wpp.getMonth());
+            weeklyProductionPlan.add(1,wpp.getProductionMonth());
             weeklyProductionPlan.add(2,wpp.getWeek());
             weeklyProductionPlan.add(3,wpp.getWorkingDayInWeek());
             weeklyProductionPlan.add(4,wpp.getWorkingDayInMonth());

@@ -8,6 +8,7 @@ package Entity.Factory.SCM;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,15 +35,17 @@ public class PurchaseOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long purchasOrderId;
     private String status;
-    private Integer amount = 0;
+    private Double totalAmount = 0D;
     private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
     private String destination;
     private Integer leadTime;
+    private double totalPrice; // the totalPrice price
+    
 
     //purchase order entity -- factory entity: M <--> 1 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private FactoryEntity factory;
 
     //goods receipt entity -- purchase order entity : 1 <--> 1
@@ -49,14 +53,16 @@ public class PurchaseOrderEntity implements Serializable {
     private GoodsReceiptEntity goodsReceipt;
 
     //integrated planned order entity -- purchase order entity: 1 <--> M
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private IntegratedPlannedOrderEntity integratedPlannedOrder;
 
     //purchase order entity -- contract entity: M --> 1
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private ContractEntity contract;
-
-    private double total; // the total price
+    
+    //purchase order entity -- delivery order entity : 1 <--> M
+    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "purchaseOrder")
+    private List<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
 
     public PurchaseOrderEntity() {
     }
@@ -90,12 +96,12 @@ public class PurchaseOrderEntity implements Serializable {
         this.createDate = createDate;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getUnit() {
@@ -130,12 +136,12 @@ public class PurchaseOrderEntity implements Serializable {
         this.contract = contract;
     }
 
-    public double getTotal() {
-        return total;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getDestination() {
@@ -155,15 +161,15 @@ public class PurchaseOrderEntity implements Serializable {
     }
   
     public void create(FactoryEntity factory, ContractEntity contract, String status,
-            Integer amount, String unit, String destination, Double total_price, Integer leadTime) {
+            Double amount, String unit, String destination, Double total_price, Integer leadTime) {
         this.factory = factory;
         this.contract = contract;
         this.status = status;
-        this.amount = amount;
+        this.totalAmount = amount;
         this.unit = unit;
         this.createDate = Calendar.getInstance();
         this.destination = destination;
-        this.total = total_price;
+        this.totalPrice = total_price;
         this.leadTime = leadTime;
     }
 

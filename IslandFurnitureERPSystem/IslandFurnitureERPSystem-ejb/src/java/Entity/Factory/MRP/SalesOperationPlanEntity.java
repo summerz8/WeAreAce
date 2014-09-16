@@ -6,58 +6,51 @@
 
 package Entity.Factory.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author apple
  */
-@Entity(name = "SalesOperationPlan")
+@Entity
+@Table(name = "SalesOperationPlan")
 public class SalesOperationPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long productId;
-    private String FactoryId;
-    private Calendar period;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar targetPeriod;
+    private Double plannedEndMonthInventory;
+    private Integer workingDay;
+    
+    // factory product entity --- sales operation plan entity   1 <--- M
+    @ManyToOne
+    private FactoryProductEntity factoryProduct;
+  
+    // production plan entity --- sales operation plan entity 1 <--- 1
     @OneToOne(cascade={CascadeType.PERSIST})
     private ProductionPlanEntity productionPlan;
-    private Integer year;
-    private String month;
-    private Integer salesForecast;
-    private Integer plannedEndMonthInventory;
-    private Integer workingDay;
+    
+    // sales forecast entity --- sales operation plan entity  M <--- 1
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="salesOperationPlan")
+    private List<SalesForecastEntity> salesForecast = new ArrayList<>();
+    
 
-    public SalesOperationPlanEntity(Long productId, String FactoryId, ProductionPlanEntity productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
-  
-        this.productId = productId;
-        this.FactoryId = FactoryId;
-        this.productionPlan = productionPlan;
-        this.period = period;
-        this.salesForecast = salesForecast;
-        this.plannedEndMonthInventory = plannedEndMonthInventory;
-        this.workingDay = workingDay;
-    }
-    
-    public void EditOperationPlanEntity(Long productId, String FactoryId, ProductionPlanEntity productionPlan, Calendar period, Integer salesForecast, Integer plannedEndMonthInventory, Integer workingDay) {
-  
-        this.productId = productId;
-        this.FactoryId = FactoryId;
-        this.productionPlan = productionPlan;
-        this.period = period;
-        this.salesForecast = salesForecast;
-        this.plannedEndMonthInventory = plannedEndMonthInventory;
-        this.workingDay = workingDay;
-    }
-    
     public SalesOperationPlanEntity(){
     }
     
@@ -69,44 +62,20 @@ public class SalesOperationPlanEntity implements Serializable {
         this.id = id;
     }
 
-    public Integer getSalesForecast() {
-        return salesForecast;
+    public Calendar getTargetPeriod() {
+        return targetPeriod;
     }
 
-    public void setSalesForecast(Integer salesForecast) {
-        this.salesForecast = salesForecast;
+    public void setTargetPeriod(Calendar targetPeriod) {
+        this.targetPeriod = targetPeriod;
     }
 
-    public Integer getPlannedEndMonthInventory() {
-        return plannedEndMonthInventory;
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
     }
 
-    public void setPlannedEndMonthInventory(Integer plannedEndMonthInventory) {
-        this.plannedEndMonthInventory = plannedEndMonthInventory;
-    }
-
-    public Integer getWorkingDay() {
-        return workingDay;
-    }
-
-    public void setWorkingDay(Integer workingDay) {
-        this.workingDay = workingDay;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public String getFactoryId() {
-        return FactoryId;
-    }
-
-    public void setFactoryId(String FactoryId) {
-        this.FactoryId = FactoryId;
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
     }
 
     public ProductionPlanEntity getProductionPlan() {
@@ -117,14 +86,32 @@ public class SalesOperationPlanEntity implements Serializable {
         this.productionPlan = productionPlan;
     }
 
-    public Calendar getPeriod() {
-        return period;
+    public List<SalesForecastEntity> getSalesForecast() {
+        return salesForecast;
     }
 
-    public void setPeriod(Calendar period) {
-        this.period = period;
+    public void setSalesForecast(List<SalesForecastEntity> salesForecast) {
+        this.salesForecast = salesForecast;
     }
 
+    public Double getPlannedEndMonthInventory() {
+        return plannedEndMonthInventory;
+    }
+
+    public void setPlannedEndMonthInventory(Double plannedEndMonthInventory) {
+        this.plannedEndMonthInventory = plannedEndMonthInventory;
+    }
+
+    public Integer getWorkingDay() {
+        return workingDay;
+    }
+
+    public void setWorkingDay(Integer workingDay) {
+        this.workingDay = workingDay;
+    }
+    
+    
+ 
 
 
     

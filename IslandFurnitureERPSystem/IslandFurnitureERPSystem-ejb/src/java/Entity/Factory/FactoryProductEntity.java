@@ -36,8 +36,11 @@ public class FactoryProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryProductId;
     private Double inventory = 0D;
-    @OneToMany(cascade= {CascadeType.PERSIST})
-    private List<InventoryRecordEntity> record;
+    private Double minimumInventory = 50D;
+    private Boolean deleteFlag;
+    //inventory record entity -- factory product entity : M <--> 1
+    @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="factoryProduct")
+    private List<InventoryRecordEntity> record= new ArrayList<>();;
     
     //factory entity -- factory product entity: 1 <--> M 
     @ManyToOne
@@ -45,7 +48,9 @@ public class FactoryProductEntity implements Serializable {
 
     //factory product entity -- factory bin stored product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryProduct")
-    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<>();
+    
+    //factory product entity -- product entity    M <--> 1
     @ManyToOne
     private ProductEntity product;
 
@@ -100,5 +105,21 @@ public class FactoryProductEntity implements Serializable {
         this.record = record;
     }
 
+    public Double getMinimumInventory() {
+        return minimumInventory;
+    }
 
+    public void setMinimumInventory(Double minimumInventory) {
+        this.minimumInventory = minimumInventory;
+    }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    
 }

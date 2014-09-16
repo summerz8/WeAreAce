@@ -21,11 +21,11 @@ public interface RetailProduct_ProductManagementModuleLocal {
 
     public List<ProductEntity> ListProduct();
 
-    public void AddProduct(String name, String description, double price, String unit, BOMEntity bom);
+    public void AddProduct(String name, String description, Double price, String unit, Boolean deleteFlag);
 
     public void DeleteProduct(Long productId);
 
-    public void ModifyProduct(Long productId, String name, String description, double price, String unit, BOMEntity bom);
+    public void ModifyProduct(Long productId, String name, String description, double price, String unit);
 
     public void AddRetailProduct(String name, String description);
 

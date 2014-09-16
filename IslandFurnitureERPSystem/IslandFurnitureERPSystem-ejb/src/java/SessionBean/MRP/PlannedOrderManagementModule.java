@@ -72,7 +72,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             }
 
             PlannedOrderEntity plannedOrder = new PlannedOrderEntity();
-            plannedOrder.setFactoryRawMaterialList(factoryRawMaterialAmountList);
+            plannedOrder.setFactoryRawMaterialAmountList(factoryRawMaterialAmountList);
             return plannedOrder;
 
         } catch (Exception ex) {
@@ -135,7 +135,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     @Override
     public
             boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput,
-                    Calendar targetDate,
+                    Calendar targetPeriod,
                     String statusInput,
                     Long productionIdInput,
                     List<Long> rawMaterialList,
@@ -144,7 +144,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 
         try {
             PlannedOrderEntity plannedOrder = em.find(PlannedOrderEntity.class, plannedOrderId);
-            plannedOrder.setTargetDate(targetDate);
+            plannedOrder.setTargetPeriod(targetPeriod);
 
             plannedOrder.setGeneratedDate(dateInput);
 
@@ -170,7 +170,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
                 rawMaterialList.remove(0);
             }
 
-            plannedOrder.setFactoryRawMaterialList(MaterialList);
+            plannedOrder.setFactoryRawMaterialAmountList(MaterialList);
 
             return true;
         } catch (Exception ex) {

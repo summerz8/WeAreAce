@@ -11,6 +11,7 @@ import Entity.Factory.SCM.ContractEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,13 +34,14 @@ public class FactoryRawMaterialEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryRawMaterialId;
 
-    private Integer inventory = 0;//start with 0
+    private Double inventory = 0D;//start with 0
     private String materialName;
 
     private String description;
-    private Integer minimumInventory = 50;
+    private Double minimumInventory = 50D;
+    private Boolean deleteFlag;
 
-    //factory entity -- factory item entity: 1 <--> M 
+    //factory entity -- factory raw material entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
 
@@ -51,17 +53,15 @@ public class FactoryRawMaterialEntity implements Serializable {
     @ManyToOne
     private RawMaterialEntity rawMaterial;
     
-    //raw material amount entity -- factory raw material entity: M <--> 1
-    @OneToMany
-    private Collection<FactoryRawMaterialAmountEntity> rawMaterialAmounts = new ArrayList<>();
-
     //contract entity -- factory raw material entity: M <--> 1
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterialProduct")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterial")
     private Collection<ContractEntity> contracts = new ArrayList<>();
 
+    //inventory record entity -- factory raw material entity : M <--> 1
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterial")
+    private List<InventoryRecordEntity> inventoryRecord = new ArrayList<>();
+    
     public FactoryRawMaterialEntity() {
-        //may be changed later
-        setFactoryRawMaterialId(System.nanoTime());
     }
 
     public Long getFactoryRawMaterialId() {
@@ -72,11 +72,11 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.factoryRawMaterialId = factoryRawMaterialId;
     }
 
-    public Integer getInventory() {
+    public Double getInventory() {
         return inventory;
     }
 
-    public void setInventory(Integer inventory) {
+    public void setInventory(Double inventory) {
         this.inventory = inventory;
     }
 
@@ -128,22 +128,30 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.contracts = contracts;
     }
 
-    public Integer getMinimumInventory() {
+    public Double getMinimumInventory() {
         return minimumInventory;
     }
 
-    public void setMinimumInventory(Integer minimumInventory) {
+    public void setMinimumInventory(Double minimumInventory) {
         this.minimumInventory = minimumInventory;
     }
 
-    public Collection<FactoryRawMaterialAmountEntity> getRawMaterialAmounts() {
-        return rawMaterialAmounts;
+    public List<InventoryRecordEntity> getInventoryRecord() {
+        return inventoryRecord;
     }
 
-    public void setRawMaterialAmounts(Collection<FactoryRawMaterialAmountEntity> rawMaterialAmounts) {
-        this.rawMaterialAmounts = rawMaterialAmounts;
+    public void setInventoryRecord(List<InventoryRecordEntity> inventoryRecord) {
+        this.inventoryRecord = inventoryRecord;
     }
 
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+    
 
     public void create(String materialName, String description) {
         setMaterialName(materialName);

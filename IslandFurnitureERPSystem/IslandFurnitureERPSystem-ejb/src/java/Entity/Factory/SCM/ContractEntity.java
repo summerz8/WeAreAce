@@ -5,13 +5,9 @@
  */
 package Entity.Factory.SCM;
 
-import Entity.Factory.FactoryRawMaterialEntity;
-import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,14 +27,13 @@ public class ContractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contractId;
 
     private Double contractPrice;// in US$ per unit
     private Integer leadTime;
     private String unit;
-
-    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private Double lotSize;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -50,15 +45,13 @@ public class ContractEntity implements Serializable {
 
     //contract entity -- factory raw material entity: M <--> 1
     @ManyToOne
-    private FactoryRawMaterialEntity factoryRawMaterialProduct;
+    private FactoryRawMaterialEntity factoryRawMaterial;
 
     //contract entity -- supplier entity: M<-->1
     @ManyToOne
     private SupplierEntity supplier;
 
     public ContractEntity() {
-        //may be changed later
-        setContractId(System.nanoTime());
     }
 
     public Long getContractId() {
@@ -117,12 +110,12 @@ public class ContractEntity implements Serializable {
         this.factoryRetailProduct = factoryRetailProduct;
     }
 //
-    public FactoryRawMaterialEntity getFactoryRawMaterialProduct() {
-        return factoryRawMaterialProduct;
+    public FactoryRawMaterialEntity getFactoryRawMaterial() {
+        return factoryRawMaterial;
     }
 
-    public void setFactoryRawMaterialProduct(FactoryRawMaterialEntity factoryRawMaterialProduct) {
-        this.factoryRawMaterialProduct = factoryRawMaterialProduct;
+    public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
+        this.factoryRawMaterial = factoryRawMaterial;
     }
 
     public SupplierEntity getSupplier() {
@@ -132,6 +125,16 @@ public class ContractEntity implements Serializable {
     public void setSupplier(SupplierEntity supplier) {
         this.supplier = supplier;
     }
+
+    public Double getLotSize() {
+        return lotSize;
+    }
+
+    public void setLotSize(Double lotSize) {
+        this.lotSize = lotSize;
+    }
+    
+    
 
     //create a new contract entity with attributes
     public void create(Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) {

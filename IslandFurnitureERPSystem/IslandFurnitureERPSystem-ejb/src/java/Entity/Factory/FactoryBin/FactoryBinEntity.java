@@ -26,12 +26,12 @@ public class FactoryBinEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryBinId; 
 
     //factory bin entity -- factory bin stroed products entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryBin")
-    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<>();
     
     @ManyToOne
     FactoryEntity factory = new FactoryEntity();

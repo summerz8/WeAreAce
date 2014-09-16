@@ -5,7 +5,6 @@
  */
 package Entity.Factory;
 
-import Entity.Factory.MRP.PlannedOrderEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,7 @@ public class FactoryRawMaterialAmountEntity implements Serializable {
     private String unit;
     private Double amount;
     
-    //raw material amount entity -- factory raw material entity: M <--> 1
+    //raw material amount entity -- factory raw material entity: M --> 1
     @ManyToOne
     private FactoryRawMaterialEntity factoryRawMaterial;
     

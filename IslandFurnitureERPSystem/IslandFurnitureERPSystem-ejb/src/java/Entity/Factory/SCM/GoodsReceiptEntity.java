@@ -29,7 +29,7 @@ public class GoodsReceiptEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long goodsReceiptId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createDate;
@@ -40,7 +40,7 @@ public class GoodsReceiptEntity implements Serializable {
     
     //goods receipt entity -- inbound movement enitty: 1 <--> M (from which corresponding goods receipt)
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromGoodsRecipt")
-    private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
+    private Collection<InboundMovementEntity> inboundMovements = new ArrayList<>();
 
     public GoodsReceiptEntity() {
     }

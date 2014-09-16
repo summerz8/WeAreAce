@@ -89,7 +89,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
             FactoryRawMaterialAmountEntity rma = (FactoryRawMaterialAmountEntity) o;
             List item = new ArrayList();
             item.add(0, rma.getRawMaterialAmountId());
-            item.add(1, rma.getFactoryRawMaterial().getRawMaterial().getMaterialID());
+            item.add(1, rma.getFactoryRawMaterial().getRawMaterial().getMaterialId());
             item.add(2, rma.getAmount());
             item.add(3, rma.getUnit());
             items.add(item);
@@ -139,7 +139,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         }
 
         purchaseOrderInfo.add(6, plannedOrders);
-        purchaseOrderInfo.add(7, purchaseOrder.getTotal());
+        purchaseOrderInfo.add(7, purchaseOrder.getTotalPrice());
         purchaseOrderInfo.add(8, purchaseOrder.getGoodsReceipt().getGoodsReceiptId());
 
         return purchaseOrderInfo;

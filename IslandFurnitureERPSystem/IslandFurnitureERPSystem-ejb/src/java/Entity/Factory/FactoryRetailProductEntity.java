@@ -11,6 +11,7 @@ import Entity.Factory.SCM.ContractEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,23 +34,23 @@ public class FactoryRetailProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryRetailProdctId;
 
-    private Integer inventory = 0;//start with 0
+    private Double inventory = 0D;//start with 0
     private String name;
 
     private String description;
     
-    private Integer minimumInventory = 50;
-
+    private Double minimumInventory = 50D;
+    private Boolean deleteFlag;
     //factory entity -- factory item entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
 
     //factory item entity -- factory bin stored product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
-    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<>();
     
     //factory retail product entity -- reatail product entity: M <--> 1
     @ManyToOne
@@ -58,10 +59,12 @@ public class FactoryRetailProductEntity implements Serializable {
     //contract entity -- factory retail product entity: M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
     private Collection<ContractEntity> contracts = new ArrayList<>();
-
+    
+    //retail product amount entity -- factory retail product amount entity: M <--> 1
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
+    private List<FactoryRetailProductAmountEntity> factoryRetailProductAmountEntity= new ArrayList<>();;
+    
     public FactoryRetailProductEntity(){
-        //may be changed later
-        setFactoryRetailProdctId(System.nanoTime());
     }
 
     public Long getFactoryRetailProdctId() {
@@ -72,11 +75,11 @@ public class FactoryRetailProductEntity implements Serializable {
         this.factoryRetailProdctId = factoryRetailProdctId;
     }
 
-    public Integer getInventory() {
+    public Double getInventory() {
         return inventory;
     }
 
-    public void setInventory(Integer inventory) {
+    public void setInventory(Double inventory) {
         this.inventory = inventory;
     }
 
@@ -128,13 +131,30 @@ public class FactoryRetailProductEntity implements Serializable {
         this.contracts = contracts;
     }
 
-    public Integer getMinimumInventory() {
+    public Double getMinimumInventory() {
         return minimumInventory;
     }
 
-    public void setMinimumInventory(Integer minimumInventory) {
+    public void setMinimumInventory(Double minimumInventory) {
         this.minimumInventory = minimumInventory;
     }
+
+    public List<FactoryRetailProductAmountEntity> getFactoryRetailProductAmountEntity() {
+        return factoryRetailProductAmountEntity;
+    }
+
+    public void setFactoryRetailProductAmountEntity(List<FactoryRetailProductAmountEntity> factoryRetailProductAmountEntity) {
+        this.factoryRetailProductAmountEntity = factoryRetailProductAmountEntity;
+    }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+    
     
     public void create(String name, String description){
         setName(name);

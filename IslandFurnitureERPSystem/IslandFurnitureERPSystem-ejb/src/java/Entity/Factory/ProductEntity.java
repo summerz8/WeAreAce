@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,22 +32,22 @@ public class ProductEntity implements Serializable {
     private Long productId;
     private String name;
     private String description;
-    private double price; // ???
+    private Double price; // ???
     private String unit;
     private Boolean deleteFlag;
     
-    //product entity -- bom entity: 1 <--> 1
+    //product entity -- bom entity: 1 <--> M
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy="product")
-    public List<BOMEntity> bom;
+    public List<BOMEntity> bom= new ArrayList<>();;
 
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
-    private Collection<FactoryProductEntity> factoryProduct = new ArrayList<FactoryProductEntity>();
+    private Collection<FactoryProductEntity> factoryProduct = new ArrayList<>();
   
     public ProductEntity() {
     }
 
-    public ProductEntity(String name, String description, double price, String unit, Boolean deleteFlag) {
+    public ProductEntity(String name, String description, Double price, String unit, Boolean deleteFlag) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -81,11 +80,11 @@ public class ProductEntity implements Serializable {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

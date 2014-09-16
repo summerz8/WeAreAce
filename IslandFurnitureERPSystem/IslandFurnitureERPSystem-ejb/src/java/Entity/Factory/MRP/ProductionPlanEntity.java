@@ -31,35 +31,36 @@ public class ProductionPlanEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productionPlanId;
 
-    private String status;
+    private String status;// unconfirmed, confirmed, cancelled
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar generateDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar confirmDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetPeriod;
-    private Integer quantity;
+    private Double quantity;
     private String remark;
     
     //factory product entity -- production plan entity: 1 <-- M
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private FactoryProductEntity factoryProduct;  
     
-    @OneToMany(cascade={CascadeType.ALL},mappedBy="productionPlan")
-    private List<WeeklyProductionPlanEntity> weeklyProductionPlanEntity;
+    //weekly production plan entity  --  production plan: M <--> 1
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="productionPlan")
+    private List<WeeklyProductionPlanEntity> weeklyProductionPlanEntity = new ArrayList<>() ;
 
     //planned order entity -- production plan entity 1 <--> 1
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.PERSIST},mappedBy="productionPlan")
     private PlannedOrderEntity plannedOrder;
     
     
     public ProductionPlanEntity() {
     }
 
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetPeriod, Integer output, FactoryProductEntity product, String remark) {
+    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetPeriod, Double output, FactoryProductEntity product, String remark) {
         this.status = status;
         this.generateDate = generateDate;
         this.targetPeriod = targetPeriod;
@@ -109,11 +110,11 @@ public class ProductionPlanEntity implements Serializable {
     }
 
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer output) {
+    public void setQuantity(Double output) {
         this.quantity = output;
     }
 
@@ -139,6 +140,22 @@ public class ProductionPlanEntity implements Serializable {
 
     public void setWeeklyProductionPlanEntity(List<WeeklyProductionPlanEntity> weeklyProductionPlanEntity) {
         this.weeklyProductionPlanEntity = weeklyProductionPlanEntity;
+    }
+
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
+    }
+
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
+    }
+
+    public PlannedOrderEntity getPlannedOrder() {
+        return plannedOrder;
+    }
+
+    public void setPlannedOrder(PlannedOrderEntity plannedOrder) {
+        this.plannedOrder = plannedOrder;
     }
 
     

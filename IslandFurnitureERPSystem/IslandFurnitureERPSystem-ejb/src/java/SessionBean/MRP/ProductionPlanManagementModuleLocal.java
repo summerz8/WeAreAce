@@ -19,7 +19,7 @@ import javax.ejb.Local;
 @Local
 public interface ProductionPlanManagementModuleLocal {
 
-    public boolean generateProductionPlan(String status, Calendar generateDate, Calendar targetPeriod, Integer output, Long productId, String remark);
+    public boolean generateProductionPlan(String status, Calendar generateDate, Calendar targetPeriod, Double output, Long productId, String remark);
 
     public void editProductionPlan(Long productionPlanId, String field, Object content);
 

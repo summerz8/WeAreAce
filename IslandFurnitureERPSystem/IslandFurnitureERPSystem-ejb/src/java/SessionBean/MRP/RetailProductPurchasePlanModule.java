@@ -8,7 +8,6 @@ package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
-import Entity.Factory.ProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -31,7 +30,7 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     private EntityManager em;
     
     @Override
-    public boolean generateRetailProductPurchasePlan(String status,Calendar generateDate,Calendar targetPeriod,Integer output,Long productId, String remark){
+    public boolean generateRetailProductPurchasePlan(String status,Calendar generateDate,Calendar targetPeriod,Double output,Long productId, String remark){
         
         try{
             FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
@@ -61,7 +60,7 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
                 productionPlan.setProduct(product);
                 break;
             case "output":
-                Integer output = (Integer) content;
+                Double output = (Double) content;
                 productionPlan.setQuantity(output);
                 break;
             case "status":
