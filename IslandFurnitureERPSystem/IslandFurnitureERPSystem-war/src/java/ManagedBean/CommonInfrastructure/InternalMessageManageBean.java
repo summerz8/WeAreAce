@@ -146,7 +146,7 @@ public class InternalMessageManageBean {
         
         try{
 //          FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userId", "123");
-//          FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userId");
+          currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
             im.sendMessage(currentUserId, title, content, null, null,  receiverIdString);
             statusMessage = "New Message Sent Successfully!";
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_INFO,"Send New Message Result: " + statusMessage + " (New Message is sent from  " + currentUserId + ")", "" ));

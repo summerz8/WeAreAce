@@ -94,6 +94,7 @@ public class LoginBean implements Serializable {
                 path = "secured/WorkPlace.xhtml";
                 
                 ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("isLogin", true);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("UserId", checkUserId);
                 FacesContext.getCurrentInstance().getExternalContext().redirect(path);
                 
             } else {
