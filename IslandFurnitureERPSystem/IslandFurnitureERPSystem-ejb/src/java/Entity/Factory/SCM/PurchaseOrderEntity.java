@@ -33,7 +33,7 @@ public class PurchaseOrderEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long purchasOrderId;
+    private Long id;
     private String status;
     private Double totalAmount = 0D;
     private String unit;
@@ -68,16 +68,16 @@ public class PurchaseOrderEntity implements Serializable {
     }
 
     public PurchaseOrderEntity(Long purchasOrderId, String status) {
-        this.purchasOrderId = purchasOrderId;
+        this.id = purchasOrderId;
         this.status = status;
     }
 
-    public Long getPurchasOrderId() {
-        return purchasOrderId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPurchasOrderId(Long purchasOrderId) {
-        this.purchasOrderId = purchasOrderId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -185,7 +185,7 @@ public class PurchaseOrderEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (purchasOrderId != null ? purchasOrderId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -196,7 +196,7 @@ public class PurchaseOrderEntity implements Serializable {
             return false;
         }
         PurchaseOrderEntity other = (PurchaseOrderEntity) object;
-        if ((this.purchasOrderId == null && other.purchasOrderId != null) || (this.purchasOrderId != null && !this.purchasOrderId.equals(other.purchasOrderId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -204,7 +204,7 @@ public class PurchaseOrderEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.PurchaseOrderEntity[ id=" + purchasOrderId + " ]";
+        return "Entity.Factory.PurchaseOrderEntity[ id=" + id + " ]";
     }
 
 }

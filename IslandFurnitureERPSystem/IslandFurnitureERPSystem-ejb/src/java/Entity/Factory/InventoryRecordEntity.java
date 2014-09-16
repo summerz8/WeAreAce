@@ -37,6 +37,10 @@ public class InventoryRecordEntity implements Serializable {
     //inventory record entity -- factory product entity : M <--> 1
     @ManyToOne
     private FactoryProductEntity factoryProduct;
+    
+    //inventory record entity -- factory retail product entity : M <--> 1
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct;
             
     public Long getId() {
         return id;
@@ -86,6 +90,13 @@ public class InventoryRecordEntity implements Serializable {
         this.factoryProduct = factoryProduct;
     }
 
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
     
     @Override
     public int hashCode() {

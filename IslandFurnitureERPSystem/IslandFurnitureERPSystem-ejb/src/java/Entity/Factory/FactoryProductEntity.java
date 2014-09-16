@@ -36,6 +36,7 @@ public class FactoryProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryProductId;
     private Double inventory = 0D;
+    private String unit;
     private Double minimumInventory = 50D;
     private Boolean deleteFlag;
     //inventory record entity -- factory product entity : M <--> 1
@@ -95,6 +96,14 @@ public class FactoryProductEntity implements Serializable {
 
     public void setInventory(Double inventory) {
         this.inventory = inventory;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public List<InventoryRecordEntity> getRecord() {

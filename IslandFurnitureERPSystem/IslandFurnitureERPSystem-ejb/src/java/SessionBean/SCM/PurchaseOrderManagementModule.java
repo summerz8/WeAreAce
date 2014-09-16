@@ -18,8 +18,10 @@ import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
+import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
@@ -105,6 +107,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //2. Generate purchase amount
+    //See 5, Method 2, Step 3 * 
     //3. View and Select Available Supplier(whose contract has not expired)
     @Override
     public Set<SupplierEntity> viewAvailSupplier(String itemType, Long itemId) throws Exception {
@@ -216,7 +219,25 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return storeList;
     }
 
-    //5. Generate purchase order
+    //5. Select date and amount for goods receipt
+    public List<DeliveryOrderEntity> getDeliveryAmount(Double purchaseAmount) throws Exception {
+        System.out.println("getDeliveryAmount():");
+
+        List<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
+        try {
+            Calendar beginOfNextMonth = Calendar.getInstance();
+            beginOfNextMonth.add(Calendar.MONTH, 1);
+            beginOfNextMonth.set(Calendar.DAY_OF_MONTH, 1);
+            
+            
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+
+    }
+
+    //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double amount, Long storeId, String destination)
@@ -226,21 +247,28 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
 
         try {
-            em.flush();
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             ContractEntity contract = em.find(ContractEntity.class, contractId);
+            //status
             String status = "Unconfirmed";
+            //unit
             String unit = contract.getUnit();
+            //destination
             if (destination.equals("store")) {
                 StoreEntity store = em.find(StoreEntity.class, storeId);
                 destination = store.getAddress();
             } else {//destination is the factory that sends out the purchase order
                 destination = factory.getAddress();
             }
-            Double total_price = amount * contract.getContractPrice();
+            //createDate
+            Calendar createDate = Calendar.getInstance();
+
+            //totalPrice
+            Double totalPrice = amount * contract.getContractPrice();
+            //leadTime
             Integer leadTime = contract.getLeadTime();
 
-            purchaseOrder.create(factory, contract, status, amount, unit, destination, total_price, leadTime);
+            purchaseOrder.create(factory, contract, status, amount, unit, destination, totalPrice, leadTime);
             em.persist(purchaseOrder);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -326,31 +354,85 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
     //output: display the generated amount for purchase
     @Override
-    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, Long supplierId, Double nextMonthPlannedAmount) throws Exception {
+    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, Long supplierId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
         System.out.println("generatePurchaseAmount():");
         Double purchaseAmount = 0D;
-        try{
-            
-        }catch(Exception ex){
-            
-        }
-        
-        return purchaseAmount;
+        Double monthBeginInventory = -1D;
+        Double plannedOrderAmount = 0D;
+        try {
+            IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialAmountEntity factoryRawMaterialAmount = integratedPlannedOrder.getFactoryRawMaterialAmount();
+                FactoryRawMaterialEntity factoryRawMaterial = factoryRawMaterialAmount.getFactoryRawMaterial();
+                List<InventoryRecordEntity> inventoryRecordList = factoryRawMaterial.getInventoryRecord();
+                Iterator iterator = inventoryRecordList.iterator();
 
+                //check the inventory level of the material in the beginning of the month
+                while (iterator.hasNext() && (monthBeginInventory < 0D)) {
+                    InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                    Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                    firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                    if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                        monthBeginInventory = inventoryRecord.getAmount();
+                    }
+                }
+
+                plannedOrderAmount = integratedPlannedOrder.getFactoryRawMaterialAmount().getAmount();
+
+            } else {//itemType.equals("RetailProduct")
+                FactoryRetailProductAmountEntity factoryRetailProductAmount = integratedPlannedOrder.getFactoryRetailProductAmount();
+                FactoryRetailProductEntity factoryRetailProduct = factoryRetailProductAmount.getFactoryRetailProduct();
+                List<InventoryRecordEntity> inventoryRecordList = factoryRetailProduct.getInventoryRecords();
+                Iterator iterator = inventoryRecordList.iterator();
+
+                //check the inventory level of the material in the beginning of the month
+                while (iterator.hasNext() && (monthBeginInventory < 0D)) {
+                    InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                    Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                    firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                    if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                        monthBeginInventory = inventoryRecord.getAmount();
+                    }
+                }
+                plannedOrderAmount = integratedPlannedOrder.getFactoryRetailProductAmount().getAmount();
+            }
+
+            purchaseAmount = plannedOrderAmount + (nextMonthBeginPlannedAmount - monthBeginInventory);
+            System.out.println("Purchase Amount = " + purchaseAmount);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+
+        return purchaseAmount;
     }
 
     //Step 4: user confirm the displayed amount 
+    //output: a list of available address for delivery(only for RP), goto 4
+    //Step 5: user select a address for delivery
     //output: purchase order
     @Override
-    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId) throws Exception {
+    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId, Long storeId, String destination, String itemType) throws Exception {
         System.out.println("generatePurchaseOrder():");
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
-        try{
-            
-        }catch(Exception ex){
-            
+        Long itemId;
+        try {
+            IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
+
+            if (itemType.equals("RawMaterial")) {
+                itemId = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial().getFactoryRawMaterialId();
+            } else {
+                itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
+            }
+
+            ContractEntity contract = selectSupplier(itemType, itemId, supplierId);
+            purchaseOrder = createPurchaseOrder();
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
         }
-        
+
         return purchaseOrder;
 
     }
@@ -358,7 +440,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //6. Edit unconfirmed purchase order
     //7. Cancel purchase order
     //8. Generate Goods Receipt
-
     // for comparing two dates
     //function to set all the other attributes to be 0
     public Calendar removeTime(Calendar cal) {
