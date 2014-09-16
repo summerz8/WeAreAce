@@ -31,18 +31,27 @@ public class RawMaterialEntity implements Serializable {
     private Long materialID;
     private String materialName;
     private String description;
+    private boolean deleteFlag;
 
     //raw material entity -- factory raw material entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
+
+    public RawMaterialEntity(String materialName, String description) {
+        this.materialID = materialID;
+        this.materialName = materialName;
+        this.description = description;
+        this.deleteFlag = false;
+    }
+    
+    public RawMaterialEntity(){
+        
+    }
+    
     
     
     public Long getMaterialID() {
         return materialID;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public String getMaterialName() {
@@ -72,7 +81,16 @@ public class RawMaterialEntity implements Serializable {
     public void setFactoryRawMaterials(Collection<FactoryRawMaterialEntity> factoryRawMaterials) {
         this.factoryRawMaterials = factoryRawMaterials;
     }
+
+    public boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
    
+    
     @Override
     public int hashCode() {
         int hash = 0;

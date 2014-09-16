@@ -58,6 +58,9 @@ public class UserEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "receiver")
     private Collection<InternalMessageReceive> receiveMessage = new ArrayList<InternalMessageReceive>();
 
+    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "systemUser")
+    private Collection<TicketEntity> tickets = new ArrayList<TicketEntity> ();
+    
     public UserEntity() {
     }
 
@@ -248,6 +251,14 @@ public class UserEntity implements Serializable {
 
     public void setReceiveMessage(Collection<InternalMessageReceive> receiveMessage) {
         this.receiveMessage = receiveMessage;
+    }
+
+    public Collection<TicketEntity> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Collection<TicketEntity> tickets) {
+        this.tickets = tickets;
     }
     
    

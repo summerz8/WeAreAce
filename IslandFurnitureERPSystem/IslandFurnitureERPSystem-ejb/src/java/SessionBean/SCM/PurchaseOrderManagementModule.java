@@ -307,8 +307,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         if(iterator.hasNext()){
             Object obj = iterator.next();
             PlannedOrderEntity plannedOrder = (PlannedOrderEntity) obj;
-            RawMaterialAmountEntity rawMaterial = plannedOrder.getRawMaterialList()
-            
+//            RawMaterialAmountEntity rawMaterial = plannedOrder.getRawMaterialList()
+//          zy   16/09/14
             
             
         }
