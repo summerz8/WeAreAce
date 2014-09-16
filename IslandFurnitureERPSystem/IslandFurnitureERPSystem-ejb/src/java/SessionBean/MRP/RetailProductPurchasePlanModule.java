@@ -50,7 +50,7 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
         
         switch (field) {
-            case "targetSalesStartDate":
+            case "targetPeriod":
                 Calendar targetPeriod = (Calendar) content;
                 productionPlan.setTargetPeriod(targetPeriod);
                 break;
