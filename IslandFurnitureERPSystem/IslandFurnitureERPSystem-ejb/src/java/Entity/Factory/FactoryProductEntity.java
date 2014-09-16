@@ -10,6 +10,7 @@ import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,18 +35,22 @@ public class FactoryProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryProductId;
-    private Integer inventory = 0;
-    private Integer plannedEndMonthInventory;
-
-    private Integer minimumInventory = 50;
-
-    //factory entity -- factory item entity: 1 <--> M 
+    private Double inventory = 0D;
+    private Double minimumInventory = 50D;
+    private Boolean deleteFlag;
+    //inventory record entity -- factory product entity : M <--> 1
+    @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="factoryProduct")
+    private List<InventoryRecordEntity> record= new ArrayList<>();;
+    
+    //factory entity -- factory product entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
 
     //factory product entity -- factory bin stored product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryProduct")
-    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<FactoryBinStoredProductEntity>();
+    private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<>();
+    
+    //factory product entity -- product entity    M <--> 1
     @ManyToOne
     private ProductEntity product;
 
@@ -84,20 +89,37 @@ public class FactoryProductEntity implements Serializable {
         this.product = product;
     }
 
-    public Integer getInventory() {
+    public Double getInventory() {
         return inventory;
     }
 
-    public void setInventory(Integer inventory) {
+    public void setInventory(Double inventory) {
         this.inventory = inventory;
     }
 
-    public Integer getMinimumInventory() {
+    public List<InventoryRecordEntity> getRecord() {
+        return record;
+    }
+
+    public void setRecord(List<InventoryRecordEntity> record) {
+        this.record = record;
+    }
+
+    public Double getMinimumInventory() {
         return minimumInventory;
     }
 
-    public void setMinimumInventory(Integer minimumInventory) {
+    public void setMinimumInventory(Double minimumInventory) {
         this.minimumInventory = minimumInventory;
     }
 
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    
 }

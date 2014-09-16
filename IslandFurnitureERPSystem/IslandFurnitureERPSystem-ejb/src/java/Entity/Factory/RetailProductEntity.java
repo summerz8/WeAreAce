@@ -26,16 +26,27 @@ public class RetailProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long retailProductId;
     private String name;
-    private String decription;
+    private String description;
+    private Boolean deleteFlag;
     
     
     //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
-    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<FactoryRetailProductEntity>();
+    private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
+    public RetailProductEntity() {
+    }
+
+    public RetailProductEntity(String name, String description, Boolean deleteFlag) {
+        this.name = name;
+        this.description = description;
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public Long getRetailProductId() {
         return retailProductId;
     }
@@ -52,14 +63,23 @@ public class RetailProductEntity implements Serializable {
         this.name = name;
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDescription(String decription) {
+        this.description = decription;
     }
 
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    
     public Collection<FactoryRetailProductEntity> getFactoryRetailProducts() {
         return factoryRetailProducts;
     }

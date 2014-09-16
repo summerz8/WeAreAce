@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
 import Entity.Factory.MRP.SalesOperationPlanEntity;
@@ -27,15 +28,22 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     public SalesOperationPlanEntity GenerateSalesOperationPlan(Long productId,
-            String FactoryId,
+            FactoryProductEntity factoryProductEntity,
             ProductionPlanEntity productionPlan,
             Calendar period,
-            Integer salesForecast,
-            Integer plannedEndMonthInventory,
+            List<SalesForecastEntity> salesForecast,
+            Double plannedEndMonthInventory,
             Integer workingDay) {
 
         try {
-            SalesOperationPlanEntity salesOperationPlan = new SalesOperationPlanEntity(productId, FactoryId, productionPlan, period, salesForecast, plannedEndMonthInventory, workingDay);
+            SalesOperationPlanEntity salesOperationPlan = new SalesOperationPlanEntity();
+            salesOperationPlan.setFactoryProduct(factoryProductEntity);
+            salesOperationPlan.setPlannedEndMonthInventory(plannedEndMonthInventory);
+            salesOperationPlan.setProductionPlan(productionPlan);
+            salesOperationPlan.setTargetPeriod(period);
+            salesOperationPlan.setWorkingDay(workingDay);
+            salesOperationPlan.setSalesForecast(salesForecast);
+            
             em.persist(salesOperationPlan);
             em.flush();
             return salesOperationPlan;
@@ -49,15 +57,21 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
             Long productId,
-            String FactoryId,
+            FactoryProductEntity factoryProduct,
             ProductionPlanEntity productionPlan,
             Calendar period,
-            Integer salesForecast,
-            Integer plannedEndMonthInventory,
+            List<SalesForecastEntity> salesForecast,
+            Double plannedEndMonthInventory,
             Integer workingDay) {
         try {
             SalesOperationPlanEntity salesOperationPlan = em.find(SalesOperationPlanEntity.class, Id);
-            salesOperationPlan.EditOperationPlanEntity(productId, FactoryId, productionPlan, period, salesForecast, plannedEndMonthInventory, workingDay);
+            
+            salesOperationPlan.setFactoryProduct(factoryProduct);
+            salesOperationPlan.setPlannedEndMonthInventory(plannedEndMonthInventory);
+            salesOperationPlan.setProductionPlan(productionPlan);
+            salesOperationPlan.setTargetPeriod(period);
+            salesOperationPlan.setWorkingDay(workingDay);
+            salesOperationPlan.setSalesForecast(salesForecast);
             em.persist(salesOperationPlan);
             em.flush();
             return salesOperationPlan;
@@ -77,7 +91,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         templist = (List<SalesOperationPlanEntity>) query.getResultList();
 
         while (!templist.isEmpty()) {
-            Calendar tempPeriod = templist.get(0).getPeriod();
+            Calendar tempPeriod = templist.get(0).getTargetPeriod();
             if ((removeTime(tempPeriod).compareTo(removeTime(startPeriod)) >= 0)&&(removeTime(tempPeriod).compareTo(removeTime(endPeriod))<=0))
                 list.add(templist.get(0));
             templist.remove(0);

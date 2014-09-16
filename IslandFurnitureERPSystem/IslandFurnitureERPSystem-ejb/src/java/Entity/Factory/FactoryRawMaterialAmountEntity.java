@@ -19,19 +19,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "RawMaterialamount")
-public class RawMaterialAmountEntity implements Serializable {
+public class FactoryRawMaterialAmountEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long rawMaterialAmountId;
     private String unit;
-    private Integer amount;
+    private Double amount;
     
-    //raw material amount entity -- factory raw material entity: M <--> 1
+    //raw material amount entity -- factory raw material entity: M --> 1
     @ManyToOne
     private FactoryRawMaterialEntity factoryRawMaterial;
-
+    
   
     public String getUnit() {
         return unit;
@@ -40,11 +40,11 @@ public class RawMaterialAmountEntity implements Serializable {
         this.unit = unit;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -75,10 +75,10 @@ public class RawMaterialAmountEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the rawMaterialAmountId fields are not set
-        if (!(object instanceof RawMaterialAmountEntity)) {
+        if (!(object instanceof FactoryRawMaterialAmountEntity)) {
             return false;
         }
-        RawMaterialAmountEntity other = (RawMaterialAmountEntity) object;
+        FactoryRawMaterialAmountEntity other = (FactoryRawMaterialAmountEntity) object;
         if ((this.rawMaterialAmountId == null && other.rawMaterialAmountId != null) || (this.rawMaterialAmountId != null && !this.rawMaterialAmountId.equals(other.rawMaterialAmountId))) {
             return false;
         }

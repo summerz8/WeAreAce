@@ -7,16 +7,14 @@
 package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
-import static Entity.Factory.MRP.ProductionPlanEntity_.plannedOrder;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -73,11 +71,15 @@ public class FactoryEntity implements Serializable {
     //factory entity -- store entity: M <--> M 
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name = "FACTORY_STORE")
-    private Set<StoreEntity> stores = new HashSet<>();
+    private List<StoreEntity> stores = new ArrayList<>();
     
     //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(mappedBy="factory")
-    private Set<PlannedOrderEntity> plannedOrders = new HashSet<>();
+    private List<PlannedOrderEntity> plannedOrders = new ArrayList<>();
+    
+    //facotry entity -- integrated planned order entity: 1 <--> M
+    @OneToMany(mappedBy="factory")
+    private List<IntegratedPlannedOrderEntity> integratedPlannedOrders = new ArrayList<>();
     
     public FactoryEntity() {
     }
@@ -182,22 +184,37 @@ public class FactoryEntity implements Serializable {
         this.factoryBins = factoryBins;
     }
 
-    public Set<StoreEntity> getStores() {
+    public List<StoreEntity> getStores() {
         return stores;
     }
 
-    public void setStores(Set<StoreEntity> stores) {
+    public void setStores(List<StoreEntity> stores) {
         this.stores = stores;
     }
 
-    public Set<PlannedOrderEntity> getPlannedOrder() {
+    public List<PlannedOrderEntity> getPlannedOrder() {
         return plannedOrders;
     }
 
-    public void setPlannedOrder(Set<PlannedOrderEntity> plannedOrder) {
+    public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
         this.plannedOrders = plannedOrder;
     }
-    
+
+    public List<PlannedOrderEntity> getPlannedOrders() {
+        return plannedOrders;
+    }
+
+    public void setPlannedOrders(List<PlannedOrderEntity> plannedOrders) {
+        this.plannedOrders = plannedOrders;
+    }
+
+    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrders() {
+        return integratedPlannedOrders;
+    }
+
+    public void setIntegratedPlannedOrders(List<IntegratedPlannedOrderEntity> integratedPlannedOrders) {
+        this.integratedPlannedOrders = integratedPlannedOrders;
+    }
     
     @Override
     public String toString() {

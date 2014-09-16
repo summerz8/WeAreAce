@@ -8,12 +8,12 @@ package Entity.Factory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,8 +27,8 @@ public class RawMaterialEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long materialID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long materialId;
     private String materialName;
     private String description;
     private boolean deleteFlag;
@@ -37,6 +37,7 @@ public class RawMaterialEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
 
+<<<<<<< HEAD
     public RawMaterialEntity(String materialName, String description) {
         this.materialID = materialID;
         this.materialName = materialName;
@@ -48,11 +49,22 @@ public class RawMaterialEntity implements Serializable {
         
     }
     
+=======
+    //raw material entity -- bom entity:    1 <--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
+    private List<BOMEntity> bomList= new ArrayList<>();;
+>>>>>>> 54c9e8b7847665dec221f588e58de206d5034f21
     
-    
-    public Long getMaterialID() {
-        return materialID;
+    public RawMaterialEntity() {
     }
+<<<<<<< HEAD
+=======
+    
+    
+    public Long getMaterialId() {
+        return materialId;
+    }
+>>>>>>> 54c9e8b7847665dec221f588e58de206d5034f21
 
     public String getMaterialName() {
         return materialName;
@@ -70,8 +82,8 @@ public class RawMaterialEntity implements Serializable {
         this.description = description;
     }
 
-    public void setMaterialID(Long MaterialID) {
-        this.materialID = MaterialID;
+    public void setMaterialId(Long MaterialID) {
+        this.materialId = MaterialID;
     }
 
     public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
@@ -82,19 +94,28 @@ public class RawMaterialEntity implements Serializable {
         this.factoryRawMaterials = factoryRawMaterials;
     }
 
+<<<<<<< HEAD
     public boolean getDeleteFlag() {
         return deleteFlag;
     }
 
     public void setDeleteFlag(boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+=======
+    public List<BOMEntity> getBomList() {
+        return bomList;
+    }
+
+    public void setBomList(List<BOMEntity> bomList) {
+        this.bomList = bomList;
+>>>>>>> 54c9e8b7847665dec221f588e58de206d5034f21
     }
    
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (materialID != null ? materialID.hashCode() : 0);
+        hash += (materialId != null ? materialId.hashCode() : 0);
         return hash;
     }
 
@@ -105,7 +126,7 @@ public class RawMaterialEntity implements Serializable {
             return false;
         }
         RawMaterialEntity other = (RawMaterialEntity) object;
-        if ((this.materialID == null && other.materialID != null) || (this.materialID != null && !this.materialID.equals(other.materialID))) {
+        if ((this.materialId == null && other.materialId != null) || (this.materialId != null && !this.materialId.equals(other.materialId))) {
             return false;
         }
         return true;
@@ -113,7 +134,7 @@ public class RawMaterialEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.MaterialEntity[ id=" + materialID + " ]";
+        return "Entity.Factory.MaterialEntity[ id=" + materialId + " ]";
     }
 
 }

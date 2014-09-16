@@ -19,11 +19,8 @@ import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.SupplierEntity;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -67,7 +64,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             //create relationship between contract and Raw material 
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
-                contract.setFactoryRawMaterialProduct(factoryRawMaterial);
+                contract.setFactoryRawMaterial(factoryRawMaterial);
                 factoryRawMaterial.getContracts().add(contract);
             } //create relationship between contract and retail products
             else {
@@ -188,7 +185,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
                 //create relationship between contract and factory raw material
                 factoryRawMaterial.getContracts().add(contract);
-                contract.setFactoryRawMaterialProduct(factoryRawMaterial);
+                contract.setFactoryRawMaterial(factoryRawMaterial);
 
                 //create relationship between factory raw material and raw material
                 factoryRawMaterial.setRawMaterial(rawMaterial);
@@ -199,7 +196,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 RetailProductEntity retailProduct = em.find(RetailProductEntity.class, itemId);
                 FactoryRetailProductEntity factoryRetailProduct = new FactoryRetailProductEntity();
 
-                factoryRetailProduct.create(retailProduct.getName(), retailProduct.getDecription());
+                factoryRetailProduct.create(retailProduct.getName(), retailProduct.getDescription());
 
                 //create relationship between factory and factory retail product
                 factory.getFactoryRetailProducts().add(factoryRetailProduct);
