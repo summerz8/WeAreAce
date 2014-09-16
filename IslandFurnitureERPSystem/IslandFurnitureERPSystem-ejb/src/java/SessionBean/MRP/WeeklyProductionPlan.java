@@ -23,6 +23,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     // "Insert Code > Add Business Method")
     private EntityManager em;
     
+    @Override
     public WeeklyProductionPlanEntity generateWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
         try{
             WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
@@ -36,6 +37,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
         return null;
     } 
     
+    @Override
     public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
         try{
            WeeklyProductionPlanEntity weeklyProductionPlan = em.find(WeeklyProductionPlanEntity.class,id);
@@ -54,6 +56,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
         return null;
     }
     
+    @Override
     public List<ArrayList> getWeeklyProductionPlan(){
         Query q = em.createQuery("SELECT pp FROM weeklyProductionPlan pp");
         List weeklyProductionPlanList = new ArrayList();
