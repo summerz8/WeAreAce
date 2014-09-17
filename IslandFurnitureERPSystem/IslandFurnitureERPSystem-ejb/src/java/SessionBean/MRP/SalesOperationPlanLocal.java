@@ -6,6 +6,7 @@
 package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
 import Entity.Factory.MRP.SalesOperationPlanEntity;
@@ -20,21 +21,17 @@ import javax.ejb.Local;
 @Local
 public interface SalesOperationPlanLocal {
 
-    public SalesOperationPlanEntity GenerateSalesOperationPlan(Long productId,
-            FactoryProductEntity factoryProductEntity,
-            ProductionPlanEntity productionPlan,
-            Calendar period,
-            List<SalesForecastEntity> salesForecast,
-            Double plannedEndMonthInventory,
-            Integer workingDay);
+    public SalesOperationPlanEntity GenerateSalesOperationPlan(FactoryProductEntity factoryProduct,
+            Calendar targetPeriod,
+            IntegratedSalesForecastEntity integratedSalesForecast,
+            Double plannedEndMonthInventory);
 
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
-            Long productId,
-            FactoryProductEntity factoryProductEntity,
+            FactoryProductEntity factoryProduct,
             ProductionPlanEntity productionPlan,
-            Calendar period,
-            List<SalesForecastEntity> salesForecast,
+            Calendar targetPeriod,
+            IntegratedSalesForecastEntity integratedSalesForecast,
             Double plannedEndMonthInventory,
             Integer workingDay);
 

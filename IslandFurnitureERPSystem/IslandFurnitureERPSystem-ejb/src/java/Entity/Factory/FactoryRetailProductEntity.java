@@ -5,7 +5,6 @@
  */
 package Entity.Factory;
 
-
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import java.io.Serializable;
@@ -38,10 +37,11 @@ public class FactoryRetailProductEntity implements Serializable {
     private Long factoryRetailProdctId;
 
     private Double inventory = 0D;//start with 0
+    private String unit;
     private String name;
 
     private String description;
-    
+
     private Double minimumInventory = 50D;
     private Boolean deleteFlag;
     //factory entity -- factory item entity: 1 <--> M 
@@ -51,7 +51,7 @@ public class FactoryRetailProductEntity implements Serializable {
     //factory item entity -- factory bin stored product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
     private Collection<FactoryBinStoredProductEntity> factoryBinStoredProducts = new ArrayList<>();
-    
+
     //factory retail product entity -- reatail product entity: M <--> 1
     @ManyToOne
     private RetailProductEntity retailProduct;
@@ -59,12 +59,16 @@ public class FactoryRetailProductEntity implements Serializable {
     //contract entity -- factory retail product entity: M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
     private Collection<ContractEntity> contracts = new ArrayList<>();
-    
+
     //retail product amount entity -- factory retail product amount entity: M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
-    private List<FactoryRetailProductAmountEntity> factoryRetailProductAmountEntity= new ArrayList<>();;
-    
-    public FactoryRetailProductEntity(){
+    private List<FactoryRetailProductAmountEntity> factoryRetailProductAmounts = new ArrayList<>();
+
+    //inventory record entity -- factory product entity : M <--> 1
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
+    private List<InventoryRecordEntity> inventoryRecords = new ArrayList<>();
+
+    public FactoryRetailProductEntity() {
     }
 
     public Long getFactoryRetailProdctId() {
@@ -81,6 +85,14 @@ public class FactoryRetailProductEntity implements Serializable {
 
     public void setInventory(Double inventory) {
         this.inventory = inventory;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getName() {
@@ -107,6 +119,7 @@ public class FactoryRetailProductEntity implements Serializable {
         this.factory = factory;
     }
 //
+
     public Collection<FactoryBinStoredProductEntity> getFactoryBinStoredProducts() {
         return factoryBinStoredProducts;
     }
@@ -115,6 +128,7 @@ public class FactoryRetailProductEntity implements Serializable {
         this.factoryBinStoredProducts = factoryBinStoredProducts;
     }
 //
+
     public RetailProductEntity getRetailProduct() {
         return retailProduct;
     }
@@ -139,12 +153,12 @@ public class FactoryRetailProductEntity implements Serializable {
         this.minimumInventory = minimumInventory;
     }
 
-    public List<FactoryRetailProductAmountEntity> getFactoryRetailProductAmountEntity() {
-        return factoryRetailProductAmountEntity;
+    public List<FactoryRetailProductAmountEntity> getFactoryRetailProductAmounts() {
+        return factoryRetailProductAmounts;
     }
 
-    public void setFactoryRetailProductAmountEntity(List<FactoryRetailProductAmountEntity> factoryRetailProductAmountEntity) {
-        this.factoryRetailProductAmountEntity = factoryRetailProductAmountEntity;
+    public void setFactoryRetailProductAmount(List<FactoryRetailProductAmountEntity> factoryRetailProductAmount) {
+        this.factoryRetailProductAmounts = factoryRetailProductAmount;
     }
 
     public Boolean isDeleteFlag() {
@@ -154,9 +168,16 @@ public class FactoryRetailProductEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
-    
-    
-    public void create(String name, String description){
+
+    public List<InventoryRecordEntity> getInventoryRecords() {
+        return inventoryRecords;
+    }
+
+    public void setInventoryRecords(List<InventoryRecordEntity> inventoryRecords) {
+        this.inventoryRecords = inventoryRecords;
+    }
+
+    public void create(String name, String description) {
         setName(name);
         setDescription(description);
     }

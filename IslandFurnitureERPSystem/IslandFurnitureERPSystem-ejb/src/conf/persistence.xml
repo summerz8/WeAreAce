@@ -43,14 +43,17 @@
     <class>Entity.Store.StoreEntity</class>
     <class>Entity.Store.StoreInStoreEntity</class>
     <class>Entity.Store.StoreInboundEntity</class>
-    <class>Entity.Store.StoreInventoryEntity</class>
     <class>Entity.Store.StoreInventoryMovement</class>
     <class>Entity.Store.StoreOutboundEntity</class>
     <class>Entity.Store.StoreProductEntity</class>
     <class>Entity.Store.StorePurchaseRecordEntity</class>
-    <class>Entity.Store.StoreRetailProduct</class>
+    <class>Entity.Store.StoreRetailProductEntity</class>
     <class>Entity.Store.StoreStorageBinEntity</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+<<<<<<< HEAD
+    <class>Entity.Factory.MRP.IntegratedSalesForecastEntity</class>
+=======
+>>>>>>> 120790a844d6fffb500df2cc30cc8c4bd1c8c5ee
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>

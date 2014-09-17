@@ -33,15 +33,15 @@ public class PurchaseOrderEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long purchasOrderId;
+    private Long id;
     private String status;
-    private Double totalAmount = 0D;
+    private Double totalAmount;
     private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
     private String destination;
     private Integer leadTime;
-    private double totalPrice; // the totalPrice price
+    private Double totalPrice; // the totalPrice price
     
 
     //purchase order entity -- factory entity: M <--> 1 
@@ -67,17 +67,45 @@ public class PurchaseOrderEntity implements Serializable {
     public PurchaseOrderEntity() {
     }
 
-    public PurchaseOrderEntity(Long purchasOrderId, String status) {
-        this.purchasOrderId = purchasOrderId;
+    public PurchaseOrderEntity(String status, Double totalAmount, String unit, 
+            Calendar createDate, String destination, Integer leadTime, 
+            Double totalPrice, FactoryEntity factory, ContractEntity contract, 
+            List<DeliveryOrderEntity> deliveryOrderList) {
         this.status = status;
+        this.totalAmount = totalAmount;
+        this.unit = unit;
+        this.createDate = createDate;
+        this.destination = destination;
+        this.leadTime = leadTime;
+        this.totalPrice = totalPrice;
+        this.factory = factory;
+        this.contract = contract;
+        this.deliveryOrderList = deliveryOrderList;
     }
 
-    public Long getPurchasOrderId() {
-        return purchasOrderId;
+    public PurchaseOrderEntity(Long id, String status, Double totalAmount, String unit, Calendar createDate, String destination, Integer leadTime, Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder, ContractEntity contract) {
+        this.id = id;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.unit = unit;
+        this.createDate = createDate;
+        this.destination = destination;
+        this.leadTime = leadTime;
+        this.totalPrice = totalPrice;
+        this.factory = factory;
+        this.integratedPlannedOrder = integratedPlannedOrder;
+        this.contract = contract;
+    }
+    
+    
+
+    
+    public Long getId() {
+        return id;
     }
 
-    public void setPurchasOrderId(Long purchasOrderId) {
-        this.purchasOrderId = purchasOrderId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -160,19 +188,6 @@ public class PurchaseOrderEntity implements Serializable {
         this.leadTime = leadTime;
     }
   
-    public void create(FactoryEntity factory, ContractEntity contract, String status,
-            Double amount, String unit, String destination, Double total_price, Integer leadTime) {
-        this.factory = factory;
-        this.contract = contract;
-        this.status = status;
-        this.totalAmount = amount;
-        this.unit = unit;
-        this.createDate = Calendar.getInstance();
-        this.destination = destination;
-        this.totalPrice = total_price;
-        this.leadTime = leadTime;
-    }
-
     public IntegratedPlannedOrderEntity getIntegratedPlannedOrder() {
         return integratedPlannedOrder;
     }
@@ -181,11 +196,19 @@ public class PurchaseOrderEntity implements Serializable {
         this.integratedPlannedOrder = integratedPlannedOrder;
     }
 
+    public List<DeliveryOrderEntity> getDeliveryOrderList() {
+        return deliveryOrderList;
+    }
+
+    public void setDeliveryOrderList(List<DeliveryOrderEntity> deliveryOrderList) {
+        this.deliveryOrderList = deliveryOrderList;
+    }
+
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (purchasOrderId != null ? purchasOrderId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -196,7 +219,7 @@ public class PurchaseOrderEntity implements Serializable {
             return false;
         }
         PurchaseOrderEntity other = (PurchaseOrderEntity) object;
-        if ((this.purchasOrderId == null && other.purchasOrderId != null) || (this.purchasOrderId != null && !this.purchasOrderId.equals(other.purchasOrderId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -204,7 +227,7 @@ public class PurchaseOrderEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.PurchaseOrderEntity[ id=" + purchasOrderId + " ]";
+        return "Entity.Factory.PurchaseOrderEntity[ id=" + id + " ]";
     }
 
 }
