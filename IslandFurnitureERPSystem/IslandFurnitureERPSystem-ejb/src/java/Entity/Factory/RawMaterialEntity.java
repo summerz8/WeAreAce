@@ -31,7 +31,8 @@ public class RawMaterialEntity implements Serializable {
     private Long materialId;
     private String materialName;
     private String description;
-
+    private Boolean deleteFlag;
+    
     //raw material entity -- factory raw material entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
@@ -82,6 +83,14 @@ public class RawMaterialEntity implements Serializable {
 
     public void setBomList(List<BOMEntity> bomList) {
         this.bomList = bomList;
+    }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
    
     

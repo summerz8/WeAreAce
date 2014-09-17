@@ -6,6 +6,10 @@
 
 package SessionBean.MRP;
 
+import Entity.Factory.MRP.IntegratedSalesForecastEntity;
+import Entity.Factory.MRP.SalesForecastEntity;
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +18,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface SalesForecastModuleLocal {
+    public List<SalesForecastEntity> ListSalesForecast(Long storeId, Object product, Calendar period);
     
+    public IntegratedSalesForecastEntity IntegrateSalesForecast(Object product, Calendar period);
 }

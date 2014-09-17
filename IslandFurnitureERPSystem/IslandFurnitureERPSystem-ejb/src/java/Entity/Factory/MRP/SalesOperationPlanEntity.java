@@ -8,16 +8,13 @@ package Entity.Factory.MRP;
 
 import Entity.Factory.FactoryProductEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -46,9 +43,9 @@ public class SalesOperationPlanEntity implements Serializable {
     @OneToOne(cascade={CascadeType.PERSIST})
     private ProductionPlanEntity productionPlan;
     
-    // sales forecast entity --- sales operation plan entity  M <--- 1
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="salesOperationPlan")
-    private List<SalesForecastEntity> salesForecast = new ArrayList<>();
+    // sales forecast entity --- sales operation plan entity  1 <---> 1
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private IntegratedSalesForecastEntity integratedSalesForecast;
     
 
     public SalesOperationPlanEntity(){
@@ -86,13 +83,15 @@ public class SalesOperationPlanEntity implements Serializable {
         this.productionPlan = productionPlan;
     }
 
-    public List<SalesForecastEntity> getSalesForecast() {
-        return salesForecast;
+    public IntegratedSalesForecastEntity getIntegratedSalesForecast() {
+        return integratedSalesForecast;
     }
 
-    public void setSalesForecast(List<SalesForecastEntity> salesForecast) {
-        this.salesForecast = salesForecast;
+    public void setIntegratedSalesForecast(IntegratedSalesForecastEntity integratedSalesForecast) {
+        this.integratedSalesForecast = integratedSalesForecast;
     }
+
+    
 
     public Double getPlannedEndMonthInventory() {
         return plannedEndMonthInventory;

@@ -6,21 +6,31 @@
     <class>Entity.CommonInfrastructure.HQUserEntity</class>
     <class>Entity.CommonInfrastructure.IdNumberEntity</class>
     <class>Entity.CommonInfrastructure.InternalMessageEntity</class>
+    <class>Entity.CommonInfrastructure.InternalMessageReceive</class>
     <class>Entity.CommonInfrastructure.StoreUserEntity</class>
     <class>Entity.CommonInfrastructure.UserEntity</class>
     <class>Entity.Factory.BOMEntity</class>
-    <class>Entity.Factory.FacotryBin.FactoryBinEntity</class>
-    <class>Entity.Factory.FacotryBin.FactoryBinStoredProductEntity</class>
+    <class>Entity.Factory.FactoryBin.FactoryBinEntity</class>
+    <class>Entity.Factory.FactoryBin.FactoryBinStoredProductEntity</class>
     <class>Entity.Factory.FactoryEntity</class>
+    <class>Entity.Factory.FactoryProductAmountEntity</class>
     <class>Entity.Factory.FactoryProductEntity</class>
+    <class>Entity.Factory.FactoryRawMaterialAmountEntity</class>
     <class>Entity.Factory.FactoryRawMaterialEntity</class>
+    <class>Entity.Factory.FactoryRetailProductAmountEntity</class>
     <class>Entity.Factory.FactoryRetailProductEntity</class>
+    <class>Entity.Factory.InventoryRecordEntity</class>
+    <class>Entity.Factory.MRP.IntegratedPlannedOrderEntity</class>
     <class>Entity.Factory.MRP.PlannedOrderEntity</class>
     <class>Entity.Factory.MRP.ProductionPlanEntity</class>
+    <class>Entity.Factory.MRP.SalesForecastEntity</class>
+    <class>Entity.Factory.MRP.SalesOperationPlanEntity</class>
+    <class>Entity.Factory.MRP.WeeklyProductionPlanEntity</class>
     <class>Entity.Factory.ProductEntity</class>
     <class>Entity.Factory.RawMaterialEntity</class>
     <class>Entity.Factory.RetailProductEntity</class>
     <class>Entity.Factory.SCM.ContractEntity</class>
+    <class>Entity.Factory.SCM.DeliveryOrderEntity</class>
     <class>Entity.Factory.SCM.FactoryMovementEntity</class>
     <class>Entity.Factory.SCM.GoodsReceiptEntity</class>
     <class>Entity.Factory.SCM.InFactoryMovementEntity</class>
@@ -35,11 +45,12 @@
     <class>Entity.Store.StoreInventoryEntity</class>
     <class>Entity.Store.StoreInventoryMovement</class>
     <class>Entity.Store.StoreOutboundEntity</class>
+    <class>Entity.Store.StoreProductEntity</class>
     <class>Entity.Store.StorePurchaseRecordEntity</class>
     <class>Entity.Store.StoreRetailProduct</class>
     <class>Entity.Store.StoreStorageBinEntity</class>
-    <class>Entity.Factory.FactoryRawMaterialAmountEntity</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>Entity.Factory.MRP.IntegratedSalesForecastEntity</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>

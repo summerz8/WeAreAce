@@ -6,9 +6,8 @@
 
 package Entity.Factory.MRP;
 
-import Entity.Factory.FactoryProductAmountEntity;
-import Entity.Factory.FactoryRetailProductAmountEntity;
-import Entity.Store.StoreEntity;
+import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,8 +17,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -27,47 +28,42 @@ import javax.persistence.Temporal;
  *
  * @author apple
  */
-
 @Entity
-@Table(name = "SalesForecast")
-public class SalesForecastEntity implements Serializable {
+@Table(name = "IntegratedSalesForecast")
+public class IntegratedSalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private StoreEntity store;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetPeriod;
-    private String status; // unconfirmed, confirmed
-    //factory product amount entity -- sales forecast entity M <-- 1
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private List<FactoryProductAmountEntity> factoryProductList = new ArrayList<>();
-
-    //factory product amount entity -- sales forecast entity M <-- 1
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private List<FactoryRetailProductAmountEntity> factoryRetailProductList = new ArrayList<>();
+    Calendar targetPeriod;
     
+    //factory product entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
+    private FactoryProductEntity factoryProduct;
+    
+    //factory  entity -- integrated sales forecast entity   1 <-- M
+    @ManyToOne
+    private FactoryEntity factory;
+    
+    
+    //sales forecast list -- integrated sales forcast   M <-- M
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="INTEGRATEDSALESFORECAST_SALESFORECAST")
+    private List<SalesForecastEntity> salesForecastList = new ArrayList<>(); 
+    
+     // sales forecast entity --- sales operation plan entity  1 <---> 1
+    @OneToOne(mappedBy="integratedSalesForecast")
     private SalesOperationPlanEntity salesOperationPlan;
-     
-    public SalesForecastEntity(){
-    }
+    private Double amount;
+    
     
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<FactoryProductAmountEntity> getFactoryProductList() {
-        return factoryProductList;
-    }
-
-    public void setFactoryProductList(List<FactoryProductAmountEntity> productList) {
-        this.factoryProductList = productList;
     }
 
     public Calendar getTargetPeriod() {
@@ -78,20 +74,36 @@ public class SalesForecastEntity implements Serializable {
         this.targetPeriod = targetPeriod;
     }
 
-    public String getStatus() {
-        return status;
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
     }
 
-    public StoreEntity getStore() {
-        return store;
+    public FactoryEntity getFactory() {
+        return factory;
     }
 
-    public void setStore(StoreEntity store) {
-        this.store = store;
+    public void setFactory(FactoryEntity factory) {
+        this.factory = factory;
+    }
+
+    public List<SalesForecastEntity> getSalesForecastList() {
+        return salesForecastList;
+    }
+
+    public void setSalesForecastList(List<SalesForecastEntity> salesForecastList) {
+        this.salesForecastList = salesForecastList;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public SalesOperationPlanEntity getSalesOperationPlan() {
@@ -102,14 +114,6 @@ public class SalesForecastEntity implements Serializable {
         this.salesOperationPlan = salesOperationPlan;
     }
 
-    public List<FactoryRetailProductAmountEntity> getFactoryRetailProductList() {
-        return factoryRetailProductList;
-    }
-
-    public void setFactoryRetailProductList(List<FactoryRetailProductAmountEntity> factoryretailProductList) {
-        this.factoryRetailProductList = factoryretailProductList;
-    }
-    
     
     @Override
     public int hashCode() {
@@ -118,14 +122,13 @@ public class SalesForecastEntity implements Serializable {
         return hash;
     }
 
-
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SalesForecastEntity)) {
+        if (!(object instanceof IntegratedSalesForecastEntity)) {
             return false;
         }
-        SalesForecastEntity other = (SalesForecastEntity) object;
+        IntegratedSalesForecastEntity other = (IntegratedSalesForecastEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -134,7 +137,7 @@ public class SalesForecastEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.MRP.SalsForecastEntity[ id=" + id + " ]";
+        return "Entity.Factory.MRP.IntegratedSalesForecastEntity[ id=" + id + " ]";
     }
     
 }
