@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package SessionBean.SCM;
 
-import java.util.ArrayList;
-import java.util.List;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.MRP.ProductionPlanEntity;
+import Entity.Factory.SCM.ContractEntity;
+import Entity.Factory.SCM.GoodsReceiptEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
+import Entity.Factory.SCM.SupplierEntity;
 import javax.ejb.Local;
 
 /**
@@ -17,20 +20,20 @@ import javax.ejb.Local;
 @Local
 public interface DocumentReferenceModuleLocal {
 
-    List ViewPlannedOrder(Long id);
+    PlannedOrderEntity ViewPlannedOrder(Long id);
 
-    List<ArrayList> ViewProductionPlan(Long id);
+    ProductionPlanEntity ViewProductionPlan(Long id);
+//
+//    List viewBlockedStock();
+//
+//    List viewReturnedProduct();
+//
+    PurchaseOrderEntity viewPurchaseOrder(Long id);
 
-    List viewBlockedStock();
+    GoodsReceiptEntity viewGoodsReceipt(Long id);
 
-    List viewReturnedProduct();
+    ContractEntity viewContract(Long id);
 
-    List viewPurchaseOrder(Long id);
-
-    List viewGoodsReceipt(Long id);
-
-    List viewContract(Long id);
-
-    List viewSupplier(Long id);
+    SupplierEntity viewSupplier(Long id);
     
 }

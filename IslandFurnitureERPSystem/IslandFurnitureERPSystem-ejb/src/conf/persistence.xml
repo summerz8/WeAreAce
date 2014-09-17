@@ -22,6 +22,7 @@
     <class>Entity.Factory.FactoryRetailProductEntity</class>
     <class>Entity.Factory.InventoryRecordEntity</class>
     <class>Entity.Factory.MRP.IntegratedPlannedOrderEntity</class>
+    <class>Entity.Factory.MRP.IntegratedSalesForecastEntity</class>
     <class>Entity.Factory.MRP.PlannedOrderEntity</class>
     <class>Entity.Factory.MRP.ProductionPlanEntity</class>
     <class>Entity.Factory.MRP.SalesForecastEntity</class>
@@ -38,6 +39,8 @@
     <class>Entity.Factory.SCM.InboundMovementEntity</class>
     <class>Entity.Factory.SCM.OutboundMovementEntity</class>
     <class>Entity.Factory.SCM.PurchaseOrderEntity</class>
+    <class>Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity</class>
+    <class>Entity.Factory.SCM.ReturnedItemInboundMovementEntity</class>
     <class>Entity.Factory.SCM.SupplierEntity</class>
     <class>Entity.Store.StoreBinStoredProductEntity</class>
     <class>Entity.Store.StoreEntity</class>
@@ -49,10 +52,6 @@
     <class>Entity.Store.StorePurchaseRecordEntity</class>
     <class>Entity.Store.StoreRetailProductEntity</class>
     <class>Entity.Store.StoreStorageBinEntity</class>
-<<<<<<< HEAD
-    <class>Entity.Factory.MRP.IntegratedSalesForecastEntity</class>
-=======
->>>>>>> 120790a844d6fffb500df2cc30cc8c4bd1c8c5ee
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

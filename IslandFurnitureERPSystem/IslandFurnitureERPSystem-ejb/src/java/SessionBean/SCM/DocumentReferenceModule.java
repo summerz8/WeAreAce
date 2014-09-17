@@ -34,216 +34,145 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     private EntityManager em;
 
     @Override
-    public List<ArrayList> ViewProductionPlan(Long id) {
-        Query q = em.createQuery("SELECT p FROM purchaseOrder p WHERE p.productionPlanId = :id");
-        q.setParameter("id", id);
+    // return null if error occurred
+    public ProductionPlanEntity ViewProductionPlan(Long id) {
+        try {
+            Query q = em.createQuery("SELECT p FROM ProductionPlan p WHERE p.productionPlanId = :id");
+            q.setParameter("id", id);
 
-        Object p = q.getResultList().get(0);
+            if (q.getResultList() == null) {
+                System.out.println("SessionBean.SCM.DocumentReferenceModule: ViewProductionPlan():Faild. The Production Plan ID " + id + " is invalid.");
+                return null;
+            }
 
-        if (p == null) {
+            ProductionPlanEntity productionPlan = (ProductionPlanEntity) q.getSingleResult();
+
+            return productionPlan;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: ViewProductionPlan(): Caught an unexpected exception.");
+            ex.printStackTrace();
             return null;
         }
-
-        ProductionPlanEntity productionPlan = (ProductionPlanEntity) p;
-        List productionPlanInfo = new ArrayList();
-        productionPlanInfo.add(0, productionPlan.getProductionPlanId());
-        productionPlanInfo.add(1, productionPlan.getProduct().getFactoryProductId());
-        productionPlanInfo.add(2, productionPlan.getProduct().getProduct().getName());
-        productionPlanInfo.add(3, productionPlan.getTargetPeriod());
-        productionPlanInfo.add(4, productionPlan.getTargetPeriod());
-        productionPlanInfo.add(5, productionPlan.getQuantity());
-        productionPlanInfo.add(5, productionPlan.getQuantity());
-        productionPlanInfo.add(6, productionPlan.getGenerateDate());
-        productionPlanInfo.add(7, productionPlan.getConfirmDate());
-        productionPlanInfo.add(8, productionPlan.getStatus());
-        productionPlanInfo.add(9, productionPlan.getRemark());
-        
-//       productionPlanInfo.add(, productionPlan);    // need to add planned order
-
-        return productionPlanInfo;
     }
 
     @Override
-    public List ViewPlannedOrder(Long id) {
-        Query q = em.createQuery("SELECT p FROM PlannedOrder p WHERE p.plannedOrderId = :id");
-        q.setParameter("id", id);
+    public PlannedOrderEntity ViewPlannedOrder(Long id) {
+        try {
+            Query q = em.createQuery("SELECT p FROM plannedOrder p WHERE p.plannedOrderId = :id");
+            q.setParameter("id", id);
 
-        Object p = q.getResultList().get(0);
+            if (q.getResultList() == null) {
+                System.out.println("SessionBean.SCM.DocumentReferenceModule: ViewPlannedOrder():Faild. The Planned Order ID " + id + " is invalid.");
+                return null;
+            }
 
-        if (p == null) {
+            PlannedOrderEntity plannedOrder = (PlannedOrderEntity) q.getSingleResult();
+
+            return plannedOrder;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: ViewPlannedOrder(): Caught an unexpected exception.");
+            ex.printStackTrace();
             return null;
         }
-
-        PlannedOrderEntity plannedOrder = (PlannedOrderEntity) p;
-        List plannedOrderInfo = new ArrayList();
-
-        plannedOrderInfo.add(0, plannedOrder.getPlannedOrderId());
-        plannedOrderInfo.add(1, plannedOrder.getProductionPlan().getProductionPlanId());
-        plannedOrderInfo.add(2, plannedOrder.getGeneratedDate());
-        plannedOrderInfo.add(3, plannedOrder.getTargetPeriod());
-        plannedOrderInfo.add(4, plannedOrder.getTargetPeriod());
-        plannedOrderInfo.add(5, plannedOrder.getStatus());
-
-        List rawMaterialAmountList = plannedOrder.getFactoryRawMaterialAmountList();
-        List items = new ArrayList();
-        for (Object o : rawMaterialAmountList) {
-            FactoryRawMaterialAmountEntity rma = (FactoryRawMaterialAmountEntity) o;
-            List item = new ArrayList();
-            item.add(0, rma.getRawMaterialAmountId());
-            item.add(1, rma.getFactoryRawMaterial().getRawMaterial().getMaterialId());
-            item.add(2, rma.getAmount());
-            item.add(3, rma.getUnit());
-            items.add(item);
-        }
-
-        plannedOrderInfo.add(6, items);
-
-        return plannedOrderInfo;
     }
 
+//    @Override
+//    public List viewBlockedStock() {
+//        return null;
+//    }
+//
+//    @Override
+//    public List viewReturnedProduct() {
+//        return null;
+//    }
+//
     @Override
-    public List viewBlockedStock() {
-        return null;
-    }
+    public PurchaseOrderEntity viewPurchaseOrder(Long id) {
+        try {
+            Query q = em.createQuery("SELECT p FROM PurchaseOrder p WHERE p.id = :id");
+            q.setParameter("id", id);
 
-    @Override
-    public List viewReturnedProduct() {
-        return null;
-    }
+            if (q.getResultList() == null) {
+                System.out.println("SessionBean.SCM.DocumentReferenceModule: viewPurchaseOrder():Faild. The Purchase Order ID " + id + " is invalid.");
+                return null;
+            }
 
-    @Override
-    public List viewPurchaseOrder(Long id) {
+            PurchaseOrderEntity purchaseOrder = (PurchaseOrderEntity) q.getSingleResult();
 
-        Query q = em.createQuery("SELECT p FROM PurchaseOrder p WHERE p.purchaseOrderId = :id");
-        q.setParameter("id", id);
-
-        Object p = q.getResultList().get(0);
-
-        if (p == null) {
+            return purchaseOrder;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewPurchaseOrder(): Caught an unexpected exception.");
+            ex.printStackTrace();
             return null;
         }
-
-        PurchaseOrderEntity purchaseOrder = (PurchaseOrderEntity) p;
-        List purchaseOrderInfo = new ArrayList();
-
-        purchaseOrderInfo.add(0, purchaseOrder.getId());
-        purchaseOrderInfo.add(1, purchaseOrder.getContract().getSupplier().getSupplierId());
-        purchaseOrderInfo.add(2, purchaseOrder.getContract().getSupplier().getSupplierName());
-        purchaseOrderInfo.add(3, purchaseOrder.getCreateDate());
-        purchaseOrderInfo.add(4, purchaseOrder.getStatus());
-        purchaseOrderInfo.add(5, purchaseOrder.getContract().getContractId());
-
-        IntegratedPlannedOrderEntity integratedPlannedOrder = purchaseOrder.getIntegratedPlannedOrder();
-//        for (Object o : plannedOrders) {
-//            PlannedOrderEntity po = (PlannedOrderEntity) o;
-//            plannedOrders.add(po.getPlannedOrderId());
-//        }
-
-//        purchaseOrderInfo.add(6, plannedOrders);
-        purchaseOrderInfo.add(7, purchaseOrder.getTotalPrice());
-        purchaseOrderInfo.add(8, purchaseOrder.getGoodsReceipt().getGoodsReceiptId());
-
-        return purchaseOrderInfo;
     }
 
     @Override
-    public List viewGoodsReceipt(Long id) {
+    public GoodsReceiptEntity viewGoodsReceipt(Long id) {
 
-        Query q = em.createQuery("SELECT g FROM GoodsReceipt g WHERE p.goodsReceiptId = :id");
-        q.setParameter("id", id);
+        try {
+            Query q = em.createQuery("SELECT g FROM GoodsReceipt g WHERE p.goodsReceiptId = :id");
+            q.setParameter("id", id);
 
-        Object g = q.getResultList().get(0);
+            if (q.getResultList() == null) {
+                System.out.println("SessionBean.SCM.DocumentReferenceModule: viewGoodsReceipt():Faild. The Goods Receipt ID " + id + " is invalid.");
+                return null;
+            }
 
-        if (g == null) {
+            GoodsReceiptEntity goodsReceipt = (GoodsReceiptEntity) q.getSingleResult();
+
+            return goodsReceipt;
+
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewGoodsReceipt(): Caught an unexpected exception.");
+            ex.printStackTrace();
             return null;
         }
-
-        GoodsReceiptEntity goodsReceipt = (GoodsReceiptEntity) g;
-        List goodsReceiptInfo = new ArrayList();
-
-        goodsReceiptInfo.add(0, goodsReceipt.getGoodsReceiptId());
-        goodsReceiptInfo.add(1, goodsReceipt.getCreateDate());
-        goodsReceiptInfo.add(2, goodsReceipt.getPurchaseOder().getId());
-
-        Collection ims = goodsReceipt.getInboundMovements();
-        List inboundMovements = new ArrayList();
-
-        for (Object o : ims) {
-            InboundMovementEntity im = (InboundMovementEntity) o;
-            inboundMovements.add(im.getId());
-        }
-
-        goodsReceiptInfo.add(3, inboundMovements);
-
-        return goodsReceiptInfo;
     }
 
     @Override
-    public List viewContract(Long id) {
+    public ContractEntity viewContract(Long id) {
 
-        Query q = em.createQuery("SELECT c FROM Contract g WHERE p.contractId = :id");
-        q.setParameter("id", id);
+        try {
+            Query q = em.createQuery("SELECT c FROM Contract g WHERE p.contractId = :id");
+            q.setParameter("id", id);
 
-        Object c = q.getResultList().get(0);
+            if (q.getResultList() == null) {
+                System.out.println("SessionBean.SCM.DocumentReferenceModule: viewContract():Faild. The Contract ID " + id + " is invalid.");
+                return null;
+            }
 
-        if (c == null) {
+            ContractEntity contract = (ContractEntity) q.getSingleResult();
+
+            return contract;
+
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewContract(): Caught an unexpected exception.");
+            ex.printStackTrace();
             return null;
         }
-
-        ContractEntity contract = (ContractEntity) c;
-        List contractInfo = new ArrayList();
-
-        contractInfo.add(0, contract.getContractId());
-        contractInfo.add(1, contract.getFactoryRawMaterial().getFactoryRawMaterialId());
-        contractInfo.add(2, contract.getFactoryRawMaterial().getRawMaterial().getMaterialName());
-        contractInfo.add(3, contract.getFactoryRetailProduct().getFactoryRetailProdctId());
-        contractInfo.add(4, contract.getFactoryRetailProduct().getRetailProduct().getName());
-        contractInfo.add(5, contract.getSupplier().getSupplierId());
-        contractInfo.add(6, contract.getSupplier().getSupplierName());
-        contractInfo.add(7, contract.getContractStartDate());
-        contractInfo.add(8, contract.getContractEndDate());
-        contractInfo.add(9, contract.getContractPrice());
-        contractInfo.add(10, contract.getUnit());
-
-        return contractInfo;
     }
 
     @Override
-    public List viewSupplier(Long id) {
+    public SupplierEntity viewSupplier(Long id) {
 
-        Query q = em.createQuery("SELECT s FROM Supplier s WHERE s.supplierId = :id");
-        q.setParameter("id", id);
+        try {
+            Query q = em.createQuery("SELECT s FROM Supplier s WHERE s.supplierId = :id");
+            q.setParameter("id", id);
 
-        Object s = q.getResultList().get(0);
+            if (q.getResultList() == null) {
+                System.out.println("SessionBean.SCM.DocumentReferenceModule: viewSupplier():Faild. The Supplier ID " + id + " is invalid.");
+                return null;
+            }
 
-        if (s == null) {
+            SupplierEntity supplier = (SupplierEntity) q.getSingleResult();
+
+            return supplier;
+
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewSupplier(): Caught an unexpected exception.");
+            ex.printStackTrace();
             return null;
         }
-
-        SupplierEntity supplier = (SupplierEntity) s;
-        List supplierInfo = new ArrayList();
-
-        supplierInfo.add(0, supplier.getSupplierId());
-        supplierInfo.add(1, supplier.getSupplierName());
-        supplierInfo.add(2, supplier.getSupplierContact());
-        supplierInfo.add(3, supplier.getSupplierFax());
-        supplierInfo.add(4, supplier.getSupplierAddress());
-        supplierInfo.add(5, supplier.getremark());
-
-        Collection cl = supplier.getContractList();
-        List contractList = new ArrayList();
-
-        for (Object o : cl) {
-            ContractEntity c = (ContractEntity) o;
-            List contract = new ArrayList();
-            contract.add(0, c.getContractId());
-            contract.add(1, c.getFactoryRawMaterial().getRawMaterial().getMaterialName());
-            contractList.add(contract);
-        }
-
-        supplierInfo.add(6, contractList);
-
-        return supplierInfo;
     }
-
 }
