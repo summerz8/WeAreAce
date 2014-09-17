@@ -8,6 +8,7 @@
     <class>Entity.CommonInfrastructure.InternalMessageEntity</class>
     <class>Entity.CommonInfrastructure.InternalMessageReceive</class>
     <class>Entity.CommonInfrastructure.StoreUserEntity</class>
+    <class>Entity.CommonInfrastructure.TicketEntity</class>
     <class>Entity.CommonInfrastructure.UserEntity</class>
     <class>Entity.Factory.BOMEntity</class>
     <class>Entity.Factory.FactoryBin.FactoryBinEntity</class>
@@ -42,13 +43,12 @@
     <class>Entity.Store.StoreEntity</class>
     <class>Entity.Store.StoreInStoreEntity</class>
     <class>Entity.Store.StoreInboundEntity</class>
-    <class>Entity.Store.StoreInventoryEntity</class>
     <class>Entity.Store.StoreInventoryMovement</class>
     <class>Entity.Store.StoreOutboundEntity</class>
     <class>Entity.Store.StoreProductEntity</class>
     <class>Entity.Store.StorePurchaseRecordEntity</class>
-    <class>Entity.Store.StoreStorageBinEntity</class>
     <class>Entity.Store.StoreRetailProductEntity</class>
+    <class>Entity.Store.StoreStorageBinEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

@@ -13,12 +13,14 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.FactoryEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -74,8 +76,12 @@ public interface PurchaseOrderManagementModuleLocal {
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId, Long storeId, String destination, String itemType) throws Exception;
 
     //6. Edit unconfirmed purchase order
-    
+    public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount, 
+            String unit, Calendar createDate, String destination, Integer leadTime, 
+            Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder, 
+            ContractEntity contract) throws Exception;
     
     //7. Cancel purchase order
+    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception;
     //8. Generate Goods Receipt
 }

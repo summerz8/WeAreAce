@@ -214,11 +214,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             List<StoreRetailProductEntity> storeRetailProductList = factory.getStoreRetailProduct();
-            for(Object o : storeRetailProductList){
+            for (Object o : storeRetailProductList) {
                 StoreRetailProductEntity storeRetailProduct = (StoreRetailProductEntity) o;
                 StoreEntity store = storeRetailProduct.getStore();
-                if(!storeList.contains(store))          
-                        storeList.add(store);
+                if (!storeList.contains(store)) {
+                    storeList.add(store);
+                }
             }
 
         } catch (Exception ex) {
@@ -252,8 +253,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
-    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, 
-            Double purchaseAmount, Long storeId, String destination, 
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
+            Double purchaseAmount, Long storeId, String destination,
             List<DeliveryOrderEntity> deliveryOrderList)
             throws Exception {
         System.out.println("createPurchaseOrder():");
@@ -368,7 +369,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
     //output: display the generated amount for purchase
     @Override
-    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, 
+    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId,
             Long supplierId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
         System.out.println("generatePurchaseAmount():");
         Double purchaseAmount = 0D;
@@ -427,8 +428,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Step 5: user select a address for delivery
     //output: purchase order
     @Override
-    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, 
-            Double purchaseAmount, Long supplierId, Long storeId, 
+    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId,
+            Double purchaseAmount, Long supplierId, Long storeId,
             String destination, String itemType) throws Exception {
         System.out.println("generatePurchaseOrder():");
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
@@ -441,7 +442,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             } else {
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
-            
+
             ContractEntity contract = selectSupplier(itemType, itemId, supplierId);
             List<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmount(purchaseAmount);
             purchaseOrder = createPurchaseOrder(factoryId, contract.getContractId(), purchaseAmount, storeId, destination, deliveryOrderList);
@@ -457,10 +458,56 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //6. Edit unconfirmed purchase order
-    
-    
+    @Override
+    public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount,
+            String unit, Calendar createDate, String destination, Integer leadTime,
+            Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder,
+            ContractEntity contract) throws Exception {
+        System.out.println("editPurchaseOrder():");
+        PurchaseOrderEntity purchaseOrder = null;
+        try {
+            purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+            purchaseOrder.setStatus(status);
+            purchaseOrder.setTotalAmount(totalAmount);
+            purchaseOrder.setUnit(unit);
+            purchaseOrder.setCreateDate(createDate);
+            purchaseOrder.setDestination(destination);
+            purchaseOrder.setLeadTime(leadTime);
+            purchaseOrder.setTotalPrice(totalPrice);
+            purchaseOrder.setIntegratedPlannedOrder(integratedPlannedOrder);
+            purchaseOrder.setContract(contract);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return purchaseOrder;
+    }
+
     //7. Cancel purchase order
-    //8. Generate Goods Receipt
+    @Override
+    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception {
+        System.out.println("editPurchaseOrder():");
+
+        String result = null;
+        try {
+            
+            PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+            em.remove(purchaseOrder);
+            
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+
+        return result = "PurchaseOrder with id " + purchaseOrderId + "has been removed";
+    }
+    
+    //8. Confirm purchase order
+    
+    
+    //9. Generate Goods Receipt
+    
+
     // for comparing two dates
     //function to set all the other attributes to be 0
     public Calendar removeTime(Calendar cal) {

@@ -10,7 +10,6 @@ import Entity.Factory.FactoryBin.FactoryBinEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
-import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
@@ -24,8 +23,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 

@@ -83,6 +83,22 @@ public class PurchaseOrderEntity implements Serializable {
         this.deliveryOrderList = deliveryOrderList;
     }
 
+    public PurchaseOrderEntity(Long id, String status, Double totalAmount, String unit, Calendar createDate, String destination, Integer leadTime, Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder, ContractEntity contract) {
+        this.id = id;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.unit = unit;
+        this.createDate = createDate;
+        this.destination = destination;
+        this.leadTime = leadTime;
+        this.totalPrice = totalPrice;
+        this.factory = factory;
+        this.integratedPlannedOrder = integratedPlannedOrder;
+        this.contract = contract;
+    }
+    
+    
+
     
     public Long getId() {
         return id;
