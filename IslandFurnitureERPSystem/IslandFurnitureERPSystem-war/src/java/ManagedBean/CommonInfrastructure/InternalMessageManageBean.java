@@ -7,7 +7,7 @@
 package ManagedBean.CommonInfrastructure;
 
 
-import SessionBean.CommonInFrastructure.InternalMessageModule;
+import SessionBean.CommonInFrastructure.InternalMessageModuleLocal;
 import java.util.ArrayList;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -33,7 +33,7 @@ public class InternalMessageManageBean {
     private String receiverIds;
     private String title;
     private String content;
-    private String currentUser;
+    private String currentUserId;
     private String sendMessageStatus;
     private String sendMessageType;
     private String receiveMessageStatus;
@@ -42,17 +42,17 @@ public class InternalMessageManageBean {
     private String statusMessage;
     
     @EJB
-    private InternalMessageModule im;
+    private InternalMessageModuleLocal im;
         
         
     public InternalMessageManageBean() {
     }
     
-    public InternalMessageModule getIm() {
+    public InternalMessageModuleLocal getIm() {
         return im;
     }
 
-    public void setIm(InternalMessageModule im) {
+    public void setIm(InternalMessageModuleLocal im) {
         this.im = im;
     }
 
@@ -81,12 +81,12 @@ public class InternalMessageManageBean {
         this.content = content;
     }
 
-    public String getCurrentUser() {
-        return currentUser;
+    public String getCurrentUserId() {
+        return currentUserId;
     }
 
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUser(String currentUserId) {
+        this.currentUserId = currentUserId;
     }
 
     public String getSendMessageStatus() {
@@ -142,10 +142,11 @@ public class InternalMessageManageBean {
     
     
     public void sendNewMessage(ActionEvent event) throws Exception{
-        Long currentUserId = Long.valueOf(currentUser);
+        
         
         try{
-       
+//          FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userId", "123");
+//          FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userId");
             im.sendMessage(currentUserId, title, content, null, null,  receiverIdString);
             statusMessage = "New Message Sent Successfully!";
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_INFO,"Send New Message Result: " + statusMessage + " (New Message is sent from  " + currentUserId + ")", "" ));
@@ -154,14 +155,7 @@ public class InternalMessageManageBean {
         catch(Exception e){
              
         }
-        
-        
-        
+          
     }
-    
-    
-    
- 
-    
     
 }

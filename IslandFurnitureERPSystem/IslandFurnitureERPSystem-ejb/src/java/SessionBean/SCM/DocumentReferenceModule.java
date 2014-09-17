@@ -126,7 +126,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         PurchaseOrderEntity purchaseOrder = (PurchaseOrderEntity) p;
         List purchaseOrderInfo = new ArrayList();
 
-        purchaseOrderInfo.add(0, purchaseOrder.getPurchasOrderId());
+        purchaseOrderInfo.add(0, purchaseOrder.getId());
         purchaseOrderInfo.add(1, purchaseOrder.getContract().getSupplier().getSupplierId());
         purchaseOrderInfo.add(2, purchaseOrder.getContract().getSupplier().getSupplierName());
         purchaseOrderInfo.add(3, purchaseOrder.getCreateDate());
@@ -163,7 +163,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
 
         goodsReceiptInfo.add(0, goodsReceipt.getGoodsReceiptId());
         goodsReceiptInfo.add(1, goodsReceipt.getCreateDate());
-        goodsReceiptInfo.add(2, goodsReceipt.getPurchaseOder().getPurchasOrderId());
+        goodsReceiptInfo.add(2, goodsReceipt.getPurchaseOder().getId());
 
         Collection ims = goodsReceipt.getInboundMovements();
         List inboundMovements = new ArrayList();

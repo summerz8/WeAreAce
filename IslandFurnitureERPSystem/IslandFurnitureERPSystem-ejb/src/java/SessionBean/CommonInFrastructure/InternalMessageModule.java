@@ -24,8 +24,6 @@ import javax.persistence.PersistenceContext;
  * @author zhengyuan
  */
 
-
-
 /*
    Session Bean Functionality:
    sendMessage (One to One, One to Many)
@@ -45,9 +43,9 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     // "Insert Code > Add Business Method")
 
     @PersistenceContext
-     private EntityManager em;
+    private EntityManager em;
     
-    public void sendMessage(long senderId, String title, String content, String status, String type, String receiverIdString) throws Exception{
+    public void sendMessage(String senderId, String title, String content, String status, String type, String receiverIdString) throws Exception{
         
         UserEntity sender = em.find(UserEntity.class, senderId);
         if(sender == null){
@@ -59,9 +57,9 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         //get the list of receiver
         String demins = ";";
         StringTokenizer st = new StringTokenizer(receiverIdString, demins);
-        ArrayList<Long> receiverIds = new ArrayList<Long>();
+        ArrayList<String> receiverIds = new ArrayList<String>();
         while(st.hasMoreElements()){
-            receiverIds.add(Long.valueOf(st.nextElement().toString()));  
+            receiverIds.add(String.valueOf(st.nextElement()));  
         }
         
         //set the senderName
@@ -106,7 +104,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     }
     
     @Override
-    public void deleteSendMessage (long sendMessageId) throws Exception{
+    public void deleteSendMessage (String sendMessageId) throws Exception{
         
         InternalMessageEntity sendMessage = em.find(InternalMessageEntity.class,sendMessageId);
         if (sendMessage == null){
@@ -117,14 +115,10 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         }
  
     }  
-    
-    
-    
-    
-    
+     
         
     @Override
-    public Collection<InternalMessageEntity> viewSendMessage(long senderId) throws Exception{
+    public Collection<InternalMessageEntity> viewSendMessage(String senderId) throws Exception{
          Collection<InternalMessageEntity> sendMessageList = new ArrayList<InternalMessageEntity>();
          UserEntity sender = em.find(UserEntity.class, senderId);
         if(sender == null){
@@ -137,10 +131,8 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     }
     
     
-    
-    
     @Override
-    public void deleteReceiveMessage(long receiveMessageId) throws Exception{
+    public void deleteReceiveMessage(String receiveMessageId) throws Exception{
         InternalMessageReceive receiveMessage = em.find(InternalMessageReceive.class, receiveMessageId);
         if(receiveMessage == null){
             throw new Exception("Received Message is not found!");
@@ -152,7 +144,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     }
     
     @Override
-    public void readReceiveMessage(long receiveMessageId) throws Exception {
+    public void readReceiveMessage(String receiveMessageId) throws Exception {
          InternalMessageReceive receiveMessage = em.find(InternalMessageReceive.class, receiveMessageId);
         if(receiveMessage == null){
             throw new Exception("Received Message is not found!");
@@ -166,7 +158,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     
     //
     @Override
-    public Collection<InternalMessageReceive> viewReceiveMessage(long receiverId) throws Exception{
+    public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId) throws Exception{
         Collection<InternalMessageReceive> receiveMessageList = new ArrayList<InternalMessageReceive>();
         UserEntity receiver = em.find(UserEntity.class, receiverId);
         if(receiver == null){
@@ -180,13 +172,13 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     
     
     @Override
-    public Collection<InternalMessageReceive> viewReceiveMessageBySender (long receiverId, long senderId) throws Exception{
+    public Collection<InternalMessageReceive> viewReceiveMessageBySender (String receiverId, String senderId) throws Exception{
        Collection<InternalMessageReceive> receiveMessageList = null;
        Collection<InternalMessageReceive> receiveMessageListBySender = null;
        receiveMessageList = viewReceiveMessage(receiverId);
        for( Object o : receiveMessageList) {
            InternalMessageReceive receiveMessage = (InternalMessageReceive) o;
-           if (receiveMessage.getSenderId() == senderId){
+           if (receiveMessage.getSendMessage().getSender().getUserId() == senderId){
              receiveMessageListBySender.add(receiveMessage);
            }
        }
@@ -200,7 +192,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     
     
     @Override
-   public Collection<InternalMessageEntity> viewSendMessageByReceiver ( long senderId, long receiverId) throws Exception{
+   public Collection<InternalMessageEntity> viewSendMessageByReceiver ( String senderId, String receiverId) throws Exception{
        Collection<InternalMessageEntity> sendMessageList = null;
        Collection<InternalMessageEntity> sendMessageListByReceiver = null;
        sendMessageList = viewSendMessage(senderId);
@@ -208,7 +200,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
            InternalMessageEntity sendMessage = (InternalMessageEntity) o;
            for( Object e: sendMessage.getReceiveMessages()){
                InternalMessageReceive receiveMessage = (InternalMessageReceive) e;
-              if(receiveMessage.getReceiverId() == receiverId) {
+              if(receiveMessage.getReceiver().getUserId() == receiverId) {
                 sendMessageListByReceiver.add(sendMessage);
                 break;
              }
@@ -222,9 +214,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
        }
        return sendMessageListByReceiver;
   }
-    
         
-       
     
 }
     

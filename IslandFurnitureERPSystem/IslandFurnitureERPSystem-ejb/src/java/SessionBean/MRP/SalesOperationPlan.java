@@ -27,11 +27,13 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     private EntityManager em;
 
+
+    @Override
     public SalesOperationPlanEntity GenerateSalesOperationPlan(FactoryProductEntity factoryProduct,
             Calendar targetPeriod,
             IntegratedSalesForecastEntity integratedSalesForecast,
-            Double plannedEndMonthInventory
-    ) {
+            Double plannedEndMonthInventory) {
+
 
         try {
             SalesOperationPlanEntity salesOperationPlan = new SalesOperationPlanEntity();
@@ -74,6 +76,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         return null;
     }
 
+    @Override
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
             FactoryProductEntity factoryProduct,
@@ -102,6 +105,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     }
 
+    @Override
     public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long productId, String FactoryId, Calendar startPeriod, Calendar endPeriod) {
         List<SalesOperationPlanEntity> list = new ArrayList<SalesOperationPlanEntity>();
         List<SalesOperationPlanEntity> templist = new ArrayList<SalesOperationPlanEntity>();
@@ -124,6 +128,8 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         return null;
     }
 
+
+    @Override
     public Calendar removeTime(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);

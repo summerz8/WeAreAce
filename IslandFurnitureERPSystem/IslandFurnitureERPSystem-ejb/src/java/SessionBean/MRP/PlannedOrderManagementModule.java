@@ -133,8 +133,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     }
 
     @Override
-    public
-            boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput,
+    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput,
                     Calendar targetPeriod,
                     String statusInput,
                     Long productionIdInput,
@@ -180,8 +179,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     }
 
     @Override
-    public
-            boolean DeletePlannedOrder(Long PlannedOrderId) {
+    public boolean DeletePlannedOrder(Long PlannedOrderId) {
         try {
             PlannedOrderEntity plannedOrder = em.find(PlannedOrderEntity.class, PlannedOrderId);
             if (plannedOrder.getStatus()

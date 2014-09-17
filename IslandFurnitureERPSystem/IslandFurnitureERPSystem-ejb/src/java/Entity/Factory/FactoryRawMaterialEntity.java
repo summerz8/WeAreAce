@@ -35,6 +35,7 @@ public class FactoryRawMaterialEntity implements Serializable {
     private Long factoryRawMaterialId;
 
     private Double inventory = 0D;//start with 0
+    private String unit;
     private String materialName;
 
     private String description;
@@ -78,6 +79,14 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     public void setInventory(Double inventory) {
         this.inventory = inventory;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getMaterialName() {

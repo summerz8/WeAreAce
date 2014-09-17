@@ -20,21 +20,21 @@ import javax.ejb.Local;
 public interface InternalMessageModuleLocal {
 
 
-    public void sendMessage(long senderId, String title, String content, String status, String type, String receiverIdString) throws Exception;
+    public void sendMessage(String senderId, String title, String content, String status, String type, String receiverIdString) throws Exception;
 
-    public void readReceiveMessage(long receiveMessageId) throws Exception;
+    public void readReceiveMessage(String receiveMessageId) throws Exception;
     
-    public void deleteSendMessage(long sendMessageId) throws Exception;
+    public void deleteSendMessage(String sendMessageId) throws Exception;
     
-    public void deleteReceiveMessage(long receiveMessageId) throws Exception;
+    public void deleteReceiveMessage(String receiveMessageId) throws Exception;
 
-    public Collection<InternalMessageEntity> viewSendMessage(long senderId) throws Exception;
+    public Collection<InternalMessageEntity> viewSendMessage(String senderId) throws Exception;
 
-    public Collection<InternalMessageReceive> viewReceiveMessage(long receiverId) throws Exception;
+    public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId) throws Exception;
 
-    public Collection<InternalMessageEntity> viewSendMessageByReceiver(long senderId, long receiverId) throws Exception;
+    public Collection<InternalMessageEntity> viewSendMessageByReceiver(String senderId, String receiverId) throws Exception;
 
-    public Collection<InternalMessageReceive> viewReceiveMessageBySender(long receiverId, long senderId) throws Exception;
+    public Collection<InternalMessageReceive> viewReceiveMessageBySender(String receiverId, String senderId) throws Exception;
 
     
  

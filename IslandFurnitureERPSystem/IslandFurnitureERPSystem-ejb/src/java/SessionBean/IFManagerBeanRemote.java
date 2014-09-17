@@ -14,7 +14,10 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IFManagerBeanRemote {
-    public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
+    
+    
+    public String createUser(String department, Integer userLevel, String lastName, 
+            String firstName, String position, String gender, String departmentId);
 //    public String getUserId(String userId);
     public boolean checkAccount(String userId, String pwd);
 }
