@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author Yoky
  */
 @Entity
-@Table(name="BOM")
+@Table(name="BOMEntity")
 public class BOMEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
