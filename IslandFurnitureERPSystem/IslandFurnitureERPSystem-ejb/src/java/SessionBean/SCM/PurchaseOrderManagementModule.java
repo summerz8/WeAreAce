@@ -26,6 +26,7 @@ import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
+import Entity.Store.StoreRetailProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -212,10 +213,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         List<StoreEntity> storeList = new ArrayList<>();
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-            List<StoreProductEntity> storeProductList = factory.getStoreProduct();
-            for(Object o : storeProductList){
-                StoreProductEntity storeProduct = (StoreProductEntity) o;
-                storeList.add(storeProduct.getStore());
+            List<StoreRetailProductEntity> storeRetailProductList = factory.getStoreRetailProduct();
+            for(Object o : storeRetailProductList){
+                StoreRetailProductEntity storeRetailProduct = (StoreRetailProductEntity) o;
+                StoreEntity store = storeRetailProduct.getStore();
+                if(!storeList.contains(store))          
+                        storeList.add(store);
             }
 
         } catch (Exception ex) {

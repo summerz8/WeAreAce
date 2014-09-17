@@ -12,7 +12,7 @@ import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
-import Entity.Store.StoreRetailProduct;
+import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class FactoryEntity implements Serializable {
     
     //factory entity -- store retail product entity: 1<-->M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
-    private List<StoreRetailProduct> storeRetailProduct = new ArrayList<>();
+    private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
     
     //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
@@ -225,6 +225,15 @@ public class FactoryEntity implements Serializable {
     public void setIntegratedPlannedOrders(List<IntegratedPlannedOrderEntity> integratedPlannedOrders) {
         this.integratedPlannedOrders = integratedPlannedOrders;
     }
+
+    public List<StoreRetailProductEntity> getStoreRetailProduct() {
+        return storeRetailProduct;
+    }
+
+    public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
+        this.storeRetailProduct = storeRetailProduct;
+    }
+    
     
     @Override
     public String toString() {

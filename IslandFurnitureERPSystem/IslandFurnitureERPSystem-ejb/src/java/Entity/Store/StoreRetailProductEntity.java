@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "StoreRetailProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class StoreRetailProduct implements Serializable {
+public class StoreRetailProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,10 +75,10 @@ public class StoreRetailProduct implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the storeRetailProductId fields are not set
-        if (!(object instanceof StoreRetailProduct)) {
+        if (!(object instanceof StoreRetailProductEntity)) {
             return false;
         }
-        StoreRetailProduct other = (StoreRetailProduct) object;
+        StoreRetailProductEntity other = (StoreRetailProductEntity) object;
         if ((this.storeRetailProductId == null && other.storeRetailProductId != null) || (this.storeRetailProductId != null && !this.storeRetailProductId.equals(other.storeRetailProductId))) {
             return false;
         }
