@@ -5,6 +5,9 @@
  */
 package mrptest;
 
+import Entity.Factory.FactoryRawMaterialAmountEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.MRP.ProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
 import SessionBean.MRP.RetailProductPurchasePlanModuleLocal;
@@ -215,28 +218,50 @@ public class Main {
     }
     
     private void viewPlannedOrder(){
-       
+        List<PlannedOrderEntity> plannedOrder = PlannedOrder.getPlannedOrder();
+        int i =0;
+        while(plannedOrder.get(i)!= null){
+            System.out.println("Planned Order Id: " + plannedOrder.get(i).getPlannedOrderId());
+            System.out.println("Status: "+ plannedOrder.get(i).getStatus());
+            System.out.println("Generate Date: " + plannedOrder.get(i).getGeneratedDate());
+            System.out.println("Target Period Date: " + plannedOrder.get(i).getTargetPeriod());
+            System.out.println("Productin Plan Id: " + plannedOrder.get(i).getProductionPlan().getProductionPlanId());
+            
+            System.out.println("Factory Retail Product Amount Id: " + plannedOrder.get(i).getFactoryRetailProductAmount().getFactoryRetailProductAmountId());
+            System.out.println("Unit: " + plannedOrder.get(i).getFactoryRetailProductAmount().getUnit());
+            System.out.println("Amount: " + plannedOrder.get(i).getFactoryRetailProductAmount().getAmount());
+            
+            List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmount = plannedOrder.get(i).getFactoryRawMaterialAmountList();
+            int j =0;
+            while(factoryRawMaterialAmount.get(j) != null){
+                System.out.println("Raw Material Id: " + factoryRawMaterialAmount.get(j).getRawMaterialAmountId());
+                System.out.println("Unit: " + factoryRawMaterialAmount.get(j).getUnit());
+                System.out.println("Amount: " + factoryRawMaterialAmount.get(j).getAmount());
+                j++;
+            }
+            i++;
+        }
     }
     private void viewProductionPlan(){
-        List<ArrayList> productionPlan = ProductionPlan.getProductionPlan();
+        List<ProductionPlanEntity> productionPlan = ProductionPlan.getProductionPlan();
         int i =0;
         while(productionPlan.get(i)!= null){
-            System.out.println("Production Plan Id: " + productionPlan.get(i).get(0));
-            System.out.println("Status: "+ productionPlan.get(i).get(1));
-            System.out.println("Generate Date: " + productionPlan.get(i).get(2));
-            System.out.println("Target Period Date: " + productionPlan.get(i).get(3));
-            System.out.println("Factory Product Id: " + productionPlan.get(i).get(4));
-            System.out.println("Quantity: " + productionPlan.get(i).get(5));
-            if(productionPlan.get(i).get(1).equals("confirmed")){
-                System.out.println("ConfirmDate: " + productionPlan.get(i).get(6));
+            System.out.println("Production Plan Id: " + productionPlan.get(i).getProductionPlanId());
+            System.out.println("Status: "+ productionPlan.get(i).getStatus());
+            System.out.println("Generate Date: " + productionPlan.get(i).getGenerateDate());
+            System.out.println("Target Period Date: " + productionPlan.get(i).getTargetPeriod());
+            System.out.println("Factory Product Id: " + productionPlan.get(i).getFactoryProduct().getFactoryProductId());
+            System.out.println("Quantity: " + productionPlan.get(i).getQuantity());
+            if(productionPlan.get(i).getStatus().equals("confirmed")){
+                System.out.println("ConfirmDate: " + productionPlan.get(i).getConfirmDate());
             }
-            System.out.println("Remark: " + productionPlan.get(i).get(7));
+            System.out.println("Remark: " + productionPlan.get(i).getRemark());
             i++;
         }
         
     }
     private void viewRetailProductPurchasePlan(){
-    
+        
     }
     private void viewSalesForecast(){
     
