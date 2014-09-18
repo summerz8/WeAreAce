@@ -7,6 +7,7 @@
 package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.MRP.ProductionPlanEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,6 +26,6 @@ public interface ProductionPlanManagementModuleLocal {
 
     public boolean deleteProductionPlan(Long productionPlanId);
 
-    public List<ArrayList> getProductionPlan();
+    public List<ProductionPlanEntity> getProductionPlan();
     
 }

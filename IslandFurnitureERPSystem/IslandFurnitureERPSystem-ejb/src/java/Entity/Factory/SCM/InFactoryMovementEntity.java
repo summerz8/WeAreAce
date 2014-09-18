@@ -3,87 +3,253 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Factory.SCM;
 
-
+import Entity.Factory.FactoryBin.FactoryBinEntity;
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
+import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
- * @author zhangshiyu
+ * @author Yoky
  */
 @Entity
-@Table(name="InFactoryMovement")
-public class InFactoryMovementEntity extends FactoryMovementEntity implements Serializable {
-     
-//    private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long inFactoryMovementId;
-    
+@Table(name = "InFactoryMovement")
+public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implements Serializable {
+
+    // the time need to physically transfer is omitted 
+    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
+    private EntityManager em;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long inFactoryMovementId;
+
     //factory bin stored product entity -- in factory movements: 1 <--> M (from which bin)
     @ManyToOne
-    private FactoryBinStoredProductEntity fromBin;
+    private FactoryBinEntity fromBin;
     //factory bin stored product entity -- in factory movements: 1 <--> M (to which bin)
-    @ManyToOne                                                                                                                                                             
-    private FactoryBinStoredProductEntity toBin;
+    @ManyToOne
+    private FactoryBinEntity toBin;
 
-//    public Long getInFactoryMovementId() {
-//        return inFactoryMovementId;
-//    }
-//
-//    public void setInFactoryMovementId(Long inFactoryMovementId) {
-//        this.inFactoryMovementId = inFactoryMovementId;
-//    }
+    //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryRawMaterialEntity factoryRawMaterial = null;
 
-    public FactoryBinStoredProductEntity getFromBin() {
+    //factory product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryProductEntity factoryProduct = null;
+
+    //factory retail product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct = null;
+
+    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 2 for factoryProduct, 3 for factoryRetailProduct
+    private double quantity;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar creationDate;
+
+    public InFactoryMovementEntity() {
+    }
+
+    public Long getInFactoryMovementId() {
+        return inFactoryMovementId;
+    }
+
+    public void setInFactoryMovementId(Long inFactoryMovementId) {
+        this.inFactoryMovementId = inFactoryMovementId;
+    }
+
+    public FactoryBinEntity getFromBin() {
         return fromBin;
     }
 
-    public void setFromBin(FactoryBinStoredProductEntity fromBin) {
+    public void setFromBin(FactoryBinEntity fromBin) {
         this.fromBin = fromBin;
     }
 
-    public FactoryBinStoredProductEntity getToBin() {
+    public FactoryBinEntity getToBin() {
         return toBin;
     }
 
-    public void setToBin(FactoryBinStoredProductEntity toBin) {
+    public void setToBin(FactoryBinEntity toBin) {
         this.toBin = toBin;
     }
-    
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (inFactoryMovementId != null ? inFactoryMovementId.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the inFactoryMovementId fields are not set
-//        if (!(object instanceof InFactoryMovementEntity)) {
-//            return false;
-//        }
-//        InFactoryMovementEntity other = (InFactoryMovementEntity) object;
-//        if ((this.inFactoryMovementId == null && other.inFactoryMovementId != null) || (this.inFactoryMovementId != null && !this.inFactoryMovementId.equals(other.inFactoryMovementId))) {
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Entity.Factory.SCM.InFactoryMovementEntity[ id=" + inFactoryMovementId + " ]";
-//    }
+    public FactoryRawMaterialEntity getFactoryRawMaterial() {
+        return factoryRawMaterial;
+    }
+
+    public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
+        this.factoryRawMaterial = factoryRawMaterial;
+    }
+
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
+    }
+
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
+    }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
+
+    public int getStockTypeIndicator() {
+        return stockTypeIndicator;
+    }
+
+    public void setStockTypeIndicator(int stockTypeIndicator) {
+        this.stockTypeIndicator = stockTypeIndicator;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public Calendar getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Calendar creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    //pre-cond: availability check
+    public void recordInFactoryRawMaterialMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+        this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
+        this.setToBin(toBin);
+        this.setFactoryRawMaterial(factoryFromBinStoredProduct.getFactoryRawMaterial());
+        this.setStockTypeIndicator(1);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredFactoryRawMaterial(factoryFromBinStoredProduct, toBin, quantity);
+    }
+
+    //pre-cond: availability check
+    public void recordInFactoryProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+        this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
+        this.setToBin(toBin);
+        this.setFactoryProduct(factoryFromBinStoredProduct.getFactoryProduct());
+        this.setStockTypeIndicator(2);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredFactoryProduct(factoryFromBinStoredProduct, toBin, quantity);
+    }
     
+    //pre-cond: availability check
+    public void recordInFactoryRetailProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+        this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
+        this.setToBin(toBin);
+        this.setFactoryRetailProduct(factoryFromBinStoredProduct.getFactoryRetailProduct());
+        this.setStockTypeIndicator(3);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredFactoryRetailProduct(factoryFromBinStoredProduct, toBin, quantity);
+    }
+    
+    private void updateFactoryBinStoredFactoryRawMaterial(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity) {
+        try {
+            factoryFromBinStoredProduct.decreaseQuantity(quantity);
+            em.flush();
+            
+            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :status");
+            q.setParameter("toBin", toBin);
+            q.setParameter("factoryRawMaterial", factoryFromBinStoredProduct.getFactoryRawMaterial());
+            q.setParameter("status", factoryFromBinStoredProduct.getStatus());
+
+            if(q.getResultList() == null) {
+                FactoryBinStoredProductEntity factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
+                factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRawMaterial(), toBin, factoryFromBinStoredProduct.getStatus());
+                factoryToBinStoredProduct.increaseQuantity(quantity);
+                em.persist(factoryToBinStoredProduct);
+            } else {
+                FactoryBinStoredProductEntity factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
+                factoryToBinStoredProduct.increaseQuantity(quantity);
+                em.flush();
+            }     
+   
+        } catch (Exception ex) {
+            System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredFactoryRawMaterial(): Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
+    }
+    
+    private void updateFactoryBinStoredFactoryProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity) {
+        try {
+            factoryFromBinStoredProduct.decreaseQuantity(quantity);
+            em.flush();
+            
+            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :status");
+            q.setParameter("toBin", toBin);
+            q.setParameter("factoryProduct", factoryFromBinStoredProduct.getFactoryProduct());
+            q.setParameter("status", factoryFromBinStoredProduct.getStatus());
+
+            if(q.getResultList() == null) {
+                FactoryBinStoredProductEntity factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
+                factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryProduct(), toBin, factoryFromBinStoredProduct.getStatus());
+                factoryToBinStoredProduct.increaseQuantity(quantity);
+                em.persist(factoryToBinStoredProduct);
+            } else {
+                FactoryBinStoredProductEntity factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
+                factoryToBinStoredProduct.increaseQuantity(quantity);
+                em.flush();
+            }     
+   
+        } catch (Exception ex) {
+            System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
+    }
+    
+    private void updateFactoryBinStoredFactoryRetailProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity) {
+        try {
+            factoryFromBinStoredProduct.decreaseQuantity(quantity);
+            em.flush();
+            
+            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = :status");
+            q.setParameter("toBin", toBin);
+            q.setParameter("factoryRawMaterial", factoryFromBinStoredProduct.getFactoryRetailProduct());
+            q.setParameter("status", factoryFromBinStoredProduct.getStatus());
+
+            if(q.getResultList() == null) {
+                FactoryBinStoredProductEntity factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
+                factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRetailProduct(), toBin, factoryFromBinStoredProduct.getStatus());
+                factoryToBinStoredProduct.increaseQuantity(quantity);
+                em.persist(factoryToBinStoredProduct);
+            } else {
+                FactoryBinStoredProductEntity factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
+                factoryToBinStoredProduct.increaseQuantity(quantity);
+                em.flush();
+            }     
+   
+        } catch (Exception ex) {
+            System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
+    }
 }

@@ -7,12 +7,14 @@
 package Entity.Factory.MRP;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -25,7 +27,8 @@ public class WeeklyProductionPlanEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String productionMonth;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar productionMonth;
     private Integer week;
     private Integer workingDayInWeek;
     private Integer workingDayInMonth;
@@ -38,8 +41,7 @@ public class WeeklyProductionPlanEntity implements Serializable {
     public WeeklyProductionPlanEntity(){
     }
     
-    public void createWeeklyProductionPlan(Long id,String month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
-        this.id = id;
+    public void createWeeklyProductionPlan(Calendar month,Integer week,Integer workingDayInWeek,Integer workingDayInMonth,Double weeklyDemand){
         this.productionMonth = month;
         this.week = week;
         this.workingDayInWeek = workingDayInWeek;
@@ -55,11 +57,11 @@ public class WeeklyProductionPlanEntity implements Serializable {
         this.id = id;
     }
 
-    public String getProductionMonth() {
+    public Calendar getProductionMonth() {
         return productionMonth;
     }
 
-    public void setProductionMonth(String productionMonth) {
+    public void setProductionMonth(Calendar productionMonth) {
         this.productionMonth = productionMonth;
     }
 

@@ -31,6 +31,7 @@ public class RetailProductEntity implements Serializable {
     private String name;
     private String description;
     private Boolean deleteFlag;
+    private String unit;
     
     
     //retail product entity -- factory retail product entity: 1<--> M
@@ -79,7 +80,14 @@ public class RetailProductEntity implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
-    
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public Collection<FactoryRetailProductEntity> getFactoryRetailProducts() {
         return factoryRetailProducts;
     }

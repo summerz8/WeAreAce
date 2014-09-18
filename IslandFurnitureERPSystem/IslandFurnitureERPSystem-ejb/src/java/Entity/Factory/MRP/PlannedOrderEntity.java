@@ -11,7 +11,6 @@ import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;

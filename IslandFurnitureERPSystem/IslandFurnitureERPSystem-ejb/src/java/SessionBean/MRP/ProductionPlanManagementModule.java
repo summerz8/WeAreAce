@@ -93,21 +93,13 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public List<ArrayList> getProductionPlan(){
-        Query q = em.createQuery("SELECT pp FROM ProductionPlan pp");
-        List productionPlanList = new ArrayList();
+    public List<ProductionPlanEntity> getProductionPlan(){
+        Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
+        List<ProductionPlanEntity> productionPlanList = new ArrayList();
         for(Object o : q.getResultList()){
             ProductionPlanEntity pp = (ProductionPlanEntity) o;
-            List productionPlan = new ArrayList();
-            productionPlan.add(0,pp.getProductionPlanId());
-            productionPlan.add(1,pp.getStatus());
-            productionPlan.add(2,pp.getGenerateDate());
-            productionPlan.add(3,pp.getTargetPeriod());
-            productionPlan.add(4,pp.getProduct().getFactoryProductId());
-            productionPlan.add(5,pp.getQuantity());
-            productionPlan.add(6,pp.getConfirmDate());
-            productionPlan.add(7,pp.getRemark());
-            productionPlanList.add(productionPlan);
+            productionPlanList.add(pp);
+            
         }
         
         

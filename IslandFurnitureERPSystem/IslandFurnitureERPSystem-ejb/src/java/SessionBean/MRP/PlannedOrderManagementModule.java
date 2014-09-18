@@ -21,6 +21,7 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -193,5 +194,19 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             System.out.println(ex.getMessage());
         }
         return false;
+    }
+    
+    @Override
+    public List<PlannedOrderEntity> getPlannedOrder(){
+        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+        List<PlannedOrderEntity> plannedOrderList = new ArrayList();
+        for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            plannedOrderList.add(po);
+            
+        }
+        
+        
+        return plannedOrderList;
     }
 }
