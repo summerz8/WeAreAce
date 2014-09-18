@@ -39,6 +39,8 @@
     <class>Entity.Factory.SCM.InboundMovementEntity</class>
     <class>Entity.Factory.SCM.OutboundMovementEntity</class>
     <class>Entity.Factory.SCM.PurchaseOrderEntity</class>
+    <class>Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity</class>
+    <class>Entity.Factory.SCM.ReturnedItemInboundMovementEntity</class>
     <class>Entity.Factory.SCM.SupplierEntity</class>
     <class>Entity.Store.StoreBinStoredProductEntity</class>
     <class>Entity.Store.StoreEntity</class>

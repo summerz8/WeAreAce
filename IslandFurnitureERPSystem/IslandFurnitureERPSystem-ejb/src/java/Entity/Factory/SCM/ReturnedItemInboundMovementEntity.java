@@ -7,8 +7,9 @@ package Entity.Factory.SCM;
 
 import Entity.Factory.FactoryBin.FactoryBinEntity;
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
-import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.CascadeType;
@@ -28,9 +29,9 @@ import javax.persistence.Temporal;
  * @author Yoky
  */
 @Entity
-@Table(name = "InboundMovement")
-// only for unrestrictd stock
-public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements Serializable {
+@Table(name = "ReturnedItemInboundMovement")
+//cannot record the total quantity of returned products
+public class ReturnedItemInboundMovementEntity implements Serializable {
 
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;
@@ -38,45 +39,42 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long InboundMovementId;
+    private Long returnedItemInboundMovementId;
 
     //goods receipt entity -- inbound movements: 1 <--> M (from which corresponding goods receipt)
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private GoodsReceiptEntity fromGoodsRecipt;
+    private StoreEntity fromStore;
     //factory bin stored product entity -- inbound movements: 1 <--> M (to which bin)
     @ManyToOne
     private FactoryBinEntity toBin;
 
-    //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
-    @ManyToOne
-    private FactoryRawMaterialEntity factoryRawMaterial = null;
+    //factory product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryProductEntity factoryProduct = null;
 
     //factory retail product entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
-    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 3 for factoryRetailProduct
+    private int stockTypeIndicator = 0; // default is 0  //to indicate the type of stocks: 2 for factoryProduct, 3 for factoryRetailProduct
     private double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
 
-    public InboundMovementEntity() {
+    public Long getReturnedItemInboundMovementId() {
+        return returnedItemInboundMovementId;
     }
 
-    public Long getInboundMovementId() {
-        return InboundMovementId;
+    public void setReturnedItemInboundMovementId(Long returnedItemInboundMovementId) {
+        this.returnedItemInboundMovementId = returnedItemInboundMovementId;
     }
 
-    public void setInboundMovementId(Long InboundMovementId) {
-        this.InboundMovementId = InboundMovementId;
+    public StoreEntity getFromStore() {
+        return fromStore;
     }
 
-    public GoodsReceiptEntity getFromGoodsRecipt() {
-        return fromGoodsRecipt;
-    }
-
-    public void setFromGoodsRecipt(GoodsReceiptEntity fromGoodsRecipt) {
-        this.fromGoodsRecipt = fromGoodsRecipt;
+    public void setFromStore(StoreEntity fromStore) {
+        this.fromStore = fromStore;
     }
 
     public FactoryBinEntity getToBin() {
@@ -87,12 +85,12 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         this.toBin = toBin;
     }
 
-    public FactoryRawMaterialEntity getFactoryRawMaterial() {
-        return factoryRawMaterial;
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
     }
 
-    public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
-        this.factoryRawMaterial = factoryRawMaterial;
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
     }
 
     public FactoryRetailProductEntity getFactoryRetailProduct() {
@@ -127,39 +125,37 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         this.creationDate = creationDate;
     }
 
-    // assumption: the inbound goods is unrestricted
-    // changes need further modification
-    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, double quantity, Calendar creationDate) {
-        this.fromGoodsRecipt = goodsRecipt;
-        this.toBin = toBin;
-        this.factoryRawMaterial = factoryRawMaterial;
-        this.stockTypeIndicator = 1;
-        this.quantity = quantity;
-        this.creationDate = creationDate;
-        updateFactoryBinStoredProduct(toBin, factoryRawMaterial, quantity);
-        updateFactoryRawMaterial(factoryRawMaterial, quantity);
+    public void recordReturnedItemInboundMovement(FactoryProductEntity factoryProduct, StoreEntity fromStore, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+        this.setFactoryProduct(factoryProduct);
+        this.setStockTypeIndicator(2);
+        this.setFromStore(fromStore);
+        this.setToBin(toBin);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredProduct(toBin, factoryProduct, quantity);
+ //       updateFactoryRetailProduct(factoryProduct, quantity); // need to matian the total quantity of returned products
     }
-
-    public void recordInboundMovement(GoodsReceiptEntity GoodsRecipt, FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, double quantity, Calendar creationDate) {
-        this.fromGoodsRecipt = GoodsRecipt;
-        this.toBin = toBin;
-        this.factoryRetailProduct = factoryRetailProduct;
-        this.stockTypeIndicator = 3;
-        this.quantity = quantity;
-        this.creationDate = creationDate;
+    
+    public void recordReturnedItemInboundMovement(FactoryRetailProductEntity factoryRetailProduct, StoreEntity fromStore, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+        this.setFactoryRetailProduct(factoryRetailProduct);
+        this.setStockTypeIndicator(3);
+        this.setFromStore(fromStore);
+        this.setToBin(toBin);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
         updateFactoryBinStoredProduct(toBin, factoryRetailProduct, quantity);
-        updateFactoryRetailProduct(factoryRetailProduct, quantity);
+ //       updateFactoryRetailProduct(factoryRetailProduct, quantity); // need to matian the total quantity of returned products
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryProductEntity factoryProduct, double quantity) {
         try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = 'unrestricted'");
+            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = 'returned'");
             q.setParameter("toBin", toBin);
-            q.setParameter("factoryRawMaterial", factoryRawMaterial);
+            q.setParameter("factoryProduct", factoryProduct);
 
             if (q.getResultList() == null) {
                 FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRawMaterial, toBin, "unrestricted");
+                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryProduct, toBin, "returned");
                 factoryBinStoredProduct.increaseQuantity(quantity);
                 em.persist(factoryBinStoredProduct);
             } else {
@@ -172,16 +168,16 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
             ex.printStackTrace();
         }
     }
-
+    
     private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, double quantity) {
         try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'unrestricted'");
+            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'returned'");
             q.setParameter("toBin", toBin);
             q.setParameter("factoryRetailProduct", factoryRetailProduct);
 
             if (q.getResultList() == null) {
                 FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, "unrestricted");
+                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, "returned");
                 factoryBinStoredProduct.increaseQuantity(quantity);
                 em.persist(factoryBinStoredProduct);
             } else {
@@ -190,19 +186,35 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
                 em.flush();
             }
         } catch (Exception ex) {
-            System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception.");
+            System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();
         }
     }
-
-    private void updateFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial, double quantity) {
-        factoryRawMaterial.setInventory(factoryRawMaterial.getInventory() + quantity);
-        em.flush();
+    
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (returnedItemInboundMovementId != null ? returnedItemInboundMovementId.hashCode() : 0);
+        return hash;
     }
 
-    private void updateFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct, double quantity) {
-        factoryRetailProduct.setInventory(factoryRetailProduct.getInventory() + quantity);
-        em.flush();
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the returnedItemInboundMovementId fields are not set
+        if (!(object instanceof ReturnedItemInboundMovementEntity)) {
+            return false;
+        }
+        ReturnedItemInboundMovementEntity other = (ReturnedItemInboundMovementEntity) object;
+        if ((this.returnedItemInboundMovementId == null && other.returnedItemInboundMovementId != null) || (this.returnedItemInboundMovementId != null && !this.returnedItemInboundMovementId.equals(other.returnedItemInboundMovementId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Entity.Factory.SCM.ReturnedItemInboundMovementEntity[ id=" + returnedItemInboundMovementId + " ]";
     }
 
 }
