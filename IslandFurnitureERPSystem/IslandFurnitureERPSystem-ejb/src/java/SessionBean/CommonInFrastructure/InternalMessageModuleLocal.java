@@ -8,6 +8,7 @@ package SessionBean.CommonInFrastructure;
 
 import Entity.CommonInfrastructure.InternalMessageEntity;
 import Entity.CommonInfrastructure.InternalMessageReceive;
+import Entity.CommonInfrastructure.UserEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Local;
@@ -20,7 +21,6 @@ import javax.ejb.Local;
 public interface InternalMessageModuleLocal {
 
 
-    public void sendMessage(String senderId, String title, String content, String status, String type, String receiverIdString) throws Exception;
 
     public void readReceiveMessage(String receiveMessageId) throws Exception;
     
@@ -35,6 +35,10 @@ public interface InternalMessageModuleLocal {
     public Collection<InternalMessageEntity> viewSendMessageByReceiver(String senderId, String receiverId) throws Exception;
 
     public Collection<InternalMessageReceive> viewReceiveMessageBySender(String receiverId, String senderId) throws Exception;
+
+    public ArrayList<UserEntity> getAllUsers();
+
+    public void sendMessage(String senderId, String title, String content, String status, String type, ArrayList<String> receiverIds) throws Exception;
 
     
  

@@ -7,7 +7,7 @@ package SessionBean;
 
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.UserEntity;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,15 +15,16 @@ import javax.persistence.PersistenceContext;
  *
  * @author zhangshiyu
  */
-@Stateful
-public class IFManagerBean implements IFManagerBeanRemote {
+@Stateless
+public class IFManagerBean implements IFManagerBeanLocal, IFManagerBeanRemote {
 
-    @PersistenceContext
+    @PersistenceContext 
     private EntityManager em;
 
-    public IFManagerBean() {
+    public IFManagerBean(){
     }
 
+    
     @Override
     public String createUser(String department, Integer userLevel, String lastName, 
             String firstName, String position, String gender, String departmentId) {
@@ -74,14 +75,16 @@ public class IFManagerBean implements IFManagerBeanRemote {
 //        return "getUserId() failed!";
 //    }
 
-    @Override
+ @Override
     public boolean checkAccount(String userId, String pwd) {
         UserEntity user;
         boolean check = false;
 
         System.out.println("IFManagerBean: checkAccount()");
+        //Query q = em.createQuery("SELECT t FROM UserEntity t WHERE t.userId=:userId");
+        //q.setParameter("userId", userId);
         user = em.find(UserEntity.class, userId);
-
+        //user = (UserEntity)q.getResultList();
         //if the user exsit and password correct
         if (user == null) {
             System.out.println("User Not Found!");
@@ -93,6 +96,16 @@ public class IFManagerBean implements IFManagerBeanRemote {
         }
 
         return check;
+    }
+    
+    @Override
+    public String getFullName (String userId){
+        String fullName = null;
+        if(true){
+           UserEntity user= em.find(UserEntity.class,userId);
+           fullName = user.getFirstName() + " " + user.getLastName() + " ";
+        }
+        return fullName;
     }
 
 }

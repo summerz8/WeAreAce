@@ -34,7 +34,8 @@ public class FactoryRawMaterialEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryRawMaterialId;
 
-    private Double inventory = 0D;//start with 0
+    private Double unrestrictedInventory = 0D;//start with 0
+    private Double blockedInventory = 0D;
     private String unit;
     private String materialName;
 
@@ -73,12 +74,20 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.factoryRawMaterialId = factoryRawMaterialId;
     }
 
-    public Double getInventory() {
-        return inventory;
+    public Double getUnrestrictedInventory() {
+        return unrestrictedInventory;
     }
 
-    public void setInventory(Double inventory) {
-        this.inventory = inventory;
+    public void setUnrestrictedInventory(Double unrestrictedInventory) {
+        this.unrestrictedInventory = unrestrictedInventory;
+    }
+
+    public Double getBlockedInventory() {
+        return blockedInventory;
+    }
+
+    public void setBlockedInventory(Double blockedInventory) {
+        this.blockedInventory = blockedInventory;
     }
 
     public String getUnit() {

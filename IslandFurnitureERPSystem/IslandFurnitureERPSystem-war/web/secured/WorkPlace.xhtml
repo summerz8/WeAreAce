@@ -13,7 +13,7 @@ and open the template in the editor.
     <f:view>
 
         <h:head>
-            <title>IF WorkPlace</title>
+            <title>Island Furniture ERP WorkPlace</title>
             <!--            <head>
                                 <style type="text/css">
                                     .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
@@ -29,25 +29,32 @@ and open the template in the editor.
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
-                    <p:layoutUnit position="north" size="140" collapsible="true">
-                        <h1>Island Furniture ERP System</h1>  
-                        <h2 style="margin-top:0">Global Manager, Ms Zheng
-
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+                        
+                      
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                            
                             <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                                <f:param name="productId" value="10" />
+                                
                             </p:commandButton>
 
                             <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                                <f:param name="productId" value="10" />
-                            </p:button>  
-                            <p:button  value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                                <f:param name="productId" value="10" />
+                                
+                            </p:button>
+                            <p:button outcome="CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                                 
                             </p:button>  
                             <p:button  value="HomePage" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                                <f:param name="productId" value="10" />
+                               
                             </p:button>  
-                        </h2>  
-
+                            
+                            
+                        <h:outputLabel value = "Welcome Back" >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+                            
+                         </h:outputLabel>
+                           
+                        
                     </p:layoutUnit>
 
 
@@ -68,7 +75,7 @@ and open the template in the editor.
                                 <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
                             </p:submenu>
                             <p:submenu label="Empolyees">
-                                <p:menuitem value="Empolyees List"  icon="ui-icon-home"/>
+                                <p:menuitem value="Empolyees List"/>
                             </p:submenu>
                         </p:menu>
 
@@ -76,43 +83,13 @@ and open the template in the editor.
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
 
-                        <p:panel id="horizontal" header="2014/9/3" toggleable="true" toggleOrientation="horizontal">
+                        <p:panel id="basic" header="Session Name" style="margin-bottom" >
                             <h:panelGrid columns="2" cellpadding="10">
-                                <h3>
-                                    <p:panel id="basic" header="Production Plan" footer="18:20" style="margin-bottom:20px">
-                                        <h:panelGrid columns="2" cellpadding="10">
-
-                                            <h:outputText
-                                                value="Production plan report" />
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </h3>
-                                <h3>
-                                    <p:panel id="basicf" header="Production Plan" footer="16:41" style="margin-bottom:20px">
-                                        <h:panelGrid columns="2" cellpadding="10">
-
-                                            <h:outputText
-                                                value="Production plan report" />
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </h3>
-                                <h3>
-                                    <p:panel id="basicg" header="Purchasing Order" footer="12:24" style="margin-bottom:20px">
-                                        <h:panelGrid columns="2" cellpadding="10">
-
-                                            <h:outputText
-                                                value="Purchasing order report" />
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </h3>
+                                
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>
 
-                    <p:layoutUnit position="east" size="200" resizable="false">
-
-                        <h3>Contact List</h3> 
-                    </p:layoutUnit>
 
                 </p:layout>
             </h:form>

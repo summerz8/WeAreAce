@@ -160,12 +160,12 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     }
 
     private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.getFactoryProduct().setInventory(factoryBinStoredProduct.getFactoryProduct().getInventory() - quantity);
+        factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() - quantity);
         em.flush();
     }
     
     private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.getFactoryRetailProduct().setInventory(factoryBinStoredProduct.getFactoryRetailProduct().getInventory() - quantity);
+        factoryBinStoredProduct.getFactoryRetailProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryRetailProduct().getUnrestrictedInventory() - quantity);
         em.flush();
     }
 }

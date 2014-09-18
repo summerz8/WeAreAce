@@ -56,6 +56,7 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
     private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 3 for factoryRetailProduct
+    private String status;
     private double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
@@ -111,6 +112,14 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         this.stockTypeIndicator = stockTypeIndicator;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public double getQuantity() {
         return quantity;
     }
@@ -129,37 +138,39 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
 
     // assumption: the inbound goods is unrestricted
     // changes need further modification
-    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, double quantity, Calendar creationDate) {
+    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, String status, double quantity, Calendar creationDate) {
         this.fromGoodsRecipt = goodsRecipt;
         this.toBin = toBin;
         this.factoryRawMaterial = factoryRawMaterial;
         this.stockTypeIndicator = 1;
         this.quantity = quantity;
         this.creationDate = creationDate;
-        updateFactoryBinStoredProduct(toBin, factoryRawMaterial, quantity);
-        updateFactoryRawMaterial(factoryRawMaterial, quantity);
+        updateFactoryBinStoredProduct(toBin, factoryRawMaterial, status, quantity);
+        updateFactoryRawMaterial(factoryRawMaterial, status, quantity);
     }
 
-    public void recordInboundMovement(GoodsReceiptEntity GoodsRecipt, FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, double quantity, Calendar creationDate) {
-        this.fromGoodsRecipt = GoodsRecipt;
-        this.toBin = toBin;
-        this.factoryRetailProduct = factoryRetailProduct;
-        this.stockTypeIndicator = 3;
-        this.quantity = quantity;
-        this.creationDate = creationDate;
-        updateFactoryBinStoredProduct(toBin, factoryRetailProduct, quantity);
-        updateFactoryRetailProduct(factoryRetailProduct, quantity);
+    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, String status, double quantity, Calendar creationDate) {
+        this.setFromGoodsRecipt(goodsRecipt);
+        this.setToBin(toBin);
+        this.setFactoryRetailProduct(factoryRetailProduct);
+        this.setStockTypeIndicator(3);
+        this.setStatus(status);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredProduct(toBin, factoryRetailProduct, status, quantity);
+        updateFactoryRetailProduct(factoryRetailProduct, status, quantity);
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, String status, double quantity) {
         try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = 'unrestricted'");
+            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :status");
             q.setParameter("toBin", toBin);
             q.setParameter("factoryRawMaterial", factoryRawMaterial);
+            q.setParameter(status, status);
 
             if (q.getResultList() == null) {
                 FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRawMaterial, toBin, "unrestricted");
+                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRawMaterial, toBin, status);
                 factoryBinStoredProduct.increaseQuantity(quantity);
                 em.persist(factoryBinStoredProduct);
             } else {
@@ -173,15 +184,16 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         }
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, String status, double quantity) {
         try {
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'unrestricted'");
             q.setParameter("toBin", toBin);
             q.setParameter("factoryRetailProduct", factoryRetailProduct);
+            q.setParameter(status, status);
 
             if (q.getResultList() == null) {
                 FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, "unrestricted");
+                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, status);
                 factoryBinStoredProduct.increaseQuantity(quantity);
                 em.persist(factoryBinStoredProduct);
             } else {
@@ -195,14 +207,27 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         }
     }
 
-    private void updateFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial, double quantity) {
-        factoryRawMaterial.setInventory(factoryRawMaterial.getInventory() + quantity);
-        em.flush();
+    private void updateFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial, String status, double quantity) {
+        if (status.equals("unrestricted")) {
+            factoryRawMaterial.setUnrestrictedInventory(factoryRawMaterial.getUnrestrictedInventory() + quantity);
+            em.flush();
+        } else {
+            factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
+            em.flush();
+        }
     }
 
-    private void updateFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct, double quantity) {
-        factoryRetailProduct.setInventory(factoryRetailProduct.getInventory() + quantity);
-        em.flush();
+    private void updateFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct, String status, double quantity) {
+        if (status.equals("unrestricted")) {
+            factoryRawMaterial.setUnrestrictedInventory(factoryRawMaterial.getUnrestrictedInventory() + quantity);
+            em.flush();
+        } else if (status.equals("blocked")) {
+            factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
+            em.flush();
+        } else {
+            factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
+            em.flush();
+        }
     }
 
 }
