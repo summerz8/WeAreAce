@@ -26,7 +26,7 @@ public interface PurchasedItemAndSupplierManagementModuleLocal {
 
     public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception;
 
-    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Integer leadTime, String unit, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public String editSupplier(Long supplierId, String name, String address, String telephone, String fax, String remark) throws Exception;
 

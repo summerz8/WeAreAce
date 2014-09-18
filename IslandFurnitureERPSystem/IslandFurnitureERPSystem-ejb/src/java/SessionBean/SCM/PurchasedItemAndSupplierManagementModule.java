@@ -19,7 +19,6 @@ import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.SupplierEntity;
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -34,7 +33,7 @@ import javax.persistence.Query;
  * @author Shiyu
  */
 @Stateful
-public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAndSupplierManagementModuleLocal {
+public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAndSupplierManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -134,7 +133,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     @Override
     public String addSupplier(String itemType, Long itemId, String name,
             String address, String telephone, String fax,
-            String remark, Double contractPrice, Integer leadTime, String unit,
+            String remark, Double contractPrice, Integer leadTime,
             Calendar contractStartDate, Calendar contractEndDate)
             throws Exception {
         System.out.println("addSupplier():");
@@ -143,27 +142,29 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         ContractEntity contract = new ContractEntity();
 
         String result = null;
+        String unit = "unit";
 
         try {
+            //create relationship between contract and Raw material 
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
+                contract.setFactoryRawMaterial(factoryRawMaterial);
+                factoryRawMaterial.getContracts().add(contract);
+                unit = factoryRawMaterial.getUnit();
+            } //create relationship between contract and retail products
+            else {
+                FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
+                contract.setFactoryRetailProduct(factoryRetailProduct);
+                factoryRetailProduct.getContracts().add(contract);
+                unit = factoryRetailProduct.getUnit();
+            }
             //create new supplier entity and contract entity
             supplier.create(name, address, telephone, fax, remark);
             contract.create(contractPrice, leadTime, unit, contractStartDate, contractEndDate);
             //create relationship between supplier ad contract
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
-
-            //create relationship between contract and Raw material 
-            if (itemType.equals("RawMaterial")) {
-                FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
-                contract.setFactoryRawMaterial(factoryRawMaterial);
-                factoryRawMaterial.getContracts().add(contract);
-            } //create relationship between contract and retail products
-            else {
-                FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
-                contract.setFactoryRetailProduct(factoryRetailProduct);
-                factoryRetailProduct.getContracts().add(contract);
-            }
-
+            
             em.persist(supplier);
             em.persist(contract);
             em.flush();
