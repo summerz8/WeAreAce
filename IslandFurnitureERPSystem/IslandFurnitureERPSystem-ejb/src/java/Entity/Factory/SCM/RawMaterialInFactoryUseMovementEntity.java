@@ -36,11 +36,9 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long rawMaterialInFactoryUseMovementId;
 
-    //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
     @ManyToOne
     private FactoryBinEntity fromBin;
 
-    //factory product entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne
     private FactoryRawMaterialEntity factoryRawMaterial;
 
@@ -113,7 +111,7 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
     }
     
     private void updateFactoryRawMaterial(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.getFactoryProduct().setInventory(factoryBinStoredProduct.getFactoryProduct().getInventory() - quantity);
+        factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() - quantity);
         em.flush();
     }
 

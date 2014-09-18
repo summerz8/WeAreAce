@@ -18,6 +18,7 @@ import java.util.StringTokenizer;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -45,22 +46,30 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     @PersistenceContext
     private EntityManager em;
     
-    public void sendMessage(String senderId, String title, String content, String status, String type, String receiverIdString) throws Exception{
+    @Override
+    public ArrayList<UserEntity> getAllUsers(){
+        ArrayList<UserEntity> userList = new ArrayList<UserEntity>();
+        Query q = em.createQuery("Select t from UserEntity t");
+        for(Object o: q.getResultList()){
+            UserEntity user = (UserEntity) o;
+            userList.add(user);
+            
+        }
+        return userList;
+    }
+    
+    @Override
+    public void sendMessage(String senderId, String title, String content, String status, String type, ArrayList<String> receiverIds) throws Exception{
         
         UserEntity sender = em.find(UserEntity.class, senderId);
+        System.err.println("sessionBean internal message module sendMessage(): getUserId: " + sender.getUserId() );
         if(sender == null){
             throw new Exception("Sender is not found");
         }
         else{
             
         //initialise the new message
-        //get the list of receiver
-        String demins = ";";
-        StringTokenizer st = new StringTokenizer(receiverIdString, demins);
-        ArrayList<String> receiverIds = new ArrayList<String>();
-        while(st.hasMoreElements()){
-            receiverIds.add(String.valueOf(st.nextElement()));  
-        }
+        //get the list of receive
         
         //set the senderName
         String firstName = sender.getFirstName();
@@ -70,16 +79,20 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         //set the time
         Calendar sendTime = Calendar.getInstance();
         sendTime.getTime();
+        
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String time = sdf.format(sendTime.getTime()).toString();
-        
+        System.out.println("sessionbean internal message module sendMessage(): time : " + time) ;
+        System.out.println("sessionbean internal message module sendMessage(): title : " + title) ;
+        System.out.println("sessionbean internal message module sendMessage(): content : " + content) ;
+        System.out.println("sessionbean internal message module sendMessage(): status : " + status) ;
         //instanlise a sendmessage entity
         InternalMessageEntity sendNewMessage  = new InternalMessageEntity(senderName, title, content, time, status, type);
-        sendNewMessage.setSender(sender);
         sender.getSendMessage().add(sendNewMessage);
-     
+        sendNewMessage.setSender(sender);
+        System.err.println("sessionbean internal message module setMessageSender(): here message has been set in Internal Message Entity under a sender");
         Integer i;
-       
+        Collection<InternalMessageReceive> receiverMessageList = new ArrayList<InternalMessageReceive>();
         for( i = 0 ; i < receiverIds.size(); i++ ){
             UserEntity receiver = em.find(UserEntity.class, receiverIds.get(i));  
             if(receiver == null){
@@ -89,14 +102,16 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
               InternalMessageReceive receiveMessage = new InternalMessageReceive();   
              // receiveMessage.setSenderId(senderId);
               receiveMessage.setMessage(sendNewMessage);
-              receiveMessage.setReceiver(receiver);
               receiver.getReceiveMessage().add(receiveMessage);
-              
-              sendNewMessage.getReceiveMessages().add(receiveMessage);
+              receiveMessage.setReceiver(receiver);
+              System.err.println("sessionbean internal message module sendMessage(): receiverId: " + receiveMessage.getReceiver().getUserId());
+              //sendNewMessage.getReceiveMessages().add(receiveMessage);
+              receiverMessageList.add(receiveMessage);
               
               }
-        
+           
         }
+        sendNewMessage.setReceiveMessages(receiverMessageList);
            em.flush();
  
         }

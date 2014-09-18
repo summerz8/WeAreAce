@@ -20,4 +20,6 @@ public interface IFManagerBeanRemote {
             String firstName, String position, String gender, String departmentId);
 //    public String getUserId(String userId);
     public boolean checkAccount(String userId, String pwd);
+    
+    public String getFullName (String userId);
 }

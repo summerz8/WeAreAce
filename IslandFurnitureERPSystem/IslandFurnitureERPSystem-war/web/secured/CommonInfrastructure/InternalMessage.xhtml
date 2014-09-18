@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+
+        <h:head>
+            <title>IF WorkPlace</title>
+
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="140" collapsible="true">
+                        <h1>Island Furniture ERP System</h1>  
+                        
+
+                            <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                               
+                            </p:commandButton>
+
+                            <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                                
+                            </p:button>  
+                            <p:button  value="Message"  style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                                
+                            </p:button>  
+                            <p:button  value="HomePage" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                               
+                            </p:button>  
+                            
+                                
+                            <h:outputLabel value = "Welcome Back !" >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+                            </h:outputLabel>
+                        
+
+                    </p:layoutUnit>
+
+
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="Message">
+                                <p:menuitem value="New Message"    />
+                                <p:menuitem value="View All Received"  />
+                                <p:menuitem value="View All Sent"  />
+                            </p:submenu>
+
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for ="Subject" style ="front-weight:bold" value ="Subject :" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required ="true" label ="Subject" requiredMessage ="The Subject cannot be blank." id ="Subject" value ="#{internalMessageManageBean.title}" >
+                                    <f:validateLength minimum="1" maximum ="100" />
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Receivers:" for="autoCompleteReceiverList" />
+                                <p:autoComplete id="autoCompleteReceiverList" multiple="true" value="#{internalMessageManageBean.selectedUserEntities}" completeMethod="#{internalMessageManageBean.completeUserEntity}"
+                                                var="userEntity" itemLabel="#{userEntity.firstName} #{userEntity.lastName} #{userEntity.userId}" itemValue="#{userEntity}" forceSelection="true" converter="userEntityConverter" />  
+                              </p:column>  
+                            
+                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                            <p:column>
+                                
+                                <p:editor id="editor" widgetVar="editorWidget" value="#{internalMessageManageBean.content}" width="600" />
+ 
+                                    <h:panelGrid columns="2" style="margin-top: 10px">
+                                        
+                                        <p:commandButton value="Clear" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+                                    </h:panelGrid>
+
+                                    <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                                        <h:outputText id="display" value="" escape="false" />
+                                    </p:dialog>
+                            </p:column>
+                                
+                            <p:commandButton value="Submit" actionListener="#{internalMessageManageBean.sendMessage}" icon="ui-icon-disk"/>
+                            
+                        </p:row>
+                    </p:layoutUnit>
+
+                    
+
+                </p:layout>
+            </h:form>
+        </h:body>
+
+    </f:view>
+
+
+</html>
+

@@ -5,18 +5,13 @@
  */
 package SessionBean.SCM;
 
-import Entity.Factory.FactoryRawMaterialAmountEntity;
-import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
+import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.GoodsReceiptEntity;
-import Entity.Factory.SCM.InboundMovementEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -76,16 +71,30 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
         }
     }
 
-//    @Override
-//    public List viewBlockedStock() {
-//        return null;
-//    }
-//
-//    @Override
-//    public List viewReturnedProduct() {
-//        return null;
-//    }
-//
+    @Override
+    public List viewBlockedStock() {
+        try {
+            Query q = em.createQuery("SELECT s FROM FactoryBinStoredProduct s WHERE s.status = 'blocked'");
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewBlockedStock(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewReturnedProduct() {
+        try {
+            Query q = em.createQuery("SELECT s FROM FactoryBinStoredProduct s WHERE s.status = 'returned'");
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewReturnedProduct(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public PurchaseOrderEntity viewPurchaseOrder(Long id) {
         try {

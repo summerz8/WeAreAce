@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Workplace Template</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+                        
+                      
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                            
+                            <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                                
+                            </p:commandButton>
+
+                            <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                                
+                            </p:button>
+                            <p:button outcome="CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                                 
+                            </p:button>  
+                            <p:button  value="HomePage" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                               
+                            </p:button>  
+                            
+                            
+                        <h:outputLabel value = "Welcome Back" >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+                            
+                         </h:outputLabel>
+                           
+                        
+                    </p:layoutUnit>
+
+
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="Main Menu">
+                                <p:menuitem value="Sub Menu1" actionListener="" update="messages"  />
+                                <p:menuitem value="Sub Menu2" actionListener="" update="messages" />
+                                <p:menuitem value="Sub Menu3" actionListener="" update="messages" />
+                                <p:menuitem value="Sub Menu4" actionListener="" update="messages" />
+                            </p:submenu>
+                            <p:submenu label="Main Menu 2">
+                                <p:menuitem value="Sub Menu1" actionListener="" />
+                                <p:menuitem value="Sub Menu2" actionListener="" />
+                                <p:menuitem value="Sub Menu3" actionListener="" />
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+
+                        <p:panel id="basic" header="Session Name" style="margin-bottom" >
+                            
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+
+                </p:layout>
+            </h:form>
+    </h:body>
+
+</html>

@@ -16,9 +16,9 @@ import javax.ejb.Local;
 @Local
 public interface FactoryInventoryManagementModuleLocal {
 
-//    List listStorageBinInformation(long factoryId);
+    List listStorageBinInformation(long factoryId);
 
-    Long recordInboundMovement(long factoryId, Long goodsReceiptId, Long toBinId, double quantity, int year, int month, int day);
+    Long recordInboundMovement(long factoryId, Long goodsReceiptId, Long toBinId, String status, double quantity, int year, int month, int day);
 
     Long recordFactoryProductOutboundMovement(long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, double quantity, int year, int month, int day);
 

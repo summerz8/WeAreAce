@@ -19,4 +19,6 @@ public interface IFManagerBeanLocal {
     public boolean checkAccount(String userId, String pwd);
 
     public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender, String departmentId);
+
+    public String getFullName(String userId);
 }
