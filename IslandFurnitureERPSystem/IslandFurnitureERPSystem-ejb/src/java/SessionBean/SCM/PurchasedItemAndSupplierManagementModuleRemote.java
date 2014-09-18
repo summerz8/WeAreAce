@@ -1,7 +1,7 @@
 /*
- * PurchaseItemAndSupplierManagementModuleLocal.java
+ * PurchaseItemAndSupplierManagementModuleRemote.java
  * 
- * It is a local interface that control the functions for managing purchased items(RM or RP) within a supplier's contract
+ * It is a remote interface that control the functions for managing purchased items(RM or RP) within a supplier's contract
  * and the contracted supplier's account information.
  * (Assumption: a supplier should have at least one contract with the factory)
  * Basic funtions are: 
@@ -15,28 +15,31 @@ package SessionBean.SCM;
 
 import java.util.Calendar;
 import java.util.Collection;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author Shiyu
  */
-@Local
-public interface PurchasedItemAndSupplierManagementModuleLocal {
+@Remote
+public interface PurchasedItemAndSupplierManagementModuleRemote {
 
     public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception;
 
-    public String addSupplier(String itemType, Long itemId, String name, String address, String telephone, String fax, String remark, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public Collection<Object> viewItemListNotInFactory(Long factoryId, String itemType) throws Exception;
+
+    public String addSupplier(String itemType, Long itemId, String name, String address,
+            String telephone, String fax, String remark, Double contractPrice,
+            Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public String editSupplier(Long supplierId, String name, String address, String telephone, String fax, String remark) throws Exception;
 
     public String deleteSupplier(Long supplierId) throws Exception;
 
-    public Collection<Object> viewItemListNotInFactory(Long factoryId, String itemType) throws Exception;
-
     public String addItem(Long factoryId, String itemType, Long itemId) throws Exception;
 
-    public String addContract(Long factoryId, Long supplierId, String itemType, Long itemId, Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
+    public String addContract(Long factoryId, Long supplierId, String itemType, Long itemId,
+            Double contractPrice, Integer leadTime, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public String deleteItem(String itemType, Long itemFactoryId) throws Exception;
 
