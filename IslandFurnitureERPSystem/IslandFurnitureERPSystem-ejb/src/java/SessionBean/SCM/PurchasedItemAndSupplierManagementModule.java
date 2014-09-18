@@ -54,13 +54,18 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
 
             if (itemType.equals("RawMaterial")) {
-                Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
-                Iterator iterator = factoryRawMaterialList.iterator();
+                System.err.println("itemType=rawmaterials");
 
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
+                Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
+                
+                System.err.println("get factoryRawMaterialList");
+                
+                System.err.println("get factoryRawMaterialList.iterator()");
+
+                for(Object obj: factoryRawMaterialList) {
                     itemList.add(obj);
                 }
+                System.err.println("after while()");
             } else {// itemType.equals("RetailProduct")
                 Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
                 Iterator iterator = factoryRetailProductList.iterator();
@@ -164,7 +169,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             //create relationship between supplier ad contract
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
-            
+
             em.persist(supplier);
             em.persist(contract);
             em.flush();
