@@ -36,7 +36,9 @@ public class FactoryRetailProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryRetailProdctId;
 
-    private Double inventory = 0D;//start with 0
+    private Double unrestrictedInventory = 0D;//start with 0
+    private Double blockedInventory = 0D;
+    private Double returnedInventory = 0D;
     private String unit;
     private String name;
 
@@ -79,12 +81,28 @@ public class FactoryRetailProductEntity implements Serializable {
         this.factoryRetailProdctId = factoryRetailProdctId;
     }
 
-    public Double getInventory() {
-        return inventory;
+    public Double getUnrestrictedInventory() {
+        return unrestrictedInventory;
     }
 
-    public void setInventory(Double inventory) {
-        this.inventory = inventory;
+    public void setUnrestrictedInventory(Double unrestrictedInventory) {
+        this.unrestrictedInventory = unrestrictedInventory;
+    }
+
+    public Double getBlockedInventory() {
+        return blockedInventory;
+    }
+
+    public void setBlockedInventory(Double blockedInventory) {
+        this.blockedInventory = blockedInventory;
+    }
+
+    public Double getReturnedInventory() {
+        return returnedInventory;
+    }
+
+    public void setReturnedInventory(Double returnedInventory) {
+        this.returnedInventory = returnedInventory;
     }
 
     public String getUnit() {

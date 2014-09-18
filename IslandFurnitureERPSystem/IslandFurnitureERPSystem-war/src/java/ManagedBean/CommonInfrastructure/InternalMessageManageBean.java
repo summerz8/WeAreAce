@@ -102,8 +102,8 @@ public class InternalMessageManageBean implements Serializable {
             receiverIdList.add(userEntityString.getUserId());
         }
         //DO NOT TOUCH - ZY
-        im.sendMessage(currentUserId, title, content, null, null,  receiverIdList);
-        System.err.println("sendMessage(): Message Sent ");
+       // im.sendMessage(currentUserId, title, content, null, null,  receiverIdList);
+        //System.err.println("sendMessage(): Message Sent ");
         
     }
     

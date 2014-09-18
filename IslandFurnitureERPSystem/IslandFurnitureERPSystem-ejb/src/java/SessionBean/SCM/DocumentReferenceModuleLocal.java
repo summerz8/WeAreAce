@@ -11,6 +11,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.GoodsReceiptEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -23,11 +24,11 @@ public interface DocumentReferenceModuleLocal {
     PlannedOrderEntity ViewPlannedOrder(Long id);
 
     ProductionPlanEntity ViewProductionPlan(Long id);
-//
-//    List viewBlockedStock();
-//
-//    List viewReturnedProduct();
-//
+
+    List viewBlockedStock();
+
+    List viewReturnedProduct();
+
     PurchaseOrderEntity viewPurchaseOrder(Long id);
 
     GoodsReceiptEntity viewGoodsReceipt(Long id);
