@@ -39,7 +39,7 @@ public class PurchaseOrderEntity implements Serializable {
     private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
-    private String destination;
+    private String destination;//
     private Integer leadTime;
     private Double totalPrice; // the totalPrice price
     

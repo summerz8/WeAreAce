@@ -6,27 +6,21 @@
  */
 package Entity.Factory.FactoryBin;
 
-import Entity.Factory.SCM.OutboundMovementEntity;
-import Entity.Factory.SCM.InboundMovementEntity;
-import Entity.Factory.SCM.InFactoryMovementEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author shiyu
+ * @author Yoky
  */
 @Entity
 @Table(name = "FactoryStoredProduct")
@@ -34,41 +28,29 @@ public class FactoryBinStoredProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryBinStoredProductId;
-    private Double amount = 0D;
+    private double amount = 0;
 
     //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
-    @ManyToOne
-    private FactoryRawMaterialEntity factoryRawMaterial;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryRawMaterialEntity factoryRawMaterial = null;
 
     //factory product entity -- factory bin stored products entity: 1 <--> M 
-    @ManyToOne
-    private FactoryProductEntity factoryProduct;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryProductEntity factoryProduct = null;
 
     //factory retail product entity -- factory bin stored products entity: 1 <--> M 
-    @ManyToOne
-    private FactoryRetailProductEntity factoryRetailProduct;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private FactoryRetailProductEntity factoryRetailProduct = null;
+
+    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 2 for factoryProduct, 3 for factoryRetailProduct
 
 //    //factory bin entity -- factory bin stored products entity: 1 <--> M 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private FactoryBinEntity factoryBin;
-//
-//    //factory bin stored product entity -- in factory movements: 1 <--> M (from which bin)
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
-    private Collection<InFactoryMovementEntity> inFactoryMovements_from = new ArrayList<InFactoryMovementEntity>();
-//
-//    //factory bin stored product entity -- in factory movements: 1 <--> M (to which bin)
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
-    private Collection<InFactoryMovementEntity> inFactoryMovements_to = new ArrayList<InFactoryMovementEntity>();
 
-//    //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
-    private Collection<OutboundMovementEntity> outboundMovements_from = new ArrayList<OutboundMovementEntity>();
-
-//    //factory bin stored product entity -- inbound movements: 1 <--> M (to which bin)
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "toBin")
-    private Collection<InboundMovementEntity> inboundMovements = new ArrayList<InboundMovementEntity>();
+    private String status;  // unrestricted, blocked, returned
 
     public FactoryBinStoredProductEntity() {
     }
@@ -117,40 +99,54 @@ public class FactoryBinStoredProductEntity implements Serializable {
         return factoryBin;
     }
 
+    public int getStockTypeIndicator() {
+        return stockTypeIndicator;
+    }
+
+    public void setStockTypeIndicator(int stockTypeIndicator) {
+        this.stockTypeIndicator = stockTypeIndicator;
+    }
+
     public void setFactoryBin(FactoryBinEntity factoryBin) {
         this.factoryBin = factoryBin;
     }
-//
-    public Collection<InFactoryMovementEntity> getInFactoryMovements_from() {
-        return inFactoryMovements_from;
+
+    public String getStatus() {
+        return status;
     }
 
-    public void setInFactoryMovements_from(Collection<InFactoryMovementEntity> inFactoryMovements_from) {
-        this.inFactoryMovements_from = inFactoryMovements_from;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Collection<InFactoryMovementEntity> getInFactoryMovements_to() {
-        return inFactoryMovements_to;
+    public void createFactoryBinStoredProduct(FactoryRawMaterialEntity factoryRawMaterial, FactoryBinEntity factoryBin, String status) {
+        this.setFactoryRawMaterial(factoryRawMaterial);
+        this.setStockTypeIndicator(1);
+        this.setFactoryBin(factoryBin);
+        this.setStatus(status);
     }
 
-    public void setInFactoryMovements_to(Collection<InFactoryMovementEntity> inFactoryMovements_to) {
-        this.inFactoryMovements_to = inFactoryMovements_to;
+    public void createFactoryBinStoredProduct(FactoryProductEntity factoryProduct, FactoryBinEntity factoryBin, String status) {
+        this.setFactoryProduct(factoryProduct);
+        this.setStockTypeIndicator(2);
+        this.setFactoryBin(factoryBin);
+        this.setStatus(status);
     }
 
-    public Collection<OutboundMovementEntity> getOutboundMovements_from() {
-        return outboundMovements_from;
+    public void createFactoryBinStoredProduct(FactoryRetailProductEntity factoryRetailProduct, FactoryBinEntity factoryBin, String status) {
+        this.setFactoryRetailProduct(factoryRetailProduct);
+        this.setStockTypeIndicator(3);
+        this.setFactoryBin(factoryBin);
+        this.setStatus(status);
     }
 
-    public void setOutboundMovements_from(Collection<OutboundMovementEntity> outboundMovements_from) {
-        this.outboundMovements_from = outboundMovements_from;
+    public void increaseQuantity(double increaseBy) {
+        this.amount += increaseBy;
     }
-
-    public Collection<InboundMovementEntity> getInboundMovements() {
-        return inboundMovements;
-    }
-
-    public void setInboundMovements(Collection<InboundMovementEntity> inboundMovements) {
-        this.inboundMovements = inboundMovements;
+    
+    //pre-cond: amount - decreaseBy >= 0
+    public void decreaseQuantity(double decreaseBy) {
+        this.amount -= decreaseBy;
     }
 
     @Override

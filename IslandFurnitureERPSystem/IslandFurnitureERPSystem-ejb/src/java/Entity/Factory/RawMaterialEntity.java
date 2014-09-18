@@ -32,6 +32,7 @@ public class RawMaterialEntity implements Serializable {
     private String materialName;
     private String description;
     private Boolean deleteFlag;
+    private String unit;
     
     //raw material entity -- factory raw material entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "rawMaterial")
@@ -69,6 +70,14 @@ public class RawMaterialEntity implements Serializable {
         this.materialId = MaterialID;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+    
     public Collection<FactoryRawMaterialEntity> getFactoryRawMaterials() {
         return factoryRawMaterials;
     }

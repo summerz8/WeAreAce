@@ -5,42 +5,77 @@
  */
 package Entity.Factory.SCM;
 
+import Entity.Factory.FactoryBin.FactoryBinEntity;
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
+import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
- * @author zhangshiyu
+ * @author Yoky
  */
 @Entity
 @Table(name = "OutboundMovement")
-public class OutboundMovementEntity extends FactoryMovementEntity implements Serializable {
+public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements Serializable {
 
-//    private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
-    
+    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
+    private EntityManager em;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long OutboundMovementId;
+
     //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
     @ManyToOne
-    private FactoryBinStoredProductEntity fromBin;
-        
+    private FactoryBinEntity fromBin;
+
     //store entity -- outbound movements: 1 <--> M (to which store)
     @ManyToOne
     private StoreEntity toStore;
 
-    public FactoryBinStoredProductEntity getFromBin() {
+    //factory product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryProductEntity factoryProduct = null;
+
+    //factory retail product entity -- factory bin stored products entity: 1 <--> M 
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct = null;
+
+    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 2 for factoryProduct, 3 for factoryRetailProduct
+    private double quantity;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar creationDate;
+
+
+    public OutboundMovementEntity() {
+    }
+
+    public Long getOutboundMovementId() {
+        return OutboundMovementId;
+    }
+
+    public void setOutboundMovementId(Long OutboundMovementId) {
+        this.OutboundMovementId = OutboundMovementId;
+    }
+
+    public FactoryBinEntity getFromBin() {
         return fromBin;
     }
 
-    public void setFromBin(FactoryBinStoredProductEntity fromBin) {
+    public void setFromBin(FactoryBinEntity fromBin) {
         this.fromBin = fromBin;
     }
 
@@ -52,28 +87,85 @@ public class OutboundMovementEntity extends FactoryMovementEntity implements Ser
         this.toStore = toStore;
     }
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof OutboundMovementEntity)) {
-//            return false;
-//        }
-//        OutboundMovementEntity other = (OutboundMovementEntity) object;
-//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Entity.Factory.SCM.OutboundMovementEntity[ id=" + id + " ]";
-//    }
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
+    }
+
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
+    }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
+
+    public int getStockTypeIndicator() {
+        return stockTypeIndicator;
+    }
+
+    public void setStockTypeIndicator(int stockTypeIndicator) {
+        this.stockTypeIndicator = stockTypeIndicator;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public Calendar getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Calendar creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    //pre-cond: availability check
+    public void recordFactoryProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, double quantity, Calendar creationDate) {
+        this.setFromBin(factoryBinStoredProduct.getFactoryBin());
+        this.setToStore(toStore);
+        this.setFactoryProduct(factoryBinStoredProduct.getFactoryProduct());
+        this.setStockTypeIndicator(2);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
+        updateFactoryProduct(factoryBinStoredProduct, quantity);
+    }
+    
+    //pre-cond: availability check
+    public void recordFactoryRetailProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, double quantity, Calendar creationDate) {
+        this.setFromBin(factoryBinStoredProduct.getFactoryBin());
+        this.setToStore(toStore);
+        this.setFactoryRetailProduct(factoryBinStoredProduct.getFactoryRetailProduct());
+        this.setStockTypeIndicator(3);
+        this.setQuantity(quantity);
+        this.setCreationDate(creationDate);
+        updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
+        updateFactoryRetailProduct(factoryBinStoredProduct, quantity);
+    }
+
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        factoryBinStoredProduct.decreaseQuantity(quantity);
+        if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
+            em.remove(factoryBinStoredProduct);
+        }
+        em.flush();
+    }
+
+    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        factoryBinStoredProduct.getFactoryProduct().setInventory(factoryBinStoredProduct.getFactoryProduct().getInventory() - quantity);
+        em.flush();
+    }
+    
+    private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        factoryBinStoredProduct.getFactoryRetailProduct().setInventory(factoryBinStoredProduct.getFactoryRetailProduct().getInventory() - quantity);
+        em.flush();
+    }
 }
