@@ -12,7 +12,11 @@
                 </library>
                 <library dirs="200">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <file>${libs.PrimesFaces_5.0.classpath}</file>
+=======
+                    <file>${libs.PrimeFace_5.0.classpath}</file>
+>>>>>>> 20193dca05a5650d094edbc897cf1116e53c7ad2
 =======
                     <file>${libs.PrimeFace_5.0.classpath}</file>
 >>>>>>> 20193dca05a5650d094edbc897cf1116e53c7ad2

@@ -6,9 +6,15 @@
     </context-param>
     <context-param>  
 <<<<<<< HEAD
+<<<<<<< HEAD
         <param-name>primefaces.THEME</param-name>  
         <param-value>blitzer</param-value>  
     </context-param> 
+=======
+    <param-name>primefaces.THEME</param-name>  
+    <param-value>blitzer</param-value>  
+</context-param> 
+>>>>>>> 20193dca05a5650d094edbc897cf1116e53c7ad2
 =======
     <param-name>primefaces.THEME</param-name>  
     <param-value>blitzer</param-value>  
