@@ -29,5 +29,7 @@ public interface PlannedOrderManagementModuleLocal {
     public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit);
 
     public boolean DeletePlannedOrder(Long PlannedOrderId);
+
+    public List<PlannedOrderEntity> getPlannedOrder();
     
 }
