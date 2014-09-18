@@ -5,10 +5,9 @@
  */
 package ManagedBean.CommonInfrastructure;
 
-import SessionBean.IFManagerBeanRemote;
+import SessionBean.IFManagerBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
-import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -22,18 +21,20 @@ import javax.servlet.http.HttpSession;
  * @author zhangshiyu
  */
 @Named(value = "loginBean")
-@ManagedBean
 @SessionScoped
+
 public class LoginBean implements Serializable {
 
     @EJB
-    private IFManagerBeanRemote IFMB;
+    private IFManagerBeanLocal IFMB;
 
     private String userId;
     private String pwd;
     private String statusMsg;
     private String path;
     private Boolean Flag=false;
+    
+    private String fullName;
     
     public LoginBean() {
 
@@ -71,12 +72,28 @@ public class LoginBean implements Serializable {
         this.path = path;
     }
 
-    public Boolean isLoggedIn() {
+    public Boolean getLoggedIn() {
         return Flag;
     }
 
     public void setLoggedIn(Boolean Flag) {
         this.Flag = Flag;
+    }
+
+    public Boolean getFlag() {
+        return Flag;
+    }
+
+    public void setFlag(Boolean Flag) {
+        this.Flag = Flag;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     
@@ -88,11 +105,12 @@ public class LoginBean implements Serializable {
         String checkPwd = String.valueOf(pwd);
 
         try {
+            
             if (IFMB.checkAccount(checkUserId, checkPwd)) {
                 Flag=true;
                 statusMsg = "Login successfully...";
                 path = "secured/WorkPlace.xhtml";
-                
+                fullName = IFMB.getFullName(userId);
                 ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("isLogin", true);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("UserId", checkUserId);
                 FacesContext.getCurrentInstance().getExternalContext().redirect(path);
