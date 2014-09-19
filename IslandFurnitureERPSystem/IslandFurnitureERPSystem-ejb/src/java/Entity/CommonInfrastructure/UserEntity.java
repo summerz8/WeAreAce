@@ -26,7 +26,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "User")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,13 +53,13 @@ public class UserEntity implements Serializable {
     private Boolean deleteFlag;//used to identify whether this user has been deleted
    
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "sender")
-    private Collection<InternalMessageEntity> sendMessage = new ArrayList<InternalMessageEntity>();
+    private Collection<InternalMessageEntity> sendMessage;
     
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "receiver")
-    private Collection<InternalMessageReceive> receiveMessage = new ArrayList<InternalMessageReceive>();
+    private Collection<InternalMessageReceive> receiveMessage;
 
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "systemUser")
-    private Collection<TicketEntity> tickets = new ArrayList<TicketEntity> ();
+    private Collection<TicketEntity> tickets;
     
     public UserEntity() {
     }
@@ -94,6 +94,10 @@ public class UserEntity implements Serializable {
         this.postalCode = postalCode;
         this.title = title;
         this.deleteFlag = deleteFlag;
+//        this.sendMessage = new ArrayList<InternalMessageEntity>();
+//        this.receiveMessage = new ArrayList<InternalMessageReceive>();
+//        this.tickets = new ArrayList<TicketEntity>();
+        
     }
 
     public void editUserEntity(String department, Integer userLevel, String lastName, String midName,
