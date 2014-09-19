@@ -25,7 +25,11 @@
                 </library>
                 <library>
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <file>${reference.SuperUserClient.j2ee-module-car}</file>
+=======
+                    <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
+>>>>>>> 5548f5fa179df29bbc85409db854bc2a28ee4292
 =======
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
 >>>>>>> 5548f5fa179df29bbc85409db854bc2a28ee4292
