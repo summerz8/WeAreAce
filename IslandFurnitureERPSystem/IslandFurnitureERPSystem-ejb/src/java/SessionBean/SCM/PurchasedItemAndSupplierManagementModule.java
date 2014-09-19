@@ -45,7 +45,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //pre-con: user select a type of items(RM/RP)
     //post-con: a list of item of the select type(RM / RP)
     @Override
-    public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception {
+    public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception {//test works
         System.out.println("viewItemwithSelectType():");
 
         Collection<Object> itemList = new ArrayList<>();
@@ -54,27 +54,16 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
 
             if (itemType.equals("RawMaterial")) {
-                System.err.println("itemType=rawmaterials");
-
+//                System.err.println("itemType=rawmaterials");
                 Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
-                
-                System.err.println("get factoryRawMaterialList");
-                
-                System.err.println("get factoryRawMaterialList.iterator()");
-
-                for(Object obj: factoryRawMaterialList) {
+                for (Object obj : factoryRawMaterialList) {
                     itemList.add(obj);
                 }
-                System.err.println("after while()");
             } else {// itemType.equals("RetailProduct")
                 Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
-                Iterator iterator = factoryRetailProductList.iterator();
-
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
+                for (Object obj : factoryRetailProductList) {
                     itemList.add(obj);
                 }
-                return itemList;
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -85,7 +74,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
     //view all the rm/rp items which are not in the factory, but in the global HQ level
     @Override
-    public Collection<Object> viewItemListNotInFactory(Long factoryId, String itemType) throws Exception {
+    public Collection<Object> viewItemListNotInFactory(Long factoryId, String itemType) throws Exception {//test works
         System.out.println("viewItemListNotInFactory():");
 
         Collection<Object> itemList = new ArrayList<>();
@@ -138,21 +127,29 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     @Override
     public String addSupplier(String itemType, Long itemId, String name,
             String address, String telephone, String fax,
-            String remark, Double contractPrice, Integer leadTime,
+            String remark, Double contractPrice, Integer leadTime, Double lotSize,
             Calendar contractStartDate, Calendar contractEndDate)
             throws Exception {
         System.out.println("addSupplier():");
 
         SupplierEntity supplier = new SupplierEntity();
+        em.persist(supplier);
+
         ContractEntity contract = new ContractEntity();
+        em.persist(contract);
 
         String result = null;
-        String unit = "unit";
+        String unit = null;
 
         try {
-            //create relationship between contract and Raw material 
+            //create relationship between contract and factory Raw material 
             if (itemType.equals("RawMaterial")) {
+                System.err.println("itemType.equals(\"RawMaterial\")");
+
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
+
+                System.err.println(factoryRawMaterial.toString());
+
                 contract.setFactoryRawMaterial(factoryRawMaterial);
                 factoryRawMaterial.getContracts().add(contract);
                 unit = factoryRawMaterial.getUnit();
@@ -165,13 +162,14 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             }
             //create new supplier entity and contract entity
             supplier.create(name, address, telephone, fax, remark);
-            contract.create(contractPrice, leadTime, unit, contractStartDate, contractEndDate);
-            //create relationship between supplier ad contract
+            contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
+            System.err.println("create new supplier entity and contract entity");
+
+            //create relationship between supplier ad contract 
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
+            System.err.println("create relationship between supplier ad contract ");
 
-            em.persist(supplier);
-            em.persist(contract);
             em.flush();
 
             result = "Supplier " + supplier.getSupplierName() + " has been created, with Id number: " + supplier.getSupplierId();
@@ -313,7 +311,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //user chooses from the list of available items (raw materials or retail products)
     @Override
     public String addContract(Long factoryId, Long supplierId, String itemType, Long itemId,
-            Double contractPrice, Integer leadTime,
+            Double contractPrice, Integer leadTime, Double lotSize,
             Calendar contractStartDate, Calendar contractEndDate)
             throws Exception {
         System.out.println("addContract():");
@@ -351,7 +349,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                         + "-- has been added to supplier --" + supplier.getSupplierName() + "-- account";
             }
 
-            contract.create(contractPrice, leadTime, unit, contractStartDate, contractEndDate);
+            contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
 
             //create relationship between supplier and contract
             contract.setSupplier(supplier);
@@ -449,7 +447,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
     }
-  //create some dummy value
+
+    //create some dummy value
     public void addDB() {
 
         System.out.println("addDB(): ");
@@ -530,6 +529,11 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         System.out.println("rm4 add frm4, frm8, frm10");
         System.out.println("rm5 add frm5");
 
+        
         em.flush();
+    }
+    
+    public void addDBForecast(){
+    
     }
 }
