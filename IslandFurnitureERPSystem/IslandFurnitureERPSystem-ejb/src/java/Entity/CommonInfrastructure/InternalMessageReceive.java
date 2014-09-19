@@ -27,13 +27,16 @@ public class InternalMessageReceive implements Serializable {
     private Long receivedMessageid;
     private boolean deleted;
     private boolean opened;
-    
+    private String senderId;
+    private String content;
+    private String title;
+    private String sendTime;
     
     @ManyToOne
-    private InternalMessageEntity message = new InternalMessageEntity();
+    private InternalMessageEntity message;
     
     @ManyToOne 
-    private UserEntity receiver = new UserEntity();
+    private UserEntity receiver;
     
     
     public InternalMessageReceive() {
@@ -45,8 +48,12 @@ public class InternalMessageReceive implements Serializable {
      
         this.deleted = false;
         this.opened = false;
-    
         this.message = message;
+        this.senderId = message.getSender().getUserId();
+        this.content = message.getContent();
+        this.title = message.getTitle();
+        this.sendTime = message.getSendTime();
+        
     }
 
     
@@ -99,6 +106,38 @@ public class InternalMessageReceive implements Serializable {
 
     public void setReceiver(UserEntity receiver) {
         this.receiver = receiver;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
     }
     
    

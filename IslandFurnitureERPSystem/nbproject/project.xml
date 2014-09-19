@@ -12,10 +12,6 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.SuperUserClient.j2ee-module-car}</file>
-                    <path-in-war>/</path-in-war>
-                </library>
-                <library>
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
@@ -28,7 +24,15 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    <file>${reference.SuperUserClient.j2ee-module-car}</file>
+=======
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
+>>>>>>> 5548f5fa179df29bbc85409db854bc2a28ee4292
+=======
+                    <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
+>>>>>>> 5548f5fa179df29bbc85409db854bc2a28ee4292
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -49,14 +53,6 @@
                 <target>dist-ear</target>
                 <clean-target>clean-ear</clean-target>
                 <id>dist-ear</id>
-            </reference>
-            <reference>
-                <foreign-project>SCMTest</foreign-project>
-                <artifact-type>j2ee_ear_archive</artifact-type>
-                <script>build.xml</script>
-                <target>dist-ear</target>
-                <clean-target>clean-ear</clean-target>
-                <id>j2ee-module-car</id>
             </reference>
             <reference>
                 <foreign-project>SuperUserClient</foreign-project>
