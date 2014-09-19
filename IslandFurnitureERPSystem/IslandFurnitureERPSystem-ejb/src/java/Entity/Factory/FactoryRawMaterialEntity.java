@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -66,6 +67,15 @@ public class FactoryRawMaterialEntity implements Serializable {
     public FactoryRawMaterialEntity() {
     }
 
+    public FactoryRawMaterialEntity(String unit, String materialName, String description, Boolean deleteFlag, FactoryEntity factory, RawMaterialEntity rawMaterial) {
+        this.unit = unit;
+        this.materialName = materialName;
+        this.description = description;
+        this.deleteFlag = deleteFlag;
+        this.factory = factory;
+        this.rawMaterial = rawMaterial;
+    }
+   
     public Long getFactoryRawMaterialId() {
         return factoryRawMaterialId;
     }
@@ -169,11 +179,10 @@ public class FactoryRawMaterialEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
-    
 
-    public void create(String materialName, String description) {
-        setMaterialName(materialName);
-        setDescription(description);
+    @Override
+    public String toString() {
+        return "FactoryRawMaterialEntity{" + "factoryRawMaterialId=" + factoryRawMaterialId + ", unit=" + unit + ", materialName=" + materialName + ", description=" + description + ", minimumInventory=" + minimumInventory + ", deleteFlag=" + deleteFlag + ", factory=" + factory + ", rawMaterial=" + rawMaterial + '}';
     }
-
+    
 }

@@ -57,24 +57,18 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 System.err.println("itemType=rawmaterials");
 
                 Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
-                
-                System.err.println("get factoryRawMaterialList");
-                
-                System.err.println("get factoryRawMaterialList.iterator()");
 
-                for(Object obj: factoryRawMaterialList) {
+                System.err.println("get factoryRawMaterialList");
+
+                for (Object obj : factoryRawMaterialList) {
                     itemList.add(obj);
                 }
                 System.err.println("after while()");
             } else {// itemType.equals("RetailProduct")
                 Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
-                Iterator iterator = factoryRetailProductList.iterator();
-
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
+                for (Object obj : factoryRetailProductList) {
                     itemList.add(obj);
                 }
-                return itemList;
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -91,18 +85,26 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         Collection<Object> itemList = new ArrayList<>();
         try {
             if (itemType.equals("RawMaterial")) {
+                System.err.println("itemType=rawmaterials");
+
                 Query q = em.createQuery("Select rm from RawMaterialEntity RM");
                 outerLoop:
                 for (Object o : q.getResultList()) {
+                    System.err.println("outerloop");
+
                     RawMaterialEntity rm = (RawMaterialEntity) o;
                     Collection<FactoryRawMaterialEntity> factoryRawMaterialList = rm.getFactoryRawMaterials();
                     //for the Raw material in each factory
                     for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
+                        System.err.println("innerloop");
+
                         //if find a factoryRawMaterial belongs to the user's factory
                         if (frm.getFactory().getFactoryId() == factoryId) {
+                            System.err.println("find a factoryRawMaterial belongs to the user's factory");
                             continue outerLoop;//break out the inner loop, continue outer loop  
                         }
                     }
+                    System.err.println("all the factory not equal to the user's facotry, add to the return list");
                     //if all the factory not equal to the user's facotry, add to the return list
                     itemList.add((Object) rm);
                 }
@@ -128,6 +130,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
+        System.err.println("return itemList");
         return itemList;
 
     }
@@ -448,5 +451,89 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
+    }
+
+    //create some dummy value
+    public void addDB() {
+
+        System.out.println("addDB(): ");
+        FactoryEntity factory1 = new FactoryEntity("Country1", "Apple Road", "11111111", "Manager1", false);
+        em.persist(factory1);
+        FactoryEntity factory2 = new FactoryEntity("Country1", "Banana Road", "22222222", "Manager2", false);
+        em.persist(factory2);
+        FactoryEntity factory3 = new FactoryEntity("Country1", "Coconut Road", "33333333", "Manager3", false);
+        em.persist(factory3);
+        FactoryEntity factory4 = new FactoryEntity("Country1", "Durian Road", "44444444", "Manager4", false);
+        em.persist(factory4);
+        FactoryEntity factory5 = new FactoryEntity("Country1", "Fig Road", "55555555", "Manager5", false);
+        em.persist(factory5);
+        System.out.println("add 5 factorys");
+
+        RawMaterialEntity rm1 = new RawMaterialEntity("RM1", "This is RM1", false, "Unit");
+        em.persist(rm1);
+        RawMaterialEntity rm2 = new RawMaterialEntity("RM2", "This is RM2", false, "Unit");
+        em.persist(rm2);
+        RawMaterialEntity rm3 = new RawMaterialEntity("RM3", "This is RM3", false, "Unit");
+        em.persist(rm3);
+        RawMaterialEntity rm4 = new RawMaterialEntity("RM4", "This is RM4", false, "Unit");
+        em.persist(rm4);
+        RawMaterialEntity rm5 = new RawMaterialEntity("RM5", "This is RM5", false, "Unit");
+        em.persist(rm5);
+        System.out.println("add 5 raw materials");
+
+        FactoryRawMaterialEntity frm1 = new FactoryRawMaterialEntity("Unit", "RM1", "This is RM1", false, factory1, rm1);
+        em.persist(frm1);
+        FactoryRawMaterialEntity frm2 = new FactoryRawMaterialEntity("Unit", "RM2", "This is RM2", false, factory1, rm2);
+        em.persist(frm2);
+        FactoryRawMaterialEntity frm3 = new FactoryRawMaterialEntity("Unit", "RM3", "This is RM3", false, factory1, rm3);
+        em.persist(frm3);
+        FactoryRawMaterialEntity frm4 = new FactoryRawMaterialEntity("Unit", "RM4", "This is RM4", false, factory1, rm4);
+        em.persist(frm4);
+        FactoryRawMaterialEntity frm5 = new FactoryRawMaterialEntity("Unit", "RM5", "This is RM5", false, factory1, rm5);
+        em.persist(frm5);
+        FactoryRawMaterialEntity frm6 = new FactoryRawMaterialEntity("Unit", "RM2", "This is RM2", false, factory2, rm2);
+        em.persist(frm6);
+        FactoryRawMaterialEntity frm7 = new FactoryRawMaterialEntity("Unit", "RM3", "This is RM3", false, factory2, rm3);
+        em.persist(frm7);
+        FactoryRawMaterialEntity frm8 = new FactoryRawMaterialEntity("Unit", "RM3", "This is RM3", false, factory3, rm3);
+        em.persist(frm8);
+        FactoryRawMaterialEntity frm9 = new FactoryRawMaterialEntity("Unit", "RM4", "This is RM4", false, factory3, rm4);
+        em.persist(frm9);
+        FactoryRawMaterialEntity frm10 = new FactoryRawMaterialEntity("Unit", "RM4", "This is RM4", false, factory4, rm4);
+        em.persist(frm10);
+        System.out.println("add 10 frms");
+
+        factory1.getFactoryRawMaterials().add(frm1);
+        factory1.getFactoryRawMaterials().add(frm2);
+        factory1.getFactoryRawMaterials().add(frm3);
+        factory1.getFactoryRawMaterials().add(frm4);
+        factory1.getFactoryRawMaterials().add(frm5);
+        factory2.getFactoryRawMaterials().add(frm6);
+        factory2.getFactoryRawMaterials().add(frm7);
+        factory3.getFactoryRawMaterials().add(frm8);
+        factory3.getFactoryRawMaterials().add(frm9);
+        factory4.getFactoryRawMaterials().add(frm10);
+        System.out.println("Factory1: RM1,RM2,RM3,RM4, RM5");
+        System.out.println("Factory2: RM2,RM3");
+        System.out.println("Factory3: RM3,RM4");
+        System.out.println("Factory4: RM4");
+
+        rm1.getFactoryRawMaterials().add(frm1);
+        rm2.getFactoryRawMaterials().add(frm2);
+        rm2.getFactoryRawMaterials().add(frm6);
+        rm3.getFactoryRawMaterials().add(frm3);
+        rm3.getFactoryRawMaterials().add(frm7);
+        rm3.getFactoryRawMaterials().add(frm8);
+        rm4.getFactoryRawMaterials().add(frm4);
+        rm4.getFactoryRawMaterials().add(frm9);
+        rm4.getFactoryRawMaterials().add(frm10);
+        rm5.getFactoryRawMaterials().add(frm5);
+        System.out.println("rm1 add frm1");
+        System.out.println("rm2 add frm2, frm6");
+        System.out.println("rm3 add frm3, frm7, frm8");
+        System.out.println("rm4 add frm4, frm8, frm10");
+        System.out.println("rm5 add frm5");
+
+        em.flush();
     }
 }
