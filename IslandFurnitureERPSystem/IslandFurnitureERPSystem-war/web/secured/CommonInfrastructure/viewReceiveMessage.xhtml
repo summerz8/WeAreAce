@@ -70,11 +70,11 @@
                                 <f:facet name="header">
                                     <h:outputText value="View" />
                                 </f:facet>
-                                <p:commandLink  ajax="false"  title="View Detail" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:2px">
-                                        <f:setPropertyActionListener value="#{message}" target="#{receiveMessageManageBean.selectedMessage}" />
-                                        
-                                 </p:commandLink>
-                                
+
+                                <p:column headerText="Select Receive Message">
+                                    <p:button icon="ui-icon-search" value ="#{receiveMessageManageBean.selectedMessage}" outcome ="readMessageDetail.xhtml" />
+                                </p:column>
+
                             </p:column>
                             <p:column>
                                 <f:facet name="header">

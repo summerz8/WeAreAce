@@ -43,6 +43,4 @@ public interface PurchasedItemAndSupplierManagementModuleRemote {
 
     public String deleteItem(String itemType, Long itemFactoryId) throws Exception;
 
-    public void addDB();
-
 }

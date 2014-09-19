@@ -101,4 +101,9 @@ public class receiveMessageManageBean {
 //                            </p:commandLink>
 //                            <h:outputText value="#{message.sendTime}, #{message.senderId} , #{message.title}" style="display:inline-block" />
 //
-//                              
+//   
+
+//<p:commandLink ajax="false"  title="View Detail" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:2px">
+//                                        <f:setPropertyActionListener value="#{message}" target="#{receiveMessageManageBean.selectedMessage}" />
+//                                        
+//                                 </p:commandLink>
