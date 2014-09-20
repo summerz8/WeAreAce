@@ -42,7 +42,7 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     private String description;
     private Double minimumInventory = 50D;
-    private Boolean deleteFlag;
+    private Boolean deleteFlag = false;
 
     //factory entity -- factory raw material entity: 1 <--> M 
     @ManyToOne
@@ -172,7 +172,7 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.inventoryRecord = inventoryRecord;
     }
 
-    public Boolean isDeleteFlag() {
+    public Boolean getDeleteFlag() {
         return deleteFlag;
     }
 

@@ -147,7 +147,7 @@ public class SupplierEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Factory.SupplierEntity[ id=" + supplierId + " ]";
+        return "Entity.Factory.SupplierEntity[ id=" + supplierId + " ]" + "[ Name=" + supplierName + " ]";
     }
 
 }

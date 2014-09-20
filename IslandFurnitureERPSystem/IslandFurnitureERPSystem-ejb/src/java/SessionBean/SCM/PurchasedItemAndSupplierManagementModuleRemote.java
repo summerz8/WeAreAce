@@ -13,6 +13,8 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.SCM.SupplierEntity;
+import java.awt.List;
 import java.util.Calendar;
 import java.util.Collection;
 import javax.ejb.Remote;
@@ -32,6 +34,8 @@ public interface PurchasedItemAndSupplierManagementModuleRemote {
             String telephone, String fax, String remark, Double contractPrice,
             Integer leadTime, Double lotSize, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
+    public Collection<SupplierEntity> viewAvailSupplier(Long factoryId) throws Exception;
+    
     public String editSupplier(Long supplierId, String name, String address, String telephone, String fax, String remark) throws Exception;
 
     public String deleteSupplier(Long supplierId) throws Exception;
