@@ -30,7 +30,7 @@ public interface InternalMessageModuleLocal {
 
     public Collection<InternalMessageEntity> viewSendMessage(String senderId) throws Exception;
 
-    public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId) throws Exception;
+    public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId);
 
     public Collection<InternalMessageEntity> viewSendMessageByReceiver(String senderId, String receiverId) throws Exception;
 

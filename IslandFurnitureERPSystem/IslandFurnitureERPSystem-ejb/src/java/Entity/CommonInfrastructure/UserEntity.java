@@ -7,7 +7,6 @@
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
@@ -28,7 +27,6 @@ import javax.persistence.Temporal;
 @Table(name = "User")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     private String userId;
     private String pwd;
@@ -38,8 +36,12 @@ public class UserEntity implements Serializable {
     private String midName;
     private String firstName;
     private String position;
+<<<<<<< HEAD
     private long departmentId;
     
+=======
+   
+>>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
     private String gender;
@@ -55,13 +57,13 @@ public class UserEntity implements Serializable {
     private Boolean deleteFlag;//used to identify whether this user has been deleted
    
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "sender")
-    private Collection<InternalMessageEntity> sendMessage = new ArrayList<InternalMessageEntity>();
+    private Collection<InternalMessageEntity> sendMessage;
     
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "receiver")
-    private Collection<InternalMessageReceive> receiveMessage = new ArrayList<InternalMessageReceive>();
+    private Collection<InternalMessageReceive> receiveMessage;
 
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "systemUser")
-    private Collection<TicketEntity> tickets = new ArrayList<TicketEntity> ();
+    private Collection<TicketEntity> tickets;
     
     public UserEntity() {
     }
@@ -96,7 +98,14 @@ public class UserEntity implements Serializable {
         this.postalCode = postalCode;
         this.title = title;
         this.deleteFlag = deleteFlag;
+<<<<<<< HEAD
         this.departmentId = departmentId;
+=======
+//        this.sendMessage = new ArrayList<InternalMessageEntity>();
+//        this.receiveMessage = new ArrayList<InternalMessageReceive>();
+//        this.tickets = new ArrayList<TicketEntity>();
+        
+>>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
     }
 
     public void editUserEntity(String department, Integer userLevel, String lastName, String midName,

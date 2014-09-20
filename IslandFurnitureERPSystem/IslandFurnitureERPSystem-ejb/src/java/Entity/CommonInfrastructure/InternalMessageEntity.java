@@ -44,14 +44,15 @@ public class InternalMessageEntity implements Serializable {
     private String senderName;
     private String status;  //ignore
     private String type;    //ignore
+    private ArrayList<String> receiverIds;
     
     
     @ManyToOne
-    private UserEntity sender = new UserEntity();
+    private UserEntity sender;
    
     
     @OneToMany (cascade = {CascadeType.PERSIST},mappedBy = "message")
-    private Collection<InternalMessageReceive> receiveMessages = new ArrayList<InternalMessageReceive>();
+    private Collection<InternalMessageReceive> receiveMessages;
 
     public InternalMessageEntity() {
     }
@@ -66,6 +67,7 @@ public class InternalMessageEntity implements Serializable {
         this.senderName = senderName;
         this.status = status;
         this.type = type;
+        
         
     }
     

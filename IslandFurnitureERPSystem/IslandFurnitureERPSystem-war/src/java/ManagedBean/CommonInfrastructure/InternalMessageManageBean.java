@@ -10,6 +10,7 @@ package ManagedBean.CommonInfrastructure;
 import Entity.CommonInfrastructure.InternalMessageReceive;
 import Entity.CommonInfrastructure.UserEntity;
 import SessionBean.CommonInFrastructure.InternalMessageModuleLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -47,13 +49,13 @@ public class InternalMessageManageBean implements Serializable {
     private String statusMessage;
     private ArrayList<String> receiverIdList;
     
+    
     @EJB
     private InternalMessageModuleLocal im;
     
     private List<UserEntity> userEntities;
     private List<UserEntity> selectedUserEntities;
-    
-        
+
         
     public InternalMessageManageBean() {
         
@@ -62,8 +64,10 @@ public class InternalMessageManageBean implements Serializable {
     @PostConstruct
     public void init()
     {
+       
         currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
         userEntities = im.getAllUsers();
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userEntities", userEntities);
     }
     
@@ -93,19 +97,19 @@ public class InternalMessageManageBean implements Serializable {
     public void sendMessage(ActionEvent event) throws Exception
     {   
         receiverIdList = new ArrayList<String> ();
-        System.err.println("sendMessage(): TITLE " + title );
-        System.err.println("sendMessage(): Content " + content );
-        System.err.println("sendMessage(): UserId " + currentUserId );
+        
         for(UserEntity userEntityString:selectedUserEntities)
         {
-            System.err.println("userEntityString: " + userEntityString.getUserId());
+            System.err.println("userEntityString: send to --> " + userEntityString.getUserId());
             receiverIdList.add(userEntityString.getUserId());
         }
-        //DO NOT TOUCH - ZY
-       // im.sendMessage(currentUserId, title, content, null, null,  receiverIdList);
-        //System.err.println("sendMessage(): Message Sent ");
+        
+       im.sendMessage(currentUserId, title, content, null, null,  receiverIdList);
+       System.err.println("sendMessage(): Message Sent ");
         
     }
+    
+
     
     public InternalMessageModuleLocal getIm() {
         return im;
@@ -197,64 +201,15 @@ public class InternalMessageManageBean implements Serializable {
     public void setStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
     }
-    
-       
 
-    public void displayNewMessageWindow(ActionEvent event){
-        
-    }
-    
-    public ArrayList<UserEntity> selectReceiver(String query){
-        ArrayList<UserEntity> allUsers = im.getAllUsers();
-        ArrayList<UserEntity> filteredUsers = new ArrayList<UserEntity>();
-        
-        for(int i = 0; i < allUsers.size(); i ++) {
-            UserEntity user = allUsers.get(i);
-            String fullName = user.getFirstName() + " " + user.getMidName() + " " + user.getLastName();
-            if(fullName.toLowerCase().startsWith(query)){
-                filteredUsers.add(user);
-            }
-        }
-        return filteredUsers;
-    }
-    
-    public ArrayList<String> completeText(String query){
-        ArrayList<String> results = new ArrayList<String> ();
-        for( int i = 0 ; i < 20; i ++){
-            results.add(query + i);
-        }
-        return results;
-    }
-    
-    
-//    public void sendNewMessage(ActionEvent event) throws Exception{
-//        
-//        
-//        try{
-////          FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userId", "123");
-//           currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-//            im.sendMessage(currentUserId, title, content, null, null,  receiverIds);
-//            statusMessage = "New Message Sent Successfully!";
-//             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_INFO,"Send New Message Result: " + statusMessage + " (New Message is sent from  " + currentUserId + ")", "" ));
-//            
-//        }
-//        catch(Exception e){
-//             e.printStackTrace(); 
-//        }
-//          
-//    }
-    
-    public void receiveMessage(ActionEvent event){
-        try{
-           currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-           Collection<InternalMessageReceive> receiveList = im.viewReceiveMessage(currentUserId);
-           
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+    public ArrayList<String> getReceiverIdList() {
+        return receiverIdList;
     }
 
+    public void setReceiverIdList(ArrayList<String> receiverIdList) {
+        this.receiverIdList = receiverIdList;
+    }
+  
     public List<UserEntity> getUserEntities() {
         return userEntities;
     }
@@ -270,4 +225,10 @@ public class InternalMessageManageBean implements Serializable {
     public void setSelectedUserEntities(List<UserEntity> selectedUserEntities) {
         this.selectedUserEntities = selectedUserEntities;
     }
+
+
+
+  
+    
+    
 }
