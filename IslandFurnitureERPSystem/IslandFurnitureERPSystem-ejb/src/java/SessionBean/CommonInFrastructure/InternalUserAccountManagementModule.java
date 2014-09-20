@@ -53,7 +53,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_H((long) idNumber);
                 HQuser = new HQUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, true, 1000001);
+                        title, address, postalCode, email, false, 1000001);
                 em.persist(HQuser);
                 System.out.println("User H" + idNumber.toString() + "created!");
                 break;
@@ -62,7 +62,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_H((long) idNumber);
                 Fuser = new FactoryUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, departmentId, true);
+                        title, address, postalCode, email, departmentId, false);
                 em.persist(Fuser);
                 System.out.println("User F" + idNumber.toString() + "created!");
                 break;
@@ -71,7 +71,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_H((long) idNumber);
                 Suser = new StoreUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, departmentId, true);
+                        title, address, postalCode, email, departmentId, false);
                 em.persist(Suser);
                 System.out.println("User S" + idNumber.toString() + "created!");
                 break;
@@ -89,17 +89,17 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             case 'H':
                 query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=userId");
                 HQUserEntity HQUser = (HQUserEntity) query.getSingleResult();
-                HQUser.setDeleteFlag(false);
+                HQUser.setDeleteFlag(true);
                 em.persist(HQUser);
             case 'F':
                 query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=userId");
                 FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
-                FactoryUser.setDeleteFlag(false);
+                FactoryUser.setDeleteFlag(true);
                 em.persist(FactoryUser);
             case 'S':
                 query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
                 StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
-                StoreUser.setDeleteFlag(false);
+                StoreUser.setDeleteFlag(true);
                 em.persist(StoreUser);
         }
         em.flush();
@@ -120,7 +120,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 System.out.println("IUAM: modify HQ User");
                 HQUserEntity HQUser = em.find(HQUserEntity.class, userId);
                 HQUser.editHQUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, Boolean.TRUE, 1000001);
+                        firstName, position, birthday, gender, title, address, postalCode, email, Boolean.FALSE, 1000001);
                 System.out.println("IUAM: ModifyStaff: HQUser: birthday " + HQUser.getBirthday().getTime().toString());
                 em.persist(HQUser);
                 em.flush();
@@ -132,7 +132,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 //query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=:userId");
                 FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
                 FactoryUser.editFactoryUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.TRUE);
+                        firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.FALSE);
 
                 em.persist(FactoryUser);
                 em.flush();
@@ -141,7 +141,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 //query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
                 StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
                 StoreUser.editStoreUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.TRUE);
+                        firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.FALSE);
                 em.persist(StoreUser);
                 em.flush();
                 break;

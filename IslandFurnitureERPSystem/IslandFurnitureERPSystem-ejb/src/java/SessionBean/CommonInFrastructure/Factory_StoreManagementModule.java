@@ -32,14 +32,14 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
      @Override
     public void AddFactory(String country, String address, String contact, String manager) {
         System.out.println("Factory_StoreManagementModule: AddFactory(): ");
-        FactoryEntity fe =new FactoryEntity(country, address, contact, manager, true);
+        FactoryEntity fe =new FactoryEntity(country, address, contact, manager, false);
     }
 
     @Override
     public void DeleteFactory(long factoryId) {
         System.out.println("Factory_StoreManagementModule: DeleteFactory(): ");
         FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
-        fe.setDeleteFlag(Boolean.FALSE);
+        fe.setDeleteFlag(Boolean.TRUE);
         
     }
 
@@ -72,7 +72,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     @Override
     public void AddStore(String country, String address, String contact, String manager) {
         System.out.println("Factory_StoreManagementModule: AddStore(): ");
-        StoreEntity se =new StoreEntity(country, address, contact, manager, true);
+        StoreEntity se =new StoreEntity(country, address, contact, manager, false);
    
     }
 
@@ -80,7 +80,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     public void DeleteStore(Long storeId) {
         System.out.println("Factory_StoreManagementModule: DeleteFactory(): ");
         StoreEntity se = em.find(StoreEntity.class, storeId);
-        se.setDeleteFlag(Boolean.FALSE);
+        se.setDeleteFlag(Boolean.TRUE);
     }
 
     @Override

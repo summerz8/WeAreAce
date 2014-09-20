@@ -47,11 +47,9 @@ public class UserEntity implements Serializable {
     private String postalCode;
     private String email;
     
-    
-    
-
-
-    private Boolean deleteFlag;//used to identify whether this user has been deleted
+        
+    private Boolean deleteFlag;//used to identify whether this user has been deleted  
+                               
    
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "sender")
     private Collection<InternalMessageEntity> sendMessage;
@@ -247,14 +245,15 @@ public class UserEntity implements Serializable {
         this.departmentId = departmentId;
     }
 
-
-    public Boolean getDeleteFlag() {
+    public Boolean isDeleteFlag() {
         return deleteFlag;
     }
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+        
 
     public Collection<InternalMessageEntity> getSendMessage() {
         return sendMessage;
