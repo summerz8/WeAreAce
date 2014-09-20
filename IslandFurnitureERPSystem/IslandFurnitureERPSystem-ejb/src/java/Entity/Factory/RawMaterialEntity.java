@@ -27,7 +27,7 @@ public class RawMaterialEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long materialId;
     private String materialName;
     private String description;

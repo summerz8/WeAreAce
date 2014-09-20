@@ -7,7 +7,6 @@
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
@@ -26,9 +25,8 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "User")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     private String userId;
     private String pwd;
@@ -38,7 +36,7 @@ public class UserEntity implements Serializable {
     private String midName;
     private String firstName;
     private String position;
-    
+   
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
     private String gender;

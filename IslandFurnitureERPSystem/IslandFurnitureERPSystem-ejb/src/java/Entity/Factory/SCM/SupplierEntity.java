@@ -33,6 +33,7 @@ public class SupplierEntity implements Serializable {
     private String supplierContact;
     private String supplierFax;
     private String remark;
+    private Boolean isDeleted = Boolean.FALSE;
 
     //contract entity -- supplier entity: M<-->1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "supplier")
@@ -40,6 +41,16 @@ public class SupplierEntity implements Serializable {
 
     public SupplierEntity() {
     }
+
+    public SupplierEntity(String supplierName, String supplierAddress, String supplierContact, String supplierFax, String remark) {
+        this.supplierName = supplierName;
+        this.supplierAddress = supplierAddress;
+        this.supplierContact = supplierContact;
+        this.supplierFax = supplierFax;
+        this.remark = remark;
+    }
+    
+    
 
     public Long getSupplierId() {
         return supplierId;
@@ -89,12 +100,20 @@ public class SupplierEntity implements Serializable {
         this.supplierFax = supplierFax;
     }
 
-    public String getremark() {
+    public String getRemark() {
         return remark;
     }
 
-    public void setremark(String remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     //create a new supplier entity with attributes
