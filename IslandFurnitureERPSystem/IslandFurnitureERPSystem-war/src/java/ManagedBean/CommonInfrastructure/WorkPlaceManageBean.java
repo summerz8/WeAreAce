@@ -6,8 +6,9 @@
 
 package ManagedBean.CommonInfrastructure;
 
-import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 /**
  *
@@ -42,6 +43,7 @@ public class WorkPlaceManageBean {
     public void setCurrentUsserName(String currentUsserName) {
         this.currentUsserName = currentUsserName;
     }
+
     
     
     

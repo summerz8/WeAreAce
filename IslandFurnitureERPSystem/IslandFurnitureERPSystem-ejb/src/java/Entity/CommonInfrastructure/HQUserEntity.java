@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 public class HQUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final String HQId = "HQ0001"; //this is a final string because we only hava one HQ
+    //private final long HQId = 1000001; //this is a final string because we only hava one HQ
 
     public HQUserEntity() {
     }
@@ -30,21 +30,21 @@ public class HQUserEntity extends UserEntity implements Serializable {
     
     public HQUserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
-                birthday,gender,title, address, postalCode, email, deleteFlag);
+                birthday,gender,title, address, postalCode, email, deleteFlag, departmentId);
     }
 
     public void editHQUserEntity(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
         
         super.editUserEntity(department, userLevel, lastName, midName, firstName, 
-                position, birthday, gender, title, address, postalCode, email, deleteFlag);       
+                position, birthday, gender, title, address, postalCode, email, deleteFlag, departmentId);  
     }
-    public String getHQId() {
-        return HQId;
-    }
+//    public long getHQId() {
+//        return HQId;
+//    }
        
    
 }

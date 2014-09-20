@@ -38,6 +38,7 @@ public class UserEntity implements Serializable {
     private String midName;
     private String firstName;
     private String position;
+    private long departmentId;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
@@ -46,6 +47,7 @@ public class UserEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
+    
     
     
 
@@ -67,7 +69,7 @@ public class UserEntity implements Serializable {
     
     public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
         this.setUserId(department + idNumber);
         String PWD;
         String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
@@ -94,11 +96,12 @@ public class UserEntity implements Serializable {
         this.postalCode = postalCode;
         this.title = title;
         this.deleteFlag = deleteFlag;
+        this.departmentId = departmentId;
     }
 
     public void editUserEntity(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
         
         this.userLevel = userLevel;
         this.lastName = lastName;
@@ -107,12 +110,16 @@ public class UserEntity implements Serializable {
         this.gender = gender;
         this.address= address;
         this.birthday = birthday;
+        //setBirthday(birthday);
+        System.out.println("UserEntity: editUserEntity: birthday: "+ getBirthday().getTime().toString());
         this.department = department;
         this.email = email;
         this.midName = midName;
         this.postalCode = postalCode;
         this.title = title;
         this.deleteFlag = deleteFlag;
+        this.departmentId = departmentId;
+        
     }
     
     public String getUserId() {
@@ -227,6 +234,13 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
+    public long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
+    }
 
 
     public Boolean getDeleteFlag() {
