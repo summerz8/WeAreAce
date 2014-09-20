@@ -37,8 +37,12 @@ public class UserEntity implements Serializable {
     private String firstName;
     private String position;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private long departmentId;
     
+=======
+   
+>>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
 =======
    
 >>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
@@ -99,12 +103,18 @@ public class UserEntity implements Serializable {
         this.title = title;
         this.deleteFlag = deleteFlag;
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.departmentId = departmentId;
 =======
+=======
+>>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
 //        this.sendMessage = new ArrayList<InternalMessageEntity>();
 //        this.receiveMessage = new ArrayList<InternalMessageReceive>();
 //        this.tickets = new ArrayList<TicketEntity>();
         
+<<<<<<< HEAD
+>>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
+=======
 >>>>>>> a14449479998632b71b16640f4d137ab0f8b6ea4
     }
 
