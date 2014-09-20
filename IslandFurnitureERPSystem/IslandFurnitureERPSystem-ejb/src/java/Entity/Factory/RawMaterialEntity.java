@@ -44,7 +44,13 @@ public class RawMaterialEntity implements Serializable {
     
     public RawMaterialEntity() {
     }
-    
+
+    public RawMaterialEntity(String materialName, String description, Boolean deleteFlag, String unit) {
+        this.materialName = materialName;
+        this.description = description;
+        this.deleteFlag = deleteFlag;
+        this.unit = unit;
+    }
     
     public Long getMaterialId() {
         return materialId;
