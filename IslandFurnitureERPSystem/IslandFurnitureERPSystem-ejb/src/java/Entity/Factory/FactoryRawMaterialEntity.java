@@ -42,7 +42,7 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     private String description;
     private Double minimumInventory = 50D;
-    private Boolean deleteFlag = false;
+    private Boolean isDeleted = false;
 
     //factory entity -- factory raw material entity: 1 <--> M 
     @ManyToOne
@@ -71,7 +71,7 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.unit = unit;
         this.materialName = materialName;
         this.description = description;
-        this.deleteFlag = deleteFlag;
+        this.isDeleted = deleteFlag;
         this.factory = factory;
         this.rawMaterial = rawMaterial;
     }
@@ -172,17 +172,17 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.inventoryRecord = inventoryRecord;
     }
 
-    public Boolean getDeleteFlag() {
-        return deleteFlag;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
     public String toString() {
-        return "FactoryRawMaterialEntity{" + "factoryRawMaterialId=" + factoryRawMaterialId + ", unit=" + unit + ", materialName=" + materialName + ", description=" + description + ", minimumInventory=" + minimumInventory + ", deleteFlag=" + deleteFlag + ", factory=" + factory + ", rawMaterial=" + rawMaterial + '}';
+        return "FactoryRawMaterialEntity{" + "factoryRawMaterialId=" + factoryRawMaterialId + ", unit=" + unit + ", materialName=" + materialName + ", description=" + description + ", minimumInventory=" + minimumInventory + ", deleteFlag=" + isDeleted + ", factory=" + factory + ", rawMaterial=" + rawMaterial + '}';
     }
     
 }

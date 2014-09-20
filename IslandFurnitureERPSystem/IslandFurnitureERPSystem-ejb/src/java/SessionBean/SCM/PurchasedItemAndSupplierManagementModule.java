@@ -59,7 +59,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
                 for (Object obj : factoryRawMaterialList) {
                     FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) obj;
-                    if (!frm.getDeleteFlag()) {
+                    if (!frm.getIsDeleted()) {
                         itemList.add(obj);
                     }
                 }
@@ -67,7 +67,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
                 for (Object obj : factoryRetailProductList) {
                     FactoryRetailProductEntity frp = (FactoryRetailProductEntity) obj;
-                    if (!frp.getDeleteFlag()) {
+                    if (!frp.getIsDeleted()) {
                         itemList.add(obj);
                     }
                 }
@@ -95,7 +95,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     //for the Raw material in each factory
                     for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
                         //if find a factoryRawMaterial belongs to the user's factory
-                        if (frm.getFactory().getFactoryId() == factoryId && !frm.getDeleteFlag()) {
+                        if (frm.getFactory().getFactoryId() == factoryId && !frm.getIsDeleted()) {
                             continue outerLoop;//break out the inner loop, continue outer loop  
                         }
                     }
@@ -112,7 +112,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     //for the Retail Product in each factory
                     for (FactoryRetailProductEntity frp : factoryRetailProductList) {
                         //if find a factoryRawMaterial belongs to the user's factory
-                        if (frp.getFactory().getFactoryId() == factoryId && !frp.getDeleteFlag()) {
+                        if (frp.getFactory().getFactoryId() == factoryId && !frp.getIsDeleted()) {
                             continue outerLoop;//break out the inner loop, continue outer loop                        
                         }
                     }
@@ -485,7 +485,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     }
                 }
 
-                factoryRawMaterial.setDeleteFlag(Boolean.TRUE);
+                factoryRawMaterial.setIsDeleted(Boolean.TRUE);
                 result = "Raw Material " + rmName + " has been deleted.";
 
                 em.flush();
@@ -512,7 +512,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     }
                 }
 
-                factoryRetailProduct.setDeleteFlag(Boolean.TRUE);
+                factoryRetailProduct.setIsDeleted(Boolean.TRUE);
                 result = "Retail Product " + rpName + " has been deleted.";
 
                 em.flush();
