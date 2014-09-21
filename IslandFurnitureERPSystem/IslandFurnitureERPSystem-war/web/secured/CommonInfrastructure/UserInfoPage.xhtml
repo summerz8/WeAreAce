@@ -79,87 +79,82 @@
                             <h:panelGrid columns="2" cellpadding="10">
 
                                 <h:outputLabel for="userid" value="User ID:" />
-                                <p:inplace id="userid" editor="true">
-                                    <p:inputText value="#{userInfo.userId}" required="true" label="text" />
-                                </p:inplace>                        
 
-                                <h:outputLabel for="title" value="Title:" />
+                                <h:outputText value="#{userInfo.userId}"/>
+
+
+                                <h:outputLabel for="title" value="Title *:" />
                                 <p:inplace id="title" editor="true">
-                                    <p:inputText value="#{userInfo.title}" required="true" label="text" />
+                                    <h:selectOneMenu value="#{userInfo.title}" style="width:100%" required="true">
+                                        <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                    </h:selectOneMenu>
                                 </p:inplace>
 
-                                <h:outputLabel for="firstname" value="FirstName:" />
+                                <h:outputLabel for="firstname" value="FirstName *:" />
                                 <p:inplace id="firstname" editor="true">
                                     <p:inputText value="#{userInfo.firstName}" required="true" label="text" />
                                 </p:inplace>
 
                                 <h:outputLabel for="midname" value="MidName:" />
                                 <p:inplace id="midname" editor="true">
-                                    <p:inputText value="#{userInfo.midName}" required="true" label="text" />
+                                    <p:inputText value="#{userInfo.midName}"  label="text" />
                                 </p:inplace>
 
-                                <h:outputLabel for="lastname" value="LastName:" />
+                                <h:outputLabel for="lastname" value="LastName *:" />
                                 <p:inplace id="lastname" editor="true">
                                     <p:inputText value="#{userInfo.lastName}" required="true" label="text" />
                                 </p:inplace>
 
-                                <h:outputLabel for="department" value="Department:" />
-                                <p:inplace id="department" editor="true">
-                                    <p:inputText value="#{userInfo.department}" required="true" label="text" />
-                                </p:inplace>
+                                <h:outputLabel for="department" value="Department:" />                                
+                                <h:outputText value="#{userInfo.department}" />
 
-                                <h:outputLabel for="departmentid" value="Department ID:" />
-                                <p:inplace id="departmentid" editor="true">
-                                    <p:inputText value="#{userInfo.departmentId}" required="true" label="text" />
-                                </p:inplace>
 
-                                <h:outputLabel for="position" value="Position:" />
-                                <p:inplace id="position" editor="true">
-                                    <p:inputText value="#{userInfo.position}" required="true" label="text" />
-                                </p:inplace>
+                                <h:outputLabel for="departmentid" value="Department ID:" />                                
+                                <h:outputText value="#{userInfo.departmentId}"/>
 
-                                <h:outputLabel for="userlvl" value="User Level:" />
-                                <p:inplace id="userlvl" editor="true">
-                                    <p:inputText value="#{userInfo.userLevel}" required="true" label="text" />
-                                </p:inplace>
 
-                                <h:outputLabel for="gender" value="Gender:" />
+                                <h:outputLabel for="position" value="Position:" />                                
+                                <h:outputText value="#{userInfo.position}" />
+
+
+                                <h:outputLabel for="userlvl" value="User Level:" />                                
+                                <h:outputText value="#{userInfo.userLevel}"  />
+
+
+                                <h:outputLabel for="gender" value="Gender *:" />
                                 <p:inplace id="gender" editor="true">
                                     <p:inputText value="#{userInfo.gender}" required="true" label="text" />
-                                </p:inplace>
+                                </p:inplace>                                
 
+                   
                                 <h:outputLabel for="birthday" value="Birthday:" />
-                                <p:inplace id="birthday" editor="true">
-                                    <p:inputText value="#{userInfo.birDate}" required="true" label="text" />
-                                </p:inplace>
-
-                              
-
-                                <h:outputLabel for="email" value="Email:" />
+                                
+                                <p:calendar  value="#{userInfo.birDate}" locale="de"  navigator="true" pattern="dd-MM-yyyy" />
+                                
+                                <h:outputLabel for="email" value="Email *:" />
                                 <p:inplace id="email" editor="true">
                                     <p:inputText value="#{userInfo.email}" required="true" label="text" />
                                 </p:inplace>
 
                                 <h:outputLabel for="addr" value="Address:" />
                                 <p:inplace id="addr" editor="true">
-                                    <p:inputText value="#{userInfo.address}" required="true" label="text" />
+                                    <p:inputText value="#{userInfo.address}"  label="text" />
                                 </p:inplace>
 
                                 <h:outputLabel for="postal" value="Postal Code:" />
                                 <p:inplace id="postal" editor="true">
-                                    <p:inputText value="#{userInfo.postal}" required="true" label="text" />
+                                    <p:inputText value="#{userInfo.postal}"  label="text" />
                                 </p:inplace>
 
-                                <h:outputLabel for="pwd" value="Password:" />
-                                <p:inplace id="pwd" editor="true">
-                                    <p:inputText value="#{userInfo.password}" required="true" label="text" />
-                                </p:inplace>
-                                
+                                <h:outputLabel for="pwd" value="Password:" />                                
+                                <h:outputText value="#{userInfo.password}" />
+
+
                                 <h:outputLabel for="space" value="        " />
                                 <p:button outcome="ChangePassword.xhtml" value="Change Password" style="border:5px ;width: 150px; height:30px; font-size:12px;"></p:button>
-                                        
-                                    
-                                
+
+
+
 
                                 <p:commandButton id = "savebtn" value="save" actionListener="#{userInfo.saveChangedUserInfo}" ajax="false"/>
                                 <p:button outcome="/secured/WorkPlace.xhtml" value="go back"></p:button>
