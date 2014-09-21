@@ -31,13 +31,13 @@
 
                         </p:commandButton>
 
-                        <p:button  outcome="WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        <p:button  outcome="/secured/WorkPlace.xhtml" value="home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
-                        <p:button outcome="CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        <p:button outcome="/secured/CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
-                        <p:button  outcome="CommonInfrastructure/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        <p:button  outcome="/secured/CommonInfrastructure/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
 
@@ -71,17 +71,31 @@
                                 <p:menuitem value="Empolyees List"/>
                             </p:submenu>
                             <p:submenu label="Enterprise">
-                                <p:menuitem value="Resource Control" outcome="CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml"/>
+                                <p:menuitem value="Resource Control" outcome="EnterpriseResourceControl.xhtml"/>
                             </p:submenu>
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="User Information Page" style="margin-bottom" >
-                            <h:panelGrid columns="2" cellpadding="10">
-                                
-                            </h:panelGrid>
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
+                            <p:panelMenu style="width:300px">
+                                <p:submenu label="Overall">
+                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                                </p:submenu>
+
+
+                                <p:submenu label="Inventory" >
+
+                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                    <p:menuitem value="BOM" url="BOMControl" icon="ui-icon-wrench" />
+
+                                </p:submenu>
+                            </p:panelMenu>
                         </p:panel>
                     </p:layoutUnit>
 

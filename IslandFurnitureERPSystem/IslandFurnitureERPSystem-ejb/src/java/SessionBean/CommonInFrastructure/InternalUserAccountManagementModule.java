@@ -59,7 +59,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 break;
             case 'F':
                 idNumber = (int) idNum.getId_F() + 1;
-                idNum.setId_H((long) idNumber);
+                idNum.setId_F((long) idNumber);
                 Fuser = new FactoryUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, departmentId, false);
@@ -68,7 +68,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 break;
             case 'S':
                 idNumber = (int) idNum.getId_S() + 1;
-                idNum.setId_H((long) idNumber);
+                idNum.setId_S((long) idNumber);
                 Suser = new StoreUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, departmentId, false);
@@ -84,24 +84,27 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     public void DeleteStaff(String userId) {
         String id = userId;
         System.out.println("InternalUserAccountModule: deletStaff():" + userId);
-        Query query;
-        switch (userId.charAt(0)) {
-            case 'H':
-                query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=userId");
-                HQUserEntity HQUser = (HQUserEntity) query.getSingleResult();
-                HQUser.setDeleteFlag(true);
-                em.persist(HQUser);
-            case 'F':
-                query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=userId");
-                FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
-                FactoryUser.setDeleteFlag(true);
-                em.persist(FactoryUser);
-            case 'S':
-                query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
-                StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
-                StoreUser.setDeleteFlag(true);
-                em.persist(StoreUser);
-        }
+        UserEntity user = em.find(UserEntity.class, userId);
+        user.setDeleteFlag(Boolean.TRUE);
+        em.persist(user);
+//        Query query;
+//        switch (userId.charAt(0)) {
+//            case 'H':
+//                query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=userId");
+//                HQUserEntity HQUser = (HQUserEntity) query.getSingleResult();
+//                HQUser.setDeleteFlag(true);
+//                em.persist(HQUser);
+//            case 'F':
+//                query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=userId");
+//                FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
+//                FactoryUser.setDeleteFlag(true);
+//                em.persist(FactoryUser);
+//            case 'S':
+//                query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
+//                StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
+//                StoreUser.setDeleteFlag(true);
+//                em.persist(StoreUser);
+//        }
         em.flush();
 
     }
@@ -159,7 +162,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         List requiredUserList = new ArrayList();
         for (Object o : q.getResultList()) {
             UserEntity u = (UserEntity) o;
-            requiredUserList.add(u);
+            if(!u.isDeleteFlag())requiredUserList.add(u);
         }
         return requiredUserList;
     }

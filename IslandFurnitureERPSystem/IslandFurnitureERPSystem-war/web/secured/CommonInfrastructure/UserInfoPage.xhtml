@@ -31,7 +31,7 @@
 
                         </p:commandButton>
 
-                        <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        <p:button  outcome="/secured/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
                         <p:button outcome="InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
@@ -130,7 +130,7 @@
 
                                 <h:outputLabel for="birthday" value="Birthday:" />
                                 <p:inplace id="birthday" editor="true">
-                                    <p:inputText value="#{userInfo.birString}" required="true" label="text" />
+                                    <p:inputText value="#{userInfo.birDate}" required="true" label="text" />
                                 </p:inplace>
 
                               
