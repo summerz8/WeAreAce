@@ -45,7 +45,7 @@ public class FactoryRetailProductEntity implements Serializable {
     private String description;
 
     private Double minimumInventory = 50D;
-    private Boolean deleteFlag;
+    private Boolean isDeleted = false;
     //factory entity -- factory item entity: 1 <--> M 
     @ManyToOne
     private FactoryEntity factory;
@@ -179,12 +179,12 @@ public class FactoryRetailProductEntity implements Serializable {
         this.factoryRetailProductAmounts = factoryRetailProductAmount;
     }
 
-    public Boolean isDeleteFlag() {
-        return deleteFlag;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public List<InventoryRecordEntity> getInventoryRecords() {

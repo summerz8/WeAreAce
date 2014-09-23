@@ -36,5 +36,10 @@ public interface InternalUserAccountManagementModuleLocal {
             String email, long departmentId);
 
     public List<UserEntity> ListUser();
+
+    
+    public UserEntity getUser(String userId);
+
+    public void changePass(String newPass, String userId);
     
 }

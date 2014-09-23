@@ -231,10 +231,9 @@ public class FactoryEntity implements Serializable {
         this.storeRetailProduct = storeRetailProduct;
     }
     
-    
     @Override
     public String toString() {
-        return "entity.UserEntity[ id=" + factoryId + " ]";
+        return "entity.FactoryEntity[ id=" + factoryId + ", " + "FactoryAddress = " + address + "]";
     }
 
 }

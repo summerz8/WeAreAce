@@ -5,8 +5,12 @@
  */
 package SessionBean;
 
+import Entity.CommonInfrastructure.FactoryUserEntity;
+import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
+import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
+import java.util.Calendar;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,46 +20,57 @@ import javax.persistence.PersistenceContext;
  * @author zhangshiyu
  */
 @Stateless
-public class IFManagerBean implements IFManagerBeanLocal, IFManagerBeanRemote {
+public class IFManagerBean implements IFManagerBeanRemote{
 
-    @PersistenceContext 
+    @PersistenceContext
     private EntityManager em;
 
-    public IFManagerBean(){
+    public IFManagerBean() {
     }
 
-    
     @Override
-    public String createUser(String department, Integer userLevel, String lastName, 
-            String firstName, String position, String gender, String departmentId) {
+    public String createUser(String department, Integer userLevel, String lastName,
+            String firstName, String position, String gender, long departmentId, Calendar birthday) {
         System.out.println("IFManagerBean: createUser():");
-
-        Integer idNumber = 0;
-        UserEntity user;
-        IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
-
-        switch (departmentId.charAt(0)) {
-            case 'H':
-                idNumber = idNum.getId_H().intValue() + 1;
-                idNum.setId_H((long) idNumber);
-                break;
-            case 'F':
-                idNumber = idNum.getId_F().intValue() + 1;
-                idNum.setId_H((long) idNumber);
-                break;
-            case 'S':
-                idNumber = idNum.getId_S().intValue() + 1;
-                idNum.setId_H((long) idNumber);
-                break;
-        }
-        em.flush();
-
+        String msg = new String();
         try {
-            user = new UserEntity(department,idNumber.toString(), userLevel,lastName,null, firstName, position, 
-                null,gender,null, null, null, null, true);
-            em.persist(user);
+            Integer idNumber = 0;
+            UserEntity user;
+            IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
+
+            switch (department.charAt(0)) {
+                case 'H':
+                    idNumber = (int)idNum.getId_H() + 1;
+                    idNum.setId_H((long) idNumber);
+                    
+                    user = new HQUserEntity(department, idNumber.toString(), userLevel,
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, true, departmentId);
+                    em.persist(user);
+                    msg = user.getUserId() + " " + user.getPwd();
+                    break;
+
+                case 'F':
+                    idNumber = (int)idNum.getId_F() + 1;
+                    idNum.setId_H((long) idNumber);
+                    user = new FactoryUserEntity(department, idNumber.toString(), userLevel,
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, true);
+                    em.persist(user);
+                    msg = user.getUserId() + " " + user.getPwd();
+                    break;
+                case 'S':
+                    idNumber = (int)idNum.getId_S() + 1;
+                    idNum.setId_H((long) idNumber);
+                    user = new StoreUserEntity(department, idNumber.toString(), userLevel,
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, true);
+                    em.persist(user);
+                    msg = user.getUserId() + " " + user.getPwd();
+                    break;
+            }
+            em.flush();
+
             System.out.println("User created!");
-            return user.getUserId()+ " " +user.getPwd();
+            return msg;
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -75,7 +90,7 @@ public class IFManagerBean implements IFManagerBeanLocal, IFManagerBeanRemote {
 //        return "getUserId() failed!";
 //    }
 
- @Override
+    @Override
     public boolean checkAccount(String userId, String pwd) {
         UserEntity user;
         boolean check = false;
@@ -98,15 +113,52 @@ public class IFManagerBean implements IFManagerBeanLocal, IFManagerBeanRemote {
 
         return check;
     }
-    
+
     @Override
-    public String getFullName (String userId){
+    public String getFullName(String userId) {
         String fullName = null;
-        if(true){
-           UserEntity user= em.find(UserEntity.class,userId);
-           fullName = user.getFirstName() + " " + user.getLastName() + " ";
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            fullName = user.getFirstName() + " " + user.getLastName() + " ";
         }
         return fullName;
+    }
+    
+    @Override
+    public String getDepartment(String userId) {
+        String department = null;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            department = user.getDepartment();
+        }
+        return department;
+    }
+    
+    @Override
+    public Long getDepartmentId(String userId) {
+        Long departmentId = null;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            departmentId = user.getDepartmentId();
+        }
+        return departmentId;
+    }
+    
+    @Override
+    public int getUserLevel(String userId){
+     int userLevel;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            userLevel = user.getUserLevel();           
+        }
+        return userLevel;
+    }
+
+    @Override
+    public void setUpIdNumber() {
+        IdNumberEntity id = new IdNumberEntity();
+        id.create();
+        System.out.println("IdNumber initialized");
     }
 
 }

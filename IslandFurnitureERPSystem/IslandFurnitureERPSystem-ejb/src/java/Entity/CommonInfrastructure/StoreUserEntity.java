@@ -22,7 +22,7 @@ import javax.persistence.Table;
 public class StoreUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    private long storeId; //storeId is a long number auto generated
+    //private long storeId; //storeId is a long number auto generated
 
     public StoreUserEntity() {
     }
@@ -32,25 +32,25 @@ public class StoreUserEntity extends UserEntity implements Serializable {
             String firstName, String position,  Calendar birthday, String gender, 
             String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
-                birthday,gender,title, address, postalCode, email, deleteFlag);
-        storeId = departmentId;
+                birthday,gender,title, address, postalCode, email, deleteFlag, departmentId);
+        //storeId = departmentId;
     }
 
     public void editStoreUserEntity(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
             String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super.editUserEntity(department, userLevel, lastName, midName, firstName,
-                position, birthday, gender, title, address, postalCode, email, deleteFlag);
-        storeId = departmentId;
+                position, birthday, gender, title, address, postalCode, email, deleteFlag, departmentId);
+        //storeId = departmentId;
         
     }
-    public long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(long storeId) {
-        this.storeId = storeId;
-    }
+//    public long getStoreId() {
+//        return storeId;
+//    }
+//
+//    public void setStoreId(long storeId) {
+//        this.storeId = storeId;
+//    }
     
     
 }

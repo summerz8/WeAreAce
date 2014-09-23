@@ -6,6 +6,7 @@
 
 package SessionBean;
 
+import java.util.Calendar;
 import javax.ejb.Remote;
 
 /**
@@ -15,11 +16,18 @@ import javax.ejb.Remote;
 @Remote
 public interface IFManagerBeanRemote {
     
-    
-    public String createUser(String department, Integer userLevel, String lastName, 
-            String firstName, String position, String gender, String departmentId);
-//    public String getUserId(String userId);
     public boolean checkAccount(String userId, String pwd);
     
     public String getFullName (String userId);
+
+    public void setUpIdNumber();
+
+    public String createUser(String department, Integer userLevel, String lastName, 
+            String firstName, String position, String gender, long departmentId, Calendar birthday);
+
+    public String getDepartment(String userId);
+
+    public Long getDepartmentId(String userId);
+
+    public int getUserLevel(String userId);
 }

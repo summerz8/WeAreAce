@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="FactoryUser")
 public class FactoryUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    private long factoryId; //factoryId is a long number auto generated 
+    //private long factoryId; //factoryId is a long number auto generated 
 
     public FactoryUserEntity() {
     }
@@ -31,8 +31,8 @@ public class FactoryUserEntity extends UserEntity implements Serializable {
             String firstName, String position,  Calendar birthday, String gender, 
             String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
-                birthday,gender,title, address, postalCode, email, deleteFlag);
-        factoryId = departmentId;
+                birthday,gender,title, address, postalCode, email, deleteFlag, departmentId);
+        //factoryId = departmentId;
         
     }
     
@@ -40,17 +40,17 @@ public class FactoryUserEntity extends UserEntity implements Serializable {
             String firstName, String position,  Calendar birthday, String gender, 
             String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super.editUserEntity(department, userLevel, lastName, midName, firstName,
-                position, birthday, gender, title, address, postalCode, email, deleteFlag);
-        factoryId = departmentId;
+                position, birthday, gender, title, address, postalCode, email, deleteFlag, departmentId);
+        //factoryId = departmentId;
         
     }
 
-    public long getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(long factoryId) {
-        this.factoryId = factoryId;
-    }
+//    public long getFactoryId() {
+//        return factoryId;
+//    }
+//
+//    public void setFactoryId(long factoryId) {
+//        this.factoryId = factoryId;
+//    }
     
 }

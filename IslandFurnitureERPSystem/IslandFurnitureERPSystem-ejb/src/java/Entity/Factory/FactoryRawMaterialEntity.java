@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class FactoryRawMaterialEntity implements Serializable {
 
     private String description;
     private Double minimumInventory = 50D;
-    private Boolean deleteFlag;
+    private Boolean isDeleted = false;
 
     //factory entity -- factory raw material entity: 1 <--> M 
     @ManyToOne
@@ -66,6 +67,15 @@ public class FactoryRawMaterialEntity implements Serializable {
     public FactoryRawMaterialEntity() {
     }
 
+    public FactoryRawMaterialEntity(String unit, String materialName, String description, Boolean deleteFlag, FactoryEntity factory, RawMaterialEntity rawMaterial) {
+        this.unit = unit;
+        this.materialName = materialName;
+        this.description = description;
+        this.isDeleted = deleteFlag;
+        this.factory = factory;
+        this.rawMaterial = rawMaterial;
+    }
+   
     public Long getFactoryRawMaterialId() {
         return factoryRawMaterialId;
     }
@@ -162,18 +172,17 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.inventoryRecord = inventoryRecord;
     }
 
-    public Boolean isDeleteFlag() {
-        return deleteFlag;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public String toString() {
+        return "FactoryRawMaterialEntity{" + "factoryRawMaterialId=" + factoryRawMaterialId + ", unit=" + unit + ", materialName=" + materialName + ", description=" + description + ", minimumInventory=" + minimumInventory + ", deleteFlag=" + isDeleted + ", factory=" + factory + ", rawMaterial=" + rawMaterial + '}';
     }
     
-
-    public void create(String materialName, String description) {
-        setMaterialName(materialName);
-        setDescription(description);
-    }
-
 }

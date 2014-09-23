@@ -1,0 +1,136 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
+
+import Entity.CommonInfrastructure.UserEntity;
+import Entity.Factory.FactoryEntity;
+import Entity.Store.StoreEntity;
+import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
+import org.primefaces.event.RowEditEvent;
+
+/**
+ *
+ * @author dan
+ */
+@Named(value = "factoryControl")
+@ViewScoped
+public class FactoryControlBean {
+
+    @EJB
+    private Factory_StoreManagementModuleLocal FSMM;
+    private List<FactoryEntity> factoryList;
+    private List<FactoryEntity> filterdFactory;
+    
+    private String newFactoryCountry;
+    private String newFactoryAddress;
+    private String newFactoryContact;
+    private String newFactoryManager;
+
+    /**
+     * Creates a new instance of FactoryStoreControlBean
+     */
+    public FactoryControlBean() {
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("UserControlBean: init:");
+
+        factoryList = FSMM.ListFactory();
+        filterdFactory = factoryList;
+
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+
+        FactoryEntity entity = (FactoryEntity) event.getObject();
+        System.out.println("onRowEdit test: " + entity.getFactoryId() + entity.getManager());
+
+        FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
+
+        FacesMessage msg = new FacesMessage("Factory Edited", String.valueOf(entity.getFactoryId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ((UserEntity) event.getObject()).getUserId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void deleteFactory(long id) {
+        System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));      
+        FSMM.DeleteFactory(id);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
+        
+    }
+    
+    public void addFactory() {
+        System.out.println("StoreControlBean: addStore: ");
+        FSMM.AddFactory(newFactoryCountry, newFactoryAddress, newFactoryContact, newFactoryManager);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
+
+    }
+
+    public List<FactoryEntity> getFactoryList() {
+        return factoryList;
+    }
+
+    public void setFactoryList(List<FactoryEntity> factoryList) {
+        this.factoryList = factoryList;
+    }
+
+    public List<FactoryEntity> getFilterdFactory() {
+        return filterdFactory;
+    }
+
+    public void setFilterdFactory(List<FactoryEntity> filterdFactory) {
+        this.filterdFactory = filterdFactory;
+    }
+
+    public String getNewFactoryCountry() {
+        return newFactoryCountry;
+    }
+
+    public void setNewFactoryCountry(String newFactoryCountry) {
+        this.newFactoryCountry = newFactoryCountry;
+    }
+
+    public String getNewFactoryAddress() {
+        return newFactoryAddress;
+    }
+
+    public void setNewFactoryAddress(String newFactoryAddress) {
+        this.newFactoryAddress = newFactoryAddress;
+    }
+
+    public String getNewFactoryContact() {
+        return newFactoryContact;
+    }
+
+    public void setNewFactoryContact(String newFactoryContact) {
+        this.newFactoryContact = newFactoryContact;
+    }
+
+    public String getNewFactoryManager() {
+        return newFactoryManager;
+    }
+
+    public void setNewFactoryManager(String newFactoryManager) {
+        this.newFactoryManager = newFactoryManager;
+    }
+
+    
+}

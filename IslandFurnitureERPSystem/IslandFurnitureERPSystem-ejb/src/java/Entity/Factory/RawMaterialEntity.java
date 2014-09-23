@@ -31,7 +31,7 @@ public class RawMaterialEntity implements Serializable {
     private Long materialId;
     private String materialName;
     private String description;
-    private Boolean deleteFlag;
+    private Boolean isDeleted = false;
     private String unit;
     
     //raw material entity -- factory raw material entity: 1<--> M
@@ -44,7 +44,13 @@ public class RawMaterialEntity implements Serializable {
     
     public RawMaterialEntity() {
     }
-    
+
+    public RawMaterialEntity(String materialName, String description, Boolean deleteFlag, String unit) {
+        this.materialName = materialName;
+        this.description = description;
+        this.isDeleted = deleteFlag;
+        this.unit = unit;
+    }
     
     public Long getMaterialId() {
         return materialId;
@@ -95,11 +101,11 @@ public class RawMaterialEntity implements Serializable {
     }
 
     public Boolean isDeleteFlag() {
-        return deleteFlag;
+        return isDeleted;
     }
 
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
    
     

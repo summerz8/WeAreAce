@@ -7,7 +7,6 @@
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
@@ -28,7 +27,6 @@ import javax.persistence.Temporal;
 @Table(name = "User")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     private String userId;
     private String pwd;
@@ -38,7 +36,9 @@ public class UserEntity implements Serializable {
     private String midName;
     private String firstName;
     private String position;
+    private long departmentId;
     
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
     private String gender;
@@ -47,10 +47,9 @@ public class UserEntity implements Serializable {
     private String postalCode;
     private String email;
     
-    
-
-
-    private Boolean deleteFlag;//used to identify whether this user has been deleted
+        
+    private Boolean deleteFlag;//used to identify whether this user has been deleted  
+                               
    
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "sender")
     private Collection<InternalMessageEntity> sendMessage;
@@ -67,7 +66,7 @@ public class UserEntity implements Serializable {
     
     public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
         this.setUserId(department + idNumber);
         String PWD;
         String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
@@ -94,15 +93,18 @@ public class UserEntity implements Serializable {
         this.postalCode = postalCode;
         this.title = title;
         this.deleteFlag = deleteFlag;
+        this.departmentId = departmentId;
+
 //        this.sendMessage = new ArrayList<InternalMessageEntity>();
 //        this.receiveMessage = new ArrayList<InternalMessageReceive>();
 //        this.tickets = new ArrayList<TicketEntity>();
         
+
     }
 
     public void editUserEntity(String department, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
         
         this.userLevel = userLevel;
         this.lastName = lastName;
@@ -111,12 +113,16 @@ public class UserEntity implements Serializable {
         this.gender = gender;
         this.address= address;
         this.birthday = birthday;
+        //setBirthday(birthday);
+        System.out.println("UserEntity: editUserEntity: birthday: "+ getBirthday().getTime().toString());
         this.department = department;
         this.email = email;
         this.midName = midName;
         this.postalCode = postalCode;
         this.title = title;
         this.deleteFlag = deleteFlag;
+        this.departmentId = departmentId;
+        
     }
     
     public String getUserId() {
@@ -231,15 +237,23 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
+    public long getDepartmentId() {
+        return departmentId;
+    }
 
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
+    }
 
-    public Boolean getDeleteFlag() {
+    public Boolean isDeleteFlag() {
         return deleteFlag;
     }
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+        
 
     public Collection<InternalMessageEntity> getSendMessage() {
         return sendMessage;

@@ -5,15 +5,13 @@
  */
 package SessionBean.CommonInFrastructure;
 
-import Entity.Factory.BOMEntity;
-import Entity.Factory.FactoryEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
-import Entity.Store.StoreEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -23,6 +21,7 @@ import javax.persistence.Query;
 @Stateful
 public class RetailProduct_ProductManagementModule implements RetailProduct_ProductManagementModuleLocal {
 
+    @PersistenceContext
     private EntityManager em;
 
     public RetailProduct_ProductManagementModule() {
@@ -33,14 +32,14 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     @Override
     public void AddProduct(String name, String description, Double price, String unit, Boolean deleteFlag) {
         System.out.println("RetailProduct_ProductManagementModule: AddProduct(): ");
-        ProductEntity pe = new ProductEntity(name, description, price, unit,Boolean.TRUE);
+        ProductEntity pe = new ProductEntity(name, description, price, unit,Boolean.FALSE);
     }
 
     @Override
     public void DeleteProduct(Long productId) {
         System.out.println("RetailProduct_ProductManagementModule: DeleteProduct(): ");
         ProductEntity pe = em.find(ProductEntity.class, productId);
-        pe.setDeleteFlag(Boolean.FALSE);
+        pe.setDeleteFlag(Boolean.TRUE);
     }
 
     @Override
@@ -71,14 +70,14 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     @Override
     public void AddRetailProduct(String name, String description) {
         System.out.println("RetailProduct_ProductManagementModule: AddRetailProduct(): ");
-        RetailProductEntity pe = new RetailProductEntity(name, description, Boolean.TRUE);
+        RetailProductEntity pe = new RetailProductEntity(name, description, Boolean.FALSE);
     }
 
     @Override
     public void DeleteRetailProduct(Long retailProductId) {
         System.out.println("RetailProduct_ProductManagementModule: DeleteRetialProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
-        pe.setDeleteFlag(Boolean.FALSE);
+        pe.setDeleteFlag(Boolean.TRUE);
     }
 
     @Override

@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <title>Island Furniture ERP WorkPlace</title>
+            <!--            <head>
+                                <style type="text/css">
+                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
+                                         border: none;
+                                    }
+                                </style>
+                        </head>-->
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+
+                        <p:button  outcome="/secured/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+                        <p:button outcome="InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="Manufacturing Resource Planning">
+                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
+                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
+                            </p:submenu>
+                            <p:submenu label="Supply Chain Management">
+                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
+                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
+                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
+                            </p:submenu>
+                            <p:submenu label="Empolyees">
+                                <p:menuitem value="Empolyees List"/>
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="User Information Page" style="margin-bottom" >
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                                <h:outputLabel for="userid" value="User ID:" />
+
+                                <h:outputText value="#{userInfo.userId}"/>
+
+
+                                <h:outputLabel for="title" value="Title *:" />
+                                <p:inplace id="title" editor="true">
+                                    <h:selectOneMenu value="#{userInfo.title}" style="width:100%" required="true">
+                                        <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                    </h:selectOneMenu>
+                                </p:inplace>
+
+                                <h:outputLabel for="firstname" value="FirstName *:" />
+                                <p:inplace id="firstname" editor="true">
+                                    <p:inputText value="#{userInfo.firstName}" required="true" label="text" />
+                                </p:inplace>
+
+                                <h:outputLabel for="midname" value="MidName:" />
+                                <p:inplace id="midname" editor="true">
+                                    <p:inputText value="#{userInfo.midName}"  label="text" />
+                                </p:inplace>
+
+                                <h:outputLabel for="lastname" value="LastName *:" />
+                                <p:inplace id="lastname" editor="true">
+                                    <p:inputText value="#{userInfo.lastName}" required="true" label="text" />
+                                </p:inplace>
+
+                                <h:outputLabel for="department" value="Department:" />                                
+                                <h:outputText value="#{userInfo.department}" />
+
+
+                                <h:outputLabel for="departmentid" value="Department ID:" />                                
+                                <h:outputText value="#{userInfo.departmentId}"/>
+
+
+                                <h:outputLabel for="position" value="Position:" />                                
+                                <h:outputText value="#{userInfo.position}" />
+
+
+                                <h:outputLabel for="userlvl" value="User Level:" />                                
+                                <h:outputText value="#{userInfo.userLevel}"  />
+
+
+                                <h:outputLabel for="gender" value="Gender *:" />
+                                <p:inplace id="gender" editor="true">
+                                    <p:inputText value="#{userInfo.gender}" required="true" label="text" />
+                                </p:inplace>                                
+
+                   
+                                <h:outputLabel for="birthday" value="Birthday:" />
+                                
+                                <p:calendar  value="#{userInfo.birDate}" locale="de"  navigator="true" pattern="dd-MM-yyyy" />
+                                
+                                <h:outputLabel for="email" value="Email *:" />
+                                <p:inplace id="email" editor="true">
+                                    <p:inputText value="#{userInfo.email}" required="true" label="text" />
+                                </p:inplace>
+
+                                <h:outputLabel for="addr" value="Address:" />
+                                <p:inplace id="addr" editor="true">
+                                    <p:inputText value="#{userInfo.address}"  label="text" />
+                                </p:inplace>
+
+                                <h:outputLabel for="postal" value="Postal Code:" />
+                                <p:inplace id="postal" editor="true">
+                                    <p:inputText value="#{userInfo.postal}"  label="text" />
+                                </p:inplace>
+
+                                <h:outputLabel for="pwd" value="Password:" />                                
+                                <h:outputText value="#{userInfo.password}" />
+
+
+                                <h:outputLabel for="space" value="        " />
+                                <p:button outcome="ChangePassword.xhtml" value="Change Password" style="border:5px ;width: 150px; height:30px; font-size:12px;"></p:button>
+
+
+
+
+                                <p:commandButton id = "savebtn" value="save" actionListener="#{userInfo.saveChangedUserInfo}" ajax="false"/>
+                                <p:button outcome="/secured/WorkPlace.xhtml" value="go back"></p:button>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+
