@@ -58,8 +58,8 @@ public class listTicketBean {
     }
     
     public void viewTicketDetail(TicketEntity ticket) throws IOException{
-        
-        String path = "/secured/CommonInfrastructure/ticket/readTicketDetail.xhtml";
+        //update path zy
+        String path = "/secured/public/readTicketDetail.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("detailTicket",ticket);
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         FacesContext.getCurrentInstance().getExternalContext().redirect( url + path );

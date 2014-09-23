@@ -11,6 +11,7 @@ import Entity.CommonInfrastructure.InternalMessageReceive;
 import Entity.CommonInfrastructure.UserEntity;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -35,7 +36,7 @@ public interface InternalMessageModuleLocal {
 // 9. b. Display send Message List by Receiver -- enable by primeface
     
     
-    public ArrayList<UserEntity> getAllUsers();
+    public List<UserEntity> getAllUsers();
 
     public void sendMessage(String senderId, String title, String content,  ArrayList<String> receiverIds) throws Exception;
 

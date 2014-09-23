@@ -71,7 +71,7 @@ public class sentMessageManageBean {
     public void readMessage(InternalMessageEntity message) throws Exception {
         selectedMessage = message;
 
-        String path = "/secured/CommonInfrastructure/viewSendMessageDetail.xhtml";
+        String path = "/secured/public/viewSendMessageDetail.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSendMessage", selectedMessage);
 
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();

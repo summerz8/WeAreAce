@@ -50,7 +50,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
     
 //    =====================================GET USER ==========================================
     @Override
-    public ArrayList<UserEntity> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         ArrayList<UserEntity> userList = new ArrayList<UserEntity>();
         Query q = em.createQuery("Select t from UserEntity t");
         for (Object o : q.getResultList()) {

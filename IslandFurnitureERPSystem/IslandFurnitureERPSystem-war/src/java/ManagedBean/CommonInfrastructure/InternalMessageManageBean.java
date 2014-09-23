@@ -69,6 +69,7 @@ public class InternalMessageManageBean implements Serializable {
        
         currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
         userEntities = im.getAllUsers();
+        System.err.println("Internal Message Manage Bean: all user Size" + userEntities.size());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userEntities", userEntities);
         
     
@@ -113,6 +114,8 @@ public class InternalMessageManageBean implements Serializable {
 
         context.addMessage(null, new FacesMessage("Message", "Message is sent successfully."));
         
+       title = null;
+       selectedUserEntities.clear();
        
         
         

@@ -15,6 +15,8 @@ public class UserEntityConverter implements Converter {
         if(value != null && value.trim().length() > 0) {
             List<UserEntity> userEntities = (List<UserEntity>)fc.getExternalContext().getSessionMap().get("userEntities");
             
+            System.err.println("Converter: " + userEntities.size());
+            
             for(UserEntity userEntity:userEntities)
             {
                 if(userEntity.getUserId().equals(value))

@@ -95,7 +95,7 @@ public class receiveMessageManageBean {
         im.readReceiveMessage(selectedMessage.getReceivedMessageid());
         }
         
-        String path = "/secured/CommonInfrastructure/readMessageDetail.xhtml";
+        String path = "/secured/public/readMessageDetail.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedMessage", selectedMessage);
 
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();

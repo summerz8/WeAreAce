@@ -128,7 +128,7 @@ public class LoginBean implements Serializable {
             if (IFMB.checkAccount(checkUserId, checkPwd)) {
                 Flag=true;
                 statusMsg = "Login successfully...";
-                path = "secured/WorkPlace.xhtml";
+                path = "secured/public/WorkPlace.xhtml";
                 fullName = IFMB.getFullName(userId);
                 
                 department = IFMB.getDepartment(userId);

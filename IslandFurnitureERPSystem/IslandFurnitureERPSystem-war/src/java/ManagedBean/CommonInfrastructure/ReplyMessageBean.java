@@ -79,6 +79,8 @@ public class ReplyMessageBean {
        FacesContext context = FacesContext.getCurrentInstance();
 
         context.addMessage(null, new FacesMessage("Message", "Message is sent successfully."));
+        title = null;
+        
         
     }
     

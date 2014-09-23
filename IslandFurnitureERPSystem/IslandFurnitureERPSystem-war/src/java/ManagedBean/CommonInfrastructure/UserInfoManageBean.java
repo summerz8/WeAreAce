@@ -300,6 +300,8 @@ public class UserInfoManageBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Wrong Password, please enter again!", ""));
         }
+        
+        inputOldPass = null;
 
     }
 }

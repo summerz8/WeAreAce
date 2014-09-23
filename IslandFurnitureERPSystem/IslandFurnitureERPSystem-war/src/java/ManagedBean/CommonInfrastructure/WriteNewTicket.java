@@ -53,6 +53,8 @@ public class WriteNewTicket {
 
         context.addMessage(null, new FacesMessage("message", "Ticket has been submitted. We will get back to you soon."));
         
+        title = null;
+        description = null;
         
 
     }

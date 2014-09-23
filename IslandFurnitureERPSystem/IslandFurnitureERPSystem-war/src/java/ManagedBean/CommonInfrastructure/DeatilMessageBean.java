@@ -44,7 +44,9 @@ public class DeatilMessageBean {
     }
 
     public void replyAMessage(ActionEvent event) throws IOException{
-        String path = "/secured/CommonInfrastructure/replyAMessage.xhtml";
+        
+        //update change zy
+        String path = "/secured/public/replyAMessage.xhtml";
         isReplyMessage = true;
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("repliedMessage", detailMessage );
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isReply",  isReplyMessage);

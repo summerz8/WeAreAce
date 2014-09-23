@@ -5,17 +5,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
+
         <h:head>
             <title>Island Furniture Internal Portal</title>
-            
-        <style type="text/css">
-            .old {
-                background-color: #fca752 !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-            
-        </style>
 
         </h:head>
 
@@ -30,24 +22,24 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
-                        
-                        <p:button  value="System" outcome = "/secured/CommonInfrastructure/ticket/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                                
-                            </p:button>
-
-                        <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
-                        <p:button outcome="InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
-                        <p:button  outcome="/secured/WorkPlace" value="HomePage" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
-                        </p:button>  
+                        </p:button> 
+                        
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
+                        </p:button>
 
                         <h:outputLabel value = "Welcome Back, " >
                             <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -76,67 +68,53 @@
                     <p:layoutUnit position="center" resizable="false">
 
 
-                        <p:dataTable  id = "messagesMenu" value="#{receiveMessageManageBean.receiveMessageList}" var ="message" selection="#{receiveMessageManageBean.checkedMessageList}" rowKey = "#{message.receivedMessageid}" paginator="true" rows="10" styleClass="margin-bottom:20px border: 0px" rowStyleClass="#{!message.opened?'old':null}"   >
+                        <p:dataTable  id = "messagesMenu" value="#{sentMessageManageBean.sentMessageList}" var ="message" selection="#{sentMessageManageBean.checkedMessageList}" rowKey = "#{message.internalMessageId}" paginator="true" rows="10" styleClass="margin-bottom:20px border: 0px" >
                             <f:facet name="header">
-                                View All Message 
+                                View All Sent Message 
                             </f:facet>
-
-
                             <p:column selectionMode="multiple" style="width:16px;text-align:center" />
                             <p:column>
                                 <f:facet name ="header">
                                     <h:outputText value = "View" />
                                 </f:facet>
-                                <p:commandButton  actionListener="#{receiveMessageManageBean.readMessage(message)}" icon="ui-icon-search" title="View">
-
+                                <p:commandButton  actionListener="#{sentMessageManageBean.readMessage(message)}" icon="ui-icon-search" title="View">
                                 </p:commandButton>
 
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    
+                                    <h:outputText value="Receiver Id" />
                                 </f:facet>
-
-                                <h:outputText value="↩"  rendered = "#{message.isReplied()}"/>
-
-
-                                <p:column headerText="Select Receive Message">
-                                    <p:button icon="ui-icon-search" value ="#{receiveMessageManageBean.selectedMessage}" outcome ="readMessageDetail.xhtml" />
-                                </p:column>
-
-
+                                <h:outputText value="#{message.receiverIds}" />
                             </p:column>
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Send Time" />
                                 </f:facet>
-                                <h:outputText value="#{receiveMessageManageBean.displayTime(message.calendarTime)}" />
+                                <h:outputText value="#{sentMessageManageBean.displayTime(message.calendarTime)}" />
                             </p:column>
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="From"/>
-                                </f:facet>
-                                <h:outputText value="#{message.senderId}"  />
-                            </p:column>
+
 
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Title" />
                                 </f:facet>
-                                <h:outputText value="#{message.title}"   />
+                                <h:outputText value="#{message.title}" />
                             </p:column>
 
                             <f:facet name="footer">
-                                <p:commandButton process="messagesMenu" update = "messagesMenu" icon="ui-icon-trash" value="Trash" actionListener ="#{receiveMessageManageBean.deleteMessage(receiveMessageManageBean.checkedMessageList)}" />
+                                <p:commandButton process="messagesMenu" update = "messagesMenu" icon="ui-icon-trash" value="Trash" actionListener ="#{sentMessageManageBean.deleteMessage(sentMessageManageBean.checkedMessageList)}" />
                             </f:facet>
-
                         </p:dataTable>     
                     </p:layoutUnit>
 
 
 
                 </p:layout>
+
+                
             </h:form>
         </h:body>
 

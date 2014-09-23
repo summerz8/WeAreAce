@@ -31,7 +31,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AccessControlFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/secured/restricted/*</url-pattern>
     </filter-mapping>
     <security-constraint>
         <display-name>SSL Protection</display-name>
