@@ -20,26 +20,31 @@
 
             <h:form id="formMain">
                 <p:layout >
-                    <p:messages id="messagesStatus" redisplay="false" />
+                    <p:messages id="messagesStatus" redisplay="true" />
 
                     <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
 
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
-
-                        <p:button  outcome="/secured/WorkPlace.xhtml" value="home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
-                        <p:button outcome="/secured/CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
-                        <p:button  outcome="/secured/CommonInfrastructure/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
-                        </p:button>  
+                        </p:button> 
+                        
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
 
 
                         <h:outputLabel value = "Welcome Back " >
@@ -51,7 +56,7 @@
                     </p:layoutUnit>
 
 
-                    <p:growl id="messages" showDetail="false"/>
+                    <p:growl id="messages" showDetail="false" autoUpdate="true"/>
 
                     <p:layoutUnit position="west" size="500px">
 
@@ -78,24 +83,30 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
-                            <p:panelMenu style="width:300px">
-                                <p:submenu label="Overall">
-                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
-                                </p:submenu>
+                        <p:panel id="basic" header="Please Input New User Information " style="margin-bottom" >
+                            <h:panelGrid columns="2" cellpadding="10">                                
+
+                                <h:outputLabel for="country" value="Country: *" />
+                                <h:selectOneMenu value="#{factoryControl.newFactoryCountry}" style="width:100%" required="true" requiredMessage="Please select a title">
+                                    <f:selectItems value="#{attr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                </h:selectOneMenu>
 
 
-                                <p:submenu label="Inventory" >
+                                <h:outputLabel for="address" value="Address *:" />
+                                <p:inputText value="#{factoryControl.newFactoryAddress}" required="true" label="text" >
+                                    
+                                </p:inputText>
 
-                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
-                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-                                    <p:menuitem value="BOM" url="BOMControl" icon="ui-icon-wrench" />
 
-                                </p:submenu>
-                            </p:panelMenu>
+                                <h:outputLabel for="contact" value="Contact *:" />
+                                <p:inputText value="#{factoryControl.newFactoryContact}" required="true" label="text" />
+
+
+                                <h:outputLabel for="manager" value="Manager: *" />
+                                <p:inputText value="#{factoryControl.newFactoryManager}" required="true" label="text" />                                
+
+                                <p:commandButton actionListener="#{factoryControl.addFactory()}" value="Save"/>
+                            </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>
 

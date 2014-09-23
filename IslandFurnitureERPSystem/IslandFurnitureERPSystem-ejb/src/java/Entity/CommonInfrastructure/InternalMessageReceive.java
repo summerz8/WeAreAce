@@ -7,12 +7,14 @@
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -25,12 +27,16 @@ public class InternalMessageReceive implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long receivedMessageid;
-    private boolean deleted;
-    private boolean opened;
+    private Boolean deleted;
+    private Boolean opened;
     private String senderId;
     private String content;
     private String title;
-    private String sendTime;
+   
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar calendarTime;
+    
+    private Boolean replied;
     
     @ManyToOne
     private InternalMessageEntity message;
@@ -52,7 +58,7 @@ public class InternalMessageReceive implements Serializable {
         this.senderId = message.getSender().getUserId();
         this.content = message.getContent();
         this.title = message.getTitle();
-        this.sendTime = message.getSendTime();
+        this.calendarTime = message.getCalendarTime();
         
     }
 
@@ -132,14 +138,27 @@ public class InternalMessageReceive implements Serializable {
         this.title = title;
     }
 
-    public String getSendTime() {
-        return sendTime;
+    public Calendar getCalendarTime() {
+        return calendarTime;
     }
 
-    public void setSendTime(String sendTime) {
-        this.sendTime = sendTime;
+    public void setCalendarTime(Calendar calendarTime) {
+        this.calendarTime = calendarTime;
+    }
+
+
+    public Boolean isReplied() {
+        return replied;
+    }
+
+    public void setReplied(Boolean replied) {
+        this.replied = replied;
     }
     
+    
+    
+    
+
    
 
     @Override

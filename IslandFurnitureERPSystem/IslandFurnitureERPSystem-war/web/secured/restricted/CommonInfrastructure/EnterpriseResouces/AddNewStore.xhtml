@@ -20,26 +20,31 @@
 
             <h:form id="formMain">
                 <p:layout >
-                    <p:messages id="messagesStatus" showDetail="true" redisplay="false" />
+                    <p:messages id="messagesStatus" redisplay="true" />
 
                     <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
 
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
-
-                        <p:button  outcome="/secured/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
-                        <p:button outcome="InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
-                        <p:button  outcome="UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
-                        </p:button>  
+                        </p:button> 
+                        
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
 
 
                         <h:outputLabel value = "Welcome Back " >
@@ -51,7 +56,7 @@
                     </p:layoutUnit>
 
 
-                    <p:growl id="messages" showDetail="false"/>
+                    <p:growl id="messages" showDetail="false" autoUpdate="true"/>
 
                     <p:layoutUnit position="west" size="500px">
 
@@ -70,25 +75,37 @@
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
                             </p:submenu>
+                            <p:submenu label="Enterprise">
+                                <p:menuitem value="Resource Control" outcome="EnterpriseResourceControl.xhtml"/>
+                            </p:submenu>
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Change your password" style="margin-bottom" >
-                            <h:panelGrid columns="2" cellpadding="10" id="matchGrid">
-                                                               
-                                <h:outputLabel for="pwd" value="Enter Old Password:" />
-                                <p:inputText id="pwd" value="#{userInfo.inputOldPass}" required="true" label="text" />
+                        <p:panel id="basic" header="Please Input New User Information " style="margin-bottom" >
+                            <h:panelGrid columns="2" cellpadding="10">                                
 
-                                <h:outputLabel for="pwd1" value="Enter New Password: *" />
-                                <p:password id="pwd1" value="#{userInfo.newPass}" match="pwd2" label="Password 1" required="true" />
+                                <h:outputLabel for="country" value="Country: *" />
+                                <h:selectOneMenu value="#{storeControl.newStoreCountry}" style="width:100%" required="true" requiredMessage="Please select a title">
+                                    <f:selectItems value="#{attr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                </h:selectOneMenu>
 
-                                <h:outputLabel for="pwd2" value="Enter New Password Again: *" />
-                                <p:password id="pwd2" value="#{userInfo.newPass}" label="Password 2" required="true" />
 
-                                <p:commandButton id = "savebtn" update= "matchGrid" value="save" actionListener="#{userInfo.changePassword}" ajax="false"/>
-                                <p:button outcome="/secured/WorkPlace.xhtml" value="go back"></p:button>
+                                <h:outputLabel for="address" value="Address *:" />
+                                <p:inputText value="#{storeControl.newStoreAddress}" required="true" label="text" >
+                                    
+                                </p:inputText>
+
+
+                                <h:outputLabel for="contact" value="Contact *:" />
+                                <p:inputText value="#{storeControl.newStoreContact}" required="true" label="text" />
+
+
+                                <h:outputLabel for="manager" value="Manager: *" />
+                                <p:inputText value="#{storeControl.newStoreManager}" required="true" label="text" />                                
+
+                                <p:commandButton actionListener="#{storeControl.addStore()}" value="Save"/>
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>

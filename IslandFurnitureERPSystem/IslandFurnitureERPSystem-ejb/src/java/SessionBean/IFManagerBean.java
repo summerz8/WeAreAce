@@ -98,6 +98,7 @@ public class IFManagerBean implements IFManagerBeanRemote{
         System.out.println("IFManagerBean: checkAccount()");
         //Query q = em.createQuery("SELECT t FROM UserEntity t WHERE t.userId=:userId");
         //q.setParameter("userId", userId);
+        System.out.println("checkAccount:" + userId);
         user = em.find(UserEntity.class, userId);
         //user = (UserEntity)q.getResultList();
         //if the user exsit and password correct

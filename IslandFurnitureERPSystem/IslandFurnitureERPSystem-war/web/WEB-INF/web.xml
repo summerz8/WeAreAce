@@ -31,7 +31,11 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AccessControlFilter</filter-name>
+<<<<<<< HEAD
         <url-pattern>/secured/*</url-pattern>
+=======
+        <url-pattern>/secured/restricted/*</url-pattern>
+>>>>>>> c6f0bb7e6d24ec86867089ca69f42c64cecb24bc
     </filter-mapping>
     <security-constraint>
         <display-name>SSL Protection</display-name>

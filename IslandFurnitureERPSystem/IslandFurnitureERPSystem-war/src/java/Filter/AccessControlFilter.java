@@ -41,29 +41,27 @@ public class AccessControlFilter implements Filter {
         //check first time login or logged out
         if (url.contains("loginPage.xhtml")) {
             chain.doFilter(request, response);
-        }
+        }        
         if (userLevel == 0) {
             chain.doFilter(request, response);
 
-        } else if (userLevel == 1 && url.contains("/Factory/") ) {
+        } else if (userLevel == 1 && (url.contains("/Factory/") || url.contains("WorkPlace.xhtml"))) {
             chain.doFilter(request, response);
 
-        } else if(userLevel == 2 && url.contains("/Store/")){
-        
-        chain.doFilter(request, response);
-        }else if(userLevel == 3 && url.contains("/SCM/")){
-        chain.doFilter(request, response);
-        }else if(userLevel == 4 && url.contains("/MRP/")){
-        chain.doFilter(request, response);
-        }else if(userLevel == 5 && url.contains("/Kitchen/")){
-        chain.doFilter(request, response);
-        }else if(userLevel == 6 && url.contains("/Market/")){
-        chain.doFilter(request, response);
-        }else if(userLevel == 7 && url.contains("/ticket/")){
-        chain.doFilter(request, response);       
-        }
-        
-        else {
+        } else if (userLevel == 2 && (url.contains("/Store/") || url.contains("WorkPlace.xhtml"))) {
+
+            chain.doFilter(request, response);
+        } else if (userLevel == 3 && (url.contains("/SCM/") || url.contains("WorkPlace.xhtml"))) {
+            chain.doFilter(request, response);
+        } else if (userLevel == 4 && (url.contains("/MRP/") || url.contains("WorkPlace.xhtml"))) {
+            chain.doFilter(request, response);
+        } else if (userLevel == 5 && (url.contains("/Kitchen/") || url.contains("WorkPlace.xhtml"))) {
+            chain.doFilter(request, response);
+        } else if (userLevel == 6 && (url.contains("/Market/") || url.contains("WorkPlace.xhtml"))) {
+            chain.doFilter(request, response);
+        } else if (userLevel == 7 && (url.contains("/ticket/") || url.contains("WorkPlace.xhtml"))) {
+            chain.doFilter(request, response);
+        } else {
 
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don't have access right!");
 

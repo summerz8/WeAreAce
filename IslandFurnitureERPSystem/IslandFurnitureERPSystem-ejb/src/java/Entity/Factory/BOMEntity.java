@@ -27,6 +27,7 @@ public class BOMEntity implements Serializable {
     private Long BOMId;
     private String unit;
     private Double amount;
+    private Boolean isDeleted;
    // Raw material entity ---- bom : 1 <--> M
     @ManyToOne
     private RawMaterialEntity rawMaterial;
@@ -44,7 +45,10 @@ public class BOMEntity implements Serializable {
         this.rawMaterial=rawMaterial;
         this.unit=unit;
         this.product=product;
+        this.isDeleted = false;
     }
+    
+    
     public Long getBOMId() {
         return BOMId;
     }
@@ -85,6 +89,15 @@ public class BOMEntity implements Serializable {
         this.product = product;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    
     
     
     

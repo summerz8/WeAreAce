@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+
+        <h:head>
+            <title>Island Furniture Internal Portal</title>
+
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+                        
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+                        
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <h:outputLabel value = "Welcome Back, " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+
+                    </p:layoutUnit>
+
+
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            
+                            <p:submenu label="Ticket">
+                                <p:menuitem outcome = "AboutSystem.xhtml" value="About The System" icon="ui-icon-document"  />
+                                <p:menuitem outcome = "newTicket.xhtml" value="Raise A Ticket" icon="ui-icon-mail-closed" />
+                                <p:menuitem outcome = "ListRaisedTicket.xhtml" value="View Ticket History" icon="ui-icon-transfer-e-w"  />
+                            </p:submenu>
+                           
+
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <f:facet name="header">
+                            Ticket Detail
+                        </f:facet>
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="ticketId" value="Ticket ID: " >
+                            <h:outputText id = "ticketId" value="#{ticketDetailBean.ticket.id}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="Status" value="Status: " >
+                            <h:outputText id = "Status" value="#{ticketDetailBean.displayTicketStatus(ticketDetailBean.ticket)}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="title" value="Title: " >
+                            <h:outputText id = "Title" value="#{ticketDetailBean.ticket.title}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="content" value="Content: " >
+                            <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                            <p:editor id = "content" value="#{ticketDetailBean.ticket.content}" disabled ="true" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        
+                        
+                    </p:layoutUnit>
+
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+
+    </f:view>
+
+
+</html>

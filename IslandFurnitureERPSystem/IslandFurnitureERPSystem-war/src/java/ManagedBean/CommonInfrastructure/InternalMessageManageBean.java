@@ -7,6 +7,7 @@
 package ManagedBean.CommonInfrastructure;
 
 
+import Entity.CommonInfrastructure.InternalMessageEntity;
 import Entity.CommonInfrastructure.InternalMessageReceive;
 import Entity.CommonInfrastructure.UserEntity;
 import SessionBean.CommonInFrastructure.InternalMessageModuleLocal;
@@ -50,6 +51,7 @@ public class InternalMessageManageBean implements Serializable {
     private ArrayList<String> receiverIdList;
     
     
+    
     @EJB
     private InternalMessageModuleLocal im;
     
@@ -67,8 +69,10 @@ public class InternalMessageManageBean implements Serializable {
        
         currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
         userEntities = im.getAllUsers();
-
+        System.err.println("Internal Message Manage Bean: all user Size" + userEntities.size());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userEntities", userEntities);
+        
+    
     }
     
     @PreDestroy
@@ -104,8 +108,16 @@ public class InternalMessageManageBean implements Serializable {
             receiverIdList.add(userEntityString.getUserId());
         }
         
-       im.sendMessage(currentUserId, title, content, null, null,  receiverIdList);
+       im.sendMessage(currentUserId, title, content, receiverIdList);
        System.err.println("sendMessage(): Message Sent ");
+       FacesContext context = FacesContext.getCurrentInstance();
+
+        context.addMessage(null, new FacesMessage("Message", "Message is sent successfully."));
+        
+       title = null;
+       selectedUserEntities.clear();
+       
+        
         
     }
     
