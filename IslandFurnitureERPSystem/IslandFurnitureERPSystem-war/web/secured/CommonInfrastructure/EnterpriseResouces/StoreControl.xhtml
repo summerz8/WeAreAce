@@ -1,12 +1,161 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <title>Island Furniture ERP WorkPlace</title>
+            <!--            <head>
+                                <style type="text/css">
+                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
+                                         border: none;
+                                    }
+                                </style>
+                        </head>-->
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+
+                        <p:button  outcome="/secured/WorkPlace.xhtml" value="home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+                        <p:button outcome="/secured/CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/CommonInfrastructure/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="Manufacturing Resource Planning">
+                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
+                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
+                            </p:submenu>
+                            <p:submenu label="Supply Chain Management">
+                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
+                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
+                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
+                            </p:submenu>
+                            <p:submenu label="Empolyees">
+                                <p:menuitem value="Empolyees List"/>
+                            </p:submenu>
+                            <p:submenu label="Enterprise">
+                                <p:menuitem value="Resource Control" outcome="EnterpriseResourceControl.xhtml"/>
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
+                            <p:dataTable id="storetable" var="store" value="#{storeControl.storeList}" 
+                                         scrollable="true" scrollWidth="100%" scrollHeight="100%"
+                                         widgetVar="storeTable" emptyMessage="No factory found with given criteria" 
+                                         filteredValue="#{storeControl.filterdStore}"
+                                         editable="true" >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('storeTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:ajax event="rowEdit" listener="#{storeControl.onRowEdit}" update="@this" />
+                                <p:ajax event="rowEditCancel" listener="#{storeControl.onRowCancel}" update=":formMain:messagesStatus" />
+
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+                                
+                                <p:column style="width:32px;text-align: center">                                    
+
+                                    <p:commandButton  update="storetable" actionListener="#{storeControl.deleteStore(store.storeId)}" icon="ui-icon-trash" title="Delete">
+
+                                    </p:commandButton>                                   
+                                </p:column>
+
+                                <p:column filterBy="#{store.storeId}" headerText="Store Id" width="100">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{factory.factoryId}" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="userInput" value="#{factory.factoryId}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>                                    
+                                </p:column>                               
+
+
+                                <p:column  filterBy="#{factory.country}" headerText="Conuntry" width="40" filterMatchMode="contains">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{factory.country}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{factory.country}" style="width:100%">
+                                                <f:selectItems value="#{attr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{factory.address}" headerText="Address" width="150" filterMatchMode="contains">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{factory.address}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{factory.address}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>                       
+                                </p:column>
+
+                                <p:column filterBy="#{factory.contact}" headerText="Middle Name" width="150">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{factory.contact}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{factory.contact}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{factory.manager}" headerText="Last Name" width="150">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{factory.manager}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{factory.manager}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                              
+                            </p:dataTable>
+                            <p:button value="Add Store" outcome="AddNewStore"></p:button>
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
 </html>
 

@@ -280,7 +280,7 @@ public class UserInfoManageBean implements Serializable {
         
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "New User Added Successfully!", ""));
+                "User Info Changed Successfully!", ""));
 
         
 
@@ -290,7 +290,7 @@ public class UserInfoManageBean implements Serializable {
         //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
         System.out.println("UserInfoManageBean: change password");
         //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-        
+        System.out.println("UserInfoManageBean: old password" + password);
         if (inputOldPass.equals(password)) {
             IUMA.changePass(newPass, userId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,

@@ -6,7 +6,13 @@
 package superuserclient;
 
 import SessionBean.IFManagerBeanRemote;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 
 /**
@@ -64,10 +70,22 @@ public class Main {
         String gender = sc.nextLine();
         System.out.println("Please enter user's department(H, F, or S):");
         String department = sc.nextLine();
+        System.out.println("Please enter user's birthday(format: dd-mm-yyyy)");
+        String birthday = sc.nextLine();
         
-        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, 1000000);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar bir = Calendar.getInstance();
+        try {
+            bir.setTime(df.parse(birthday));
+        } catch (ParseException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String info = IFMB.createUser(department, userLevel, lastName, firstName, position, gender, 1000000, bir);
         String userId = info.substring(0, 8);
         String pwd = info.substring(9);
+        
+        
         
         System.out.println("The new created user account id is: " + userId);
         System.out.println(userId);

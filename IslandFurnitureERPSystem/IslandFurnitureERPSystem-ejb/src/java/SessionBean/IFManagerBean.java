@@ -10,6 +10,7 @@ import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
+import java.util.Calendar;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,7 +20,7 @@ import javax.persistence.PersistenceContext;
  * @author zhangshiyu
  */
 @Stateless
-public class IFManagerBean implements IFManagerBeanLocal{
+public class IFManagerBean implements IFManagerBeanRemote{
 
     @PersistenceContext
     private EntityManager em;
@@ -29,7 +30,7 @@ public class IFManagerBean implements IFManagerBeanLocal{
 
     @Override
     public String createUser(String department, Integer userLevel, String lastName,
-            String firstName, String position, String gender, long departmentId) {
+            String firstName, String position, String gender, long departmentId, Calendar birthday) {
         System.out.println("IFManagerBean: createUser():");
         String msg = new String();
         try {
@@ -41,8 +42,9 @@ public class IFManagerBean implements IFManagerBeanLocal{
                 case 'H':
                     idNumber = (int)idNum.getId_H() + 1;
                     idNum.setId_H((long) idNumber);
+                    
                     user = new HQUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, null, gender, null, null, null, null, true, departmentId);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, true, departmentId);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
@@ -51,7 +53,7 @@ public class IFManagerBean implements IFManagerBeanLocal{
                     idNumber = (int)idNum.getId_F() + 1;
                     idNum.setId_H((long) idNumber);
                     user = new FactoryUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, null, gender, null, null, null, null, departmentId, true);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, true);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
@@ -59,7 +61,7 @@ public class IFManagerBean implements IFManagerBeanLocal{
                     idNumber = (int)idNum.getId_S() + 1;
                     idNum.setId_H((long) idNumber);
                     user = new StoreUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, null, gender, null, null, null, null, departmentId, true);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, true);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
