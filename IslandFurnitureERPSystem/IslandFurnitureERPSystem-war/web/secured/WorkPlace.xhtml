@@ -26,17 +26,6 @@
 
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-<<<<<<< HEAD
-                            
-                            <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                                
-                            </p:commandButton>
-                            <p:button  value="System" outcome = "CommonInfrastructure/ticket/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                                
-                            </p:button>
-                        
-=======
->>>>>>> ffc5e5b5682491781363ed0b2b6ea677edb83427
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
@@ -50,7 +39,10 @@
                         </p:button>  
                         <p:button  outcome="CommonInfrastructure/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
-                        </p:button>  
+                        </p:button> 
+                        <p:button  value="System" outcome = "CommonInfrastructure/ticket/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
 
 
                         <h:outputLabel value = "Welcome Back " >
@@ -81,13 +73,11 @@
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
                             </p:submenu>
-<<<<<<< HEAD
-                            <p:submenu label="Ticket Management">
-                                <p:menuitem value="View Tickets" outcome = "/secured/CommonInfrastructure/ticket/receiveTicketList"/>
-=======
                             <p:submenu label="Enterprise">
                                 <p:menuitem value="Resource Control" outcome="CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml"/>
->>>>>>> ffc5e5b5682491781363ed0b2b6ea677edb83427
+                            </p:submenu>
+                            <p:submenu label="Ticket Management">
+                                <p:menuitem value="View Tickets" outcome = "/secured/CommonInfrastructure/ticket/receiveTicketList"/>
                             </p:submenu>
                         </p:menu>
 
@@ -96,7 +86,7 @@
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="User Information Page" style="margin-bottom" >
                             <h:panelGrid columns="2" cellpadding="10">
-                                
+
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>

@@ -22,9 +22,5 @@
         <managed-bean-class>ManagedBean.CommonInfrastructure.InternalMessageManageBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
-<<<<<<< HEAD
-=======
-
->>>>>>> ffc5e5b5682491781363ed0b2b6ea677edb83427
     
 </faces-config>
