@@ -122,6 +122,36 @@ public class IFManagerBean implements IFManagerBeanRemote{
         }
         return fullName;
     }
+    
+    @Override
+    public String getDepartment(String userId) {
+        String department = null;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            department = user.getDepartment();
+        }
+        return department;
+    }
+    
+    @Override
+    public Long getDepartmentId(String userId) {
+        Long departmentId = null;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            departmentId = user.getDepartmentId();
+        }
+        return departmentId;
+    }
+    
+    @Override
+    public int getUserLevel(String userId){
+     int userLevel;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            userLevel = user.getUserLevel();           
+        }
+        return userLevel;
+    }
 
     @Override
     public void setUpIdNumber() {

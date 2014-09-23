@@ -71,6 +71,7 @@ public class UserInfoManageBean implements Serializable {
         try {
             System.out.println("UserInfoPageMangeBean: userId");
             userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
+            
             System.out.println("UserInfoPageMangeBean: userId" + userId);
 
 //        listedUser = IUMA.ListUser();

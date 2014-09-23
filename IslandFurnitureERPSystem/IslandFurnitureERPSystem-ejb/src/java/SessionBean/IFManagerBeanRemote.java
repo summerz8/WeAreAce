@@ -24,4 +24,10 @@ public interface IFManagerBeanRemote {
 
     public String createUser(String department, Integer userLevel, String lastName, 
             String firstName, String position, String gender, long departmentId, Calendar birthday);
+
+    public String getDepartment(String userId);
+
+    public Long getDepartmentId(String userId);
+
+    public int getUserLevel(String userId);
 }

@@ -5,15 +5,13 @@
  */
 package SessionBean.CommonInFrastructure;
 
-import Entity.Factory.BOMEntity;
-import Entity.Factory.FactoryEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
-import Entity.Store.StoreEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -23,6 +21,7 @@ import javax.persistence.Query;
 @Stateful
 public class RetailProduct_ProductManagementModule implements RetailProduct_ProductManagementModuleLocal {
 
+    @PersistenceContext
     private EntityManager em;
 
     public RetailProduct_ProductManagementModule() {

@@ -5,7 +5,6 @@
  */
 package ManagedBean.CommonInfrastructure;
 
-import SessionBean.IFManagerBeanLocal;
 import SessionBean.IFManagerBeanRemote;
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,13 +26,16 @@ import javax.servlet.http.HttpSession;
 public class LoginBean implements Serializable {
 
     @EJB
-    private IFManagerBeanRemote IFMB;
+    private IFManagerBeanRemote IFMB;    
 
     private String userId;
     private String pwd;
     private String statusMsg;
     private String path;
     private Boolean Flag=false;
+    private String department;
+    private Long departmentId;
+    private int userLevel;
     
     private String fullName;
     
@@ -97,6 +99,22 @@ public class LoginBean implements Serializable {
         this.fullName = fullName;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
     
     public void checkLogin(ActionEvent event) {
         
@@ -112,8 +130,16 @@ public class LoginBean implements Serializable {
                 statusMsg = "Login successfully...";
                 path = "secured/WorkPlace.xhtml";
                 fullName = IFMB.getFullName(userId);
+                
+                department = IFMB.getDepartment(userId);
+                departmentId = IFMB.getDepartmentId(userId);
+                userLevel = IFMB.getUserLevel(userId);
+                
                 ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("isLogin", true);
+                ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("Userlvl", userLevel);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("UserId", checkUserId);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("departmentId", departmentId);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("department", department);
                 FacesContext.getCurrentInstance().getExternalContext().redirect(path);
                 
             } else {
@@ -133,7 +159,8 @@ public class LoginBean implements Serializable {
         statusMsg="Logout successfully...";
         path="/loginPage.xhtml";
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("isLogin");
-        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("UserID");
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("UserId");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url+path);
