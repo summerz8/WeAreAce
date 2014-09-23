@@ -79,77 +79,72 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
-                            <p:dataTable id="factorytable" var="factory" value="#{factoryControl.factoryList}" 
+                            <p:dataTable id="producttable" var="product" value="#{productControl.productList}" 
                                          scrollable="true"  scrollHeight="100%"
-                                         widgetVar="factoryTable" emptyMessage="No factory found with given criteria" 
-                                         filteredValue="#{factoryControl.filterdFactory}"
+                                         widgetVar="productTable" emptyMessage="No factory found with given criteria" 
+                                         filteredValue="#{productControl.filteredProduct}"
                                          editable="true" >
 
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter"  onkeyup="PF('factoryTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <p:inputText id="globalFilter"  onkeyup="PF('productTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
                                 </f:facet>
 
 
-                                <p:ajax event="rowEdit" listener="#{factoryControl.onRowEdit}" update="@this" />
-                                <p:ajax event="rowEditCancel" listener="#{factoryControl.onRowCancel}" update=":formMain:messagesStatus" />
+                                <p:ajax event="rowEdit" listener="#{productControl.onRowEdit}" update="@this" />
+                                <p:ajax event="rowEditCancel" listener="#{productControl.onRowCancel}" update=":formMain:messagesStatus" />
 
                                 <p:column style="width:5%">
                                     <p:rowEditor />
-                                </p:column>
+                                </p:column>    
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update="factorytable" actionListener="#{factoryControl.deleteFactory(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update="producttable" actionListener="#{productControl.deleteProduct(product.productId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
 
-                                <p:column filterBy="#{factory.factoryId}" headerText="Factory Id" width="10%">
-                                    <p:cellEditor> 
-                                        <f:facet name="output"><h:outputText value="#{factory.factoryId}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="userInput" value="#{factory.factoryId}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>                                    
+                                <p:column filterBy="#{product.productId}" headerText="Product Id" width="10%">                                    
+                                    <h:outputText value="#{product.productId}" />                                                                
                                 </p:column>                               
 
 
-                                <p:column  filterBy="#{factory.country}" headerText="Conuntry" width="10%" filterMatchMode="contains">
+                                <p:column  filterBy="#{product.name}" headerText="Name" width="10%" filterMatchMode="contains">
                                     <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{factory.country}" /></f:facet>
-                                        <f:facet name="input">
-                                            <h:selectOneMenu value="#{factory.country}" style="width:96%">
-                                                <f:selectItems value="#{attr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
-                                            </h:selectOneMenu>
+                                        <f:facet name="output"><h:outputText value="#{product.name}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{product.name}"  style="width:96%"/>
+
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{factory.address}" headerText="Address" width="40%" filterMatchMode="contains">
+                                <p:column filterBy="#{product.price}" headerText="Price" width="40%" filterMatchMode="contains">
                                     <p:cellEditor>                              
-                                        <f:facet name="output"><h:outputText value="#{factory.address}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{factory.address}"  style="width:96%"/></f:facet>
+                                        <f:facet name="output"><h:outputText value="#{product.price}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{product.price}"  style="width:96%"/></f:facet>
                                     </p:cellEditor>                       
                                 </p:column>
 
-                                <p:column filterBy="#{factory.contact}" headerText="Contact" width="15%">
+                                <p:column filterBy="#{product.unit}" headerText="Unit" width="15%">
                                     <p:cellEditor>                              
-                                        <f:facet name="output"><h:outputText value="#{factory.contact}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{factory.contact}"  style="width:96%"/></f:facet>
+                                        <f:facet name="output"><h:outputText value="#{product.unit}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{product.unit}"  style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{factory.manager}" headerText="Manager" width="15%">
+                                <p:column filterBy="#{product.description}" headerText="Description" width="15%">
                                     <p:cellEditor>                              
-                                        <f:facet name="output"><h:outputText value="#{factory.manager}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{factory.manager}"  style="width:96%"/></f:facet>
+                                        <f:facet name="output"><h:outputText value="#{product.description}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{product.description}"  style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
                             </p:dataTable>
-                            
-                            <p:commandButton value="Add Factory" action="AddNewFactory"></p:commandButton>
+
+                            <p:button value="Add Product" outcome="AddNewProduct"></p:button>
                         </p:panel>
 
                     </p:layoutUnit>

@@ -107,11 +107,8 @@
                                     </p:commandButton>                                   
                                 </p:column>
 
-                                <p:column filterBy="#{factory.factoryId}" headerText="Factory Id" width="10%">
-                                    <p:cellEditor> 
-                                        <f:facet name="output"><h:outputText value="#{factory.factoryId}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="userInput" value="#{factory.factoryId}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>                                    
+                                <p:column filterBy="#{factory.factoryId}" headerText="Factory Id" width="10%">                                    
+                                    <h:outputText value="#{factory.factoryId}" />
                                 </p:column>                               
 
 
@@ -148,7 +145,7 @@
                                 </p:column>
 
                             </p:dataTable>
-                            
+
                             <p:commandButton value="Add Factory" action="AddNewFactory"></p:commandButton>
                         </p:panel>
 

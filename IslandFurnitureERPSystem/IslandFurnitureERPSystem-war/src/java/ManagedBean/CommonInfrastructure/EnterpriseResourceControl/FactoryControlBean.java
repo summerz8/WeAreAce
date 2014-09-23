@@ -5,13 +5,8 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
-import Entity.Store.StoreEntity;
 import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -33,7 +28,7 @@ public class FactoryControlBean {
     private Factory_StoreManagementModuleLocal FSMM;
     private List<FactoryEntity> factoryList;
     private List<FactoryEntity> filterdFactory;
-    
+
     private String newFactoryCountry;
     private String newFactoryAddress;
     private String newFactoryContact;
@@ -55,9 +50,9 @@ public class FactoryControlBean {
     }
 
     public void onRowEdit(RowEditEvent event) {
-
+        System.out.println("onRowEdit test: ");
         FactoryEntity entity = (FactoryEntity) event.getObject();
-        System.out.println("onRowEdit test: " + entity.getFactoryId() + entity.getManager());
+        System.out.println("onRowEdit test: " + String.valueOf(entity.getFactoryId()) + entity.getManager());
 
         FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
 
@@ -66,21 +61,21 @@ public class FactoryControlBean {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ((UserEntity) event.getObject()).getUserId());
+        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(((FactoryEntity) event.getObject()).getFactoryId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void deleteFactory(long id) {
-        System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));      
+        System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));
         FSMM.DeleteFactory(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
-        
+
     }
-    
+
     public void addFactory() {
-        System.out.println("StoreControlBean: addStore: ");
+        System.out.println("FactoryControlBean: addFactory: ");
         FSMM.AddFactory(newFactoryCountry, newFactoryAddress, newFactoryContact, newFactoryManager);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory added successfully! ", ""));
 
     }
 
@@ -132,5 +127,4 @@ public class FactoryControlBean {
         this.newFactoryManager = newFactoryManager;
     }
 
-    
 }

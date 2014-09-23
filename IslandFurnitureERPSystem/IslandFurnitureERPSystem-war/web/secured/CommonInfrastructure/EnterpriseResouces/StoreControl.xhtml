@@ -108,10 +108,7 @@
                                 </p:column>
 
                                 <p:column filterBy="#{store.storeId}" headerText="Store Id" width="10%">
-                                    <p:cellEditor> 
-                                        <f:facet name="output"><h:outputText value="#{store.storeId}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="userInput" value="#{store.storeId}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>                                    
+                                    <h:outputText value="#{store.storeId}" />           
                                 </p:column>                               
 
 

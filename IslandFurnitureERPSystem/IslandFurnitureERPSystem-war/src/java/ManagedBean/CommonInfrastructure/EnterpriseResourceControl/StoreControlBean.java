@@ -63,7 +63,7 @@ public class StoreControlBean {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ((UserEntity) event.getObject()).getUserId());
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ((StoreEntity) event.getObject()).getStoreId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
