@@ -21,25 +21,36 @@ import javax.ejb.Local;
 public interface InternalMessageModuleLocal {
 
 
-
-    public void readReceiveMessage(String receiveMessageId) throws Exception;
+//     Session Bean Functionality:
+// 1. return all users for selecting receiver
+// 2. sendMessage (One to One, One to Many)
+// 3. readMessage 
+// 4. delete sent Mesage
+// 5. delete received Message
+// 6. reply a message
+// 7. forward a messag 
+// 8. a. Dispaly receive Message List
+//    b. Display receive Message List by Sender -- enable by primeface
+// 9. a. Display sent Message List
+// 9. b. Display send Message List by Receiver -- enable by primeface
     
-    public void deleteSendMessage(String sendMessageId) throws Exception;
     
-    public void deleteReceiveMessage(String receiveMessageId) throws Exception;
+    public ArrayList<UserEntity> getAllUsers();
 
-    public Collection<InternalMessageEntity> viewSendMessage(String senderId) throws Exception;
+    public void sendMessage(String senderId, String title, String content,  ArrayList<String> receiverIds) throws Exception;
+
+
+    public void readReceiveMessage(Long receiveMessageId) throws Exception;
+    
+    public void replyMessage(Long receiveMessageId) throws Exception;
+    
+    public void deleteSendMessage(Long sendMessageId) throws Exception;
+    
+    public void deleteReceiveMessage(Long receiveMessageId) throws Exception;
+
+    public Collection<InternalMessageEntity> viewSendMessage(String senderId);
 
     public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId);
 
-    public Collection<InternalMessageEntity> viewSendMessageByReceiver(String senderId, String receiverId) throws Exception;
-
-    public Collection<InternalMessageReceive> viewReceiveMessageBySender(String receiverId, String senderId) throws Exception;
-
-    public ArrayList<UserEntity> getAllUsers();
-
-    public void sendMessage(String senderId, String title, String content, String status, String type, ArrayList<String> receiverIds) throws Exception;
-
-    
  
 }

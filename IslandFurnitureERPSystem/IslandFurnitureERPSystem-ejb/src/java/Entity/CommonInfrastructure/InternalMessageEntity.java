@@ -7,12 +7,13 @@
 package Entity.CommonInfrastructure;
 
 import Entity.CommonInfrastructure.UserEntity;
-import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -40,10 +42,13 @@ public class InternalMessageEntity implements Serializable {
 
     private String title;
     private String content;
+    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar calendarTime;
+    
     private String sendTime;
     private String senderName;
-    private String status;  //ignore
-    private String type;    //ignore
+    private Boolean isDeleted;  
     private ArrayList<String> receiverIds;
     
     
@@ -59,14 +64,13 @@ public class InternalMessageEntity implements Serializable {
 
     
     
-    public InternalMessageEntity(String senderName, String title, String content, String sendTime,  String status, String type) {
+    public InternalMessageEntity(String senderName, String title, String content, Calendar calendarTime) {
   
         this.title = title;
         this.content = content;
-        this.sendTime = sendTime;
+        this.calendarTime = calendarTime;
         this.senderName = senderName;
-        this.status = status;
-        this.type = type;
+        this.isDeleted = false;
         
         
     }
@@ -112,21 +116,14 @@ public class InternalMessageEntity implements Serializable {
         this.senderName = senderName;
     }
 
-    public String getStatus() {
-        return status;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Collection<InternalMessageReceive> getReceiveMessages() {
         return receiveMessages;
@@ -143,10 +140,22 @@ public class InternalMessageEntity implements Serializable {
     public void setSender(UserEntity sender) {
         this.sender = sender;
     }
-    
-    
-    
-    
+
+    public Calendar getCalendarTime() {
+        return calendarTime;
+    }
+
+    public void setCalendarTime(Calendar calendarTime) {
+        this.calendarTime = calendarTime;
+    }
+
+    public ArrayList<String> getReceiverIds() {
+        return receiverIds;
+    }
+
+    public void setReceiverIds(ArrayList<String> receiverIds) {
+        this.receiverIds = receiverIds;
+    }
     
     
     @Override

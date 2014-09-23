@@ -33,12 +33,12 @@
                         <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
-                        <p:button outcome="InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        <p:button outcome="/secured/CommonInfrastructure/ticket/AboutSystem.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/WorkPlace" value="HomePage" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
-                        </p:button>  
+                        </p:button>   
 
 
                         <h:outputLabel value = "Welcome Back, " >
@@ -55,10 +55,10 @@
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
-                            <p:submenu label="Message">
-                                <p:menuitem outcome = "InternalMessage.xhtml" value="New Message" icon="ui-icon-document"  />
-                                <p:menuitem outcome = "viewReceiveMessage.xhtml" value="View All Received" icon="ui-icon-mail-closed" />
-                                <p:menuitem outcome = "viewSendMessage.xhtml" value="View All Sent" icon="ui-icon-transfer-e-w"  />
+                            <p:submenu label="Ticket">
+                                <p:menuitem outcome = "AboutSystem.xhtml" value="About The System" icon="ui-icon-document"  />
+                                <p:menuitem outcome = "newTicket.xhtml" value="Raise A Ticket" icon="ui-icon-mail-closed" />
+                                <p:menuitem outcome = "ListRaisedTicket.xhtml" value="View Ticket History" icon="ui-icon-transfer-e-w"  />
                             </p:submenu>
 
                         </p:menu>
@@ -68,53 +68,52 @@
                     <p:layoutUnit position="center" resizable="false">
 
 
-                        <p:dataTable  id = "messagesMenu" value="#{sentMessageManageBean.sentMessageList}" var ="message" selection="#{sentMessageManageBean.checkedMessageList}" rowKey = "#{message.internalMessageId}" paginator="true" rows="10" styleClass="margin-bottom:20px border: 0px" >
+                        <p:dataTable  id = "messagesMenu" value="#{listTicketBean.ticketList}" var ="ticket"  paginator="true" rows="10" styleClass="margin-bottom:20px border: 0px"    >
                             <f:facet name="header">
-                                View All Sent Message 
+                                Ticket History 
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+
+
+
                             <p:column>
                                 <f:facet name ="header">
                                     <h:outputText value = "View" />
+
                                 </f:facet>
-                                <p:commandButton  actionListener="#{sentMessageManageBean.readMessage(message)}" icon="ui-icon-search" title="View">
+                                <p:commandButton  actionListener="#{listTicketBean.viewTicketDetail(ticket)}" icon="ui-icon-search" title="View">
+
                                 </p:commandButton>
 
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Receiver Id" />
+                                    <h:outputText value="Ticket Number" />
                                 </f:facet>
-                                <h:outputText value="#{message.receiverIds}" />
+                                <h:outputText value="#{ticket.id}" />
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Send Time" />
+                                    <h:outputText value="Title"/>
                                 </f:facet>
-                                <h:outputText value="#{sentMessageManageBean.displayTime(message.calendarTime)}" />
+                                <h:outputText value="#{ticket.title}"  />
                             </p:column>
-
 
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Title" />
+                                    <h:outputText value="Status" />
                                 </f:facet>
-                                <h:outputText value="#{message.title}" />
+                                <h:outputText value="#{listTicketBean.displayTicketStatus(ticket)}"   />
                             </p:column>
 
-                            <f:facet name="footer">
-                                <p:commandButton process="messagesMenu" update = "messagesMenu" icon="ui-icon-trash" value="Trash" actionListener ="#{sentMessageManageBean.deleteMessage(sentMessageManageBean.checkedMessageList)}" />
-                            </f:facet>
+
                         </p:dataTable>     
                     </p:layoutUnit>
 
 
 
                 </p:layout>
-
-                
             </h:form>
         </h:body>
 

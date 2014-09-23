@@ -33,7 +33,7 @@
                         <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
-                        <p:button outcome="InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                         <p:button outcome="/secured/CommonInfrastructure/ticket/AboutSystem.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/WorkPlace" value="HomePage" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
@@ -41,10 +41,11 @@
                         </p:button>  
 
 
-                        <h:outputLabel value = "Welcome Back ," >
+                        <h:outputLabel value = "Welcome Back, " >
                             <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
                         </h:outputLabel>
+
 
 
                     </p:layoutUnit>
@@ -56,10 +57,10 @@
 
                         <p:menu>
                             
-                           <p:submenu label="Message">
-                                <p:menuitem outcome = "InternalMessage.xhtml" value="New Message" icon="ui-icon-document"  />
-                                <p:menuitem outcome = "viewReceiveMessage.xhtml" value="View All Received" icon="ui-icon-mail-closed" />
-                                <p:menuitem outcome = "viewSendMessage.xhtml" value="View All Sent" icon="ui-icon-transfer-e-w"  />
+                            <p:submenu label="Ticket">
+                                <p:menuitem outcome = "AboutSystem.xhtml" value="About The System" icon="ui-icon-document"  />
+                                <p:menuitem outcome = "newTicket.xhtml" value="Raise A Ticket" icon="ui-icon-mail-closed" />
+                                <p:menuitem outcome = "ListRaisedTicket.xhtml" value="View Ticket History" icon="ui-icon-transfer-e-w"  />
                             </p:submenu>
                            
 
@@ -69,32 +70,30 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <f:facet name="header">
-                            Message
+                            Ticket Detail
                         </f:facet>
 
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-                        <h:outputLabel for="fromSender" value="From: " >
-                            <h:outputText id = "fromSender" value="#{deatilMessageBean.detailMessage.senderId}" />
+                        <h:outputLabel for="ticketId" value="Ticket ID: " >
+                            <h:outputText id = "ticketId" value="#{ticketDetailBean.ticket.id}" />
                         </h:outputLabel>
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-                        <h:outputLabel for="sendTime" value="Send Time: " >
-                            <h:outputText id = "sendTime" value="#{deatilMessageBean.displayTime(deatilMessageBean.detailMessage.calendarTime)}" />
+                        <h:outputLabel for="Status" value="Status: " >
+                            <h:outputText id = "Status" value="#{ticketDetailBean.displayTicketStatus(ticketDetailBean.ticket)}" />
                         </h:outputLabel>
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                         <h:outputLabel for="title" value="Title: " >
-                            <h:outputText id = "title" value="#{deatilMessageBean.detailMessage.title}" />
+                            <h:outputText id = "Title" value="#{ticketDetailBean.ticket.title}" />
                         </h:outputLabel>
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                         <h:outputLabel for="content" value="Content: " >
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-                            <p:editor id = "content" value="#{deatilMessageBean.detailMessage.content}" disabled ="true" />
+                            <p:editor id = "content" value="#{ticketDetailBean.ticket.content}" disabled ="true" />
                         </h:outputLabel>
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                         
-                        <p:commandButton  id = "replyMessage" value="Reply" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px" actionListener="#{deatilMessageBean.replyAMessage}" >
-
-                        </p:commandButton>
+                        
                     </p:layoutUnit>
 
 

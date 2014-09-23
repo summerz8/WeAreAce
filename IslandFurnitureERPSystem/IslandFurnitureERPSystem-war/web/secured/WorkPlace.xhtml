@@ -37,6 +37,10 @@ and open the template in the editor.
                             <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
                                 
                             </p:commandButton>
+                            <p:button  value="System" outcome = "CommonInfrastructure/ticket/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                                
+                            </p:button>
+                        
 
                             <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                                 
@@ -76,6 +80,9 @@ and open the template in the editor.
                             </p:submenu>
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
+                            </p:submenu>
+                            <p:submenu label="Ticket Management">
+                                <p:menuitem value="View Tickets" outcome = "/secured/CommonInfrastructure/ticket/receiveTicketList"/>
                             </p:submenu>
                         </p:menu>
 

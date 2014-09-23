@@ -25,6 +25,7 @@
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
+                        
                         <p:button  value="System" outcome = "/secured/CommonInfrastructure/ticket/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                                 
                             </p:button>
@@ -54,19 +55,18 @@
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
-                           <p:submenu label="Message">
+                            <p:submenu label="Message">
                                 <p:menuitem outcome = "InternalMessage.xhtml" value="New Message" icon="ui-icon-document"  />
                                 <p:menuitem outcome = "viewReceiveMessage.xhtml" value="View All Received" icon="ui-icon-mail-closed" />
                                 <p:menuitem outcome = "viewSendMessage.xhtml" value="View All Sent" icon="ui-icon-transfer-e-w"  />
                             </p:submenu>
-
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <f:facet name="header">
-                            Message      
+                            Reply Message to #{replyMessageBean.title} 
                         </f:facet>
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                         <p:row>
@@ -74,7 +74,7 @@
                                 <p:outputLabel for ="Subject" style ="front-weight:bold" value ="Subject :" />
                             </p:column>
                             <p:column>
-                                <p:inputText required ="true" label ="Subject" requiredMessage ="The Subject cannot be blank." id ="Subject" value ="#{internalMessageManageBean.title}" >
+                                <p:inputText required ="true" label ="Subject" requiredMessage ="The Subject cannot be blank." id ="Subject" value ="#{replyMessageBean.title}" >
                                     <f:validateLength minimum="1" maximum ="100" />
                                 </p:inputText>
                             </p:column>
@@ -82,15 +82,14 @@
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                         <p:row>
                             <p:column>
-                                <p:outputLabel value="Receivers:" for="autoCompleteReceiverList" />
-                                <p:autoComplete required = "true" requiredMessage="You must at least have a receiver." id="autoCompleteReceiverList" multiple="true" value="#{internalMessageManageBean.selectedUserEntities}" completeMethod="#{internalMessageManageBean.completeUserEntity}"
-                                                var="userEntity" itemLabel="#{userEntity.firstName} #{userEntity.lastName} #{userEntity.userId}" itemValue="#{userEntity}" forceSelection="true" converter="userEntityConverter" />  
+                                <p:outputLabel value="Receivers:" for="receiverId" />
+                                <h:outputText id = "receiverId" value ="#{replyMessageBean.receiverId}"/>
                             </p:column>  
 
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                             <p:column>
 
-                                <p:editor id="editor" widgetVar="editorWidget" value="#{internalMessageManageBean.content}" width="600" />
+                                <p:editor id="editor" widgetVar="editorWidget" value="#{replyMessageBean.content}" width="600" />
 
                                 <h:panelGrid columns="2" style="margin-top: 10px">
 
@@ -102,7 +101,7 @@
                                 </p:dialog>
                             </p:column>
                             <p:growl id="growl" showDetail="true" sticky="true"   /> 
-                            <p:commandButton value="Submit"  oncomplete="PF('editorWidget').clear();" actionListener="#{internalMessageManageBean.sendMessage}" icon="ui-icon-disk" update = "growl"  />
+                            <p:commandButton value="Submit" oncomplete="PF('editorWidget').clear();" actionListener="#{replyMessageBean.sendMessage}" icon="ui-icon-disk" update = "growl"/>
                         </p:row>
                     </p:layoutUnit>
                      
@@ -116,4 +115,5 @@
 
 
 </html>
+
 

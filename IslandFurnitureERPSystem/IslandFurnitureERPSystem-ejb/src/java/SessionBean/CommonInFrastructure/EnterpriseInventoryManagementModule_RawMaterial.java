@@ -10,6 +10,7 @@ import Entity.Factory.RawMaterialEntity;
 import java.util.ArrayList;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -21,7 +22,7 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    
+    @PersistenceContext
     private EntityManager em;
     public EnterpriseInventoryManagementModule_RawMaterial(){
     }
