@@ -1,12 +1,151 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <title>Island Furniture ERP WorkPlace</title>
+            <!--            <head>
+                                <style type="text/css">
+                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
+                                         border: none;
+                                    }
+                                </style>
+                        </head>-->
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+
+                        <p:button  outcome="/secured/WorkPlace.xhtml" value="home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+                        <p:button outcome="/secured/CommonInfrastructure/InternalMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/CommonInfrastructure/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="Manufacturing Resource Planning">
+                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
+                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
+                            </p:submenu>
+                            <p:submenu label="Supply Chain Management">
+                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
+                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
+                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
+                            </p:submenu>
+                            <p:submenu label="Empolyees">
+                                <p:menuitem value="Empolyees List"/>
+                            </p:submenu>
+                            <p:submenu label="Enterprise">
+                                <p:menuitem value="Resource Control" outcome="EnterpriseResourceControl.xhtml"/>
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
+                            <p:dataTable id="retailtable" var="retail" value="#{retailControl.retailList}" 
+                                         scrollable="true"  scrollHeight="100%"
+                                         widgetVar="retailTable" emptyMessage="No retail product found with given criteria" 
+                                         filteredValue="#{retailControl.filteredRetail}"
+                                         editable="true" >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('retailTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:ajax event="rowEdit" listener="#{retailControl.onRowEdit}" update="@this" />
+                                <p:ajax event="rowEditCancel" listener="#{retailControl.onRowCancel}" update=":formMain:messagesStatus" />
+
+                                <p:column style="width:5%">
+                                    <p:rowEditor />
+                                </p:column>    
+
+                                <p:column style="width:5%;text-align: center">                                    
+
+                                    <p:commandButton  update="retailtable" actionListener="#{retailControl.deleteRetailProduct(retail.retailProductId)}" icon="ui-icon-trash" title="Delete">
+
+                                    </p:commandButton>                                   
+                                </p:column>
+
+                                <p:column filterBy="#{retail.retailProductId}" headerText="Retail Product Id" width="10%">                                    
+                                    <h:outputText value="#{retail.retailProductId}" />                                                                
+                                </p:column>                               
+
+
+                                <p:column  filterBy="#{retail.name}" headerText="Name" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{retail.name}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{retail.name}"  style="width:96%"/>
+
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>                               
+
+                                <p:column filterBy="#{retail.unit}" headerText="Unit" width="15%">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{retail.unit}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{retail.unit}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{retail.description}" headerText="Description" width="15%">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{retali.description}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{retail.description}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <p:button value="Add Product" outcome="AddNewRetailProduct"></p:button>
+                        </p:panel>
+
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
 </html>
 
