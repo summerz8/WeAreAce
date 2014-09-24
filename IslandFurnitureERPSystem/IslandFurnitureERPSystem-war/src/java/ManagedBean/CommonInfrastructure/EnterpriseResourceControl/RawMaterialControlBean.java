@@ -73,6 +73,8 @@ public class RawMaterialControlBean {
         EIMR.deleteRawMaterial(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
         
+        rawMaterialList = EIMR.listRawMaterial();
+        filteredRawMaterial = rawMaterialList;
     }
     
     public void addRawMaterial() {

@@ -5,8 +5,6 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
-import Entity.CommonInfrastructure.UserEntity;
-import Entity.Factory.FactoryEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
 import java.io.IOException;
@@ -75,11 +73,14 @@ public class StoreControlBean {
         FSMM.DeleteStore(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
 
+        storeList = FSMM.ListStore();
+        filterdStore = storeList;
     }
 
     public void addStore() {
-        System.out.println("StoreControlBean: addStore: ");
+        System.out.println("StoreControlBean: addStore: "+newStoreCountry+newStoreAddress+ newStoreContact+ newStoreManager);
         FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
+        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
 
         try {

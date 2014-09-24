@@ -73,6 +73,8 @@ public class FactoryControlBean {
         FSMM.DeleteFactory(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
 
+        factoryList = FSMM.ListFactory();
+        filterdFactory = factoryList;
     }
 
     public void addFactory() {

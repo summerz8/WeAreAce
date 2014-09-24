@@ -73,6 +73,8 @@ public class ProductControlBean {
         RPMM.DeleteProduct(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
 
+        productList = RPMM.ListProduct();
+        filteredProduct = productList;
     }
 
     public void addProduct() {

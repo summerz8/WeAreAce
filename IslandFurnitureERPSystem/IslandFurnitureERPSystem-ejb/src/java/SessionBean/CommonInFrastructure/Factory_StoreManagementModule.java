@@ -80,7 +80,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     @Override
     public void AddStore(String country, String address, String contact, String manager) {
         System.out.println("Factory_StoreManagementModule: AddStore(): ");
-        StoreEntity se = new StoreEntity(country, address, contact, manager, false);
+        StoreEntity se = new StoreEntity(address, country, contact, manager, false);
         em.persist(se);
         em.flush();
         System.out.println("Factory_StoreManagementModule: AddStore(): " + se.getStoreId());
