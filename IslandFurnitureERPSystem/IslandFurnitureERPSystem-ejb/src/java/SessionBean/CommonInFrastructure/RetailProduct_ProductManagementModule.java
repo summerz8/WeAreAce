@@ -39,8 +39,9 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
 
     @Override
     public void DeleteProduct(Long productId) {
-        System.out.println("RetailProduct_ProductManagementModule: DeleteProduct(): ");
+        System.out.println("RetailProduct_ProductManagementModule: DeleteProduct(): "+productId);
         ProductEntity pe = em.find(ProductEntity.class, productId);
+        
         pe.setDeleteFlag(Boolean.TRUE);
         em.persist(pe);
         em.flush();
@@ -50,7 +51,7 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     @Override
     public void ModifyProduct(Long productId, String name, String description,
             Double price, String unit) {
-        System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): ");
+        System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): "+productId + name);
         ProductEntity pe = em.find(ProductEntity.class, productId);
         pe.setName(name);
         pe.setDescription(description);

@@ -55,7 +55,7 @@ public class ProductControlBean {
         ProductEntity entity = (ProductEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getProductId() + entity.getName());
 
-        RPMM.ModifyProduct(entity.getProductId(), newProductName, newProductDescription, newProductPrice, newProductUnit);
+        RPMM.ModifyProduct(entity.getProductId(), entity.getName(), entity.getDescription(), entity.getPrice(), entity.getUnit());
 
         FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(entity.getProductId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);

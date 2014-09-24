@@ -67,7 +67,7 @@ public class RetailProductControlBean {
 
     public void deleteRetailProduct(long id) {
         System.out.println("RetailProductControlBean: deleteRetailProduct: " + String.valueOf(id));      
-        RPMM.DeleteProduct(id);
+        RPMM.DeleteRetailProduct(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product deleted successfully! ", ""));
         
     }
