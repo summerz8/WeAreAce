@@ -121,6 +121,7 @@
 
                                 <h:outputLabel for="userlvl" value="User Level: *" />                     
                                 <p:selectOneMenu id="userlvl" value="#{newUser.userLevel}" required="true">
+                                    <f:selectItem itemLabel="Please selecet user level" itemValue="" />
                                     <f:selectItem itemLabel="0 HQ Manager" itemValue="0" />
                                     <f:selectItem itemLabel="1 FactoryManager" itemValue="1" />
                                     <f:selectItem itemLabel="2 Store Manager" itemValue="2" />

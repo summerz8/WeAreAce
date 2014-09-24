@@ -107,16 +107,13 @@
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update="factorytable" actionListener="#{factoryControl.deleteFactory(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" actionListener="#{factoryControl.deleteFactory(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
 
                                 <p:column filterBy="#{factory.factoryId}" headerText="Factory Id" width="10%">
-                                    <p:cellEditor> 
-                                        <f:facet name="output"><h:outputText value="#{factory.factoryId}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="userInput" value="#{factory.factoryId}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>                                    
+                                    <h:outputText value="#{factory.factoryId}" />
                                 </p:column>                               
 
 

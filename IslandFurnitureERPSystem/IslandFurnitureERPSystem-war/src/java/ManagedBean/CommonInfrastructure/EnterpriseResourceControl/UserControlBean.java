@@ -37,6 +37,7 @@ public class UserControlBean {
     private String outcome = "UserAccountDetail.xhtml";
 
     private String birString;
+    private String deletedUserId;
 
     /**
      * Creates a new instance of UserControlBean
@@ -89,7 +90,19 @@ public class UserControlBean {
         IUMA.DeleteStaff(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User deleted successfully! ", ""));
         listedUser = IUMA.ListUser();
+        filterdUser = listedUser;
+        
     }
+
+    public String getDeletedUserId() {
+        return deletedUserId;
+    }
+
+    public void setDeletedUserId(String deletedUserId) {
+        this.deletedUserId = deletedUserId;
+    }
+    
+    
 
     public List<UserEntity> getListedUser() {
         return listedUser;

@@ -5,11 +5,12 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
-import Entity.CommonInfrastructure.UserEntity;
-import Entity.Factory.FactoryEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -63,7 +64,7 @@ public class StoreControlBean {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ((UserEntity) event.getObject()).getUserId());
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ((StoreEntity) event.getObject()).getStoreId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -72,13 +73,21 @@ public class StoreControlBean {
         FSMM.DeleteStore(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
 
+        storeList = FSMM.ListStore();
+        filterdStore = storeList;
     }
 
     public void addStore() {
-        System.out.println("StoreControlBean: addStore: ");
+        System.out.println("StoreControlBean: addStore: "+newStoreCountry+newStoreAddress+ newStoreContact+ newStoreManager);
         FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
+        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
 
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("StoreControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<StoreEntity> getStoreList() {
