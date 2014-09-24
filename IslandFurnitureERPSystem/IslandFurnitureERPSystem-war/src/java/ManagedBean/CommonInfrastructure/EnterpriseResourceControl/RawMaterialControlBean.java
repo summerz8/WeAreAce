@@ -9,7 +9,10 @@ package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
 import SessionBean.CommonInFrastructure.EnterpriseInventoryManagementModule_RawMaterialLocal;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -77,6 +80,11 @@ public class RawMaterialControlBean {
         EIMR.addRawMaterial(newRawMaterialName, newRawMaterialDescription, newRawMaterialUnit);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product added successfully! ", ""));
 
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("RawMaterialControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<RawMaterialEntity> getRawMaterialList() {

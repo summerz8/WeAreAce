@@ -9,7 +9,10 @@ package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
 import SessionBean.CommonInFrastructure.RetailProduct_ProductManagementModuleLocal;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -77,6 +80,11 @@ public class RetailProductControlBean {
         RPMM.AddRetailProduct(newRetailProductName, newRetailProductDescription, newRetailProductUnit);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product added successfully! ", ""));
 
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("RetailProductControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<RetailProductEntity> getRetailList() {

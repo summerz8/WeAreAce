@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
 import Entity.Factory.ProductEntity;
 import SessionBean.CommonInFrastructure.RetailProduct_ProductManagementModuleLocal;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -24,23 +26,23 @@ import org.primefaces.event.RowEditEvent;
 @Named(value = "productControl")
 @ViewScoped
 public class ProductControlBean {
+
     @EJB
     private RetailProduct_ProductManagementModuleLocal RPMM;
     private List<ProductEntity> productList;
     private List<ProductEntity> filteredProduct;
-    
+
     private String newProductName;
     private String newProductDescription;
-    private Double newProductPrice; 
+    private Double newProductPrice;
     private String newProductUnit;
-    
 
     /**
      * Creates a new instance of ProductControlBean
      */
     public ProductControlBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         System.out.println("ProductControlBean: init:");
@@ -67,17 +69,21 @@ public class ProductControlBean {
     }
 
     public void deleteProduct(long id) {
-        System.out.println("ProductControlBean: deleteProduct: " + String.valueOf(id));      
+        System.out.println("ProductControlBean: deleteProduct: " + String.valueOf(id));
         RPMM.DeleteProduct(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
-        
+
     }
-    
+
     public void addProduct() {
         System.out.println("ProductControlBean: addProduct: ");
         RPMM.AddProduct(newProductName, newProductDescription, newProductPrice, newProductUnit);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product added successfully! ", ""));
-
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ProductControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<ProductEntity> getProductList() {
@@ -127,6 +133,5 @@ public class ProductControlBean {
     public void setNewProductUnit(String newProductUnit) {
         this.newProductUnit = newProductUnit;
     }
-    
-    
+
 }

@@ -7,7 +7,10 @@ package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
 import Entity.Factory.FactoryEntity;
 import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -76,7 +79,11 @@ public class FactoryControlBean {
         System.out.println("FactoryControlBean: addFactory: ");
         FSMM.AddFactory(newFactoryCountry, newFactoryAddress, newFactoryContact, newFactoryManager);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory added successfully! ", ""));
-
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("FactoryControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<FactoryEntity> getFactoryList() {

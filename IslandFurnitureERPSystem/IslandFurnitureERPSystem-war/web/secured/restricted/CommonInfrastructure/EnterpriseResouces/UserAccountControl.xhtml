@@ -27,21 +27,21 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
 
-                        
+
                         <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button> 
-                        
+
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
@@ -107,9 +107,10 @@
 
                                 <p:column style="width:32px;text-align: center">                                    
 
-                                    <p:commandButton  update="usertable" actionListener="#{userControl.deleteUser(user.userId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain"  actionListener="#{userControl.deleteUser(user.userId)}" icon="ui-icon-trash" title="Delete">
 
-                                    </p:commandButton>                                   
+                                    </p:commandButton>    
+                                   
                                 </p:column>
 
                                 <p:column filterBy="#{user.userId}" headerText="User Id" width="100">
@@ -220,9 +221,7 @@
                                     </p:cellEditor>
                                 </p:column>
 
-
-
-                            </p:dataTable>
+                            </p:dataTable>                            
                             <p:button value="Add User" outcome="AddNewUser"></p:button>
                         </p:panel>
                     </p:layoutUnit>

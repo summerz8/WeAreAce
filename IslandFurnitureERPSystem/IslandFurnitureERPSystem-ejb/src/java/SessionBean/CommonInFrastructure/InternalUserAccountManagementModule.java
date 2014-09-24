@@ -163,6 +163,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         for (Object o : q.getResultList()) {
             UserEntity u = (UserEntity) o;
             if(!u.isDeleteFlag())requiredUserList.add(u);
+            else System.out.println("deleted user: "+u.getUserId());
         }
         return requiredUserList;
     }

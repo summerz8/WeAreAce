@@ -9,7 +9,10 @@ import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -79,6 +82,11 @@ public class StoreControlBean {
         FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
 
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("StoreControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<StoreEntity> getStoreList() {
