@@ -23,20 +23,20 @@
 
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                   <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                        </p:commandButton>
-                        
-                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
 
-                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
 
-                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button> 
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
 
-                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
 
 
                     <h:outputLabel value = "Welcome Back " >
@@ -66,11 +66,11 @@
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
                     <h:form> 
-                         <h:panelGrid columns="3" cellpadding="5">
-                                <h:outputLabel for="productId" value="Factory Product ID:" style="font-weight:bold" />
-                                <p:inputText id="productionId" value="#{searchBOM.factoryProductId}" />
-                                <p:commandButton value="create"  action="#{searchBOM.goNext()}" icon="ui-icon-check" />
-                            </h:panelGrid>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <h:outputLabel for="productId" value="Factory Product ID:" style="font-weight:bold" />
+                            <p:inputText id="productionId" value="#{searchBOM.factoryProductId}" />
+                            <p:commandButton value="create"  action="#{searchBOM.goNext()}" icon="ui-icon-check" />
+                        </h:panelGrid>
                     </h:form>
 
                 </p:layoutUnit>

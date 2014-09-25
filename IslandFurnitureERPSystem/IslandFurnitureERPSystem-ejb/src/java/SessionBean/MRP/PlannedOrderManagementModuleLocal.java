@@ -31,5 +31,13 @@ public interface PlannedOrderManagementModuleLocal {
     public boolean DeletePlannedOrder(Long PlannedOrderId);
 
     public List<PlannedOrderEntity> getPlannedOrder();
+
+    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder();
+
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder();
+
+    public List<PlannedOrderEntity> getCancelledPlannedOrder();
+
+    public void editPlannedOrder(Long id, String field, Object content);
     
 }

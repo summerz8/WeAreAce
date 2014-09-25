@@ -28,4 +28,7 @@ public interface SalesForecastModuleLocal {
     public IntegratedSalesForecastEntity IntegrateSalesForecast(Long factoryProductId, Calendar period);
     
     public List<FactoryProductEntity> productListNeededTobeIntegrated(Long FactoryId);
+    
+    public void GenerateIntegratedSalesForecast(Long factoryProductId,Calendar period);
+    
 }

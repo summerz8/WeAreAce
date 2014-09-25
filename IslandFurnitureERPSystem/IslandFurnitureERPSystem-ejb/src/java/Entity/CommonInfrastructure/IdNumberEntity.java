@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.CommonInfrastructure;
 
 import java.io.Serializable;
@@ -16,8 +15,9 @@ import javax.persistence.Table;
  * @author zhangshiyu
  */
 @Entity
-@Table(name="IdNumber")
+@Table(name = "IdNumber")
 public class IdNumberEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     private final int id = 0;
@@ -26,15 +26,17 @@ public class IdNumberEntity implements Serializable {
     private long id_S;
 
     public IdNumberEntity() {
-       
+        this.setId_F(1000000);
+        this.setId_H(1000000);
+        this.setId_S(1000000);
     }
-    
-    public void create(){
-     this.setId_F(1000000); 
-     this.setId_H(1000000);
-     this.setId_S(1000000);
+
+    public void create() {
+        this.setId_F(1000000);
+        this.setId_H(1000000);
+        this.setId_S(1000000);
     }
-    
+
     public long getId_H() {
         return id_H;
     }
@@ -58,5 +60,5 @@ public class IdNumberEntity implements Serializable {
     public void setId_S(long id_S) {
         this.id_S = id_S;
     }
-  
+
 }

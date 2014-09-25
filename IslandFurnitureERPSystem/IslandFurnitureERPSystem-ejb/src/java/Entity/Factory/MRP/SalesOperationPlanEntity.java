@@ -34,17 +34,18 @@ public class SalesOperationPlanEntity implements Serializable {
     private Calendar targetPeriod;
     private Double plannedEndMonthInventory;
     private Integer workingDay;
+    private String status;
     
     // factory product entity --- sales operation plan entity   1 <--- M
     @ManyToOne
     private FactoryProductEntity factoryProduct;
   
     // production plan entity --- sales operation plan entity 1 <--- 1
-    @OneToOne(cascade={CascadeType.PERSIST})
+    @OneToOne
     private ProductionPlanEntity productionPlan;
     
     // sales forecast entity --- sales operation plan entity  1 <---> 1
-    @OneToOne(cascade={CascadeType.PERSIST})
+    @OneToOne
     private IntegratedSalesForecastEntity integratedSalesForecast;
     
 
@@ -107,6 +108,14 @@ public class SalesOperationPlanEntity implements Serializable {
 
     public void setWorkingDay(Integer workingDay) {
         this.workingDay = workingDay;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
     

@@ -32,19 +32,29 @@ public class CreateIntegratedSalesForecastBean {
     IntegratedSalesForecastEntity integratedSalesForecast;
     List<SalesForecastEntity> salesForecastList;
     Calendar targetPeriod;
+    Double quantity;
     
     public CreateIntegratedSalesForecastBean() {
     }
     
     @PostConstruct
     public void ListSalesForecast(){
+//        System.out.println("2");
         productId=(Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productId");
+//         System.out.println("3");
         integratedSalesForecast=SFML.IntegrateSalesForecast(productId, null);
+//         System.out.println("4");
+        quantity=integratedSalesForecast.getAmount();
         salesForecastList=integratedSalesForecast.getSalesForecastList();
         targetPeriod=integratedSalesForecast.getTargetPeriod();
-        
+
     }
 
+    
+    public String confirm(){
+        SFML.GenerateIntegratedSalesForecast(productId,null);
+        return "MRPViewIntegratedSalesForecast?faces-redirect=true";
+    }
     public SalesForecastModuleLocal getSFML() {
         return SFML;
     }
@@ -84,7 +94,15 @@ public class CreateIntegratedSalesForecastBean {
     public void setTargetPeriod(Calendar targetPeriod) {
         this.targetPeriod = targetPeriod;
     }
-    
-    
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+
     
 }

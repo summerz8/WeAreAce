@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.MRP;
 
 import Entity.Factory.FactoryProductAmountEntity;
@@ -12,8 +11,11 @@ import Entity.Factory.MRP.SalesForecastEntity;
 import SessionBean.MRP.SalesForecastModuleLocal;
 import java.util.Calendar;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -21,15 +23,15 @@ import javax.inject.Named;
  * @author apple
  */
 @Named(value = "viewSalesForecastBean")
-@RequestScoped
+@ViewScoped
 public class ViewSalesForecastBean {
 
-    @EJB    
+    @EJB
     private SalesForecastModuleLocal salesForecastModule;
 //    
 //    @ManagedProperty("#{salesForecastBean}")
 //    private SalesForecastBean salesForecastBean;
-            
+
 //    private Long storeId;
 //    private Calendar targetPeriod;
 //    private Object product;
@@ -37,29 +39,33 @@ public class ViewSalesForecastBean {
     private List<SalesForecastEntity> salesForecastList;
     private List<FactoryProductAmountEntity> factoryProductList;
     private List<FactoryRetailProductAmountEntity> factoryRetailProductList;
-    
+    Long salesForecastId;
+
     public ViewSalesForecastBean() {
     }
-    
- 
-    public void getSalesForecastList(Long storeId,Object product, Calendar targetPeriod){
-        System.out.println("storeId:"+storeId+ "       targetPeriod:"+targetPeriod);
+
+    @PostConstruct
+    public void ViewSalesForecast() {
+        salesForecastId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesForecastId");
+
+        salesForecast = salesForecastModule.GetSalesForecast(salesForecastId);
+        factoryProductList = salesForecast.getFactoryProductList();
+        System.out.println(factoryProductList.get(0).getFactoryProductAmountId());
+        factoryRetailProductList = salesForecast.getFactoryRetailProductList();
+
+    }
+
+    public void getSalesForecastList(Long storeId, Object product, Calendar targetPeriod) {
+        System.out.println("storeId:" + storeId + "       targetPeriod:" + targetPeriod);
         salesForecastList = salesForecastModule.ListSalesForecast(storeId, null, targetPeriod);
-        if(salesForecastList.get(0).getFactoryProductList().isEmpty())
-        factoryRetailProductList=salesForecastList.get(0).getFactoryRetailProductList();
-        else
-        factoryProductList=salesForecastList.get(0).getFactoryProductList();
-      
+        if (salesForecastList.get(0).getFactoryProductList().isEmpty()) {
+            factoryRetailProductList = salesForecastList.get(0).getFactoryRetailProductList();
+        } else {
+            factoryProductList = salesForecastList.get(0).getFactoryProductList();
+        }
+
     }
 
-    public String ViewSalesForecast(Long salesForecastId){
-
-            salesForecast=salesForecastModule.GetSalesForecast(salesForecastId);
-            factoryProductList=salesForecast.getFactoryProductList();
-            factoryRetailProductList=salesForecast.getFactoryRetailProductList();
-        return "MRPViewSalesForecast";
-    }
-    
     public SalesForecastModuleLocal getSalesForecastModule() {
         return salesForecastModule;
     }
@@ -67,7 +73,6 @@ public class ViewSalesForecastBean {
     public void setSalesForecastModule(SalesForecastModuleLocal salesForecastModule) {
         this.salesForecastModule = salesForecastModule;
     }
-
 
     public List<SalesForecastEntity> getSalesForecastList() {
         return salesForecastList;
@@ -92,7 +97,5 @@ public class ViewSalesForecastBean {
     public void setFactoryRetailProductList(List<FactoryRetailProductAmountEntity> factoryRetailProductList) {
         this.factoryRetailProductList = factoryRetailProductList;
     }
-    
-    
-    
+
 }

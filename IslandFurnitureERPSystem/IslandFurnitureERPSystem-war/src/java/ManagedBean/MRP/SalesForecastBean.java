@@ -13,6 +13,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -72,5 +73,10 @@ public class SalesForecastBean {
         this.salesForecastList = salesForecastList;
     }
     
-    
+    public String ViewSalesForecast(Long salesForecastId){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesForecastId",salesForecastId);
+
+        
+        return "MRPViewSalesForecast?faces-redirect=true";
+    }
 }

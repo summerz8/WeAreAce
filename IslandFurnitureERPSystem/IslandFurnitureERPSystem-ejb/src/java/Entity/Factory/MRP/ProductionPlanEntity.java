@@ -36,7 +36,7 @@ public class ProductionPlanEntity implements Serializable {
 
     private String status;// unconfirmed, confirmed, cancelled
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar generateDate;
+    private Calendar generatedDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar confirmDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -60,9 +60,9 @@ public class ProductionPlanEntity implements Serializable {
     public ProductionPlanEntity() {
     }
 
-    public ProductionPlanEntity(String status, Calendar generateDate, Calendar targetPeriod, Double output, FactoryProductEntity product, String remark) {
+    public ProductionPlanEntity(String status, Calendar generatedDate, Calendar targetPeriod, Double output, FactoryProductEntity product, String remark) {
         this.status = status;
-        this.generateDate = generateDate;
+        this.generatedDate = generatedDate;
         this.targetPeriod = targetPeriod;
         this.quantity = output;
         this.factoryProduct = product;
@@ -85,12 +85,12 @@ public class ProductionPlanEntity implements Serializable {
         this.status = status;
     }
 
-    public Calendar getGenerateDate() {
-        return generateDate;
+    public Calendar getGeneratedDate() {
+        return generatedDate;
     }
 
-    public void setGenerateDate(Calendar generateDate) {
-        this.generateDate = generateDate;
+    public void setGeneratedDate(Calendar generatedDate) {
+        this.generatedDate = generatedDate;
     }
 
     public Calendar getConfirmDate() {

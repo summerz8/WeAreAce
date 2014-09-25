@@ -11,7 +11,7 @@ import Entity.Factory.MRP.ProductionPlanEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,7 +20,7 @@ import javax.persistence.Query;
  *
  * @author hangsun
  */
-@Stateful
+@Stateless
 public class ProductionPlanManagementModule implements ProductionPlanManagementModuleLocal{
     
     // Add business logic below. (Right-click in editor and choose
@@ -46,13 +46,16 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     
     @Override
     public void editProductionPlan(Long productionPlanId, String field,Object content){
-        
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
-        
         switch (field) {
             case "targetPeriod":
                 Calendar targetPeriod = (Calendar) content;
                 productionPlan.setTargetPeriod(targetPeriod);
+                break;
+            
+            case "confirmDate":
+                Calendar confirmDate = (Calendar) content;
+                productionPlan.setConfirmDate(confirmDate);
                 break;
             
             case "productId":
@@ -60,9 +63,9 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
                 FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
                 productionPlan.setProduct(product);
                 break;
-            case "output":
-                Double output = (Double) content;
-                productionPlan.setQuantity(output);
+            case "quantity":
+                Double quantity = (Double) content;
+                productionPlan.setQuantity(quantity);
                 break;
             case "status":
                 String status = (String) content;
@@ -73,6 +76,9 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
                 productionPlan.setRemark(remark);
                 break;
         }
+        em.persist(productionPlan);
+        em.flush();
+        em.refresh(productionPlan);
     }
     
     @Override
@@ -93,17 +99,53 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public List<ProductionPlanEntity> getProductionPlan(){
+    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(){
         Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
         List<ProductionPlanEntity> productionPlanList = new ArrayList();
         for(Object o : q.getResultList()){
             ProductionPlanEntity pp = (ProductionPlanEntity) o;
+            if(pp.getStatus().equals("unconfirmed"))
+                productionPlanList.add(pp);
+            
+        }
+        
+        
+        return productionPlanList;
+    }
+    
+    @Override
+    public List<ProductionPlanEntity> getProductionPlanConfirmed(){
+        Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
+        List<ProductionPlanEntity> productionPlanList = new ArrayList();
+        for(Object o : q.getResultList()){
+            ProductionPlanEntity pp = (ProductionPlanEntity) o;
+            if(pp.getStatus().equals("confirmed"))
             productionPlanList.add(pp);
             
         }
         
         
         return productionPlanList;
+    }
+    @Override
+    public List<ProductionPlanEntity> getProductionPlanCancelled(){
+        Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
+        List<ProductionPlanEntity> productionPlanList = new ArrayList();
+        for(Object o : q.getResultList()){
+            ProductionPlanEntity pp = (ProductionPlanEntity) o;
+            if(pp.getStatus().equals("cancelled"))
+            productionPlanList.add(pp);
+            
+        }
+        
+        
+        return productionPlanList;
+    }
+    
+    @Override
+    public ProductionPlanEntity searchProductionPlan(Long id){
+        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class,id);
+        return productionPlan;
     }
     
 }

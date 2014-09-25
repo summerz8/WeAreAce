@@ -41,7 +41,9 @@ public class IntegrateSalesForecast {
     public void getAllIntegratedSalesForecastList(){
     
         integratedSalesForecastList=sfml.getIntegrateSalesForecastList(null,null);
-        time=integratedSalesForecastList.get(0).getTargetPeriod();
+        time=Calendar.getInstance();
+        time.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), 1, 0, 0, 0);
+        System.out.println(time.getTime());
         factoryProductList=sfml.productListNeededTobeIntegrated(1L);
         
     }
@@ -80,8 +82,9 @@ public class IntegrateSalesForecast {
     }
 
     public String integrate(Long factoryProductId){
-        
+        System.out.println("1");
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId",factoryProductId);
+       System.out.println("11");
        return "MRPListSalesForecast?faces-redirect=true";
     
     }

@@ -54,11 +54,13 @@
 
                     <p:menu>
                         <p:submenu label="Manufacturing Resource Planning">
-                            <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                            <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                            <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                            <p:menuitem value="Planned Order"  update="messages" action="/secured/restricted/Factory/MRP/SalesForecast/MRPPlannedOrder?faces-redirect=true"/>
-                            <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
 
@@ -67,15 +69,19 @@
                 <p:layoutUnit position="center" resizable="false">
 
                     <p:panel id="basic" header="Integrate Sales Forecast" style="margin-bottom" >
-                        <p:commandButton  id = "create" value="Integrate Sales Forecast" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="MRPIntegrateSalesForecast" >
+                        <p:commandButton  id = "create" value="Integrate Sales Forecast" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="MRPIntegrateSalesForecast" >
                         </p:commandButton>
 
-                        <p:commandButton  value="View Integrated Sales Forecast" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="MRPViewIntegratedSalesForecast?faces-redirect=true" >
+                        <p:commandButton  value="View Integrated Sales Forecast" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="MRPViewIntegratedSalesForecast?faces-redirect=true" >
                         </p:commandButton>
+                        <p:commandButton  value="Back" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:left" action="MRPSalesForecast?faces-redirect=true" />
+                    
+                        <br></br>
+                        <br></br>
                         <br></br>
                         <br></br>
                         <p:growl id="growl" sticky="true" showDetail="true"/>   
-
+                   
                         <h:outputText value="Integrated Sales Forecast List in:  ">                           
                         </h:outputText>
 
@@ -92,7 +98,7 @@
                             </p:column>
 
                             <p:column headerText="Integration" >
-                                <p:commandButton  value="Integrate" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:left" actionListener="#{integrateSalesForecast.integrate(factoryProductList.factoryProductId)}" >
+                                <p:commandButton  value="Integrate" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:left" action="#{integrateSalesForecast.integrate(factoryProductList.factoryProductId)}" >
                                 </p:commandButton>
                             </p:column>
 
@@ -103,6 +109,7 @@
 
                     </p:panel>
                 </p:layoutUnit>
+
 
 
 

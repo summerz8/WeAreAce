@@ -7,6 +7,10 @@
 package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRetailProductAmountEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,13 +34,24 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     private EntityManager em;
     
     @Override
-    public boolean generateRetailProductPurchasePlan(String status,Calendar generateDate,Calendar targetPeriod,Double output,Long productId, String remark){
+    public boolean generateRetailProductPurchasePlan(Long factoryRetailproductId,Calendar targetPeriod,Double amount){
         
         try{
-            FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
-            ProductionPlanEntity productionPlan = new ProductionPlanEntity(status,generateDate,targetPeriod,output,product,remark);
-            em.persist(productionPlan);
-            System.out.println("Generate production plan!");
+            IntegratedPlannedOrderEntity integratedPlannedOrder = new IntegratedPlannedOrderEntity();
+            Calendar generateDate = Calendar.getInstance();
+            integratedPlannedOrder.setGeneratedDate(generateDate);
+            integratedPlannedOrder.setTargetPeriod(targetPeriod);
+            integratedPlannedOrder.setStatus("unconfirmed");
+            FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class,factoryRetailproductId);
+            String unit = factoryRetailProduct.getUnit();
+            FactoryRetailProductAmountEntity factoryRetailProductAmount = new FactoryRetailProductAmountEntity();
+            factoryRetailProductAmount.setUnit(unit);
+            factoryRetailProductAmount.setAmount(amount);
+            factoryRetailProductAmount.setFactoryRetailProduct(factoryRetailProduct);
+            em.persist(factoryRetailProductAmount);
+            integratedPlannedOrder.setFactoryRetailProductAmount(factoryRetailProductAmount);
+            em.persist(integratedPlannedOrder);
+            System.out.println("Generate Retail Product Purchase Plan!");
         }catch(Exception ex){
              System.out.println(ex.getMessage());
              return false;
@@ -45,71 +60,52 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     }
     
     @Override
-    public void editRetailProductPurchasePlan(Long productionPlanId, String field,Object content){
+    public void editRetailProductPurchasePlan(Long id, String field,Object content){
         
-        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+        IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, id);
         
         switch (field) {
             case "targetPeriod":
                 Calendar targetPeriod = (Calendar) content;
-                productionPlan.setTargetPeriod(targetPeriod);
+                integratedPlannedOrder.setTargetPeriod(targetPeriod);
                 break;
-            case "productId":
-                Long productId = (Long) content;
-                FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
-                productionPlan.setProduct(product);
-                break;
-            case "output":
-                Double output = (Double) content;
-                productionPlan.setQuantity(output);
+            case "amount":
+                Double amount = (Double) content;
+                integratedPlannedOrder.getFactoryRetailProductAmount().setAmount(amount);
                 break;
             case "status":
                 String status = (String) content;
-                productionPlan.setStatus(status);
-                break;
-            case "remark":
-                String remark = (String) content;
-                productionPlan.setRemark(remark);
+                integratedPlannedOrder.setStatus(status);
                 break;
         }
     }
     
     @Override
-    public boolean deleteRetailProductPurchasePlan(Long productionPlanId){
-        
-        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
-        String status = productionPlan.getStatus();
+    public boolean deleteRetailProductPurchasePlan(Long id){
+        IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, id);
+
+        String status = integratedPlannedOrder.getStatus();
         
         if(status.equals("confirmed") || status.equals("accomplished")){
             return false;
         }
         
         else{
-            em.remove(productionPlan);
+            em.remove(integratedPlannedOrder);
             return true;
         }
         
     }
     
-    @Override
-    public List<ArrayList> getProductionPlan(){
-        Query q = em.createQuery("SELECT pp FROM ProductionPlan pp");
-        List productionPlanList = new ArrayList();
+     @Override
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(){
+        Query q = em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList();
         for(Object o : q.getResultList()){
-            ProductionPlanEntity pp = (ProductionPlanEntity) o;
-            List productionPlan = new ArrayList();
-            productionPlan.add(0,pp.getProductionPlanId());
-            productionPlan.add(1,pp.getStatus());
-            productionPlan.add(2,pp.getGenerateDate());
-            productionPlan.add(3,pp.getTargetPeriod());
-            productionPlan.add(4,pp.getProduct().getFactoryProductId());
-            productionPlan.add(5,pp.getQuantity());
-            productionPlan.add(6,pp.getConfirmDate());
-            productionPlan.add(7,pp.getRemark());
-            productionPlanList.add(productionPlan);
+            IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+            if(rppp.getFactoryRetailProductAmount()!= null)
+                integratedPlannedOrderList.add(rppp);
+            }
+          return integratedPlannedOrderList;
         }
-        
-        
-        return productionPlanList;
-    }
 }

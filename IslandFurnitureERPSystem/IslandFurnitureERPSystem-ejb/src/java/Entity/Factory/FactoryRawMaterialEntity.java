@@ -5,7 +5,6 @@
  */
 package Entity.Factory;
 
-
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import java.io.Serializable;
@@ -55,7 +54,7 @@ public class FactoryRawMaterialEntity implements Serializable {
     //factory raw material entity -- raw material entity: M <--> 1
     @ManyToOne
     private RawMaterialEntity rawMaterial;
-    
+
     //contract entity -- factory raw material entity: M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterial")
     private Collection<ContractEntity> contracts = new ArrayList<>();
@@ -63,7 +62,7 @@ public class FactoryRawMaterialEntity implements Serializable {
     //inventory record entity -- factory raw material entity : M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRawMaterial")
     private List<InventoryRecordEntity> inventoryRecord = new ArrayList<>();
-    
+
     public FactoryRawMaterialEntity() {
     }
 
@@ -75,7 +74,7 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.factory = factory;
         this.rawMaterial = rawMaterial;
     }
-   
+
     public Long getFactoryRawMaterialId() {
         return factoryRawMaterialId;
     }
@@ -132,6 +131,7 @@ public class FactoryRawMaterialEntity implements Serializable {
         this.factory = factory;
     }
 //
+
     public Collection<FactoryBinStoredProductEntity> getFactoryBinStoredProducts() {
         return factoryBinStoredProducts;
     }
@@ -184,5 +184,9 @@ public class FactoryRawMaterialEntity implements Serializable {
     public String toString() {
         return "FactoryRawMaterialEntity{" + "factoryRawMaterialId=" + factoryRawMaterialId + ", unit=" + unit + ", materialName=" + materialName + ", description=" + description + ", minimumInventory=" + minimumInventory + ", deleteFlag=" + isDeleted + ", factory=" + factory + ", rawMaterial=" + rawMaterial + '}';
     }
-    
+
+    public void create(String materialName, String description) {
+        this.setMaterialName(materialName);
+        this.setDescription(description);
+    }
 }

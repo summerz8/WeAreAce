@@ -26,6 +26,12 @@ public interface ProductionPlanManagementModuleLocal {
 
     public boolean deleteProductionPlan(Long productionPlanId);
 
-    public List<ProductionPlanEntity> getProductionPlan();
+    public List<ProductionPlanEntity> getProductionPlanUnconfirmed();
+
+    public ProductionPlanEntity searchProductionPlan(Long id);
+
+    public List<ProductionPlanEntity> getProductionPlanCancelled();
+
+    public List<ProductionPlanEntity> getProductionPlanConfirmed();
     
 }

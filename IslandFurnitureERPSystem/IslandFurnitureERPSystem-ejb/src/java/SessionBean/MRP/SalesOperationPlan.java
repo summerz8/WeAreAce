@@ -37,11 +37,11 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
             Integer workingDays) {
 
         try {
-            
+
             FactoryProductEntity fpe = em.find(FactoryProductEntity.class, factoryProductId);
-            IntegratedSalesForecastEntity isf=em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
-            FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
-            
+            IntegratedSalesForecastEntity isf = em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
+            FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
+
             System.out.println("GenerateSalesOperationPlan(): 1");
             SalesOperationPlanEntity salesOperationPlan = new SalesOperationPlanEntity();
             salesOperationPlan.setFactoryProduct(fpe);
@@ -49,28 +49,23 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
             salesOperationPlan.setTargetPeriod(targetPeriod);
             salesOperationPlan.setIntegratedSalesForecast(isf);
             salesOperationPlan.setWorkingDay(workingDays);
-        
-            
-            
+
             System.out.println("GenerateSalesOperationPlan(): 2");
 
-            
             Calendar generatedDate = Calendar.getInstance();
             ProductionPlanEntity productionPlan = new ProductionPlanEntity("Unconfirmed", generatedDate, targetPeriod, productionPlanQuantity, factoryProduct, "");
-            
+
 //            System.out.println(productionPlan.getProductionPlanId());
-        
             em.persist(productionPlan);
             em.flush();
-                  
+
             salesOperationPlan.setProductionPlan(productionPlan);
-            
+
             System.out.println("GenerateSalesOperationPlan(): 4");
             System.out.println(productionPlan.getProductionPlanId());
             em.persist(salesOperationPlan);
             em.flush();
-            
-            
+
             System.out.println("GenerateSalesOperationPlan(): 5");
             return salesOperationPlan;
 
@@ -205,45 +200,45 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
         SalesOperationPlanEntity salesOperationPlan = new SalesOperationPlanEntity();
         FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, targetProductId);
-       
+
         System.out.println("1");
         Query q = em.createQuery("SELECT s FROM SalesOperationPlanEntity s ORDER BY s.targetPeriod DESC");
         System.out.println("2");
         List<SalesOperationPlanEntity> tempSalesList = (List<SalesOperationPlanEntity>) q.getResultList();
-        List<SalesOperationPlanEntity> List= new ArrayList<>();
-        while(!tempSalesList.isEmpty()){
-        if(tempSalesList.get(0).getFactoryProduct().equals(factoryProduct))
-            System.out.println("SalesOperationPlan calendar: "+tempSalesList.get(0).getTargetPeriod().getTime());
+        List<SalesOperationPlanEntity> List = new ArrayList<>();
+        while (!tempSalesList.isEmpty()) {
+            if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct)) {
+                System.out.println("SalesOperationPlan calendar: " + tempSalesList.get(0).getTargetPeriod().getTime());
+            }
             List.add(tempSalesList.get(0));
             tempSalesList.remove(0);
         }
-        
-        Double inventory=List.get(0).getPlannedEndMonthInventory();
-        System.out.println(List.get(0).getTargetPeriod().getTime());
-        Calendar targetPeriod=Calendar.getInstance();
-         targetPeriod.set(List.get(0).getTargetPeriod().get(Calendar.YEAR), List.get(0).getTargetPeriod().get(Calendar.MONTH), 1,0,0,0);
-        
+
+        Double inventory = List.get(0).getPlannedEndMonthInventory();
+        Calendar targetPeriod = Calendar.getInstance();
+        targetPeriod.set(targetPeriod.get(Calendar.YEAR), targetPeriod.get(Calendar.MONTH), 1, 0, 0, 0);
+        targetPeriod.add(Calendar.MONTH, 2);
+
         System.out.println(List.get(0).getTargetPeriod().getTime());
         System.out.println("3");
-        targetPeriod.add(Calendar.MONTH, 2);
         System.out.println(targetPeriod.getTime());
         Query qq = em.createQuery("SELECT i FROM IntegratedSalesForecastEntity i ORDER BY i.targetPeriod DESC");
         List<IntegratedSalesForecastEntity> tempSalesList1 = (List<IntegratedSalesForecastEntity>) qq.getResultList();
-        List<IntegratedSalesForecastEntity> List1= new ArrayList<>();
-        while(!tempSalesList1.isEmpty()){
-        if(tempSalesList1.get(0).getFactoryProduct().equals(factoryProduct)){
-            System.out.println(tempSalesList1.get(0).getTargetPeriod().getTime());
-            if((tempSalesList1.get(0).getTargetPeriod().get(Calendar.MONTH)==(targetPeriod.get(Calendar.MONTH)))&&(tempSalesList1.get(0).getTargetPeriod().get(Calendar.YEAR)==(targetPeriod.get(Calendar.YEAR)))){
-            List1.add(tempSalesList1.get(0));
-            System.out.println("3.1");
+        List<IntegratedSalesForecastEntity> List1 = new ArrayList<>();
+        while (!tempSalesList1.isEmpty()) {
+            if (tempSalesList1.get(0).getFactoryProduct().equals(factoryProduct)) {
+                System.out.println(tempSalesList1.get(0).getTargetPeriod().getTime());
+                if ((tempSalesList1.get(0).getTargetPeriod().get(Calendar.MONTH) == (targetPeriod.get(Calendar.MONTH))) && (tempSalesList1.get(0).getTargetPeriod().get(Calendar.YEAR) == (targetPeriod.get(Calendar.YEAR)))) {
+                    List1.add(tempSalesList1.get(0));
+                    System.out.println("3.1");
+                }
             }
-        }
             tempSalesList1.remove(0);
         }
         System.out.println("4");
-        
+
         IntegratedSalesForecastEntity integratedSalesForecastEntity = List1.get(0);
-        
+
         targetPeriod.add(Calendar.MONTH, -1);
 
         System.out.println("5");
@@ -266,17 +261,17 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         salesOperationPlan.setPlannedEndMonthInventory(inventory);
         salesOperationPlan.setIntegratedSalesForecast(integratedSalesForecastEntity);
         salesOperationPlan.setWorkingDay(workDays);
-        System.out.println(salesOperationPlan.getWorkingDay()+salesOperationPlan.getPlannedEndMonthInventory());
+        System.out.println(salesOperationPlan.getWorkingDay() + salesOperationPlan.getPlannedEndMonthInventory());
         System.out.println("7");
         return salesOperationPlan;
     }
 
     @Override
-    public SalesOperationPlanEntity getSalesOperationPlan(Long salesOperationPlanId){
-    
-        return em.find(SalesOperationPlanEntity.class,salesOperationPlanId);
+    public SalesOperationPlanEntity getSalesOperationPlan(Long salesOperationPlanId) {
+
+        return em.find(SalesOperationPlanEntity.class, salesOperationPlanId);
     }
-    
+
     @Override
     public Calendar removeTime(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
