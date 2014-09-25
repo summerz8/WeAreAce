@@ -1,10 +1,17 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+
     <f:view>
+
         <h:head>
             <title>Island Furniture ERP WorkPlace</title>
             <!--            <head>
@@ -29,7 +36,7 @@
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
                         </p:commandButton>
-                        
+
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
@@ -41,7 +48,6 @@
 
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                         </p:button>
-
 
 
                         <h:outputLabel value = "Welcome Back " >
@@ -59,11 +65,10 @@
 
                         <p:menu>
                             <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Planned Order"  update="messages" />
-                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
+                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
                             </p:submenu>
                             <p:submenu label="Supply Chain Management">
                                 <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
@@ -73,18 +78,13 @@
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
                             </p:submenu>
-                            <p:submenu label="Enterprise">
-                                <p:menuitem value="Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml"/>
-                            </p:submenu>
-                            <p:submenu label="Ticket Management">
-                                <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList"/>
-                            </p:submenu>
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="User Information Page" style="margin-bottom" >
+
+                        <p:panel id="basic" header="Session Name" style="margin-bottom" >
                             <h:panelGrid columns="2" cellpadding="10">
 
                             </h:panelGrid>
@@ -95,6 +95,7 @@
                 </p:layout>
             </h:form>
         </h:body>
-    </f:view>
-</html>
 
+    </f:view>
+
+</html>

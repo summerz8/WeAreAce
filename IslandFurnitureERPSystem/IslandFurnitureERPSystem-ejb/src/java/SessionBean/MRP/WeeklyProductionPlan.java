@@ -5,13 +5,16 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
+import Entity.Factory.ProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -23,11 +26,15 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    @PersistenceContext
     private EntityManager em;
 
     @Override
-    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Calendar period, ProductionPlanEntity productionPlan) {
+    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId) {
         try {
+            System.out.println("generateWeeklyProductionPlan:()  1");
+            ProductionPlanEntity productionPlan=em.find(ProductionPlanEntity.class, productionPlanId);
+            Calendar period=productionPlan.getTargetPeriod();
             List<WeeklyProductionPlanEntity> weeklyProductionPlanList=new ArrayList<WeeklyProductionPlanEntity>();
             
             Calendar cal1 = Calendar.getInstance();
@@ -35,12 +42,14 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
             Calendar cal2 = Calendar.getInstance();
             cal2.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
             Integer daysInMonth = 0;
+            System.out.println("generateWeeklyProductionPlan:()  2");
             do {
                 if (cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
                     ++daysInMonth;
                 }
                 cal1.add(Calendar.DAY_OF_MONTH, 1);
-
+                
+               System.out.println("generateWeeklyProductionPlan:()  3");
             } while (cal1.getTimeInMillis() < cal2.getTimeInMillis());
 
             Calendar cal3 = Calendar.getInstance();
@@ -51,13 +60,13 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
             if (cal3.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
                 week = -1;
             }
-
+            System.out.println("generateWeeklyProductionPlan:()  4");
             do {
                 if (cal3.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || (cal3.getTimeInMillis() == cal4.getTimeInMillis() && cal3.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
                     week++;
                 }
                 cal3.add(Calendar.DAY_OF_MONTH, 1);
-            } while (cal3.getTimeInMillis() < cal4.getTimeInMillis());
+            } while (cal3.getTimeInMillis() <= cal4.getTimeInMillis());
             int workingDayInWeek = 1;
             Double weeklyDemand;
             Calendar cal5 = Calendar.getInstance();
@@ -65,6 +74,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
             Calendar cal6 = Calendar.getInstance();
             cal6.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
             cal6.add(Calendar.DAY_OF_MONTH, -1);
+            System.out.println("generateWeeklyProductionPlan:()  5");
             for (int a = 0; a < week; a++) {
                 if (a == 0) {
                     if (cal5.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
@@ -170,7 +180,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     weeklyProductionPlanList.add(weeklyProductionPlan);
                 }
             }
-            
+            System.out.println("generateWeeklyProductionPlan:()  5");
             em.flush();
             
             return weeklyProductionPlanList;
@@ -215,4 +225,14 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
 
     }
 
+    
+    
+    public ProductEntity getProduct(Long factoryProductId){
+  
+        FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
+        
+        return factoryProduct.getProduct(); 
+    
+    
+    }
 }

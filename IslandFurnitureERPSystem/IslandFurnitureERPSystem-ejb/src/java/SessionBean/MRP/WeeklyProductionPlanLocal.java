@@ -7,6 +7,7 @@ package SessionBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
+import Entity.Factory.ProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,10 +20,12 @@ import javax.ejb.Local;
 @Local
 public interface WeeklyProductionPlanLocal {
 
-    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Calendar month, ProductionPlanEntity productionPlan);
+    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId);
 
     public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id,Calendar month, Integer week, Integer workingDayInWeek, Integer workingDayInMonth, Double weeklyDemand);
 
     public List<WeeklyProductionPlanEntity>  getWeeklyProductionPlan(ProductionPlanEntity productionPlan);
+    
+    public ProductEntity getProduct(Long factoryProductId);
     
 }
