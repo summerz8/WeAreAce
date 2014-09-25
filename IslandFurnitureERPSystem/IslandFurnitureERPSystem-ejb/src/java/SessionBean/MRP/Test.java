@@ -8,14 +8,23 @@ package SessionBean.MRP;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.UserEntity;
+import Entity.Factory.BOMEntity;
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductAmountEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
+import Entity.Factory.MRP.SalesForecastEntity;
+import Entity.Factory.MRP.SalesOperationPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
+import Entity.Factory.RetailProductEntity;
+import Entity.Store.StoreEntity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +36,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -409,6 +417,256 @@ public class Test {
         em.persist(po6);em.persist(po7);em.persist(po8);em.persist(po9);em.persist(po10);
         em.persist(po11);em.persist(po12);em.persist(po13);em.persist(po14);em.persist(po15);
 
+         /*      
         
+        
+             我有一只大猫猫 它从来都不喵
+        
+        
+        
+        */
+        
+        
+        //BOM
+        BOMEntity bom1=new BOMEntity();BOMEntity bom2=new BOMEntity();BOMEntity bom3=new BOMEntity();
+        BOMEntity bom4=new BOMEntity();BOMEntity bom5=new BOMEntity();BOMEntity bom6=new BOMEntity();
+        BOMEntity bom7=new BOMEntity();BOMEntity bom8=new BOMEntity();BOMEntity bom9=new BOMEntity();
+        
+        bom1.setAmount(10D);bom1.setProduct(p1);bom1.setRawMaterial(rm1);bom1.setUnit("piece");
+        bom2.setAmount(20D);bom2.setProduct(p2);bom2.setRawMaterial(rm2);bom1.setUnit("piece");
+        bom3.setAmount(30D);bom3.setProduct(p3);bom3.setRawMaterial(rm3);bom1.setUnit("box");
+        bom4.setAmount(40D);bom4.setProduct(p4);bom4.setRawMaterial(rm4);bom1.setUnit("box");
+        bom5.setAmount(50D);bom5.setProduct(p5);bom5.setRawMaterial(rm5);bom1.setUnit("box");
+        bom6.setAmount(60D);bom6.setProduct(p6);bom6.setRawMaterial(rm1);bom1.setUnit("piece");
+        bom7.setAmount(70D);bom7.setProduct(p7);bom7.setRawMaterial(rm2);bom1.setUnit("piece");
+        bom8.setAmount(80D);bom8.setProduct(p8);bom8.setRawMaterial(rm3);bom1.setUnit("box");
+        bom9.setAmount(90D);bom9.setProduct(p9);bom9.setRawMaterial(rm4);bom1.setUnit("box");
+        
+        em.persist(bom1);em.flush();em.persist(bom2);em.flush();em.persist(bom3);em.flush();
+        em.persist(bom4);em.flush();em.persist(bom5);em.flush();em.persist(bom6);em.flush();
+        em.persist(bom7);em.flush();em.persist(bom8);em.flush();em.persist(bom9);em.flush();
+      
+        
+        
+        // Factory Product
+        FactoryProductAmountEntity fpa1 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa2 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa3 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa4 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa5 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa6 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa7 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa8 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa9 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa10 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa11 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa12 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa13 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa14 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa15 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa16 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa17 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa18 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa19 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa20 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa21 =new FactoryProductAmountEntity();
+        FactoryProductAmountEntity fpa22 =new FactoryProductAmountEntity();
+        
+        
+        fpa1.setAmount(1000D);fpa1.setFactoryProduct(fp1);fpa1.setUnit("unit");
+        fpa2.setAmount(2000D);fpa2.setFactoryProduct(fp2);fpa2.setUnit("unit"); 
+        fpa3.setAmount(3000D);fpa3.setFactoryProduct(fp3);fpa3.setUnit("unit");
+        fpa4.setAmount(4000D);fpa4.setFactoryProduct(fp4);fpa4.setUnit("unit");
+        fpa5.setAmount(5000D);fpa5.setFactoryProduct(fp5);fpa5.setUnit("unit");
+        fpa6.setAmount(6000D);fpa6.setFactoryProduct(fp6);fpa6.setUnit("unit");
+        fpa7.setAmount(7000D);fpa7.setFactoryProduct(fp7);fpa7.setUnit("unit");
+        fpa8.setAmount(8000D);fpa8.setFactoryProduct(fp8);fpa8.setUnit("unit");
+        fpa9.setAmount(9000D);fpa9.setFactoryProduct(fp9);fpa9.setUnit("unit");
+        fpa10.setAmount(4000D);fpa4.setFactoryProduct(fp4);fpa4.setUnit("unit");
+        fpa11.setAmount(5000D);fpa5.setFactoryProduct(fp5);fpa5.setUnit("unit");
+        fpa12.setAmount(6000D);fpa6.setFactoryProduct(fp6);fpa6.setUnit("unit");
+        fpa13.setAmount(7000D);fpa7.setFactoryProduct(fp7);fpa7.setUnit("unit");
+        fpa14.setAmount(8000D);fpa8.setFactoryProduct(fp8);fpa8.setUnit("unit");
+        fpa15.setAmount(9000D);fpa9.setFactoryProduct(fp9);fpa9.setUnit("unit");
+        fpa16.setAmount(9000D);fpa9.setFactoryProduct(fp6);fpa9.setUnit("unit");
+        fpa17.setAmount(4000D);fpa4.setFactoryProduct(fp4);fpa4.setUnit("unit");
+        fpa18.setAmount(5000D);fpa5.setFactoryProduct(fp5);fpa5.setUnit("unit");
+        fpa19.setAmount(6000D);fpa6.setFactoryProduct(fp4);fpa6.setUnit("unit");
+        fpa20.setAmount(7000D);fpa7.setFactoryProduct(fp3);fpa7.setUnit("unit");
+        fpa21.setAmount(8000D);fpa8.setFactoryProduct(fp2);fpa8.setUnit("unit");
+        fpa22.setAmount(9000D);fpa9.setFactoryProduct(fp1);fpa9.setUnit("unit");
+       
+        
+        
+        em.persist(fpa1);em.flush();
+        em.persist(fpa2);em.flush();
+        em.persist(fpa3);em.flush();
+        em.persist(fpa4);em.flush();
+        em.persist(fpa5);em.flush();
+        em.persist(fpa6);em.flush();
+        em.persist(fpa7);em.flush();
+        em.persist(fpa8);em.flush();
+        em.persist(fpa9);em.flush();
+        em.persist(fpa10);em.flush();
+        em.persist(fpa11);em.flush();
+        em.persist(fpa12);em.flush();
+        em.persist(fpa13);em.flush();
+        em.persist(fpa14);em.flush();
+        em.persist(fpa15);em.flush();
+        em.persist(fpa16);em.flush();
+        em.persist(fpa17);em.flush();
+        em.persist(fpa18);em.flush();
+        em.persist(fpa19);em.flush();
+        em.persist(fpa20);em.flush();
+        em.persist(fpa21);em.flush();
+        em.persist(fpa22);em.flush();
+        
+        
+        
+        // Integrated Sales Forecast     /* NOT FINISHED */
+        IntegratedSalesForecastEntity isf1=new IntegratedSalesForecastEntity();
+        IntegratedSalesForecastEntity isf2=new IntegratedSalesForecastEntity();
+        IntegratedSalesForecastEntity isf3=new IntegratedSalesForecastEntity();
+
+    
+        isf1.setAmount(5000D);isf1.setFactory(f1);isf1.setFactoryProduct(fp1);isf1.setTargetPeriod(c9);
+        isf2.setAmount(5500D);isf2.setFactory(f2);isf2.setFactoryProduct(fp2);isf1.setTargetPeriod(c8);
+        isf3.setAmount(6000D);isf3.setFactory(f3);isf3.setFactoryProduct(fp3);isf1.setTargetPeriod(c7);
+        
+        em.persist(isf1);em.flush();
+        em.persist(isf2);em.flush();
+        em.persist(isf3);em.flush();
+        
+        
+        //Retail Product Entity          /* NOT FINISHED */
+        RetailProductEntity rpe1=new RetailProductEntity();
+        RetailProductEntity rpe2=new RetailProductEntity();
+        RetailProductEntity rpe3=new RetailProductEntity();
+        RetailProductEntity rpe4=new RetailProductEntity();
+        RetailProductEntity rpe5=new RetailProductEntity();
+        RetailProductEntity rpe6=new RetailProductEntity();
+        RetailProductEntity rpe7=new RetailProductEntity();
+        RetailProductEntity rpe8=new RetailProductEntity();
+        RetailProductEntity rpe9=new RetailProductEntity();
+        
+        rpe1.setDeleteFlag(false);rpe1.setDescription("I dont know");rpe1.setName("A");rpe1.setUnit("unit");
+        rpe2.setDeleteFlag(false);rpe2.setDescription("I dont know");rpe2.setName("B");rpe2.setUnit("unit");
+        rpe3.setDeleteFlag(false);rpe3.setDescription("I dont know");rpe3.setName("C");rpe3.setUnit("unit");
+        rpe4.setDeleteFlag(false);rpe4.setDescription("I dont know");rpe4.setName("D");rpe4.setUnit("unit");
+        rpe5.setDeleteFlag(false);rpe5.setDescription("I dont know");rpe5.setName("E");rpe5.setUnit("unit");
+        rpe6.setDeleteFlag(false);rpe6.setDescription("I dont know");rpe6.setName("F");rpe6.setUnit("unit");
+        rpe7.setDeleteFlag(false);rpe7.setDescription("I dont know");rpe7.setName("G");rpe7.setUnit("unit");
+        rpe8.setDeleteFlag(false);rpe8.setDescription("I dont know");rpe8.setName("H");rpe8.setUnit("unit");
+        rpe9.setDeleteFlag(false);rpe9.setDescription("I dont know");rpe9.setName("I");rpe9.setUnit("unit");
+        
+        em.persist(rpe1);em.flush();
+        em.persist(rpe2);em.flush();
+        em.persist(rpe3);em.flush();
+        em.persist(rpe4);em.flush();
+        em.persist(rpe5);em.flush();
+        em.persist(rpe6);em.flush();
+        em.persist(rpe7);em.flush();
+        em.persist(rpe8);em.flush();
+        em.persist(rpe9);em.flush();
+        
+        
+        //Sales Forecast
+        SalesForecastEntity sfe1=new SalesForecastEntity();
+        SalesForecastEntity sfe2=new SalesForecastEntity();
+        SalesForecastEntity sfe3=new SalesForecastEntity();
+        SalesForecastEntity sfe4=new SalesForecastEntity();
+        SalesForecastEntity sfe5=new SalesForecastEntity();
+   
+        
+        List<FactoryProductAmountEntity> listfpe1=new ArrayList<>();listfpe1.add(fpa1);listfpe1.add(fpa2);listfpe1.add(fpa3);
+        List<FactoryProductAmountEntity> listfpe2=new ArrayList<>();listfpe2.add(fpa4);listfpe2.add(fpa5);listfpe2.add(fpa6);listfpe2.add(fpa7);
+        List<FactoryProductAmountEntity> listfpe3=new ArrayList<>();listfpe3.add(fpa8);listfpe3.add(fpa9);listfpe3.add(fpa10);listfpe3.add(fpa11);listfpe3.add(fpa12);
+        List<FactoryProductAmountEntity> listfpe4=new ArrayList<>();listfpe4.add(fpa13);listfpe4.add(fpa14);listfpe4.add(fpa15);listfpe4.add(fpa16);listfpe4.add(fpa17);
+        List<FactoryProductAmountEntity> listfpe5=new ArrayList<>();listfpe5.add(fpa18);listfpe5.add(fpa19);listfpe5.add(fpa20);listfpe5.add(fpa21);listfpe5.add(fpa22);
+
+   
+               
+        FactoryRetailProductEntity frpe1=new FactoryRetailProductEntity();frpe1.setBlockedInventory(0d);frpe1.setFactory(f1);frpe1.setName("RetailA");frpe1.setUnit("unit");frpe1.setRetailProduct(rpe1);
+        FactoryRetailProductEntity frpe2=new FactoryRetailProductEntity();frpe2.setBlockedInventory(0d);frpe2.setFactory(f2);frpe2.setName("RetailB");frpe2.setUnit("unit");frpe2.setRetailProduct(rpe2);
+        FactoryRetailProductEntity frpe3=new FactoryRetailProductEntity();frpe3.setBlockedInventory(0d);frpe3.setFactory(f3);frpe3.setName("RetailC");frpe3.setUnit("unit");frpe3.setRetailProduct(rpe3);
+        FactoryRetailProductEntity frpe4=new FactoryRetailProductEntity();frpe4.setBlockedInventory(0d);frpe4.setFactory(f1);frpe4.setName("RetailD");frpe4.setUnit("unit");frpe4.setRetailProduct(rpe4);
+        FactoryRetailProductEntity frpe5=new FactoryRetailProductEntity();frpe5.setBlockedInventory(0d);frpe5.setFactory(f2);frpe5.setName("RetailE");frpe5.setUnit("unit");frpe5.setRetailProduct(rpe5);
+        FactoryRetailProductEntity frpe6=new FactoryRetailProductEntity();frpe6.setBlockedInventory(0d);frpe6.setFactory(f3);frpe6.setName("RetailF");frpe6.setUnit("unit");frpe6.setRetailProduct(rpe6);
+        FactoryRetailProductEntity frpe7=new FactoryRetailProductEntity();frpe7.setBlockedInventory(0d);frpe7.setFactory(f1);frpe7.setName("RetailG");frpe7.setUnit("unit");frpe7.setRetailProduct(rpe7);
+        FactoryRetailProductEntity frpe8=new FactoryRetailProductEntity();frpe8.setBlockedInventory(0d);frpe8.setFactory(f2);frpe8.setName("RetailH");frpe8.setUnit("unit");frpe8.setRetailProduct(rpe8);
+        FactoryRetailProductEntity frpe9=new FactoryRetailProductEntity();frpe9.setBlockedInventory(0d);frpe9.setFactory(f3);frpe9.setName("RetailI");frpe9.setUnit("unit");frpe9.setRetailProduct(rpe9);
+        
+        em.persist(frpe1);em.flush();
+        em.persist(frpe2);em.flush();
+        em.persist(frpe3);em.flush();
+        em.persist(frpe4);em.flush();
+        em.persist(frpe5);em.flush();
+        em.persist(frpe6);em.flush();
+        em.persist(frpe7);em.flush();
+        em.persist(frpe8);em.flush();
+        em.persist(frpe9);em.flush();
+        
+        FactoryRetailProductAmountEntity rpa1=new FactoryRetailProductAmountEntity();rpa1.setAmount(100D);rpa1.setFactoryRetailProduct(frpe1);
+        FactoryRetailProductAmountEntity rpa2=new FactoryRetailProductAmountEntity();rpa2.setAmount(200D);rpa1.setFactoryRetailProduct(frpe2);
+        FactoryRetailProductAmountEntity rpa3=new FactoryRetailProductAmountEntity();rpa3.setAmount(300D);rpa1.setFactoryRetailProduct(frpe3);
+        FactoryRetailProductAmountEntity rpa4=new FactoryRetailProductAmountEntity();rpa4.setAmount(400D);rpa1.setFactoryRetailProduct(frpe4);
+        FactoryRetailProductAmountEntity rpa5=new FactoryRetailProductAmountEntity();rpa5.setAmount(500D);rpa1.setFactoryRetailProduct(frpe5);
+        FactoryRetailProductAmountEntity rpa6=new FactoryRetailProductAmountEntity();rpa6.setAmount(600D);rpa1.setFactoryRetailProduct(frpe6);
+        FactoryRetailProductAmountEntity rpa7=new FactoryRetailProductAmountEntity();rpa7.setAmount(700D);rpa1.setFactoryRetailProduct(frpe7);
+        FactoryRetailProductAmountEntity rpa8=new FactoryRetailProductAmountEntity();rpa8.setAmount(800D);rpa1.setFactoryRetailProduct(frpe8);
+        FactoryRetailProductAmountEntity rpa9=new FactoryRetailProductAmountEntity();rpa9.setAmount(900D);rpa1.setFactoryRetailProduct(frpe9);
+        FactoryRetailProductAmountEntity rpa10=new FactoryRetailProductAmountEntity();rpa7.setAmount(700D);rpa1.setFactoryRetailProduct(frpe1);
+        FactoryRetailProductAmountEntity rpa11=new FactoryRetailProductAmountEntity();rpa8.setAmount(800D);rpa1.setFactoryRetailProduct(frpe2);
+        FactoryRetailProductAmountEntity rpa12=new FactoryRetailProductAmountEntity();rpa9.setAmount(900D);rpa1.setFactoryRetailProduct(frpe3);
+        FactoryRetailProductAmountEntity rpa13=new FactoryRetailProductAmountEntity();rpa7.setAmount(700D);rpa1.setFactoryRetailProduct(frpe3);
+        FactoryRetailProductAmountEntity rpa14=new FactoryRetailProductAmountEntity();rpa8.setAmount(800D);rpa1.setFactoryRetailProduct(frpe4);
+        FactoryRetailProductAmountEntity rpa15=new FactoryRetailProductAmountEntity();rpa9.setAmount(900D);rpa1.setFactoryRetailProduct(frpe5);
+        
+        em.persist(rpa1);em.flush();
+        em.persist(rpa2);em.flush();
+        em.persist(rpa3);em.flush();
+        em.persist(rpa4);em.flush();
+        em.persist(rpa5);em.flush();
+        em.persist(rpa6);em.flush();
+        em.persist(rpa7);em.flush();
+        em.persist(rpa8);em.flush();
+        em.persist(rpa9);em.flush();
+        
+        
+        List<FactoryRetailProductAmountEntity> listrpe1=new ArrayList<>();listrpe1.add(rpa1);listrpe1.add(rpa2);listrpe1.add(rpa3);
+        List<FactoryRetailProductAmountEntity> listrpe2=new ArrayList<>();listrpe1.add(rpa4);listrpe1.add(rpa5);listrpe1.add(rpa6);
+        List<FactoryRetailProductAmountEntity> listrpe3=new ArrayList<>();listrpe1.add(rpa7);listrpe1.add(rpa8);listrpe1.add(rpa9);
+        List<FactoryRetailProductAmountEntity> listrpe4=new ArrayList<>();listrpe1.add(rpa10);listrpe1.add(rpa11);listrpe1.add(rpa12);
+        List<FactoryRetailProductAmountEntity> listrpe5=new ArrayList<>();listrpe1.add(rpa13);listrpe1.add(rpa14);listrpe1.add(rpa15);
+     
+   
+        
+        
+        StoreEntity store1=new StoreEntity();store1.setAddress("Singapore");store1.setContact("88888888");store1.setCountry("Singapore");store1.setManager("Zhen Yuan");
+        StoreEntity store2=new StoreEntity();store1.setAddress("Singapore");store1.setContact("66666666");store1.setCountry("Singapore");store1.setManager("Zhang Shiyu");
+        StoreEntity store3=new StoreEntity();store1.setAddress("Singapore");store1.setContact("11111111");store1.setCountry("Singapore");store1.setManager("Zhao Mengdan");
+        
+        em.persist(store1);em.flush();
+        em.persist(store2);em.flush();
+        em.persist(store3);em.flush();
+        
+        sfe1.setFactoryProductList(listfpe1);sfe1.setFactoryRetailProductList(listrpe1);sfe1.setStatus("unconfirmed");sfe1.setStore(store1);sfe1.setTargetPeriod(c10);
+        sfe2.setFactoryProductList(listfpe2);sfe2.setFactoryRetailProductList(listrpe2);sfe2.setStatus("unconfirmed");sfe2.setStore(store1);sfe2.setTargetPeriod(c9);
+        sfe3.setFactoryProductList(listfpe3);sfe3.setFactoryRetailProductList(listrpe3);sfe3.setStatus("unconfirmed");sfe3.setStore(store1);sfe3.setTargetPeriod(c10);
+        sfe4.setFactoryProductList(listfpe4);sfe4.setFactoryRetailProductList(listrpe4);sfe4.setStatus("unconfirmed");sfe4.setStore(store2);sfe4.setTargetPeriod(c9);
+        sfe5.setFactoryProductList(listfpe5);sfe5.setFactoryRetailProductList(listrpe5);sfe5.setStatus("unconfirmed");sfe5.setStore(store2);sfe5.setTargetPeriod(c10);
+
+        em.persist(sfe1);em.flush();
+        em.persist(sfe2);em.flush();
+        em.persist(sfe3);em.flush();
+        em.persist(sfe4);em.flush();
+        em.persist(sfe5);em.flush();
+
+        
+        // Sales Operation Plan
+        SalesOperationPlanEntity sop1=new SalesOperationPlanEntity();sop1.setFactoryProduct(fp1);sop1.setIntegratedSalesForecast(isf1);sop1.setPlannedEndMonthInventory(500D);sop1.setTargetPeriod(c8);sop1.setWorkingDay(22);
+
+        em.persist(sop1);em.flush();
+
     }
 }

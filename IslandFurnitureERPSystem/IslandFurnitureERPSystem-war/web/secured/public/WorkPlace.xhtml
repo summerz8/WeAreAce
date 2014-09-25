@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+          
       xmlns:p="http://primefaces.org/ui">
     <f:view>
         <h:head>
@@ -29,7 +30,7 @@
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
                         </p:commandButton>
-                        
+
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
@@ -68,9 +69,21 @@
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                             </p:submenu>
                             <p:submenu label="Supply Chain Management">
-                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
+                                <p:submenu label="Purchased Items and Suppliers Management">
+                                    <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
+                                    <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
+                                    <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
+                                    <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
+                                    <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
+                                    <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
+                                </p:submenu>
+                                <p:submenu label="Purchase Order Management">
+                                    <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
+                                    <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
+
+                                    
+                                    <p:menuitem value="Manage Purchase Order" action="null"/>
+                                </p:submenu>
                             </p:submenu>
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>

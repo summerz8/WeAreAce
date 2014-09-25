@@ -14,6 +14,8 @@
 package SessionBean.SCM;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
@@ -33,10 +35,20 @@ import javax.ejb.Local;
 @Local
 public interface PurchaseOrderManagementModuleLocal {
 
-    //1. View and Select item for purchase
-    public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception;
+    public FactoryEntity getFactoryEntity(Long factoryiId) throws Exception;
 
-    public Object selectItem(String itemType, Long itemId) throws Exception;
+    public StoreEntity getStoreEntity(Long storeId) throws Exception;
+
+    public FactoryRawMaterialEntity getFactoryRM(Long itemId) throws Exception;
+
+    public FactoryRetailProductEntity getFactoryRP(Long itemId) throws Exception;
+
+    public ContractEntity getContract(Long contractId) throws Exception;
+
+    //1. View and Select item for purchase
+    public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception;
+
+    public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception;
 
     //2. Generate purchase amount
     //3. View and Select Available Supplier
@@ -51,15 +63,18 @@ public interface PurchaseOrderManagementModuleLocal {
     public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
 
     //5. input amount for given date of goods receipt
-    public List<DeliveryOrderEntity> getDeliveryAmount(Double purchaseAmount) throws Exception;
-            
+    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId) throws Exception;
+
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
-    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId, Double purchaseAmount, Long storeId, String destination, List<DeliveryOrderEntity> deliveryOrderList) throws Exception;
+    public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
+            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate) throws Exception;
 
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
-    public List<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception;
+    public List<IntegratedPlannedOrderEntity> viewWaitingIntegratedPlannedOrder(Long factoryId) throws Exception;
+
+    public List<IntegratedPlannedOrderEntity> viewCancelledIntegratedPlannedOrder(Long factoryId) throws Exception;
 
     //Step 2: user choose one of the integrated planned order(either RM or RP)
     //input : integratedPlannedOrderId
@@ -75,13 +90,20 @@ public interface PurchaseOrderManagementModuleLocal {
     //output: purchase order
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId, Long storeId, String destination, String itemType) throws Exception;
 
+    public Collection<PurchaseOrderEntity> viewUnconfirmedPurchaseOrder(Long factoryId) throws Exception;
+
     //6. Edit unconfirmed purchase order
-    public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount, 
-            String unit, Calendar createDate, String destination, Integer leadTime, 
-            Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder, 
+    public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount,
+            String unit, Calendar createDate, String destination, Integer leadTime,
+            Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder,
             ContractEntity contract) throws Exception;
-    
-    //7. Cancel purchase order
-    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception;
+
+//    //7. Cancel purchase order
+//    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception;
+
     //8. Generate Goods Receipt
+    public String confirmPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception;
+
+    //9. Generate Goods Receipt
+    public String generateGoodsRecipt(Long purchaseOrderId) throws Exception;
 }
