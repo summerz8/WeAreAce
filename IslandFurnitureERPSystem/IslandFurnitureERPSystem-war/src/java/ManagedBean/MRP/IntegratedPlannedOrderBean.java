@@ -72,7 +72,7 @@ public class IntegratedPlannedOrderBean {
         
         IPO.createIntegratedPlannedOrder(targetMonth, factoryRawMaterialId);
         
-        return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView";
+        return "MRPIntegratedPlannedOrderView?faces-redirect=true";
         
     }
     
