@@ -21,10 +21,12 @@ import javax.ejb.Local;
 @Local
 public interface SalesOperationPlanLocal {
 
-    public SalesOperationPlanEntity GenerateSalesOperationPlan(FactoryProductEntity factoryProduct,
+    public SalesOperationPlanEntity GenerateSalesOperationPlan(Long factoryProductId,
             Calendar targetPeriod,
-            IntegratedSalesForecastEntity integratedSalesForecast,
-            Double plannedEndMonthInventory);
+            Long integratedSalesForecastId,
+            Double productionPlanQuantity,
+            Double plannedEndMonthInventory,
+            Integer workingDays);
 
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
@@ -35,7 +37,13 @@ public interface SalesOperationPlanLocal {
             Double plannedEndMonthInventory,
             Integer workingDay);
 
-    public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long productId, String FactoryId, Calendar startPeriod, Calendar endPeriod);
+    public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long factoryProductId, Calendar startPeriod, Calendar endPeriod);
 
     public Calendar removeTime(Calendar cal);
+    
+    public List<FactoryProductEntity> getAllFacotryProduct();
+    
+    public SalesOperationPlanEntity createSalesOperationPlan(Long targetProductId);
+    
+    public SalesOperationPlanEntity getSalesOperationPlan(Long salesOperationPlanId);
 }

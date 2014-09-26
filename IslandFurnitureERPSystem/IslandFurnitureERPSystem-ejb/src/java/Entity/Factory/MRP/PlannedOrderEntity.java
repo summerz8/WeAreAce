@@ -40,6 +40,8 @@ public class PlannedOrderEntity implements Serializable {
     private Calendar generatedDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetPeriod;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar confirmDate;
     private String status;//unconfirmed, confirmed
     
     //raw mterial amount entity -- planned order entity : M <-- 1
@@ -107,6 +109,16 @@ public class PlannedOrderEntity implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Calendar getConfirmDate() {
+        return confirmDate;
+    }
+
+    public void setConfirmDate(Calendar confirmDate) {
+        this.confirmDate = confirmDate;
+    }
+    
+    
 
     public List<FactoryRawMaterialAmountEntity> getFactoryRawMaterialAmountList() {
         return factoryRawMaterialAmountList;

@@ -177,7 +177,7 @@ public class Main {
             Calendar GenerateDate = Calendar.getInstance();
             df2.format(GenerateDate.getTime());
             
-            RetailProductPurchasePlan.generateRetailProductPurchasePlan("unconfirmed", GenerateDate, TargetPeriod, Double.parseDouble(output), Long.parseLong(productId), remark);
+            //RetailProductPurchasePlan.generateRetailProductPurchasePlan("unconfirmed", GenerateDate, TargetPeriod, Double.parseDouble(output), Long.parseLong(productId), remark);
         } catch (ParseException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -243,12 +243,12 @@ public class Main {
         }
     }
     private void viewProductionPlan(){
-        List<ProductionPlanEntity> productionPlan = ProductionPlan.getProductionPlan();
+        List<ProductionPlanEntity> productionPlan = ProductionPlan.getProductionPlanUnconfirmed();
         int i =0;
         while(productionPlan.get(i)!= null){
             System.out.println("Production Plan Id: " + productionPlan.get(i).getProductionPlanId());
             System.out.println("Status: "+ productionPlan.get(i).getStatus());
-            System.out.println("Generate Date: " + productionPlan.get(i).getGenerateDate());
+            System.out.println("Generate Date: " + productionPlan.get(i).getGeneratedDate());
             System.out.println("Target Period Date: " + productionPlan.get(i).getTargetPeriod());
             System.out.println("Factory Product Id: " + productionPlan.get(i).getFactoryProduct().getFactoryProductId());
             System.out.println("Quantity: " + productionPlan.get(i).getQuantity());

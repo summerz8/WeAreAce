@@ -12,9 +12,7 @@ import Entity.Factory.SCM.PurchaseOrderEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,8 +56,8 @@ public class IntegratedPlannedOrderEntity implements Serializable {
     private List<PlannedOrderEntity> plannedOrderList=new ArrayList<>();
 
     //integrated planned order entity -- purchase order entity: 1 <--> M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "integratedPlannedOrder")
-    private List<PurchaseOrderEntity> purchaseOrder = new ArrayList<>();
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private PurchaseOrderEntity purchaseOrder;
 
     //integrated planned order entity -- factory entity: M <--> 1
     @ManyToOne
@@ -113,11 +111,11 @@ public class IntegratedPlannedOrderEntity implements Serializable {
         this.plannedOrderList = plannedOrderList;
     }
 
-    public List<PurchaseOrderEntity> getPurchaseOrder() {
+    public PurchaseOrderEntity getPurchaseOrder() {
         return purchaseOrder;
     }
 
-    public void setPurchaseOrder(List<PurchaseOrderEntity> purchaseOrder) {
+    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
 

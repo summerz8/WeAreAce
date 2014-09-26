@@ -5,23 +5,15 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
-import Entity.CommonInfrastructure.UserEntity;
 import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
@@ -66,41 +58,6 @@ public class AddUserAccountBean implements Serializable {
     public AddUserAccountBean() {
     }
 
-//    @PostConstruct
-//    public void init() {
-//        try {
-//            System.out.println("UserInfoPageMangeBean: userId");
-//            userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-//            System.out.println("UserInfoPageMangeBean: userId" + userId);
-//
-////        listedUser = IUMA.ListUser();
-////        System.out.println("UserInfoPageMangeBean: SIZE "+listedUser.size());
-//            UserEntity user = IUMA.getUser(userId);
-//
-//            FirstName = user.getFirstName();
-//            MidName = user.getMidName();
-//            LastName = user.getLastName();
-//            Title = user.getTitle();
-//            Gender = user.getGender();
-//            Position = user.getPosition();
-//            Department = user.getDepartment();
-//            userLevel = user.getUserLevel();
-//            birthday = user.getBirthday();
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-//            birDate = format.format(birthday.getTime());
-//            System.out.println("UserInfoPageManageBean: birthday Calendar: " + birthday.getTime().toString());
-//            System.out.println("UserInfoPageManageBean: birthday: " + birDate);
-//            Email = user.getEmail();
-//            Address = user.getAddress();
-//            Postal = user.getPostalCode();
-//            password = user.getPwd();
-//            departmentId = user.getDepartmentId();
-//        } catch (Exception e) {
-//            System.out.println("unexpected exception occured");
-//            e.printStackTrace();
-//        }
-//
-//    }
 
     public InternalUserAccountManagementModuleLocal getIUMA() {
         return IUMA;

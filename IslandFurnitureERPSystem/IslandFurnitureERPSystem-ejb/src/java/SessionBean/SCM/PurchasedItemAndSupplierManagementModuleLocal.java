@@ -13,6 +13,10 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.RawMaterialEntity;
+import Entity.Factory.RetailProductEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import java.util.Calendar;
 import java.util.Collection;
@@ -25,16 +29,24 @@ import javax.ejb.Local;
 @Local
 public interface PurchasedItemAndSupplierManagementModuleLocal {
 
-    public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception;
+    public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception;
 
-    public Collection<Object> viewItemListNotInFactory(Long factoryId, String itemType) throws Exception;
+    public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception;
+
+    public Collection<RawMaterialEntity> viewRawMaterialListNotInFactory(Long factoryId) throws Exception;
+
+    public Collection<RetailProductEntity> viewRetailProductListNotInFactory(Long factoryId) throws Exception;
 
     public String addSupplier(String itemType, Long itemId, String name, String address,
             String telephone, String fax, String remark, Double contractPrice,
             Integer leadTime, Double lotSize, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public Collection<SupplierEntity> viewAvailSupplier(Long factoryId) throws Exception;
-    
+
+    public Collection<SupplierEntity> viewSupplierForItem(String itemType, Long itemId) throws Exception;
+
+    public Collection<SupplierEntity> viewSupplierCouldBeAddedForItem(String itemType, Long itemId) throws Exception;
+
     public String editSupplier(Long supplierId, String name, String address, String telephone, String fax, String remark) throws Exception;
 
     public String deleteSupplier(Long supplierId) throws Exception;

@@ -43,107 +43,118 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     }
 
     //view item list available in the factory
-    //pre-con: user select a type of items(RM/RP)
-    //post-con: a list of item of the select type(RM / RP)
+    //RawMaterials
     @Override
-    public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception {//test works!!
-        System.out.println("viewItemwithSelectType():");
-
-        Collection<Object> itemList = new ArrayList<>();
+    public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception {//test works!!
+        System.out.println("Session Bean: viewRawMaterialWithSelectType():");
+        Collection<FactoryRawMaterialEntity> frmList = new ArrayList<>();
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-
-            if (itemType.equals("RawMaterial")) {
-//                System.err.println("itemType=rawmaterials");
-                Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
-                for (Object obj : factoryRawMaterialList) {
-                    FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) obj;
-                    if (!frm.getIsDeleted()) {
-                        itemList.add(obj);
-                    }
-                }
-            } else {// itemType.equals("RetailProduct")
-                Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
-                for (Object obj : factoryRetailProductList) {
-                    FactoryRetailProductEntity frp = (FactoryRetailProductEntity) obj;
-                    if (!frp.getIsDeleted()) {
-                        itemList.add(obj);
-                    }
+            //System.err.println("itemType=rawmaterials");
+            Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
+            for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
+                if (!frm.getIsDeleted()) {
+                    frmList.add(frm);
                 }
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return itemList;
+        return frmList;
+    }
+
+    //RetailProduct
+    @Override
+    public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception {//test works!!
+        System.out.println("viewRetailProductWithSelectType():");
+        Collection<FactoryRetailProductEntity> frpList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
+            for (FactoryRetailProductEntity frp : factoryRetailProductList) {
+                if (!frp.getIsDeleted()) {
+                    frpList.add(frp);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return frpList;
     }
 
     //view all the rm/rp items which are not in the factory, but in the global HQ level
     @Override
-    public Collection<Object> viewItemListNotInFactory(Long factoryId, String itemType) throws Exception {//test works!!
-        System.out.println("viewItemListNotInFactory():");
+    public Collection<RawMaterialEntity> viewRawMaterialListNotInFactory(Long factoryId) throws Exception {//test works!!
+        System.out.println("viewRawMaterialListNotInFactory():");
 
-        Collection<Object> itemList = new ArrayList<>();
+        Collection<RawMaterialEntity> rmList = new ArrayList<>();
         try {
-            if (itemType.equals("RawMaterial")) {
-                Query q = em.createQuery("Select rm from RawMaterialEntity RM");
-                outerLoop:
-                for (Object o : q.getResultList()) {
-                    RawMaterialEntity rm = (RawMaterialEntity) o;
-                    Collection<FactoryRawMaterialEntity> factoryRawMaterialList = rm.getFactoryRawMaterials();
-                    //for the Raw material in each factory
-                    for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
-                        //if find a factoryRawMaterial belongs to the user's factory
-                        if (frm.getFactory().getFactoryId() == factoryId && !frm.getIsDeleted()) {
-                            continue outerLoop;//break out the inner loop, continue outer loop  
-                        }
+            Query q = em.createQuery("Select rm from RawMaterialEntity RM");
+            outerLoop:
+            for (Object o : q.getResultList()) {
+                RawMaterialEntity rm = (RawMaterialEntity) o;
+                Collection<FactoryRawMaterialEntity> factoryRawMaterialList = rm.getFactoryRawMaterials();
+                //for the Raw material in each factory
+                for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
+                    //if find a factoryRawMaterial belongs to the user's factory
+                    if (frm.getFactory().getFactoryId() == factoryId && !frm.getIsDeleted()) {
+                        continue outerLoop;//break out the inner loop, continue outer loop  
                     }
-                    //if all the factory not equal to the user's facotry, add to the return list
-                    itemList.add((Object) rm);
                 }
-
-            } else {// itemType.equals("RetailProduct")
-                Query q = em.createQuery("Select rp from RetailProductEntity RP");
-                outerLoop:
-                for (Object o : q.getResultList()) {
-                    RetailProductEntity rp = (RetailProductEntity) o;
-                    Collection<FactoryRetailProductEntity> factoryRetailProductList = rp.getFactoryRetailProducts();
-                    //for the Retail Product in each factory
-                    for (FactoryRetailProductEntity frp : factoryRetailProductList) {
-                        //if find a factoryRawMaterial belongs to the user's factory
-                        if (frp.getFactory().getFactoryId() == factoryId && !frp.getIsDeleted()) {
-                            continue outerLoop;//break out the inner loop, continue outer loop                        
-                        }
-                    }
-                    //if all the factory not equal to the user's facotry, add to the return list
-                    itemList.add((Object) rp);
-                }
+                //if all the factory not equal to the user's facotry, add to the return list
+                rmList.add(rm);
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return itemList;
-
+        return rmList;
     }
 
-    //add supplier, must be added with a item contract
-    //pre-condition: 
-    //post-condition:
+    @Override
+    public Collection<RetailProductEntity> viewRetailProductListNotInFactory(Long factoryId) throws Exception {//test works!!
+        System.out.println("viewRetailProductListNotInFactory():");
+        Collection<RetailProductEntity> rpList = new ArrayList<>();
+        try {
+            Query q = em.createQuery("Select rp from RetailProductEntity RP");
+            outerLoop:
+            for (Object o : q.getResultList()) {
+                RetailProductEntity rp = (RetailProductEntity) o;
+                Collection<FactoryRetailProductEntity> factoryRetailProductList = rp.getFactoryRetailProducts();
+                //for the Retail Product in each factory
+                for (FactoryRetailProductEntity frp : factoryRetailProductList) {
+                    //if find a factoryRawMaterial belongs to the user's factory
+                    if (frp.getFactory().getFactoryId() == factoryId && !frp.getIsDeleted()) {
+                        continue outerLoop;//break out the inner loop, continue outer loop                        
+                    }
+                }
+                //if all the factory not equal to the user's facotry, add to the return list
+                rpList.add(rp);
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return rpList;
+    }
+
+//add supplier, must be added with a item contract
+//pre-condition: 
+//post-condition:
     @Override
     public String addSupplier(String itemType, Long itemId, String name,
             String address, String telephone, String fax,
             String remark, Double contractPrice, Integer leadTime, Double lotSize,
             Calendar contractStartDate, Calendar contractEndDate)
             throws Exception { //test works!!
-        System.out.println("addSupplier():");
+        System.out.println("SeesionBean: addSupplier():");
 
         String result = null;
         String unit = null;
-        //set month of the two date to be -1 of the input (Calendar class problem)
-        contractStartDate.add(Calendar.MONTH, -1);
-        contractEndDate.add(Calendar.MONTH, -1);
 
         if (!removeTime(contractStartDate).before(removeTime(contractEndDate))) {
             result = "\nInformation incorrect: contract start date is not before contract end date. "
@@ -166,17 +177,24 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 System.err.println(factoryRawMaterial.toString());
 
                 contract.setFactoryRawMaterial(factoryRawMaterial);
-                factoryRawMaterial.getContracts().add(contract);
+
+                factoryRawMaterial.getContracts()
+                        .add(contract);
                 unit = factoryRawMaterial.getUnit();
             } //create relationship between contract and retail products
             else {//itemType.equals("RetailProducts")
+
+                System.err.println("itemType.equals(\"RetailProduct\")");
+
                 FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
                 contract.setFactoryRetailProduct(factoryRetailProduct);
-                factoryRetailProduct.getContracts().add(contract);
+
+                factoryRetailProduct.getContracts()
+                        .add(contract);
                 unit = factoryRetailProduct.getUnit();
             }
 
-            //create new supplier entity and contract entity
+//create new supplier entity and contract entity
             supplier.create(name, address, telephone, fax, remark);
             contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
             System.err.println("create new supplier entity and contract entity");
@@ -208,6 +226,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     public Collection<SupplierEntity> viewAvailSupplier(Long factoryId) throws Exception {
         System.out.println("viewAvailSupplier():");
         Collection<SupplierEntity> availSupplierList = new ArrayList<>();
+
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             // add suppleirs for raw materials
@@ -241,6 +260,81 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         }
         return availSupplierList;
+    }
+
+    //view suppliers for a particular item
+    @Override
+    public Collection<SupplierEntity> viewSupplierForItem(String itemType, Long itemId) throws Exception {
+        System.out.println("viewAvailSupplierForItem():");
+        Collection<SupplierEntity> availSupplierList = new ArrayList<>();
+
+        try {
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialEntity frm = em.find(FactoryRawMaterialEntity.class, itemId);
+                Collection<ContractEntity> contractList = frm.getContracts();
+                for (ContractEntity contract : contractList) {
+                    SupplierEntity supplier = contract.getSupplier();
+
+                    //exclude the deleted suppleirs
+                    if (!supplier.isDeleted()) {
+                        availSupplierList.add(supplier);
+                    }
+                }
+            } else {
+                FactoryRetailProductEntity frp = em.find(FactoryRetailProductEntity.class, itemId);
+                Collection<ContractEntity> contractList = frp.getContracts();
+                for (ContractEntity contract : contractList) {
+                    SupplierEntity supplier = contract.getSupplier();
+                    //exclude the duplicated and the deleted supplier 
+                    if (!supplier.isDeleted()) {
+                        availSupplierList.add(supplier);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+
+        }
+        return availSupplierList;
+    }
+
+    //view suppliers that could add new contract with a particular item
+    @Override
+    public Collection<SupplierEntity> viewSupplierCouldBeAddedForItem(String itemType, Long itemId) throws Exception {
+        System.out.println("viewSupplierCouldBeAddedForItem():");
+        Collection<SupplierEntity> ableToAddSupplierList = new ArrayList<>();
+
+        try {
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialEntity frm = em.find(FactoryRawMaterialEntity.class, itemId);
+                ableToAddSupplierList = viewAvailSupplier(frm.getFactory().getFactoryId());
+                
+                Collection<ContractEntity> contractList = frm.getContracts();
+                for (ContractEntity contract : contractList) {
+                    SupplierEntity supplier = contract.getSupplier();
+                    //exclude the deleted suppleirs
+                    if (!supplier.isDeleted() && !isExpired(contract)) {
+                        ableToAddSupplierList.remove(supplier);
+                    }
+                }
+            } else {
+                FactoryRetailProductEntity frp = em.find(FactoryRetailProductEntity.class, itemId);
+                Collection<ContractEntity> contractList = frp.getContracts();
+                for (ContractEntity contract : contractList) {
+                    SupplierEntity supplier = contract.getSupplier();
+                    //exclude the duplicated and the deleted supplier 
+                    if (!supplier.isDeleted()) {
+                        ableToAddSupplierList.add(supplier);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+
+        }
+        return ableToAddSupplierList;
     }
 
     //edit supplier
@@ -341,7 +435,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-            if (itemType.equals("RawMaterial")) {
+            if (itemType.equals(
+                    "RawMaterial")) {
                 RawMaterialEntity rawMaterial = em.find(RawMaterialEntity.class, itemId);
                 FactoryRawMaterialEntity factoryRawMaterial = new FactoryRawMaterialEntity();
                 em.persist(factoryRawMaterial);
@@ -402,6 +497,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             result = "\nInformation incorrect: contract start date is not before contract end date. "
                     + "\nPlease enter correct date.\n";
             return result;
+
         }
         try {
 
@@ -410,7 +506,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             //create a new contract with given price and date
             ContractEntity contract = new ContractEntity();
 
-            if (itemType.equals("RawMaterial")) {
+            if (itemType.equals(
+                    "RawMaterial")) {
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
 
                 //create relationship between contract and factory raw material
@@ -437,11 +534,14 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 result = result + "Factory Retail prodcuct --" + factoryRetailProduct.getName()
                         + "-- has been added to supplier --" + supplier.getSupplierName() + "-- account";
             }
+
             contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
 
             //create relationship between supplier and contract
             contract.setSupplier(supplier);
-            supplier.getContractList().add(contract);
+
+            supplier.getContractList()
+                    .add(contract);
             em.flush();
 
         } catch (Exception ex) {
@@ -526,9 +626,9 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         System.out.println(result);
         return result;
     }
-
     // for comparing two dates
     //function to set all the other attributes to be 0
+
     public Calendar removeTime(Calendar cal) {
         System.out.println("removeTime():");
 
@@ -537,6 +637,19 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
+    }
+
+    //check whether a contract has expired
+    private boolean isExpired(ContractEntity contract) {
+        boolean isExpired = true;
+
+        Calendar contractEndDate = contract.getContractEndDate();
+        Calendar today = Calendar.getInstance();
+
+        if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//if not expired
+            isExpired = false;
+        }
+        return isExpired;
     }
 
     //create some dummy value
@@ -727,16 +840,5 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         em.flush();
 
     }
-//    public void addDBForecast(){
-//      SalesForecastEntity test1=new SalesForecastEntity();
-//      test1.setStatus("comfirmed1");
-//      em.persist(test1);
-//      SalesForecastEntity test2=new SalesForecastEntity();
-//      test2.setStatus("comfirmed2");
-//      em.persist(test1);
-//      SalesForecastEntity test3=new SalesForecastEntity();
-//      test3.setStatus("comfirmed3");
-//      em.persist(test3);
-//      
-//    }
+
 }

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>   
+
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+
+                <p:growl id="messages" showDetail="false"/>
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:panelMenu style="width:300px">
+                        <p:submenu label="Manufacturing Resource Planning">
+                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                       </p:submenu>
+                    </p:panelMenu>
+
+
+                </p:layoutUnit>
+                <p:layoutUnit position="center" resizable="false" >
+                   
+                    <p:toolbar>
+                        <f:facet name="left">
+                            <p:button value="Unconfirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed"/>
+                            <span class="ui-separator">
+                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                            </span>
+                            <p:button value="Confirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderConfirmed"/>
+                            <span class="ui-separator">
+                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                            </span>
+                            <p:button value="Cancelled" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderCancelled"/>
+                            <span class="ui-separator">
+                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                            </span>
+
+                        </f:facet>
+                        <f:facet name="left">
+                            Welconme To MRP Planned Order Page!!!
+                        </f:facet>
+                    </p:toolbar>
+
+                    <p:dataScroller value="#{plannedOrderView.plannedOrderUnconfirmed}" var="plannedOrderpo" chunkSize="3">
+                        <f:facet name="header">
+                            Scroll Down to Load More Planned Orders
+                        </f:facet>
+
+                        <f:facet name="loader">
+                            <p:commandButton type="button" value="More" icon="ui-icon-circle-triangle-s"/>
+                        </f:facet>
+
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+
+
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{plannedOrderpo.plannedOrderId}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Factory Id:" />
+                                    <h:outputText value="#{plannedOrderpo.factory.factoryId}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Generate Date:" />
+                                    <h:outputText value="#{plannedOrderpo.generatedDate.getTime()}" style="font-weight: bold">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+
+                                    <h:outputText value="Target Period:" />
+                                    <h:outputText value="#{plannedOrderpo.targetPeriod.getTime()}" style="font-weight: bold">
+                                        <f:convertDateTime pattern="MM/yyyy" />
+                                    </h:outputText>
+
+                                    <h:outputText value="Status:" />
+                                    <h:outputText value="#{plannedOrderpo.status}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Production Plan Id:" />
+                                    <h:outputText value="#{plannedOrderpo.productionPlan.productionPlanId}" style="font-weight: bold"/>
+                                    
+                                    <p:commandButton value="Confirm" style="font-weight: bold" icon="ui-icon-disk" action ="#{plannedOrderView.confirm(plannedOrderpo.plannedOrderId)}" />
+                                    
+                                    <p:commandButton value="Cancel" style="font-weight: bold" icon="ui-icon-trash" action ="#{plannedOrderView.cancel(plannedOrderpo.plannedOrderId)}" />
+                                    
+                                    <p:commandButton value="View Raw Material" style="font-weight: bold" icon="ui-icon-search" action ="#{plannedOrderView.viewRawMaterial(plannedOrderpo.factoryRawMaterialAmountList)}" />
+
+
+                                </h:panelGrid>
+                                
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:dataScroller>
+                    
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:form>
+    </h:body>
+
+</html>

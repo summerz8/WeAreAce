@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -27,7 +27,7 @@ import javax.persistence.Query;
  *
  * @author apple
  */
-@Stateful
+@Stateless
 public class PlannedOrderManagementModule implements PlannedOrderManagementModuleLocal {
 
     @PersistenceContext
@@ -178,6 +178,26 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         }
         return false;
     }
+    
+    @Override
+    public void editPlannedOrder(Long id,String field,Object content){
+        PlannedOrderEntity plannedOrder = em.find(PlannedOrderEntity.class,id);
+        switch(field){
+            case "status":
+                String status = (String) content;
+                plannedOrder.setStatus(status);
+                break;
+            case "confirmDate":
+                Calendar confirmDate = (Calendar) content;
+                plannedOrder.setConfirmDate(confirmDate);
+                break;
+        
+        }
+        
+        em.persist(plannedOrder);
+        em.flush();
+        em.refresh(plannedOrder);
+    }
 
     @Override
     public boolean DeletePlannedOrder(Long PlannedOrderId) {
@@ -203,10 +223,44 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         for(Object o : q.getResultList()){
             PlannedOrderEntity po = (PlannedOrderEntity) o;
             plannedOrderList.add(po);
-            
+            }
+          return plannedOrderList;
         }
-        
-        
-        return plannedOrderList;
-    }
+    
+    @Override
+    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(){
+        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+        List<PlannedOrderEntity> plannedOrderList = new ArrayList();
+        for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            if(po.getStatus().equals("unconfirmed"))
+                plannedOrderList.add(po);
+            }
+          return plannedOrderList;
+        }
+    
+    @Override
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(){
+        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+        List<PlannedOrderEntity> plannedOrderList = new ArrayList();
+        for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            if(po.getStatus().equals("confirmed"))
+                plannedOrderList.add(po);
+            }
+          return plannedOrderList;
+        }
+    
+    @Override
+    public List<PlannedOrderEntity> getCancelledPlannedOrder(){
+        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+        List<PlannedOrderEntity> plannedOrderList = new ArrayList();
+        for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            if(po.getStatus().equals("cancelled"))
+                plannedOrderList.add(po);
+            }
+          return plannedOrderList;
+        }
+       
 }
