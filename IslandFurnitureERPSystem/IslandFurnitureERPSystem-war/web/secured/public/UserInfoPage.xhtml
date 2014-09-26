@@ -5,16 +5,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-        <h:head>
-            <title>Island Furniture ERP WorkPlace</title>
-            <!--            <head>
-                                <style type="text/css">
-                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
-                                         border: none;
-                                    }
-                                </style>
-                        </head>-->
-        </h:head>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
 
         <h:body>
 
@@ -58,7 +54,7 @@
 
                     <p:growl id="messages" showDetail="false"/>
 
-                    <p:layoutUnit position="west" size="500px">
+                    <p:layoutUnit position="west" size="500px" style = "border:0px" >
 
                         <p:menu>
                             <p:submenu label="Manufacturing Resource Planning">
