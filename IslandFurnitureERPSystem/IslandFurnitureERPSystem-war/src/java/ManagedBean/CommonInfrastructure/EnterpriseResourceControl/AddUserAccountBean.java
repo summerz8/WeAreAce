@@ -233,20 +233,8 @@ public class AddUserAccountBean implements Serializable {
 
     }
 
-//    public void changePassword(ActionEvent event) {
-//        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
-//        System.out.println("UserInfoManageBean: change password");
-//        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-//        
-//        if (inputOldPass.equals(password)) {
-//            IUMA.changePass(newPass, userId);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Password changed successfully!", ""));
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Wrong Password, please enter again!", ""));
-//        }
-//
-//    }
+//public List<String> departmentlist(){
+//if ()
+//}
 
 }

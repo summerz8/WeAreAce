@@ -13,12 +13,10 @@ import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -29,9 +27,6 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "OutboundMovement")
 public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements Serializable {
-
-    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
-    private EntityManager em;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,7 +53,6 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     private double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
-
 
     public OutboundMovementEntity() {
     }
@@ -137,8 +131,9 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
         this.setCreationDate(creationDate);
         updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
         updateFactoryProduct(factoryBinStoredProduct, quantity);
+
     }
-    
+
     //pre-cond: availability check
     public void recordFactoryRetailProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, double quantity, Calendar creationDate) {
         this.setFromBin(factoryBinStoredProduct.getFactoryBin());
@@ -149,23 +144,18 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
         this.setCreationDate(creationDate);
         updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
         updateFactoryRetailProduct(factoryBinStoredProduct, quantity);
+
     }
 
     private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         factoryBinStoredProduct.decreaseQuantity(quantity);
-        if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
-            em.remove(factoryBinStoredProduct);
-        }
-        em.flush();
     }
 
     private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() - quantity);
-        em.flush();
     }
-    
+
     private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         factoryBinStoredProduct.getFactoryRetailProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryRetailProduct().getUnrestrictedInventory() - quantity);
-        em.flush();
     }
 }

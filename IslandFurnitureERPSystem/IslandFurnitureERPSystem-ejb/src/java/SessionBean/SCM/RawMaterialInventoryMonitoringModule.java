@@ -5,6 +5,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import java.util.ArrayList;
@@ -28,16 +29,18 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
     private EntityManager em;
 
     @Override
-    public List ViewWeeklyRawMaterialInventoryInFlow() {
+    public List ViewWeeklyRawMaterialInventoryInFlow(long factoryId) {
         try {
             Calendar currentDate = new GregorianCalendar();
             List weeklyRawMaterialInventoryInFlow = new ArrayList();
 
-            Query q = em.createQuery("SELECT i from InboundMovement i");
+            Query q = em.createQuery("SELECT i from InboundMovementEntity i");
             for (Object o : q.getResultList()) {
                 InboundMovementEntity inboundMovement = (InboundMovementEntity) o;
                 if (inboundMovement.getFactoryRawMaterial() != null) {
-                    if (inboundMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)) {
+                    if (inboundMovement.getFactoryRawMaterial().getFactory().getFactoryId() == factoryId 
+                            && inboundMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)
+                            && inboundMovement.getCreationDate().get(java.util.Calendar.YEAR) == currentDate.get(java.util.Calendar.YEAR)) {
                         weeklyRawMaterialInventoryInFlow.add(inboundMovement);
                     }
                 }
@@ -51,15 +54,18 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
     }
 
     @Override
-    public List ViewWeeklyRawMaterialInventoryOutFlow() {
+    public List ViewWeeklyRawMaterialInventoryOutFlow(long factoryId) {
         try {
             Calendar currentDate = new GregorianCalendar();
             List weeklyRawMaterialInventoryOutFlow = new ArrayList();
 
-            Query q = em.createQuery("SELECT r from RawMaterialInFactoryUseMovement r");
+            Query q = em.createQuery("SELECT r from RawMaterialInFactoryUseMovementEntity r WHERE r.factoryRawMaterial.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+
             for (Object o : q.getResultList()) {
                 RawMaterialInFactoryUseMovementEntity rawMaterialInFactoryUseMovement = (RawMaterialInFactoryUseMovementEntity) o;
-                if (rawMaterialInFactoryUseMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)) {
+                if (rawMaterialInFactoryUseMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)
+                        && rawMaterialInFactoryUseMovement.getCreationDate().get(java.util.Calendar.YEAR) == currentDate.get(java.util.Calendar.YEAR)) {
                     weeklyRawMaterialInventoryOutFlow.add(rawMaterialInFactoryUseMovement);
                 }
             }
@@ -68,6 +74,24 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
             System.err.println("SessionBean.SCM.RawMaterialInventoryMonitoringModule: recordInboundMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    //return factoryId
+    //       -1L if the userId is not a factory userId
+    //       -2 if unexpected error occurred
+    @Override
+    public long findFactoryIdByUserId(String userId) {
+        try {
+            FactoryUserEntity factoryUser = em.find(FactoryUserEntity.class, userId);
+            if (factoryUser == null) {
+                return 0L;
+            }
+            return factoryUser.getDepartmentId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: findFactoryIdByUserId(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -2L;
         }
     }
 }

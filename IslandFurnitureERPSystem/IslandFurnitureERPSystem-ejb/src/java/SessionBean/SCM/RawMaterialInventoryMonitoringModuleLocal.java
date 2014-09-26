@@ -16,8 +16,9 @@ import javax.ejb.Local;
 @Local
 public interface RawMaterialInventoryMonitoringModuleLocal {
 
-    List ViewWeeklyRawMaterialInventoryInFlow();
+    List ViewWeeklyRawMaterialInventoryInFlow(long factoryId);
     
-    List ViewWeeklyRawMaterialInventoryOutFlow();
+    List ViewWeeklyRawMaterialInventoryOutFlow(long factoryId);
     
+    long findFactoryIdByUserId(String userId);
 }

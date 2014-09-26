@@ -5,7 +5,7 @@
  */
 package SessionBean.SCM;
 
-import Entity.Factory.FactoryBin.FactoryBinEntity;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,24 +18,28 @@ public interface FactoryInventoryManagementModuleLocal {
 
     List listStorageBinInformation(long factoryId);
 
-    Long recordInboundMovement(long factoryId, Long goodsReceiptId, Long toBinId, String status, double quantity, int year, int month, int day);
+    Long recordInboundMovement(long factoryId, Long goodsReceiptId, Long toBinId, String status, double quantity, Calendar creationDate);
 
-    Long recordFactoryProductOutboundMovement(long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, double quantity, int year, int month, int day);
+    Long recordFactoryProductOutboundMovement(long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, double quantity, Calendar creationDate);
 
-    Long recordFactoryRetailProductOutboundMovement(long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, double quantity, int year, int month, int day);
+    Long recordFactoryRetailProductOutboundMovement(long factoryId, Long fromBinId, Long factoryRetailProductId, Long toStoreId, double quantity, Calendar creationDate);
 
-    Long recordInFactoryRawMaterialMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRawMaterialId, String status, double quantity, int year, int month, int day);
+    Long recordInFactoryRawMaterialMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRawMaterialId, String status, double quantity, Calendar creationDate);
 
-    Long recordInFactoryProductMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryProductId, String status, double quantity, int year, int month, int day);
+    Long recordInFactoryProductMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryProductId, String status, double quantity, Calendar creationDate);
 
-    Long recordInFactoryRetailProductMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRetailProductId, String status, double quantity, int year, int month, int day);
+    Long recordInFactoryRetailProductMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRetailProductId, String status, double quantity, Calendar creationDate);
 
-    Long recordRawMaterialInFactoryUseMovement(long factoryId, Long fromBinId, Long factoryRawMaterialId, double quantity, int year, int month, int day);
+    Long recordRawMaterialInFactoryUseMovement(long factoryId, Long fromBinId, Long factoryRawMaterialId, double quantity, Calendar creationDate);
 
     void changeFactoryBinStoredProductStatus(Long factoryBinStoredProductId, String toStatus);
 
-    Long recordReturnedProductInboundMovement(long factoryId, Long factoryProductId, Long fromStoreId, Long toBinId, double quantity, int year, int month, int day);
+    Long recordReturnedProductInboundMovement(long factoryId, Long factoryProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
 
-    Long recordReturnedRetailProductInboundMovement(long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, double quantity, int year, int month, int day);
+    Long recordReturnedRetailProductInboundMovement(long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
+
+    long findFactoryIdByUserId(String userId);
+
+    Long recordProductToBinMovement(Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
 
 }

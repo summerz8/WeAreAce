@@ -5,10 +5,13 @@
  */
 package SessionBean.MRP;
 
+import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.BOMEntity;
+import Entity.Factory.FactoryBin.FactoryBinEntity;
+import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryProductEntity;
@@ -24,6 +27,10 @@ import Entity.Factory.MRP.SalesOperationPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Factory.SCM.ContractEntity;
+import Entity.Factory.SCM.InFactoryMovementEntity;
+import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,7 +69,7 @@ public class Test {
     public void createDatabase(){
         //Set up idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000000L);
+        id.setId_F(1000001L);
         id.setId_H(1000001L);
         id.setId_S(1000000L);
         em.persist(id);
@@ -78,9 +85,17 @@ public class Test {
         }
         UserEntity u = new HQUserEntity("H", "1000001", 0,
                             "Zheng", null, "Yuan", "Global Manager", birthday, "Female", null, null, null, null, false, 1000000L);
-        u.setPwd("123");
+        u.setPwd("123");              
         em.persist(u);
         em.flush();
+        
+        UserEntity u2 = new FactoryUserEntity("F", "1000001", 1, "Zhang", null,
+            "Shiyu", "Factory Manager",  birthday, "Female", 
+            "Ms", null, null, null,1L, false);
+        u2.setPwd("123");
+        em.persist(u2);
+        em.flush();
+        
         //Set up ProductEntity
         
         ProductEntity p1 = new ProductEntity();
@@ -120,6 +135,8 @@ public class Test {
         p5.setDeleteFlag(Boolean.FALSE);p6.setDeleteFlag(Boolean.FALSE);
         p7.setDeleteFlag(Boolean.FALSE);p8.setDeleteFlag(Boolean.FALSE);
         p9.setDeleteFlag(Boolean.FALSE);p10.setDeleteFlag(Boolean.FALSE);
+        
+        
        
         em.persist(p1);em.persist(p2);em.persist(p3);em.persist(p4);em.persist(p5);
         em.persist(p6);em.persist(p7);em.persist(p8);em.persist(p9);em.persist(p10);
@@ -233,7 +250,7 @@ public class Test {
         Calendar c8=Calendar.getInstance();  c8.set(2014, 1, 22);
         Calendar c9=Calendar.getInstance();  c9.set(2014, 6, 6);
         Calendar c10=Calendar.getInstance();  c10.set(2014, 2, 12);
-        Calendar c11=Calendar.getInstance();  c11.set(2014, 9, 12);
+        Calendar c11=Calendar.getInstance();  c11.set(2014, 9, 25);
         
         pp1.setGeneratedDate(c1);pp2.setGeneratedDate(c2);pp3.setGeneratedDate(c3);pp4.setGeneratedDate(c4);pp5.setGeneratedDate(c5);
         pp6.setGeneratedDate(c6);pp7.setGeneratedDate(c7);pp8.setGeneratedDate(c8);pp9.setGeneratedDate(c9);pp10.setGeneratedDate(c10);
@@ -441,6 +458,7 @@ public class Test {
         bom7.setAmount(70D);bom7.setProduct(p7);bom7.setRawMaterial(rm2);bom1.setUnit("piece");
         bom8.setAmount(80D);bom8.setProduct(p8);bom8.setRawMaterial(rm3);bom1.setUnit("box");
         bom9.setAmount(90D);bom9.setProduct(p9);bom9.setRawMaterial(rm4);bom1.setUnit("box");
+        
         
         em.persist(bom1);em.flush();em.persist(bom2);em.flush();em.persist(bom3);em.flush();
         em.persist(bom4);em.flush();em.persist(bom5);em.flush();em.persist(bom6);em.flush();
@@ -667,6 +685,322 @@ public class Test {
         SalesOperationPlanEntity sop1=new SalesOperationPlanEntity();sop1.setFactoryProduct(fp1);sop1.setIntegratedSalesForecast(isf1);sop1.setPlannedEndMonthInventory(500D);sop1.setTargetPeriod(c8);sop1.setWorkingDay(22);
 
         em.persist(sop1);em.flush();
+        
+        
+        
+         // Supplier
+        SupplierEntity s1 = new SupplierEntity("ABC", "Address1", "+6512345678", "+6587654321", "Remark1");
+        SupplierEntity s2 = new SupplierEntity("BCD", "Address2", "+6523456789", "+6525253421", "Remark2");
+        SupplierEntity s3 = new SupplierEntity("CDE", "Address3", "+8634734567890", "+8658984336346", "Remark3");
+        SupplierEntity s4 = new SupplierEntity("DEF", "Address4", "+6545678901", "+6583849394", "Remark4");
+        SupplierEntity s5 = new SupplierEntity("EFG", "Address5", "+6556789012", "+6585433446", "Remark5");
+        SupplierEntity s6 = new SupplierEntity("FGH", "Address6", "+8667890453123", "+8689087654321", "Remark6");
+        SupplierEntity s7 = new SupplierEntity("GHI", "Address7", "+8578901234", "+8546363321", "Remark7");
+        SupplierEntity s8 = new SupplierEntity("HIJ", "Address8", "+6589012345", "+6512434321", "Remark8");
+        SupplierEntity s9 = new SupplierEntity("IJK", "Address9", "+8590123456", "+8584366321", "Remark9");
+        SupplierEntity s10 = new SupplierEntity("JKL", "Address10", "+6501234567", "+658264321", "Remark10");
+        
+        em.persist(s1);em.persist(s2);em.persist(s3);em.persist(s4);em.persist(s5);
+        em.persist(s6);em.persist(s7);em.persist(s8);em.persist(s9);em.persist(s10);
+        
+        // Contract
+        Calendar cl1=Calendar.getInstance();  c1.set(2010, 8, 25);
+        Calendar cl2=Calendar.getInstance();  c2.set(2011, 7, 31);
+        Calendar cl3=Calendar.getInstance();  c3.set(2012, 6, 23);
+        Calendar cl4=Calendar.getInstance();  c4.set(2013, 5, 15);
+        Calendar cl5=Calendar.getInstance();  c5.set(2014, 4, 19);
+        Calendar cl6=Calendar.getInstance();  c6.set(2020, 3, 20);
+        Calendar cl7=Calendar.getInstance();  c7.set(2021, 2, 11);
+        Calendar cl8=Calendar.getInstance();  c8.set(2020, 1, 22);
+        Calendar cl9=Calendar.getInstance();  c9.set(2023, 6, 6);
+        Calendar cl10=Calendar.getInstance();  c10.set(2022, 2, 12);
+        Calendar cl11=Calendar.getInstance();  c11.set(2023, 9, 12);
+        
+        // Contract.Factory1
+        // Contract.Factory1.FactoryRawmaterial
+        ContractEntity ct1 = new ContractEntity(100.0, 2, frm1.getUnit(), 10.0, cl1, cl7, frm1, s1);
+        ContractEntity ct2 = new ContractEntity(200.0, 1, frm2.getUnit(), 1.0, cl2, cl8, frm2, s3);
+        ContractEntity ct3 = new ContractEntity(10.0, 3, frm3.getUnit(), 1.0, cl3, cl6, frm3, s5);
+        ContractEntity ct4 = new ContractEntity(500.0, 5, frm4.getUnit(), 5.0, cl4, cl9, frm4, s7);
+        ContractEntity ct5 = new ContractEntity(1000.0, 3, frm5.getUnit(), 1.0, cl1, cl8, frm5, s9);
+        // Contract.Factory1.FactoryRetailProduct
+        ContractEntity ct16 = new ContractEntity(100.0, 3, frpe1.getUnit(), 5.0, cl2, cl6, frpe1, s4);
+        ContractEntity ct17 = new ContractEntity(400.0, 7, frpe4.getUnit(), 10.0, cl4, cl11, frpe4, s6);
+        ContractEntity ct18 = new ContractEntity(1300.0, 2, frpe7.getUnit(), 5.0, cl5, cl9, frpe7, s8);
+        
+        // Contract.Factory2.FactoryRawmaterial
+        ContractEntity ct6 = new ContractEntity(20.0, 5, frm6.getUnit(), 10.0, cl1, cl7, frm6, s2);
+        ContractEntity ct7 = new ContractEntity(100.0, 3, frm7.getUnit(), 5.0, cl2, cl6, frm7, s4);
+        ContractEntity ct8 = new ContractEntity(400.0, 7, frm8.getUnit(), 10.0, cl4, cl11, frm8, s6);
+        ContractEntity ct9 = new ContractEntity(1300.0, 2, frm9.getUnit(), 5.0, cl5, cl9, frm9, s8);
+        ContractEntity ct10 = new ContractEntity(700.0, 3, frm10.getUnit(), 10.0, cl5, c10, frm10, s10);
+        // Contract.Factory2.FactoryRetailProduct
+        ContractEntity ct19 = new ContractEntity(100.0, 3, frpe2.getUnit(), 5.0, cl2, cl6, frpe2, s4);
+        ContractEntity ct20 = new ContractEntity(200.0, 7, frpe5.getUnit(), 10.0, cl4, cl11, frpe5, s6);
+        ContractEntity ct21 = new ContractEntity(20.0, 2, frpe8.getUnit(), 5.0, cl5, cl9, frpe8, s8);
+        
+        // Contract.Factory3.FactoryRawmaterial
+        ContractEntity ct11 = new ContractEntity(800.0, 2, frm11.getUnit(), 10.0, cl1, cl7, frm11, s1);
+        ContractEntity ct12 = new ContractEntity(900.0, 1, frm12.getUnit(), 5.0, cl3, cl9, frm12, s2);
+        ContractEntity ct13 = new ContractEntity(110.0, 2, frm13.getUnit(), 10.0, cl2, cl10, frm13, s5);
+        ContractEntity ct14 = new ContractEntity(180.0, 5, frm14.getUnit(), 50.0, cl5, cl8, frm14, s6);
+        ContractEntity ct15 = new ContractEntity(150.0, 3, frm15.getUnit(), 1.0, cl1, cl11, frm15, s9);
+        // Contract.Factory3.FactoryRetailProduct
+        ContractEntity ct22 = new ContractEntity(10.0, 3, frpe3.getUnit(), 5.0, cl2, cl6, frpe3, s4);
+        ContractEntity ct23 = new ContractEntity(230.0, 7, frpe6.getUnit(), 10.0, cl4, cl11, frpe6, s6);
+        ContractEntity ct24 = new ContractEntity(70.0, 2, frpe9.getUnit(), 5.0, cl5, cl9, frpe9, s8);
+
+        em.persist(ct1);em.persist(ct2);em.persist(ct3);em.persist(ct4);em.persist(ct5);em.persist(ct6);
+        em.persist(ct7);em.persist(ct8);em.persist(ct9);em.persist(ct10);em.persist(ct11);em.persist(ct12);
+        em.persist(ct13);em.persist(ct14);em.persist(ct15);em.persist(ct16);em.persist(ct17);em.persist(ct18);
+        em.persist(ct19);em.persist(ct20);em.persist(ct21);em.persist(ct22);em.persist(ct23);em.persist(ct24);
+
+       
+        // Factory Bin
+        FactoryBinEntity b1 = new FactoryBinEntity();
+        FactoryBinEntity b2 = new FactoryBinEntity();
+        FactoryBinEntity b3 = new FactoryBinEntity();
+        FactoryBinEntity b4 = new FactoryBinEntity();
+        FactoryBinEntity b5 = new FactoryBinEntity();
+        FactoryBinEntity b6 = new FactoryBinEntity();
+        FactoryBinEntity b7 = new FactoryBinEntity();
+        FactoryBinEntity b8 = new FactoryBinEntity();
+        FactoryBinEntity b9 = new FactoryBinEntity();
+        FactoryBinEntity b10 = new FactoryBinEntity();
+        FactoryBinEntity b11 = new FactoryBinEntity();
+        FactoryBinEntity b12 = new FactoryBinEntity();
+        FactoryBinEntity b13 = new FactoryBinEntity();
+        FactoryBinEntity b14 = new FactoryBinEntity();
+        FactoryBinEntity b15 = new FactoryBinEntity();
+        
+        b1.setFactory(f1);b2.setFactory(f1);b3.setFactory(f1);b4.setFactory(f1);b5.setFactory(f1);
+        b6.setFactory(f2);b7.setFactory(f2);b8.setFactory(f2);b9.setFactory(f2);b10.setFactory(f2);
+        b11.setFactory(f3);b12.setFactory(f3);b13.setFactory(f3);b14.setFactory(f3);b15.setFactory(f3);
+        
+        
+
+        // Factory Stored Product
+        FactoryBinStoredProductEntity fbsp1 = new FactoryBinStoredProductEntity();em.persist(fbsp1);
+        FactoryBinStoredProductEntity fbsp2 = new FactoryBinStoredProductEntity();em.persist(fbsp2);
+        FactoryBinStoredProductEntity fbsp3 = new FactoryBinStoredProductEntity();em.persist(fbsp3);
+        FactoryBinStoredProductEntity fbsp4 = new FactoryBinStoredProductEntity();em.persist(fbsp4);
+        FactoryBinStoredProductEntity fbsp4_1 = new FactoryBinStoredProductEntity();em.persist(fbsp4_1);
+        FactoryBinStoredProductEntity fbsp5 = new FactoryBinStoredProductEntity();em.persist(fbsp5);
+        FactoryBinStoredProductEntity fbsp6 = new FactoryBinStoredProductEntity();em.persist(fbsp6);
+        FactoryBinStoredProductEntity fbsp7 = new FactoryBinStoredProductEntity();em.persist(fbsp7);
+        FactoryBinStoredProductEntity fbsp8 = new FactoryBinStoredProductEntity();em.persist(fbsp8);
+        FactoryBinStoredProductEntity fbsp9 = new FactoryBinStoredProductEntity();em.persist(fbsp9);
+        FactoryBinStoredProductEntity fbsp10 = new FactoryBinStoredProductEntity();em.persist(fbsp10);
+        FactoryBinStoredProductEntity fbsp10_1 = new FactoryBinStoredProductEntity();em.persist(fbsp10_1);
+        FactoryBinStoredProductEntity fbsp11 = new FactoryBinStoredProductEntity();em.persist(fbsp11);
+        FactoryBinStoredProductEntity fbsp12 = new FactoryBinStoredProductEntity();em.persist(fbsp12);
+        FactoryBinStoredProductEntity fbsp13 = new FactoryBinStoredProductEntity();em.persist(fbsp13);
+        FactoryBinStoredProductEntity fbsp13_1 = new FactoryBinStoredProductEntity();em.persist(fbsp13_1);
+        FactoryBinStoredProductEntity fbsp14 = new FactoryBinStoredProductEntity();em.persist(fbsp14);
+        FactoryBinStoredProductEntity fbsp15 = new FactoryBinStoredProductEntity();em.persist(fbsp15);
+        FactoryBinStoredProductEntity fbsp16 = new FactoryBinStoredProductEntity();em.persist(fbsp16);
+        FactoryBinStoredProductEntity fbsp17 = new FactoryBinStoredProductEntity();em.persist(fbsp17);
+        FactoryBinStoredProductEntity fbsp18 = new FactoryBinStoredProductEntity();em.persist(fbsp18);
+        FactoryBinStoredProductEntity fbsp18_1 = new FactoryBinStoredProductEntity();em.persist(fbsp18_1);
+        FactoryBinStoredProductEntity fbsp19 = new FactoryBinStoredProductEntity();em.persist(fbsp19);
+        FactoryBinStoredProductEntity fbsp19_2 = new FactoryBinStoredProductEntity();em.persist(fbsp19_2);
+        FactoryBinStoredProductEntity fbsp20 = new FactoryBinStoredProductEntity();em.persist(fbsp20);
+        FactoryBinStoredProductEntity fbsp21 = new FactoryBinStoredProductEntity();em.persist(fbsp21);
+        FactoryBinStoredProductEntity fbsp22 = new FactoryBinStoredProductEntity();em.persist(fbsp22);
+        FactoryBinStoredProductEntity fbsp23 = new FactoryBinStoredProductEntity();em.persist(fbsp23);
+        FactoryBinStoredProductEntity fbsp24 = new FactoryBinStoredProductEntity();em.persist(fbsp24);
+        FactoryBinStoredProductEntity fbsp24_1 = new FactoryBinStoredProductEntity();em.persist(fbsp24_1);
+        FactoryBinStoredProductEntity fbsp25 = new FactoryBinStoredProductEntity();em.persist(fbsp25);
+        FactoryBinStoredProductEntity fbsp25_2 = new FactoryBinStoredProductEntity();em.persist(fbsp25_2);
+        FactoryBinStoredProductEntity fbsp26 = new FactoryBinStoredProductEntity();em.persist(fbsp26);
+        FactoryBinStoredProductEntity fbsp27 = new FactoryBinStoredProductEntity();em.persist(fbsp27);
+        FactoryBinStoredProductEntity fbsp28 = new FactoryBinStoredProductEntity();em.persist(fbsp28);
+        FactoryBinStoredProductEntity fbsp29 = new FactoryBinStoredProductEntity();em.persist(fbsp29);
+        FactoryBinStoredProductEntity fbsp30 = new FactoryBinStoredProductEntity();em.persist(fbsp30);
+        FactoryBinStoredProductEntity fbsp31 = new FactoryBinStoredProductEntity();em.persist(fbsp31);
+        FactoryBinStoredProductEntity fbsp31_1 = new FactoryBinStoredProductEntity();em.persist(fbsp31_1);
+        FactoryBinStoredProductEntity fbsp32 = new FactoryBinStoredProductEntity();em.persist(fbsp32);
+        FactoryBinStoredProductEntity fbsp33 = new FactoryBinStoredProductEntity();em.persist(fbsp33);
+        FactoryBinStoredProductEntity fbsp34 = new FactoryBinStoredProductEntity();em.persist(fbsp34);
+        FactoryBinStoredProductEntity fbsp34_2 = new FactoryBinStoredProductEntity();em.persist(fbsp34_2);
+        FactoryBinStoredProductEntity fbsp35 = new FactoryBinStoredProductEntity();em.persist(fbsp35);
+        FactoryBinStoredProductEntity fbsp36 = new FactoryBinStoredProductEntity();em.persist(fbsp36);
+        FactoryBinStoredProductEntity fbsp37 = new FactoryBinStoredProductEntity();em.persist(fbsp37);
+        FactoryBinStoredProductEntity fbsp37_2 = new FactoryBinStoredProductEntity();em.persist(fbsp37_2);
+        FactoryBinStoredProductEntity fbsp38 = new FactoryBinStoredProductEntity();em.persist(fbsp38);
+        FactoryBinStoredProductEntity fbsp39 = new FactoryBinStoredProductEntity();em.persist(fbsp39);
+        FactoryBinStoredProductEntity fbsp40 = new FactoryBinStoredProductEntity();em.persist(fbsp40);
+        FactoryBinStoredProductEntity fbsp40_2 = new FactoryBinStoredProductEntity();em.persist(fbsp40_2);
+        FactoryBinStoredProductEntity fbsp41 = new FactoryBinStoredProductEntity();em.persist(fbsp41);
+        FactoryBinStoredProductEntity fbsp42 = new FactoryBinStoredProductEntity();em.persist(fbsp42);
+        FactoryBinStoredProductEntity fbsp43 = new FactoryBinStoredProductEntity();em.persist(fbsp43);
+        FactoryBinStoredProductEntity fbsp44 = new FactoryBinStoredProductEntity();em.persist(fbsp44);
+        FactoryBinStoredProductEntity fbsp44_2 = new FactoryBinStoredProductEntity();em.persist(fbsp44_2);
+        
+        // Factory Stored Product. factory Raw Material
+        fbsp1.createFactoryBinStoredProduct(frm1, b1, "unrestricted");fbsp1.setAmount(1000.0);
+        frm1.setUnrestrictedInventory(1000.0);
+        fbsp2.createFactoryBinStoredProduct(frm2, b2, "unrestricted");fbsp2.setAmount(1000.0);
+        frm2.setUnrestrictedInventory(1000.0);
+        fbsp3.createFactoryBinStoredProduct(frm3, b3, "unrestricted");fbsp3.setAmount(1000.0);
+        frm3.setUnrestrictedInventory(1000.0);
+        fbsp4.createFactoryBinStoredProduct(frm4, b4, "unrestricted");fbsp4.setAmount(1000.0);
+        frm4.setUnrestrictedInventory(1000.0);
+        fbsp4_1.createFactoryBinStoredProduct(frm4, b4, "blocked");fbsp4_1.setAmount(100.0);
+        frm4.setBlockedInventory(100.0);
+        fbsp5.createFactoryBinStoredProduct(frm5, b5, "unrestricted");fbsp5.setAmount(1000.0);
+        frm5.setUnrestrictedInventory(1000.0);
+        
+        fbsp6.createFactoryBinStoredProduct(frm6, b6, "unrestricted");fbsp6.setAmount(1000.0);
+        frm6.setUnrestrictedInventory(1000.0);
+        fbsp7.createFactoryBinStoredProduct(frm7, b7, "unrestricted");fbsp7.setAmount(1000.0);
+        frm7.setUnrestrictedInventory(1000.0);
+        fbsp8.createFactoryBinStoredProduct(frm8, b8, "unrestricted");fbsp8.setAmount(1000.0);
+        frm8.setUnrestrictedInventory(1000.0);
+        fbsp9.createFactoryBinStoredProduct(frm9, b9, "unrestricted");fbsp9.setAmount(1000.0);
+        frm9.setUnrestrictedInventory(1000.0);
+        fbsp10.createFactoryBinStoredProduct(frm10, b10, "unrestricted");fbsp10.setAmount(1000.0);
+        frm10.setUnrestrictedInventory(1000.0);
+        fbsp10_1.createFactoryBinStoredProduct(frm10, b10, "blocked");fbsp10_1.setAmount(10.0);
+        frm10.setBlockedInventory(10.0);
+        
+        fbsp11.createFactoryBinStoredProduct(frm11, b11, "unrestricted");fbsp11.setAmount(1000.0);
+        frm11.setUnrestrictedInventory(1000.0);
+        fbsp12.createFactoryBinStoredProduct(frm12, b12, "unrestricted");fbsp12.setAmount(1000.0);
+        frm12.setUnrestrictedInventory(1000.0);
+        fbsp13.createFactoryBinStoredProduct(frm13, b13, "unrestricted");fbsp13.setAmount(1000.0);
+        frm13.setUnrestrictedInventory(1000.0);
+        fbsp13_1.createFactoryBinStoredProduct(frm13, b13, "blocked");fbsp13_1.setAmount(50.0);
+        frm13.setBlockedInventory(50.0);
+        fbsp14.createFactoryBinStoredProduct(frm14, b14, "unrestricted");fbsp14.setAmount(1000.0);
+        frm14.setUnrestrictedInventory(1000.0);
+        fbsp15.createFactoryBinStoredProduct(frm15, b15, "unrestricted");fbsp15.setAmount(1000.0);
+        frm15.setUnrestrictedInventory(1000.0);
+        
+        // Factory Stored Product. factory Product
+        fbsp16.createFactoryBinStoredProduct(fp1, b1, "unrestricted");fbsp16.setAmount(500.0);
+        fp1.setUnrestrictedInventory(500.0);
+        fbsp17.createFactoryBinStoredProduct(fp2, b2, "unrestricted");fbsp17.setAmount(500.0);
+        fp2.setUnrestrictedInventory(500.0);
+        fbsp18.createFactoryBinStoredProduct(fp3, b3, "unrestricted");fbsp18.setAmount(500.0);
+        fp3.setUnrestrictedInventory(500.0);
+        fbsp18_1.createFactoryBinStoredProduct(fp3, b4, "blocked");fbsp18_1.setAmount(50.0);
+        fp3.setBlockedInventory(50.0);
+        fbsp19.createFactoryBinStoredProduct(fp4, b5, "unrestricted");fbsp19.setAmount(500.0);
+        fp5.setUnrestrictedInventory(500.0);
+        fbsp19_2.createFactoryBinStoredProduct(fp4, b4, "returned");fbsp19_2.setAmount(10.0);
+        fp4.setReturnedInventory(10.0);
+        fbsp20.createFactoryBinStoredProduct(fp5, b3, "unrestricted");fbsp20.setAmount(500.0);
+        fp5.setUnrestrictedInventory(500.0);
+        fbsp21.createFactoryBinStoredProduct(fp6, b2, "unrestricted");fbsp21.setAmount(500.0);
+        fp6.setUnrestrictedInventory(500.0);
+        
+        fbsp22.createFactoryBinStoredProduct(fp7, b6, "unrestricted");fbsp22.setAmount(500.0);
+        fp7.setUnrestrictedInventory(500.0);
+        fbsp23.createFactoryBinStoredProduct(fp8, b7, "unrestricted");fbsp23.setAmount(500.0);
+        fp8.setUnrestrictedInventory(500.0);
+        fbsp24.createFactoryBinStoredProduct(fp9, b8, "unrestricted");fbsp24.setAmount(500.0);
+        fp9.setUnrestrictedInventory(500.0);
+        fbsp24_1.createFactoryBinStoredProduct(fp9, b9, "blocked");fbsp24_1.setAmount(50.0);
+        fp9.setBlockedInventory(50.0);
+        fbsp25.createFactoryBinStoredProduct(fp10, b10, "unrestricted");fbsp25.setAmount(500.0);
+        fp10.setUnrestrictedInventory(500.0);
+        fbsp25_2.createFactoryBinStoredProduct(fp10, b9, "returned");fbsp25_2.setAmount(1.0);
+        fp10.setReturnedInventory(1.0);
+        fbsp26.createFactoryBinStoredProduct(fp11, b8, "unrestricted");fbsp26.setAmount(500.0);
+        fp11.setUnrestrictedInventory(500.0);
+        fbsp27.createFactoryBinStoredProduct(fp12, b7, "unrestricted");fbsp27.setAmount(500.0);
+        fp12.setUnrestrictedInventory(500.0);
+        
+        fbsp28.createFactoryBinStoredProduct(fp13, b11, "unrestricted");fbsp28.setAmount(500.0);
+        fp13.setUnrestrictedInventory(500.0);
+        fbsp29.createFactoryBinStoredProduct(fp14, b12, "unrestricted");fbsp29.setAmount(500.0);
+        fp14.setUnrestrictedInventory(500.0);
+        fbsp30.createFactoryBinStoredProduct(fp15, b13, "unrestricted");fbsp30.setAmount(500.0);
+        fp15.setUnrestrictedInventory(500.0);
+        fbsp31.createFactoryBinStoredProduct(fp16, b14, "unrestricted");fbsp31.setAmount(500.0);
+        fp16.setUnrestrictedInventory(500.0);
+        fbsp31_1.createFactoryBinStoredProduct(fp16, b15, "blocked");fbsp31_1.setAmount(50.0);
+        fp16.setBlockedInventory(50.0);
+        fbsp32.createFactoryBinStoredProduct(fp17, b14, "unrestricted");fbsp32.setAmount(500.0);
+        fp17.setUnrestrictedInventory(500.0);
+        fbsp33.createFactoryBinStoredProduct(fp18, b13, "unrestricted");fbsp33.setAmount(500.0);
+        fp18.setUnrestrictedInventory(500.0);
+        fbsp34.createFactoryBinStoredProduct(fp19, b12, "unrestricted");fbsp34.setAmount(500.0);
+        fp19.setUnrestrictedInventory(500.0);
+        fbsp34_2.createFactoryBinStoredProduct(fp19, b11, "returned");fbsp34_2.setAmount(4.0);
+        fp19.setReturnedInventory(4.0);
+        fbsp35.createFactoryBinStoredProduct(fp20, b12, "unrestricted");fbsp35.setAmount(500.0);
+        fp20.setUnrestrictedInventory(500.0);
+
+        
+        // Factory Stored Product. factory Retail product
+        fbsp36.createFactoryBinStoredProduct(frpe1, b1, "unrestricted");fbsp36.setAmount(300.0);
+        frpe1.setUnrestrictedInventory(300.0);
+        fbsp37.createFactoryBinStoredProduct(frpe4, b2, "unrestricted");fbsp37.setAmount(300.0);
+        frpe4.setUnrestrictedInventory(300.0);
+        fbsp37_2.createFactoryBinStoredProduct(frpe4, b3, "returned");fbsp37_2.setAmount(3.0);
+        frpe5.setReturnedInventory(300.0);
+        fbsp38.createFactoryBinStoredProduct(frpe7, b4, "unrestricted");fbsp38.setAmount(300.0);
+        frpe7.setUnrestrictedInventory(300.0);
+        
+        fbsp39.createFactoryBinStoredProduct(frpe2, b6, "unrestricted");fbsp39.setAmount(300.0);
+        frpe2.setUnrestrictedInventory(300.0);
+        fbsp40.createFactoryBinStoredProduct(frpe5, b7, "unrestricted");fbsp40.setAmount(300.0);
+        frpe5.setUnrestrictedInventory(300.0);
+        fbsp40_2.createFactoryBinStoredProduct(frpe5, b8, "returned");fbsp40_2.setAmount(1.0);
+        frpe5.setReturnedInventory(300.0);
+        fbsp41.createFactoryBinStoredProduct(frpe8, b9, "unrestricted");fbsp41.setAmount(300.0);
+        frpe8.setUnrestrictedInventory(300.0);
+        
+        fbsp42.createFactoryBinStoredProduct(frpe3, b11, "unrestricted");fbsp42.setAmount(300.0);
+        frpe3.setUnrestrictedInventory(300.0);
+        fbsp43.createFactoryBinStoredProduct(frpe6, b12, "unrestricted");fbsp43.setAmount(300.0);
+        frpe6.setUnrestrictedInventory(300.0);
+        fbsp44.createFactoryBinStoredProduct(frpe9, b13, "unrestricted");fbsp44.setAmount(300.0);
+        frpe9.setUnrestrictedInventory(300.0);
+        fbsp44_2.createFactoryBinStoredProduct(frpe9, b14, "returned");fbsp44_2.setAmount(4.0);
+        frpe9.setReturnedInventory(300.0);
+        
+        em.flush();
+        
+        // Outbound Movement
+        OutboundMovementEntity obm1 = new OutboundMovementEntity();em.persist(obm1);
+        OutboundMovementEntity obm2 = new OutboundMovementEntity();em.persist(obm2);
+        OutboundMovementEntity obm3 = new OutboundMovementEntity();em.persist(obm3);
+        OutboundMovementEntity obm4 = new OutboundMovementEntity();em.persist(obm4);
+        OutboundMovementEntity obm5 = new OutboundMovementEntity();em.persist(obm5);
+        OutboundMovementEntity obm6 = new OutboundMovementEntity();em.persist(obm6);
+        OutboundMovementEntity obm7 = new OutboundMovementEntity();em.persist(obm7);
+        OutboundMovementEntity obm8 = new OutboundMovementEntity();em.persist(obm8);
+        OutboundMovementEntity obm9 = new OutboundMovementEntity();em.persist(obm9);
+        
+        obm1.recordFactoryProductOutboundMovement(fbsp17, store1, 20.0, c1);
+        obm2.recordFactoryProductOutboundMovement(fbsp20, store2, 50, c3);
+        obm3.recordFactoryRetailProductOutboundMovement(fbsp37, store3, 30, c5);
+        
+        obm4.recordFactoryProductOutboundMovement(fbsp23, store1, 20.0, c3);
+        obm5.recordFactoryProductOutboundMovement(fbsp26, store2, 50, c4);
+        obm6.recordFactoryRetailProductOutboundMovement(fbsp39, store3, 30, c5);
+        
+        obm7.recordFactoryProductOutboundMovement(fbsp30, store1, 20.0, c1);
+        obm8.recordFactoryProductOutboundMovement(fbsp33, store2, 50, c3);
+        obm9.recordFactoryRetailProductOutboundMovement(fbsp42, store3, 30, c5);
+        
+        // In-Factory Movement
+        InFactoryMovementEntity ifm1 = new InFactoryMovementEntity();em.persist(ifm1);
+        InFactoryMovementEntity ifm2 = new InFactoryMovementEntity();em.persist(ifm2);
+        InFactoryMovementEntity ifm3 = new InFactoryMovementEntity();em.persist(ifm3);
+        
+        ifm1.recordInFactoryRawMaterialMovement(fbsp3, fbsp44_2, 100.0, c11);
+        ifm2.recordInFactoryProductMovement(fbsp22, fbsp44_2, 100.0, c5);
+        ifm3.recordInFactoryRetailProductMovement(fbsp43, fbsp44_2, 100.0, c3);
+        
+        em.flush();
+
+        
+
+
 
     }
 }

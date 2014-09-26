@@ -11,12 +11,10 @@ import Entity.Factory.FactoryRawMaterialEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -27,9 +25,6 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "RawMaterialInFactoryUseMovement")
 public class RawMaterialInFactoryUseMovementEntity implements Serializable {
-
-    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
-    private EntityManager em;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -104,15 +99,10 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
     
     private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         factoryBinStoredProduct.decreaseQuantity(quantity);
-        if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
-            em.remove(factoryBinStoredProduct);
-        }
-        em.flush();
     }
     
     private void updateFactoryRawMaterial(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() - quantity);
-        em.flush();
+        factoryBinStoredProduct.getFactoryRawMaterial().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryRawMaterial().getUnrestrictedInventory() - quantity);
     }
 
     @Override

@@ -14,13 +14,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -32,9 +29,6 @@ import javax.persistence.Temporal;
 @Table(name = "ReturnedItemInboundMovement")
 //cannot record the total quantity of returned products
 public class ReturnedItemInboundMovementEntity implements Serializable {
-
-    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
-    private EntityManager em;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -125,72 +119,39 @@ public class ReturnedItemInboundMovementEntity implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public void recordReturnedItemInboundMovement(FactoryProductEntity factoryProduct, StoreEntity fromStore, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
-        this.setFactoryProduct(factoryProduct);
+    public void recordReturnedFactoryProductInboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity fromStore, double quantity, Calendar creationDate) {
+        this.setFactoryProduct(factoryBinStoredProduct.getFactoryProduct());
         this.setStockTypeIndicator(2);
         this.setFromStore(fromStore);
-        this.setToBin(toBin);
+        this.setToBin(factoryBinStoredProduct.getFactoryBin());
         this.setQuantity(quantity);
         this.setCreationDate(creationDate);
-        updateFactoryBinStoredProduct(toBin, factoryProduct, quantity);
- //       updateFactoryRetailProduct(factoryProduct, quantity); // need to matian the total quantity of returned products
+        updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
+        updateFactoryProduct(factoryBinStoredProduct, quantity);
     }
-    
-    public void recordReturnedItemInboundMovement(FactoryRetailProductEntity factoryRetailProduct, StoreEntity fromStore, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
-        this.setFactoryRetailProduct(factoryRetailProduct);
+
+    public void recordReturnedFactoryRetailProductInboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity fromStore, double quantity, Calendar creationDate) {
+        this.setFactoryRetailProduct(factoryBinStoredProduct.getFactoryRetailProduct());
         this.setStockTypeIndicator(3);
         this.setFromStore(fromStore);
-        this.setToBin(toBin);
+        this.setToBin(factoryBinStoredProduct.getFactoryBin());
         this.setQuantity(quantity);
         this.setCreationDate(creationDate);
-        updateFactoryBinStoredProduct(toBin, factoryRetailProduct, quantity);
- //       updateFactoryRetailProduct(factoryRetailProduct, quantity); // need to matian the total quantity of returned products
+        updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
+        updateFactoryRetailProduct(factoryBinStoredProduct, quantity); // need to matian the total quantity of returned products
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryProductEntity factoryProduct, double quantity) {
-        try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = 'returned'");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryProduct", factoryProduct);
-
-            if (q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryProduct, toBin, "returned");
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
-            }
-        } catch (Exception ex) {
-            System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
-            ex.printStackTrace();
-        }
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        factoryBinStoredProduct.increaseQuantity(quantity);
     }
     
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, double quantity) {
-        try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'returned'");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryRetailProduct", factoryRetailProduct);
-
-            if (q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, "returned");
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
-            }
-        } catch (Exception ex) {
-            System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
-            ex.printStackTrace();
-        }
+    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        factoryBinStoredProduct.getFactoryProduct().setReturnedInventory(factoryBinStoredProduct.getFactoryProduct().getReturnedInventory() + quantity);
     }
-    
+
+    private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        factoryBinStoredProduct.getFactoryRetailProduct().setReturnedInventory(factoryBinStoredProduct.getFactoryRetailProduct().getReturnedInventory() + quantity);
+    }
     
     @Override
     public int hashCode() {

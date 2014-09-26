@@ -5,6 +5,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.SCM.ContractEntity;
@@ -21,13 +22,13 @@ import javax.ejb.Local;
 @Local
 public interface DocumentReferenceModuleLocal {
 
-    PlannedOrderEntity ViewPlannedOrder(Long id);
+    PlannedOrderEntity viewPlannedOrder(Long id);
 
-    ProductionPlanEntity ViewProductionPlan(Long id);
+    ProductionPlanEntity viewProductionPlan(Long id);
 
-    List viewBlockedStock();
+    List viewAllBlockedStock();
 
-    List viewReturnedProduct();
+    List viewAllReturnedProduct();
 
     PurchaseOrderEntity viewPurchaseOrder(Long id);
 
@@ -36,5 +37,17 @@ public interface DocumentReferenceModuleLocal {
     ContractEntity viewContract(Long id);
 
     SupplierEntity viewSupplier(Long id);
-    
+
+    List viewAllProductionPlans();
+
+    List viewAllPlannedOrders();
+
+    List viewAllPurchaseOrders();
+
+    List viewAllGoodsReceipts();
+
+    List viewAllContracts();
+
+    List viewAllSuppliers();
+
 }
