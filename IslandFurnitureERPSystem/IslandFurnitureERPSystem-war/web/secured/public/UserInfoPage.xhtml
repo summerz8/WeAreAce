@@ -27,22 +27,22 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                          
-                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
 
-                        
+
                         <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button> 
-                        
+
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
@@ -84,7 +84,6 @@
                             <h:panelGrid columns="2" cellpadding="10">
 
                                 <h:outputLabel for="userid" value="User ID:" />
-
                                 <h:outputText value="#{userInfo.userId}"/>
 
 
@@ -126,19 +125,20 @@
                                 <h:outputText value="#{userInfo.userLevel}"  />
 
 
-                                <h:outputLabel for="gender" value="Gender *:" />
-                                <p:inplace id="gender" editor="true">
-                                    <p:inputText value="#{userInfo.gender}" required="true" label="text" />
-                                </p:inplace>                                
+                                <h:outputLabel for="gender" value="Gender:" />
+                                <h:outputText value="#{userInfo.gender}" />
 
-                   
+
+
                                 <h:outputLabel for="birthday" value="Birthday:" />
-                                
+
                                 <p:calendar  value="#{userInfo.birDate}" locale="de"  navigator="true" pattern="dd-MM-yyyy" />
-                                
+
                                 <h:outputLabel for="email" value="Email *:" />
                                 <p:inplace id="email" editor="true">
-                                    <p:inputText value="#{userInfo.email}" required="true" label="text" />
+                                    <p:inputText value="#{userInfo.email}" required="true" label="text" validatorMessage="Invalid email">
+                                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                    </p:inputText>
                                 </p:inplace>
 
                                 <h:outputLabel for="addr" value="Address:" />
@@ -162,7 +162,7 @@
 
 
                                 <p:commandButton id = "savebtn" value="save" actionListener="#{userInfo.saveChangedUserInfo}" ajax="false"/>
-                                <p:button outcome="/secured/WorkPlace.xhtml" value="go back"></p:button>
+                                <p:button outcome="/secured/public/WorkPlace.xhtml" value="go back"></p:button>
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>

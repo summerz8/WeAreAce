@@ -45,6 +45,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -61,6 +62,7 @@ public class Test {
     @PersistenceContext 
     private EntityManager em;
     
+    private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
     @PostConstruct
     public void init(){
         createDatabase();
@@ -84,15 +86,15 @@ public class Test {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         UserEntity u = new HQUserEntity("H", "1000001", 0,
-                            "Zheng", null, "Yuan", "Global Manager", birthday, "Female", null, null, null, null, false, 1000000L);
-        u.setPwd("123");              
+                            "Zheng", null, "Yuan", "Global Manager", birthday, "Female", null, null, null, null, 1L, cryptographicHelper.doMD5Hashing("123"), false);
+        u.setPwd(cryptographicHelper.doMD5Hashing("123"));              
         em.persist(u);
         em.flush();
         
         UserEntity u2 = new FactoryUserEntity("F", "1000001", 1, "Zhang", null,
             "Shiyu", "Factory Manager",  birthday, "Female", 
-            "Ms", null, null, null,1L, false);
-        u2.setPwd("123");
+            "Ms", null, null, null,1L, cryptographicHelper.doMD5Hashing("123"), false);
+        
         em.persist(u2);
         em.flush();
         
