@@ -105,14 +105,14 @@
                                     <p:rowEditor />
                                 </p:column>    
 
-                                <p:column style="width:6%;text-align: center">                                    
+                                <p:column headerText = "Delete" style="width:6%;text-align: center">                                    
 
                                     <p:commandButton  update=":formMain" actionListener="#{productControl.deleteProduct(product.productId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
                                 
-                                <p:column style="width:6%;text-align: center">                                    
+                                <p:column headerText = "Edit BOM" style="width:6%;text-align: center">                                    
 
                                     <p:commandButton  actionListener="#{productControl.viewProduct(product)}" icon="ui-icon-folder-open" title="AddBOM">
 
