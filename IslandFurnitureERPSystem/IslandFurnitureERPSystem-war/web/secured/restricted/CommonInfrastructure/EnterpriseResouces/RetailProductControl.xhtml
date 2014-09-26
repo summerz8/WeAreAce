@@ -5,17 +5,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-        <h:head>
-            <title>Island Furniture ERP WorkPlace</title>
-            <!--            <head>
-                                <style type="text/css">
-                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
-                                         border: none;
-                                    }
-                                </style>
-                        </head>-->
-        </h:head>
-
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
         <h:body>
 
             <h:form id="formMain">
@@ -56,23 +51,20 @@
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
-                            <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
-                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
-                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
-                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
-                            </p:submenu>
-                            <p:submenu label="Supply Chain Management">
-                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
-                            </p:submenu>
-                            <p:submenu label="Empolyees">
-                                <p:menuitem value="Empolyees List"/>
-                            </p:submenu>
-                            <p:submenu label="Enterprise">
-                                <p:menuitem value="Resource Control" outcome="EnterpriseResourceControl.xhtml"/>
-                            </p:submenu>
+                            <p:submenu label="People and Organization">
+                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                                </p:submenu>
+                             <p:submenu label="Inventory" >
+
+                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                    
+
+                                </p:submenu>
+                            
                         </p:menu>
 
 

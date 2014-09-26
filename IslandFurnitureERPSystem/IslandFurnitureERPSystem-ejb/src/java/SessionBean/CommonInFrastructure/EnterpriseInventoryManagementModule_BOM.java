@@ -9,15 +9,17 @@ package SessionBean.CommonInFrastructure;
 import Entity.Factory.BOMEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
-import javax.ejb.Stateful;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 /**
  *
  * @author zhengyuan
  */
-@Stateful
+@Stateless
 public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInventoryManagementModule_BOMLocal {
 
 
@@ -30,14 +32,17 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
 */
     
     
-      @PersistenceContext
-      private EntityManager em;
+      
       public EnterpriseInventoryManagementModule_BOM(){
     }
       
+      @PersistenceContext
+      private EntityManager em;
       
  //======================================ADD NEW MATERIAL OF A PRODUCT IN BOM ========================================     
-      private void addANewBOM(long productId, long rawMaterialId, Double quantity) throws Exception{
+      
+      @Override
+      public Integer addANewBOM(Long productId, Long rawMaterialId, Double quantity) throws Exception{
       
           ProductEntity product= em.find(ProductEntity.class, productId);
           RawMaterialEntity rawMaterial = em.find(RawMaterialEntity.class, rawMaterialId);
@@ -45,36 +50,53 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
           throw new Exception ("Product is not found");
           }
           else if (rawMaterial == null){
-              throw new Exception ("Raw Material is not found");
+              return 2;
           }
           else{
-             
+             Boolean hasDeleteBefore = false;
              List<BOMEntity> bomList = product.getBom();
-             for(BOMEntity bome: bomList){
-                 
-                 
-             if(bome.getRawMaterial().getMaterialId() != rawMaterialId ){
+             List<BOMEntity> deleteCheckList = new ArrayList<BOMEntity> ();
+//             for(BOMEntity bome: bomList){
+//                 
+//                 
+//             if(!Objects.equals(bome.getRawMaterial().getMaterialId(), rawMaterialId) ){
+             
+            //for delete Item that was previously add in the bom
+             for(BOMEntity be: bomList){
+                 if(be.getIsDeleted()){
+                     if(be.getRawMaterial().getMaterialId() == rawMaterialId){
+                         hasDeleteBefore = true;
+                         be.setAmount(quantity);
+                         be.setIsDeleted(false);
+                         break;
+                     }
+                 }
+                     
+             }
+             if( !hasDeleteBefore){
              BOMEntity productBOM = new BOMEntity();
              productBOM.setProduct(product);
              productBOM.setRawMaterial(rawMaterial);
              productBOM.setAmount(quantity);
-             productBOM.setUnit(null);
+             productBOM.setUnit(rawMaterial.getUnit());
+             productBOM.setIsDeleted(false);
              em.persist(productBOM);
              product.getBom().add(productBOM);
              rawMaterial.getBomList().add(productBOM);
              em.flush();
+             System.out.println("SessionBean: Add BOM: successfully!!");
              }
              
+             return 0;
              }
              
-          }
-          
           
       }
 
  //======================================UPDATE RAW MATERIAL QUANTITY IN BOM =================================     
 
-      private void updateANewBom( Long bomId, Double quantity) throws Exception{
+      @Override
+      public void updateANewBom( Long bomId, Double quantity) throws Exception{
           BOMEntity bom = em.find(BOMEntity.class, bomId);
           if(bom == null){
           throw new Exception ("Product is not found");
@@ -86,7 +108,8 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
       }
  
  //======================================UPDATE RAW MATERIAL QUANTITY IN BOM =================================     
-      private void deleteANewBom( Long bomId) throws Exception {
+      @Override
+      public void deleteANewBom( Long bomId) throws Exception {
           BOMEntity bom = em.find(BOMEntity.class, bomId);
           if(bom == null){
           throw new Exception ("Product is not found");
@@ -99,10 +122,25 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
 
  //========================================== LIST BOM ===================================================     
 
-      private List<BOMEntity> getAllBOM(Long productId){
+      
+      @Override
+      public List<BOMEntity> getAllBOM(Long productId){
           
           ProductEntity product= em.find(ProductEntity.class, productId);
-          List<BOMEntity> bomList = product.getBom();
+          System.out.println("SessionBean: getAllBOM: product Id:" + product.getProductId());
+          
+          List<BOMEntity> temp = product.getBom();
+          System.out.println("SessionBean: getAllBOM: SIZE(); " + temp.size());
+          
+          
+          List<BOMEntity> bomList = new ArrayList<BOMEntity>();
+          for(BOMEntity bom : temp){
+             BOMEntity be = bom;
+             if(!be.getIsDeleted()){
+                 bomList.add(bom);
+             }
+              
+          }
           em.flush();
           return bomList;
           
