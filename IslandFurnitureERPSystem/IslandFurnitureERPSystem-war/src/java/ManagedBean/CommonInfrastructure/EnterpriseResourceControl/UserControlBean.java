@@ -15,9 +15,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.event.RowEditEvent;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -39,6 +41,7 @@ public class UserControlBean {
     private String birString;
     private String deletedUserId;
 
+    private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
     /**
      * Creates a new instance of UserControlBean
      */
@@ -69,31 +72,34 @@ public class UserControlBean {
             cal.setTime(temp);
             System.out.println("UserContorlBean:birString to Date to Calendar:" + cal.getTime().toString());
             IUMA.ModifyStaff(entity.getUserId(), entity.getDepartment(), entity.getUserLevel(), entity.getLastName(), entity.getMidName(),
-                entity.getFirstName(), entity.getPosition(), cal, entity.getGender(), entity.getTitle(), entity.getAddress(),
-                entity.getPostalCode(), entity.getEmail(), entity.getDepartmentId());
-//       
+                    entity.getFirstName(), entity.getPosition(), cal, entity.getGender(), entity.getTitle(), entity.getAddress(),
+                    entity.getPostalCode(), entity.getEmail(), entity.getDepartmentId());
+            IUMA.changePass(entity.getPwd(), entity.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-         
+
         FacesMessage msg = new FacesMessage("User Edited", ((UserEntity) event.getObject()).getUserId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        listedUser = IUMA.ListUser();
+        filterdUser = listedUser;
     }
 
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((UserEntity) event.getObject()).getUserId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    public void deleteUser(String id){
-        System.out.println("UserControlBean: deleteUser: "+ id);
+
+    public void deleteUser(String id) {
+        System.out.println("UserControlBean: deleteUser: " + id);
         IUMA.DeleteStaff(id);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User deleted successfully! ", ""));
         listedUser = IUMA.ListUser();
         filterdUser = listedUser;
-        
-    }
 
+    }
+    
     public String getDeletedUserId() {
         return deletedUserId;
     }
@@ -101,8 +107,6 @@ public class UserControlBean {
     public void setDeletedUserId(String deletedUserId) {
         this.deletedUserId = deletedUserId;
     }
-    
-    
 
     public List<UserEntity> getListedUser() {
         return listedUser;
@@ -141,8 +145,11 @@ public class UserControlBean {
 //    }
     public String BirString(Calendar bir) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        if(bir!=null) birString = format.format(bir.getTime());
-        else birString=null;
+        if (bir != null) {
+            birString = format.format(bir.getTime());
+        } else {
+            birString = null;
+        }
         System.out.println("UserControlBean: birstring:" + birString);
         return birString;
     }
@@ -154,5 +161,5 @@ public class UserControlBean {
     public void setBirString(String birString) {
         this.birString = birString;
     }
-
+   
 }

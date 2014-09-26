@@ -52,7 +52,7 @@
                     </p:layoutUnit>
 
 
-                    <p:growl id="messages" showDetail="false"/>
+                    <p:growl id="messages" showDetail="false" autoUpdate="true"/>
 
                     <p:layoutUnit position="west" size="500px">
 
@@ -91,8 +91,8 @@
                                 </f:facet>
 
 
-                                <p:ajax event="rowEdit" listener="#{userControl.onRowEdit}" update="@this" />
-                                <p:ajax event="rowEditCancel" listener="#{userControl.onRowCancel}" update=":formMain:messagesStatus" />
+                                <p:ajax event="rowEdit" listener="#{userControl.onRowEdit}" update=":formMain:usertable" />
+                                <p:ajax event="rowEditCancel" listener="#{userControl.onRowCancel}" update=":formMain:usertable" />
 
                                 <p:column style="width:32px">
                                     <p:rowEditor />
@@ -105,7 +105,7 @@
                                     </p:commandButton>    
                                    
                                 </p:column>
-
+                                
                                 <p:column filterBy="#{user.userId}" headerText="User Id" width="100">
                                     <h:outputText value="#{user.userId}" />                                                                         
                                 </p:column>                               
@@ -213,6 +213,14 @@
                                         <f:facet name="input"><p:inputMask  value="#{userControl.birString}" style="width:96%" mask="99-99-9999"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
+                                
+                                <p:column filterBy="#{user.pwd}" headerText="Password" width="150">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{user.pwd}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{user.pwd}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                
 
                             </p:dataTable>                            
                             <p:button value="Add User" outcome="AddNewUser"></p:button>
