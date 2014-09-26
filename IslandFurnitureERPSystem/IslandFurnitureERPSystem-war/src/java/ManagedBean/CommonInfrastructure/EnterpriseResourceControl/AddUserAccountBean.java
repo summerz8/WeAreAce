@@ -5,11 +5,16 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
+import Entity.Factory.FactoryEntity;
+import Entity.Store.StoreEntity;
+import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
 import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -29,6 +34,7 @@ public class AddUserAccountBean implements Serializable {
 
     @EJB
     private InternalUserAccountManagementModuleLocal IUMA;
+    private Factory_StoreManagementModuleLocal FSMM;
 
     private String userId;
     private String FirstName;
@@ -42,7 +48,6 @@ public class AddUserAccountBean implements Serializable {
     private String Address;
     private String Postal;
     private String password;
-    
 
     private Integer userLevel;
     private Calendar birthday;
@@ -57,7 +62,6 @@ public class AddUserAccountBean implements Serializable {
      */
     public AddUserAccountBean() {
     }
-
 
     public InternalUserAccountManagementModuleLocal getIUMA() {
         return IUMA;
@@ -214,17 +218,15 @@ public class AddUserAccountBean implements Serializable {
     public void AddNewUser(ActionEvent event) {
         System.out.println("UserInfoManageBean: save changes");
 
-
         birthday = Calendar.getInstance();
         birthday.setTime(birDate);
-            System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
-        
+        System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
 
-        IUMA.AddStaff(Department, userLevel, LastName, MidName, FirstName, Position, 
+        IUMA.AddStaff(Department, userLevel, LastName, MidName, FirstName, Position,
                 birthday, Gender, Title, Address, Postal, Email, departmentId);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "New User Added Successfully!", ""));
-        
+
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("UserAccountControl.xhtml");
         } catch (IOException ex) {
@@ -233,20 +235,17 @@ public class AddUserAccountBean implements Serializable {
 
     }
 
-//    public void changePassword(ActionEvent event) {
-//        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
-//        System.out.println("UserInfoManageBean: change password");
-//        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-//        
-//        if (inputOldPass.equals(password)) {
-//            IUMA.changePass(newPass, userId);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Password changed successfully!", ""));
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Wrong Password, please enter again!", ""));
+//    public List departmentlist() {
+//        if (Department.equals("H")) {
+//           List<String> HQlist = new ArrayList();
+//           HQlist.add("0 HQ");
+//        } else if (Department.equals("F")) {
+//            List<FactoryEntity> factorylist = FSMM.ListFactory();
+//            return factorylist;
+//        } else if (Department.equals("S")) {
+//            List<StoreEntity>  storelist = FSMM.ListStore();
 //        }
-//
+//        
 //    }
 
 }

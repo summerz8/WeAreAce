@@ -27,9 +27,6 @@ import javax.persistence.Temporal;
 @Entity
 public class ProductToBinMovementEntity implements Serializable {
 
-    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
-    private EntityManager em;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -97,47 +94,36 @@ public class ProductToBinMovementEntity implements Serializable {
     }
 
     //pre-cond: availability check
-    public void recordProductToBinMovement(FactoryProductEntity factoryProduct, FactoryBinEntity toBin, String status, double quantity, Calendar creationDate) {
+    public void recordProductToBinMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity, Calendar creationDate) {
         try {
-            this.setFactoryProduct(factoryProduct);
-            this.setToBin(toBin);
-            this.setStatus(status);
+            this.setFactoryProduct(factoryBinStoredProduct.getFactoryProduct());
+            this.setToBin(factoryBinStoredProduct.getFactoryBin());
+            this.setStatus(factoryBinStoredProduct.getStatus());
             this.setQuantity(quantity);
             this.setCreationDate(creationDate);
-            updateFactoryBinStoredProduct(factoryProduct, toBin, status, quantity);
-//            updateFactoryProduct(factoryProduct, status, quantity);
+            updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
+            updateFactoryProduct(factoryBinStoredProduct, quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.ProductToBinMovementEntity: recordProductToBinMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
         }
     }
 
-    private void updateFactoryBinStoredProduct(FactoryProductEntity factoryProduct, FactoryBinEntity toBin, String status, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :status");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryProduct", factoryProduct);
-            q.setParameter("status", status);
-
-            if (q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryProduct, toBin, status);
-                factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
-                em.persist(factoryBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
-                em.flush();
-            }
+            factoryBinStoredProduct.increaseQuantity(quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();
         }
     }
 
-//    private void updateFactoryProduct(FactoryProductEntity factoryProduct, String status, double quantity) {
-//        factoryBinStoredProduct.getFactoryProduct().setInventory(factoryBinStoredProduct.getFactoryProduct().getInventory() - quantity);
-//        em.flush();
-//    }
+    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+        if (factoryBinStoredProduct.getStatus().equals("unrestricted")) {
+            factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() + quantity);
+        } else {
+            factoryBinStoredProduct.getFactoryProduct().setBlockedInventory(factoryBinStoredProduct.getFactoryProduct().getBlockedInventory()+ quantity);
+        }
+    }
 
 }

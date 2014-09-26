@@ -103,7 +103,7 @@ public class DisplaySuppliersForAddContract implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", itemType);
 
-        return "/secured/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForAddContract?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForAddContract?faces-redirect=true";
     }
 
 }

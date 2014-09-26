@@ -33,7 +33,6 @@
     <class>Entity.Factory.RetailProductEntity</class>
     <class>Entity.Factory.SCM.ContractEntity</class>
     <class>Entity.Factory.SCM.DeliveryOrderEntity</class>
-    <class>Entity.Factory.SCM.FactoryMovementEntity</class>
     <class>Entity.Factory.SCM.GoodsReceiptEntity</class>
     <class>Entity.Factory.SCM.InFactoryMovementEntity</class>
     <class>Entity.Factory.SCM.InboundMovementEntity</class>
