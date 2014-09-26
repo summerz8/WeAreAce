@@ -57,7 +57,7 @@ public class RawMaterialControlBean {
         System.out.println("onRowEdit test:");
         RawMaterialEntity entity = (RawMaterialEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getMaterialId()+ entity.getMaterialName());
-
+        
         EIMR.modifyRawMaterial(entity.getMaterialId(), entity.getMaterialName(), entity.getDescription(), entity.getUnit());
         FacesMessage msg = new FacesMessage("Raw Material Edited", String.valueOf(entity.getMaterialId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);

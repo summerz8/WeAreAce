@@ -101,13 +101,20 @@
                                 <p:ajax event="rowEdit" listener="#{productControl.onRowEdit}" update="@this" />
                                 <p:ajax event="rowEditCancel" listener="#{productControl.onRowCancel}" update=":formMain:messagesStatus" />
 
-                                <p:column style="width:5%">
+                                <p:column style="width:6%">
                                     <p:rowEditor />
                                 </p:column>    
 
-                                <p:column style="width:5%;text-align: center">                                    
+                                <p:column style="width:6%;text-align: center">                                    
 
                                     <p:commandButton  update=":formMain" actionListener="#{productControl.deleteProduct(product.productId)}" icon="ui-icon-trash" title="Delete">
+
+                                    </p:commandButton>                                   
+                                </p:column>
+                                
+                                <p:column style="width:6%;text-align: center">                                    
+
+                                    <p:commandButton  actionListener="#{productControl.viewProduct(product)}" icon="ui-icon-folder-open" title="AddBOM">
 
                                     </p:commandButton>                                   
                                 </p:column>
@@ -126,7 +133,7 @@
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{product.price}" headerText="Price" width="40%" filterMatchMode="contains">
+                                <p:column filterBy="#{product.price}" headerText="Price" width="10%" filterMatchMode="contains">
                                     <p:cellEditor>                              
                                         <f:facet name="output"><h:outputText value="#{product.price}" /></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{product.price}"  style="width:96%"/></f:facet>
