@@ -7,6 +7,7 @@ package Entity.Factory.SCM;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -14,8 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -32,10 +33,10 @@ public class GoodsReceiptEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long goodsReceiptId;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createDate;
-    
-    //goods receipt entity -- purchase order entity : 1 <--> 1
-    @OneToOne(cascade={CascadeType.PERSIST})
+    private Calendar createDate;
+
+    //goods receipt entity -- purchase order entity : M <--> 1
+    @ManyToOne
     private PurchaseOrderEntity purchaseOrder;
     
     //goods receipt entity -- inbound movement enitty: 1 <--> M (from which corresponding goods receipt)
@@ -45,7 +46,7 @@ public class GoodsReceiptEntity implements Serializable {
     public GoodsReceiptEntity() {
     }
 
-    public GoodsReceiptEntity(Long goodsReceiptId, Date createDate) {
+    public GoodsReceiptEntity(Long goodsReceiptId, Calendar createDate) {
         this.goodsReceiptId = goodsReceiptId;
         this.createDate = createDate;
     }
@@ -58,11 +59,11 @@ public class GoodsReceiptEntity implements Serializable {
         this.goodsReceiptId = goodsReceiptId;
     }
 
-    public Date getCreateDate() {
+    public Calendar getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
 
@@ -70,7 +71,7 @@ public class GoodsReceiptEntity implements Serializable {
         return purchaseOrder;
     }
 
-    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
+    public void setPurchaseOder(PurchaseOrderEntity purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
 

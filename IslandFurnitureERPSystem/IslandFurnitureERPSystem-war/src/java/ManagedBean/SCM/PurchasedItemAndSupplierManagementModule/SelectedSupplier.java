@@ -34,11 +34,11 @@ public class SelectedSupplier implements Serializable {
 
     public String passValue() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSupplier", supplier);
-        return "/secured/SCM/PurchasedItemAndSupplierManagementModule/EditSupplier?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/EditSupplier?faces-redirect=true";
     }
     
     public String passValue2(){
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSupplier", supplier);
-        return "/secured/SCM/PurchasedItemAndSupplierManagementModule/AddContract?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/AddContract?faces-redirect=true";
     }
 }

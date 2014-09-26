@@ -80,7 +80,8 @@
                                 <p:submenu label="Purchase Order Management">
                                     <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
                                     <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
-
+                                    <p:menuitem value="Generate Goods Receipt" action="#{displayConfirmedPO.displayDestination()}"/>
+                                    <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}"/>
                                 </p:submenu>
                                 <p:submenu label="Document Reference">
                                     <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
@@ -108,7 +109,7 @@
                                     <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
                                 </p:submenu>    
                             </p:submenu>
-                            
+
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
                             </p:submenu>

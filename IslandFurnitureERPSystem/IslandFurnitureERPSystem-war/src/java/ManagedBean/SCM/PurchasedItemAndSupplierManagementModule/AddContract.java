@@ -161,7 +161,7 @@ public class AddContract implements Serializable {
         FacesMessage msg = new FacesMessage("Information: " + result);
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
-        return "/secured/WorkPlace?faces-redirect=true";
+        return "/secured/public/WorkPlace?faces-redirect=true";
 
     }
 
