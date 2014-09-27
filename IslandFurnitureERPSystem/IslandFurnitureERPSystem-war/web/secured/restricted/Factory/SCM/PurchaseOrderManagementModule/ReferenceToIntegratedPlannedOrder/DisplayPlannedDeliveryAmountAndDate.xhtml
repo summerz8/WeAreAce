@@ -46,49 +46,13 @@
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
-                        <p:submenu label="Supply Chain Management">
-                            <p:submenu label="Purchased Items and Suppliers Management">
-                                <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
-                                <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
-                                <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
-                                <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
-                                <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
-                                <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
-                            </p:submenu>
-                            <p:submenu label="Purchase Order Management">
-                                <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
-                                <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
-                                <p:menuitem value="Generate Goods Receipt" action="#{displayConfirmedPO.displayDestination()}"/>
-                                <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}">
-                            </p:submenu>
-                            <p:submenu label="Document Reference">
-                                <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder?faces-redirect=true" />
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/ProductionPlan?faces-redirect=true" />
-                                <p:menuitem value="Blocked Stock" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/BlockedStock?faces-redirect=true" />
-                                <p:menuitem value="Returned Stock" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/ReturnedStock?faces-redirect=true" />
-                                <p:menuitem value="Goods Receipt" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/GoodsReceipt?faces-redirect=true" />
-                                <p:menuitem value="Contract" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Contract?faces-redirect=true" />
-                                <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
-                            </p:submenu>
-
-                            <p:submenu label="Factory Inventory Management">
-                                <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
-                                <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
-                                <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
-                                <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
-                                <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
-                                <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
-                                <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
-                            </p:submenu>
-
-                            <p:submenu label="Raw Material Monitoring">
-                                <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
-                                <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
-                            </p:submenu>    
+                        <p:submenu label="Purchase Order Management">
+                            <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
+                            <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
+                            <p:menuitem value="Generate Goods Receipt" action="#{displayConfirmedPO.displayDestination()}"/>
+                            <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}"/>
                         </p:submenu>
                     </p:menu>
-
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 
@@ -100,21 +64,25 @@
                                 Planned Delivery Date and Amount
                             </f:facet>
 
-                            <p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}" update=":form:msgs" />
-                            <p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update=":form:msgs" />
+                            <p:ajax event="rowEdit" listener="#{displayPlannedOrderDeliveryAmountAndDate.onRowEdit}" update=":formMain:messages" />
+                            <p:ajax event="rowEditCancel" listener="#{displayPlannedOrderDeliveryAmountAndDate.onRowCancel}" update=":formMain:messages" />
 
 
                             <p:column headerText="Delivery Date">
                                 <p:cellEditor>
-                                    <f:facet name="output"><p:calendar value="#{deliveryOrder.deliveryDate}" /></f:facet>
-                                    <f:facet name="input"><p:calendar value="#{deliveryOrder.deliveryDate}" style="width:100%" label="deliveryDate" mask="true" pattern="dd/MM/YYYY"/></f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{deliveryOrder.deliveryDate}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input"><p:calendar value="#{deliveryOrder.deliveryDate}" style="width:100%" label="deliveryDate" mask="true" pattern="dd/MM/yyyy"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
                             <p:column headerText="Amount ">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{deliveryOrder.amount}" /></f:facet>
-                                    <f:facet name="input"><p:calendar value="#{deliveryOrder.amount}" style="width:100%" label="deliveryAmount"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{deliveryOrder.amount}" style="width:100%" label="deliveryAmount"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
@@ -122,18 +90,11 @@
                                 <p:rowEditor />
                             </p:column>
 
-                            <p:summaryRow> 
-                                <p:column style="text-align:right">
-                                    <h:outputText value="Total Purchase Amount:" />
-                                </p:column>
-                                <p:column>
-                                    <h:outputText value="#{displayPlannedOrderDeliveryAmountAndDate.purchaseAmount}">
-                                    </h:outputText>
-                                </p:column>
-                            </p:summaryRow>
                         </p:dataTable>
+                        <h:outputText value="Total Purchase Amount: #{displayPlannedOrderDeliveryAmountAndDate.purchaseAmount}" 
+                                      style="font-weight: bold;font-size:150%;" />
 
-                        <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.passValue()}" value="Comfirm"/>
+                        <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.passValue()}" value="Confirm" />
                     </p:panel>
                 </p:layoutUnit>
             </p:layout>

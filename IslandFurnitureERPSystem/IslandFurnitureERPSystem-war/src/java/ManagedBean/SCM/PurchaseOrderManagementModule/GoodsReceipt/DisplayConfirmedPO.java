@@ -8,6 +8,7 @@ package ManagedBean.SCM.PurchaseOrderManagementModule.GoodsReceipt;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import ManagedBean.SCM.PurchaseOrderManagementModule.DisplayDeliveryDestinationForManuallyGeneratedPO;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class DisplayConfirmedPO {
+public class DisplayConfirmedPO implements Serializable{
 
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
@@ -34,7 +35,7 @@ public class DisplayConfirmedPO {
     @PostConstruct
     public void init() {
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             purchaseOrderList = pmb.viewConfirmedPurchaseOrder(factoryId);
         } catch (Exception ex) {
             Logger.getLogger(DisplayDeliveryDestinationForManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,7 +64,7 @@ public class DisplayConfirmedPO {
 
     public String displayDestination() {
 
-        return "/secured/restricted/Factory/SCM/DisplaySuppliersForManuallyGeneratedPO/DisplayConfirmedPO?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayConfirmedPO?faces-redirect=true";
     }
 
 }

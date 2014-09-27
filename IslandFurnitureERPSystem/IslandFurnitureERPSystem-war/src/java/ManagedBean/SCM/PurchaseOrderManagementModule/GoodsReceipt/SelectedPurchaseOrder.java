@@ -6,8 +6,6 @@
 package ManagedBean.SCM.PurchaseOrderManagementModule.GoodsReceipt;
 
 import Entity.Factory.SCM.PurchaseOrderEntity;
-import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -19,9 +17,6 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "selectedPurchaseOrder")
 @ViewScoped
 public class SelectedPurchaseOrder {
-
-    @EJB
-    private PurchaseOrderManagementModuleLocal pmb;
 
     private PurchaseOrderEntity selectedPO;
 
@@ -38,9 +33,10 @@ public class SelectedPurchaseOrder {
 
     public String passValue() throws Exception {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPO", selectedPO);
-        if (selectedPO.getDeliveryDate() != null) {
-            pmb.generateGoodsRecipt(selectedPO.getId());
-            return "/secured/restricted/Factory/SCM/WorkPlace?faces-redirect=true";
+        if (selectedPO.getDeliveryOrderList().isEmpty()) {
+            System.out.println("getDeliveryOrderList" + selectedPO.getDeliveryOrderList().toString());
+
+            return "/secured/public/WorkPlace?faces-redirect=true";
         } else {
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO?faces-redirect=true";
         }

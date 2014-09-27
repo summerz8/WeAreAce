@@ -7,6 +7,7 @@ package ManagedBean.SCM.PurchaseOrderManagementModule.ReferenceToIPO;
 
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -18,23 +19,11 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "selectedIntegratedPlannedOrder")
 @ViewScoped
-public class SelectedIntegratedPlannedOrder {
+public class SelectedIntegratedPlannedOrder implements Serializable{
 
-    @EJB
-    private PurchaseOrderManagementModuleLocal pmb;
-
-    private Long factoryId;
     private IntegratedPlannedOrderEntity selectedIPO;
 
     public SelectedIntegratedPlannedOrder() {
-    }
-
-    public Long getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(Long factoryId) {
-        this.factoryId = factoryId;
     }
 
     public IntegratedPlannedOrderEntity getSelectedIPO() {
@@ -47,6 +36,6 @@ public class SelectedIntegratedPlannedOrder {
 
     public String passValue() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedIPO", this.selectedIPO);
-        return "secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplaySuppliersForIPO?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplaySuppliersForIPO?faces-redirect=true";
     }
 }

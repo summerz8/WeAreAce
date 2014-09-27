@@ -19,6 +19,7 @@ import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
@@ -30,6 +31,7 @@ import Entity.Factory.RetailProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.InFactoryMovementEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import java.text.ParseException;
@@ -1098,8 +1100,31 @@ public class Test {
         em.flush();
 
         
-
-
-
+        //Shiyu Purchase Order
+        PurchaseOrderEntity purchaseOrder1;
+      
+        purchaseOrder1 = new PurchaseOrderEntity("unconfirmed" , 1D , "unit", Calendar.getInstance(),
+                "factory", 1L, 1, 1D, f1, ct1, Calendar.getInstance());
+        em.persist(purchaseOrder1);
+        f1.getPurchaseOrders().add(purchaseOrder1);
+        em.flush();
+        PurchaseOrderEntity purchaseOrder2;
+        purchaseOrder2 = new PurchaseOrderEntity("confirmed" , 2D , "unit", Calendar.getInstance(),
+                "factory", 2L, 2, 2D, f1, ct1, Calendar.getInstance());
+        em.persist(purchaseOrder2);
+        f1.getPurchaseOrders().add(purchaseOrder2);
+        em.flush(); 
+        
+        //Shiyu Inventory Record 
+        Calendar irCal = Calendar.getInstance();
+        irCal.set(2014, 8, 1);
+        InventoryRecordEntity ir1 = new InventoryRecordEntity(irCal, 10D, frm1, null, null);
+        frm1.getInventoryRecord().add(ir1);
+        
+        Calendar irCal2 = Calendar.getInstance();
+        irCal2.set(2014, 7, 1);
+        InventoryRecordEntity ir2 = new InventoryRecordEntity(irCal2, 10D, frm1, null, null);
+        frm1.getInventoryRecord().add(ir2);
+        
     }
 }

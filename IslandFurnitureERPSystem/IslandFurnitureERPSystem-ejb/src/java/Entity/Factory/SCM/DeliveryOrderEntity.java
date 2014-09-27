@@ -28,7 +28,7 @@ public class DeliveryOrderEntity implements Serializable {
     private Long id;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar deliveryDate;
+    private Calendar deliveryDate = Calendar.getInstance();
     private Double amount = 0D;
     private String status = "waiting";//waiting, fulfilled
     

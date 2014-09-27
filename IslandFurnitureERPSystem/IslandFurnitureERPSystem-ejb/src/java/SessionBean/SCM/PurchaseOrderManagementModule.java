@@ -34,7 +34,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -328,11 +327,11 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //5. Select date and amount for goods receipt
     @Override
     public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount) throws Exception {
-        System.out.println("getDeliveryAmount():");
+        System.out.println("SessionBean: getDeliveryAmount():");
 
         Collection<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
         try {
-            System.out.println("getDeliveryAmount:()  1");
+            System.out.println("Session Bean: getDeliveryAmount:()  1");
             IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
             Calendar period = integratedPlannedOrder.getTargetPeriod();
             Double amount;
@@ -396,6 +395,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     }
                     weeklyDemand = amount / daysInMonth * workingDayInWeek;
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    
+
                     deliveryOrder.setDeliveryDate(cal5.getTime());
 
                     deliveryOrder.setAmount(weeklyDemand);
@@ -413,7 +414,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     em.persist(deliveryOrder);
                     em.flush();
                     deliveryOrderList.add(deliveryOrder);
-
                     cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
 
                 } else if (a == 2) {
@@ -511,15 +511,14 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             ContractEntity contract = em.find(ContractEntity.class, contractId);
             //status
-            String status = "Unconfirmed";
+            String status = "unconfirmed";
             //unit
             String unit = contract.getUnit();
 
             //destination and destinationId
             Long destinationId = null;
 
-            if (destination.equals(
-                    "store")) {
+            if (destination.equals("store")) {
                 StoreEntity store = em.find(StoreEntity.class, storeId);
                 destination = store.getAddress();
                 destinationId = store.getStoreId();
@@ -553,21 +552,19 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     @Override
     public List<IntegratedPlannedOrderEntity> viewWaitingIntegratedPlannedOrder(Long factoryId) throws Exception {
         System.out.println("viewWaitingIntegratedPlannedOrder():");
+
         List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList<>();
         List<IntegratedPlannedOrderEntity> waitingIntegratedPlannedOrderList = new ArrayList<>();
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            System.out.println("Factory = " + factory.toString());
             integratedPlannedOrderList = factory.getIntegratedPlannedOrders();
-            Iterator iterator = integratedPlannedOrderList.iterator();
-
-            while (iterator.hasNext()) {
-                Object obj = iterator.next();
-                IntegratedPlannedOrderEntity integratedPlannedOrder = (IntegratedPlannedOrderEntity) obj;
-
+            for (IntegratedPlannedOrderEntity ipo : integratedPlannedOrderList) {
                 //check whether this intergrated planned order is in waiting status
-                if (integratedPlannedOrder.getStatus().equals("waiting")) {
-                    waitingIntegratedPlannedOrderList.add(integratedPlannedOrder);
+                if (ipo.getStatus().equals("waiting")) {
+                    System.out.println(ipo.toString());
+                    waitingIntegratedPlannedOrderList.add(ipo);
                 }
             }
         } catch (Exception ex) {
@@ -632,11 +629,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 FactoryRetailProductAmountEntity factoryRetailProductAmount = integratedPlannedOrder.getFactoryRetailProductAmount();
                 FactoryRetailProductEntity factoryRetailProduct = factoryRetailProductAmount.getFactoryRetailProduct();
                 Collection<ContractEntity> contractList = factoryRetailProduct.getContracts();
-                Iterator iterator = contractList.iterator();
-
-                while (iterator.hasNext()) {
-                    ContractEntity contract = (ContractEntity) iterator.next();
-
+                for (ContractEntity contract : contractList) {
                     if (!isExpired(contract)) {//check unexpired contract
                         SupplierEntity supplier = contract.getSupplier();
                         availSupplierList.add(supplier);
@@ -679,6 +672,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                         monthBeginInventory = inventoryRecord.getAmount();
                     }
                 }
+
+                System.out.println("monthBeginInventory = " + monthBeginInventory);
                 plannedOrderAmount = integratedPlannedOrder.getFactoryRawMaterialAmount().getAmount();
 
             } else {//itemType.equals("RetailProduct")
@@ -696,6 +691,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                         monthBeginInventory = inventoryRecord.getAmount();
                     }
                 }
+                System.out.println("monthBeginInventory = " + monthBeginInventory);
+
                 plannedOrderAmount = integratedPlannedOrder.getFactoryRetailProductAmount().getAmount();
             }
             purchaseAmount = plannedOrderAmount + (nextMonthBeginPlannedAmount - monthBeginInventory);
@@ -763,10 +760,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            System.out.println("factoryId = " + factoryId);
             purchaseOrderList = factory.getPurchaseOrders();
             for (PurchaseOrderEntity po : purchaseOrderList) {
-                //check whether this intergrated planned order is in waiting status
-                if (po.getStatus().toLowerCase().equals("unconfirmed")) {
+                //get the unconfirmed purchase order
+                if (po.getStatus().equals("unconfirmed")) {
+                    System.out.println("SB: Purchase Order = " + po.toString());
                     unconfirmedPurchaseOrderList.add(po);
                 }
             }
@@ -855,14 +854,14 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //8. Confirm purchase order
     //only be factory manager
     @Override
-    public String confirmPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception {
+    public String confirmPurchaseOrder(String userId, Long purchaseOrderId) throws Exception {
         System.out.println("confirmPurchaseOrder");
         String result = null;
-
         try {
             UserEntity user = em.find(UserEntity.class, userId);
-            if (!user.getUserLevel().equals(1)) {
+            if (user.getUserLevel().intValue() > 1) {
                 result = "\"Confirm Purchase Order\" Permission Denied.";
+                System.out.println(result);
                 return result;
             }
 
@@ -879,17 +878,18 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
+        System.out.println("Result = " + result);
         return result;
     }
 
     @Override
-    public String cancelPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception {
+    public String cancelPurchaseOrder(String userId, Long purchaseOrderId) throws Exception {
         System.out.println("cancelPurchaseOrder");
         String result = null;
 
         try {
             UserEntity user = em.find(UserEntity.class, userId);
-            if (!user.getUserLevel().equals(1)) {
+            if (user.getUserLevel().intValue() > 1) {
                 result = "\"Confirm Purchase Order\" Permission Denied.";
                 return result;
             }

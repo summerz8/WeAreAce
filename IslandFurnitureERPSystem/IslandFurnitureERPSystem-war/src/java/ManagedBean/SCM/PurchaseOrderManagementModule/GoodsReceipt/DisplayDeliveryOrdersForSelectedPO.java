@@ -63,20 +63,20 @@ public class DisplayDeliveryOrdersForSelectedPO {
         this.selectedDO = selectedDO;
     }
 
-    
     public DisplayDeliveryOrdersForSelectedPO() {
     }
-    
-    public String fulfillDO(DeliveryOrderEntity selectedDO){
+
+    public String fulfillDO(DeliveryOrderEntity selectedDO) {
         try {
             this.selectedDO = selectedDO;
-            
             result = pmb.generateGoodsReciptForDeliveryOrders(po.getDestinationId(), this.selectedDO.getId());
-            
-            
+
         } catch (Exception ex) {
             Logger.getLogger(DisplayDeliveryOrdersForSelectedPO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
+
         return "/secured/public/WorkPlace.xhtml";
     }
 
