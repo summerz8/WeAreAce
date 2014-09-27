@@ -43,5 +43,7 @@ public interface InternalUserAccountManagementModuleLocal {
     public void changePass(String newPass, String userId);
 
     public List<UserEntity> ListFactoryUser(Long id);
+
+    public List<UserEntity> ListStoreUser(Long id);
     
 }

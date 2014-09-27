@@ -707,9 +707,9 @@ public class Test {
    
         
         
-        StoreEntity store1=new StoreEntity();store1.setAddress("Singapore");store1.setContact("88888888");store1.setCountry("Singapore");store1.setManager("Zhen Yuan");
-        StoreEntity store2=new StoreEntity();store1.setAddress("Singapore");store1.setContact("66666666");store1.setCountry("Singapore");store1.setManager("Zhang Shiyu");
-        StoreEntity store3=new StoreEntity();store1.setAddress("Singapore");store1.setContact("11111111");store1.setCountry("Singapore");store1.setManager("Zhao Mengdan");
+        StoreEntity store1=new StoreEntity();store1.setAddress("Singapore");store1.setContact("88888888");store1.setCountry("Singapore");store1.setManager("Zhen Yuan");store1.setDeleteFlag(Boolean.FALSE);
+        StoreEntity store2=new StoreEntity();store2.setAddress("Singapore");store2.setContact("66666666");store2.setCountry("Singapore");store2.setManager("Zhang Shiyu");store2.setDeleteFlag(Boolean.FALSE);
+        StoreEntity store3=new StoreEntity();store3.setAddress("Singapore");store3.setContact("11111111");store3.setCountry("Singapore");store3.setManager("Zhao Mengdan");store3.setDeleteFlag(Boolean.FALSE);
         
         em.persist(store1);em.flush();
         em.persist(store2);em.flush();

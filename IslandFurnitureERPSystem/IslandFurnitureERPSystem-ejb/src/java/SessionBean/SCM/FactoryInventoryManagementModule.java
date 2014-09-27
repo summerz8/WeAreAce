@@ -804,7 +804,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-            return -4L;
+            return -3L;
         }
 
     }
