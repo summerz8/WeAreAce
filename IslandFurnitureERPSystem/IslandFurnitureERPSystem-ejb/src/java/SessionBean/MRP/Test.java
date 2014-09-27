@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.UserEntity;
@@ -84,7 +85,7 @@ public class Test {
         em.persist(u);
         em.flush();
         
-        UserEntity u2 = new HQUserEntity("F", "1000001", 0,
+        UserEntity u2 = new FactoryUserEntity("F", "1000001", 0,
                 "Zhang", null, "Shiyu", "Factory Manager", birthday, "Female", null, null, null, null, 1L, cryptographicHelper.doMD5Hashing("123"), false);    
         em.persist(u2);
         em.flush();
