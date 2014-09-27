@@ -13,13 +13,10 @@ import Entity.Factory.FactoryRetailProductEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -30,10 +27,6 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "InFactoryMovement")
 public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implements Serializable {
-
-    // the time need to physically transfer is omitted 
-    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
-    private EntityManager em;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -140,115 +133,44 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
     }
 
     //pre-cond: availability check
-    public void recordInFactoryRawMaterialMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+    public void recordInFactoryRawMaterialMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity, Calendar creationDate) {
         this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
-        this.setToBin(toBin);
+        this.setToBin(factoryToBinStoredProduct.getFactoryBin());
         this.setFactoryRawMaterial(factoryFromBinStoredProduct.getFactoryRawMaterial());
         this.setStockTypeIndicator(1);
         this.setQuantity(quantity);
         this.setCreationDate(creationDate);
-        updateFactoryBinStoredFactoryRawMaterial(factoryFromBinStoredProduct, toBin, quantity);
+        updateFactoryBinStoredProduct(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity);
     }
 
     //pre-cond: availability check
-    public void recordInFactoryProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+    public void recordInFactoryProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity, Calendar creationDate) {
         this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
-        this.setToBin(toBin);
+        this.setToBin(factoryToBinStoredProduct.getFactoryBin());
         this.setFactoryProduct(factoryFromBinStoredProduct.getFactoryProduct());
         this.setStockTypeIndicator(2);
         this.setQuantity(quantity);
         this.setCreationDate(creationDate);
-        updateFactoryBinStoredFactoryProduct(factoryFromBinStoredProduct, toBin, quantity);
+        updateFactoryBinStoredProduct(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity);
     }
-    
+
     //pre-cond: availability check
-    public void recordInFactoryRetailProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity, Calendar creationDate) {
+    public void recordInFactoryRetailProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity, Calendar creationDate) {
         this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
-        this.setToBin(toBin);
+        this.setToBin(factoryToBinStoredProduct.getFactoryBin());
         this.setFactoryRetailProduct(factoryFromBinStoredProduct.getFactoryRetailProduct());
         this.setStockTypeIndicator(3);
         this.setQuantity(quantity);
         this.setCreationDate(creationDate);
-        updateFactoryBinStoredFactoryRetailProduct(factoryFromBinStoredProduct, toBin, quantity);
+        updateFactoryBinStoredProduct(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity);
     }
-    
-    private void updateFactoryBinStoredFactoryRawMaterial(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity) {
+
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity) {
         try {
             factoryFromBinStoredProduct.decreaseQuantity(quantity);
-            em.flush();
-            
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :status");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryRawMaterial", factoryFromBinStoredProduct.getFactoryRawMaterial());
-            q.setParameter("status", factoryFromBinStoredProduct.getStatus());
-
-            if(q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRawMaterial(), toBin, factoryFromBinStoredProduct.getStatus());
-                factoryToBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryToBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryToBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
-            }     
-   
+            factoryToBinStoredProduct.increaseQuantity(quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredFactoryRawMaterial(): Caught an unexpected exception.");
-            ex.printStackTrace();
-        }
-    }
-    
-    private void updateFactoryBinStoredFactoryProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity) {
-        try {
-            factoryFromBinStoredProduct.decreaseQuantity(quantity);
-            em.flush();
-            
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :status");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryProduct", factoryFromBinStoredProduct.getFactoryProduct());
-            q.setParameter("status", factoryFromBinStoredProduct.getStatus());
-
-            if(q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryProduct(), toBin, factoryFromBinStoredProduct.getStatus());
-                factoryToBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryToBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryToBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
-            }     
-   
-        } catch (Exception ex) {
-            System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception.");
-            ex.printStackTrace();
-        }
-    }
-    
-    private void updateFactoryBinStoredFactoryRetailProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinEntity toBin, double quantity) {
-        try {
-            factoryFromBinStoredProduct.decreaseQuantity(quantity);
-            em.flush();
-            
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = :status");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryRawMaterial", factoryFromBinStoredProduct.getFactoryRetailProduct());
-            q.setParameter("status", factoryFromBinStoredProduct.getStatus());
-
-            if(q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRetailProduct(), toBin, factoryFromBinStoredProduct.getStatus());
-                factoryToBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryToBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryToBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
-            }     
-   
-        } catch (Exception ex) {
-            System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception.");
             ex.printStackTrace();
         }
     }

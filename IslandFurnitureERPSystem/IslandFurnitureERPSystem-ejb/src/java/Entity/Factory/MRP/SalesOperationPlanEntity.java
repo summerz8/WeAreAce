@@ -35,6 +35,7 @@ public class SalesOperationPlanEntity implements Serializable {
     private Double plannedEndMonthInventory;
     private Integer workingDay;
     private String status;
+    private Double plannedProductionPlanQuantity;
     
     // factory product entity --- sales operation plan entity   1 <--- M
     @ManyToOne
@@ -116,6 +117,14 @@ public class SalesOperationPlanEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Double getPlannedProductionPlanQuantity() {
+        return plannedProductionPlanQuantity;
+    }
+
+    public void setPlannedProductionPlanQuantity(Double plannedProductionPlanQuantity) {
+        this.plannedProductionPlanQuantity = plannedProductionPlanQuantity;
     }
     
     

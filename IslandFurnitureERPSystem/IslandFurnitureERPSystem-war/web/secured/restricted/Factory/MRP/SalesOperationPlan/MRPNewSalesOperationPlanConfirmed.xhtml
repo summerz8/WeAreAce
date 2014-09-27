@@ -54,14 +54,14 @@
 
                     <p:menu>
                         <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
-                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
-                       </p:submenu>
+                            <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                            <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                            <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                            <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                            <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                            <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                            <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                        </p:submenu>
                     </p:menu>
 
 
@@ -72,15 +72,13 @@
                             <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan" >
                             </p:commandButton>
 
-                            <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" >
-                            </p:button>
-
-
+                            <p:commandButton  id = "back" value="Back" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{viewNewSalesOperationPlanBean.Back()}" >
+                            </p:commandButton>
                             <br></br>
                             <br></br>
                             <p:panel id="basic" header="Create New Operation Plan For Product" style="margin-bottom" >
 
-                                <h:outputText value="You have successfully created the operation plan #{viewNewSalesOperationPlanBean.salesOperationPlan.id} and the corresponding production plan #{viewNewSalesOperationPlanBean.salesOperationPlan.productionPlan.productionPlanId} ."  />
+                                <h:outputText value="The new operation plan #{viewNewSalesOperationPlanBean.salesOperationPlan.id} is created/updated"   />
                                 <br></br>
                                 <br></br>
 
@@ -89,7 +87,7 @@
 
                                     <p:outputLabel for="TargetMonth" value="Target Month" />
                                     <h:outputText id="TargetMonth" value="#{viewNewSalesOperationPlanBean.salesOperationPlan.targetPeriod.getTime()}"  > 
-                                        <f:convertDateTime pattern="MM/yyyy"/>  
+                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
                                     </h:outputText>                                                                    
 
                                     <p:outputLabel for="SalesForecast" value="Sales Forcast" />
@@ -97,7 +95,7 @@
 
 
                                     <p:outputLabel for="Production" value="Production Plan Quantity" />                                                                    
-                                    <h:outputText id="Production"  value="#{viewNewSalesOperationPlanBean.salesOperationPlan.productionPlan.quantity}"   />
+                                    <h:outputText id="Production"  value="#{viewNewSalesOperationPlanBean.salesOperationPlan.plannedProductionPlanQuantity}"   />
 
 
                                     <p:outputLabel for="Inventory" value="Planned End of Month Inventory" />

@@ -98,7 +98,21 @@
                             </p:column>
 
                             <p:column headerText="Integration" >
-                                <p:commandButton  value="Integrate" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:left" action="#{integrateSalesForecast.integrate(factoryProductList.factoryProductId)}" >
+                                <p:commandButton  value="Integrate" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:left" action="#{integrateSalesForecast.integrateFactoryProduct(factoryProductList.factoryProductId)}" >
+                                </p:commandButton>
+                            </p:column>
+
+
+                        </p:dataTable> 
+                        
+                        <p:dataTable var="factoryRetailProductList" value="#{integrateSalesForecast.factoryRetailProductList}">
+
+                            <p:column headerText="Factory Product Id">
+                                <h:outputText value="#{factoryRetailProductList.factoryRetailProdctId}" />
+                            </p:column>
+
+                            <p:column headerText="Integration" >
+                                <p:commandButton  value="Integrate" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:left" action="#{integrateSalesForecast.integrateFactoryRetailProduct(factoryRetailProductList.factoryRetailProdctId)}" >
                                 </p:commandButton>
                             </p:column>
 

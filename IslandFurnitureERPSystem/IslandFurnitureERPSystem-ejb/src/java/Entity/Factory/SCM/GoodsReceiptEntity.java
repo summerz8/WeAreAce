@@ -66,12 +66,12 @@ public class GoodsReceiptEntity implements Serializable {
         this.createDate = createDate;
     }
 
-    public PurchaseOrderEntity getPurchaseOder() {
+    public PurchaseOrderEntity getPurchaseOrder() {
         return purchaseOrder;
     }
 
-    public void setPurchaseOder(PurchaseOrderEntity purchaseOder) {
-        this.purchaseOrder = purchaseOder;
+    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
     public Collection<InboundMovementEntity> getInboundMovements() {

@@ -13,13 +13,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -32,13 +29,10 @@ import javax.persistence.Temporal;
 // only for unrestrictd stock
 public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements Serializable {
 
-    @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
-    private EntityManager em;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long InboundMovementId;
+    private Long inboundMovementId;
 
     //goods receipt entity -- inbound movements: 1 <--> M (from which corresponding goods receipt)
     @ManyToOne(cascade = {CascadeType.PERSIST})
@@ -65,11 +59,11 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
     }
 
     public Long getInboundMovementId() {
-        return InboundMovementId;
+        return inboundMovementId;
     }
 
     public void setInboundMovementId(Long InboundMovementId) {
-        this.InboundMovementId = InboundMovementId;
+        this.inboundMovementId = InboundMovementId;
     }
 
     public GoodsReceiptEntity getFromGoodsRecipt() {
@@ -138,95 +132,52 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
 
     // assumption: the inbound goods is unrestricted
     // changes need further modification
-    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, String status, double quantity, Calendar creationDate) {
+    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity, Calendar creationDate) {
         this.fromGoodsRecipt = goodsRecipt;
-        this.toBin = toBin;
-        this.factoryRawMaterial = factoryRawMaterial;
-        this.stockTypeIndicator = 1;
+        this.toBin = factoryBinStoredProduct.getFactoryBin();
+        this.status = factoryBinStoredProduct.getStatus();
+        if (factoryBinStoredProduct.getFactoryRawMaterial() != null) {
+            this.factoryRawMaterial = factoryBinStoredProduct.getFactoryRawMaterial();
+            this.stockTypeIndicator = 1;
+        } else {
+            this.factoryRetailProduct = factoryBinStoredProduct.getFactoryRetailProduct();
+            this.stockTypeIndicator = 3;
+        }
         this.quantity = quantity;
         this.creationDate = creationDate;
-        updateFactoryBinStoredProduct(toBin, factoryRawMaterial, status, quantity);
-        updateFactoryRawMaterial(factoryRawMaterial, status, quantity);
+        updateFactoryBinStoredProduct(factoryBinStoredProduct, quantity);
+        updateFactoryStock(factoryBinStoredProduct, quantity);
     }
 
-    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, String status, double quantity, Calendar creationDate) {
-        this.setFromGoodsRecipt(goodsRecipt);
-        this.setToBin(toBin);
-        this.setFactoryRetailProduct(factoryRetailProduct);
-        this.setStockTypeIndicator(3);
-        this.setStatus(status);
-        this.setQuantity(quantity);
-        this.setCreationDate(creationDate);
-        updateFactoryBinStoredProduct(toBin, factoryRetailProduct, status, quantity);
-        updateFactoryRetailProduct(factoryRetailProduct, status, quantity);
-    }
-
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRawMaterialEntity factoryRawMaterial, String status, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :status");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryRawMaterial", factoryRawMaterial);
-            q.setParameter(status, status);
-
-            if (q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRawMaterial, toBin, status);
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryBinStoredProduct);
-            } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
-            }
+            factoryBinStoredProduct.increaseQuantity(quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();
         }
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinEntity toBin, FactoryRetailProductEntity factoryRetailProduct, String status, double quantity) {
+    private void updateFactoryStock(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
         try {
-            Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProduct fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'unrestricted'");
-            q.setParameter("toBin", toBin);
-            q.setParameter("factoryRetailProduct", factoryRetailProduct);
-            q.setParameter(status, status);
-
-            if (q.getResultList() == null) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, status);
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.persist(factoryBinStoredProduct);
+            if (factoryBinStoredProduct.getFactoryRawMaterial() != null) {
+                FactoryRawMaterialEntity factoryRawMaterial = factoryBinStoredProduct.getFactoryRawMaterial();
+                if(factoryBinStoredProduct.getStatus().equals("unrestricted")) {
+                    factoryRawMaterial.setUnrestrictedInventory(factoryRawMaterial.getUnrestrictedInventory() + quantity);
+                } else {
+                    factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
+                }
             } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
-                factoryBinStoredProduct.increaseQuantity(quantity);
-                em.flush();
+                FactoryRetailProductEntity factoryRetailProduct = factoryBinStoredProduct.getFactoryRetailProduct();
+                if(factoryBinStoredProduct.getStatus().equals("unrestricted")) {
+                    factoryRetailProduct.setUnrestrictedInventory(factoryRetailProduct.getUnrestrictedInventory() + quantity);
+                } else {
+                    factoryRetailProduct.setBlockedInventory(factoryRetailProduct.getBlockedInventory() + quantity);
+                }
             }
         } catch (Exception ex) {
-            System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception.");
+            System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();
-        }
-    }
-
-    private void updateFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial, String status, double quantity) {
-        if (status.equals("unrestricted")) {
-            factoryRawMaterial.setUnrestrictedInventory(factoryRawMaterial.getUnrestrictedInventory() + quantity);
-            em.flush();
-        } else {
-            factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
-            em.flush();
-        }
-    }
-
-    private void updateFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct, String status, double quantity) {
-        if (status.equals("unrestricted")) {
-            factoryRawMaterial.setUnrestrictedInventory(factoryRawMaterial.getUnrestrictedInventory() + quantity);
-            em.flush();
-        } else if (status.equals("blocked")) {
-            factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
-            em.flush();
-        } else {
-            factoryRawMaterial.setBlockedInventory(factoryRawMaterial.getBlockedInventory() + quantity);
-            em.flush();
         }
     }
 

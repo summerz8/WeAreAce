@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-          
+
       xmlns:p="http://primefaces.org/ui">
     <f:view>
         <h:head>
@@ -81,10 +81,34 @@
                                     <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
                                     <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
 
-                                    
-                                    <p:menuitem value="Manage Purchase Order" action="null"/>
                                 </p:submenu>
+                                <p:submenu label="Document Reference">
+                                    <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
+                                    <p:menuitem value="Planned Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder?faces-redirect=true" />
+                                    <p:menuitem value="Production Plan" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/ProductionPlan?faces-redirect=true" />
+                                    <p:menuitem value="Blocked Stock" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/BlockedStock?faces-redirect=true" />
+                                    <p:menuitem value="Returned Stock" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/ReturnedStock?faces-redirect=true" />
+                                    <p:menuitem value="Goods Receipt" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/GoodsReceipt?faces-redirect=true" />
+                                    <p:menuitem value="Contract" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Contract?faces-redirect=true" />
+                                    <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
+                                </p:submenu>
+
+                                <p:submenu label="Factory Inventory Management">
+                                    <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
+                                    <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
+                                    <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
+                                    <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
+                                    <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
+                                    <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
+                                    <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
+                                </p:submenu>
+
+                                <p:submenu label="Raw Material Monitoring">
+                                    <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
+                                    <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
+                                </p:submenu>    
                             </p:submenu>
+                            
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
                             </p:submenu>
@@ -101,6 +125,7 @@
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="User Information Page" style="margin-bottom" >
                             <h:panelGrid columns="2" cellpadding="10">
+
 
                             </h:panelGrid>
                         </p:panel>

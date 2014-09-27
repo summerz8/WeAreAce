@@ -8,6 +8,7 @@ package Entity.Factory.MRP;
 
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +47,9 @@ public class IntegratedSalesForecastEntity implements Serializable {
     @ManyToOne
     private FactoryEntity factory;
     
+    //factory retail product entity -- integrated sales forecast entity   1 <-- M
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct;
     
     //sales forecast list -- integrated sales forcast   M <-- M
     @ManyToMany(cascade={CascadeType.PERSIST})
@@ -112,6 +116,14 @@ public class IntegratedSalesForecastEntity implements Serializable {
 
     public void setSalesOperationPlan(SalesOperationPlanEntity salesOperationPlan) {
         this.salesOperationPlan = salesOperationPlan;
+    }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProdct) {
+        this.factoryRetailProduct = factoryRetailProdct;
     }
 
     

@@ -67,14 +67,9 @@ public class CreateSalesOperationPlanBean implements Serializable {
     }
     
       public void changeWorkingDays(ValueChangeEvent event) {
-        System.out.println("changeWorkingDay();");
         Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-        System.out.println("changeWorkingDay();"+ newValue.toString());
+        Object newValue = event.getNewValue();      
         workingDays=(Integer) newValue;
-        System.out.println(workingDays);
-        System.out.println(productionPlanQuantity);
-
     }
 
     public void changePlannedEndInventory(ValueChangeEvent event) {
