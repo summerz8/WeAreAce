@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -60,6 +61,7 @@ public class UserInfoManageBean implements Serializable {
     private String inputOldPass;
     private String newPass;
 
+    private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
     /**
      * Creates a new instance of UserInfoPageManageBean
      */
@@ -291,8 +293,9 @@ public class UserInfoManageBean implements Serializable {
         //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
         System.out.println("UserInfoManageBean: change password");
         //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-        System.out.println("UserInfoManageBean: old password" + password);
-        if (inputOldPass.equals(password)) {
+        System.out.println("UserInfoManageBean: old password" + password + " and input password "+inputOldPass +" and new pass "+newPass);
+        if (cryptographicHelper.doMD5Hashing(inputOldPass).equals(password)) {
+            //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
             IUMA.changePass(newPass, userId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Password changed successfully!", ""));
@@ -302,6 +305,7 @@ public class UserInfoManageBean implements Serializable {
         }
         
         inputOldPass = null;
+        password = IUMA.getUser(userId).getPwd();
 
     }
 }

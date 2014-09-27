@@ -13,10 +13,12 @@ import Entity.CommonInfrastructure.UserEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -27,6 +29,8 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
 
     @PersistenceContext
     private EntityManager em;
+    
+    private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
 
     public InternalUserAccountManagementModule() {
     }
@@ -45,7 +49,28 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         StoreUserEntity Suser;
         HQUserEntity HQuser;
 
+        String PWD;
+        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 8; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+
+        PWD = sb.toString();
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("IMPORTANT!!!: password before hashing: "+ PWD +" Please remember this!");  
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+        
+        String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
+        
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
+        
 
         switch (department.charAt(0)) {
             case 'H':
@@ -53,7 +78,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_H((long) idNumber);
                 HQuser = new HQUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, false, 1000001);
+                        title, address, postalCode, email, 1L, hashedpwd, false);
                 em.persist(HQuser);
                 System.out.println("User H" + idNumber.toString() + "created!");
                 break;
@@ -62,7 +87,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_F((long) idNumber);
                 Fuser = new FactoryUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, departmentId, false);
+                        title, address, postalCode, email, departmentId, hashedpwd, false);
                 em.persist(Fuser);
                 System.out.println("User F" + idNumber.toString() + "created!");
                 break;
@@ -71,7 +96,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_S((long) idNumber);
                 Suser = new StoreUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, departmentId, false);
+                        title, address, postalCode, email, departmentId,hashedpwd, false);
                 em.persist(Suser);
                 System.out.println("User S" + idNumber.toString() + "created!");
                 break;
@@ -123,7 +148,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 System.out.println("IUAM: modify HQ User");
                 HQUserEntity HQUser = em.find(HQUserEntity.class, userId);
                 HQUser.editHQUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, Boolean.FALSE, 1000001);
+                        firstName, position, birthday, gender, title, address, postalCode, email, Boolean.FALSE, 1L);
                 System.out.println("IUAM: ModifyStaff: HQUser: birthday " + HQUser.getBirthday().getTime().toString());
                 em.persist(HQUser);
                 em.flush();
@@ -197,8 +222,9 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void changePass(String newPass, String userId) {
         System.out.println("InternalUserAccountModule: change password: ");
+        System.out.println("IMPORTANT!!!: IUAM: New password before hashing: "+ newPass +" Just for check!");        
         UserEntity user = em.find(UserEntity.class, userId);
-        user.setPwd(newPass);
+        user.setPwd(cryptographicHelper.doMD5Hashing(newPass));
         em.persist(user);
         em.flush();
 

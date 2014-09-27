@@ -44,7 +44,7 @@ public class IFManagerBean implements IFManagerBeanRemote{
                     idNum.setId_H((long) idNumber);
                     
                     user = new HQUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, false, departmentId);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
@@ -53,7 +53,7 @@ public class IFManagerBean implements IFManagerBeanRemote{
                     idNumber = (int)idNum.getId_F() + 1;
                     idNum.setId_H((long) idNumber);
                     user = new FactoryUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, false);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
@@ -61,7 +61,7 @@ public class IFManagerBean implements IFManagerBeanRemote{
                     idNumber = (int)idNum.getId_S() + 1;
                     idNum.setId_H((long) idNumber);
                     user = new StoreUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, false);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBs;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -34,6 +35,7 @@ public class AddUserAccountBean implements Serializable {
 
     @EJB
     private InternalUserAccountManagementModuleLocal IUMA;
+    @EJB
     private Factory_StoreManagementModuleLocal FSMM;
 
     private String userId;
@@ -56,6 +58,9 @@ public class AddUserAccountBean implements Serializable {
     private Date birDate;// used to convert birthday between string and calendar
     private String inputOldPass;
     private String newPass;
+
+    private List<Long> departmentList;
+    private List<Integer> userLevelList;
 
     /**
      * Creates a new instance of UserInfoPageManageBean
@@ -235,17 +240,45 @@ public class AddUserAccountBean implements Serializable {
 
     }
 
-//    public List departmentlist() {
-//        if (Department.equals("H")) {
-//           List<String> HQlist = new ArrayList();
-//           HQlist.add("0 HQ");
-//        } else if (Department.equals("F")) {
-//            List<FactoryEntity> factorylist = FSMM.ListFactory();
-//            return factorylist;
-//        } else if (Department.equals("S")) {
-//            List<StoreEntity>  storelist = FSMM.ListStore();
-//        }
-//        
-//    }
+    public List<Long> getDepartmentList() {
+        return departmentList;
+    }
+
+    public void setDepartmentList(List<Long> departmentList) {
+        this.departmentList = departmentList;
+    }
+
+    public List<Integer> getUserLevelList() {
+        return userLevelList;
+    }
+
+    public void setUserLevelList(List<Integer> userLevelList) {
+        this.userLevelList = userLevelList;
+    }
+
+    
+
+    public void onDepartmentChange() {
+        System.out.println("AddUserAccountBean: test1");
+        departmentList = new ArrayList();
+        switch (Department) {
+            case "H":
+                departmentList.add(1L);
+                
+                break;
+            case "F":
+                List<FactoryEntity> factoryList = FSMM.ListFactory();
+                for (FactoryEntity factory : factoryList) {
+                    departmentList.add(factory.getFactoryId());
+                }
+                break;
+            case "S":
+                List<StoreEntity> storelist = FSMM.ListStore();
+                for (StoreEntity store : storelist) {
+                    departmentList.add(store.getStoreId());
+                }
+                break;
+        }
+    }
 
 }

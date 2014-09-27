@@ -2,6 +2,7 @@ package util.security;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
@@ -19,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 
 
-public class CryptographicHelper
+public class CryptographicHelper 
 {
     // Crytographic constants
     private final String DEFAULT_KEYSTORE_TYPE = "JKS";

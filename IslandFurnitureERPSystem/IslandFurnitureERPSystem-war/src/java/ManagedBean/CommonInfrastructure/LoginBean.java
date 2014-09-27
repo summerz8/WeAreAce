@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -39,6 +40,7 @@ public class LoginBean implements Serializable {
     
     private String fullName;
     
+    private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
     public LoginBean() {
 
     }
@@ -121,7 +123,7 @@ public class LoginBean implements Serializable {
         System.out.println("LoginBean: checkLogin:()");
         
         String checkUserId = String.valueOf(userId);
-        String checkPwd = String.valueOf(pwd);
+        String checkPwd = String.valueOf(cryptographicHelper.doMD5Hashing(pwd));
 
         try {
             

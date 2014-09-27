@@ -23,21 +23,21 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
 
-                        
+
                         <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button> 
-                        
+
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
@@ -87,7 +87,7 @@
 
                                 <h:outputLabel for="firstname" value="FirstName *:" />
                                 <p:inputText value="#{newUser.firstName}" required="true" label="text" >
-                                    
+
                                 </p:inputText>
 
 
@@ -99,15 +99,23 @@
                                 <p:inputText value="#{newUser.lastName}" required="true" label="text" />
 
 
+
                                 <h:outputLabel for="department" value="Department: *" />
                                 <p:selectOneMenu id="department" value="#{newUser.department}" required="true">
-                                    <f:selectItems value="#{attr.departments}" var="department" itemLabel="#{departments}" itemValue="#{departments}" />            
+                                    <p:ajax listener="#{newUser.onDepartmentChange}" update="departmentid"/>
+                                    <f:selectItem itemLabel="Select Department" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{attr.departments}" var="department" itemLabel="#{departments}" itemValue="#{departments}"/>            
                                 </p:selectOneMenu>
 
 
-                                <h:outputLabel for="departmentid" value="Department ID: *" />
-                                <p:inputMask id="departmentid" value="#{newUser.departmentId}" required="true" label="text" mask="9"/>
-                                            
+                                <h:outputLabel for="departmentid" value="Department ID: *" />                                
+                                <p:selectOneMenu id="departmentid" value="#{newUser.departmentId}" required="true">
+                                    <f:selectItem itemLabel="Select Department ID" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{newUser.departmentList}" />            
+                                </p:selectOneMenu>
+
+                               
+
                                 <h:outputLabel for="position" value="Position: *" />
                                 <p:inputText value="#{newUser.position}" required="true" label="text" />
 
@@ -130,7 +138,7 @@
 
                                 <h:outputLabel for="birthday" value="Birthday:*" />
                                 <p:calendar id="birthday" value="#{newUser.birDate}" locale="de" navigator="true" pattern="dd-MM-yyyy" />
- 
+
 
                                 <h:outputLabel for="email" value="Email: *" />
                                 <p:inputText value="#{newUser.email}" required="true" label="text" validatorMessage="Invalid email">
