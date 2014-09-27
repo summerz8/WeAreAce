@@ -87,7 +87,7 @@ public class Test {
         }
         UserEntity u = new HQUserEntity("H", "1000001", 0,
                             "Zheng", null, "Yuan", "Global Manager", birthday, "Female", null, null, null, null, 1L, cryptographicHelper.doMD5Hashing("123"), false);
-        u.setPwd(cryptographicHelper.doMD5Hashing("123"));              
+                      
         em.persist(u);
         em.flush();
         
