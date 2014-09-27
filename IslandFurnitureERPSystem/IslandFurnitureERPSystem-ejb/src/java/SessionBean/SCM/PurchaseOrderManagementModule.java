@@ -13,6 +13,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
@@ -22,10 +23,10 @@ import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
+import Entity.Factory.SCM.GoodsReceiptEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
-import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,56 +52,39 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     public PurchaseOrderManagementModule() {
     }
 
-    //1. View an item for purcahse 
-    //pre-con: user select a type of items(RM/RP)
-    //post-con: a list of item of the select type(RM / RP)
     @Override
-    public Collection<Object> viewItemwithSelectType(Long factoryId, String itemType) throws Exception {
-        System.out.println("viewItemwithSelectType():");
-
-        Collection<Object> itemList = new ArrayList<>();
+    public FactoryEntity getFactoryEntity(Long factoryId) throws Exception {
+        FactoryEntity factory = null;
 
         try {
-            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-
-            if (itemType.equals("RawMaterial")) {
-                Collection<FactoryRawMaterialEntity> rawMaterialList = factory.getFactoryRawMaterials();
-                Iterator iterator = rawMaterialList.iterator();
-
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
-                    itemList.add(obj);
-                }
-            } else {// itemType.equals("RetailProduct")
-                Collection<FactoryRetailProductEntity> retailProductList = factory.getFactoryRetailProducts();
-                Iterator iterator = retailProductList.iterator();
-
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
-                    itemList.add(obj);
-                }
-                return itemList;
-            }
+            factory = em.find(FactoryEntity.class, factoryId);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return itemList;
+        return factory;
+    }
+
+    @Override
+    public StoreEntity getStoreEntity(Long storeId) throws Exception {
+        StoreEntity store = null;
+
+        try {
+            store = em.find(StoreEntity.class, storeId);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return store;
     }
 
     //select an item for purchase
     @Override
-    public Object selectItem(String itemType, Long itemId) throws Exception {
-        System.out.println("selectItem():");
+    public FactoryRawMaterialEntity getFactoryRM(Long itemId) throws Exception {
+        System.out.println("getFactoryRM():");
 
         try {
-            if (itemType.equals("RawMaterial")) {
-                FactoryRawMaterialEntity rawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
-                return (Object) rawMaterial;
-            } else {// itemType.equals("RetailProduct")
-                FactoryRetailProductEntity retailProduct = em.find(FactoryRetailProductEntity.class, itemId);
-                return (Object) retailProduct;
-            }
+            FactoryRawMaterialEntity rawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -108,14 +92,87 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return null;
     }
 
+    @Override
+    public FactoryRetailProductEntity getFactoryRP(Long itemId) throws Exception {
+        System.out.println("getFactoryRP():");
+        FactoryRetailProductEntity retailProduct = null;
+        try {
+            retailProduct = em.find(FactoryRetailProductEntity.class, itemId);
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return retailProduct;
+    }
+
+    @Override
+    public ContractEntity getContract(Long contractId) throws Exception {
+        System.out.println("getContract():");
+        ContractEntity contract = null;
+        try {
+            contract = em.find(ContractEntity.class, contractId);
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return contract;
+
+    }
+
+    //1. View an item for purcahse 
+    //RawMaterials
+    @Override
+    public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception {//test works!!
+        System.out.println("Session Bean: viewRawMaterialWithSelectType():");
+        Collection<FactoryRawMaterialEntity> frmList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
+            for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
+                if (!frm.getIsDeleted()) {
+                    frmList.add(frm);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return frmList;
+    }
+
+    //RetailProduct
+    @Override
+    public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception {//test works!!
+        System.out.println("viewRetailProductWithSelectType():");
+        Collection<FactoryRetailProductEntity> frpList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
+            for (FactoryRetailProductEntity frp : factoryRetailProductList) {
+                if (!frp.getIsDeleted()) {
+                    frpList.add(frp);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return frpList;
+    }
+
     //2. Generate purchase amount
     //See 5, Method 2, Step 3 * 
     //3. View and Select Available Supplier(whose contract has not expired)
+    //input factoryItemId and itemType
     @Override
-    public Set<SupplierEntity> viewAvailSupplier(String itemType, Long itemId) throws Exception {
-        System.out.println("viewAvailSupplier():");
+    public Collection<SupplierEntity> viewSupplierForItem(String itemType, Long itemId) throws Exception {
+        System.out.println("SessionBean: viewSupplierForItem():");
 
-        Set<SupplierEntity> supplierList = new HashSet<>();
+        Collection<SupplierEntity> supplierList = new HashSet<>();
 
         try {
             if (itemType.equals("RawMaterial")) {
@@ -126,14 +183,13 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 while (iterator.hasNext()) {
                     Object obj = iterator.next();
                     ContractEntity contract = (ContractEntity) obj;
+                    SupplierEntity supplier = contract.getSupplier();
 
-                    if (!isExpired(contract)) {//check unexpired contract
-                        SupplierEntity supplier = contract.getSupplier();
+                    //check unexpired contract and the supplier has not bean added previous
+                    if (!isExpired(contract) && !supplierList.contains(supplier)) {
                         supplierList.add(supplier);
                     }
                 }
-                return supplierList;
-
             } else {// itemType.equals("RetailProduct")
                 FactoryRetailProductEntity item = em.find(FactoryRetailProductEntity.class, itemId);
                 Collection<ContractEntity> contractList = item.getContracts();
@@ -142,13 +198,13 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 while (iterator.hasNext()) {
                     Object obj = iterator.next();
                     ContractEntity contract = (ContractEntity) obj;
+                    SupplierEntity supplier = contract.getSupplier();
 
-                    if (!isExpired(contract)) {//check unexpired contract
-                        SupplierEntity supplier = contract.getSupplier();
+                    //check unexpired contract and the supplier has not bean added previous
+                    if (!isExpired(contract) && !supplierList.contains(supplier)) {
                         supplierList.add(supplier);
                     }
                 }
-                return supplierList;
             }
 
         } catch (Exception ex) {
@@ -156,6 +212,46 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             ex.printStackTrace();
         }
         return supplierList;
+    }
+
+    @Override
+    public Collection<SupplierEntity> viewSupplierForFactory(Long factoryId) throws Exception {
+        System.out.println("viewAvailSupplier():");
+        Collection<SupplierEntity> availSupplierList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            // add suppleirs for raw materials
+            Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
+            for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
+                Collection<ContractEntity> contractList = frm.getContracts();
+                for (ContractEntity contract : contractList) {
+                    SupplierEntity supplier = contract.getSupplier();
+
+                    //exclude the duplicated and the deleted suppleirs
+                    if (!availSupplierList.contains(supplier) && !supplier.isDeleted()) {
+                        availSupplierList.add(supplier);
+                    }
+                }
+            }
+            //add the suppliers for retail product, some maybe the same as the raw materials
+            Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
+            for (FactoryRetailProductEntity frp : factoryRetailProductList) {
+                Collection<ContractEntity> contractList = frp.getContracts();
+                for (ContractEntity contract : contractList) {
+                    SupplierEntity supplier = contract.getSupplier();
+                    //exclude the duplicated and the deleted supplier 
+                    if (!availSupplierList.contains(supplier) && !supplier.isDeleted()) {
+                        availSupplierList.add(supplier);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+
+        }
+        return availSupplierList;
     }
 
     //select a unexpired contract with given supplier and given raw material
@@ -230,19 +326,170 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //5. Select date and amount for goods receipt
-    public List<DeliveryOrderEntity> getDeliveryAmount(Double purchaseAmount) throws Exception {
+    @Override
+    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount) throws Exception {
         System.out.println("getDeliveryAmount():");
 
-        List<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
+        Collection<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
         try {
-            Calendar beginOfNextMonth = Calendar.getInstance();
-            beginOfNextMonth.add(Calendar.MONTH, 1);
-            beginOfNextMonth.set(Calendar.DAY_OF_MONTH, 1);
+            System.out.println("getDeliveryAmount:()  1");
+            IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
+            Calendar period = integratedPlannedOrder.getTargetPeriod();
+            Double amount;
 
-            //
-            //
-            //
-            //
+            if (integratedPlannedOrder.getFactoryRawMaterialAmount() != null) {
+                amount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, "RawMaterial");
+            } else {
+                amount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, "RetailProduct");
+            }
+
+            Calendar cal1 = Calendar.getInstance();
+            cal1.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH), 1, 0, 0, 0);
+            Calendar cal2 = Calendar.getInstance();
+            cal2.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
+            Integer daysInMonth = 0;
+            System.out.println("getDeliveryAmount:()  2");
+            do {
+                if (cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                    ++daysInMonth;
+                }
+                cal1.add(Calendar.DAY_OF_MONTH, 1);
+
+                System.out.println("getDeliveryAmount:()  3");
+            } while (cal1.getTimeInMillis() < cal2.getTimeInMillis());
+
+            Calendar cal3 = Calendar.getInstance();
+            cal3.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH), 1, 0, 0, 0);
+            Calendar cal4 = Calendar.getInstance();
+            cal4.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
+            Integer week = 0;
+            if (cal3.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                week = -1;
+            }
+            System.out.println("getDeliveryAmount:()  4");
+            do {
+                if (cal3.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || (cal3.getTimeInMillis() == cal4.getTimeInMillis() && cal3.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
+                    week++;
+                }
+                cal3.add(Calendar.DAY_OF_MONTH, 1);
+            } while (cal3.getTimeInMillis() <= cal4.getTimeInMillis());
+            int workingDayInWeek = 1;
+            Double weeklyDemand;
+            Calendar cal5 = Calendar.getInstance();
+            cal5.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH), 1, 0, 0, 0);
+            Calendar cal6 = Calendar.getInstance();
+            cal6.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
+            cal6.add(Calendar.DAY_OF_MONTH, -1);
+            System.out.println("getDeliveryAmount:()  5");
+            for (int a = 0; a < week; a++) {
+                if (a == 0) {
+                    if (cal5.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                        workingDayInWeek = 5;
+                    } else if (cal5.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                        workingDayInWeek = 4;
+                    } else if (cal5.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                        workingDayInWeek = 3;
+                    } else if (cal5.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                        workingDayInWeek = 2;
+                    } else if (cal5.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                        workingDayInWeek = 1;
+                    }
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    deliveryOrder.setDeliveryDate(cal5.getTime());
+
+                    deliveryOrder.setAmount(weeklyDemand);
+                    em.persist(deliveryOrder);
+                    em.flush();
+                    deliveryOrderList.add(deliveryOrder);
+
+                    cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
+                } else if (a == 1) {
+                    workingDayInWeek = 5;
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    deliveryOrder.setDeliveryDate(cal5.getTime());
+                    deliveryOrder.setAmount(weeklyDemand);
+                    em.persist(deliveryOrder);
+                    em.flush();
+                    deliveryOrderList.add(deliveryOrder);
+
+                    cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
+
+                } else if (a == 2) {
+                    workingDayInWeek = 5;
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    deliveryOrder.setDeliveryDate(cal5.getTime());
+
+                    deliveryOrder.setAmount(weeklyDemand);
+                    em.persist(deliveryOrder);
+                    em.flush();
+                    deliveryOrderList.add(deliveryOrder);
+
+                    cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
+
+                } else if (a == 3 && week == 4) {
+                    if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                        workingDayInWeek = 1;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                        workingDayInWeek = 2;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                        workingDayInWeek = 3;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                        workingDayInWeek = 4;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                        workingDayInWeek = 5;
+                    }
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    deliveryOrder.setDeliveryDate(cal5.getTime());
+
+                    deliveryOrder.setAmount(weeklyDemand);
+                    em.persist(deliveryOrder);
+                    em.flush();
+                    deliveryOrderList.add(deliveryOrder);
+
+                    cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
+
+                } else if (a == 3 && week == 5) {
+                    workingDayInWeek = 5;
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    deliveryOrder.setDeliveryDate(cal5.getTime());
+
+                    deliveryOrder.setAmount(weeklyDemand);
+                    em.persist(deliveryOrder);
+                    em.flush();
+                    deliveryOrderList.add(deliveryOrder);
+
+                    cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
+
+                } else if (a == 4 && week == 5) {
+                    if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                        workingDayInWeek = 1;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                        workingDayInWeek = 2;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                        workingDayInWeek = 3;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                        workingDayInWeek = 4;
+                    } else if (cal6.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                        workingDayInWeek = 5;
+                    }
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
+                    deliveryOrder.setDeliveryDate(cal5.getTime());
+
+                    deliveryOrder.setAmount(weeklyDemand);
+                    em.persist(deliveryOrder);
+                    em.flush();
+                    deliveryOrderList.add(deliveryOrder);
+
+                    cal5.add(Calendar.DAY_OF_MONTH, workingDayInWeek + 2);
+
+                }
+            }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -254,8 +501,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
-            Double purchaseAmount, Long storeId, String destination,
-            List<DeliveryOrderEntity> deliveryOrderList)
+            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate)
             throws Exception {
         System.out.println("createPurchaseOrder():");
 
@@ -268,12 +514,18 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             String status = "Unconfirmed";
             //unit
             String unit = contract.getUnit();
-            //destination
-            if (destination.equals("store")) {
+
+            //destination and destinationId
+            Long destinationId = null;
+
+            if (destination.equals(
+                    "store")) {
                 StoreEntity store = em.find(StoreEntity.class, storeId);
                 destination = store.getAddress();
+                destinationId = store.getStoreId();
             } else {//destination is the factory that sends out the purchase order
                 destination = factory.getAddress();
+                destinationId = factory.getFactoryId();
             }
             //createDate
             Calendar createDate = Calendar.getInstance();
@@ -283,7 +535,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             //leadTime
             Integer leadTime = contract.getLeadTime();
 
-            purchaseOrder = new PurchaseOrderEntity(status, purchaseAmount, unit, createDate, destination, leadTime, totalPrice, factory, contract, deliveryOrderList);
+            purchaseOrder = new PurchaseOrderEntity(status, purchaseAmount, unit, createDate, destination,
+                    destinationId, leadTime, totalPrice, factory, contract, deliveryDate);
+
             em.persist(purchaseOrder);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -297,10 +551,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
     @Override
-    public List<IntegratedPlannedOrderEntity> viewAvailIntegratedPlannedOrder(Long factoryId) throws Exception {
-        System.out.println("viewAvailIntegratedPlannedOrder():");
+    public List<IntegratedPlannedOrderEntity> viewWaitingIntegratedPlannedOrder(Long factoryId) throws Exception {
+        System.out.println("viewWaitingIntegratedPlannedOrder():");
         List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList<>();
-        List<IntegratedPlannedOrderEntity> availIntegratedPlannedOrderList = new ArrayList<>();
+        List<IntegratedPlannedOrderEntity> waitingIntegratedPlannedOrderList = new ArrayList<>();
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
@@ -310,29 +564,60 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             while (iterator.hasNext()) {
                 Object obj = iterator.next();
                 IntegratedPlannedOrderEntity integratedPlannedOrder = (IntegratedPlannedOrderEntity) obj;
-                if (!integratedPlannedOrder.getPurchaseOrder().isEmpty()) {
-                    availIntegratedPlannedOrderList.add(integratedPlannedOrder);
+
+                //check whether this intergrated planned order is in waiting status
+                if (integratedPlannedOrder.getStatus().equals("waiting")) {
+                    waitingIntegratedPlannedOrderList.add(integratedPlannedOrder);
                 }
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return availIntegratedPlannedOrderList;
+        return waitingIntegratedPlannedOrderList;
+    }
+
+    @Override
+    public List<IntegratedPlannedOrderEntity> viewCancelledIntegratedPlannedOrder(Long factoryId) throws Exception {
+        System.out.println("viewCancelledIntegratedPlannedOrder():");
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList<>();
+        List<IntegratedPlannedOrderEntity> waitingIntegratedPlannedOrderList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            integratedPlannedOrderList = factory.getIntegratedPlannedOrders();
+            Iterator iterator = integratedPlannedOrderList.iterator();
+
+            while (iterator.hasNext()) {
+                Object obj = iterator.next();
+                IntegratedPlannedOrderEntity integratedPlannedOrder = (IntegratedPlannedOrderEntity) obj;
+
+                //check whether this intergrated planned order is in waiting status
+                if (integratedPlannedOrder.getStatus().equals("cancelled")) {
+                    waitingIntegratedPlannedOrderList.add(integratedPlannedOrder);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return waitingIntegratedPlannedOrderList;
     }
 
     //Step 2: user choose one of the integrated planned order(either RM or RP)
     //input : integratedPlannedOrderId
     //output: display a list of available suppliers for the choose RM or RP   
     @Override
-    public List<SupplierEntity> viewAvailSupplier(Long factoryId, Long integratedPlannedOrderId, String itemType) throws Exception {
+    public List<SupplierEntity> viewAvailSupplier(Long factoryId, Long integratedPlannedOrderId,
+            String itemType) throws Exception {
         System.out.println("viewAvailSupplier():");
 
         List<SupplierEntity> availSupplierList = new ArrayList<>();
 
         try {
             IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
-            if (itemType.equals("RawMaterial")) {
+            if (itemType.equals(
+                    "RawMaterial")) {
                 FactoryRawMaterialAmountEntity factoryRawMaterialAmount = integratedPlannedOrder.getFactoryRawMaterialAmount();
                 FactoryRawMaterialEntity factoryRawMaterial = factoryRawMaterialAmount.getFactoryRawMaterial();
                 Collection<ContractEntity> contractList = factoryRawMaterial.getContracts();
@@ -369,14 +654,16 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
     //output: display the generated amount for purchase
     @Override
-    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId,
-            Long supplierId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
+    public Double generatePurchaseAmount(Long integratedPlannedOrderId,
+            Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
         System.out.println("generatePurchaseAmount():");
         Double purchaseAmount = 0D;
         Double monthBeginInventory = -1D;
         Double plannedOrderAmount = 0D;
+
         try {
             IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
+
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialAmountEntity factoryRawMaterialAmount = integratedPlannedOrder.getFactoryRawMaterialAmount();
                 FactoryRawMaterialEntity factoryRawMaterial = factoryRawMaterialAmount.getFactoryRawMaterial();
@@ -392,7 +679,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                         monthBeginInventory = inventoryRecord.getAmount();
                     }
                 }
-
                 plannedOrderAmount = integratedPlannedOrder.getFactoryRawMaterialAmount().getAmount();
 
             } else {//itemType.equals("RetailProduct")
@@ -412,9 +698,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 }
                 plannedOrderAmount = integratedPlannedOrder.getFactoryRetailProductAmount().getAmount();
             }
-
             purchaseAmount = plannedOrderAmount + (nextMonthBeginPlannedAmount - monthBeginInventory);
-            System.out.println("Purchase Amount = " + purchaseAmount);
+
+            System.out.println(
+                    "Purchase Amount = " + purchaseAmount);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -429,11 +716,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //output: purchase order
     @Override
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId,
-            Double purchaseAmount, Long supplierId, Long storeId,
+            Double plannedAmount, Double nextMonthBeginPlannedAmount, Long contractId, Long storeId,
             String destination, String itemType) throws Exception {
         System.out.println("generatePurchaseOrder():");
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
         Long itemId;
+
         try {
             IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
 
@@ -443,18 +731,73 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
 
-            ContractEntity contract = selectSupplier(itemType, itemId, supplierId);
-            List<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmount(purchaseAmount);
-            purchaseOrder = createPurchaseOrder(factoryId, contract.getContractId(), purchaseAmount, storeId, destination, deliveryOrderList);
+            Double purchaseAmount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, itemType);
+
+            Collection<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmountAndDate(integratedPlannedOrderId, nextMonthBeginPlannedAmount);
+
+            purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null);
+            em.persist(purchaseOrder);
+
+            //set relationship between delivery orders and purchase order
+            for (DeliveryOrderEntity deliveryOrder : deliveryOrderList) {
+                deliveryOrder.setPurchaseOrder(purchaseOrder);
+            }
 
             purchaseOrder.setIntegratedPlannedOrder(integratedPlannedOrder);
+            purchaseOrder.setDeliveryOrderList(deliveryOrderList);
+
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-
+        em.flush();
         return purchaseOrder;
 
+    }
+
+    @Override
+    public Collection<PurchaseOrderEntity> viewUnconfirmedPurchaseOrder(Long factoryId) throws Exception {
+        System.out.println("viewUnconfirmedPurchaseOrder():");
+        Collection<PurchaseOrderEntity> purchaseOrderList = new ArrayList<>();
+        Collection<PurchaseOrderEntity> unconfirmedPurchaseOrderList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            purchaseOrderList = factory.getPurchaseOrders();
+            for (PurchaseOrderEntity po : purchaseOrderList) {
+                //check whether this intergrated planned order is in waiting status
+                if (po.getStatus().equals("unconfirmed")) {
+                    unconfirmedPurchaseOrderList.add(po);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return unconfirmedPurchaseOrderList;
+    }
+
+    @Override
+    public Collection<PurchaseOrderEntity> viewConfirmedPurchaseOrder(Long factoryId) throws Exception {
+
+        System.out.println("viewConfirmedPurchaseOrder():");
+        Collection<PurchaseOrderEntity> purchaseOrderList = new ArrayList<>();
+        Collection<PurchaseOrderEntity> confirmedPurchaseOrderList = new ArrayList<>();
+
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            purchaseOrderList = factory.getPurchaseOrders();
+            for (PurchaseOrderEntity po : purchaseOrderList) {
+                //check whether this intergrated planned order is in waiting status
+                if (po.getStatus().equals("confirmed")) {
+                    confirmedPurchaseOrderList.add(po);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return confirmedPurchaseOrderList;
     }
 
     //6. Edit unconfirmed purchase order
@@ -465,16 +808,26 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             ContractEntity contract) throws Exception {
         System.out.println("editPurchaseOrder():");
         PurchaseOrderEntity purchaseOrder = null;
+
         try {
             purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+
             purchaseOrder.setStatus(status);
+
             purchaseOrder.setTotalAmount(totalAmount);
+
             purchaseOrder.setUnit(unit);
+
             purchaseOrder.setCreateDate(createDate);
+
             purchaseOrder.setDestination(destination);
+
             purchaseOrder.setLeadTime(leadTime);
+
             purchaseOrder.setTotalPrice(totalPrice);
+
             purchaseOrder.setIntegratedPlannedOrder(integratedPlannedOrder);
+
             purchaseOrder.setContract(contract);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -483,30 +836,123 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return purchaseOrder;
     }
 
-    //7. Cancel purchase order
+//    //7. Cancel purchase order
+//    @Override
+//    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception {
+//        System.out.println("editPurchaseOrder():");
+//
+//        String result = null;
+//        try {
+//            PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+//            purchaseOrder.setStatus("cancelled");
+//        } catch (Exception ex) {
+//            System.err.println("Caught an unexpected exception!");
+//            ex.printStackTrace();
+//        }
+//
+//        return result = "PurchaseOrder with id " + purchaseOrderId + "has been removed";
+//    }
+    //8. Confirm purchase order
+    //only be factory manager
     @Override
-    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception {
-        System.out.println("editPurchaseOrder():");
-
+    public String confirmPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception {
+        System.out.println("confirmPurchaseOrder");
         String result = null;
+
         try {
-            
+            UserEntity user = em.find(UserEntity.class, userId);
+            if (!user.getUserLevel().equals(1)) {
+                result = "\"Confirm Purchase Order\" Permission Denied.";
+                return result;
+            }
+
             PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
-            em.remove(purchaseOrder);
-            
+
+            purchaseOrder.setStatus("confirmed");
+            purchaseOrder.getIntegratedPlannedOrder().setStatus("processing");
+
+            em.flush();
+
+            result = "Status Changed!";
+
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-
-        return result = "PurchaseOrder with id " + purchaseOrderId + "has been removed";
+        return result;
     }
     
-    //8. Confirm purchase order
     
-    
+    @Override
+    public String cancelPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception {
+        System.out.println("cancelPurchaseOrder");
+        String result = null;
+
+        try {
+            UserEntity user = em.find(UserEntity.class, userId);
+            if (!user.getUserLevel().equals(1)) {
+                result = "\"Confirm Purchase Order\" Permission Denied.";
+                return result;
+            }
+
+            PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+
+            purchaseOrder.setStatus("cancelled");
+            em.flush();
+
+            result = "Status Changed!";
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
     //9. Generate Goods Receipt
-    
+    //for manually generated po
+    @Override
+    public String generateGoodsRecipt(Long purchaseOrderId) throws Exception {
+        System.out.println("generateGoodsRecipt():");
+        String result = null;
+
+        GoodsReceiptEntity gr = new GoodsReceiptEntity();
+        PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+        po.getGoodsReceiptList().add(gr);
+        gr.setCreateDate(Calendar.getInstance());
+        gr.setPurchaseOder(po);
+
+        po.setStatus("accomplished");
+
+        result = "Purchase Order is accomplished with this Goods Receipt";
+        return result;
+    }
+
+    @Override
+    public String generateGoodsReciptForDeliveryOrders(Long purchaseOrderId, Long deliveryOrderId) throws Exception {
+        System.out.println("generateGoodsRecipt():");
+        String result = null;
+
+        GoodsReceiptEntity gr = new GoodsReceiptEntity();
+        PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+        po.getGoodsReceiptList().add(gr);
+        gr.setCreateDate(Calendar.getInstance());
+        gr.setPurchaseOder(po);
+
+        DeliveryOrderEntity deliveryOrder = em.find(DeliveryOrderEntity.class, deliveryOrderId);
+        deliveryOrder.setStatus("fulfilled");
+
+        for (DeliveryOrderEntity delivery : po.getDeliveryOrderList()) {
+            if (!delivery.getStatus().equals("fulfilled")) {
+                result = "Delivery order is fullfilled with this goods receipt";
+                return result;
+            }
+        }
+
+        po.setStatus("accomplished");
+        result = "Purchase Order is accomplished with this Goods Receipt";
+        return result;
+    }
 
     // for comparing two dates
     //function to set all the other attributes to be 0
@@ -530,4 +976,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return isExpired;
     }
+
+
 }

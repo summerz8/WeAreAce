@@ -6,6 +6,8 @@
 
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.BOMEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +16,18 @@ import javax.ejb.Local;
  */
 @Local
 public interface EnterpriseInventoryManagementModule_BOMLocal {
+  
+    
+    public Integer addANewBOM(Long productId, Long rawMaterialId, Double quantity) throws Exception;
+
+    public void updateANewBom(Long bomId, Double quantity) throws Exception;
+
+    public void deleteANewBom(Long bomId) throws Exception;
+
+    public List<BOMEntity> getAllBOM(Long productId);
+     
+     
+    
+    
     
 }

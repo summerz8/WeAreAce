@@ -41,11 +41,13 @@ public class ContractEntity implements Serializable {
 
     //contract entity -- factory retail product entity: M <--> 1
     @ManyToOne
-    private FactoryRetailProductEntity factoryRetailProduct;
+    private FactoryRetailProductEntity factoryRetailProduct = null;
 
     //contract entity -- factory raw material entity: M <--> 1
     @ManyToOne
-    private FactoryRawMaterialEntity factoryRawMaterial;
+    private FactoryRawMaterialEntity factoryRawMaterial = null;
+
+    private int typeIndicator = 0; // 1 for factoryRawMaterial, 3 for factoryRetailProduct
 
     //contract entity -- supplier entity: M<-->1
     @ManyToOne
@@ -62,10 +64,22 @@ public class ContractEntity implements Serializable {
         this.contractStartDate = contractStartDate;
         this.contractEndDate = contractEndDate;
         this.factoryRawMaterial = factoryRawMaterial;
+        this.typeIndicator = 1;
+        this.supplier = supplier;
+    }
+    
+    public ContractEntity(Double contractPrice, Integer leadTime, String unit, Double lotSize, Calendar contractStartDate, Calendar contractEndDate, FactoryRetailProductEntity factoryRetailProduct, SupplierEntity supplier) {
+        this.contractPrice = contractPrice;
+        this.leadTime = leadTime;
+        this.unit = unit;
+        this.lotSize = lotSize;
+        this.contractStartDate = contractStartDate;
+        this.contractEndDate = contractEndDate;
+        this.factoryRetailProduct = factoryRetailProduct;
+        this.typeIndicator = 3;
         this.supplier = supplier;
     }
 
-    
     public Long getContractId() {
         return contractId;
     }
@@ -89,7 +103,7 @@ public class ContractEntity implements Serializable {
     public void setLeadTime(Integer leadTime) {
         this.leadTime = leadTime;
     }
-    
+
     public String getUnit() {
         return unit;
     }
@@ -120,14 +134,24 @@ public class ContractEntity implements Serializable {
 
     public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
         this.factoryRetailProduct = factoryRetailProduct;
+        this.typeIndicator = 3;
     }
-//
+
     public FactoryRawMaterialEntity getFactoryRawMaterial() {
         return factoryRawMaterial;
     }
 
     public void setFactoryRawMaterial(FactoryRawMaterialEntity factoryRawMaterial) {
         this.factoryRawMaterial = factoryRawMaterial;
+        this.typeIndicator = 3;
+    }
+
+    public int getTypeIndicator() {
+        return typeIndicator;
+    }
+
+    public void setTypeIndicator(int typeIndicator) {
+        this.typeIndicator = typeIndicator;
     }
 
     public SupplierEntity getSupplier() {
@@ -145,8 +169,6 @@ public class ContractEntity implements Serializable {
     public void setLotSize(Double lotSize) {
         this.lotSize = lotSize;
     }
-    
-    
 
     //create a new contract entity with attributes
     public void create(Double contractPrice, Integer leadTime, String unit, Double lotSize, Calendar contractStartDate, Calendar contractEndDate) {

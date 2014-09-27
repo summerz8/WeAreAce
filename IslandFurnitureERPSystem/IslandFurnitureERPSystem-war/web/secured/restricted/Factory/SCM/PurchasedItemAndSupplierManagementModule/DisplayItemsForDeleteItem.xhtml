@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                        </p:commandButton>
+
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>  
+
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        </p:button>
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>                     
+                </p:layoutUnit>
+
+
+                <p:growl id="messages" showDetail="false"/>                
+                <p:layoutUnit position="west" size="1000px">
+
+                   
+                        <p:menu>
+                            <p:submenu label="Manufacturing Resource Planning">
+                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                            </p:submenu>
+                            <p:submenu label="Supply Chain Management">
+                                <p:submenu label="Purchased Items and Suppliers Management">
+                                    <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
+                                    <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
+                                    <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
+                                    <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
+                                    <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
+                                    <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
+                                </p:submenu>
+                                <p:submenu label="Purchase Order Management">
+                                    <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
+                                    <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
+                                    <p:menuitem value="Generate Goods Receipt" action="#{displayConfirmedPO.displayDestination()}"/>
+                                    <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}"/>
+                                </p:submenu>
+                                <p:submenu label="Document Reference">
+                                    <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
+                                    <p:menuitem value="Planned Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder?faces-redirect=true" />
+                                    <p:menuitem value="Production Plan" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/ProductionPlan?faces-redirect=true" />
+                                    <p:menuitem value="Blocked Stock" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/BlockedStock?faces-redirect=true" />
+                                    <p:menuitem value="Returned Stock" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/ReturnedStock?faces-redirect=true" />
+                                    <p:menuitem value="Goods Receipt" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/GoodsReceipt?faces-redirect=true" />
+                                    <p:menuitem value="Contract" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Contract?faces-redirect=true" />
+                                    <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
+                                </p:submenu>
+
+                                <p:submenu label="Factory Inventory Management">
+                                    <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
+                                    <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
+                                    <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
+                                    <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
+                                    <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
+                                    <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
+                                    <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
+                                </p:submenu>
+
+                                <p:submenu label="Raw Material Monitoring">
+                                    <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
+                                    <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
+                                </p:submenu>    
+                            </p:submenu>
+
+                            <p:submenu label="Empolyees">
+                                <p:menuitem value="Empolyees List"/>
+                            </p:submenu>
+                            <p:submenu label="Enterprise">
+                                <p:menuitem value="Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml"/>
+                            </p:submenu>
+                            <p:submenu label="Ticket Management">
+                                <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList"/>
+                            </p:submenu>
+                        </p:menu>
+
+
+
+                </p:layoutUnit>
+                <p:layoutUnit position="center" resizable="true">
+                    <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
+
+                    <p:panel id="basic" header="Choose A Raw Material or A Retail Product From the List " style="margin-bottom" >
+                        <h3 style="margin-top: 0">Items Available for Purchase</h3>
+                        <p:dataTable var="frm" value="#{deleteItem.frmList}" >
+                            <f:facet name="header">
+                                Factory Raw Materials
+                            </f:facet>
+
+                            <p:column headerText="Id" width="5%" >
+                                <h:outputText value="#{frm.factoryRawMaterialId}"  style="font-weight: bold" />    
+                            </p:column>
+
+                            <p:column headerText="Name" width="15%">
+                                <h:outputText value="#{frm.materialName}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Description" width="25%">
+                                <h:outputText value="#{frm.description}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Unit" width="10%">
+                                <h:outputText value="#{frm.unit}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Available Inventory" width="15%">
+                                <h:outputText value="#{frm.unrestrictedInventory}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Blocked Inventory" width="15%" >
+                                <h:outputText value="#{frm.blockedInventory}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Please Select Here" width="15%" >
+                                <p:commandButton update=":formMain:rmDetail" oncomplete="PF('rmDialog').show()" value="Choose">
+
+                                    <f:setPropertyActionListener value="#{frm}" target="#{selectedFactoryItem.selectedFRM}" />
+
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="Raw Material Info" widgetVar="rmDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="rmDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" columnClasses="label,value">
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.factoryRawMaterialId}" />
+
+                                    <h:outputText value="Name:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.materialName}" />
+
+                                    <h:outputText value="Description" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.description}" />
+
+                                    <h:outputText value="Unit" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.unit}" />
+
+                                    <p:commandButton update="growl" action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" value="Comfirm"/>
+
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+
+
+                        <p:dataTable var="frp" value="#{deleteItem.frpList}"  >
+
+                            <f:facet name="header">
+                                Factory Retail Products
+                            </f:facet>
+
+                            <p:column headerText="Id" width="5%">
+                                <h:outputText value="#{frp.factoryRetailProdctId}" style="font-weight: bold"/>
+                            </p:column>
+
+                            <p:column headerText="Name" width="15%">
+                                <h:outputText value="#{frp.name}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Description" width="25%">
+                                <h:outputText value="#{frp.description}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Unit" width="10%">
+                                <h:outputText value="#{frp.unit}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Available Inventory" width="15%">
+                                <h:outputText value="#{frp.unrestrictedInventory}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Blocked Inventory" width="15%">
+                                <h:outputText value="#{frp.blockedInventory}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Please Select Here" width="15%" >       
+                                <p:commandButton update=":formMain:rpDetail" oncomplete="PF('rpDialog').show()" value="Choose" >
+                                    <f:setPropertyActionListener value="#{frp}" target="#{selectedFactoryItem.selectedFRP}" />
+
+                                </p:commandButton>               
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="Retail Product Info" widgetVar="rpDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="rpDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" columnClasses="label,value">
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.factoryRetailProdctId}" />
+
+                                    <h:outputText value="Name:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.name}" />
+
+                                    <h:outputText value="Description" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.description}" />
+
+                                    <h:outputText value="Unit" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.unit}" />
+
+                                    <p:commandButton update="growl" action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" value="Confrim"/>
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+
+                    </p:panel>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+    </h:body>
+
+</html>

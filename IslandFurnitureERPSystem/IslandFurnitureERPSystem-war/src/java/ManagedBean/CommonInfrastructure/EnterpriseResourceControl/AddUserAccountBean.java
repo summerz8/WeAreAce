@@ -5,14 +5,20 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
+import Entity.Factory.FactoryEntity;
+import Entity.Store.StoreEntity;
+import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
 import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBs;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -29,6 +35,8 @@ public class AddUserAccountBean implements Serializable {
 
     @EJB
     private InternalUserAccountManagementModuleLocal IUMA;
+    @EJB
+    private Factory_StoreManagementModuleLocal FSMM;
 
     private String userId;
     private String FirstName;
@@ -42,7 +50,6 @@ public class AddUserAccountBean implements Serializable {
     private String Address;
     private String Postal;
     private String password;
-    
 
     private Integer userLevel;
     private Calendar birthday;
@@ -52,12 +59,14 @@ public class AddUserAccountBean implements Serializable {
     private String inputOldPass;
     private String newPass;
 
+    private List<Long> departmentList;
+    private List<Integer> userLevelList;
+
     /**
      * Creates a new instance of UserInfoPageManageBean
      */
     public AddUserAccountBean() {
     }
-
 
     public InternalUserAccountManagementModuleLocal getIUMA() {
         return IUMA;
@@ -214,17 +223,15 @@ public class AddUserAccountBean implements Serializable {
     public void AddNewUser(ActionEvent event) {
         System.out.println("UserInfoManageBean: save changes");
 
-
         birthday = Calendar.getInstance();
         birthday.setTime(birDate);
-            System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
-        
+        System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
 
-        IUMA.AddStaff(Department, userLevel, LastName, MidName, FirstName, Position, 
+        IUMA.AddStaff(Department, userLevel, LastName, MidName, FirstName, Position,
                 birthday, Gender, Title, Address, Postal, Email, departmentId);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "New User Added Successfully!", ""));
-        
+
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("UserAccountControl.xhtml");
         } catch (IOException ex) {
@@ -233,20 +240,45 @@ public class AddUserAccountBean implements Serializable {
 
     }
 
-//    public void changePassword(ActionEvent event) {
-//        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
-//        System.out.println("UserInfoManageBean: change password");
-//        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-//        
-//        if (inputOldPass.equals(password)) {
-//            IUMA.changePass(newPass, userId);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Password changed successfully!", ""));
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Wrong Password, please enter again!", ""));
-//        }
-//
-//    }
+    public List<Long> getDepartmentList() {
+        return departmentList;
+    }
+
+    public void setDepartmentList(List<Long> departmentList) {
+        this.departmentList = departmentList;
+    }
+
+    public List<Integer> getUserLevelList() {
+        return userLevelList;
+    }
+
+    public void setUserLevelList(List<Integer> userLevelList) {
+        this.userLevelList = userLevelList;
+    }
+
+    
+
+    public void onDepartmentChange() {
+        System.out.println("AddUserAccountBean: test1");
+        departmentList = new ArrayList();
+        switch (Department) {
+            case "H":
+                departmentList.add(1L);
+                
+                break;
+            case "F":
+                List<FactoryEntity> factoryList = FSMM.ListFactory();
+                for (FactoryEntity factory : factoryList) {
+                    departmentList.add(factory.getFactoryId());
+                }
+                break;
+            case "S":
+                List<StoreEntity> storelist = FSMM.ListStore();
+                for (StoreEntity store : storelist) {
+                    departmentList.add(store.getStoreId());
+                }
+                break;
+        }
+    }
 
 }

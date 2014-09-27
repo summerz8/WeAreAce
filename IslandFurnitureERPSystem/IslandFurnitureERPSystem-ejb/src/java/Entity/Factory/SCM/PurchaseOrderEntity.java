@@ -10,7 +10,7 @@ import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,72 +34,58 @@ public class PurchaseOrderEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
+    private String status;//unconfirmed,confirmed, cancelled, accomplished
     private Double totalAmount;
     private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
-    private String destination;//
+    private String destination;
+    private Long destinationId;
     private Integer leadTime;
     private Double totalPrice; // the totalPrice price
-    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar deliveryDate;
 
     //purchase order entity -- factory entity: M <--> 1 
     @ManyToOne
     private FactoryEntity factory;
 
-    //goods receipt entity -- purchase order entity : 1 <--> 1
-    @OneToOne(mappedBy = "purchaseOrder")
-    private GoodsReceiptEntity goodsReceipt;
+    //goods receipt entity -- purchase order entity : M <--> 1
+    @OneToMany(mappedBy = "purchaseOrder")
+    private Collection<GoodsReceiptEntity> goodsReceiptList = new ArrayList<>();
 
-    //integrated planned order entity -- purchase order entity: 1 <--> M
-    @ManyToOne
+    //integrated planned order entity -- purchase order entity: 1 <--> 1
+    @OneToOne(mappedBy = "purchaseOrder")
     private IntegratedPlannedOrderEntity integratedPlannedOrder;
 
     //purchase order entity -- contract entity: M --> 1
     @ManyToOne
     private ContractEntity contract;
-    
+
     //purchase order entity -- delivery order entity : 1 <--> M
-    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "purchaseOrder")
-    private List<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "purchaseOrder")
+    private Collection<DeliveryOrderEntity> deliveryOrderList = null;
 
     public PurchaseOrderEntity() {
     }
 
-    public PurchaseOrderEntity(String status, Double totalAmount, String unit, 
-            Calendar createDate, String destination, Integer leadTime, 
-            Double totalPrice, FactoryEntity factory, ContractEntity contract, 
-            List<DeliveryOrderEntity> deliveryOrderList) {
+    public PurchaseOrderEntity(String status, Double totalAmount,
+            String unit, Calendar createDate, String destination, Long destinationId,
+            Integer leadTime, Double totalPrice, FactoryEntity factory,
+            ContractEntity contract, Calendar deliveryDate) {
         this.status = status;
         this.totalAmount = totalAmount;
         this.unit = unit;
         this.createDate = createDate;
         this.destination = destination;
+        this.destinationId = destinationId;
         this.leadTime = leadTime;
         this.totalPrice = totalPrice;
         this.factory = factory;
         this.contract = contract;
-        this.deliveryOrderList = deliveryOrderList;
+        this.deliveryDate = deliveryDate;
     }
 
-    public PurchaseOrderEntity(Long id, String status, Double totalAmount, String unit, Calendar createDate, String destination, Integer leadTime, Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder, ContractEntity contract) {
-        this.id = id;
-        this.status = status;
-        this.totalAmount = totalAmount;
-        this.unit = unit;
-        this.createDate = createDate;
-        this.destination = destination;
-        this.leadTime = leadTime;
-        this.totalPrice = totalPrice;
-        this.factory = factory;
-        this.integratedPlannedOrder = integratedPlannedOrder;
-        this.contract = contract;
-    }
-    
-    
-
-    
     public Long getId() {
         return id;
     }
@@ -148,12 +134,12 @@ public class PurchaseOrderEntity implements Serializable {
         this.factory = factory;
     }
 
-    public GoodsReceiptEntity getGoodsReceipt() {
-        return goodsReceipt;
+    public Collection<GoodsReceiptEntity> getGoodsReceiptList() {
+        return goodsReceiptList;
     }
 
-    public void setGoodsReceipt(GoodsReceiptEntity goodsReceipt) {
-        this.goodsReceipt = goodsReceipt;
+    public void setGoodsReceiptList(Collection<GoodsReceiptEntity> goodsReceiptList) {
+        this.goodsReceiptList = goodsReceiptList;
     }
 
     public ContractEntity getContract() {
@@ -164,11 +150,19 @@ public class PurchaseOrderEntity implements Serializable {
         this.contract = contract;
     }
 
-    public double getTotalPrice() {
+    public Long getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(Long destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -187,7 +181,15 @@ public class PurchaseOrderEntity implements Serializable {
     public void setLeadTime(Integer leadTime) {
         this.leadTime = leadTime;
     }
-  
+
+    public Calendar getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Calendar deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
     public IntegratedPlannedOrderEntity getIntegratedPlannedOrder() {
         return integratedPlannedOrder;
     }
@@ -196,15 +198,14 @@ public class PurchaseOrderEntity implements Serializable {
         this.integratedPlannedOrder = integratedPlannedOrder;
     }
 
-    public List<DeliveryOrderEntity> getDeliveryOrderList() {
+    public Collection<DeliveryOrderEntity> getDeliveryOrderList() {
         return deliveryOrderList;
     }
 
-    public void setDeliveryOrderList(List<DeliveryOrderEntity> deliveryOrderList) {
+    public void setDeliveryOrderList(Collection<DeliveryOrderEntity> deliveryOrderList) {
         this.deliveryOrderList = deliveryOrderList;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -18,6 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -50,7 +51,8 @@ public class UserEntity implements Serializable {
         
     private Boolean deleteFlag;//used to identify whether this user has been deleted  
                                
-   
+    //private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
+    
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "sender")
     private Collection<InternalMessageEntity> sendMessage;
     
@@ -66,19 +68,19 @@ public class UserEntity implements Serializable {
     
     public UserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId) {
+            String title, String address, String postalCode, String email, Boolean deleteFlag, long departmentId, String PWD) {
         this.setUserId(department + idNumber);
-        String PWD;
-        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
-        Random random = new Random();   
-        StringBuffer sb = new StringBuffer();   
-        for (int i = 0; i < 8; i++) {   
-            int number = random.nextInt(base.length());   
-            sb.append(base.charAt(number));   
-        }
-        
-        PWD = sb.toString();
-        setPwd(PWD);
+//        String PWD;
+//        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
+//        Random random = new Random();   
+//        StringBuffer sb = new StringBuffer();   
+//        for (int i = 0; i < 8; i++) {   
+//            int number = random.nextInt(base.length());   
+//            sb.append(base.charAt(number));   
+//        }
+//        
+//        PWD = sb.toString();        
+        //setPwd(cryptographicHelper.doMD5Hashing(PWD));
         
         this.userLevel = userLevel;
         this.lastName = lastName;
@@ -94,7 +96,7 @@ public class UserEntity implements Serializable {
         this.title = title;
         this.deleteFlag = deleteFlag;
         this.departmentId = departmentId;
-
+        this.pwd = PWD;
 //        this.sendMessage = new ArrayList<InternalMessageEntity>();
 //        this.receiveMessage = new ArrayList<InternalMessageReceive>();
 //        this.tickets = new ArrayList<TicketEntity>();
@@ -137,7 +139,7 @@ public class UserEntity implements Serializable {
         return pwd;
     }
 
-    public void setPwd(String pwd) {
+    public void setPwd(String pwd) {             
         this.pwd = pwd;
     }
 

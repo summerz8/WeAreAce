@@ -9,8 +9,6 @@ import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.BOMEntity;
-import Entity.Factory.FactoryBin.FactoryBinEntity;
-import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryProductEntity;
@@ -26,9 +24,6 @@ import Entity.Factory.MRP.SalesOperationPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
-import Entity.Factory.SCM.ContractEntity;
-import Entity.Factory.SCM.InFactoryMovementEntity;
-import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import java.text.ParseException;
@@ -44,6 +39,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -58,6 +54,8 @@ public class Test {
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
+    
+    private CryptographicHelper cryptographicHelper;
 
     @PostConstruct
     public void init() {
@@ -67,7 +65,7 @@ public class Test {
     public void createDatabase() {
         //Set up idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000000L);
+        id.setId_F(1000001L);
         id.setId_H(1000001L);
         id.setId_S(1000000L);
         em.persist(id);
@@ -82,9 +80,13 @@ public class Test {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         UserEntity u = new HQUserEntity("H", "1000001", 0,
-                "Zheng", null, "Yuan", "Global Manager", birthday, "Female", null, null, null, null, false, 1000000L);
-        u.setPwd("123");
+                "Zheng", null, "Yuan", "Global Manager", birthday, "Female", null, null, null, null, 1L, cryptographicHelper.doMD5Hashing("123"), false);        
         em.persist(u);
+        em.flush();
+        
+        UserEntity u2 = new HQUserEntity("F", "1000001", 0,
+                "Zhang", null, "Shiyu", "Factory Manager", birthday, "Female", null, null, null, null, 1L, cryptographicHelper.doMD5Hashing("123"), false);    
+        em.persist(u2);
         em.flush();
         //Set up ProductEntity
 
