@@ -33,7 +33,7 @@ public class DisplayUnconfirmedPO {
     @PostConstruct
     public void init() {
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             unconfirmedPOList = pmb.viewUnconfirmedPurchaseOrder(factoryId);
         } catch (Exception ex) {
             Logger.getLogger(DisplayUnconfirmedPO.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,7 +60,7 @@ public class DisplayUnconfirmedPO {
     }
 
     public String displayDisplayUnconfirmedPurchaseOrder() {
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
     }
 
     public String confirmPurchaseOrder() {
