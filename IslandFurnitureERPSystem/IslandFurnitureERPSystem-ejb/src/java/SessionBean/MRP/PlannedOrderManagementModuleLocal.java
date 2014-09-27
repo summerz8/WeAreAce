@@ -8,6 +8,7 @@ package SessionBean.MRP;
 
 import Entity.Factory.BOMEntity;
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import java.util.Calendar;
 import java.util.List;
@@ -39,5 +40,9 @@ public interface PlannedOrderManagementModuleLocal {
     public List<PlannedOrderEntity> getCancelledPlannedOrder();
 
     public void editPlannedOrder(Long id, String field, Object content);
+
+    public void createPlannedOrder(Long factoryProductID);
+
+    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId, Long materialId);
     
 }

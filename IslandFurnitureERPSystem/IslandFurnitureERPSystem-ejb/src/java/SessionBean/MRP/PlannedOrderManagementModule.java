@@ -263,4 +263,72 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
           return plannedOrderList;
         }
        
+    
+    @Override
+    public void createPlannedOrder(Long productionPlanId) {           
+        try{ 
+            ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+            FactoryEntity factory = productionPlan.getFactoryProduct().getFactory();
+            Long factoryId = factory.getFactoryId();
+            ProductEntity product = productionPlan.getFactoryProduct().getProduct();
+            Double quantity = productionPlan.getQuantity();
+            Calendar targetPeriod = productionPlan.getTargetPeriod();
+            Calendar generatedDate = Calendar.getInstance();           
+            
+            List<BOMEntity> BOM = product.getBom();
+            List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = new ArrayList();        
+            
+            for(BOMEntity bom : BOM){
+                String unit = bom.getUnit();
+                Double BOMamount = bom.getAmount();
+                Double amount = quantity*BOMamount;
+                Long rawMaterialId = bom.getRawMaterial().getMaterialId();
+                FactoryRawMaterialEntity factoryRawMaterial = findFactoryRawMaterial(factoryId,rawMaterialId);   
+                FactoryRawMaterialAmountEntity factoryRawMaterialAmount = new FactoryRawMaterialAmountEntity();
+                factoryRawMaterialAmount.setAmount(amount);
+                factoryRawMaterialAmount.setUnit(unit);
+                factoryRawMaterialAmount.setFactoryRawMaterial(factoryRawMaterial);               
+                em.persist(factoryRawMaterialAmount);
+                em.flush();
+                factoryRawMaterialAmountList.add(factoryRawMaterialAmount);
+            }
+            
+            PlannedOrderEntity plannedOrder = new PlannedOrderEntity();
+            plannedOrder.setFactoryRawMaterialAmountList(factoryRawMaterialAmountList);
+            plannedOrder.setStatus("unconfirmed");
+            plannedOrder.setTargetPeriod(targetPeriod);
+            plannedOrder.setGeneratedDate(generatedDate);
+            plannedOrder.setFactory(factory);
+            plannedOrder.setProductionPlan(productionPlan);
+            em.persist(plannedOrder);
+            em.flush();            
+            productionPlan.setPlannedOrder(plannedOrder);
+            em.persist(productionPlan);
+            em.flush();          
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Override
+    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId,Long materialId){
+        FactoryRawMaterialEntity factoryRawMaterial = new FactoryRawMaterialEntity();
+        
+        Query q = em.createQuery("SELECT frm FROM FactoryRawMaterialEntity frm");
+        List<FactoryRawMaterialEntity> factoryRawMaterialList = new ArrayList();
+        for(Object o : q.getResultList()){
+            FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) o;
+            factoryRawMaterialList.add(frm);          
+        }       
+        for(FactoryRawMaterialEntity frm : factoryRawMaterialList){
+            Long FactoryId = frm.getFactory().getFactoryId();
+            Long MaterialId = frm.getRawMaterial().getMaterialId();
+            if(FactoryId.equals(factoryId) && MaterialId.equals(materialId)){
+                factoryRawMaterial = frm;
+                break;
+            }
+        }       
+        return factoryRawMaterial;
+    }
 }

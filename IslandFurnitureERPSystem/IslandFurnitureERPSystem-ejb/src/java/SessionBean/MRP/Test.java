@@ -259,16 +259,23 @@ public class Test {
         pp11.setGeneratedDate(c1);pp12.setGeneratedDate(c2);pp13.setGeneratedDate(c3);pp14.setGeneratedDate(c4);pp15.setGeneratedDate(c5);
         pp16.setGeneratedDate(c6);pp17.setGeneratedDate(c7);pp18.setGeneratedDate(c8);pp19.setGeneratedDate(c9);pp20.setGeneratedDate(c10);
         
+        
         pp1.setTargetPeriod(c11);pp2.setTargetPeriod(c11);pp3.setTargetPeriod(c11);pp4.setTargetPeriod(c11);pp5.setTargetPeriod(c11);
         pp6.setTargetPeriod(c11);pp7.setTargetPeriod(c11);pp8.setTargetPeriod(c11);pp9.setTargetPeriod(c11);pp10.setTargetPeriod(c11);
         pp11.setTargetPeriod(c11);pp12.setTargetPeriod(c11);pp13.setTargetPeriod(c11);pp14.setTargetPeriod(c11);pp15.setTargetPeriod(c11);
         pp16.setTargetPeriod(c11);pp17.setTargetPeriod(c11);pp18.setTargetPeriod(c11);pp19.setTargetPeriod(c11);pp20.setTargetPeriod(c11);
         
-        pp1.setProduct(fp1);pp2.setProduct(fp2);pp3.setProduct(fp3);pp4.setProduct(fp4);pp5.setProduct(fp5);
-        pp6.setProduct(fp6);pp7.setProduct(fp7);pp8.setProduct(fp8);pp9.setProduct(fp9);pp10.setProduct(fp10);
-        pp11.setProduct(fp11);pp12.setProduct(fp12);pp13.setProduct(fp13);pp14.setProduct(fp14);pp15.setProduct(fp15);
-        pp16.setProduct(fp16);pp17.setProduct(fp17);pp18.setProduct(fp18);pp1.setProduct(fp19);pp20.setProduct(fp20);
         
+//        pp1.setProduct(fp1);pp2.setProduct(fp2);pp3.setProduct(fp3);pp4.setProduct(fp4);pp5.setProduct(fp5);
+//        pp6.setProduct(fp6);pp7.setProduct(fp7);pp8.setProduct(fp8);pp9.setProduct(fp9);pp10.setProduct(fp10);
+//        pp11.setProduct(fp11);pp12.setProduct(fp12);pp13.setProduct(fp13);pp14.setProduct(fp14);pp15.setProduct(fp15);
+//        pp16.setProduct(fp16);pp17.setProduct(fp17);pp18.setProduct(fp18);pp1.setProduct(fp19);pp20.setProduct(fp20);
+//        
+        pp1.setFactoryProduct(fp1);pp2.setFactoryProduct(fp2);pp3.setFactoryProduct(fp3);pp4.setFactoryProduct(fp4);pp5.setFactoryProduct(fp5);
+        pp6.setFactoryProduct(fp6);pp7.setFactoryProduct(fp7);pp8.setFactoryProduct(fp8);pp9.setFactoryProduct(fp9);pp10.setFactoryProduct(fp10);
+        pp11.setFactoryProduct(fp11);pp12.setFactoryProduct(fp12);pp13.setFactoryProduct(fp13);pp14.setFactoryProduct(fp14);pp15.setFactoryProduct(fp15);
+        pp16.setFactoryProduct(fp16);pp17.setFactoryProduct(fp17);pp18.setFactoryProduct(fp18);pp1.setFactoryProduct(fp19);pp20.setFactoryProduct(fp20);
+      
         em.persist(pp1);em.persist(pp2);em.persist(pp3);em.persist(pp4);em.persist(pp5);
         em.persist(pp6);em.persist(pp7);em.persist(pp8);em.persist(pp9);em.persist(pp10);
         em.persist(pp11);em.persist(pp12);em.persist(pp13);em.persist(pp14);em.persist(pp15);
@@ -755,7 +762,11 @@ public class Test {
         Calendar cl4=Calendar.getInstance();  cl4.set(2013, 5, 15);
         Calendar cl5=Calendar.getInstance();  cl5.set(2014, 4, 19);
         Calendar cl6=Calendar.getInstance();  cl6.set(2020, 3, 20);
+<<<<<<< HEAD
+        Calendar cl7=Calendar.getInstance();  cl7.set(2021, 2, 11);
+=======
         Calendar cl7=Calendar.getInstance();  cl7.set(2013, 2, 11);
+>>>>>>> 360dfdb4f6a65576d325616c3e9e9bebe9b7e8ad
         Calendar cl8=Calendar.getInstance();  cl8.set(2020, 1, 22);
         Calendar cl9=Calendar.getInstance();  cl9.set(2023, 6, 6);
         Calendar cl10=Calendar.getInstance();  cl10.set(2022, 2, 12);

@@ -26,6 +26,10 @@ public class RetailProductPurchasePlan{
      */
     
     private List<IntegratedPlannedOrderEntity> retailProductPurchasePlan;
+    private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanUnconfirmed;
+    private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanConfirmed;
+    private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanCancelled;
+    private Long integratedSalesForecastId;
     
     @EJB
     private RetailProductPurchasePlanModuleLocal RPPP;
@@ -33,14 +37,48 @@ public class RetailProductPurchasePlan{
     @PostConstruct
     public void init(){
           retailProductPurchasePlan = RPPP.getRetailProductPurchasePlan();
+          retialProductPurchasePlanUnconfirmed = RPPP.getRetailProductPurchasePlanUnconfirmed();
+          retialProductPurchasePlanConfirmed = RPPP.getRetailProductPurchasePlanConfirmed();
+          retialProductPurchasePlanCancelled = RPPP.getRetailProductPurchasePlanCancelled();
     }
     
     public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(){
         return retailProductPurchasePlan;
     } 
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-   
+    public List<IntegratedPlannedOrderEntity> getRetialProductPurchasePlanUnconfirmed() {
+        return retialProductPurchasePlanUnconfirmed;
+    }
+
+    public List<IntegratedPlannedOrderEntity> getRetialProductPurchasePlanConfirmed() {
+        return retialProductPurchasePlanConfirmed;
+    }
+
+    public List<IntegratedPlannedOrderEntity> getRetialProductPurchasePlanCancelled() {
+        return retialProductPurchasePlanCancelled;
+    }
+
+    public Long getIntegratedSalesForecastId() {
+        return integratedSalesForecastId;
+    }
+    
+    
+    
+
+    public String createRetailProductPurchasePlan(Long salesForecastId){
+        Long factoryRetailProductId = RPPP.getFactoryRetailProductId(salesForecastId);        
+        RPPP.generateRetailProductPurchasePlan(salesForecastId, factoryRetailProductId);
+        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true";
+    }
+    
+    public String confirm(Long id){
+        RPPP.editRetailProductPurchasePlan(id, "status", "confirmed");     
+        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+    }
+    
+    public String cancel(Long id){
+        RPPP.editRetailProductPurchasePlan(id, "status", "cancelled"); 
+        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+    }
     
 }
