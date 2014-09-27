@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>SCM: Record Product To Bin Movement</title>
+        <title>SCM: Change Stock Status</title>
     </h:head>
 
     <h:body>
@@ -54,6 +54,7 @@
 
                     <p:menu>
 
+
                         <p:submenu label="Factory Inventory Management">
                             <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
                             <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
@@ -65,49 +66,23 @@
                         </p:submenu>
 
 
-
                     </p:menu>
 
 
-
                 </p:layoutUnit>
-                <p:layoutUnit position="center" resizable="false">
+                <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
+                    <p:panel id="basic" header =" " style="height:800px;" >
+                        <h:panelGrid columns="2" cellpadding="6">
 
-                    <p:panel id="basic" header="Record Product-To-Bin Movement" style="margin-bottom" >
+
+                        </h:panelGrid>
                     </p:panel>
-
-                    <h:panelGrid columns="2" cellpadding="5">
-
-                        <p:outputLabel value="Factory Product ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.factoryProductId}" />
-
-                        <p:outputLabel value="To Storage Bin: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.toBinId}" />
-
-                        <p:outputLabel value="Factory Product Status: " />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.status}">
-                            <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
-                            <f:selectItem itemLabel="Blocked" itemValue="blocked" />
-                        </p:selectOneRadio>
-
-                        <p:outputLabel value="Quantity: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
-
-                        <p:outputLabel value="Date: " />
-                        <p:calendar value="#{factoryInventoryManagementBean.inputDate}" />
-
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordProductToBinMovement}"/>
-
-                    </h:panelGrid>
-
-
                 </p:layoutUnit>
-
-
 
             </p:layout>
         </h:form>
     </h:body>
 
 </html>
+
 
