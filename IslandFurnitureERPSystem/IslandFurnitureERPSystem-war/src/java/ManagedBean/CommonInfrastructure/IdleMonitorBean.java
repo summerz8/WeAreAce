@@ -24,7 +24,7 @@ public class IdleMonitorBean {
     public void welcomeListener() {
         FacesContext.getCurrentInstance().addMessage(
                 null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Welcome Back",
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome Back",
                         "Continue your works."));
 
     }

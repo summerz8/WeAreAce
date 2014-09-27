@@ -192,6 +192,23 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         }
         return requiredUserList;
     }
+    
+    @Override
+    public List<UserEntity> ListFactoryUser(Long id){
+    System.out.println("InternalUserAccountModule: ListUser(): for factory "+ id);
+        Query q = em.createQuery("SELECT t FROM UserEntity t");
+        List requiredUserList = new ArrayList();
+        for (Object o : q.getResultList()) {
+            UserEntity u = (UserEntity) o;
+            if((!u.isDeleteFlag()) && (u.getDepartment().equals("F") && u.getDepartmentId()==id )){
+                requiredUserList.add(u);
+                System.out.println("added user: " + u.getUserId());
+            }
+            else System.out.println("deleted user: "+u.getUserId());
+        }
+        if(requiredUserList.isEmpty()) System.out.println("factoryuserlist is null~~~");
+        return requiredUserList;
+    }
 
     @Override
     public UserEntity getUser(String userId) {
