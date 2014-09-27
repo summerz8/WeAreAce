@@ -21,7 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -55,8 +54,8 @@ public class IntegratedPlannedOrderEntity implements Serializable {
     @JoinTable(name="INTEGRATEDPLANNEDORDER_PLANNEDORDER")
     private List<PlannedOrderEntity> plannedOrderList=new ArrayList<>();
 
-    //integrated planned order entity -- purchase order entity: 1 <--> M
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    //integrated planned order entity -- purchase order entity: 1 <--> 1
+    @OneToOne(cascade={CascadeType.PERSIST})
     private PurchaseOrderEntity purchaseOrder;
 
     //integrated planned order entity -- factory entity: M <--> 1

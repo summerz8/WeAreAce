@@ -38,7 +38,7 @@ public class ProductEntity implements Serializable {
     
     //product entity -- bom entity: 1 <--> M
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy="product")
-    public List<BOMEntity> bom= new ArrayList<>();;
+    public List<BOMEntity> bom;
 
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
@@ -53,6 +53,7 @@ public class ProductEntity implements Serializable {
         this.price = price;
         this.unit = unit;
         this.deleteFlag = deleteFlag;
+        
     }
 
     

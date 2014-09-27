@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import java.util.Calendar;
 import java.util.List;
@@ -20,5 +21,11 @@ public interface IntegratedPlannedOrderManagementLocal {
     public List<PlannedOrderEntity> getConfirmedPlannedOrder();
 
     public void createIntegratedPlannedOrder(Calendar targetPeriod, Long factoryRawMaterialId);
+
+    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder();
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan();
+
+    public void editIntegratedPlannedOrder(Long id, String field, Object content);
     
 }

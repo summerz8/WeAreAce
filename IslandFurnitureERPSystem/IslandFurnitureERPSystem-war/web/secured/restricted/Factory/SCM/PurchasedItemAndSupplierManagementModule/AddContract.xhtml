@@ -16,6 +16,24 @@
     <h:body>
 
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -43,13 +61,11 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>                
+                           
                 <p:layoutUnit position="west" size="1000px">
 
-                    <p:panelMenu style="width:300px">
-
-                        <p:submenu label="Supply Chain Management">
-
+                       <p:menu>
+                        <p:submenu label="Purchased Item And Supplier Management">
                             <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
                             <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
@@ -57,7 +73,8 @@
                             <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
                             <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
                         </p:submenu>
-                    </p:panelMenu>
+                       </p:menu>
+
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
@@ -77,10 +94,10 @@
                             <p:inputText id="lotSize" value="#{addContract.lotSize}" required="true"/>
 
                             <p:outputLabel for="startDate" value="Contract Start Date" style="font-weight:bold" />
-                            <p:calendar id="startDate" value="#{addContract.startDate}"  pattern="dd-MM-yyyy" mask="true"/>
+                            <p:calendar id="startDate" value="#{addContract.startDate}"  pattern="dd/MM/yyyy" mask="true"/>
 
                             <p:outputLabel for="endDate" value="Contract End Date" style="font-weight:bold" />
-                            <p:calendar id="endDate" value="#{addContract.endDate}"  pattern="dd-MM-yyyy" mask="true"/>
+                            <p:calendar id="endDate" value="#{addContract.endDate}"  pattern="dd/MM/yyyy" mask="true"/>
 
                             <p:commandButton action="#{addContract.save()}" value="Confrim" update="growl"/>
 

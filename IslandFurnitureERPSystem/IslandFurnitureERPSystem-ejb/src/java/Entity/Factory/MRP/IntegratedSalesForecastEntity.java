@@ -43,14 +43,21 @@ public class IntegratedSalesForecastEntity implements Serializable {
     @ManyToOne
     private FactoryProductEntity factoryProduct;
     
+    @ManyToOne
+    private FactoryRetailProductEntity factoryRetailProduct;
+    
     //factory  entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
     private FactoryEntity factory;
+<<<<<<< HEAD
     
     //factory retail product entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
     
+=======
+       
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
     //sales forecast list -- integrated sales forcast   M <-- M
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="INTEGRATEDSALESFORECAST_SALESFORECAST")
@@ -81,6 +88,15 @@ public class IntegratedSalesForecastEntity implements Serializable {
     public FactoryProductEntity getFactoryProduct() {
         return factoryProduct;
     }
+
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
+   
 
     public void setFactoryProduct(FactoryProductEntity factoryProduct) {
         this.factoryProduct = factoryProduct;

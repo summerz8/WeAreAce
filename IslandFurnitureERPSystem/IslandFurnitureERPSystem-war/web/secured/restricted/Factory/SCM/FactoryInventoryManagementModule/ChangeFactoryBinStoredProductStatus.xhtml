@@ -16,6 +16,27 @@
     <h:body>
 
         <h:form id="globalNavigation">
+<<<<<<< HEAD
+=======
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -48,6 +69,7 @@
                 </p:layoutUnit>
 
 
+<<<<<<< HEAD
                 <p:growl id="messages" showDetail="false"/>
 
                 <p:layoutUnit position="west" size="1000px">
@@ -93,6 +115,20 @@
                                 <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
                                 <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
                             </p:submenu>    
+=======
+                
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="Factory Inventory Management">
+                            <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
+                            <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
+                            <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
+                            <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
+                            <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
+                            <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
+                            <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                         </p:submenu>
                     </p:menu>
 
@@ -114,6 +150,7 @@
                             <f:selectItem itemLabel="Blocked" itemValue="blocked" />
                             <f:selectItem itemLabel="Returned" itemValue="returned" />
                         </p:selectOneRadio>
+<<<<<<< HEAD
                         
                         <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.changeFactoryBinStoredProductStatus}"/>
 
@@ -127,6 +164,21 @@
         </p:layout>
     </h:form>
 </h:body>
+=======
+
+                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.changeFactoryBinStoredProductStatus}"/>
+
+                    </h:panelGrid>
+
+
+                </p:layoutUnit>
+
+
+
+            </p:layout>
+        </h:form>
+    </h:body>
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
 
 </html>
 

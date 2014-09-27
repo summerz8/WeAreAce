@@ -7,19 +7,35 @@
       xmlns:p="http://primefaces.org/ui">
     <f:view>
         <h:head>
-            <title>Island Furniture ERP WorkPlace</title>
-            <!--            <head>
-                                <style type="text/css">
-                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
-                                         border: none;
-                                    }
-                                </style>
-                        </head>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
         </h:head>
+
 
         <h:body>
 
             <h:form id="formMain">
+
+                <p:growl id="messages" showDetail="true" sticky="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>   
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
@@ -52,23 +68,22 @@
 
 
                     </p:layoutUnit>
+                    
 
-
-                    <p:growl id="messages" showDetail="false"/>
-
-                    <p:layoutUnit position="west" size="500px">
+                    <p:layoutUnit position="west"  style = "border:0px;">
 
                         <p:menu>
                             <p:submenu label="Manufacturing Resource Planning">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
                                 <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />                                    
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                             </p:submenu>
                             <p:submenu label="Supply Chain Management">
+<<<<<<< HEAD
                                 <p:submenu label="Purchased Items and Suppliers Management">
                                     <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
                                     <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
@@ -111,9 +126,19 @@
                             
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
+=======
+                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage.xhtml" />
+                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml" />
+                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml" />
+                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml" />
+                                <p:menuitem value ="Document Reference" outcome ="/secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml" />
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                             </p:submenu>
-                            <p:submenu label="Enterprise">
-                                <p:menuitem value="Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml"/>
+
+                            <p:submenu label="Enterprise Management">
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml"/>
+                                <p:menuitem value="Factory Resource Control" />
+                                <p:menuitem value="Store Resource Control" />
                             </p:submenu>
                             <p:submenu label="Ticket Management">
                                 <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList"/>
@@ -122,9 +147,10 @@
 
 
                     </p:layoutUnit>
-                    <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="User Information Page" style="margin-bottom" >
-                            <h:panelGrid columns="2" cellpadding="10">
+                    <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
+                        <p:panel id="basic" header =" " style="height:800px;" >
+                            <h:panelGrid columns="2" cellpadding="6">
+
 
 
                             </h:panelGrid>
@@ -137,4 +163,3 @@
         </h:body>
     </f:view>
 </html>
-

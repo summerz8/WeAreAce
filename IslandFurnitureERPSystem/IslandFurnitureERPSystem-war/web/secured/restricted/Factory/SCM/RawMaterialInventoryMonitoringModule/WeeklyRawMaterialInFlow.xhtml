@@ -16,6 +16,27 @@
     <h:body>
 
         <h:form id="globalNavigation">
+<<<<<<< HEAD
+=======
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -48,6 +69,7 @@
                 </p:layoutUnit>
 
 
+<<<<<<< HEAD
                 <p:growl id="messages" showDetail="false"/>
 
                 <p:layoutUnit position="west" size="1000px">
@@ -88,15 +110,30 @@
                                 <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
                                 <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
                             </p:submenu>
+=======
+                
+
+                <p:layoutUnit position="west" size="1000px">
+
+                         <p:menu>
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
 
                             <p:submenu label="Raw Material Monitoring">
                                 <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
                                 <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
                             </p:submenu>    
+<<<<<<< HEAD
                         </p:submenu>
                     </p:menu>
 
 
+=======
+                        
+                    </p:menu>
+
+
+
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 

@@ -21,15 +21,15 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "addItem")
 @ViewScoped
-public class AddItem  implements Serializable {
+public class AddItem implements Serializable {
 
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId =  3L;
+    Long factoryId;
     String itemType = "test";
     Long itemId = 1L;
-    
+
     RawMaterialEntity selectedRM;
     RetailProductEntity selectedRP;
     String result = null;
@@ -102,11 +102,13 @@ public class AddItem  implements Serializable {
         System.out.println("itemType " + this.itemType);
         System.out.println("itemId " + this.itemId);
 
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
         result = pmb.addItem(factoryId, itemType, itemId);
         FacesMessage msg = new FacesMessage("Information: " + result);
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
-        return "/secured/WorkPlace?faces-redirect=true";
+        return "/secured/public/WorkPlace?faces-redirect=true";
 
     }
 }

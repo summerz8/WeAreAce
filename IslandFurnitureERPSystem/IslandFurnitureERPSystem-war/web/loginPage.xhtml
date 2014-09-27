@@ -5,12 +5,17 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Island Furniture Internal Portal</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System Internal Portal</title>
     </h:head>
     <h:body>
         <h:form>
+            <p:growl id="messages" showDetail="true"/>
+            
             <div class="ui-grid ui-grid-responsive" align="center"> 
-                <h:panelGrid columns="2" cellpadding="50%"></h:panelGrid>
+                <h:panelGrid columns="2" cellpadding="20%"></h:panelGrid>
                 <p:panel id="basic" header="Welcome to Island Furniture Internal Portal"  style="margin-bottom:20px;width:500px; height:250px;text-align:center" >
                     <div class="component-spacing-top"/> 
                     <div class="ui-grid ui-grid-responsive" align="center">   
@@ -20,23 +25,29 @@
                                 <p:outputLabel for="userId" style="font-weight: bold" value="User ID :"/>
                             </div>
 
-                            <p:inputText required="true" label = "User ID: " requiredMessage ="User ID is required." id = "userId"
-                                         value="#{loginBean.userId}"/> 
+                            <p:inputMask required="true" label = "User ID: " requiredMessage ="User ID is required." id = "userId"
+                                         value="#{loginBean.userId}" mask="a9999999"/> 
                             <br />
                             <div class="ui-grid-col-4">                                
                                 <p:outputLabel for="pwd" style="font-weight: bold" value="Password :"/>
                             </div>
-                            <p:inputText required="true" label = "Password :" requiredMessage ="Password is required." id = "pwd"
+                            <p:password id = "pwd" required="true" label = "Password :" requiredMessage ="Password is required." 
                                          value="#{loginBean.pwd}"/>
 
                             <br />  
 
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-                            <p:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}"/>
+                            <p:commandButton id="btn" value="login" actionListener="#{loginBean.checkLogin}" update="messages"/>
 
                             <div class="component-spacing-top"/>
                         </div>
                     </div>
+                        <h:panelGrid columns="2" cellpadding="25"></h:panelGrid>
+                        <p:graphicImage value="resources/images/singapore-logo.jpg" style = "margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                        <h:panelGrid columns="2" cellpadding="6"></h:panelGrid>
+                        <h6>
+                        <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="text-align: center;"/>
+                        </h6>
                 </p:panel>
             </div>
         </h:form>

@@ -51,8 +51,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-            //System.err.println("itemType=rawmaterials");
             Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
+            
             for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
                 if (!frm.getIsDeleted()) {
                     frmList.add(frm);
@@ -68,12 +68,13 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     //RetailProduct
     @Override
     public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception {//test works!!
-        System.out.println("viewRetailProductWithSelectType():");
+        System.out.println("Session Bean : viewRetailProductWithSelectType():");
         Collection<FactoryRetailProductEntity> frpList = new ArrayList<>();
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
+            
             for (FactoryRetailProductEntity frp : factoryRetailProductList) {
                 if (!frp.getIsDeleted()) {
                     frpList.add(frp);
@@ -309,7 +310,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity frm = em.find(FactoryRawMaterialEntity.class, itemId);
                 ableToAddSupplierList = viewAvailSupplier(frm.getFactory().getFactoryId());
-                
+
                 Collection<ContractEntity> contractList = frm.getContracts();
                 for (ContractEntity contract : contractList) {
                     SupplierEntity supplier = contract.getSupplier();
@@ -349,6 +350,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         try {
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
+            System.out.println("SessionBean: SupplierName + " + name);
             supplier.setSupplierName(name);
 
             supplier.setSupplierAddress(address);
@@ -489,18 +491,13 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         System.out.println("addContract():");
         String result = null;
         String unit = null;
-        //set month of the two date to be -1 of the input (Calendar class problem)
-        contractStartDate.add(Calendar.MONTH, -1);
-        contractEndDate.add(Calendar.MONTH, -1);
-
         if (!removeTime(contractStartDate).before(removeTime(contractEndDate))) {
             result = "\nInformation incorrect: contract start date is not before contract end date. "
                     + "\nPlease enter correct date.\n";
             return result;
-
         }
+        
         try {
-
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
             //create a new contract with given price and date

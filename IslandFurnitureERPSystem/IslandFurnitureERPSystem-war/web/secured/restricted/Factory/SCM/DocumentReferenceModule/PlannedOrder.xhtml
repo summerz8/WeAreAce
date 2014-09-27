@@ -16,6 +16,27 @@
     <h:body>
 
         <h:form id="globalNavigation">
+<<<<<<< HEAD
+=======
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -48,6 +69,7 @@
                 </p:layoutUnit>
 
 
+<<<<<<< HEAD
                 <p:growl id="messages" showDetail="false"/>
 
                 <p:layoutUnit position="west" size="1000px">
@@ -68,6 +90,11 @@
                                 <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
                             </p:submenu>
                             
+=======
+                
+                <p:layoutUnit position="west" size="1000px">
+                    <p:menu>
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                             <p:submenu label="Document Reference">
                                 <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
                                 <p:menuitem value="Planned Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder?faces-redirect=true" />
@@ -78,6 +105,7 @@
                                 <p:menuitem value="Contract" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Contract?faces-redirect=true" />
                                 <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
                             </p:submenu>
+<<<<<<< HEAD
 
                             <p:submenu label="Factory Inventory Management">
                                 <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
@@ -97,6 +125,10 @@
                     </p:menu>
 
 
+=======
+                    </p:menu>
+
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 

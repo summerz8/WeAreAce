@@ -6,6 +6,7 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
+import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -35,14 +37,18 @@ public class ProductionPlanBean implements Serializable {
 
     @EJB
     private ProductionPlanManagementModuleLocal PP;
+    @EJB
+    private PlannedOrderManagementModuleLocal PO;
+    
 
     private ProductionPlanEntity pp;
     private Long productionPlanId;
     private Object quantity;
-    private Calendar targetPeriod;
-    private Long productId;
+//    private Calendar targetPeriod;
+//    private Long productId;
     private String status;
     private String remark;
+    private Long factoryId;
 
     public Long getProductionPlanId() {
         return productionPlanId;
@@ -60,31 +66,38 @@ public class ProductionPlanBean implements Serializable {
 
         this.quantity = quantity;
     }
+//
 
-    public Calendar getTargetPeriod() {
-        return targetPeriod;
+    public Long getFactoryId() {
+        return factoryId;
     }
-
-    public Long getProductId() {
-        return productId;
-    }
-
+    
+    
+//    public Calendar getTargetPeriod() {
+//        
+//        return targetPeriod;
+//    }
+//
+//    public Long getProductId() {
+//        return productId;
+//    }
+//
     public String getStatus() {
         return status;
     }
-
+//
     public String getRemark() {
         return remark;
     }
-
-    public void setTargetPeriod(Calendar targetPeriod) {
-        this.targetPeriod = targetPeriod;
-    }
-
-    public void setProductId(Long productionId) {
-        this.productId = productionId;
-    }
-
+//
+//    public void setTargetPeriod(Calendar targetPeriod) {
+//        this.targetPeriod = targetPeriod;
+//    }
+//
+//    public void setProductId(Long productionId) {
+//        this.productId = productionId;
+//    }
+//
     public void setStatus(String status) {
         this.status = status;
     }
@@ -95,9 +108,11 @@ public class ProductionPlanBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed();
-        productionPlanConfirmed = PP.getProductionPlanConfirmed();
-        productionPlanCancelled = PP.getProductionPlanCancelled();
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        System.out.println("factoryId    " + factoryId);
+        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed(factoryId);
+        productionPlanConfirmed = PP.getProductionPlanConfirmed(factoryId);
+        productionPlanCancelled = PP.getProductionPlanCancelled(factoryId);
     }
 
     public List<ProductionPlanEntity> getProductionPlanConfirmed() {
@@ -116,6 +131,8 @@ public class ProductionPlanBean implements Serializable {
         return productionPlan;
     }
 
+    
+    
     public void saveId(Long id) {
         System.out.println("5");
         productionPlanId = id;
@@ -183,6 +200,7 @@ public class ProductionPlanBean implements Serializable {
         Calendar confirmDate = Calendar.getInstance();
         PP.editProductionPlan(id, "status", "confirmed");
         PP.editProductionPlan(id, "confirmDate", confirmDate);
+        PO.createPlannedOrder(id);
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
     
@@ -190,5 +208,6 @@ public class ProductionPlanBean implements Serializable {
         PP.editProductionPlan(id, "status", "cancelled");
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
+    
 
 }
