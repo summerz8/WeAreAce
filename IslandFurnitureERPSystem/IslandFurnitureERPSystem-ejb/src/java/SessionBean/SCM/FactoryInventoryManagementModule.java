@@ -55,7 +55,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     // return -1L if goodsReceiptId is invalid
     //        -2L if the factory has no access to this goods receipt
     //        -3L if the toBinId is invalid
-    //        -4L if the factory has no access to this goods receipt
+    //        -4L if the factory has no access to this factory bin
     //        -5L if unexpected exception occurred 
     //        else return inboundMovementId
     @Override
@@ -142,8 +142,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
 
     // return -1L if toStoreId is invalid
     //        -2L if the fromBinId is invalid
-    //        -3L if the factoryRetailProduct is not found
-    //        -4L if the specified storage bin does not contain this factoryRetailProduct available for shipping
+    //        -3L if the factoryProduct is not found
+    //        -4L if the specified storage bin does not contain this factoryProduct available for shipping
     //        -5L if the required quantity exceeds the total stock from this storage bin
     //        -6L if the required quantity exceeds the minimum inventory level in the factory
     //        -7L if unexpected exception occurred 

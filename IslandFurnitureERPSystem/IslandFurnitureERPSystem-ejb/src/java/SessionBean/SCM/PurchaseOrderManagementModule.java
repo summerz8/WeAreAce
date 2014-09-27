@@ -82,14 +82,14 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     @Override
     public FactoryRawMaterialEntity getFactoryRM(Long itemId) throws Exception {
         System.out.println("getFactoryRM():");
-
+        FactoryRawMaterialEntity frm = null;
         try {
-            FactoryRawMaterialEntity rawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
+            frm = em.find(FactoryRawMaterialEntity.class, itemId);
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return null;
+        return frm;
     }
 
     @Override
@@ -766,7 +766,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrderList = factory.getPurchaseOrders();
             for (PurchaseOrderEntity po : purchaseOrderList) {
                 //check whether this intergrated planned order is in waiting status
-                if (po.getStatus().equals("unconfirmed")) {
+                if (po.getStatus().toLowerCase().equals("unconfirmed")) {
                     unconfirmedPurchaseOrderList.add(po);
                 }
             }
@@ -881,8 +881,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return result;
     }
-    
-    
+
     @Override
     public String cancelPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception {
         System.out.println("cancelPurchaseOrder");
@@ -976,6 +975,5 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return isExpired;
     }
-
 
 }

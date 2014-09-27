@@ -11,9 +11,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 /**
@@ -219,15 +221,129 @@ public class FactoryInventoryManagementBean implements Serializable {
         return fim.listStorageBinInformation(factoryId);
     }
 
-    public Long recordInboundMovement(ActionEvent event) {
-        return fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
+    public void recordInboundMovement(ActionEvent event) {
+        Long temp = fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
+        if (temp == -1L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
+                            "goodsReceiptId is invalid"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
+                            "factory has no access to this goods receipt"));
+        } else if (temp == -3L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
+                            "toBinId is invalid"));
+        } else if (temp == -4L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
+                            "factory has no access to this factory bin"));
+        } else if (temp == -5L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
+                            "unexpected exception occurred"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                            ""));
+        }
     }
 
-    public Long recordOutboundMovement(ActionEvent event) {
+    public void recordOutboundMovement(ActionEvent event) {
+        Long temp;
         if (itemTypeIndicator == 2) {
-            return fim.recordFactoryProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
+            temp = fim.recordFactoryProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "toStoreId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "fromBinId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "factoryProduct is not found"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "specified storage bin does not contain this factoryProduct available for shipping"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "required quantity exceeds the total stock from this storage bin"));
+            } else if (temp == -6L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "required quantity exceeds the minimum inventory level in the factory"));
+            } else if (temp == -7L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "unexpected exception occurred"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
         } else {
-            return fim.recordFactoryRetailProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
+            temp = fim.recordFactoryRetailProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "toStoreId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "fromBinId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "factoryRetailProduct is not found"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "specified storage bin does not contain this factoryRetailProduct available for shipping"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "required quantity exceeds the total stock from this storage bin"));
+            } else if (temp == -6L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "required quantity exceeds the minimum inventory level in the factory"));
+            } else if (temp == -7L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "unexpected exception occurred"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
         }
     }
 
@@ -256,7 +372,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             return fim.recordReturnedRetailProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
         }
     }
-    
+
     public Long recordProductToBinMovement(ActionEvent event) {
         return fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
     }

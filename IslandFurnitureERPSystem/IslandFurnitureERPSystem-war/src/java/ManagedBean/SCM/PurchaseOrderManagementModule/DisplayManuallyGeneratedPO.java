@@ -7,7 +7,10 @@ package ManagedBean.SCM.PurchaseOrderManagementModule;
 
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
+import Entity.Factory.SCM.SupplierEntity;
+import Entity.Store.StoreEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -24,16 +27,14 @@ import javax.inject.Named;
  */
 @Named(value = "displayManuallyGeneratedPO")
 @ViewScoped
-public class DisplayManuallyGeneratedPO {
+public class DisplayManuallyGeneratedPO implements Serializable {
 
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
 
     private PurchaseOrderEntity purchaseOrder;
     private Long factoryId;
-    private Long contractId;
     private Double purchaseAmount;
-    private Long storeId;
     private String destination;
     private Calendar deliveryDate;
 
@@ -45,6 +46,68 @@ public class DisplayManuallyGeneratedPO {
     private ContractEntity contract;
     private Double totalPrice;
     private String destinationAddress;
+    private SupplierEntity supplier;
+    private StoreEntity store;
+    private Long storeId;
+
+    @PostConstruct
+    public void init() {
+        try {
+            System.out.println("DisplayManuallyGeneratedPO:");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            System.out.println("factoryId = " + factoryId);
+            //be put @displaySuppliersForManuallyGeneratedPO.displaySuppliers
+            itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
+            System.out.println("itemType = " + itemType);
+
+            //be put @displaySuppliersForManuallyGeneratedPO.displaySuppliers
+            itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
+            System.out.println("itemId = " + itemId);
+
+            //be put @SelectedSupplierPO
+            supplier = (SupplierEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSupplier");
+
+            contract = pmb.selectSupplier(itemType, itemId, supplier.getSupplierId());
+            //be put @displayContractForManuallyGeneratedPO
+            purchaseAmount = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("purchaseAmount");
+            //be put @selectedDeliveryDestination, could be null if destination is factory
+            store = (StoreEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedStore");
+            if(store == null)
+                storeId = null;
+            
+            //be put @selectedDeliveryDestination
+            destination = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("destination");
+            //be put @displayContractForManuallyGeneratedPO
+            deliveryDate = (Calendar) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("deliveryDate");
+
+            if (itemType.equals("RawMaterial")) {
+
+                itemName = pmb.getFactoryRM(itemId).getMaterialName();
+                unit = pmb.getFactoryRM(itemId).getUnit();
+
+            } else {
+                itemName = pmb.getFactoryRP(itemId).getName();
+                unit = pmb.getFactoryRM(itemId).getUnit();
+            }
+            contract = pmb.getContract(contract.getContractId());
+            totalPrice = purchaseAmount * contract.getContractPrice();
+            System.out.println("Total Price: " + totalPrice.toString());
+
+            this.setTotalPrice(totalPrice);
+            System.out.println("destinationAddress = " + destinationAddress);
+
+            if (destination.equals("store") && destination != null) {
+                destinationAddress = pmb.getStoreEntity(store.getStoreId()).getAddress();
+            } else {
+                destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
+                System.out.println("destinationAddress = " + destinationAddress);
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DisplayManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     public PurchaseOrderEntity getPurchaseOrder() {
         return purchaseOrder;
@@ -62,28 +125,12 @@ public class DisplayManuallyGeneratedPO {
         this.factoryId = factoryId;
     }
 
-    public Long getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
-    }
-
     public Double getPurchaseAmount() {
         return purchaseAmount;
     }
 
     public void setPurchaseAmount(Double purchaseAmount) {
         this.purchaseAmount = purchaseAmount;
-    }
-
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 
     public String getDestination() {
@@ -158,65 +205,54 @@ public class DisplayManuallyGeneratedPO {
         this.destinationAddress = destinationAddress;
     }
 
-    @PostConstruct
-    public void init() {
-        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
-        itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
-        itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
-
-        //be put @displayContractForManuallyGeneratedPO
-        contractId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("contractId");
-        //be put @displayContractForManuallyGeneratedPO
-        purchaseAmount = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("purchaseAmount");
-        //be put @selectedDeliveryDestination, could be null if destination is factory
-        storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("storeId");
-        //be put @selectedDeliveryDestination
-        destination = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("destination");
-        //be put @displayContractForManuallyGeneratedPO
-        deliveryDate = (Calendar) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("deliveryDate");
-        try {
-            if (itemType.equals("RawMaterial")) {
-
-                itemName = pmb.getFactoryRM(itemId).getMaterialName();
-                unit = pmb.getFactoryRM(itemId).getUnit();
-
-            } else {
-                itemName = pmb.getFactoryRP(itemId).getName();
-                unit = pmb.getFactoryRM(itemId).getUnit();
-            }
-            contract = pmb.getContract(contractId);
-            totalPrice = purchaseAmount * contract.getContractPrice();
-            if (destination.equals("store")) {
-                destinationAddress = pmb.getStoreEntity(storeId).getAddress();
-            } else {
-                destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(DisplayManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public SupplierEntity getSupplier() {
+        return supplier;
     }
 
-    /**
-     * Creates a new instance of DisplayManuallyGeneratedPO
-     */
+    public void setSupplier(SupplierEntity supplier) {
+        this.supplier = supplier;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
     public DisplayManuallyGeneratedPO() {
     }
 
     public String generatePO() throws Exception {
+        
+        System.out.println("factoryId = " + factoryId);
+        System.out.println("contractId = " + contract.getContractId());
+        System.out.println("purchaseAmount = " + purchaseAmount);
+        System.out.println("storeId = " + storeId);
+        System.out.println("destination = " + destination);
+        System.out.println("deliveryDate = " + deliveryDate);
+        
 
-        purchaseOrder = pmb.createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, deliveryDate);
+        purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(), 
+                purchaseAmount, storeId, destination, deliveryDate);
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("contractId");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("storeId");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
 
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
     }
 
 }

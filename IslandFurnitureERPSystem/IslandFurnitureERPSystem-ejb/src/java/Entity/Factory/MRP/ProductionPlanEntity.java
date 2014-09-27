@@ -118,14 +118,6 @@ public class ProductionPlanEntity implements Serializable {
         this.quantity = output;
     }
 
-    public FactoryProductEntity getProduct() {
-        return factoryProduct;
-    }
-
-    public void setProduct(FactoryProductEntity product) {
-        this.factoryProduct = product;
-    }
-
     public String getRemark() {
         return remark;
     }

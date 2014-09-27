@@ -36,7 +36,7 @@ public class DisplayItemsForManuallyGeneratedPO implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
