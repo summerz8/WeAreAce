@@ -33,13 +33,13 @@ public class DisplayContractForManuallyGeneratedPO {
     private Long itemId;
     private SupplierEntity supplier;
     private Double purchaseAmount;
-    private Long factoryId = 1L;
-    private Calendar deliveryDate;
+    private Long factoryId ;
+    private Calendar deliveryDate = Calendar.getInstance();
 
     @PostConstruct
     public void init() {
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             //be put @displaySuppliersForManuallyGeneratedPO
             itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
             //be put @displaySuppliersForManuallyGeneratedPO
@@ -68,8 +68,6 @@ public class DisplayContractForManuallyGeneratedPO {
     }
 
     public void setContract(ContractEntity contract) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("contractId", this.contract.getContractId());
-
         this.contract = contract;
     }
 
@@ -121,8 +119,7 @@ public class DisplayContractForManuallyGeneratedPO {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate.setTime(deliveryDate);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryDate", deliveryDate);
-
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryDate", this.deliveryDate);
     }
 
     public DisplayContractForManuallyGeneratedPO() {

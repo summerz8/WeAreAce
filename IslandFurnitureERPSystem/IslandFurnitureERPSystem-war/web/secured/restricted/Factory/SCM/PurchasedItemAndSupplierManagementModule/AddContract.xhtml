@@ -76,10 +76,10 @@
                             <p:inputText id="lotSize" value="#{addContract.lotSize}" required="true"/>
 
                             <p:outputLabel for="startDate" value="Contract Start Date" style="font-weight:bold" />
-                            <p:calendar id="startDate" value="#{addContract.startDate}"  pattern="dd-MM-yyyy" mask="true"/>
+                            <p:calendar id="startDate" value="#{addContract.startDate}"  pattern="dd/MM/yyyy" mask="true"/>
 
                             <p:outputLabel for="endDate" value="Contract End Date" style="font-weight:bold" />
-                            <p:calendar id="endDate" value="#{addContract.endDate}"  pattern="dd-MM-yyyy" mask="true"/>
+                            <p:calendar id="endDate" value="#{addContract.endDate}"  pattern="dd/MM/yyyy" mask="true"/>
 
                             <p:commandButton action="#{addContract.save()}" value="Confrim" update="growl"/>
 
