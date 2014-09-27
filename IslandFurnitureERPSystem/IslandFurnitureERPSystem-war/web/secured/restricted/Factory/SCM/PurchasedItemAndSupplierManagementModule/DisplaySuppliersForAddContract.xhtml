@@ -121,31 +121,31 @@
                             <f:facet name="header">
                                 Supplier List
                             </f:facet>
-                            <p:column headerText="Id" style="width: 5px" >
+                            <p:column headerText="Id" width="5%" >
                                 <h:outputText value="#{supplier.supplierId}"  style="font-weight: bold" />    
                             </p:column>
 
-                            <p:column headerText="Name" style="width: 10px">
+                            <p:column headerText="Name" width="15%">
                                 <h:outputText value="#{supplier.supplierName}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Address" style="width: 10px">
+                            <p:column headerText="Address" width="25%">
                                 <h:outputText value="#{supplier.supplierAddress}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Contact" style="width: 5px">
+                            <p:column headerText="Contact" width="10%">
                                 <h:outputText value="#{supplier.supplierContact}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Fax" style="width: 5px">
+                            <p:column headerText="Fax" width="15%">
                                 <h:outputText value="#{supplier.supplierFax}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Remark" style="width: 5px">
+                            <p:column headerText="Remark" width="15%">
                                 <h:outputText value="#{supplier.remark}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column style="width:20px;text-align: center">
+                            <p:column headerText="Please Select Here" width="15%">
                                 <p:commandButton update=":formMain:supplierDetail" oncomplete="PF('supplierDialog').show()" value="Choose">
 
                                     <f:setPropertyActionListener value="#{supplier}" target="#{selectedSupplier.supplier}" />

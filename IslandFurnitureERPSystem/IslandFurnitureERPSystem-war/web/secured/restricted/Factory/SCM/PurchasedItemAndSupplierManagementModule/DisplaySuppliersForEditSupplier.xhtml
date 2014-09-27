@@ -147,7 +147,6 @@
                             <p:column headerText="Please Select Here" width="15%" > 
                                 <p:commandButton update=":formMain:supplierDetail" oncomplete="PF('supplierDialog').show()" value="Choose">
 
-                                    <!--This does not work properly-->        
                                     <f:setPropertyActionListener value="#{supplier}" target="#{selectedSupplier.supplier}" />
 
                                 </p:commandButton>

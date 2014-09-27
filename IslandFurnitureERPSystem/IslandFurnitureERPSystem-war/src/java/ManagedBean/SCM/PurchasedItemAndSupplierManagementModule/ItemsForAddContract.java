@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,13 +29,15 @@ public class ItemsForAddContract implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId = 1L;
+    Long factoryId;
     Collection<FactoryRawMaterialEntity> frmList;
     Collection<FactoryRetailProductEntity> frpList;
 
     @PostConstruct
     public void init() {
         try {
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
 
@@ -83,9 +86,8 @@ public class ItemsForAddContract implements Serializable {
     }
 
     public String displayAllFactoryItems() throws Exception {
-       
+
         return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract?faces-redirect=true";
     }
-    
-    
+
 }

@@ -116,10 +116,9 @@
                 <p:layoutUnit position="center" resizable="true">
 
                     <p:panel id="basic" header="Choose A Raw Material or A Retail Product From the List " style="margin-bottom" >
-                        <h3 style="margin-top: 0">Items Available for Add</h3>
                         <p:dataTable var="rm" value="#{itemsForAddItem.rmList}" >
                             <f:facet name="header">
-                                Factory Raw Materials
+                                Global Raw Materials (Not in the Factory)
                             </f:facet>
 
                             <p:column headerText="Id" width="5%" >
@@ -139,7 +138,7 @@
                             </p:column>
 
                             <p:column headerText="Please Select Here" width="15%" >
-                                <p:commandButton update=":formMain:rmDetail" oncomplete="PF('rmDialog').show()" value="Choose">
+                                <p:commandButton update=":formMain:rmDetail" oncomplete="PF('rmDialog').show()" value="Add">
 
                                     <f:setPropertyActionListener value="#{rm}" target="#{addItem.selectedRM}" />
 
@@ -174,7 +173,7 @@
                         <p:dataTable var="rp" value="#{itemsForAddItem.rpList}"  >
 
                             <f:facet name="header">
-                                Factory Retail Products
+                                Global Retail Products (Not in the Factory)
                             </f:facet>
 
                             <p:column headerText="Id" width="5%">
@@ -195,7 +194,7 @@
 
 
                             <p:column headerText="Please Select Here" width="15%" >       
-                                <p:commandButton update=":formMain:rpDetail" oncomplete="PF('rpDialog').show()" value="Choose" >
+                                <p:commandButton update=":formMain:rpDetail" oncomplete="PF('rpDialog').show()" value="Add" >
                                     <f:setPropertyActionListener value="#{rp}" target="#{addItem.selectedRP}" />
 
                                 </p:commandButton>               
@@ -219,7 +218,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{addItem.selectedRP.unit}" />
 
-                                    <p:commandButton action="#{addSupplier.setItemIdAndType('RetailProduct', addItem.selectedRP.retailProductId)}" value="Confrim"/>
+                                    <p:commandButton action="#{addItem.add('RetailProduct', addItem.selectedRP.retailProductId)}" value="Confrim"/>
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>

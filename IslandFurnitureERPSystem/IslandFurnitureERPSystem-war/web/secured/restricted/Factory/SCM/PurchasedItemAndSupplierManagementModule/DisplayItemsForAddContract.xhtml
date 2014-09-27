@@ -116,14 +116,13 @@
                 <p:layoutUnit position="center" resizable="true">
 
                     <p:panel id="basic" header="Choose A Raw Material or A Retail Product From the List " style="margin-bottom" >
-                        <h3 style="margin-top: 0">Items Available for Purchase</h3>
                         <p:dataTable var="frm" value="#{itemsForAddContract.frmList}">
                             <f:facet name="header">
                                 Factory Raw Materials
                             </f:facet>
 
-                            <p:column headerText="Id" width="5%" >
-                                <h:outputText value="#{frm.factoryRawMaterialId}"  style="font-weight: bold" />    
+                            <p:column headerText="Global Id" width="5%" >
+                                <h:outputText value="#{frm.rawMaterial.materialId}"  style="font-weight: bold" />    
                             </p:column>
 
                             <p:column headerText="Name" width="15%">
@@ -161,8 +160,8 @@
                                   draggable="true" closable="true" width="300">
                             <p:outputPanel id="rmDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.factoryRawMaterialId}" />
+                                    <h:outputText value="Global Id:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.rawMaterial.materialId}" />
 
                                     <h:outputText value="Name:" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRM.materialName}" />
@@ -173,7 +172,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRM.unit}" />
 
-                                    <p:commandButton action="#{displaySuppliersForAddContract.displaySuppliers('RawMaterial',selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" value="Comfirm" />
+                                    <p:commandButton action="#{displaySuppliersForAddContract.displaySuppliers('RawMaterial',selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" value="Confirm" />
 
                                 </p:panelGrid>
                             </p:outputPanel>
@@ -185,8 +184,8 @@
                                 Factory Retail Products
                             </f:facet>
 
-                            <p:column headerText="Id" width="5%">
-                                <h:outputText value="#{frp.factoryRetailProdctId}" style="font-weight: bold"/>
+                            <p:column headerText="Global Id" width="5%">
+                                <h:outputText value="#{frp.retailProduct.retailProductId}" style="font-weight: bold"/>
                             </p:column>
 
                             <p:column headerText="Name" width="15%">
@@ -212,9 +211,6 @@
                             <p:column headerText="Please Select Here" width="15%" >    
                                 <p:commandButton update=":formMain:rpDetail" oncomplete="PF('rpDialog').show()" value="Choose" >
                                     <f:setPropertyActionListener value="#{frp}" target="#{selectedFactoryItem.selectedFRP}" />
-<!--                                <f:setPropertyActionListener value="#{selectedFactoryItem.selectedFRP.factoryRetailProdctId}" target="#{displaySuppliersForAddContract.itemId}" />
-                                    <f:setPropertyActionListener value="RetailProduct" target="#{displaySuppliersForAddContract.itemType}" />-->
-
                                 </p:commandButton>               
                             </p:column>
                         </p:dataTable>
@@ -224,8 +220,8 @@
                                   draggable="true" closable="true" width="300">
                             <p:outputPanel id="rpDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.factoryRetailProdctId}" />
+                                    <h:outputText value="Global Id:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.retailProduct.retailProductId}" />
 
                                     <h:outputText value="Name:" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRP.name}" />
@@ -236,11 +232,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRP.unit}" />
 
-                                    <p:commandButton action="#{displaySuppliersForAddContract.displaySuppliers('RawMaterial',selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" value="Comfirm" />
-
-<!--                                    <p:commandButton action="#{displaySuppliersForAddContract.displaySuppliers}" value="Confrim">-->
-                                    <!--                                    </p:commandButton>-->
-
+                                    <p:commandButton action="#{displaySuppliersForAddContract.displaySuppliers('RetailProduct',selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" value="Confirm" />
 
                                 </p:panelGrid>
                             </p:outputPanel>

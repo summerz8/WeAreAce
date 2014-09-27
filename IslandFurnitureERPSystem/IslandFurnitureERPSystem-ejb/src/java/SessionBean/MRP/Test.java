@@ -318,6 +318,35 @@ public class Test {
         em.persist(frm6);em.persist(frm7);em.persist(frm8);em.persist(frm9);em.persist(frm10);
         em.persist(frm11);em.persist(frm12);em.persist(frm13);em.persist(frm14);em.persist(frm15);
         
+        //Shiyu: 27 Sep add frm to factory
+        f1.getFactoryRawMaterials().add(frm1);
+        f1.getFactoryRawMaterials().add(frm2);
+        f1.getFactoryRawMaterials().add(frm3);
+        f1.getFactoryRawMaterials().add(frm4);
+        f1.getFactoryRawMaterials().add(frm5);
+        f2.getFactoryRawMaterials().add(frm6);
+        f2.getFactoryRawMaterials().add(frm7);
+        
+        //Shiyu: 27 Sep add frm to factory
+        rm1.getFactoryRawMaterials().add(frm1);
+        rm1.getFactoryRawMaterials().add(frm6);
+        rm1.getFactoryRawMaterials().add(frm11);
+        rm2.getFactoryRawMaterials().add(frm2);
+        rm2.getFactoryRawMaterials().add(frm7);
+        rm2.getFactoryRawMaterials().add(frm12);
+        rm3.getFactoryRawMaterials().add(frm3);
+        rm3.getFactoryRawMaterials().add(frm8);
+        rm3.getFactoryRawMaterials().add(frm13);
+        rm4.getFactoryRawMaterials().add(frm4);
+        rm4.getFactoryRawMaterials().add(frm9);
+        rm4.getFactoryRawMaterials().add(frm14);
+        rm5.getFactoryRawMaterials().add(frm5);
+        rm5.getFactoryRawMaterials().add(frm10);
+        rm5.getFactoryRawMaterials().add(frm15);
+        
+        
+        em.flush();
+        
         //set up factory raa material amount entity
         FactoryRawMaterialAmountEntity frma1 = new FactoryRawMaterialAmountEntity();
         FactoryRawMaterialAmountEntity frma2 = new FactoryRawMaterialAmountEntity();
@@ -626,6 +655,18 @@ public class Test {
         em.persist(frpe8);em.flush();
         em.persist(frpe9);em.flush();
         
+        f1.getFactoryRetailProducts().add(frpe1);
+        f1.getFactoryRetailProducts().add(frpe4);
+        f1.getFactoryRetailProducts().add(frpe7);
+        f2.getFactoryRetailProducts().add(frpe2);
+        f2.getFactoryRetailProducts().add(frpe5);
+        f2.getFactoryRetailProducts().add(frpe8);
+        f3.getFactoryRetailProducts().add(frpe3);
+        f3.getFactoryRetailProducts().add(frpe6);
+        f3.getFactoryRetailProducts().add(frpe9);
+
+        
+        
         FactoryRetailProductAmountEntity rpa1=new FactoryRetailProductAmountEntity();rpa1.setAmount(100D);rpa1.setFactoryRetailProduct(frpe1);
         FactoryRetailProductAmountEntity rpa2=new FactoryRetailProductAmountEntity();rpa2.setAmount(200D);rpa1.setFactoryRetailProduct(frpe2);
         FactoryRetailProductAmountEntity rpa3=new FactoryRetailProductAmountEntity();rpa3.setAmount(300D);rpa1.setFactoryRetailProduct(frpe3);
@@ -705,18 +746,20 @@ public class Test {
         em.persist(s1);em.persist(s2);em.persist(s3);em.persist(s4);em.persist(s5);
         em.persist(s6);em.persist(s7);em.persist(s8);em.persist(s9);em.persist(s10);
         
+        
+        
         // Contract
-        Calendar cl1=Calendar.getInstance();  c1.set(2010, 8, 25);
-        Calendar cl2=Calendar.getInstance();  c2.set(2011, 7, 31);
-        Calendar cl3=Calendar.getInstance();  c3.set(2012, 6, 23);
-        Calendar cl4=Calendar.getInstance();  c4.set(2013, 5, 15);
-        Calendar cl5=Calendar.getInstance();  c5.set(2014, 4, 19);
-        Calendar cl6=Calendar.getInstance();  c6.set(2020, 3, 20);
-        Calendar cl7=Calendar.getInstance();  c7.set(2021, 2, 11);
-        Calendar cl8=Calendar.getInstance();  c8.set(2020, 1, 22);
-        Calendar cl9=Calendar.getInstance();  c9.set(2023, 6, 6);
-        Calendar cl10=Calendar.getInstance();  c10.set(2022, 2, 12);
-        Calendar cl11=Calendar.getInstance();  c11.set(2023, 9, 12);
+        Calendar cl1=Calendar.getInstance();  cl1.set(2010, 8, 25);
+        Calendar cl2=Calendar.getInstance();  cl2.set(2011, 7, 31);
+        Calendar cl3=Calendar.getInstance();  cl3.set(2012, 6, 23);
+        Calendar cl4=Calendar.getInstance();  cl4.set(2013, 5, 15);
+        Calendar cl5=Calendar.getInstance();  cl5.set(2014, 4, 19);
+        Calendar cl6=Calendar.getInstance();  cl6.set(2020, 3, 20);
+        Calendar cl7=Calendar.getInstance();  cl7.set(2013, 2, 11);
+        Calendar cl8=Calendar.getInstance();  cl8.set(2020, 1, 22);
+        Calendar cl9=Calendar.getInstance();  cl9.set(2023, 6, 6);
+        Calendar cl10=Calendar.getInstance();  cl10.set(2022, 2, 12);
+        Calendar cl11=Calendar.getInstance();  cl11.set(2023, 9, 12);
         
         // Contract.Factory1
         // Contract.Factory1.FactoryRawmaterial
@@ -725,10 +768,34 @@ public class Test {
         ContractEntity ct3 = new ContractEntity(10.0, 3, frm3.getUnit(), 1.0, cl3, cl6, frm3, s5);
         ContractEntity ct4 = new ContractEntity(500.0, 5, frm4.getUnit(), 5.0, cl4, cl9, frm4, s7);
         ContractEntity ct5 = new ContractEntity(1000.0, 3, frm5.getUnit(), 1.0, cl1, cl8, frm5, s9);
+        
+        //Shiyu. add contract and supplier info
+        frm1.getContracts().add(ct1);
+        frm2.getContracts().add(ct2);
+        frm3.getContracts().add(ct3);
+        frm4.getContracts().add(ct4);
+        frm5.getContracts().add(ct5);
+        //Shiyu. add contract and supplier info
+        s1.getContractList().add(ct1);
+        s3.getContractList().add(ct2);
+        s5.getContractList().add(ct3);
+        s7.getContractList().add(ct4);
+        s9.getContractList().add(ct5);
+        
         // Contract.Factory1.FactoryRetailProduct
         ContractEntity ct16 = new ContractEntity(100.0, 3, frpe1.getUnit(), 5.0, cl2, cl6, frpe1, s4);
         ContractEntity ct17 = new ContractEntity(400.0, 7, frpe4.getUnit(), 10.0, cl4, cl11, frpe4, s6);
         ContractEntity ct18 = new ContractEntity(1300.0, 2, frpe7.getUnit(), 5.0, cl5, cl9, frpe7, s8);
+        
+        //Shiyu. add contract and supplier info
+        frpe1.getContracts().add(ct16);
+        frpe4.getContracts().add(ct17);
+        frpe7.getContracts().add(ct18);
+        //Shiyu. add contract and supplier info
+        s4.getContractList().add(ct16);
+        s6.getContractList().add(ct17);
+        s8.getContractList().add(ct18);
+    
         
         // Contract.Factory2.FactoryRawmaterial
         ContractEntity ct6 = new ContractEntity(20.0, 5, frm6.getUnit(), 10.0, cl1, cl7, frm6, s2);
@@ -736,10 +803,35 @@ public class Test {
         ContractEntity ct8 = new ContractEntity(400.0, 7, frm8.getUnit(), 10.0, cl4, cl11, frm8, s6);
         ContractEntity ct9 = new ContractEntity(1300.0, 2, frm9.getUnit(), 5.0, cl5, cl9, frm9, s8);
         ContractEntity ct10 = new ContractEntity(700.0, 3, frm10.getUnit(), 10.0, cl5, c10, frm10, s10);
+        
+        //Shiyu. add contract and supplier info
+        frm6.getContracts().add(ct6);
+        frm7.getContracts().add(ct7);
+        frm8.getContracts().add(ct8);
+        frm9.getContracts().add(ct9);
+        frm10.getContracts().add(ct10);
+        //Shiyu. add contract and supplier info
+        s2.getContractList().add(ct6);
+        s4.getContractList().add(ct7);
+        s6.getContractList().add(ct8);
+        s8.getContractList().add(ct9);
+        s10.getContractList().add(ct10);
+        
         // Contract.Factory2.FactoryRetailProduct
         ContractEntity ct19 = new ContractEntity(100.0, 3, frpe2.getUnit(), 5.0, cl2, cl6, frpe2, s4);
         ContractEntity ct20 = new ContractEntity(200.0, 7, frpe5.getUnit(), 10.0, cl4, cl11, frpe5, s6);
         ContractEntity ct21 = new ContractEntity(20.0, 2, frpe8.getUnit(), 5.0, cl5, cl9, frpe8, s8);
+        
+        //Shiyu. add contract and supplier info
+        frpe2.getContracts().add(ct19);
+        frpe5.getContracts().add(ct20);
+        frpe8.getContracts().add(ct21);
+        //Shiyu. add contract and supplier info
+        s4.getContractList().add(ct19);
+        s6.getContractList().add(ct20);
+        s8.getContractList().add(ct21);
+        
+        em.flush();
         
         // Contract.Factory3.FactoryRawmaterial
         ContractEntity ct11 = new ContractEntity(800.0, 2, frm11.getUnit(), 10.0, cl1, cl7, frm11, s1);
@@ -756,8 +848,8 @@ public class Test {
         em.persist(ct7);em.persist(ct8);em.persist(ct9);em.persist(ct10);em.persist(ct11);em.persist(ct12);
         em.persist(ct13);em.persist(ct14);em.persist(ct15);em.persist(ct16);em.persist(ct17);em.persist(ct18);
         em.persist(ct19);em.persist(ct20);em.persist(ct21);em.persist(ct22);em.persist(ct23);em.persist(ct24);
-
-       
+        
+        
         // Factory Bin
         FactoryBinEntity b1 = new FactoryBinEntity();
         FactoryBinEntity b2 = new FactoryBinEntity();

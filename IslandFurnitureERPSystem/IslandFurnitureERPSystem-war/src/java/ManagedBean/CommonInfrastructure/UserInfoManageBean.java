@@ -7,21 +7,13 @@ package ManagedBean.CommonInfrastructure;
 
 import Entity.CommonInfrastructure.UserEntity;
 import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
-import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
@@ -57,11 +49,11 @@ public class UserInfoManageBean implements Serializable {
     private long departmentId;
 
     private String birString;// used to convert birthday between string and calendar
-    private Date birDate;
     private String inputOldPass;
     private String newPass;
 
     private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
+
     /**
      * Creates a new instance of UserInfoPageManageBean
      */
@@ -73,7 +65,7 @@ public class UserInfoManageBean implements Serializable {
         try {
             System.out.println("UserInfoPageMangeBean: userId");
             userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-            
+
             System.out.println("UserInfoPageMangeBean: userId" + userId);
 
 //        listedUser = IUMA.ListUser();
@@ -89,9 +81,8 @@ public class UserInfoManageBean implements Serializable {
             Department = user.getDepartment();
             userLevel = user.getUserLevel();
             birthday = user.getBirthday();
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-//            birString = format.format(birthday.getTime());
-            birDate = birthday.getTime();
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            birString = format.format(birthday.getTime());
             System.out.println("UserInfoPageManageBean: birthday Calendar: " + birthday.getTime().toString());
             System.out.println("UserInfoPageManageBean: birthday: " + birString);
             Email = user.getEmail();
@@ -258,34 +249,15 @@ public class UserInfoManageBean implements Serializable {
         this.newPass = newPass;
     }
 
-    public Date getBirDate() {
-        return birDate;
-    }
-
-    public void setBirDate(Date birDate) {
-        this.birDate = birDate;
-    }
-    
-
     public void saveChangedUserInfo(ActionEvent event) {
         System.out.println("UserInfoManageBean: save changes");
+        System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
 
-       
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-//            Date temp = format.parse(birString);
-            
-            birthday.setTime(birDate);
-            System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
-
-            IUMA.ModifyStaff(userId, Department, userLevel, LastName, MidName, FirstName, 
-                    Position, birthday, Gender, Title, Address, Postal, Email, departmentId);
-
-        
+        IUMA.ModifyStaff(userId, Department, userLevel, LastName, MidName, FirstName,
+                Position, birthday, Gender, Title, Address, Postal, Email, departmentId);
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "User Info Changed Successfully!", ""));
-
-        
 
     }
 
@@ -293,7 +265,7 @@ public class UserInfoManageBean implements Serializable {
         //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
         System.out.println("UserInfoManageBean: change password");
         //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-        System.out.println("UserInfoManageBean: old password" + password + " and input password "+inputOldPass +" and new pass "+newPass);
+        System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
         if (cryptographicHelper.doMD5Hashing(inputOldPass).equals(password)) {
             //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
             IUMA.changePass(newPass, userId);
@@ -303,7 +275,7 @@ public class UserInfoManageBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Wrong Password, please enter again!", ""));
         }
-        
+
         inputOldPass = null;
         password = IUMA.getUser(userId).getPwd();
 
