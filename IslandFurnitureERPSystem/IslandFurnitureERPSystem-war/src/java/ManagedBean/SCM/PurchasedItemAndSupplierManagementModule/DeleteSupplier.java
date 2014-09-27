@@ -28,7 +28,7 @@ public class DeleteSupplier {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId = 1L;
+    Long factoryId;
     Collection<SupplierEntity> supplierList;
     SupplierEntity selectedSupplier;
     String result = null;
@@ -37,6 +37,7 @@ public class DeleteSupplier {
     public void init() {
         try {
             System.out.println("displaySuppliers():");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
             supplierList = pmb.viewAvailSupplier(factoryId);
 
@@ -92,7 +93,7 @@ public class DeleteSupplier {
     public String delete() throws Exception {
 
         System.out.println("save() ");
-        
+
         System.out.println(this.selectedSupplier.toString());
         System.out.println(this.selectedSupplier.getSupplierName());
 

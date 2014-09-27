@@ -86,6 +86,7 @@
                                 <h:outputLabel for="title" value="Title *:" />
                                 <p:inplace id="title" editor="true">
                                     <h:selectOneMenu value="#{userInfo.title}" style="width:100%" required="true">
+                                        <f:selectItem itemLabel="Please select a title" itemValue ="" noSelectionOption="true"/>
                                         <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                                     </h:selectOneMenu>
                                 </p:inplace>
@@ -127,9 +128,8 @@
 
 
                                 <h:outputLabel for="birthday" value="Birthday:" />
-
-                                <p:calendar  value="#{userInfo.birDate}" locale="de"  navigator="true" pattern="dd-MM-yyyy" />
-
+                                <h:outputText value="#{userInfo.birString}" />
+                                
                                 <h:outputLabel for="email" value="Email *:" />
                                 <p:inplace id="email" editor="true">
                                     <p:inputText value="#{userInfo.email}" required="true" label="text" validatorMessage="Invalid email">
