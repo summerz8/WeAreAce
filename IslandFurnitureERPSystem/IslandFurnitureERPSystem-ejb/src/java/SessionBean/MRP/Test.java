@@ -759,17 +759,9 @@ public class Test {
         Calendar cl4=Calendar.getInstance();  cl4.set(2013, 5, 15);
         Calendar cl5=Calendar.getInstance();  cl5.set(2014, 4, 19);
         Calendar cl6=Calendar.getInstance();  cl6.set(2020, 3, 20);
-<<<<<<< HEAD
-<<<<<<< HEAD
-        Calendar cl7=Calendar.getInstance();  cl7.set(2013, 2, 11);
-=======
         Calendar cl7=Calendar.getInstance();  cl7.set(2021, 2, 11);
 
->>>>>>> 028c3f8eb38bde5a0110b911746aa1c9b5e382ca
-=======
-        Calendar cl7=Calendar.getInstance();  cl7.set(2021, 2, 11);
 
->>>>>>> 028c3f8eb38bde5a0110b911746aa1c9b5e382ca
         Calendar cl8=Calendar.getInstance();  cl8.set(2020, 1, 22);
         Calendar cl9=Calendar.getInstance();  cl9.set(2023, 6, 6);
         Calendar cl10=Calendar.getInstance();  cl10.set(2022, 2, 12);
