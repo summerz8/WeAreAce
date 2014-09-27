@@ -766,7 +766,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrderList = factory.getPurchaseOrders();
             for (PurchaseOrderEntity po : purchaseOrderList) {
                 //check whether this intergrated planned order is in waiting status
-                if (po.getStatus().equals("unconfirmed")) {
+                if (po.getStatus().toLowerCase().equals("unconfirmed")) {
                     unconfirmedPurchaseOrderList.add(po);
                 }
             }
