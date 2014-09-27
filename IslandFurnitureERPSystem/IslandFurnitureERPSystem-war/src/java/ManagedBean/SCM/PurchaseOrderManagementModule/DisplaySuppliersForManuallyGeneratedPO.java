@@ -37,7 +37,7 @@ public class DisplaySuppliersForManuallyGeneratedPO implements Serializable{
     public void init() {
 
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
             itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
 
@@ -87,11 +87,11 @@ public class DisplaySuppliersForManuallyGeneratedPO implements Serializable{
         this.itemId = itemId;
     }
 
-    public String displaySuppliers(String itemType, Long itemId) throws Exception {
+    public String displaySuppliers(String itemType, Long itemId){
         
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", itemType);
 
-        return "/secured/restricted/Factory/SCM/DisplaySuppliersForManuallyGeneratedPO/DisplaySuppliersForManuallyGeneratedPO?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplaySuppliersForManuallyGeneratedPO?faces-redirect=true";
     }
 }

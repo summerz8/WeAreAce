@@ -34,11 +34,7 @@ public class DisplayDeliveryDestinationForManuallyGeneratedPO {
     @PostConstruct
     public void init() {
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
-//        itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
-//        itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
-//        supplierId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("supplierId");
-
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             storeList = pmb.viewAvailStore(factoryId);
         } catch (Exception ex) {
             Logger.getLogger(DisplayDeliveryDestinationForManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,13 +78,15 @@ public class DisplayDeliveryDestinationForManuallyGeneratedPO {
     }
 
     public String displayDestination() {
+
+        System.out.println("displayDestination");
         itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
-        if(itemType.equals("RawMaterial")){
-            return "/secured/restricted/Factory/SCM/DisplaySuppliersForManuallyGeneratedPO/DisplayManuallyGeneratedPO?faces-redirect=true";
-        }else{//itemType.equals("RetailProduct")
-            
-            return "/secured/restricted/Factory/SCM/DisplaySuppliersForManuallyGeneratedPO/DisplayDeliveryDestinationForRetailProduct?faces-redirect=true";
-            
+        System.out.println("itemType : " + itemType);
+        if (itemType.equals("RawMaterial")) {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("destination", "factory");
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayManuallyGeneratedPO?faces-redirect=true";
+        } else {//itemType.equals("RetailProduct")
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayDeliveryDestinationForRetailProduct?faces-redirect=true";
         }
 
     }

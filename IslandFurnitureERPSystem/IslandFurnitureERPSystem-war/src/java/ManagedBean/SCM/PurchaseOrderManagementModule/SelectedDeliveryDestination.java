@@ -22,7 +22,7 @@ import javax.inject.Named;
 @Named(value = "selectedDeliveryDestination")
 @ViewScoped
 public class SelectedDeliveryDestination {
-    
+
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
 
@@ -38,7 +38,7 @@ public class SelectedDeliveryDestination {
         this.destination = destination;
         if (destination.equals("factory")) {
             try {
-                Long factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+                Long factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
                 this.selectedFactory = pmb.getFactoryEntity(factoryId);
             } catch (Exception ex) {
                 Logger.getLogger(SelectedDeliveryDestination.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,11 +66,11 @@ public class SelectedDeliveryDestination {
 
     }
 
-    public String passValue() {
+    public String passValue(String destination) {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("destination", destination);
 
-        if (destination.equals("Store")) {
+        if (destination.equals("store")) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedStore", selectedStore);
         }
         return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayManuallyGeneratedPO?faces-redirect=true";
