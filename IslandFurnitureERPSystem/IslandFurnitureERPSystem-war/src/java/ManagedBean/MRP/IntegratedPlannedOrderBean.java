@@ -79,7 +79,19 @@ public class IntegratedPlannedOrderBean {
     }
     
     public String createIntegratedPlannedOrder(Long factoryRawMaterialId){
-    
+        int month = targetMonth.get(Calendar.MONTH)+1;
+        int year = targetMonth.get(Calendar.YEAR);
+        
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = IPO.getIntegratedPlannedOrder();
+        for(IntegratedPlannedOrderEntity ipo: integratedPlannedOrderList){
+            int m = ipo.getTargetPeriod().get(Calendar.MONTH)+1;
+            int y = ipo.getTargetPeriod().get(Calendar.YEAR);
+            
+            if(ipo.getFactoryRawMaterialAmount().getFactoryRawMaterial().getFactoryRawMaterialId().equals(factoryRawMaterialId)
+                    && month == m && year == y)
+            return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
+        }
+        
         IPO.createIntegratedPlannedOrder(targetMonth, factoryRawMaterialId);
         
         return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true";

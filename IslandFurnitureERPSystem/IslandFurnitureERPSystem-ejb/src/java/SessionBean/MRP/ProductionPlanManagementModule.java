@@ -99,11 +99,13 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(){
+    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(Long factoryId){
         Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
         List<ProductionPlanEntity> productionPlanList = new ArrayList();
         for(Object o : q.getResultList()){
             ProductionPlanEntity pp = (ProductionPlanEntity) o;
+//            Long id = pp.getFactoryProduct().getFactory().getFactoryId();
+//            System.out.println("id " + id);
             if(pp.getStatus().equals("unconfirmed"))
                 productionPlanList.add(pp);
             
@@ -114,13 +116,13 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public List<ProductionPlanEntity> getProductionPlanConfirmed(){
+    public List<ProductionPlanEntity> getProductionPlanConfirmed(Long factoryId){
         Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
         List<ProductionPlanEntity> productionPlanList = new ArrayList();
         for(Object o : q.getResultList()){
             ProductionPlanEntity pp = (ProductionPlanEntity) o;
-            if(pp.getStatus().equals("confirmed"))
-            productionPlanList.add(pp);
+            if(pp.getStatus().equals("confirmed") )
+                productionPlanList.add(pp);
             
         }
         
@@ -128,7 +130,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
         return productionPlanList;
     }
     @Override
-    public List<ProductionPlanEntity> getProductionPlanCancelled(){
+    public List<ProductionPlanEntity> getProductionPlanCancelled(Long factoryId){
         Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
         List<ProductionPlanEntity> productionPlanList = new ArrayList();
         for(Object o : q.getResultList()){

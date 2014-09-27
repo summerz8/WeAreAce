@@ -140,8 +140,8 @@ public class Test {
         
         
        
-        em.persist(p1);em.persist(p2);em.persist(p3);em.persist(p4);em.persist(p5);
-        em.persist(p6);em.persist(p7);em.persist(p8);em.persist(p9);em.persist(p10);
+        em.persist(p1);em.flush();em.persist(p2);em.flush();em.persist(p3);em.flush();em.persist(p4);em.flush();em.persist(p5);em.flush();
+        em.persist(p6);em.flush();em.persist(p7);em.flush();em.persist(p8);em.flush();em.persist(p9);em.flush();em.persist(p10);em.flush();
        
         
         //Set up factory entity
@@ -155,7 +155,7 @@ public class Test {
         f1.setManager("Meng Dan");f2.setManager("MD");f3.setManager("ZMD");
         f1.setDeleteFlag(Boolean.FALSE);f2.setDeleteFlag(Boolean.FALSE);f3.setDeleteFlag(Boolean.FALSE);
         
-        em.persist(f1);em.persist(f2);em.persist(f3);
+        em.persist(f1);em.flush();em.persist(f2);em.flush();em.persist(f3);em.flush();
         
         //set up factory product entity
         FactoryProductEntity fp1 = new FactoryProductEntity();
@@ -196,11 +196,11 @@ public class Test {
         fp17.setProduct(p7);fp18.setProduct(p8);
         fp19.setProduct(p9);fp20.setProduct(p10);
         
-        em.persist(fp1);em.persist(fp2);em.persist(fp3);em.persist(fp4);
-        em.persist(fp5);em.persist(fp6);em.persist(fp7);em.persist(fp8);
-        em.persist(fp9);em.persist(fp10);em.persist(fp11);em.persist(fp12);
-        em.persist(fp13);em.persist(fp14);em.persist(fp15);em.persist(fp16);
-        em.persist(fp17);em.persist(fp18);em.persist(fp19);em.persist(fp20);
+        em.persist(fp1);em.flush();em.persist(fp2);em.flush();em.persist(fp3);em.flush();em.persist(fp4);em.flush();
+        em.persist(fp5);em.flush();em.persist(fp6);em.flush();em.persist(fp7);em.flush();em.persist(fp8);em.flush();
+        em.persist(fp9);em.flush();em.persist(fp10);em.flush();em.persist(fp11);em.flush();em.persist(fp12);em.flush();
+        em.persist(fp13);em.flush();em.persist(fp14);em.flush();em.persist(fp15);em.flush();em.persist(fp16);em.flush();
+        em.persist(fp17);em.flush();em.persist(fp18);em.flush();em.persist(fp19);em.flush();em.persist(fp20);em.flush();
         
         //link factory product entity with product entity
         List<FactoryProductEntity> fpl1 = new ArrayList();
@@ -213,7 +213,7 @@ public class Test {
         
         f1.setFactoryProducts(fpl1);f2.setFactoryProducts(fpl2);f3.setFactoryProducts(fpl3);
         
-        em.persist(f1);em.persist(f2);em.persist(f3);
+        em.persist(f1);em.flush();em.persist(f2);em.flush();em.persist(f3);em.flush();
         
         //set up production plan entity
         ProductionPlanEntity pp1 = new ProductionPlanEntity();ProductionPlanEntity pp2 = new ProductionPlanEntity();
@@ -266,20 +266,17 @@ public class Test {
         pp16.setTargetPeriod(c11);pp17.setTargetPeriod(c11);pp18.setTargetPeriod(c11);pp19.setTargetPeriod(c11);pp20.setTargetPeriod(c11);
         
         
-//        pp1.setProduct(fp1);pp2.setProduct(fp2);pp3.setProduct(fp3);pp4.setProduct(fp4);pp5.setProduct(fp5);
-//        pp6.setProduct(fp6);pp7.setProduct(fp7);pp8.setProduct(fp8);pp9.setProduct(fp9);pp10.setProduct(fp10);
-//        pp11.setProduct(fp11);pp12.setProduct(fp12);pp13.setProduct(fp13);pp14.setProduct(fp14);pp15.setProduct(fp15);
-//        pp16.setProduct(fp16);pp17.setProduct(fp17);pp18.setProduct(fp18);pp1.setProduct(fp19);pp20.setProduct(fp20);
+//        
 //        
         pp1.setFactoryProduct(fp1);pp2.setFactoryProduct(fp2);pp3.setFactoryProduct(fp3);pp4.setFactoryProduct(fp4);pp5.setFactoryProduct(fp5);
         pp6.setFactoryProduct(fp6);pp7.setFactoryProduct(fp7);pp8.setFactoryProduct(fp8);pp9.setFactoryProduct(fp9);pp10.setFactoryProduct(fp10);
         pp11.setFactoryProduct(fp11);pp12.setFactoryProduct(fp12);pp13.setFactoryProduct(fp13);pp14.setFactoryProduct(fp14);pp15.setFactoryProduct(fp15);
-        pp16.setFactoryProduct(fp16);pp17.setFactoryProduct(fp17);pp18.setFactoryProduct(fp18);pp1.setFactoryProduct(fp19);pp20.setFactoryProduct(fp20);
+        pp16.setFactoryProduct(fp16);pp17.setFactoryProduct(fp17);pp18.setFactoryProduct(fp18);pp19.setFactoryProduct(fp19);pp20.setFactoryProduct(fp20);
       
-        em.persist(pp1);em.persist(pp2);em.persist(pp3);em.persist(pp4);em.persist(pp5);
-        em.persist(pp6);em.persist(pp7);em.persist(pp8);em.persist(pp9);em.persist(pp10);
-        em.persist(pp11);em.persist(pp12);em.persist(pp13);em.persist(pp14);em.persist(pp15);
-        em.persist(pp16);em.persist(pp17);em.persist(pp18);em.persist(pp19);em.persist(pp20);
+        em.persist(pp1);em.flush();em.persist(pp2);em.flush();em.persist(pp3);em.flush();em.persist(pp4);em.flush();em.persist(pp5);em.flush();
+        em.persist(pp6);em.flush();em.persist(pp7);em.flush();em.persist(pp8);em.flush();em.persist(pp9);em.flush();em.persist(pp10);em.flush();
+        em.persist(pp11);em.flush();em.persist(pp12);em.flush();em.persist(pp13);em.flush();em.persist(pp14);em.flush();em.persist(pp15);em.flush();
+        em.persist(pp16);em.flush();em.persist(pp17);em.flush();em.persist(pp18);em.flush();em.persist(pp19);em.flush();em.persist(pp20);em.flush();
         
         //set up raw material entity
         RawMaterialEntity rm1 = new RawMaterialEntity();
@@ -294,7 +291,7 @@ public class Test {
         rm4.setMaterialName("nut");rm4.setDescription("hehe");rm4.setUnit("box");rm4.setIsDeleted(Boolean.FALSE);
         rm5.setMaterialName("stick");rm5.setDescription("hehe");rm5.setUnit("box");rm5.setIsDeleted(Boolean.FALSE);
         
-        em.persist(rm1);em.persist(rm2);em.persist(rm3);em.persist(rm4);em.persist(rm5);
+        em.persist(rm1);em.flush();em.persist(rm2);em.flush();em.persist(rm3);em.flush();em.persist(rm4);em.flush();em.persist(rm5);em.flush();
         
         //set up factory raw material entity and link with raw material entity
         FactoryRawMaterialEntity frm1 = new FactoryRawMaterialEntity();
@@ -321,9 +318,9 @@ public class Test {
         frm6.setRawMaterial(rm1);frm7.setRawMaterial(rm2);frm8.setRawMaterial(rm3);frm9.setRawMaterial(rm4);frm10.setRawMaterial(rm5);
         frm11.setRawMaterial(rm1);frm12.setRawMaterial(rm2);frm13.setRawMaterial(rm3);frm14.setRawMaterial(rm4);frm15.setRawMaterial(rm5);
         
-        em.persist(frm1);em.persist(frm2);em.persist(frm3);em.persist(frm4);em.persist(frm5);
-        em.persist(frm6);em.persist(frm7);em.persist(frm8);em.persist(frm9);em.persist(frm10);
-        em.persist(frm11);em.persist(frm12);em.persist(frm13);em.persist(frm14);em.persist(frm15);
+        em.persist(frm1);em.flush();em.persist(frm2);em.flush();em.persist(frm3);em.flush();em.persist(frm4);em.flush();em.persist(frm5);em.flush();
+        em.persist(frm6);em.flush();em.persist(frm7);em.flush();em.persist(frm8);em.flush();em.persist(frm9);em.flush();em.persist(frm10);em.flush();
+        em.persist(frm11);em.flush();em.persist(frm12);em.flush();em.persist(frm13);em.flush();em.persist(frm14);em.flush();em.persist(frm15);em.flush();
         
         //Shiyu: 27 Sep add frm to factory
         f1.getFactoryRawMaterials().add(frm1);
@@ -387,9 +384,9 @@ public class Test {
         frma14.setFactoryRawMaterial(frm14);frma14.setAmount(4D);frma14.setUnit("box");
         frma15.setFactoryRawMaterial(frm15);frma15.setAmount(4D);frma15.setUnit("box");
         
-        em.persist(frma1);em.persist(frma2);em.persist(frma3);em.persist(frma4);em.persist(frma5);
-        em.persist(frma6);em.persist(frma7);em.persist(frma8);em.persist(frma9);em.persist(frma10);
-        em.persist(frma11);em.persist(frma12);em.persist(frma13);em.persist(frma14);em.persist(frma15);
+        em.persist(frma1);em.flush();em.persist(frma2);em.flush();em.persist(frma3);em.flush();em.persist(frma4);em.flush();em.persist(frma5);em.flush();
+        em.persist(frma6);em.flush();em.persist(frma7);em.flush();em.persist(frma8);em.flush();em.persist(frma9);em.flush();em.persist(frma10);em.flush();
+        em.persist(frma11);em.flush();em.persist(frma12);em.flush();em.persist(frma13);em.flush();em.persist(frma14);em.flush();em.persist(frma15);em.flush();
         
         //set up planned order entity(raw material)
         PlannedOrderEntity po1 = new PlannedOrderEntity();PlannedOrderEntity po2 = new PlannedOrderEntity();
@@ -468,9 +465,9 @@ public class Test {
         po14.setFactoryRawMaterialAmountList(frmal14);
         po15.setFactoryRawMaterialAmountList(frmal15);
         
-        em.persist(po1);em.persist(po2);em.persist(po3);em.persist(po4);em.persist(po5);
-        em.persist(po6);em.persist(po7);em.persist(po8);em.persist(po9);em.persist(po10);
-        em.persist(po11);em.persist(po12);em.persist(po13);em.persist(po14);em.persist(po15);
+        em.persist(po1);em.flush();em.persist(po2);em.flush();em.persist(po3);em.flush();em.persist(po4);em.flush();em.persist(po5);em.flush();
+        em.persist(po6);em.flush();em.persist(po7);em.flush();em.persist(po8);em.flush();em.persist(po9);em.flush();em.persist(po10);em.flush();
+        em.persist(po11);em.flush();em.persist(po12);em.flush();em.persist(po13);em.flush();em.persist(po14);em.flush();em.persist(po15);em.flush();
 
          /*      
         
@@ -762,11 +759,7 @@ public class Test {
         Calendar cl4=Calendar.getInstance();  cl4.set(2013, 5, 15);
         Calendar cl5=Calendar.getInstance();  cl5.set(2014, 4, 19);
         Calendar cl6=Calendar.getInstance();  cl6.set(2020, 3, 20);
-<<<<<<< HEAD
-        Calendar cl7=Calendar.getInstance();  cl7.set(2021, 2, 11);
-=======
         Calendar cl7=Calendar.getInstance();  cl7.set(2013, 2, 11);
->>>>>>> 360dfdb4f6a65576d325616c3e9e9bebe9b7e8ad
         Calendar cl8=Calendar.getInstance();  cl8.set(2020, 1, 22);
         Calendar cl9=Calendar.getInstance();  cl9.set(2023, 6, 6);
         Calendar cl10=Calendar.getInstance();  cl10.set(2022, 2, 12);
