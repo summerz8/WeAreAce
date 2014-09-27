@@ -33,5 +33,6 @@ public interface ProductionPlanManagementModuleLocal {
     public List<ProductionPlanEntity> getProductionPlanCancelled();
 
     public List<ProductionPlanEntity> getProductionPlanConfirmed();
+
     
 }

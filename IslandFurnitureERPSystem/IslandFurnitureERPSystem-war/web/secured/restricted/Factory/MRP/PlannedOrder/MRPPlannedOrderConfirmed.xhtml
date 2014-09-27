@@ -53,17 +53,18 @@
 
                 <p:layoutUnit position="west" size="1000px">
 
-                    <p:panelMenu style="width:300px">
-                       <p:submenu label="Manufacturing Resource Planning">
+                    <p:menu>
+                        <p:submenu label="Manufacturing Resource Planning">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
                                 <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />
+                                <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                        </p:submenu>
-                    </p:panelMenu>
+                    </p:menu>
 
 
                 </p:layoutUnit>
@@ -72,15 +73,15 @@
 
                     <p:toolbar>
                         <f:facet name="left">
-                            <p:button value="Unconfirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed"/>
+                            <p:button value="Unconfirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed?faces-redirect=true"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
                             </span>
-                            <p:button value="Confirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderConfirmed"/>
+                            <p:button value="Confirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderConfirmed?faces-redirect=true"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
                             </span>
-                            <p:button value="Cancelled" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderCancelled"/>
+                            <p:button value="Cancelled" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderCancelled?faces-redirect=true"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
                             </span>
@@ -88,11 +89,11 @@
                         </f:facet>
                         
                         <f:facet name="right">
-                            <p:button value="Create integrated planned order for next month" icon="ui-icon-lightbulb" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrder"/>
+                            <p:button value="Create integrated planned order for next month" icon="ui-icon-lightbulb" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrder?faces-redirect=true"/>
                         </f:facet>
                     </p:toolbar>
 
-                    <p:dataScroller value="#{plannedOrderView.plannedOrderConfirmed}" var="plannedOrderpo" chunkSize="1">
+                    <p:dataScroller value="#{plannedOrderView.plannedOrderConfirmed}" var="plannedOrderpo" chunkSize="5">
                         <f:facet name="header">
                             Scroll Down to Load More Planned Orders
                         </f:facet>

@@ -61,7 +61,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
             case "productId":
                 Long productId = (Long) content;
                 FactoryProductEntity product = em.find(FactoryProductEntity.class,productId);
-                productionPlan.setProduct(product);
+                productionPlan.setFactoryProduct(product);
                 break;
             case "quantity":
                 Double quantity = (Double) content;
@@ -141,7 +141,7 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
         
         return productionPlanList;
     }
-    
+   
     @Override
     public ProductionPlanEntity searchProductionPlan(Long id){
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class,id);

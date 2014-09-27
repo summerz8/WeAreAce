@@ -5,6 +5,7 @@
  */
 package ManagedBean.MRP;
 
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import SessionBean.MRP.IntegratedPlannedOrderManagementLocal;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ public class IntegratedPlannedOrderBean {
     public IntegratedPlannedOrderBean() {
     }
     
+    private List<IntegratedPlannedOrderEntity> integratedPlannedOrder;
     private List<PlannedOrderEntity> plannedOrderConfirmed;
     private Calendar targetMonth; 
     private Long factoryRawMaterialId;
@@ -36,6 +38,14 @@ public class IntegratedPlannedOrderBean {
     @EJB
     private IntegratedPlannedOrderManagementLocal IPO;
 
+    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder() {
+        return integratedPlannedOrder;
+    }
+
+    public void setIntegratedPlannedOrder(List<IntegratedPlannedOrderEntity> integratedPlannedOrder) {
+        this.integratedPlannedOrder = integratedPlannedOrder;
+    }
+   
     public List<PlannedOrderEntity> getPlannedOrderConfirmed() {
         return plannedOrderConfirmed;
     }
@@ -59,21 +69,22 @@ public class IntegratedPlannedOrderBean {
     public void setFactoryRawMaterialId(Long factoryRawMaterialId) {
         this.factoryRawMaterialId = factoryRawMaterialId;
     }
-    
-    
-            
+                  
     @PostConstruct
     public void init(){
         targetMonth = Calendar.getInstance();
+        targetMonth.set(Calendar.DATE,1);
+        targetMonth.set(Calendar.MONTH,targetMonth.get(Calendar.MONTH)+1);        
+        integratedPlannedOrder = IPO.getIntegratedPlannedOrder();
     }
     
     public String createIntegratedPlannedOrder(Long factoryRawMaterialId){
-        
-        
+    
         IPO.createIntegratedPlannedOrder(targetMonth, factoryRawMaterialId);
         
-        return "MRPIntegratedPlannedOrderView?faces-redirect=true";
+        return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true";
         
     }
+    
     
 }

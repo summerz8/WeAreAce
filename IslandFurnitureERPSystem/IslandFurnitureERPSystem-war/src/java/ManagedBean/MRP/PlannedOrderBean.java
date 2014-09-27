@@ -7,8 +7,11 @@ package ManagedBean.MRP;
 
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.MRP.ProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
+import SessionBean.MRP.ProductionPlanManagementModuleLocal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -38,6 +41,8 @@ public class PlannedOrderBean {
     
     @EJB
     private PlannedOrderManagementModuleLocal PO;
+    @EJB
+    private ProductionPlanManagementModuleLocal PP;
     
     @PostConstruct
     public void init(){
@@ -119,5 +124,14 @@ public class PlannedOrderBean {
 
     }
     
+    
+    public Date convert(Calendar cal){
+        Date result = cal.getTime();
+        
+        System.out.println("Calendar"+cal.getTime().toString());
+        System.out.println("Date"+ result.toString());
+        
+        return result;
+    }
     
 }

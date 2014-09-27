@@ -6,6 +6,7 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
+import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -35,14 +36,17 @@ public class ProductionPlanBean implements Serializable {
 
     @EJB
     private ProductionPlanManagementModuleLocal PP;
+    @EJB
+    private PlannedOrderManagementModuleLocal PO;
+    
 
     private ProductionPlanEntity pp;
     private Long productionPlanId;
-    private Object quantity;
-    private Calendar targetPeriod;
-    private Long productId;
+//    private Object quantity;
+//    private Calendar targetPeriod;
+//    private Long productId;
     private String status;
-    private String remark;
+//    private String remark;
 
     public Long getProductionPlanId() {
         return productionPlanId;
@@ -52,52 +56,54 @@ public class ProductionPlanBean implements Serializable {
         this.productionPlanId = productionPlanId;
     }
 
-    public Object getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Double quantity) {
-
-        this.quantity = quantity;
-    }
-
-    public Calendar getTargetPeriod() {
-        return targetPeriod;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
+//    public Object getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Double quantity) {
+//
+//        this.quantity = quantity;
+//    }
+//
+//    public Calendar getTargetPeriod() {
+//        
+//        return targetPeriod;
+//    }
+//
+//    public Long getProductId() {
+//        return productId;
+//    }
+//
     public String getStatus() {
         return status;
     }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setTargetPeriod(Calendar targetPeriod) {
-        this.targetPeriod = targetPeriod;
-    }
-
-    public void setProductId(Long productionId) {
-        this.productId = productionId;
-    }
-
+//
+//    public String getRemark() {
+//        return remark;
+//    }
+//
+//    public void setTargetPeriod(Calendar targetPeriod) {
+//        this.targetPeriod = targetPeriod;
+//    }
+//
+//    public void setProductId(Long productionId) {
+//        this.productId = productionId;
+//    }
+//
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+//    public void setRemark(String remark) {
+//        this.remark = remark;
+//    }
 
     @PostConstruct
     public void init() {
         productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed();
         productionPlanConfirmed = PP.getProductionPlanConfirmed();
         productionPlanCancelled = PP.getProductionPlanCancelled();
+        System.out.println("test in managed bean " + productionPlanUnconfirmed.get(0).getTargetPeriod().getTime().toString());
     }
 
     public List<ProductionPlanEntity> getProductionPlanConfirmed() {
@@ -116,23 +122,25 @@ public class ProductionPlanBean implements Serializable {
         return productionPlan;
     }
 
-    public void saveId(Long id) {
-        System.out.println("5");
-        productionPlanId = id;
-        System.out.println("6");
-        pp = PP.searchProductionPlan(productionPlanId);
-        System.out.println(productionPlanId + "!@#$%^&*&*");
-        if (!pp.getQuantity().equals(quantity) && quantity != null) {
-            save(productionPlanId, "quantity", quantity);
-        } else if (!pp.getStatus().equals(status) && status != null) {
-            save(productionPlanId, "status", status);
-        } else if (!pp.getRemark().equals(remark) && remark != null) {
-            save(productionPlanId, "remark", remark);
-        }
+    
+    
+//    public void saveId(Long id) {
+//        System.out.println("5");
+//        productionPlanId = id;
+//        System.out.println("6");
+//        pp = PP.searchProductionPlan(productionPlanId);
+//        System.out.println(productionPlanId + "!@#$%^&*&*");
+//        if (!pp.getQuantity().equals(quantity) && quantity != null) {
+//            save(productionPlanId, "quantity", quantity);
+//        } else if (!pp.getStatus().equals(status) && status != null) {
+//            save(productionPlanId, "status", status);
+//        } else if (!pp.getRemark().equals(remark) && remark != null) {
+//            save(productionPlanId, "remark", remark);
+//        }
 //        else if(!pp.getTargetPeriod().equals(targetPeriod) && targetPeriod != null)
 //            save(productionPlanId,"targetPeriod",targetPeriod);
 
-    }
+//    }
 
 //    public void targetPeriodChanged(ValueChangeEvent event) {
 //        System.out.println("period1");
@@ -143,46 +151,47 @@ public class ProductionPlanBean implements Serializable {
 //        targetPeriod.setTime(targetPeriodDate);
 //        System.out.println("period2" + targetPeriod.toString());
 //}
-    public void quantityChanged(ValueChangeEvent event) {
-        Object newValue = event.getNewValue();
-        quantity = (Double) newValue;
-    }
+//    public void quantityChanged(ValueChangeEvent event) {
+//        Object newValue = event.getNewValue();
+//        quantity = (Double) newValue;
+//    }
+//
+//    public void statusChanged(ValueChangeEvent event) {
+//        System.out.println("1");
+//        Object newValue = event.getNewValue();
+//        System.out.println("2");
+//        String statusId = (String) newValue;
+//        switch (statusId) {
+//            case "0":
+//                status = "unconfirmed";
+//                break;
+//            case "1":
+//                status = "confirmed";
+//                break;
+//            case "2":
+//                status = "cancelled";
+//                break;
+//        }
+//    }
 
-    public void statusChanged(ValueChangeEvent event) {
-        System.out.println("1");
-        Object newValue = event.getNewValue();
-        System.out.println("2");
-        String statusId = (String) newValue;
-        switch (statusId) {
-            case "0":
-                status = "unconfirmed";
-                break;
-            case "1":
-                status = "confirmed";
-                break;
-            case "2":
-                status = "cancelled";
-                break;
-        }
-    }
-
-    public void remarkChanged(ValueChangeEvent event) {
-        System.out.println("remark1");
-        Object newValue = event.getNewValue();
-        remark = (String) newValue;
-        System.out.println("remark2" + remark);
-    }
-
-    public void save(Long productionPlanId, String field, Object content) {
-        System.out.println("9");
-        PP.editProductionPlan(productionPlanId, field, content);
-        System.out.println("10");
-    }
+//    public void remarkChanged(ValueChangeEvent event) {
+//        System.out.println("remark1");
+//        Object newValue = event.getNewValue();
+//        remark = (String) newValue;
+//        System.out.println("remark2" + remark);
+//    }
+//
+//    public void save(Long productionPlanId, String field, Object content) {
+//        System.out.println("9");
+//        PP.editProductionPlan(productionPlanId, field, content);
+//        System.out.println("10");
+//    }
     
     public String confirm(Long id){
         Calendar confirmDate = Calendar.getInstance();
         PP.editProductionPlan(id, "status", "confirmed");
         PP.editProductionPlan(id, "confirmDate", confirmDate);
+        PO.createPlannedOrder(id);
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
     
@@ -190,5 +199,6 @@ public class ProductionPlanBean implements Serializable {
         PP.editProductionPlan(id, "status", "cancelled");
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
+    
 
 }

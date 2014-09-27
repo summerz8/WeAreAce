@@ -23,8 +23,16 @@ public interface RetailProductPurchasePlanModuleLocal {
 
     public boolean deleteRetailProductPurchasePlan(Long productionPlanId);
 
-    public boolean generateRetailProductPurchasePlan(Long factoryRetailproductId, Calendar targetPeriod, Double amount);
+    public void generateRetailProductPurchasePlan(Long salesForecastId,Long factoryRetailProductId);
 
     public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan();
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanUnconfirmed();
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanConfirmed();
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanCancelled();
+
+    public Long getFactoryRetailProductId(Long integratedSalesForecastId);
     
 }
