@@ -1007,7 +1007,20 @@ exists or setup the property manually. For example like this:
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
+<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+>>>>>>> b2211914ec891aa7c73a96ca6230e0fd72d320a9
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <copyfiles files="${libs.PrimesFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+=======
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+>>>>>>> 696390f4488900849dbdba99ea460d2180dc7b2c
+=======
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+>>>>>>> 2e09a0cb5dac84bce67523d9dcbbff09b5845f72
+>>>>>>> bb14b01d996b23752660d3dc5f0662371ce4a1a5
 >>>>>>> b2211914ec891aa7c73a96ca6230e0fd72d320a9
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
@@ -1017,7 +1030,20 @@ exists or setup the property manually. For example like this:
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 =======
+<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+>>>>>>> b2211914ec891aa7c73a96ca6230e0fd72d320a9
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <copyfiles files="${libs.PrimesFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+=======
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+>>>>>>> 696390f4488900849dbdba99ea460d2180dc7b2c
+=======
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+>>>>>>> 2e09a0cb5dac84bce67523d9dcbbff09b5845f72
+>>>>>>> bb14b01d996b23752660d3dc5f0662371ce4a1a5
 >>>>>>> b2211914ec891aa7c73a96ca6230e0fd72d320a9
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">

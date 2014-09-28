@@ -404,7 +404,6 @@ public class dataSetUp {
         FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
         em.persist(fp1_5);
         em.flush();
-
         f1.getFactoryProducts().add(fp1_5);
         p5.getFactoryProduct().add(fp1_5);
         em.flush();
@@ -417,7 +416,6 @@ public class dataSetUp {
         FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
         em.persist(fp2_2);
         em.flush();
-
         f2.getFactoryProducts().add(fp2_2);
         p2.getFactoryProduct().add(fp2_2);
         em.flush();
