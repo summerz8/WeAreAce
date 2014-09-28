@@ -18,7 +18,7 @@
         <h:form id="globalNavigation">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -43,19 +43,20 @@
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                    </p:commandButton>
+                        </p:commandButton>
 
-                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>
 
-                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>  
 
-                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button> 
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button> 
 
-                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        </p:button>  
+
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -64,6 +65,7 @@
 
 
                 </p:layoutUnit>
+
 
 
                
@@ -79,9 +81,9 @@
                             <p:menuitem value="Goods Receipt" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/GoodsReceipt?faces-redirect=true" />
                             <p:menuitem value="Contract" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Contract?faces-redirect=true" />
                             <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
+
                         </p:submenu>
                     </p:menu>
-
 
 
                 </p:layoutUnit>
@@ -90,8 +92,13 @@
                     <p:panel id="basic" header="Goods Receipt" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="gr" value="#{documentReferenceBean.allGoodsReceipts}">
+                    <p:dataTable var="gr" value="#{documentReferenceBean.goodsReceipts}">
 
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.factory.factoryId}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.factory.factoryId}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                        </p:column>
+                        
                         <p:column headerText="Goods Receipt ID">
                             #{gr.goodsReceiptId}
                         </p:column>
@@ -101,6 +108,11 @@
                             <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.retailProduct.name}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
                         </p:column>
 
+                        <p:column headerText="Item Type">
+                            <h:outputText value="Factory Raw Material" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="Factory Retail Product" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                        </p:column>
+                        
                         <p:column headerText="Supplier">
                             #{gr.purchaseOrder.contract.supplier.supplierName}
                         </p:column>

@@ -38,6 +38,14 @@ public class StoreProductEntity  implements Serializable {
     @ManyToOne
     private StoreEntity store;
 
+    public StoreProductEntity() {
+    }
+
+    public StoreProductEntity(FactoryEntity factory, StoreEntity store) {
+        this.factory = factory;
+        this.store = store;
+    }
+
     public Long getStoreProductId() {
         return storeProductId;
     }

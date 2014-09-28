@@ -14,8 +14,9 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+
 import javax.faces.event.ActionEvent;
 
 /**
@@ -23,14 +24,15 @@ import javax.faces.event.ActionEvent;
  * @author Yoky
  */
 @ManagedBean(name = "factoryInventoryManagementBean")
-@SessionScoped
+@RequestScoped
 public class FactoryInventoryManagementBean implements Serializable {
 
     @EJB
     private FactoryInventoryManagementModuleLocal fim;
 
-    @ManagedProperty(value = "#{loginBean.userId}")
-    private String userId;
+    @ManagedProperty(value = "#{loginBean.department}")
+    private String department;
+    @ManagedProperty(value = "#{loginBean.departmentId}")
     private long factoryId;
     private Long factoryRawMaterialId;
     private Long factoryProductId;
@@ -54,13 +56,12 @@ public class FactoryInventoryManagementBean implements Serializable {
     public FactoryInventoryManagementBean() {
     }
 
-    public String getUserId() {
-        return userId;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-        this.setFactoryId(fim.findFactoryIdByUserId(userId));
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public long getFactoryId() {
@@ -347,38 +348,282 @@ public class FactoryInventoryManagementBean implements Serializable {
         }
     }
 
-    public Long recordInFactoryMovement(ActionEvent event) {
+    public void recordInFactoryMovement(ActionEvent event) {
+        Long temp;
         if (itemTypeIndicator == 1) {
-            return fim.recordInFactoryRawMaterialMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
+            temp = fim.recordInFactoryRawMaterialMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
+
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "fromBinId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "toBinId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "factoryRawMaterial is not found"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "specified storage bin does not contain this factoryRawMaterial with required status"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "required quantity exceeds the total stock from this storage bin"));
+            } else if (temp == -6L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "unexpected exception occurredy"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
+                                ""));
+            }
+
         } else if (itemTypeIndicator == 2) {
-            return fim.recordInFactoryProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
+            temp = fim.recordInFactoryProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "fromBinId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "toBinId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "factoryProduct is not found"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "specified storage bin does not contain this factoryProduct with required status"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "required quantity exceeds the total stock from this storage bin"));
+            } else if (temp == -6L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "unexpected exception occurred "));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
         } else {
-            return fim.recordInFactoryRetailProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
+            temp = fim.recordInFactoryRetailProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "fromBinId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "toBinId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "factoryRetailProduct is not found"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "specified storage bin does not contain this factoryRetailProduct with required status"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "required quantity exceeds the total stock from this storage bin"));
+            } else if (temp == -6L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
+                                "unexpected exception occurred "));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
         }
     }
 
-    public Long recordRawMaterialInFactoryUseMovement(ActionEvent event) {
-        return fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
+    public void recordRawMaterialInFactoryUseMovement(ActionEvent event) {
+        Long temp = fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
+        if (temp == -1L) {
+
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                                "fromBinId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                                "factoryRawMaterial is not found"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                                "specified storage bin does not contain this factoryRawMaterial available for use"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                                "required quantity exceeds the total stock in this storage bin"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                                "required quantity exceeds the minimum stock level in the factory"));
+            } else if (temp == -6L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                                "unexpected exception occurred "));
+            }  else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
     }
 
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
         fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
     }
 
-    public Long recordReturnedItemInboundMovement(ActionEvent event) {
+
+    public void recordReturnedItemInboundMovement(ActionEvent event) {
+        Long temp;
         if (itemTypeIndicator == 2) {
-            return fim.recordReturnedProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
+            temp = fim.recordReturnedProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "factoryProductId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "storeId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "toBinId is invalid"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "unexpected exception occurred"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
         } else {
-            return fim.recordReturnedRetailProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
+            temp = fim.recordReturnedRetailProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
+            if (temp == -1L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "factoryRetailProductId is invalid"));
+            } else if (temp == -2L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "storeId is invalid"));
+            } else if (temp == -3L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "toBinId is invalid"));
+            } else if (temp == -4L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "unexpected exception occurred"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                                ""));
+            }
         }
     }
 
-    public Long recordProductToBinMovement(ActionEvent event) {
-        return fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
+    public void recordProductToBinMovement(ActionEvent event) {
+        Long temp = fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
+        if (temp == -1L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "factoryProductId is invalid"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "toBinId is invalid"));
+        } else if (temp == -3L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "unexpected exception occurred"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                            ""));
+        }
     }
 
-    public long findFactoryIdByUserId(String userId) {
-        return fim.findFactoryIdByUserId(userId);
+//    public long findFactoryIdByUserId(String userId) {
+//        long temp = fim.findFactoryIdByUserId(userId);
+//        if (temp == -1L) {
+//                FacesContext.getCurrentInstance().addMessage(
+//                        null,
+//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to find factory id",
+//                                "userId is not a factory userId"));
+//            } else if (temp == -2L) {
+//                FacesContext.getCurrentInstance().addMessage(
+//                        null,
+//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to find factory id",
+//                                "unexpected error occurred"));
+//            } else {
+//                FacesContext.getCurrentInstance().addMessage(
+//                        null,
+//                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory ID found!",
+//                                ""));               
+//            }
+//        return temp;
+//    }
+
+    public int recordRurrentInventoryLevel(ActionEvent event) {
+        return fim.recordCurrentInventoryLevel(factoryId);
     }
 
 }

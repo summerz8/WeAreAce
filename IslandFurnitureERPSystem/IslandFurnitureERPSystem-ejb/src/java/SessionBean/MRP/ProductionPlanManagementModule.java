@@ -99,50 +99,79 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     }
     
     @Override
-    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(Long factoryId){
-        Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
-        List<ProductionPlanEntity> productionPlanList = new ArrayList();
-        for(Object o : q.getResultList()){
-            ProductionPlanEntity pp = (ProductionPlanEntity) o;
-//            Long id = pp.getFactoryProduct().getFactory().getFactoryId();
-//            System.out.println("id " + id);
-            if(pp.getStatus().equals("unconfirmed"))
-                productionPlanList.add(pp);
+    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(Long id,String department){
+            Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
+            List<ProductionPlanEntity> productionPlanList = new ArrayList();
+            if(department.equals("H")){
+                for(Object o : q.getResultList()){
+                ProductionPlanEntity pp = (ProductionPlanEntity) o;
+                if(pp.getStatus().equals("unconfirmed"))
+                    productionPlanList.add(pp);
+                }
+            }
             
-        }
-        
+            else{
+                for(Object o : q.getResultList()){
+                ProductionPlanEntity pp = (ProductionPlanEntity) o;
+                Long departmentId = pp.getFactoryProduct().getFactory().getFactoryId();
+                if(pp.getStatus().equals("unconfirmed") && departmentId.equals(id))
+                    productionPlanList.add(pp);
+            
+                }//for
+            }//else
         
         return productionPlanList;
     }
     
     @Override
-    public List<ProductionPlanEntity> getProductionPlanConfirmed(Long factoryId){
-        Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
-        List<ProductionPlanEntity> productionPlanList = new ArrayList();
-        for(Object o : q.getResultList()){
-            ProductionPlanEntity pp = (ProductionPlanEntity) o;
-            if(pp.getStatus().equals("confirmed") )
-                productionPlanList.add(pp);
+    public List<ProductionPlanEntity> getProductionPlanConfirmed(Long id,String department){
+       Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
+            List<ProductionPlanEntity> productionPlanList = new ArrayList();
+            if(department.equals("H")){
+                for(Object o : q.getResultList()){
+                ProductionPlanEntity pp = (ProductionPlanEntity) o;
+                if(pp.getStatus().equals("confirmed"))
+                    productionPlanList.add(pp);
+                }
+            }
             
-        }
-        
+            else{
+                for(Object o : q.getResultList()){
+                ProductionPlanEntity pp = (ProductionPlanEntity) o;
+                Long departmentId = pp.getFactoryProduct().getFactory().getFactoryId();
+                if(pp.getStatus().equals("confirmed") && departmentId.equals(id))
+                    productionPlanList.add(pp);
+            
+                }//for
+            }//else
         
         return productionPlanList;
     }
+    
     @Override
-    public List<ProductionPlanEntity> getProductionPlanCancelled(Long factoryId){
-        Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
-        List<ProductionPlanEntity> productionPlanList = new ArrayList();
-        for(Object o : q.getResultList()){
-            ProductionPlanEntity pp = (ProductionPlanEntity) o;
-            if(pp.getStatus().equals("cancelled"))
-            productionPlanList.add(pp);
+    public List<ProductionPlanEntity> getProductionPlanCancelled(Long id,String department){
+       Query q = em.createQuery("SELECT pp FROM ProductionPlanEntity pp");
+            List<ProductionPlanEntity> productionPlanList = new ArrayList();
+            if(department.equals("H")){
+                for(Object o : q.getResultList()){
+                ProductionPlanEntity pp = (ProductionPlanEntity) o;
+                if(pp.getStatus().equals("cancelled"))
+                    productionPlanList.add(pp);
+                }
+            }
             
-        }
-        
+            else{
+                for(Object o : q.getResultList()){
+                ProductionPlanEntity pp = (ProductionPlanEntity) o;
+                Long departmentId = pp.getFactoryProduct().getFactory().getFactoryId();
+                if(pp.getStatus().equals("cancelled") && departmentId.equals(id))
+                    productionPlanList.add(pp);
+            
+                }//for
+            }//else
         
         return productionPlanList;
-    }
+    } 
    
     @Override
     public ProductionPlanEntity searchProductionPlan(Long id){

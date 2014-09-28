@@ -18,7 +18,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -74,7 +74,6 @@
                         <p:submenu label="Manufacturing Resource Planning">
                             <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                             <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                            <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
                             <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
                             <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
                             <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
@@ -117,9 +116,6 @@
                                             <h:outputText value="#{salesForecast.targetPeriod.getTime()}" style="font-weight: bold">
                                                 <f:convertDateTime pattern="MM/yyyy"/>  
                                             </h:outputText>
-
-                                            <h:outputText value="Status:  " />
-                                            <h:outputText value="#{salesForecast.status}" style="font-weight: bold"/>
 
                                             <p:commandButton action="#{salesForecastBean.ViewSalesForecast(salesForecast.id)}" value="View Product List" />                                                 
 

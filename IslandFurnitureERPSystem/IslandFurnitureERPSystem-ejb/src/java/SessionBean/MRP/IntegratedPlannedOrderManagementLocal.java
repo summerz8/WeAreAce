@@ -18,14 +18,16 @@ import javax.ejb.Local;
 @Local
 public interface IntegratedPlannedOrderManagementLocal {
 
-    public List<PlannedOrderEntity> getConfirmedPlannedOrder();
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department);
 
-    public void createIntegratedPlannedOrder(Calendar targetPeriod, Long factoryRawMaterialId);
+    public void createIntegratedPlannedOrder(Calendar targetPeriod, Long factoryRawMaterialId,Long id,String department);
 
-    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder();
+    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder(Long id,String department);
 
-    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan();
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(Long id,String department);
 
     public void editIntegratedPlannedOrder(Long id, String field, Object content);
+
+    public boolean findFactoryRawMaterialIdList(Long id, String department, Long factoryRawMaterialId);
     
 }

@@ -39,7 +39,7 @@ public class SelectedDeliveryDestinationForIPO {
         this.destination = destination;
         if (destination.equals("factory")) {
             try {
-                Long factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+                Long factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
                 this.selectedFactory = pmb.getFactoryEntity(factoryId);
             } catch (Exception ex) {
                 Logger.getLogger(SelectedDeliveryDestinationForIPO.class.getName()).log(Level.SEVERE, null, ex);

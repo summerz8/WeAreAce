@@ -17,7 +17,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -88,9 +88,6 @@
                         <p:panel id="sales" header="Sales Operation Plan" style="margin-bottom" >
                             <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan" >
                             </p:commandButton>
-
-                            <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" >
-                            </p:button>
 
 
                             <br></br>

@@ -17,7 +17,7 @@
             <h:form id="formMain">
                 <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -103,17 +103,17 @@
 
 
                                 <h:outputLabel for="address" value="Address *:" />
-                                <p:inputText value="#{factoryControl.newFactoryAddress}" required="true" label="text" >
+                                <p:inputText value="#{factoryControl.newFactoryAddress}" required="true" requiredMessage="Please enter address" label="text" >
                                     
                                 </p:inputText>
 
 
                                 <h:outputLabel for="contact" value="Contact *:" />
-                                <p:inputText value="#{factoryControl.newFactoryContact}" required="true" label="text" />
+                                <p:inputText value="#{factoryControl.newFactoryContact}" required="true" requiredMessage="Please input contact" label="text" />
 
 
-                                <h:outputLabel for="manager" value="Manager: *" />
-                                <p:inputText value="#{factoryControl.newFactoryManager}" required="true" label="text" />                                
+                                <h:outputLabel for="manager" value="Manager ID: *" />
+                                <p:inputMask value="#{factoryControl.newFactoryManager}" required="true" requiredMessage="Please input manager id" label="text" mask="a9999999"/>                                
 
                                 <p:commandButton actionListener="#{factoryControl.addFactory()}" value="Save"/>
                             </h:panelGrid>

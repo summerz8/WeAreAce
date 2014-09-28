@@ -44,7 +44,7 @@ public class PurchaseOrderEntity implements Serializable {
     private Integer leadTime;
     private Double totalPrice; // the totalPrice price
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar deliveryDate;
+    private Calendar deliveryDate ;
 
     //purchase order entity -- factory entity: M <--> 1 
     @ManyToOne
@@ -64,7 +64,7 @@ public class PurchaseOrderEntity implements Serializable {
 
     //purchase order entity -- delivery order entity : 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "purchaseOrder")
-    private Collection<DeliveryOrderEntity> deliveryOrderList = null;
+    private Collection<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
 
     public PurchaseOrderEntity() {
     }

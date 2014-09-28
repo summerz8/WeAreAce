@@ -17,7 +17,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -92,13 +92,11 @@
                             <p:button value="Go back" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan"/>                          
                         </f:facet>                        
                     </p:toolbar>
-                    
-                    
 
                     <h:outputText value="Please Enter Integrated Sales Forecast Id: " style="font-weight: bold;font-size: 100%"/>
 
-                    <p:inputText id="IntegratedSalesForecastId" value="#{retailProductPurchasePlanView.integratedSalesForecastId}" />
-                    <p:commandButton value="Submit"  icon="ui-icon-check" action="#{retailProductPurchasePlanView.createRetailProductPurchasePlan(retailProductPurchasePlanView.integratedSalesForecastId)}"/>
+                    <p:inputText value="#{retailProductPurchasePlanView.integratedSalesForecastId}" />
+                    <p:commandButton value="Submit"  icon="ui-icon-check" action="#{retailProductPurchasePlanView.create()}"/>
 
                 </p:layoutUnit>
 

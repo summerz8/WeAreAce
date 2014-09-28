@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -71,7 +70,8 @@ public class GoodsReceiptEntity implements Serializable {
         return purchaseOrder;
     }
 
-    public void setPurchaseOder(PurchaseOrderEntity purchaseOrder) {
+    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
+
         this.purchaseOrder = purchaseOrder;
     }
 

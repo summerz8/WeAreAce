@@ -98,11 +98,11 @@ public class DeleteSupplier {
         System.out.println(this.selectedSupplier.getSupplierName());
 
         result = pmb.deleteSupplier(this.selectedSupplier.getSupplierId());
-
-        FacesMessage msg = new FacesMessage("Information: " + result);
+        
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
         FacesContext.getCurrentInstance().addMessage(null, msg);
-
-        return "/secured/public/WorkPlace?faces-redirect=true";
+        
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 

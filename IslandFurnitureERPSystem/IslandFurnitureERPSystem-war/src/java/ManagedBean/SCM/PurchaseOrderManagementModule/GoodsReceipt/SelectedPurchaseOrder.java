@@ -22,7 +22,6 @@ public class SelectedPurchaseOrder {
 
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
-
     private PurchaseOrderEntity selectedPO;
 
     public PurchaseOrderEntity getSelectedPO() {
@@ -38,9 +37,12 @@ public class SelectedPurchaseOrder {
 
     public String passValue() throws Exception {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPO", selectedPO);
-        if (selectedPO.getDeliveryDate() != null) {
-            pmb.generateGoodsRecipt(selectedPO.getId());
-            return "/secured/restricted/Factory/SCM/WorkPlace?faces-redirect=true";
+        
+        if (selectedPO.getDeliveryOrderList().isEmpty()) {
+            String result = pmb.generateGoodsRecipt(selectedPO.getId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
+
+            return "/secured/public/WorkPlace?faces-redirect=true";
         } else {
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO?faces-redirect=true";
         }

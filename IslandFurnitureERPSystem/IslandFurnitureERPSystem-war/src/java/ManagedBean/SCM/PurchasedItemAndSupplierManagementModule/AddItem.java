@@ -105,10 +105,11 @@ public class AddItem implements Serializable {
         factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
         result = pmb.addItem(factoryId, itemType, itemId);
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
 
-        return "/secured/public/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 }

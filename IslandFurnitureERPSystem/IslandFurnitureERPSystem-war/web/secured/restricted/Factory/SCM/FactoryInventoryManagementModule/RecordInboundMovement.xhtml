@@ -16,9 +16,10 @@
     <h:body>
 
         <h:form id="globalNavigation">
+
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -63,27 +64,20 @@
 
 
                 </p:layoutUnit>
-
-
-                
+               
                 <p:layoutUnit position="west" size="1000px">
 
                      <p:menu>
-
                         <p:submenu label="Factory Inventory Management">
-                            <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
-                            <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
-                            <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
-                            <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
-                            <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
-                            <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
-                            <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
+                            <p:menuitem value="Factory Bin" url="FactoryBin.xhtml" />
+                            <p:menuitem value="Record Inbound Movement" url="RecordInboundMovement.xhtml" />
+                            <p:menuitem value="Record Outbound Movement" url="RecordOutboundMovement.xhtml"/>
+                            <p:menuitem value="Record Intra-Factory Movement" url="RecordInFactoryMovement.xhtml" />
+                            <p:menuitem value="Record Raw Material In-Factory Use Movement" url="RecordRawMaterialInFactoryUseMovement.xhtml" />
+                            <p:menuitem value="Change Stock Status" url="ChangeFactoryBinStoredProductStatus.xhtml" />
+                            <p:menuitem value="Record Returned Item Inbound Movement" url="RecordReturnedItemInboundMovement.xhtml" />
                         </p:submenu>
-
-
                     </p:menu>
-
-
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">

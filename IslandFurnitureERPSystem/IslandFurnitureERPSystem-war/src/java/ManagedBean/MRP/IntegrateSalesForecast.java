@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import SessionBean.MRP.SalesForecastModuleLocal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,19 +34,34 @@ public class IntegrateSalesForecast {
     private List<IntegratedSalesForecastEntity> integratedSalesForecastList;
     private Calendar time;
     private List<FactoryProductEntity> factoryProductList;
-  
+    private List<FactoryRetailProductEntity> factoryRetailProductList = new ArrayList<>();
+    private List<IntegratedSalesForecastEntity> factoryProduct = new ArrayList<>();
+    private List<IntegratedSalesForecastEntity> factoryRetailProduct = new ArrayList<>();
+    private Long factoryId;
+
     public IntegrateSalesForecast() {
     }
-    
+
     @PostConstruct
-    public void getAllIntegratedSalesForecastList(){
-    
-        integratedSalesForecastList=sfml.getIntegrateSalesForecastList(null,null);
-        time=Calendar.getInstance();
-        time.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), 1, 0, 0, 0);
+    public void getAllIntegratedSalesForecastList() {
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
+        integratedSalesForecastList = sfml.getIntegrateSalesForecastList(factoryId,null, null);
+        while (!integratedSalesForecastList.isEmpty()) {
+            if (integratedSalesForecastList.get(0).getFactoryProduct() == null) {
+                factoryRetailProduct.add(integratedSalesForecastList.get(0));
+            } else {
+                factoryProduct.add(integratedSalesForecastList.get(0));
+            }
+            integratedSalesForecastList.remove(0);
+        }
+        time = Calendar.getInstance();
+        time.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH) + 2, 2, 0, 0, 0);
+
         System.out.println(time.getTime());
-        factoryProductList=sfml.productListNeededTobeIntegrated(1L);
-        
+        factoryProductList = sfml.productListNeededTobeIntegrated(factoryId);
+        factoryRetailProductList = sfml.retailProductListNeedToBeIntegrated(1L);
+
     }
 
     public SalesForecastModuleLocal getSfml() {
@@ -64,7 +80,6 @@ public class IntegrateSalesForecast {
         this.time = time;
     }
 
-
     public List<FactoryProductEntity> getFactoryProductList() {
         return factoryProductList;
     }
@@ -81,13 +96,46 @@ public class IntegrateSalesForecast {
         this.integratedSalesForecastList = integratedSalesForecastList;
     }
 
-    public String integrate(Long factoryProductId){
+    public String integrateFactoryProduct(Long ProductId) {
         System.out.println("1");
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId",factoryProductId);
-       System.out.println("11");
-       return "MRPListSalesForecast?faces-redirect=true";
-    
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", ProductId);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("type", "factoryProduct");
+        System.out.println("11");
+        return "MRPListSalesForecast?faces-redirect=true";
+
     }
-    
-    
+
+    public String integrateFactoryRetailProduct(Long ProductId) {
+        System.out.println("1");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", ProductId);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("type", "factoryRetailProduct");
+        System.out.println("11");
+        return "MRPListSalesForecast?faces-redirect=true";
+
+    }
+
+    public List<IntegratedSalesForecastEntity> getFactoryProduct() {
+        return factoryProduct;
+    }
+
+    public void setFactoryProduct(List<IntegratedSalesForecastEntity> factoryProduct) {
+        this.factoryProduct = factoryProduct;
+    }
+
+    public List<FactoryRetailProductEntity> getFactoryRetailProductList() {
+        return factoryRetailProductList;
+    }
+
+    public void setFactoryRetailProductList(List<FactoryRetailProductEntity> factoryRetailProduct) {
+        this.factoryRetailProductList = factoryRetailProduct;
+    }
+
+    public List<IntegratedSalesForecastEntity> getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public void setFactoryRetailProduct(List<IntegratedSalesForecastEntity> factoryRetailProductList) {
+        this.factoryRetailProduct = factoryRetailProductList;
+    }
+
 }

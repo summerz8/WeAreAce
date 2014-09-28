@@ -18,7 +18,7 @@
         <h:form id="globalNavigation">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -34,6 +34,7 @@
                                      actionListener="#{idleBean.logoutListener}" />
 
                 </p:confirmDialog>
+
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -64,23 +65,20 @@
 
 
                 </p:layoutUnit>
-
-
                
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
                         <p:submenu label="Factory Inventory Management">
-                            <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
-                            <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
-                            <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
-                            <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
-                            <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
-                            <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
-                            <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
+                            <p:menuitem value="Factory Bin" url="FactoryBin.xhtml" />
+                            <p:menuitem value="Record Inbound Movement" url="RecordInboundMovement.xhtml" />
+                            <p:menuitem value="Record Outbound Movement" url="RecordOutboundMovement.xhtml"/>
+                            <p:menuitem value="Record Intra-Factory Movement" url="RecordInFactoryMovement.xhtml" />
+                            <p:menuitem value="Record Raw Material In-Factory Use Movement" url="RecordRawMaterialInFactoryUseMovement.xhtml" />
+                            <p:menuitem value="Change Stock Status" url="ChangeFactoryBinStoredProductStatus.xhtml" />
+                            <p:menuitem value="Record Returned Item Inbound Movement" url="RecordReturnedItemInboundMovement.xhtml" />
                         </p:submenu>
                     </p:menu>
-
 
 
                 </p:layoutUnit>
@@ -90,11 +88,7 @@
                     </p:panel>
 
                     <p:dataTable var="b" value="#{factoryInventoryManagementBean.storageBinInformation}">
-
-                        <p:column headerText="Factory ID">
-                            #{b.factory.factoryId}
-                        </p:column>
-
+                        
                         <p:column headerText="Storage Bin ID">
                             #{b.factoryBinId}
                         </p:column>
@@ -102,6 +96,13 @@
                         <p:column headerText="Stored Items">
                             <h:outputText value="The Storage Bin is Empty" rendered="#{b.factoryBinStoredProducts.isEmpty()}" />
                             <p:dataTable var="i" value="#{b.factoryBinStoredProducts}" rendered="#{!b.factoryBinStoredProducts.isEmpty()}">
+                                
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{i.factoryRawMaterial.factoryRawMaterialId}" rendered="#{i.stockTypeIndicator == 1}" />
+                                    <h:outputText value="#{i.factoryProduct.factoryProductId}" rendered="#{i.stockTypeIndicator == 2}" />
+                                    <h:outputText value="#{i.factoryRetailProduct.factoryRetailProdctId}" rendered="#{i.stockTypeIndicator == 3}" />
+                                </p:column>
+                                
                                 <p:column headerText="Name">
                                     <h:outputText value="#{i.factoryRawMaterial.rawMaterial.materialName}" rendered="#{i.stockTypeIndicator == 1}" />
                                     <h:outputText value="#{i.factoryProduct.product.name}" rendered="#{i.stockTypeIndicator == 2}" />

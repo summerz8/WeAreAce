@@ -17,7 +17,7 @@
             <h:form id="formMain">
                 <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -155,7 +155,7 @@
                                 <p:column filterBy="#{factory.manager}" headerText="Manager" width="15%">
                                     <p:cellEditor>                              
                                         <f:facet name="output"><h:outputText value="#{factory.manager}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{factory.manager}"  style="width:96%"/></f:facet>
+                                        <f:facet name="input"><p:inputMask  value="#{factory.manager}"  style="width:96%" mask="a9999999"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 

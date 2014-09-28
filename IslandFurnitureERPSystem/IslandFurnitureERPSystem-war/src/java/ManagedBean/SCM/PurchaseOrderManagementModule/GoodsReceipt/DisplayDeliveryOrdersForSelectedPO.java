@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -63,21 +64,24 @@ public class DisplayDeliveryOrdersForSelectedPO {
         this.selectedDO = selectedDO;
     }
 
-    
     public DisplayDeliveryOrdersForSelectedPO() {
     }
-    
-    public String fulfillDO(DeliveryOrderEntity selectedDO){
+
+    public String fulfillDO(DeliveryOrderEntity selectedDO) {
         try {
             this.selectedDO = selectedDO;
-            
             result = pmb.generateGoodsReciptForDeliveryOrders(po.getDestinationId(), this.selectedDO.getId());
             
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             
         } catch (Exception ex) {
             Logger.getLogger(DisplayDeliveryOrdersForSelectedPO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "/secured/public/WorkPlace.xhtml";
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
+
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
     }
 
 }

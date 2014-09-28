@@ -17,7 +17,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -89,13 +89,13 @@
 
                     <p:toolbar>
                         <f:facet name="left">
-                            <p:button value="Go back and recreate" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderConfirmed?faces-redirect=true"/>
+                            <p:button value="Go back and recreate" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrder?faces-redirect=true"/>
                             <p:button value="View Integrated Planned Order" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true"/>
                         </f:facet>
 
                     </p:toolbar>
 
-                        <h:outputText value="Sorry!The Raw Material Id that you entered has already been used in another planned order or does not exist in current factory." style="font-weight: bold;font-size: 200%"/>
+                        <h:outputText value="Sorry!The Raw Material Id that you entered has already been used in another planned order or does not exist in current factory." style="font-weight: bold;font-size: 100%"/>
 
                 </p:layoutUnit>
 

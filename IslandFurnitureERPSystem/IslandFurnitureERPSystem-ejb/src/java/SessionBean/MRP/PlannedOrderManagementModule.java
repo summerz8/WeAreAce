@@ -217,49 +217,89 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     }
     
     @Override
-    public List<PlannedOrderEntity> getPlannedOrder(){
-        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+    public List<PlannedOrderEntity> getPlannedOrder(Long id,String department){
+                Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
             PlannedOrderEntity po = (PlannedOrderEntity) o;
-            plannedOrderList.add(po);
+                plannedOrderList.add(po);
             }
+        }
+        else{
+            for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            Long departmentId = po.getFactory().getFactoryId();
+            if(departmentId.equals(id))
+                plannedOrderList.add(po);
+            }
+        }      
           return plannedOrderList;
         }
     
     @Override
-    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(){
+    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(Long id,String department){
         Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
             PlannedOrderEntity po = (PlannedOrderEntity) o;
             if(po.getStatus().equals("unconfirmed"))
                 plannedOrderList.add(po);
             }
+        }
+        else{
+            for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            Long departmentId = po.getFactory().getFactoryId();
+            if(po.getStatus().equals("unconfirmed") && departmentId.equals(id))
+                plannedOrderList.add(po);
+            }
+        }      
           return plannedOrderList;
         }
     
     @Override
-    public List<PlannedOrderEntity> getConfirmedPlannedOrder(){
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department){
         Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
             PlannedOrderEntity po = (PlannedOrderEntity) o;
             if(po.getStatus().equals("confirmed"))
                 plannedOrderList.add(po);
             }
+        }
+        else{
+            for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            Long departmentId = po.getFactory().getFactoryId();
+            if(po.getStatus().equals("confirmed") && departmentId.equals(id))
+                plannedOrderList.add(po);
+            }
+        }      
           return plannedOrderList;
         }
     
     @Override
-    public List<PlannedOrderEntity> getCancelledPlannedOrder(){
-        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+    public List<PlannedOrderEntity> getCancelledPlannedOrder(Long id,String department){
+                Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
             PlannedOrderEntity po = (PlannedOrderEntity) o;
             if(po.getStatus().equals("cancelled"))
                 plannedOrderList.add(po);
             }
+        }
+        else{
+            for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            Long departmentId = po.getFactory().getFactoryId();
+            if(po.getStatus().equals("cancelled") && departmentId.equals(id))
+                plannedOrderList.add(po);
+            }
+        }      
           return plannedOrderList;
         }
        

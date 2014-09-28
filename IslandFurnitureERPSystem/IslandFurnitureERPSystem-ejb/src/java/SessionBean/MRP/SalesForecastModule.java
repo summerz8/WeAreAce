@@ -9,6 +9,7 @@ import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
+import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
 import java.util.ArrayList;
@@ -36,15 +37,21 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
     }
 
     @Override
-    public List<SalesForecastEntity> ListSalesForecast(Long storeId, Object product, Calendar period) {
+    public List<SalesForecastEntity> ListSalesForecast(Long factoryId, Long storeId, Object product, Calendar period) {
         //List sales forecast based on 3 searching criteria: store, product(self-produced or retail product, forecast targetPeriod)
         List<SalesForecastEntity> list = new ArrayList<>();
-        List<SalesForecastEntity> templist = new ArrayList<>();
+        List<SalesForecastEntity> templist1;
+        List<SalesForecastEntity> templist = new ArrayList<>();;
         try {
-
+            System.out.println(factoryId);
             Query query = em.createQuery("SELECT t FROM SalesForecastEntity t");
-
-            templist = (List<SalesForecastEntity>) query.getResultList();
+            templist1 = (List<SalesForecastEntity>) query.getResultList();
+            for (SalesForecastEntity s : templist1) {
+                if (s.getFactoryProductList().get(0).getFactoryProduct().getFactory().getFactoryId().equals(factoryId)) {
+                    templist.add(s);
+                    System.out.println(s.getId());
+                }
+            }
 
             if (product == null) {
 
@@ -209,7 +216,7 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
     }
 
     @Override
-    public IntegratedSalesForecastEntity IntegrateSalesForecast(Long productId, Calendar period) {
+    public IntegratedSalesForecastEntity IntegrateSalesForecast(String type, Long productId, Calendar period) {
 
         try {
             System.out.println("inegrateSalesForecast: 1");
@@ -217,22 +224,22 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                 Calendar targetPeriod = Calendar.getInstance();
                 targetPeriod.set(targetPeriod.get(Calendar.YEAR), targetPeriod.get(Calendar.MONTH), 1, 0, 0, 0);
                 targetPeriod.add(Calendar.MONTH, 2);
-                FactoryProductEntity product = em.find(FactoryProductEntity.class, productId);
 
-                List<SalesForecastEntity> templist ;
+                List<SalesForecastEntity> templist;
 
                 IntegratedSalesForecastEntity integratedSalesForecast = new IntegratedSalesForecastEntity();
                 integratedSalesForecast.setAmount(0D);
                 integratedSalesForecast.setTargetPeriod(targetPeriod);
-                integratedSalesForecast.setFactoryProduct(product);
 
                 Query query = em.createQuery("SELECT t FROM SalesForecastEntity t ORDER BY t.targetPeriod DESC");
                 templist = (List<SalesForecastEntity>) query.getResultList();
                 System.out.println("inegrateSalesForecast: 2");
                 // If it is an integrated sales forecast for self-produced product
-                if (product.getClass().equals(FactoryProductEntity.class)) {
-                    FactoryProductEntity factoryProduct = (FactoryProductEntity) product;
-                    integratedSalesForecast.setFactory(factoryProduct.getFactory());
+                if (type.equals("factoryProduct")) {
+                    FactoryProductEntity product = em.find(FactoryProductEntity.class, productId);
+
+                    integratedSalesForecast.setFactory(product.getFactory());
+                    integratedSalesForecast.setFactoryProduct(product);
 
                     List<FactoryProductAmountEntity> tempFactoryProductAmountList = new ArrayList<>();
                     System.out.println("inegrateSalesForecast: 3");
@@ -241,15 +248,15 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                         if ((targetPeriod.get(Calendar.YEAR) == templist.get(0).getTargetPeriod().get(Calendar.YEAR) && (targetPeriod.get(Calendar.MONTH) == templist.get(0).getTargetPeriod().get(Calendar.MONTH)))) {
                             tempFactoryProductAmountList = templist.get(0).getFactoryProductList();
                             System.out.println(templist.get(0).getId());
-                            int size=tempFactoryProductAmountList.size();
-                            for(int a=0;a<size;a++){
-                            if (tempFactoryProductAmountList.get(0).getFactoryProduct().getFactoryProductId().equals(productId)) {
+                            int size = tempFactoryProductAmountList.size();
+                            for (int a = 0; a < size; a++) {
+                                if (tempFactoryProductAmountList.get(0).getFactoryProduct().getFactoryProductId().equals(productId)) {
                                     integratedSalesForecast.setAmount(integratedSalesForecast.getAmount() + tempFactoryProductAmountList.get(0).getAmount());
                                     hasIt = true;
                                 }
-                            a++;
+                                a++;
                             }
- 
+
                             if (hasIt == true) {
                                 integratedSalesForecast.getSalesForecastList().add(templist.get(0));
 
@@ -264,23 +271,34 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                 } // It is an integrated sales forecast for retail product
                 else {
                     List<FactoryRetailProductAmountEntity> tempFactoryRetailProductAmountList = new ArrayList<>();
+                    FactoryRetailProductEntity product = em.find(FactoryRetailProductEntity.class, productId);
+                    integratedSalesForecast.setFactory(product.getFactory());
+                    integratedSalesForecast.setFactoryRetailProduct(product);
                     while (!templist.isEmpty()) {
+                        System.out.println("loop");
                         boolean hasIt = false;
-                        if (targetPeriod.equals(templist.get(0).getTargetPeriod())) {
+                        if ((targetPeriod.get(Calendar.YEAR) == templist.get(0).getTargetPeriod().get(Calendar.YEAR) && (targetPeriod.get(Calendar.MONTH) == templist.get(0).getTargetPeriod().get(Calendar.MONTH)))) {
                             tempFactoryRetailProductAmountList = templist.get(0).getFactoryRetailProductList();
-                            while (!tempFactoryRetailProductAmountList.isEmpty()) {
-                                if (tempFactoryRetailProductAmountList.get(0).getFactoryRetailProduct().equals(product)) {
-                                    integratedSalesForecast.setAmount(integratedSalesForecast.getAmount() + tempFactoryRetailProductAmountList.get(0).getAmount());
+//                            int size=tempFactoryRetailProductAmountList.size();
+//                            
+//                            System.out.println("HAHA"+size);
+                            for (FactoryRetailProductAmountEntity frpa : tempFactoryRetailProductAmountList) {
+                                if (frpa.getFactoryRetailProduct().getFactoryRetailProdctId().equals(productId)) {
+                                    System.out.println("hahah");
+                                    integratedSalesForecast.setAmount(integratedSalesForecast.getAmount() + frpa.getAmount());
                                     hasIt = true;
                                 }
-                                tempFactoryRetailProductAmountList.remove(0);
                             }
+
                             if (hasIt == true) {
                                 integratedSalesForecast.getSalesForecastList().add(templist.get(0));
+
+                                System.out.println("inegrateSalesForecast: " + templist.get(0).getId());
                             }
                         }
                         templist.remove(0);
                     }
+                    System.out.println("inegrateSalesForecast: 5");
                     return integratedSalesForecast;
                 }
             }
@@ -293,14 +311,23 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
     }
 
     @Override
-    public List<IntegratedSalesForecastEntity> getIntegrateSalesForecastList(Calendar period, Long factoryProductId) {
+    public List<IntegratedSalesForecastEntity> getIntegrateSalesForecastList(Long factoryId, Calendar period, Long factoryProductId) {
         List<IntegratedSalesForecastEntity> integratedSalesForecastList = new ArrayList<>();
-        List<IntegratedSalesForecastEntity> templist;
-
+        List<IntegratedSalesForecastEntity> templist1;
+        List<IntegratedSalesForecastEntity> templist = new ArrayList<>();
         if (period == null && factoryProductId == null) {
-            Query query = em.createQuery("SELECT t FROM IntegratedSalesForecastEntity t ORDER BY t.targetPeriod DESC");
-            templist = (List<IntegratedSalesForecastEntity>) query.getResultList();
-
+            if (factoryId != null) {
+                Query query = em.createQuery("SELECT t FROM IntegratedSalesForecastEntity t ORDER BY t.targetPeriod DESC");
+                templist1 = (List<IntegratedSalesForecastEntity>) query.getResultList();
+                for (IntegratedSalesForecastEntity s : templist1) {
+                    if (s.getFactory().getFactoryId().equals(factoryId)) {
+                        templist.add(s);
+                    }
+                }
+            } else {
+                Query query = em.createQuery("SELECT t FROM IntegratedSalesForecastEntity t ORDER BY t.targetPeriod DESC");
+                templist = (List<IntegratedSalesForecastEntity>) query.getResultList();
+            }
             Calendar today = Calendar.getInstance();
             today.add(Calendar.MONTH, 2);
 
@@ -312,6 +339,7 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
             }
             return integratedSalesForecastList;
         }
+
         return null;
     }
 
@@ -332,11 +360,15 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
             }
             templist.remove(0);
         }
-        System.out.println("productListNeededTobeIntegrated(): 2");
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 2");
         Calendar today = Calendar.getInstance();
-        List<IntegratedSalesForecastEntity> integratedSalesForecastList = getIntegrateSalesForecastList(null, null);
+        List<IntegratedSalesForecastEntity> integratedSalesForecastList = getIntegrateSalesForecastList(FactoryId, null, null);
         IntegratedSalesForecastEntity temp;
-        System.out.println("productListNeededTobeIntegrated(): 3");
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 3");
         while (!integratedSalesForecastList.isEmpty()) {
             temp = integratedSalesForecastList.get(0);
             int size = factoryProductList.size();
@@ -349,23 +381,69 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
             }
             integratedSalesForecastList.remove(0);
         }
-        System.out.println("productListNeededTobeIntegrated(): 4");
 
-        System.out.println("productListNeededTobeIntegrated(): 5");
+        System.out.println(
+                "productListNeededTobeIntegrated(): 4");
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 5");
         return factoryProductList;
 
     }
 
     @Override
-    public void GenerateIntegratedSalesForecast(Long factoryProductId,Calendar period){
-    
+    public List<FactoryRetailProductEntity> retailProductListNeedToBeIntegrated(Long FactoryId) {
+        FactoryEntity factory = em.find(FactoryEntity.class, FactoryId);
 
-    IntegratedSalesForecastEntity integratedSalesForecast=IntegrateSalesForecast(factoryProductId,period);
-    
-    em.persist(integratedSalesForecast);
-    em.flush();
-    
-    
+        List<FactoryRetailProductEntity> factoryRetailProductList = new ArrayList<>();
+        Query q = em.createQuery("SELECT t FROM FactoryRetailProductEntity t");
+        List<FactoryRetailProductEntity> templist = (List<FactoryRetailProductEntity>) q.getResultList();
+
+        while (!templist.isEmpty()) {
+            if (templist.get(0).getFactory().getFactoryId() == factory.getFactoryId()) {
+                System.out.println("productId: " + templist.get(0).getFactoryRetailProdctId());
+                factoryRetailProductList.add(templist.get(0));
+            }
+            templist.remove(0);
+        }
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 2");
+        Calendar today = Calendar.getInstance();
+        List<IntegratedSalesForecastEntity> integratedSalesForecastList = getIntegrateSalesForecastList(FactoryId, null, null);
+        IntegratedSalesForecastEntity temp;
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 3");
+        while (!integratedSalesForecastList.isEmpty()) {
+            temp = integratedSalesForecastList.get(0);
+            int size = factoryRetailProductList.size();
+            for (int a = 0; a < size; a++) {
+                if (factoryRetailProductList.get(a).equals(temp.getFactoryRetailProduct())) {
+                    System.out.println("productListNeededTobeIntegrated(): " + factoryRetailProductList.get(0).getFactoryRetailProdctId());
+                    factoryRetailProductList.remove(a);
+                    break;
+                }
+            }
+            integratedSalesForecastList.remove(0);
+        }
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 4");
+
+        System.out.println(
+                "productListNeededTobeIntegrated(): 5");
+        return factoryRetailProductList;
+
+    }
+
+    @Override
+    public void GenerateIntegratedSalesForecast(String type, Long factoryProductId, Calendar period) {
+
+        IntegratedSalesForecastEntity integratedSalesForecast = IntegrateSalesForecast(type, factoryProductId, period);
+
+        em.persist(integratedSalesForecast);
+        em.flush();
+
     }
 }
-

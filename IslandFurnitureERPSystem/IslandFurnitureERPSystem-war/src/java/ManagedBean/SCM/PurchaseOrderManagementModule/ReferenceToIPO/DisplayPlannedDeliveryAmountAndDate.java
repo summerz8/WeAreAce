@@ -10,6 +10,7 @@ import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "displayPlannedOrderDeliveryAmountAndDate")
 @ViewScoped
-public class DisplayPlannedDeliveryAmountAndDate {
+public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
 
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
@@ -42,9 +43,6 @@ public class DisplayPlannedDeliveryAmountAndDate {
     private Long itemId;
     private FactoryRawMaterialEntity frm;
     private FactoryRetailProductEntity frp;
-
-    @ManagedProperty(value = "#{displayDestinationForPurchaseItem}")
-    private DisplayDestinationForPuchaseItem dmb;
 
     @PostConstruct
     private void init() {
@@ -133,13 +131,6 @@ public class DisplayPlannedDeliveryAmountAndDate {
         this.frp = frp;
     }
 
-    public DisplayDestinationForPuchaseItem getDmb() {
-        return dmb;
-    }
-
-    public void setDmb(DisplayDestinationForPuchaseItem dmb) {
-        this.dmb = dmb;
-    }
 
     public DisplayPlannedDeliveryAmountAndDate() {
     }
@@ -150,8 +141,16 @@ public class DisplayPlannedDeliveryAmountAndDate {
 
     public String passValue() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryOrderList", deliveryOrderList);
-        return dmb.displayDestination();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", itemType);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+                
+        if (itemType.equals("RawMaterial")) {
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO?faces-redirect=true";
+        } else {//itemType.equals("RetailProduct")
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayDeliveryDestination?faces-redirect=true";
+        }
     }
+    
 
     public void onRowEdit(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Delivery Order Edited");

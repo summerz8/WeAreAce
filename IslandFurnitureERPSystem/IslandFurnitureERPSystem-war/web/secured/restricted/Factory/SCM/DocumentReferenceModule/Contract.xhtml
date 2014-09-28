@@ -16,9 +16,10 @@
     <h:body>
 
         <h:form id="globalNavigation">
+
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -34,6 +35,7 @@
                                      actionListener="#{idleBean.logoutListener}" />
 
                 </p:confirmDialog>
+
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -90,26 +92,45 @@
                     <p:panel id="basic" header="Contract" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="c" value="#{documentReferenceBean.allContracts}">
+                    <p:dataTable var="c" value="#{documentReferenceBean.contracts}">
+                        
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{c.factoryRawMaterial.factory.factoryId}" rendered="#{c.typeIndicator == 1}" />
+                            <h:outputText value="#{c.factoryRetailProduct.factory.factoryId}" rendered="#{c.typeIndicator == 3}" />
+                        </p:column>
 
                         <p:column headerText="Contract ID">
                             #{c.contractId}
                         </p:column>
+                        
+                        <p:column headerText="Item Name">
+                            <h:outputText value="#{c.factoryRawMaterial.rawMaterial.materialName}" rendered="#{c.typeIndicator == 1}" />
+                            <h:outputText value="#{c.factoryRetailProduct.retailProduct.name}" rendered="#{c.typeIndicator == 3}" />
+                        </p:column>
 
+                        <p:column headerText="Item Type">
+                            <h:outputText value="Factory Raw Material" rendered="#{c.typeIndicator == 1}" />
+                            <h:outputText value="Factory Retail Product" rendered="#{c.typeIndicator == 3}" />
+                        </p:column>
+                        
                         <p:column headerText="Contract Price">
                             #{c.contractPrice}
                         </p:column>
 
-                        <p:column headerText="Lead Time(Day)">
-                            #{c.leadTime}
+                        <p:column headerText="Lot Size">
+                            #{c.lotSize}
                         </p:column>
 
                         <p:column headerText="Unit">
                             #{c.unit}
                         </p:column>
-
-                        <p:column headerText="Lot Size">
-                            #{c.lotSize}
+                        
+                        <p:column headerText="Lead Time(Day)">
+                            #{c.leadTime}
+                        </p:column>
+                        
+                        <p:column headerText="Supplier">
+                            #{c.supplier.supplierName}
                         </p:column>
 
                         <p:column headerText="Contract Start Date">
@@ -118,20 +139,6 @@
 
                         <p:column headerText="Contract End Date">
                             #{c.contractEndDate.time}
-                        </p:column>
-
-                        <p:column headerText="Item Type">
-                            <h:outputText value="Factory Raw Material" rendered="#{c.typeIndicator == 1}" />
-                            <h:outputText value="Factory Retail Product" rendered="#{c.typeIndicator == 3}" />
-                        </p:column>
-
-                        <p:column headerText="Item Name">
-                            <h:outputText value="#{c.factoryRawMaterial.rawMaterial.materialName}" rendered="#{c.typeIndicator == 1}" />
-                            <h:outputText value="#{c.factoryRetailProduct.retailProduct.name}" rendered="#{c.typeIndicator == 3}" />
-                        </p:column>
-
-                        <p:column headerText="Supplier">
-                            #{c.supplier.supplierName}
                         </p:column>
 
                     </p:dataTable>

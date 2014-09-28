@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -33,7 +34,8 @@ public class IntegratedPlannedOrderBean {
     private List<PlannedOrderEntity> plannedOrderConfirmed;
     private Calendar targetMonth; 
     private Long factoryRawMaterialId;
-    
+    private Long id;
+    private String department;
     
     @EJB
     private IntegratedPlannedOrderManagementLocal IPO;
@@ -69,30 +71,44 @@ public class IntegratedPlannedOrderBean {
     public void setFactoryRawMaterialId(Long factoryRawMaterialId) {
         this.factoryRawMaterialId = factoryRawMaterialId;
     }
-                  
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+    
     @PostConstruct
     public void init(){
+        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+        
         targetMonth = Calendar.getInstance();
         targetMonth.set(Calendar.DATE,1);
         targetMonth.set(Calendar.MONTH,targetMonth.get(Calendar.MONTH)+1);        
-        integratedPlannedOrder = IPO.getIntegratedPlannedOrder();
+        integratedPlannedOrder = IPO.getIntegratedPlannedOrder(id,department);
     }
     
     public String createIntegratedPlannedOrder(Long factoryRawMaterialId){
         int month = targetMonth.get(Calendar.MONTH)+1;
         int year = targetMonth.get(Calendar.YEAR);
         
-        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = IPO.getIntegratedPlannedOrder();
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = IPO.getIntegratedPlannedOrder(id,department);
         for(IntegratedPlannedOrderEntity ipo: integratedPlannedOrderList){
             int m = ipo.getTargetPeriod().get(Calendar.MONTH)+1;
             int y = ipo.getTargetPeriod().get(Calendar.YEAR);
             
             if(ipo.getFactoryRawMaterialAmount().getFactoryRawMaterial().getFactoryRawMaterialId().equals(factoryRawMaterialId)
                     && month == m && year == y)
-            return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
+                return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
+            else if(!IPO.findFactoryRawMaterialIdList(id, department, factoryRawMaterialId)){
+                return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
+            }
         }
         
-        IPO.createIntegratedPlannedOrder(targetMonth, factoryRawMaterialId);
+        IPO.createIntegratedPlannedOrder(targetMonth, factoryRawMaterialId,id,department);
         
         return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true";
         

@@ -256,8 +256,8 @@ public class Test {
         Calendar c6=Calendar.getInstance();  c6.set(2014, 3, 20);
         Calendar c7=Calendar.getInstance();  c7.set(2014, 2, 11);
         Calendar c8=Calendar.getInstance();  c8.set(2014, 1, 22);
-        Calendar c9=Calendar.getInstance();  c9.set(2014, 6, 6);
-        Calendar c10=Calendar.getInstance();  c10.set(2014, 2, 12);
+        Calendar c9=Calendar.getInstance();  c9.set(2014, 10, 6);
+        Calendar c10=Calendar.getInstance();  c10.set(2014, 10, 12);
         Calendar c11=Calendar.getInstance();  c11.set(2014, 9, 25);
         
         pp1.setGeneratedDate(c1);pp2.setGeneratedDate(c2);pp3.setGeneratedDate(c3);pp4.setGeneratedDate(c4);pp5.setGeneratedDate(c5);
@@ -418,8 +418,8 @@ public class Test {
         po11.setStatus("unconfirmed");po12.setStatus("unconfirmed");po13.setStatus("unconfirmed");po14.setStatus("unconfirmed");po15.setStatus("unconfirmed");
         
         po1.setFactory(f1);po2.setFactory(f1);po3.setFactory(f1);po4.setFactory(f1);po5.setFactory(f1);
-        po6.setFactory(f2);po7.setFactory(f2);po8.setFactory(f2);po9.setFactory(f2);po10.setFactory(f2);
-        po11.setFactory(f3);po12.setFactory(f3);po13.setFactory(f3);po14.setFactory(f3);po15.setFactory(f3);
+        po6.setFactory(f1);po7.setFactory(f2);po8.setFactory(f2);po9.setFactory(f2);po10.setFactory(f2);
+        po11.setFactory(f2);po12.setFactory(f2);po13.setFactory(f3);po14.setFactory(f3);po15.setFactory(f3);
         
         //create list factory raw material amount
         List<FactoryRawMaterialAmountEntity> frmal1 = new ArrayList();
@@ -473,41 +473,117 @@ public class Test {
         po14.setFactoryRawMaterialAmountList(frmal14);
         po15.setFactoryRawMaterialAmountList(frmal15);
         
+        po1.setProductionPlan(pp1);po2.setProductionPlan(pp2);po3.setProductionPlan(pp3);po4.setProductionPlan(pp4);po5.setProductionPlan(pp5);
+        po6.setProductionPlan(pp6);po7.setProductionPlan(pp7);po8.setProductionPlan(pp8);po9.setProductionPlan(pp9);po10.setProductionPlan(pp10);
+        po11.setProductionPlan(pp11);po12.setProductionPlan(pp12);po13.setProductionPlan(pp13);po14.setProductionPlan(pp14);po15.setProductionPlan(pp15);
+        
         em.persist(po1);em.flush();em.persist(po2);em.flush();em.persist(po3);em.flush();em.persist(po4);em.flush();em.persist(po5);em.flush();
         em.persist(po6);em.flush();em.persist(po7);em.flush();em.persist(po8);em.flush();em.persist(po9);em.flush();em.persist(po10);em.flush();
         em.persist(po11);em.flush();em.persist(po12);em.flush();em.persist(po13);em.flush();em.persist(po14);em.flush();em.persist(po15);em.flush();
 
          /*      
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
         
         
              我有一只大猫猫 它从来都不喵
         
         
+=======
+        
+        
+             我有一只大猫猫 它从来都不喵
+>>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
         
         */
         
         
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+=======
+        */
+        
+        
+>>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
         //BOM
         BOMEntity bom1=new BOMEntity();BOMEntity bom2=new BOMEntity();BOMEntity bom3=new BOMEntity();
         BOMEntity bom4=new BOMEntity();BOMEntity bom5=new BOMEntity();BOMEntity bom6=new BOMEntity();
         BOMEntity bom7=new BOMEntity();BOMEntity bom8=new BOMEntity();BOMEntity bom9=new BOMEntity();
+        BOMEntity bom10=new BOMEntity();BOMEntity bom11=new BOMEntity();BOMEntity bom12=new BOMEntity();
+        BOMEntity bom13=new BOMEntity();BOMEntity bom14=new BOMEntity();BOMEntity bom15=new BOMEntity();
+        BOMEntity bom16=new BOMEntity();BOMEntity bom17=new BOMEntity();BOMEntity bom18=new BOMEntity();
+        BOMEntity bom19=new BOMEntity();BOMEntity bom20=new BOMEntity();BOMEntity bom21=new BOMEntity();
+        BOMEntity bom22=new BOMEntity();BOMEntity bom23=new BOMEntity();BOMEntity bom24=new BOMEntity();
+        BOMEntity bom25=new BOMEntity();BOMEntity bom26=new BOMEntity();BOMEntity bom27=new BOMEntity();
+        BOMEntity bom28=new BOMEntity();BOMEntity bom29=new BOMEntity();BOMEntity bom30=new BOMEntity();
         
         bom1.setAmount(10D);bom1.setProduct(p1);bom1.setRawMaterial(rm1);bom1.setUnit("piece");
-        bom2.setAmount(20D);bom2.setProduct(p2);bom2.setRawMaterial(rm2);bom1.setUnit("piece");
-        bom3.setAmount(30D);bom3.setProduct(p3);bom3.setRawMaterial(rm3);bom1.setUnit("box");
-        bom4.setAmount(40D);bom4.setProduct(p4);bom4.setRawMaterial(rm4);bom1.setUnit("box");
-        bom5.setAmount(50D);bom5.setProduct(p5);bom5.setRawMaterial(rm5);bom1.setUnit("box");
-        bom6.setAmount(60D);bom6.setProduct(p6);bom6.setRawMaterial(rm1);bom1.setUnit("piece");
-        bom7.setAmount(70D);bom7.setProduct(p7);bom7.setRawMaterial(rm2);bom1.setUnit("piece");
-        bom8.setAmount(80D);bom8.setProduct(p8);bom8.setRawMaterial(rm3);bom1.setUnit("box");
-        bom9.setAmount(90D);bom9.setProduct(p9);bom9.setRawMaterial(rm4);bom1.setUnit("box");
+        bom2.setAmount(20D);bom2.setProduct(p1);bom2.setRawMaterial(rm2);bom2.setUnit("piece");
+        bom3.setAmount(30D);bom3.setProduct(p1);bom3.setRawMaterial(rm3);bom3.setUnit("box");
+        
+        bom4.setAmount(40D);bom4.setProduct(p2);bom4.setRawMaterial(rm4);bom4.setUnit("box");
+        bom5.setAmount(50D);bom5.setProduct(p2);bom5.setRawMaterial(rm5);bom5.setUnit("box");
+        bom6.setAmount(60D);bom6.setProduct(p2);bom6.setRawMaterial(rm1);bom6.setUnit("piece");
+        
+        bom7.setAmount(70D);bom7.setProduct(p3);bom7.setRawMaterial(rm2);bom7.setUnit("piece");
+        bom8.setAmount(80D);bom8.setProduct(p3);bom8.setRawMaterial(rm3);bom8.setUnit("box");
+        bom9.setAmount(90D);bom9.setProduct(p3);bom9.setRawMaterial(rm4);bom9.setUnit("box");
         
         
+        bom10.setAmount(50D);bom10.setProduct(p4);bom10.setRawMaterial(rm1);bom10.setUnit("piece");
+        bom11.setAmount(22D);bom11.setProduct(p4);bom11.setRawMaterial(rm2);bom11.setUnit("piece");
+        bom12.setAmount(33D);bom12.setProduct(p4);bom12.setRawMaterial(rm3);bom12.setUnit("box");
+        
+        bom13.setAmount(42D);bom13.setProduct(p5);bom13.setRawMaterial(rm4);bom13.setUnit("box");
+        bom14.setAmount(58D);bom14.setProduct(p5);bom14.setRawMaterial(rm5);bom14.setUnit("box");
+        bom15.setAmount(69D);bom15.setProduct(p5);bom15.setRawMaterial(rm1);bom15.setUnit("piece");
+        
+        bom16.setAmount(72D);bom16.setProduct(p6);bom16.setRawMaterial(rm2);bom16.setUnit("piece");
+        bom17.setAmount(81D);bom17.setProduct(p6);bom17.setRawMaterial(rm3);bom17.setUnit("box");
+        bom18.setAmount(92D);bom18.setProduct(p6);bom18.setRawMaterial(rm4);bom18.setUnit("box");
+               
+        bom19.setAmount(16D);bom19.setProduct(p7);bom19.setRawMaterial(rm1);bom19.setUnit("piece");
+        bom20.setAmount(24D);bom20.setProduct(p7);bom20.setRawMaterial(rm2);bom20.setUnit("piece");
+        bom21.setAmount(32D);bom21.setProduct(p7);bom21.setRawMaterial(rm3);bom21.setUnit("box");
+        
+        bom22.setAmount(48D);bom22.setProduct(p8);bom22.setRawMaterial(rm4);bom22.setUnit("box");
+        bom23.setAmount(59D);bom23.setProduct(p8);bom23.setRawMaterial(rm5);bom23.setUnit("box");
+        bom24.setAmount(6D);bom24.setProduct(p8);bom24.setRawMaterial(rm1);bom24.setUnit("piece");
+        
+        bom25.setAmount(72D);bom25.setProduct(p9);bom25.setRawMaterial(rm2);bom25.setUnit("piece");
+        bom26.setAmount(81D);bom26.setProduct(p9);bom26.setRawMaterial(rm3);bom26.setUnit("box");
+        bom27.setAmount(9D);bom27.setProduct(p9);bom27.setRawMaterial(rm4);bom27.setUnit("box");
+        
+        bom28.setAmount(7D);bom28.setProduct(p10);bom28.setRawMaterial(rm2);bom28.setUnit("piece");
+        bom29.setAmount(8D);bom29.setProduct(p10);bom29.setRawMaterial(rm3);bom29.setUnit("box");
+        bom30.setAmount(9D);bom30.setProduct(p10);bom30.setRawMaterial(rm4);bom30.setUnit("box");
+        
+              
         em.persist(bom1);em.flush();em.persist(bom2);em.flush();em.persist(bom3);em.flush();
         em.persist(bom4);em.flush();em.persist(bom5);em.flush();em.persist(bom6);em.flush();
-        em.persist(bom7);em.flush();em.persist(bom8);em.flush();em.persist(bom9);em.flush();
-      
+        em.persist(bom7);em.flush();em.persist(bom8);em.flush();em.persist(bom9);em.flush();        
+        em.persist(bom10);em.flush();em.persist(bom11);em.flush();em.persist(bom12);em.flush();
+        em.persist(bom13);em.flush();em.persist(bom14);em.flush();em.persist(bom15);em.flush();
+        em.persist(bom16);em.flush();em.persist(bom17);em.flush();em.persist(bom18);em.flush();       
+        em.persist(bom19);em.flush();em.persist(bom20);em.flush();em.persist(bom21);em.flush();
+        em.persist(bom22);em.flush();em.persist(bom23);em.flush();em.persist(bom24);em.flush();
+        em.persist(bom25);em.flush();em.persist(bom26);em.flush();em.persist(bom27);em.flush();        
+        em.persist(bom28);em.flush();em.persist(bom29);em.flush();em.persist(bom30);em.flush();
         
+        List<BOMEntity> boml1 = new ArrayList(); boml1.add(bom1);boml1.add(bom2);boml1.add(bom3);
+        List<BOMEntity> boml2 = new ArrayList(); boml2.add(bom4);boml2.add(bom5);boml2.add(bom6);
+        List<BOMEntity> boml3 = new ArrayList(); boml3.add(bom7);boml3.add(bom8);boml3.add(bom9);
+        List<BOMEntity> boml4 = new ArrayList(); boml4.add(bom10);boml4.add(bom11);boml4.add(bom12);
+        List<BOMEntity> boml5 = new ArrayList(); boml5.add(bom13);boml5.add(bom14);boml5.add(bom15);
+        List<BOMEntity> boml6 = new ArrayList(); boml6.add(bom16);boml6.add(bom17);boml6.add(bom18);
+        List<BOMEntity> boml7 = new ArrayList(); boml7.add(bom19);boml7.add(bom20);boml7.add(bom21);
+        List<BOMEntity> boml8 = new ArrayList(); boml8.add(bom22);boml8.add(bom23);boml8.add(bom24);
+        List<BOMEntity> boml9 = new ArrayList(); boml9.add(bom25);boml9.add(bom26);boml9.add(bom27);
+        List<BOMEntity> boml10 = new ArrayList();boml10.add(bom28);boml10.add(bom29);boml10.add(bom30);
+        
+        p1.setBom(boml1);p2.setBom(boml2);p3.setBom(boml3);p4.setBom(boml4);p5.setBom(boml5);
+        p6.setBom(boml6);p7.setBom(boml7);p8.setBom(boml8);p9.setBom(boml9);p10.setBom(boml10);
+        
+        em.persist(p1);em.flush();em.persist(p2);em.flush();em.persist(p3);em.flush();em.persist(p4);em.flush();em.persist(p5);em.flush();
+        em.persist(p6);em.flush();em.persist(p7);em.flush();em.persist(p8);em.flush();em.persist(p9);em.flush();em.persist(p10);em.flush();
         
         // Factory Product
         FactoryProductAmountEntity fpa1 =new FactoryProductAmountEntity();
@@ -585,15 +661,26 @@ public class Test {
         
         
         // Integrated Sales Forecast     /* NOT FINISHED */
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
         IntegratedSalesForecastEntity isf1=new IntegratedSalesForecastEntity();
         IntegratedSalesForecastEntity isf2=new IntegratedSalesForecastEntity();
         IntegratedSalesForecastEntity isf3=new IntegratedSalesForecastEntity();
+=======
+        IntegratedSalesForecastEntity isf1 = new IntegratedSalesForecastEntity();
+        IntegratedSalesForecastEntity isf2 = new IntegratedSalesForecastEntity();
+        IntegratedSalesForecastEntity isf3 = new IntegratedSalesForecastEntity();
+        IntegratedSalesForecastEntity isf4 = new IntegratedSalesForecastEntity();
+>>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
 
     
         isf1.setAmount(5000D);isf1.setFactory(f1);isf1.setFactoryProduct(fp1);isf1.setTargetPeriod(c9);
         isf2.setAmount(5500D);isf2.setFactory(f2);isf2.setFactoryProduct(fp2);isf1.setTargetPeriod(c8);
         isf3.setAmount(6000D);isf3.setFactory(f3);isf3.setFactoryProduct(fp3);isf1.setTargetPeriod(c7);
         
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+=======
+        
+>>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
         em.persist(isf1);em.flush();
         em.persist(isf2);em.flush();
         em.persist(isf3);em.flush();
@@ -705,6 +792,8 @@ public class Test {
         em.persist(rpa8);em.flush();
         em.persist(rpa9);em.flush();
         
+        isf4.setAmount(7000D);isf4.setFactory(f1);isf4.setTargetPeriod(c11);isf4.setFactoryRetailProduct(frpe1);
+        em.persist(isf4);em.flush();
         
         List<FactoryRetailProductAmountEntity> listrpe1=new ArrayList<>();listrpe1.add(rpa1);listrpe1.add(rpa2);listrpe1.add(rpa3);
         List<FactoryRetailProductAmountEntity> listrpe2=new ArrayList<>();listrpe1.add(rpa4);listrpe1.add(rpa5);listrpe1.add(rpa6);
@@ -767,9 +856,7 @@ public class Test {
         Calendar cl4=Calendar.getInstance();  cl4.set(2013, 5, 15);
         Calendar cl5=Calendar.getInstance();  cl5.set(2014, 4, 19);
         Calendar cl6=Calendar.getInstance();  cl6.set(2020, 3, 20);
-        Calendar cl7=Calendar.getInstance();  cl7.set(2021, 2, 11);
-
-
+        Calendar cl7=Calendar.getInstance();  cl7.set(2013, 2, 11);
         Calendar cl8=Calendar.getInstance();  cl8.set(2020, 1, 22);
         Calendar cl9=Calendar.getInstance();  cl9.set(2023, 6, 6);
         Calendar cl10=Calendar.getInstance();  cl10.set(2022, 2, 12);

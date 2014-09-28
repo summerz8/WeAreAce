@@ -20,7 +20,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -94,7 +94,9 @@
                         <br></br><br></br><br></br>
                     <p:panel id="product" header="Factory Product" style="margin-bottom" >
                         
-                         
+                        <br></br>
+                        <h:outputText value="Store ID:  #{viewSalesForecastBean.storeId}" />
+                        <br></br> 
                     <p:dataTable var="factoryProduct" value="#{viewSalesForecastBean.factoryProductList}">
                         <p:column headerText="Product Id">
                             <h:outputText value="#{factoryProduct.factoryProduct.factoryProductId}" />

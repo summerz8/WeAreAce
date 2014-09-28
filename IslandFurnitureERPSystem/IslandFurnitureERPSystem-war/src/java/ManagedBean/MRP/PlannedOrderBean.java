@@ -37,6 +37,8 @@ public class PlannedOrderBean {
     private List<PlannedOrderEntity> plannedOrderUnconfirmed;
     private List<PlannedOrderEntity> plannedOrderConfirmed;
     private List<PlannedOrderEntity> plannedOrderCancelled;
+    private Long id;
+    private String department;
 //    private List<FactoryRawMaterialAmountEntity> selectedRawMaterial;
     
     @EJB
@@ -46,20 +48,13 @@ public class PlannedOrderBean {
     
     @PostConstruct
     public void init(){
-        System.out.println("2");
-
-          plannedOrder = PO.getPlannedOrder();
-          System.out.println("3");
-
-          plannedOrderUnconfirmed = PO.getUnconfirmedPlannedOrder();
-          System.out.println("4");
-
-          plannedOrderConfirmed = PO.getConfirmedPlannedOrder();
-          System.out.println("5");
-
-          plannedOrderCancelled = PO.getCancelledPlannedOrder();
-          System.out.println("6");
-
+        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+          
+        plannedOrder = PO.getPlannedOrder(id,department);
+        plannedOrderUnconfirmed = PO.getUnconfirmedPlannedOrder(id,department);
+        plannedOrderConfirmed = PO.getConfirmedPlannedOrder(id,department);
+        plannedOrderCancelled = PO.getCancelledPlannedOrder(id,department);
     }
     
     public List<PlannedOrderEntity> getPlannedOrder(){

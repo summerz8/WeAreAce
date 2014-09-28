@@ -17,7 +17,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -105,25 +105,38 @@
                         <h:outputText value="#{integrateSalesForecast.time.getTime()}">
                             <f:convertDateTime pattern="MM/yyyy"/>
                         </h:outputText>
-
+       
 
                         <p:messages />
-                        <p:dataTable var="integrated" value="#{integrateSalesForecast.integratedSalesForecastList}">
+                        <p:dataTable var="integratedFactoryProduct" value="#{integrateSalesForecast.factoryProduct}">
 
-                            <p:column headerText="Integrated Sales Id">
-                                <h:outputText value="#{integrated.id}" />
+                            <p:column headerText="Integrated Sales Forecast Id">
+                                <h:outputText value="#{integratedFactoryProduct.id}" />
                             </p:column>
 
                             <p:column headerText="Factory Product Id">
-                                <h:outputText value="#{integrated.factoryProduct.factoryProductId}" />
+                                <h:outputText value="#{integratedFactoryProduct.factoryProduct.factoryProductId}" />
                             </p:column>
 
                             <p:column headerText="Monthly Demand">
-                                <h:outputText value="#{integrated.amount}" />
+                                <h:outputText value="#{integratedFactoryProduct.amount}" />
                             </p:column>
-
                         </p:dataTable> 
 
+                        <p:dataTable var="integratedFactoryRetailProduct" value="#{integrateSalesForecast.factoryRetailProduct}">
+
+                            <p:column headerText="Integrated Sales Forecast Id">
+                                <h:outputText value="#{integratedFactoryRetailProduct.id}" />
+                            </p:column>
+
+                            <p:column headerText="Factory Retail Product Id">
+                                <h:outputText value="#{integratedFactoryRetailProduct.factoryRetailProduct.factoryRetailProdctId}" />
+                            </p:column>
+
+                            <p:column headerText="Monthly Demand">
+                                <h:outputText value="#{integratedFactoryRetailProduct.amount}" />
+                            </p:column>
+                        </p:dataTable> 
                     </p:panel>
                 </p:layoutUnit>
 

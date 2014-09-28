@@ -16,24 +16,25 @@
     <h:body>
 
         <h:form id="globalNavigation">
+
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -43,19 +44,19 @@
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                        </p:commandButton>
+                    </p:commandButton>
 
-                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
 
-                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
 
-                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button> 
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
 
-                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                        </p:button>
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -66,17 +67,15 @@
                 </p:layoutUnit>
 
 
-                
 
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
+                        <p:submenu label="Raw Material Monitoring">
+                            <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
+                            <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
+                        </p:submenu>    
 
-                            <p:submenu label="Raw Material Monitoring">
-                                <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
-                                <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
-                            </p:submenu>    
-                        
                     </p:menu>
 
                 </p:layoutUnit>
@@ -87,26 +86,36 @@
 
                     <p:dataTable var="o" value="#{rawMaterialInventoryMonitoringBean.weeklyRawMaterialInventoryOutFlow}">
 
-                        <p:column headerText="Raw Material In-Factory Usee Movement ID">
+                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
+                            <h:outputText value="#{o.factoryRawMaterial.factory.factoryId}" />
+                        </p:column>
+
+                        <p:column headerText="ID">
                             #{o.rawMaterialInFactoryUseMovementId}
                         </p:column>
-                        
+
                         <p:column headerText="Material Name">
                             #{o.factoryRawMaterial.rawMaterial.materialName}
                         </p:column>
-                        
+
+
                         <p:column headerText="Factory Raw Material ID">
                             #{o.factoryRawMaterial.factoryRawMaterialId}
                         </p:column>
-                        
+
                         <p:column headerText="From Bin">
                             #{o.fromBin.factoryBinId}
                         </p:column>
-                        
+
                         <p:column headerText="Quantity">
                             #{o.quantity}
                         </p:column>
-                        
+
+
+                        <p:column headerText="Unit">
+                            #{o.factoryRawMaterial.unit}
+                        </p:column>
+
                         <p:column headerText="Date">
                             #{o.creationDate.time}
                         </p:column>

@@ -31,13 +31,9 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewAllProductionPlans() {
         try {
-            List<ProductionPlanEntity> productionPlans = new ArrayList();
             Query q = em.createQuery("SELECT p FROM ProductionPlanEntity p");
-            for (Object o : q.getResultList()) {
-                ProductionPlanEntity productionPlan = (ProductionPlanEntity) o;
-                productionPlans.add(productionPlan);
-            }
-            return productionPlans;
+
+            return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: ViewAllProductionPlans(): Caught an unexpected exception.");
             ex.printStackTrace();
@@ -59,13 +55,9 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewAllPlannedOrders() {
         try {
-            List<PlannedOrderEntity> plannedOrders = new ArrayList();
             Query q = em.createQuery("SELECT p FROM PlannedOrderEntity p");
-            for (Object o : q.getResultList()) {
-                PlannedOrderEntity plannedOrder = (PlannedOrderEntity) o;
-                plannedOrders.add(plannedOrder);
-            }
-            return plannedOrders;
+
+            return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: ViewAllPlannedOrders(): Caught an unexpected exception.");
             ex.printStackTrace();
@@ -88,7 +80,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     public List viewAllBlockedStock() {
         try {
             Query q = em.createQuery("SELECT s FROM FactoryBinStoredProductEntity s WHERE s.status = 'blocked'");
-           
+
             return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: viewBlockedStock(): Caught an unexpected exception.");
@@ -112,13 +104,9 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewAllPurchaseOrders() {
         try {
-            List<PurchaseOrderEntity> purchaseOrders = new ArrayList();
             Query q = em.createQuery("SELECT p FROM PurchaseOrderEntity p");
-            for (Object o : q.getResultList()) {
-                PurchaseOrderEntity purchaseOrder = (PurchaseOrderEntity) o;
-                purchaseOrders.add(purchaseOrder);
-            }
-            return purchaseOrders;
+
+            return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllPurchaseOrders(): Caught an unexpected exception.");
             ex.printStackTrace();
@@ -140,13 +128,9 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewAllGoodsReceipts() {
         try {
-            List<GoodsReceiptEntity> goodsReceipts = new ArrayList();
             Query q = em.createQuery("SELECT g FROM GoodsReceiptEntity g");
-            for (Object o : q.getResultList()) {
-                GoodsReceiptEntity goodsReceipt = (GoodsReceiptEntity) o;
-                goodsReceipts.add(goodsReceipt);
-            }
-            return goodsReceipts;
+
+            return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllGoodsReceipts(): Caught an unexpected exception.");
             ex.printStackTrace();
@@ -170,13 +154,9 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewAllContracts() {
         try {
-            List<ContractEntity> contracts = new ArrayList();
             Query q = em.createQuery("SELECT c FROM ContractEntity c");
-            for (Object o : q.getResultList()) {
-                ContractEntity contract = (ContractEntity) o;
-                contracts.add(contract);
-            }
-            return contracts;
+
+            return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllContracts(): Caught an unexpected exception.");
             ex.printStackTrace();
@@ -200,13 +180,9 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewAllSuppliers() {
         try {
-            List<SupplierEntity> suppliers = new ArrayList();
             Query q = em.createQuery("SELECT s FROM SupplierEntity s");
-            for (Object o : q.getResultList()) {
-                SupplierEntity supplier = (SupplierEntity) o;
-                suppliers.add(supplier);
-            }
-            return suppliers;
+
+            return q.getResultList();
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllSuppliers(): Caught an unexpected exception.");
             ex.printStackTrace();
@@ -225,6 +201,123 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List viewProductionPlansByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT p FROM ProductionPlanEntity p WHERE p.factoryProduct.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: ViewAllProductionPlans(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewPlannedOrdersByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT p FROM PlannedOrderEntity p WHERE p.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: ViewAllPlannedOrders(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewBlockedStockByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT s FROM FactoryBinStoredProductEntity s WHERE s.status = 'blocked' AND s.factoryBin.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewBlockedStock(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewReturnedProductByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT s FROM FactoryBinStoredProductEntity s WHERE s.status = 'returned' AND s.factoryBin.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewReturnedProduct(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewPurchaseOrdersByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT p FROM PurchaseOrderEntity p WHERE p.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllPurchaseOrders(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewGoodsReceiptsByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT g FROM GoodsReceiptEntity g WHERE g.purchaseOrder.factory.factoryId = :factoryId");
+            q.setParameter("factoryId", factoryId);
+
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllGoodsReceipts(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewContractsByFactory(long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT c FROM ContractEntity c");
+            List factoryContracts = new ArrayList();
+            for (Object o : q.getResultList()) {
+                ContractEntity contract = (ContractEntity) o;
+                if (contract.getTypeIndicator() == 1) {
+                    if (contract.getFactoryRawMaterial().getFactory().getFactoryId() == factoryId) {
+                        factoryContracts.add(contract);
+                    }
+                } else {
+                    if (contract.getFactoryRetailProduct().getFactory().getFactoryId() == factoryId) {
+                        factoryContracts.add(contract);
+                    }
+                }
+            }
+            return factoryContracts;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.DocumentReferenceModule: viewAllContracts(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List viewSupplierByFactory(long factoryId) {
+        List factorySuppliers = new ArrayList();
+        for (Object o : viewContractsByFactory(factoryId)) {
+            ContractEntity contract = (ContractEntity) o;
+            factorySuppliers.add(contract.getSupplier());
+        }
+        return factorySuppliers;
     }
 
 }
