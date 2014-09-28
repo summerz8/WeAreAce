@@ -665,8 +665,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
             ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
-            returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
-
             em.persist(returnedFactoryProductInboundMovement);
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedProductInboundMovement(): Successful.");
