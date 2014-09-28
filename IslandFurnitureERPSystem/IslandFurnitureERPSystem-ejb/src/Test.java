@@ -183,6 +183,12 @@ public class Test {
         fp7.setFactory(f2);fp8.setFactory(f2);fp9.setFactory(f2);fp10.setFactory(f2);fp11.setFactory(f2);fp12.setFactory(f2);
         fp13.setFactory(f3);fp14.setFactory(f3);fp15.setFactory(f3);fp16.setFactory(f3);fp17.setFactory(f3);fp18.setFactory(f3);fp19.setFactory(f3);fp20.setFactory(f3);
         
+        fp1.setDeleteFlag(false);fp2.setDeleteFlag(false);fp3.setDeleteFlag(false);fp4.setDeleteFlag(false);fp5.setDeleteFlag(false);
+        fp6.setDeleteFlag(false);fp7.setDeleteFlag(false);fp8.setDeleteFlag(false);fp9.setDeleteFlag(false);fp10.setDeleteFlag(false);
+        fp11.setDeleteFlag(false);fp12.setDeleteFlag(false);fp13.setDeleteFlag(false);fp14.setDeleteFlag(false);fp15.setDeleteFlag(false);
+        fp16.setDeleteFlag(false);fp17.setDeleteFlag(false);fp18.setDeleteFlag(false);fp19.setDeleteFlag(false);fp20.setDeleteFlag(false);
+        
+        
         fp1.setProduct(p1);fp2.setProduct(p2);
         fp3.setProduct(p3);fp4.setProduct(p4);
         fp5.setProduct(p5);fp6.setProduct(p6);
@@ -317,6 +323,8 @@ public class Test {
         frm1.setRawMaterial(rm1);frm2.setRawMaterial(rm2);frm3.setRawMaterial(rm3);frm4.setRawMaterial(rm4);frm5.setRawMaterial(rm5);
         frm6.setRawMaterial(rm1);frm7.setRawMaterial(rm2);frm8.setRawMaterial(rm3);frm9.setRawMaterial(rm4);frm10.setRawMaterial(rm5);
         frm11.setRawMaterial(rm1);frm12.setRawMaterial(rm2);frm13.setRawMaterial(rm3);frm14.setRawMaterial(rm4);frm15.setRawMaterial(rm5);
+        
+        
         
         em.persist(frm1);em.flush();em.persist(frm2);em.flush();em.persist(frm3);em.flush();em.persist(frm4);em.flush();em.persist(frm5);em.flush();
         em.persist(frm6);em.flush();em.persist(frm7);em.flush();em.persist(frm8);em.flush();em.persist(frm9);em.flush();em.persist(frm10);em.flush();
@@ -482,6 +490,12 @@ public class Test {
         
 =======
         
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+=======
+        
+             我有一只大猫猫 它从来都不喵
+>>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
+>>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
         
              我有一只大猫猫 它从来都不喵
 >>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
@@ -494,6 +508,14 @@ public class Test {
         */
         
         
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+=======
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+=======
+        */
+        
+        
+>>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
 >>>>>>> 4408c993d57e7bc9ab41a1bbfaa4dffc56fd0878:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/java/SessionBean/MRP/Test.java
         //BOM
         BOMEntity bom1=new BOMEntity();BOMEntity bom2=new BOMEntity();BOMEntity bom3=new BOMEntity();
@@ -518,8 +540,20 @@ public class Test {
         bom7.setAmount(70D);bom7.setProduct(p3);bom7.setRawMaterial(rm2);bom7.setUnit("piece");
         bom8.setAmount(80D);bom8.setProduct(p3);bom8.setRawMaterial(rm3);bom8.setUnit("box");
         bom9.setAmount(90D);bom9.setProduct(p3);bom9.setRawMaterial(rm4);bom9.setUnit("box");
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+=======
         
         
+        bom10.setAmount(50D);bom10.setProduct(p4);bom10.setRawMaterial(rm1);bom10.setUnit("piece");
+        bom11.setAmount(22D);bom11.setProduct(p4);bom11.setRawMaterial(rm2);bom11.setUnit("piece");
+        bom12.setAmount(33D);bom12.setProduct(p4);bom12.setRawMaterial(rm3);bom12.setUnit("box");
+>>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
+        
+        bom13.setAmount(42D);bom13.setProduct(p5);bom13.setRawMaterial(rm4);bom13.setUnit("box");
+        bom14.setAmount(58D);bom14.setProduct(p5);bom14.setRawMaterial(rm5);bom14.setUnit("box");
+        bom15.setAmount(69D);bom15.setProduct(p5);bom15.setRawMaterial(rm1);bom15.setUnit("piece");
+        
+<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
         bom10.setAmount(50D);bom10.setProduct(p4);bom10.setRawMaterial(rm1);bom10.setUnit("piece");
         bom11.setAmount(22D);bom11.setProduct(p4);bom11.setRawMaterial(rm2);bom11.setUnit("piece");
         bom12.setAmount(33D);bom12.setProduct(p4);bom12.setRawMaterial(rm3);bom12.setUnit("box");
@@ -528,6 +562,8 @@ public class Test {
         bom14.setAmount(58D);bom14.setProduct(p5);bom14.setRawMaterial(rm5);bom14.setUnit("box");
         bom15.setAmount(69D);bom15.setProduct(p5);bom15.setRawMaterial(rm1);bom15.setUnit("piece");
         
+=======
+>>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/src/Test.java
         bom16.setAmount(72D);bom16.setProduct(p6);bom16.setRawMaterial(rm2);bom16.setUnit("piece");
         bom17.setAmount(81D);bom17.setProduct(p6);bom17.setRawMaterial(rm3);bom17.setUnit("box");
         bom18.setAmount(92D);bom18.setProduct(p6);bom18.setRawMaterial(rm4);bom18.setUnit("box");
