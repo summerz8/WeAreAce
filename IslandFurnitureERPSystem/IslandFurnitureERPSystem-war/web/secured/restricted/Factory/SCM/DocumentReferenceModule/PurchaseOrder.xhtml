@@ -25,19 +25,19 @@
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                        </p:commandButton>
+                    </p:commandButton>
 
-                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
 
-                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
 
-                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button> 
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
 
-                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -62,12 +62,12 @@
                                 <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
                                 <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
                             </p:submenu>
-                            
+
                             <p:submenu label="Purchase Order Management">
                                 <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
                                 <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
                             </p:submenu>
-                            
+
                             <p:submenu label="Document Reference">
                                 <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
                                 <p:menuitem value="Planned Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder?faces-redirect=true" />
@@ -103,13 +103,19 @@
                     <p:panel id="basic" header="Purchase Order" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="purchaseOrder" value="#{documentReferenceBean.allPurchaseOrders}">
+                    <p:dataTable var="purchaseOrder" value="#{documentReferenceBean.purchaseOrders}">
+
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{purchaseOrder.factory.factoryId}" />
+                        </p:column>
+
                         <p:column headerText="Purchase Order ID">
                             #{purchaseOrder.id}
                         </p:column>
 
-                        <p:column headerText="Status">
-                            #{purchaseOrder.status}
+                        <p:column headerText="Item Name">
+                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.materialName}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.name}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount}" />
                         </p:column>
 
                         <p:column headerText="Total Amount">
@@ -120,12 +126,8 @@
                             #{purchaseOrder.unit}
                         </p:column>
 
-                        <p:column headerText="Create Date">
-                            #{purchaseOrder.createDate.time}
-                        </p:column>
-
-                        <p:column headerText="Destination">
-                            #{purchaseOrder.destination}
+                        <p:column headerText="Status">
+                            #{purchaseOrder.status}
                         </p:column>
 
                         <p:column headerText="Lead Time (Day)">
@@ -136,16 +138,24 @@
                             #{purchaseOrder.totalPrice}
                         </p:column>
 
-                        <p:column headerText="Factory">
-                            #{purchaseOrder.factory.factoryId}
+                        <p:column headerText="Create Date">
+                            #{purchaseOrder.createDate.time}
+                        </p:column>
+
+                        <p:column headerText="Destination">
+                            #{purchaseOrder.destination}
+                        </p:column>
+
+                        <p:column headerText="Integrated Planned Order">
+                            #{purchaseOrder.integratedPlannedOrder.id}
                         </p:column>
 
                         <p:column headerText="Goods Receipt">
                             #{purchaseOrder.goodsReceipt.goodsReceiptId}
                         </p:column>
 
-                        <p:column headerText="Integrated Planned Order">
-                            #{purchaseOrder.integratedPlannedOrder.id}
+                        <p:column headerText="Contract">
+                            #{purchaseOrder.contract.contractId}
                         </p:column>
 
                         <p:column headerText="Delivery Orders">
@@ -155,11 +165,7 @@
                                     #{do.id}
                                 </p:column>
                             </p:dataTable>
-                        </p:column>
-                        
-                        <p:column headerText="Contract">
-                            #{purchaseOrder.contract.contractId}
-                        </p:column>
+                        </p:column>       
 
                     </p:dataTable>
 

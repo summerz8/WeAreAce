@@ -103,11 +103,24 @@
                     <p:panel id="basic" header="Production Plan" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="pp" value="#{documentReferenceBean.allProductionPlans}">
+                    <p:dataTable var="pp" value="#{documentReferenceBean.productionPlans}">
+                        
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{pp.factoryProduct.factory.factoryId}" />
+                        </p:column>
+                        
                         <p:column headerText="Production Plan ID">
                             #{pp.productionPlanId}
                         </p:column>
+                        
+                        <p:column headerText="Factory Product">
+                            #{pp.factoryProduct.product.name}
+                        </p:column>
 
+                        <p:column headerText="Quantity">
+                            #{pp.quantity}
+                        </p:column>
+                        
                         <p:column headerText="Status">
                             #{pp.status}
                         </p:column>
@@ -124,21 +137,9 @@
                             #{pp.targetPeriod.time}
                         </p:column>
 
-                        <p:column headerText="Quantity">
-                            #{pp.quantity}
-                        </p:column>
-
                         <p:column headerText="Remark">
                             #{pp.remark}
                         </p:column>
-
-                        <p:column headerText="Factory Product">
-                            #{pp.factoryProduct.product.name}
-                        </p:column>
-
-                        <!--                        <p:column headerText="weeklyProductionPlanEntity">
-                        #{pp.weeklyProductionPlanEntity}
-                    </p:column>-->
 
                         <p:column headerText="Planned Order">
                             #{pp.plannedOrder.plannedOrderId}

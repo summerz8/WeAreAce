@@ -30,6 +30,15 @@ public class FactoryProductAmountEntity implements Serializable {
     @ManyToOne
     private FactoryProductEntity factoryProduct;
 
+    public FactoryProductAmountEntity() {
+    }
+
+    public FactoryProductAmountEntity(String unit, Double amount, FactoryProductEntity factoryProduct) {
+        this.unit = unit;
+        this.amount = amount;
+        this.factoryProduct = factoryProduct;
+    }
+
     public Long getFactoryProductAmountId() {
         return factoryProductAmountId;
     }

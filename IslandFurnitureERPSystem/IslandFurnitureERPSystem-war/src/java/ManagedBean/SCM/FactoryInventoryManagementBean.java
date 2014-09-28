@@ -27,8 +27,9 @@ public class FactoryInventoryManagementBean implements Serializable {
     @EJB
     private FactoryInventoryManagementModuleLocal fim;
 
-    @ManagedProperty(value = "#{loginBean.userId}")
-    private String userId;
+    @ManagedProperty(value = "#{loginBean.department}")
+    private String department;
+    @ManagedProperty(value = "#{loginBean.departmentId}")
     private long factoryId;
     private Long factoryRawMaterialId;
     private Long factoryProductId;
@@ -52,13 +53,12 @@ public class FactoryInventoryManagementBean implements Serializable {
     public FactoryInventoryManagementBean() {
     }
 
-    public String getUserId() {
-        return userId;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-        this.setFactoryId(fim.findFactoryIdByUserId(userId));
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public long getFactoryId() {
@@ -265,4 +265,7 @@ public class FactoryInventoryManagementBean implements Serializable {
         return fim.findFactoryIdByUserId(userId);
     }
 
+    public int recordRurrentInventoryLevel(ActionEvent event) {
+        return fim.recordRurrentInventoryLevel(factoryId);
+    }
 }
