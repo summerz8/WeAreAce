@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -27,26 +28,24 @@ public class ItemsForPurchase implements Serializable {
 
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
-    
+
+    Long factoryId;
+    Collection<FactoryRawMaterialEntity> frmList;
+    Collection<FactoryRetailProductEntity> frpList;
+
     @PostConstruct
-    public void init()
-    {
+    public void init() {
+        factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
+        System.out.println("factoryId "  + factoryId);
         try {
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
-
-            for (FactoryRawMaterialEntity frm : frmList) {
-                System.out.println(frm.toString());
-            }
         } catch (Exception ex) {
             Logger.getLogger(ItemsForPurchase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }
 
-    Long factoryId = 1L;
-    Collection<FactoryRawMaterialEntity> frmList;
-    Collection<FactoryRetailProductEntity> frpList;
+    }
 
     public Long getFactoryId() {
         return factoryId;

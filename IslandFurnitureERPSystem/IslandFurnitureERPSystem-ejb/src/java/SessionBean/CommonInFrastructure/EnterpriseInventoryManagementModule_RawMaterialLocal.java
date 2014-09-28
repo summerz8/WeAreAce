@@ -19,12 +19,12 @@ public interface EnterpriseInventoryManagementModule_RawMaterialLocal {
 
     public ArrayList<RawMaterialEntity> listRawMaterial();
 
-    public void deleteRawMaterial(long rawMaterialId) throws Exception;
+    public void deleteRawMaterial(Long rawMaterialId) throws Exception;
 
     
     public void addRawMaterial(String name, String description, String unit);
 
-    public void modifyRawMaterial(long rawMaterialId, String name, String description, String unit) throws Exception;
+    public void modifyRawMaterial(Long rawMaterialId, String name, String description, String unit) throws Exception;
        
    
 }

@@ -30,9 +30,9 @@ public class StoreUserEntity extends UserEntity implements Serializable {
     
     public StoreUserEntity(String department, String idNumber, Integer userLevel, String lastName, String midName,
             String firstName, String position,  Calendar birthday, String gender, 
-            String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
+            String title, String address, String postalCode, String email, long departmentId, String password, Boolean deleteFlag) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
-                birthday,gender,title, address, postalCode, email, deleteFlag, departmentId);
+                birthday,gender,title, address, postalCode, email, deleteFlag, departmentId, password);
         //storeId = departmentId;
     }
 

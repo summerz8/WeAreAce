@@ -36,6 +36,8 @@ public class ProductControlBean {
     private String newProductDescription;
     private Double newProductPrice;
     private String newProductUnit;
+    
+    private ProductEntity selectedProduct;
 
     /**
      * Creates a new instance of ProductControlBean
@@ -87,6 +89,17 @@ public class ProductControlBean {
             Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void viewProduct(ProductEntity product) throws IOException{
+        selectedProduct = product;
+         String path = "/secured/restricted/CommonInfrastructure/EnterpriseResouces/ProductBOMControl.xhtml";
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedProduct", selectedProduct);
+
+        String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url+path);
+        System.err.println("go to another page");
+        
+    }
 
     public List<ProductEntity> getProductList() {
         return productList;
@@ -136,4 +149,21 @@ public class ProductControlBean {
         this.newProductUnit = newProductUnit;
     }
 
+    public RetailProduct_ProductManagementModuleLocal getRPMM() {
+        return RPMM;
+    }
+
+    public void setRPMM(RetailProduct_ProductManagementModuleLocal RPMM) {
+        this.RPMM = RPMM;
+    }
+
+    public ProductEntity getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(ProductEntity selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
+    
 }

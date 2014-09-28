@@ -39,7 +39,7 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
     }
 
     @Override
-    public void deleteRawMaterial(long rawMaterialId) throws Exception {
+    public void deleteRawMaterial(Long rawMaterialId) throws Exception {
         System.out.println("EnterpriseInventoryManagementModule_RawMaterial: delete Raw Material()");
         RawMaterialEntity rawMaterial = em.find(RawMaterialEntity.class, rawMaterialId);
         if (rawMaterial == null) {
@@ -54,7 +54,7 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
     }
 
     @Override
-    public void modifyRawMaterial(long rawMaterialId, String name, String description, String unit) throws Exception {
+    public void modifyRawMaterial(Long rawMaterialId, String name, String description, String unit) throws Exception {
         System.out.println("EnterpriseInventoryManagementModule_RawMaterial: modify Raw Material()");
         RawMaterialEntity rawMaterial = em.find(RawMaterialEntity.class, rawMaterialId);
         if (rawMaterial == null) {

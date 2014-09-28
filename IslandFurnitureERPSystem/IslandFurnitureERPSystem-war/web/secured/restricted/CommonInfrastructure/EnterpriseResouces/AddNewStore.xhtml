@@ -5,20 +5,34 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-        <h:head>
-            <title>Island Furniture ERP WorkPlace</title>
-            <!--            <head>
-                                <style type="text/css">
-                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
-                                         border: none;
-                                    }
-                                </style>
-                        </head>-->
-        </h:head>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
 
         <h:body>
 
             <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="true" />
 
@@ -56,30 +70,25 @@
                     </p:layoutUnit>
 
 
-                    <p:growl id="messages" showDetail="false" autoUpdate="true"/>
-
+                    
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
-                            <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
-                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
-                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
-                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
-                            </p:submenu>
-                            <p:submenu label="Supply Chain Management">
-                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
-                            </p:submenu>
-                            <p:submenu label="Empolyees">
-                                <p:menuitem value="Empolyees List"/>
-                            </p:submenu>
-                            <p:submenu label="Enterprise">
-                                <p:menuitem value="Resource Control" outcome="EnterpriseResourceControl.xhtml"/>
-                            </p:submenu>
-                        </p:menu>
+                            <p:submenu label="People and Organization">
+                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                                </p:submenu>
+                             <p:submenu label="Inventory" >
 
+                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                    
+
+                                </p:submenu>
+                            
+                        </p:menu>
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
@@ -93,17 +102,17 @@
 
 
                                 <h:outputLabel for="address" value="Address *:" />
-                                <p:inputText value="#{storeControl.newStoreAddress}" required="true" label="text" >
+                                <p:inputText value="#{storeControl.newStoreAddress}" required="true" requiredMessage="Please input address" label="text" >
                                     
                                 </p:inputText>
 
 
                                 <h:outputLabel for="contact" value="Contact *:" />
-                                <p:inputText value="#{storeControl.newStoreContact}" required="true" label="text" />
+                                <p:inputText value="#{storeControl.newStoreContact}" required="true" requiredMessage="Please input contact" label="text" />
 
 
-                                <h:outputLabel for="manager" value="Manager: *" />
-                                <p:inputText value="#{storeControl.newStoreManager}" required="true" label="text" />                                
+                                <h:outputLabel for="manager" value="Manager ID: *" />
+                                <p:inputMask value="#{storeControl.newStoreManager}" required="true" requiredMessage="Please input manager id" label="text" mask="a9999999"/>                                
 
                                 <p:commandButton actionListener="#{storeControl.addStore()}" value="Save"/>
                             </h:panelGrid>

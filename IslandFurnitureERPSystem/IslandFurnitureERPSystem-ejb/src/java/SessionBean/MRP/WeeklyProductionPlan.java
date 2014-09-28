@@ -182,7 +182,8 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
             }
             System.out.println("generateWeeklyProductionPlan:()  5");
             em.flush();
-            
+            productionPlan.setWeeklyProductionPlanEntity(weeklyProductionPlanList);
+            em.flush();
             return weeklyProductionPlanList;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -210,11 +211,11 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     }
 
     @Override
-    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(ProductionPlanEntity productionPlan) {
+    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId) {
+        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class,productionPlanId);
         Query q = em.createQuery("SELECT pp FROM WeeklyProductionPlanEntity pp" );  
         List<WeeklyProductionPlanEntity> tempList= (List<WeeklyProductionPlanEntity>) q.getResultList();
         List<WeeklyProductionPlanEntity> weeklyProductionPlanList = new ArrayList<>();
-        Long productionPlanId=productionPlan.getProductionPlanId();
         while(!tempList.isEmpty()){
         if(tempList.get(0).getProductionPlan().getProductionPlanId().equals(productionPlanId))
             weeklyProductionPlanList.add(tempList.get(0));
@@ -227,6 +228,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
 
     
     
+    @Override
     public ProductEntity getProduct(Long factoryProductId){
   
         FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
@@ -234,5 +236,16 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
         return factoryProduct.getProduct(); 
     
     
+    }
+    
+    @Override
+    public void Edit(Long id,String field,Object content){
+        WeeklyProductionPlanEntity weeklyProductionPlan = em.find(WeeklyProductionPlanEntity.class,id);
+        switch(field){
+            case "demand":
+                Double demand = (Double) content;
+                weeklyProductionPlan.setWeeklyDemand(demand);
+        }
+        em.flush();
     }
 }

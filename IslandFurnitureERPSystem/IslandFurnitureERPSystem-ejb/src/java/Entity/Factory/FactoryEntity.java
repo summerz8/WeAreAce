@@ -39,7 +39,7 @@ public class FactoryEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long factoryId;
+    private Long factoryId;
   
     private String country;
     private String address;
@@ -99,7 +99,7 @@ public class FactoryEntity implements Serializable {
     }
 
     
-    public long getFactoryId() {
+    public Long getFactoryId() {
         return factoryId;
     }
 

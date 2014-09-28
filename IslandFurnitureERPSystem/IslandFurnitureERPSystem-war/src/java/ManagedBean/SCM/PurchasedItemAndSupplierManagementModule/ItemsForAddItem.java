@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -27,14 +28,16 @@ public class ItemsForAddItem implements Serializable {
 
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
-    Long factoryId = 3L;
-    Collection<RawMaterialEntity> rmList;
-    Collection<RetailProductEntity> rpList;
+    private Long factoryId;
+    private Collection<RawMaterialEntity> rmList;
+    private Collection<RetailProductEntity> rpList;
 
     @PostConstruct
     public void init() {
         try {
             
+            factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
             rmList = pmb.viewRawMaterialListNotInFactory(factoryId);
             rpList = pmb.viewRetailProductListNotInFactory(factoryId);
 
@@ -74,15 +77,7 @@ public class ItemsForAddItem implements Serializable {
     public ItemsForAddItem() {
     }
 
-    public PurchasedItemAndSupplierManagementModuleLocal getPmb() {
-        return pmb;
-    }
-
-    public void setPmb(PurchasedItemAndSupplierManagementModuleLocal pmb) {
-        this.pmb = pmb;
-    }
-
-    public String displayAllFactoryItems() throws Exception {
+    public String displayAllFactoryItems(){
         return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddItem?faces-redirect=true";
     }
 }

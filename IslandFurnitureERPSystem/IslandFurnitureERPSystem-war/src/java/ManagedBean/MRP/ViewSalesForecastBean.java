@@ -40,6 +40,7 @@ public class ViewSalesForecastBean {
     private List<FactoryProductAmountEntity> factoryProductList;
     private List<FactoryRetailProductAmountEntity> factoryRetailProductList;
     Long salesForecastId;
+    Long storeId;
 
     public ViewSalesForecastBean() {
     }
@@ -49,6 +50,7 @@ public class ViewSalesForecastBean {
         salesForecastId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesForecastId");
 
         salesForecast = salesForecastModule.GetSalesForecast(salesForecastId);
+        storeId = salesForecast.getStore().getStoreId();
         factoryProductList = salesForecast.getFactoryProductList();
         System.out.println(factoryProductList.get(0).getFactoryProductAmountId());
         factoryRetailProductList = salesForecast.getFactoryRetailProductList();
@@ -56,8 +58,8 @@ public class ViewSalesForecastBean {
     }
 
     public void getSalesForecastList(Long storeId, Object product, Calendar targetPeriod) {
-        System.out.println("storeId:" + storeId + "       targetPeriod:" + targetPeriod);
-        salesForecastList = salesForecastModule.ListSalesForecast(storeId, null, targetPeriod);
+        Long factoryId=(Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        salesForecastList = salesForecastModule.ListSalesForecast(factoryId,storeId, null, targetPeriod);
         if (salesForecastList.get(0).getFactoryProductList().isEmpty()) {
             factoryRetailProductList = salesForecastList.get(0).getFactoryRetailProductList();
         } else {
@@ -96,6 +98,30 @@ public class ViewSalesForecastBean {
 
     public void setFactoryRetailProductList(List<FactoryRetailProductAmountEntity> factoryRetailProductList) {
         this.factoryRetailProductList = factoryRetailProductList;
+    }
+
+    public SalesForecastEntity getSalesForecast() {
+        return salesForecast;
+    }
+
+    public void setSalesForecast(SalesForecastEntity salesForecast) {
+        this.salesForecast = salesForecast;
+    }
+
+    public Long getSalesForecastId() {
+        return salesForecastId;
+    }
+
+    public void setSalesForecastId(Long salesForecastId) {
+        this.salesForecastId = salesForecastId;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
 
 }

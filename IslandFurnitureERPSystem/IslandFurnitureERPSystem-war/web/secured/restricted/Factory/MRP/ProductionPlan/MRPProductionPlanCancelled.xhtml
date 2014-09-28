@@ -16,6 +16,24 @@
     <h:body>
 
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
 
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
@@ -50,21 +68,21 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>
-
+                
                 <p:layoutUnit position="west" size="1000px">
 
-                    <p:panelMenu style="width:300px">
-                         <p:submenu label="Manufacturing Resource Planning">
+                    <p:menu>
+                        <p:submenu label="Manufacturing Resource Planning">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
                                 <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />
+                                <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                        </p:submenu>
-                    </p:panelMenu>
+                    </p:menu>
 
 
 
@@ -73,7 +91,7 @@
 
                   <p:toolbar>
                         <f:facet name="left">
-                            <p:button value="Unconfirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed"/>
+                                  <p:button value="Unconfirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
                             </span>
@@ -85,11 +103,11 @@
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
                             </span>
-
+                           
                         </f:facet>
                     </p:toolbar>
 
-                    <p:dataScroller value="#{productionPlanView.productionPlanCancelled}" var="productionPlan" chunkSize="1">
+                    <p:dataScroller value="#{productionPlanView.productionPlanCancelled}" var="productionPlan" chunkSize="5">
                         <f:facet name="header">
                             Scroll Down to Load More Production Plans
                         </f:facet>
@@ -106,12 +124,12 @@
 
                                 <h:outputText value="Generate Date: " />
                                 <h:outputText value="#{productionPlan.generatedDate.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
 
                                 <h:outputText value="Target Period: " />
                                 <h:outputText  value="#{productionPlan.targetPeriod.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="MM/yyyy" />
+                                    <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
                                 
                                 <h:outputText value="Product Id: " />

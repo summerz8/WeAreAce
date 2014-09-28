@@ -7,7 +7,6 @@ package ManagedBean.SCM.PurchasedItemAndSupplierManagementModule;
 
 import SessionBean.SCM.PurchasedItemAndSupplierManagementModuleLocal;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
@@ -28,9 +27,9 @@ public class AddSupplierBean implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId = 1L;
-    String itemType = "test";
-    Long itemId = 1L;
+    Long factoryId;
+    String itemType;
+    Long itemId;
     String supplierName;
     String address;
     String telephone;
@@ -43,7 +42,7 @@ public class AddSupplierBean implements Serializable {
     Calendar startDate = Calendar.getInstance();
     Calendar endDate = Calendar.getInstance();
 
-    String result = null;
+    String result;
 
     public AddSupplierBean() {
     }
@@ -73,18 +72,12 @@ public class AddSupplierBean implements Serializable {
     }
 
     public String getSupplierName() {
-        System.out.println("getSupplierName(): ");
-        System.out.println("SupplierName1 = " + this.supplierName);
         return supplierName;
 
     }
 
     public void setSupplierName(String supplierName) {
-        System.out.println("setSupplierName(): ");
-        System.out.println("SupplierName2 = " + this.supplierName);
         this.supplierName = supplierName;
-        System.out.println("SupplierName3 = " + this.supplierName);
-
     }
 
     public String getAddress() {
@@ -121,20 +114,12 @@ public class AddSupplierBean implements Serializable {
     }
 
     public Double getContractPrice() {
-        System.out.println("getContactPrice():");
-        System.out.println("Contract Price1 = " + this.contractPrice);
-
+        
         return contractPrice;
     }
 
     public void setContractPrice(Double contractPrice) {
-        System.out.println("setContractPrice(): ");
-
-        System.out.println("Contract Price2 = " + this.contractPrice);
-
-        this.contractPrice = contractPrice;
-
-        System.out.println("Contract Price3 = " + this.contractPrice);
+         this.contractPrice = contractPrice;
     }
 
     public Integer getLeadTime() {
@@ -154,23 +139,11 @@ public class AddSupplierBean implements Serializable {
     }
 
     public Date getStartDate() {
-        System.out.println("1. " + startDate.getTime().toString());
         return startDate.getTime();
     }
 
     public void setStartDate(Date startDate) {
-        System.out.println("2." + startDate.toString());
-        
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        
-        dateFormat.setTimeZone(this.startDate.getTimeZone());
-        
-        System.out.println("3." + dateFormat.format(this.startDate.getTime()));
-        
         this.startDate.setTime(startDate);
-        
-        System.out.println("4." + dateFormat.format(this.startDate.getTime()));
-
     }
 
     public Date getEndDate() {
@@ -188,33 +161,26 @@ public class AddSupplierBean implements Serializable {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", itemType);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
-        return "/secured/SCM/PurchasedItemAndSupplierManagementModule/AddSupplier?faces-redirect=true";
+        
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/AddSupplier?faces-redirect=true";
     }
 
     public String save() throws Exception {
 
-        System.out.println("save() ");
-        System.out.println("ItemType = " + this.itemType);
-        System.out.println("ItemId = " + this.itemId);
-
+     
         itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
         itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
 
-        System.out.println("SupplierName2 = " + this.supplierName);
-        System.out.println("ItemType = " + this.itemType);
-        System.out.println("ItemId = " + this.itemId);
-
-        result = pmb.addSupplier(itemType, itemId, fax, address, telephone, fax, remark,
+        result = pmb.addSupplier(itemType, itemId, supplierName, address, telephone, fax, remark,
                 contractPrice, leadTime, lotSize, startDate, endDate);
 
-        System.out.println("Result = " + result);
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
-        return "/secured/WorkPlace?faces-redirect=true";
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
+        
+        return "/secured/public/WorkPlace?faces-redirect=true";
 
     }
 

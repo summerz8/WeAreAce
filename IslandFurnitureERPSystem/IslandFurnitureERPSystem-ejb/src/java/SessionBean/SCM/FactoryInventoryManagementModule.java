@@ -57,7 +57,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     // return -1L if goodsReceiptId is invalid
     //        -2L if the factory has no access to this goods receipt
     //        -3L if the toBinId is invalid
-    //        -4L if the factory has no access to this goods receipt
+    //        -4L if the factory has no access to this factory bin
     //        -5L if unexpected exception occurred 
     //        else return inboundMovementId
     @Override
@@ -147,8 +147,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
 
     // return -1L if toStoreId is invalid
     //        -2L if the fromBinId is invalid
-    //        -3L if the factoryRetailProduct is not found
-    //        -4L if the specified storage bin does not contain this factoryRetailProduct available for shipping
+    //        -3L if the factoryProduct is not found
+    //        -4L if the specified storage bin does not contain this factoryProduct available for shipping
     //        -5L if the required quantity exceeds the total stock from this storage bin
     //        -6L if the required quantity exceeds the minimum inventory level in the factory
     //        -7L if unexpected exception occurred 
@@ -673,6 +673,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
 
+
             ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
 
@@ -730,7 +731,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
-
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
 
@@ -812,7 +812,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-            return -4L;
+            return -3L;
+
         }
 
     }

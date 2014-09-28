@@ -16,6 +16,24 @@
     <h:body>
 
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -44,23 +62,19 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>                
+                              
                 <p:layoutUnit position="west" size="1000px">
 
-                    <p:panelMenu style="width:250px">
-
-                        <p:submenu label="Supply Chain Management">
-
+                   <p:menu>
+                        <p:submenu label="Purchased Item And Supplier Management">
                             <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
                             <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
                             <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
                             <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
-
                         </p:submenu>
-                    </p:panelMenu>
-
+                    </p:menu>
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="true">
 
@@ -69,32 +83,32 @@
                             <f:facet name="header">
                                 Supplier List
                             </f:facet>
-                            <p:column headerText="Id" style="width: 5px" >
+                            <p:column headerText="Id" width="5%" >
                                 <h:outputText value="#{supplier.supplierId}"  style="font-weight: bold" />    
                             </p:column>
 
-                            <p:column headerText="Name" style="width: 10px">
+                            <p:column headerText="Name" width="15%">
                                 <h:outputText value="#{supplier.supplierName}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Address" style="width: 10px">
+                            <p:column headerText="Address" width="25%">
                                 <h:outputText value="#{supplier.supplierAddress}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Contact" style="width: 5px">
+                            <p:column headerText="Contact" width="10%">
                                 <h:outputText value="#{supplier.supplierContact}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Fax" style="width: 5px">
+                            <p:column headerText="Fax" width="15%">
                                 <h:outputText value="#{supplier.supplierFax}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column headerText="Remark" style="width: 5px">
+                            <p:column headerText="Remark" width="15%">
                                 <h:outputText value="#{supplier.remark}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column style="width:20px;text-align: center">
-                                <p:commandButton update=":formMain:supplierDetail" oncomplete="PF('supplierDialog').show()" value="Choose">
+                            <p:column headerText="Please Select Here" width="15%">
+                                <p:commandButton update=":formMain:supplierDetail" oncomplete="PF('supplierDialog').show()" value="Add">
 
                                     <f:setPropertyActionListener value="#{supplier}" target="#{selectedSupplier.supplier}" />
 

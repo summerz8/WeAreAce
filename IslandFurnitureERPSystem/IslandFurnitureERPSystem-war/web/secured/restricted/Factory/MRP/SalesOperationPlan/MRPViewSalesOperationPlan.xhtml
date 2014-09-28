@@ -15,6 +15,24 @@
 
     <h:body>
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -48,57 +66,89 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>
-
+               
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
                         <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
-                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
-                       </p:submenu>
+                            <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                            <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                            <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                            <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                            <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                            <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                            <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                        </p:submenu>
                     </p:menu>
 
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
                     <h:form> 
-                        <p:panel id="basic" header="Sales Operation Plans of Product #{salesOperationPlanBean.productId}" style="margin-bottom" >
-                            <p:dataTable var="salesOperationPlan" value="#{salesOperationPlanBean.salesOperationPlanList}">
-                                <p:column headerText="Target Month">
-                                    <h:outputText value="#{salesOperationPlan.targetPeriod.getTime()}" >
-                                        <f:convertDateTime pattern="MM/yyyy"/> 
-                                    </h:outputText>
-                                </p:column>
+                        <p:panel id="basic" header="Sales Operation Plans of Product #{viewSalesOperationPlan.productId}" style="margin-bottom" >
+                            <br></br>
+                            <p:commandButton value="Back"  action="#{viewSalesOperationPlan.Back()}" />
+                            <br></br><br></br><br></br>
 
-                                <p:column headerText="Id">
-                                    <h:outputText value="#{salesOperationPlan.id}" />
-                                </p:column>
+                            <p:panel id="confirmed" header="Confirmed Sales Operation Plan" style="margin-bottom" >
 
+                                <p:dataTable var="confirmedsalesOperationPlan" value="#{viewSalesOperationPlan.confirmedSalesOperationPlanList}">
+                                    <p:column headerText="Target Month">
+                                        <h:outputText value="#{confirmedsalesOperationPlan.targetPeriod.getTime()}" >
+                                            <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{confirmedsalesOperationPlan.id}" />
+                                    </p:column>
+                                    <p:column headerText="Sales Forecast">
+                                        <h:outputText value="#{confirmedsalesOperationPlan.integratedSalesForecast.amount}" />
+                                    </p:column>
+                                    <p:column headerText="Production Plan Quantity">
+                                        <h:outputText value="#{confirmedsalesOperationPlan.productionPlan.quantity}" />
+                                    </p:column>
+                                    <p:column headerText="Planned End of Month Inventory">
+                                        <h:outputText value="#{confirmedsalesOperationPlan.plannedEndMonthInventory}" />
+                                    </p:column>
+                                    <p:column headerText="Working Day">
+                                        <h:outputText value="#{confirmedsalesOperationPlan.workingDay}" />
+                                    </p:column>       
+                                </p:dataTable>
+                            </p:panel>
+                            <p:panel id="unconfirmed" header="Unconfirmed Sales Operation Plan" style="margin-bottom" >
 
-                                <p:column headerText="Sales Forecast">
-                                    <h:outputText value="#{salesOperationPlan.integratedSalesForecast.amount}" />
-                                </p:column>
-
-                                <p:column headerText="Production Plan Quantity">
-                                    <h:outputText value="#{salesOperationPlan.productionPlan.quantity}" />
-                                </p:column>
-
-                                <p:column headerText="Planned End of Month Inventory">
-                                    <h:outputText value="#{salesOperationPlan.plannedEndMonthInventory}" />
-                                </p:column>
-
-                                <p:column headerText="Working Day">
-                                    <h:outputText value="#{salesOperationPlan.workingDay}" />
-                                </p:column>       
-
-
-                            </p:dataTable>
+                                <p:dataTable var="unconfirmedSalesOperationPlan" value="#{viewSalesOperationPlan.unconfirmedSalesOperationPlanList}">
+                                    <p:column headerText="Target Month">
+                                        <h:outputText value="#{unconfirmedSalesOperationPlan.targetPeriod.getTime()}" >
+                                            <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{unconfirmedSalesOperationPlan.id}" />
+                                    </p:column>
+                                    <p:column headerText="Sales Forecast">
+                                        <h:outputText value="#{unconfirmedSalesOperationPlan.integratedSalesForecast.amount}" />
+                                    </p:column>
+                                    <p:column headerText="Production Plan Quantity">
+                                        <h:outputText value="#{unconfirmedSalesOperationPlan.plannedProductionPlanQuantity}" />
+                                    </p:column>
+                                    <p:column headerText="Planned End of Month Inventory">
+                                        <h:outputText value="#{unconfirmedSalesOperationPlan.plannedEndMonthInventory}" />
+                                    </p:column>
+                                    <p:column headerText="Working Day">
+                                        <h:outputText value="#{unconfirmedSalesOperationPlan.workingDay}" />
+                                    </p:column>       
+                                    <p:column headerText="Edit">
+                                        <p:commandButton value="Edit"  action="#{viewSalesOperationPlan.edit(unconfirmedSalesOperationPlan.id)}" icon="ui-icon-pencil" />
+                                    </p:column>   
+                                    <p:column headerText="Confirm">
+                                        <p:commandButton value="Confirm"  action="#{viewSalesOperationPlan.confirm(unconfirmedSalesOperationPlan.id)}" icon="ui-icon-check" />
+                                    </p:column>   
+                                    <p:column headerText="Cancel">
+                                        <p:commandButton value="Cancel"  action="#{viewSalesOperationPlan.cancel(unconfirmedSalesOperationPlan.id)}" icon="ui-icon-trash" />
+                                    </p:column>   
+                                </p:dataTable>
+                            </p:panel>
                         </p:panel>
                     </h:form>
 

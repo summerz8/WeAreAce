@@ -5,8 +5,10 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.CommonInFrastructure.Factory_StoreManagementModuleLocal;
+import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,6 +31,8 @@ public class StoreControlBean {
 
     @EJB
     private Factory_StoreManagementModuleLocal FSMM;
+    @EJB
+    private InternalUserAccountManagementModuleLocal IUMA;
     private List<StoreEntity> storeList;
     private List<StoreEntity> filterdStore;
 
@@ -56,11 +60,14 @@ public class StoreControlBean {
 
         StoreEntity entity = (StoreEntity) event.getObject();
         System.out.println("onRowEdit test: " + String.valueOf(entity.getStoreId()) + entity.getManager());
+        if (IUMA.getUser(entity.getManager()) == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store edit failed! ", "Manager not found!"));
+        } else {
+            FSMM.ModifyStore(entity.getStoreId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
 
-        FSMM.ModifyStore(entity.getStoreId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
-
-        FacesMessage msg = new FacesMessage("Store Edited", String.valueOf(entity.getStoreId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesMessage msg = new FacesMessage("Store Edited", String.valueOf(entity.getStoreId()));
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void onRowCancel(RowEditEvent event) {
@@ -70,23 +77,36 @@ public class StoreControlBean {
 
     public void deleteStore(long id) {
         System.out.println("StoreControlBean: deleteStore: " + String.valueOf(id));
-        FSMM.DeleteStore(id);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
-
+        if (IUMA.ListStoreUser(id).isEmpty()) {
+            FSMM.DeleteStore(id);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Store cannot be deleted! ", "Store user still exists!"));
+            List<UserEntity> list = IUMA.ListStoreUser(id);
+            for (UserEntity u : list) {
+                System.out.println("Store associated user: " + u.getUserId());
+            }
+        }
+               
         storeList = FSMM.ListStore();
         filterdStore = storeList;
     }
 
     public void addStore() {
-        System.out.println("StoreControlBean: addStore: "+newStoreCountry+newStoreAddress+ newStoreContact+ newStoreManager);
-        FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
-        
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
+        System.out.println("StoreControlBean: addStore: " + newStoreCountry + newStoreAddress + newStoreContact + newStoreManager);
+        if (IUMA.getUser(newStoreManager) == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store added failed! ", "Manager not found!"));
+        } else {
+            FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
 
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("StoreControl.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("StoreControl.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

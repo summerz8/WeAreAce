@@ -33,6 +33,7 @@ public class CreateIntegratedSalesForecastBean {
     List<SalesForecastEntity> salesForecastList;
     Calendar targetPeriod;
     Double quantity;
+    String type;
     
     public CreateIntegratedSalesForecastBean() {
     }
@@ -41,8 +42,10 @@ public class CreateIntegratedSalesForecastBean {
     public void ListSalesForecast(){
 //        System.out.println("2");
         productId=(Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productId");
+        
+         type =(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("type");
 //         System.out.println("3");
-        integratedSalesForecast=SFML.IntegrateSalesForecast(productId, null);
+        integratedSalesForecast=SFML.IntegrateSalesForecast(type,productId, null);
 //         System.out.println("4");
         quantity=integratedSalesForecast.getAmount();
         salesForecastList=integratedSalesForecast.getSalesForecastList();
@@ -52,7 +55,7 @@ public class CreateIntegratedSalesForecastBean {
 
     
     public String confirm(){
-        SFML.GenerateIntegratedSalesForecast(productId,null);
+        SFML.GenerateIntegratedSalesForecast(type,productId,null);
         return "MRPViewIntegratedSalesForecast?faces-redirect=true";
     }
     public SalesForecastModuleLocal getSFML() {
@@ -101,6 +104,14 @@ public class CreateIntegratedSalesForecastBean {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 

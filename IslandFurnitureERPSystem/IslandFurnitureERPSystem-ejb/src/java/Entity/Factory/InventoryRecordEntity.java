@@ -39,7 +39,9 @@ public class InventoryRecordEntity implements Serializable {
     
     //inventory record entity -- factory retail product entity : M <--> 1
     @ManyToOne
+
     private FactoryRetailProductEntity factoryRetailProduct = null;
+
 
     public InventoryRecordEntity() {
     }
@@ -60,8 +62,10 @@ public class InventoryRecordEntity implements Serializable {
         this.factoryRetailProduct = factoryRetailProduct;
         this.recordDate = recordDate;
         this.amount = amount;
+
     }
             
+    
     public Long getId() {
         return id;
     }
@@ -85,6 +89,7 @@ public class InventoryRecordEntity implements Serializable {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+
 
     public FactoryRawMaterialEntity getFactoryRawMaterial() {
         return factoryRawMaterial;

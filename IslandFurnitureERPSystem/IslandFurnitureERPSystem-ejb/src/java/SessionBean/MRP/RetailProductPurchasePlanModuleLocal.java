@@ -7,8 +7,6 @@
 package SessionBean.MRP;
 
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -23,8 +21,16 @@ public interface RetailProductPurchasePlanModuleLocal {
 
     public boolean deleteRetailProductPurchasePlan(Long productionPlanId);
 
-    public boolean generateRetailProductPurchasePlan(Long factoryRetailproductId, Calendar targetPeriod, Double amount);
+    public void generateRetailProductPurchasePlan(Long salesForecastId,Long factoryRetailProductId);
 
-    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan();
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(Long id,String department);
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanUnconfirmed(Long id,String department);
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanConfirmed(Long id,String department);
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanCancelled(Long id,String department);
+
+    public Long getFactoryRetailProductId(Long integratedSalesForecastId);
     
 }

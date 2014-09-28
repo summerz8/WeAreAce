@@ -8,6 +8,7 @@ package Entity.Factory.SCM;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,8 +28,9 @@ public class DeliveryOrderEntity implements Serializable {
     private Long id;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar deliveryDate;
+    private Calendar deliveryDate = Calendar.getInstance();
     private Double amount = 0D;
+    private String status = "waiting";//waiting, fulfilled
     
     //purchase order entity -- delivery order entity : 1 <--> M
     @ManyToOne
@@ -42,12 +44,12 @@ public class DeliveryOrderEntity implements Serializable {
         this.id = id;
     }
 
-    public Calendar getDeliveryDate() {
-        return deliveryDate;
+    public Date getDeliveryDate() {
+        return deliveryDate.getTime();
     }
 
-    public void setDeliveryDate(Calendar deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate.setTime(deliveryDate);
     }
 
     public Double getAmount() {
@@ -56,6 +58,14 @@ public class DeliveryOrderEntity implements Serializable {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public PurchaseOrderEntity getPurchaseOrder() {

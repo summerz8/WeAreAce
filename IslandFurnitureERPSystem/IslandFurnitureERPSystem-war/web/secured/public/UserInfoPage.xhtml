@@ -5,20 +5,34 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-        <h:head>
-            <title>Island Furniture ERP WorkPlace</title>
-            <!--            <head>
-                                <style type="text/css">
-                                    .ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
-                                         border: none;
-                                    }
-                                </style>
-                        </head>-->
-        </h:head>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
 
         <h:body>
 
             <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" sticky="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog> 
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
@@ -27,22 +41,22 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                          
-                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
 
-                        
+
                         <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button> 
-                        
+
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
@@ -56,9 +70,8 @@
                     </p:layoutUnit>
 
 
-                    <p:growl id="messages" showDetail="false"/>
-
-                    <p:layoutUnit position="west" size="500px">
+                    
+                    <p:layoutUnit position="west" size="500px" style = "border:0px" >
 
                         <p:menu>
                             <p:submenu label="Manufacturing Resource Planning">
@@ -84,13 +97,13 @@
                             <h:panelGrid columns="2" cellpadding="10">
 
                                 <h:outputLabel for="userid" value="User ID:" />
-
                                 <h:outputText value="#{userInfo.userId}"/>
 
 
                                 <h:outputLabel for="title" value="Title *:" />
                                 <p:inplace id="title" editor="true">
                                     <h:selectOneMenu value="#{userInfo.title}" style="width:100%" required="true">
+                                        <f:selectItem itemLabel="Please select a title" itemValue ="" noSelectionOption="true"/>
                                         <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                                     </h:selectOneMenu>
                                 </p:inplace>
@@ -126,19 +139,19 @@
                                 <h:outputText value="#{userInfo.userLevel}"  />
 
 
-                                <h:outputLabel for="gender" value="Gender *:" />
-                                <p:inplace id="gender" editor="true">
-                                    <p:inputText value="#{userInfo.gender}" required="true" label="text" />
-                                </p:inplace>                                
+                                <h:outputLabel for="gender" value="Gender:" />
+                                <h:outputText value="#{userInfo.gender}" />
 
-                   
+
+
                                 <h:outputLabel for="birthday" value="Birthday:" />
-                                
-                                <p:calendar  value="#{userInfo.birDate}" locale="de"  navigator="true" pattern="dd-MM-yyyy" />
+                                <h:outputText value="#{userInfo.birString}" />
                                 
                                 <h:outputLabel for="email" value="Email *:" />
                                 <p:inplace id="email" editor="true">
-                                    <p:inputText value="#{userInfo.email}" required="true" label="text" />
+                                    <p:inputText value="#{userInfo.email}" required="true" label="text" validatorMessage="Invalid email">
+                                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                    </p:inputText>
                                 </p:inplace>
 
                                 <h:outputLabel for="addr" value="Address:" />
@@ -151,18 +164,14 @@
                                     <p:inputText value="#{userInfo.postal}"  label="text" />
                                 </p:inplace>
 
-                                <h:outputLabel for="pwd" value="Password:" />                                
-                                <h:outputText value="#{userInfo.password}" />
-
-
-                                <h:outputLabel for="space" value="        " />
+                                <h:outputLabel for="pwd" value="Password:" />                                                                
                                 <p:button outcome="ChangePassword.xhtml" value="Change Password" style="border:5px ;width: 150px; height:30px; font-size:12px;"></p:button>
 
 
 
 
                                 <p:commandButton id = "savebtn" value="save" actionListener="#{userInfo.saveChangedUserInfo}" ajax="false"/>
-                                <p:button outcome="/secured/WorkPlace.xhtml" value="go back"></p:button>
+                                <p:button outcome="/secured/public/WorkPlace.xhtml" value="go back"></p:button>
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>

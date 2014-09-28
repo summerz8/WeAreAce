@@ -30,7 +30,7 @@ public class DeleteItem implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId = 1L;
+    Long factoryId;
     Collection<FactoryRawMaterialEntity> frmList;
     Collection<FactoryRetailProductEntity> frpList;
     private Long itemId;
@@ -43,6 +43,8 @@ public class DeleteItem implements Serializable {
     @PostConstruct
     public void init() {
         try {
+            factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
 
@@ -127,10 +129,10 @@ public class DeleteItem implements Serializable {
 
         result = pmb.deleteItem(itemType, itemId);
 
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
 
-        return "/secured/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 

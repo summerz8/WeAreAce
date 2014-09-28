@@ -43,6 +43,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -55,6 +56,8 @@ public class dataSetUp {
 
     @PersistenceContext
     private EntityManager em;
+    
+    private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
 
     @PostConstruct
     public void init() {
@@ -79,9 +82,10 @@ public class dataSetUp {
         } catch (ParseException ex) {
             Logger.getLogger(dataSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        UserEntity u = new HQUserEntity("H", "1000001", 0,
-                "Zheng", null, "Yuan", "Global Manager", birthday, "Female", "Ms", "Kent Ridge Crescent 15", "119215", "vicky.yuanzheng@gmail.com", false, 1000000L);
-        u.setPwd("123");
+        
+       
+        UserEntity u = new HQUserEntity("H", "1000001", 0, "Zheng", null, "Yuan", "Global Manager",
+                birthday, "Female", "Ms", "Kent Ridge Crescent 15", "119215", "vicky.yuanzheng@gmail.com", 1L, cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u);
         em.flush();
 
@@ -128,15 +132,13 @@ public class dataSetUp {
         //FactoryUser(f1)
         UserEntity u1 = new FactoryUserEntity("F", "1000001", 1, "Zhang", null,
                 "Shiyu", "Factory Manager", birthday, "Female",
-                "Ms", "West Coast Road 20", "250620", "ms.z.summer@gmail.com", f1.getFactoryId(), false);
-        u1.setPwd("123");
+                "Ms", "West Coast Road 20", "250620", "ms.z.summer@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u1);
         em.flush();
         //FactoryUser(f2)
         UserEntity u2 = new FactoryUserEntity("F", "1000002", 1, "Bowen", null,
                 "Jeremy", "Factory Manager", birthday, "Male",
-                "Mr", "New York Road 20", "250620", "jeremy.bowen@gmail.com", f2.getFactoryId(), false);
-        u2.setPwd("123");
+                "Mr", "New York Road 20", "250620", "jeremy.bowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
 

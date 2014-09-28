@@ -6,14 +6,34 @@
       xmlns:p="http://primefaces.org/ui">
     <f:view>
 
-        <h:head>
-            <title>Island Furniture Internal Portal</title>
-
-        </h:head>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
 
         <h:body>
 
             <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" sticky="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>  
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
@@ -49,11 +69,8 @@
 
 
                     </p:layoutUnit>
-
-
-                    <p:growl id="messages" showDetail="false"/>
-
-                    <p:layoutUnit position="west" size="500px">
+                    
+                    <p:layoutUnit position="west" size="500px" style = "border:0px" >
 
                         <p:menu>
                             <p:submenu label="Ticket">

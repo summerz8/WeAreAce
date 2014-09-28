@@ -25,7 +25,7 @@ public class PredefinedAttributes implements Serializable {
     private final static String[] country;
 
     static {
-        titles = new String[4];
+        titles = new String[4];        
         titles[0] = "Mr";
         titles[1] = "Ms";
         titles[2] = "Miss";

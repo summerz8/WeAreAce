@@ -51,8 +51,10 @@ public interface PurchaseOrderManagementModuleLocal {
     public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception;
 
     //2. Generate purchase amount
-    //3. View and Select Available Supplier
-    public Set<SupplierEntity> viewAvailSupplier(String itemType, Long itemId) throws Exception;
+    //3. View and Select Supplier
+    public Collection<SupplierEntity> viewSupplierForItem(String itemType, Long itemId) throws Exception;
+
+    public Collection<SupplierEntity> viewSupplierForFactory(Long factoryId) throws Exception;
 
     //select a unexpired contract with given supplier and given raw material
     //this contract will later be passed to createPurchaseOrder() method
@@ -63,7 +65,7 @@ public interface PurchaseOrderManagementModuleLocal {
     public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
 
     //5. input amount for given date of goods receipt
-    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId) throws Exception;
+    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount) throws Exception;
 
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
@@ -84,13 +86,17 @@ public interface PurchaseOrderManagementModuleLocal {
     //Step 3: user choose one of the suppliers displayed
     //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
     //output: display the generated amount for purchase
-    public Double generatePurchaseAmount(Long factoryId, Long integratedPlannedOrderId, Long supplierId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception;
+    public Double generatePurchaseAmount(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception;
 
     //Step 4: user confirm the displayed amount 
     //output: purchase order
-    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId, Double purchaseAmount, Long supplierId, Long storeId, String destination, String itemType) throws Exception;
+    public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId,
+            Double purchaseAmount, Double nextMonthBeginPlannedAmount,
+            Long contractId, Long storeId, String destination, String itemType) throws Exception;
 
     public Collection<PurchaseOrderEntity> viewUnconfirmedPurchaseOrder(Long factoryId) throws Exception;
+
+    public Collection<PurchaseOrderEntity> viewConfirmedPurchaseOrder(Long factoryId) throws Exception;
 
     //6. Edit unconfirmed purchase order
     public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount,
@@ -100,9 +106,12 @@ public interface PurchaseOrderManagementModuleLocal {
 
 //    //7. Cancel purchase order
 //    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception;
-
     //8. Generate Goods Receipt
-    public String confirmPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception;
+    public String confirmPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
+
+    public String cancelPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
+    
+    public String generateGoodsReciptForDeliveryOrders(Long purchaseOrderId, Long deliveryOrderId) throws Exception;
 
     //9. Generate Goods Receipt
     public String generateGoodsRecipt(Long purchaseOrderId) throws Exception;

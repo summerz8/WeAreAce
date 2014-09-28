@@ -8,6 +8,7 @@ package SessionBean.MRP;
 
 import Entity.Factory.BOMEntity;
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import java.util.Calendar;
 import java.util.List;
@@ -30,14 +31,18 @@ public interface PlannedOrderManagementModuleLocal {
 
     public boolean DeletePlannedOrder(Long PlannedOrderId);
 
-    public List<PlannedOrderEntity> getPlannedOrder();
+    public List<PlannedOrderEntity> getPlannedOrder(Long id,String department);
 
-    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder();
+    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(Long id,String department);
 
-    public List<PlannedOrderEntity> getConfirmedPlannedOrder();
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department);
 
-    public List<PlannedOrderEntity> getCancelledPlannedOrder();
+    public List<PlannedOrderEntity> getCancelledPlannedOrder(Long id,String department);
 
     public void editPlannedOrder(Long id, String field, Object content);
+
+    public void createPlannedOrder(Long factoryProductID);
+
+    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId, Long materialId);
     
 }

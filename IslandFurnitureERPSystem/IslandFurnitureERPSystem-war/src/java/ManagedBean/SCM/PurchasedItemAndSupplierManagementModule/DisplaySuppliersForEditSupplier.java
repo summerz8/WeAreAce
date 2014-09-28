@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -22,13 +23,30 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "displaySuppliersForEditSupplier")
 @ViewScoped
-public class DisplaySuppliersForEditSupplier implements Serializable{
+public class DisplaySuppliersForEditSupplier implements Serializable {
 
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId = 1L;
+    Long factoryId;
     Collection<SupplierEntity> supplierList;
+
+    @PostConstruct
+    public void init() {
+        try {
+            System.out.println("displaySuppliers():");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            supplierList = pmb.viewAvailSupplier(factoryId);
+
+            for (SupplierEntity supplier : supplierList) {
+                System.out.println(supplier.toString());
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ItemsForPurchase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     public DisplaySuppliersForEditSupplier() {
     }
@@ -57,25 +75,7 @@ public class DisplaySuppliersForEditSupplier implements Serializable{
         this.supplierList = supplierList;
     }
 
-    
-    @PostConstruct
-    public void init() {
-        try {
-            System.out.println("displaySuppliers():");
-
-            supplierList = pmb.viewAvailSupplier(factoryId);
-
-            for (SupplierEntity supplier : supplierList) {
-                System.out.println(supplier.toString());
-            }
-
-        } catch (Exception ex) {
-            Logger.getLogger(ItemsForPurchase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public String displaySuppliers() throws Exception {
+    public String displaySuppliers() {
         return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForEditSupplier?faces-redirect=true";
     }
 

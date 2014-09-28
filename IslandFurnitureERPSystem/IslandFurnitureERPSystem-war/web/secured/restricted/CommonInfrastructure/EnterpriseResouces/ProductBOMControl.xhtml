@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="true" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+                    
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="People and Organization">
+                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                                </p:submenu>
+                             <p:submenu label="Inventory" >
+
+                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                    
+
+                                </p:submenu>
+                            
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+
+                        <f:facet name ="header">
+                            Product Bill Of Material(BOM)  Management   
+                        </f:facet>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="ProductID" value="Product ID: " >
+                            <h:outputText id = "TProductID" value="#{productBOMControl.selectedProduct.productId}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="ProductName" value="Product Name: " >
+                            <h:outputText id = "ProductName" value="#{productBOMControl.selectedProduct.name}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="MeasureOfUnit" value="Measure of Unit: " >
+                            <h:outputText id = "MeasureOfUnit" value="#{productBOMControl.selectedProduct.unit}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <h:outputLabel for="description" value="Description: " >
+                            <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                            <h:outputText id = "description" value="#{productBOMControl.selectedProduct.description}" />
+                        </h:outputLabel>
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:panel id="basic" header="BOM Management" style="margin-bottom" >
+                            <p:dataTable id="bomtable" var="bom" value="#{productBOMControl.productBOMList}" 
+                                         scrollable="true"  scrollHeight="100%"
+                                         widgetVar="bomTable" emptyMessage="No BOM product found with given criteria" 
+                                         filteredValue="#{productBOMControl.filteredBOMList}"
+                                         editable="true" >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('bomTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:ajax event="rowEdit" listener="#{productBOMControl.onRowEdit}" update="@this" />
+                                <p:ajax event="rowEditCancel" listener="#{productBOMControl.onRowCancel}" update=":formMain:messagesStatus" />
+
+                                <p:column style="width:5%">
+                                    <p:rowEditor />
+                                </p:column>    
+
+                                <p:column style="width:5%;text-align: center">                                    
+
+                                    <p:commandButton  update=":formMain" actionListener="#{productBOMControl.deleteBOMItem(bom.BOMId)}" icon="ui-icon-trash" title="Delete">
+
+                                    </p:commandButton>                                   
+                                </p:column>
+
+                                <p:column filterBy="#{bom.rawMaterial.materialId}" headerText="Raw Material Id" width="10%">                                    
+                                    <h:outputText value="#{bom.rawMaterial.materialId}" />                                                                
+                                </p:column>                               
+
+
+                                <p:column  filterBy="#{bom.rawMaterial.materialName}" headerText="Name" width="10%" filterMatchMode="contains">
+                                    
+                                       <h:outputText value="#{bom.rawMaterial.materialName}" />
+                                      
+                                </p:column>                               
+
+                                <p:column filterBy="#{bom.unit}" headerText="BOM Unit" width="15%">
+                                                          
+                                     <h:outputText value="#{bom.unit}" />
+                                    
+                                </p:column>
+
+                                <p:column filterBy="#{bom.amount}" headerText="Amount" width="15%">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{bom.amount}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{bom.amount}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:dataTable>
+                            
+                            <p:commandButton  oncomplete="PF('addBomDialog').show()" value="Add An BOM Item">
+
+                                </p:commandButton>
+                            
+                        </p:panel>
+                        
+
+
+                    </p:layoutUnit>
+
+
+
+                </p:layout>
+                
+                <p:dialog header="BOM Item Info" widgetVar="addBomDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="itemDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2"  columnClasses="label,value">
+                            <f:facet name="header">
+                                BOM Item Detail
+                            </f:facet>
+
+                            <h:outputText value="Raw Material ID:" />
+                            <h:inputText value="#{productBOMControl.newRawMaterialId}" />
+
+                            <h:outputText value="Amount:" />
+                            <h:inputText value="#{productBOMControl.newAmount}" />
+                        </p:panelGrid>
+                        <p:commandButton  title = "Confirm" oncomplete="PF('messageDialog').show()" value = "Confirm" actionListener="#{productBOMControl.addBOMItem}" update = ":formMain"  >
+
+                        </p:commandButton> 
+                        
+                        <p:commandButton title = "Cancel" actionListener="#{productBOMControl.addBOMItem}" value = "Cancel" oncomplete="PF('addBomDialog').hide()">
+
+                        </p:commandButton>
+                           
+                    </p:outputPanel>
+                </p:dialog>
+                
+                
+                
+                <p:dialog header="Confirm Message" widgetVar="messageDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="messageDetail" style="text-align:center;">
+                        #{productBOMControl.message}
+                    </p:outputPanel>
+                </p:dialog>
+                
+                
+                
+                
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+
+

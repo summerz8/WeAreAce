@@ -8,6 +8,7 @@ package Entity.Factory.SCM;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import javax.persistence.CascadeType;
@@ -33,7 +34,7 @@ public class PurchaseOrderEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;//unconfirmed,confirmed, accomplished
+    private String status;//unconfirmed,confirmed, cancelled, accomplished
     private Double totalAmount;
     private String unit;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -43,15 +44,15 @@ public class PurchaseOrderEntity implements Serializable {
     private Integer leadTime;
     private Double totalPrice; // the totalPrice price
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar deliveryDate;
+    private Calendar deliveryDate ;
 
     //purchase order entity -- factory entity: M <--> 1 
     @ManyToOne
     private FactoryEntity factory;
 
-    //goods receipt entity -- purchase order entity : 1 <--> 1
-    @OneToOne(mappedBy = "purchaseOrder")
-    private GoodsReceiptEntity goodsReceipt;
+    //goods receipt entity -- purchase order entity : M <--> 1
+    @OneToMany(mappedBy = "purchaseOrder")
+    private Collection<GoodsReceiptEntity> goodsReceiptList = new ArrayList<>();
 
     //integrated planned order entity -- purchase order entity: 1 <--> 1
     @OneToOne(mappedBy = "purchaseOrder")
@@ -63,7 +64,7 @@ public class PurchaseOrderEntity implements Serializable {
 
     //purchase order entity -- delivery order entity : 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "purchaseOrder")
-    private Collection<DeliveryOrderEntity> deliveryOrderList = null;
+    private Collection<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
 
     public PurchaseOrderEntity() {
     }
@@ -133,12 +134,12 @@ public class PurchaseOrderEntity implements Serializable {
         this.factory = factory;
     }
 
-    public GoodsReceiptEntity getGoodsReceipt() {
-        return goodsReceipt;
+    public Collection<GoodsReceiptEntity> getGoodsReceiptList() {
+        return goodsReceiptList;
     }
 
-    public void setGoodsReceipt(GoodsReceiptEntity goodsReceipt) {
-        this.goodsReceipt = goodsReceipt;
+    public void setGoodsReceiptList(Collection<GoodsReceiptEntity> goodsReceiptList) {
+        this.goodsReceiptList = goodsReceiptList;
     }
 
     public ContractEntity getContract() {

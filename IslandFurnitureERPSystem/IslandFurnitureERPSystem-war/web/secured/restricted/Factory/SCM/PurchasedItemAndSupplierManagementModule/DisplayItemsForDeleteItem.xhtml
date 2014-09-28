@@ -16,6 +16,24 @@
     <h:body>
 
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -43,26 +61,22 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>                
+                              
                 <p:layoutUnit position="west" size="1000px">
 
-                    <p:panelMenu style="width:250px">
-
-                        <p:submenu label="Supply Chain Management">
+                    <p:menu>
+                        <p:submenu label="Purchased Item And Supplier Management">
                             <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
                             <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
                             <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
                             <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
-
                         </p:submenu>
-                    </p:panelMenu>
+                    </p:menu>
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="true">
-                    <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
-
                     <p:panel id="basic" header="Choose A Raw Material or A Retail Product From the List " style="margin-bottom" >
                         <h3 style="margin-top: 0">Items Available for Purchase</h3>
                         <p:dataTable var="frm" value="#{deleteItem.frmList}" >
@@ -70,8 +84,8 @@
                                 Factory Raw Materials
                             </f:facet>
 
-                            <p:column headerText="Id" width="5%" >
-                                <h:outputText value="#{frm.factoryRawMaterialId}"  style="font-weight: bold" />    
+                            <p:column headerText="Global Id" width="5%" >
+                                <h:outputText value="#{frm.rawMaterial.materialId}"  style="font-weight: bold" />    
                             </p:column>
 
                             <p:column headerText="Name" width="15%">
@@ -95,7 +109,7 @@
                             </p:column>
 
                             <p:column headerText="Please Select Here" width="15%" >
-                                <p:commandButton update=":formMain:rmDetail" oncomplete="PF('rmDialog').show()" value="Choose">
+                                <p:commandButton update=":formMain:rmDetail" oncomplete="PF('rmDialog').show()" value="Delete">
 
                                     <f:setPropertyActionListener value="#{frm}" target="#{selectedFactoryItem.selectedFRM}" />
 
@@ -108,8 +122,8 @@
                                   draggable="true" closable="true" width="300">
                             <p:outputPanel id="rmDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.factoryRawMaterialId}" />
+                                    <h:outputText value="Global Id:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRM.rawMaterial.materialId}" />
 
                                     <h:outputText value="Name:" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRM.materialName}" />
@@ -120,7 +134,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRM.unit}" />
 
-                                    <p:commandButton update="growl" action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" value="Comfirm"/>
+                                    <p:commandButton action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" update="messages" value="Confirm"/>
 
                                 </p:panelGrid>
                             </p:outputPanel>
@@ -133,8 +147,8 @@
                                 Factory Retail Products
                             </f:facet>
 
-                            <p:column headerText="Id" width="5%">
-                                <h:outputText value="#{frp.factoryRetailProdctId}" style="font-weight: bold"/>
+                            <p:column headerText="Global Id" width="5%">
+                                <h:outputText value="#{frp.retailProduct.retailProductId}" style="font-weight: bold"/>
                             </p:column>
 
                             <p:column headerText="Name" width="15%">
@@ -158,7 +172,7 @@
                             </p:column>
 
                             <p:column headerText="Please Select Here" width="15%" >       
-                                <p:commandButton update=":formMain:rpDetail" oncomplete="PF('rpDialog').show()" value="Choose" >
+                                <p:commandButton update=":formMain:rpDetail" oncomplete="PF('rpDialog').show()" value="Delete" >
                                     <f:setPropertyActionListener value="#{frp}" target="#{selectedFactoryItem.selectedFRP}" />
 
                                 </p:commandButton>               
@@ -170,8 +184,8 @@
                                   draggable="true" closable="true" width="300">
                             <p:outputPanel id="rpDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.factoryRetailProdctId}" />
+                                    <h:outputText value="Global Id:" />
+                                    <h:outputText value="#{selectedFactoryItem.selectedFRP.retailProduct.retailProductId}" />
 
                                     <h:outputText value="Name:" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRP.name}" />
@@ -182,7 +196,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRP.unit}" />
 
-                                    <p:commandButton update="growl" action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" value="Confrim"/>
+                                    <p:commandButton action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" update="messages" value="Confrim"/>
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>

@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -29,17 +28,23 @@ public class DisplaySuppliersForAddContract implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
+    private Long factoryId;
+    private Collection<SupplierEntity> supplierList;
+    private String itemType;
+    private Long itemId;
+
     @PostConstruct
     public void init() {
 
         try {
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
             itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
             itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
 
             System.out.println("displaySuppliers(): ItemType = " + this.itemType);
             System.out.println("displaySuppliers(): Itemid = " + this.itemId);
-            
+
             supplierList = pmb.viewSupplierCouldBeAddedForItem(itemType, itemId);
 
             for (SupplierEntity supplier : supplierList) {
@@ -50,10 +55,6 @@ public class DisplaySuppliersForAddContract implements Serializable {
         }
 
     }
-    Long factoryId = 1L;
-    Collection<SupplierEntity> supplierList;
-    String itemType;
-    Long itemId;
 
     public DisplaySuppliersForAddContract() {
     }
@@ -103,7 +104,7 @@ public class DisplaySuppliersForAddContract implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", itemType);
 
-        return "/secured/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForAddContract?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForAddContract?faces-redirect=true";
     }
 
 }

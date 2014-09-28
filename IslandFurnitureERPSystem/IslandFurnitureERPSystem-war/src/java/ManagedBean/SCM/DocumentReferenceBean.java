@@ -179,8 +179,13 @@ public class DocumentReferenceBean implements Serializable {
         return filteredSuppliers;
     }
 
+
     public void setFilteredSuppliers(List filteredSuppliers) {
         this.filteredSuppliers = filteredSuppliers;
     }
+    
+    public List viewAllSuppliers() {
+        return dr.viewAllSuppliers();
 
+    }
 }

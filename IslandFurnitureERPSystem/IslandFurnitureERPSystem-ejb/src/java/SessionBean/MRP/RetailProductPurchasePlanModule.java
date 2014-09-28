@@ -6,12 +6,11 @@
 
 package SessionBean.MRP;
 
-import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
-import Entity.Factory.MRP.PlannedOrderEntity;
-import Entity.Factory.MRP.ProductionPlanEntity;
+import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,29 +33,40 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     private EntityManager em;
     
     @Override
-    public boolean generateRetailProductPurchasePlan(Long factoryRetailproductId,Calendar targetPeriod,Double amount){
+    public void generateRetailProductPurchasePlan(Long integratedSalesForecastId,Long factoryRetailProductId){
         
-        try{
-            IntegratedPlannedOrderEntity integratedPlannedOrder = new IntegratedPlannedOrderEntity();
+        try{       
+            IntegratedSalesForecastEntity integratedSalesForecast = em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
+            FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class,factoryRetailProductId);
+            FactoryEntity factory = factoryRetailProduct.getFactory();
+            String unit = factoryRetailProduct.getUnit();
             Calendar generateDate = Calendar.getInstance();
+            Calendar targetPeriod = integratedSalesForecast.getTargetPeriod();
+            Double amount = integratedSalesForecast.getAmount();
+            
+            FactoryRetailProductAmountEntity factoryRetailProductAmount = new FactoryRetailProductAmountEntity();
+            factoryRetailProductAmount.setAmount(amount);
+            factoryRetailProductAmount.setUnit(unit); 
+            factoryRetailProductAmount.setFactoryRetailProduct(factoryRetailProduct);
+            em.persist(factoryRetailProductAmount);
+            em.flush();
+            
+            IntegratedPlannedOrderEntity integratedPlannedOrder = new IntegratedPlannedOrderEntity();
             integratedPlannedOrder.setGeneratedDate(generateDate);
             integratedPlannedOrder.setTargetPeriod(targetPeriod);
             integratedPlannedOrder.setStatus("unconfirmed");
-            FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class,factoryRetailproductId);
-            String unit = factoryRetailProduct.getUnit();
-            FactoryRetailProductAmountEntity factoryRetailProductAmount = new FactoryRetailProductAmountEntity();
-            factoryRetailProductAmount.setUnit(unit);
-            factoryRetailProductAmount.setAmount(amount);
-            factoryRetailProductAmount.setFactoryRetailProduct(factoryRetailProduct);
-            em.persist(factoryRetailProductAmount);
             integratedPlannedOrder.setFactoryRetailProductAmount(factoryRetailProductAmount);
+            integratedPlannedOrder.setFactory(factory);
             em.persist(integratedPlannedOrder);
+            em.flush();
+            factory.getIntegratedPlannedOrders().add(integratedPlannedOrder);
+            em.flush();
             System.out.println("Generate Retail Product Purchase Plan!");
         }catch(Exception ex){
              System.out.println(ex.getMessage());
-             return false;
+             
         }
-        return true;
+        
     }
     
     @Override
@@ -78,6 +88,8 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
                 integratedPlannedOrder.setStatus(status);
                 break;
         }
+        em.persist(integratedPlannedOrder);
+        em.flush();
     }
     
     @Override
@@ -98,14 +110,115 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     }
     
      @Override
-    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(){
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(Long id,String department){
         Query q = em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
         List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
-            IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
-            if(rppp.getFactoryRetailProductAmount()!= null)
-                integratedPlannedOrderList.add(rppp);
+        if(department.equals("H")){          
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null)
+                    integratedPlannedOrderList.add(rppp);
+            }       
+        }
+        else{
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                Long departmentId =rppp.getFactory().getFactoryId();
+                if(rppp.getFactoryRetailProductAmount()!= null && departmentId.equals(id))
+                    integratedPlannedOrderList.add(rppp);       
             }
+        }
+        return integratedPlannedOrderList;
+    }
+        
+    
+    @Override
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanUnconfirmed(Long id,String department){
+        Query q = em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList();       
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null){
+                    Long departmentId =rppp.getFactory().getFactoryId();
+                    if(rppp.getStatus().equals("unconfirmed"))
+                        integratedPlannedOrderList.add(rppp);
+                }
+            }
+        }
+        else{
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null){
+                    Long departmentId =rppp.getFactory().getFactoryId();
+                    if(rppp.getStatus().equals("unconfirmed") && departmentId.equals(id))
+                        integratedPlannedOrderList.add(rppp);
+                }
+            }
+        }
+          return integratedPlannedOrderList;
+    }
+    
+    @Override
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanConfirmed(Long id,String department){
+        Query q = em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList();       
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null){
+                    if(rppp.getStatus().equals("confirmed"))
+                        integratedPlannedOrderList.add(rppp);
+                }
+            }
+        }
+        else{
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null){
+                    Long departmentId =rppp.getFactory().getFactoryId();
+                    if(rppp.getStatus().equals("confirmed") && departmentId.equals(id))
+                        integratedPlannedOrderList.add(rppp);
+                }
+            }
+        }
           return integratedPlannedOrderList;
         }
+    
+    @Override
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanCancelled(Long id,String department){
+        Query q = em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
+        List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList();       
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null){
+                    if(rppp.getStatus().equals("cancelled"))
+                        integratedPlannedOrderList.add(rppp);
+                }
+            }
+        }
+        else{
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!= null){
+                    Long departmentId =rppp.getFactory().getFactoryId();
+                    if(rppp.getStatus().equals("cancelled") && departmentId.equals(id))
+                        integratedPlannedOrderList.add(rppp);
+                }
+            }
+        }
+          return integratedPlannedOrderList;
+        }
+    
+    @Override
+    public Long getFactoryRetailProductId(Long integratedSalesForecastId){
+        IntegratedSalesForecastEntity integratedSalesForecast = em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
+        
+        System.out.println("integratedSalesForecast " + integratedSalesForecastId);
+        
+        Long factoryRetailProductId = integratedSalesForecast.getFactoryRetailProduct().getFactoryRetailProdctId();
+        System.out.println("factoryRetailProductId " + factoryRetailProductId);
+        return factoryRetailProductId;
+    }
 }

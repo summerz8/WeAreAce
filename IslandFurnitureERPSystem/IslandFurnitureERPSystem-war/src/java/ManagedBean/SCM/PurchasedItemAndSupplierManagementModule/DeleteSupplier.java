@@ -28,7 +28,7 @@ public class DeleteSupplier {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId = 1L;
+    Long factoryId;
     Collection<SupplierEntity> supplierList;
     SupplierEntity selectedSupplier;
     String result = null;
@@ -37,6 +37,7 @@ public class DeleteSupplier {
     public void init() {
         try {
             System.out.println("displaySuppliers():");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
             supplierList = pmb.viewAvailSupplier(factoryId);
 
@@ -92,16 +93,16 @@ public class DeleteSupplier {
     public String delete() throws Exception {
 
         System.out.println("save() ");
-        
+
         System.out.println(this.selectedSupplier.toString());
         System.out.println(this.selectedSupplier.getSupplierName());
 
         result = pmb.deleteSupplier(this.selectedSupplier.getSupplierId());
-
-        FacesMessage msg = new FacesMessage("Information: " + result);
+        
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
         FacesContext.getCurrentInstance().addMessage(null, msg);
-
-        return "/secured/WorkPlace?faces-redirect=true";
+        
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 

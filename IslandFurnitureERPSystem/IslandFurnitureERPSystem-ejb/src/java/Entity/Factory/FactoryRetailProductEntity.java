@@ -208,4 +208,5 @@ public class FactoryRetailProductEntity implements Serializable {
         setDescription(description);
     }
 
+    
 }

@@ -28,9 +28,9 @@ public class AddContract implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    private Long factoryId = 1L;
+    private Long factoryId;
     private SupplierEntity selectedSupplier;
-    private String itemType = null;
+    private String itemType;
     private Long itemId;
     private Double contractPrice;
     private Integer leadTime;
@@ -46,6 +46,8 @@ public class AddContract implements Serializable {
 
     @PostConstruct
     public void init() {
+        factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+
         selectedSupplier = (SupplierEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSupplier");
     }
 
@@ -157,11 +159,10 @@ public class AddContract implements Serializable {
                     itemType, itemId,
                     contractPrice, leadTime, lotSize, startDate, endDate);
         }
-        System.out.println("Result = " + result);
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
 
-        return "/secured/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 

@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>                     
+                </p:layoutUnit>
+
+
+                         
+                <p:layoutUnit position="west" size="1000px">
+                    <p:menu>
+                        <p:submenu label="Purchase Order Management">
+                            <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
+                            <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
+                            <p:menuitem value="Generate Goods Receipt" action="#{displayConfirmedPO.displayDestination()}"/>
+                            <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}"/>
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+                <p:layoutUnit position="center" resizable="true">
+
+                    <p:panel id="basic" header="Choose A Supplier From the List " style="margin-bottom" >
+                        <p:dataTable var="supplier" value="#{displaySuppliersForIPO.supplierList}" scrollable="true">
+                            <f:facet name="header">
+                                Supplier List
+                            </f:facet>
+                            <p:column headerText="Id" width="10%" >
+                                <h:outputText value="#{supplier.supplierId}"  style="font-weight: bold" />    
+                            </p:column>
+
+                            <p:column headerText="Name" width="20%">
+                                <h:outputText value="#{supplier.supplierName}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Address" width="20%">
+                                <h:outputText value="#{supplier.supplierAddress}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Contact" width="10%">
+                                <h:outputText value="#{supplier.supplierContact}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Fax" width="10%">
+                                <h:outputText value="#{supplier.supplierFax}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column headerText="Remark" width="20%">
+                                <h:outputText value="#{supplier.remark}" style="font-weight: bold" /> 
+                            </p:column>
+
+                            <p:column style="text-align: center" width="10%">
+                                <p:commandButton update=":formMain:supplierDetail" oncomplete="PF('supplierDialog').show()" value="Choose">
+                                    <f:setPropertyActionListener value="#{supplier}" target="#{selectedSupplierForIPO.selectedSupplier}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:dialog header="Supplier Info" widgetVar="supplierDialog" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true" width="300">
+                        <p:outputPanel id="supplierDetail" style="text-align:center;">
+                            <p:panelGrid  columns="2" columnClasses="label,value">
+                                <h:outputText value="Id:" />
+                                <h:outputText value="#{selectedSupplierForIPO.selectedSupplier.supplierId}" />
+
+                                <h:outputText value="Name:" />
+                                <h:outputText value="#{selectedSupplierForIPO.selectedSupplier.supplierName}" />
+
+                                <h:outputText value="Address" />
+                                <h:outputText value="#{selectedSupplierForIPO.selectedSupplier.supplierAddress}" />
+
+                                <h:outputText value="Contact" />
+                                <h:outputText value="#{selectedSupplierForIPO.selectedSupplier.supplierContact}" />
+
+                                <h:outputText value="Fax" />
+                                <h:outputText value="#{selectedSupplierForIPO.selectedSupplier.supplierFax}" />          
+
+                                <h:outputText value="Remark" />
+                                <h:outputText value="#{selectedSupplierForIPO.selectedSupplier.remark}" />  
+                            </p:panelGrid>
+
+                            <p:commandButton action="#{selectedSupplierForIPO.passValue()}" value="Confirm"/>
+
+                        </p:outputPanel>
+                    </p:dialog>
+
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+    </h:body>
+
+</html>

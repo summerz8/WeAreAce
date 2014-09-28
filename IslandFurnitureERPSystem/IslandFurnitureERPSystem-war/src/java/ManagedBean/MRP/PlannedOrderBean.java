@@ -7,8 +7,11 @@ package ManagedBean.MRP;
 
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.MRP.ProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
+import SessionBean.MRP.ProductionPlanManagementModuleLocal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,27 +37,24 @@ public class PlannedOrderBean {
     private List<PlannedOrderEntity> plannedOrderUnconfirmed;
     private List<PlannedOrderEntity> plannedOrderConfirmed;
     private List<PlannedOrderEntity> plannedOrderCancelled;
+    private Long id;
+    private String department;
 //    private List<FactoryRawMaterialAmountEntity> selectedRawMaterial;
     
     @EJB
     private PlannedOrderManagementModuleLocal PO;
+    @EJB
+    private ProductionPlanManagementModuleLocal PP;
     
     @PostConstruct
     public void init(){
-        System.out.println("2");
-
-          plannedOrder = PO.getPlannedOrder();
-          System.out.println("3");
-
-          plannedOrderUnconfirmed = PO.getUnconfirmedPlannedOrder();
-          System.out.println("4");
-
-          plannedOrderConfirmed = PO.getConfirmedPlannedOrder();
-          System.out.println("5");
-
-          plannedOrderCancelled = PO.getCancelledPlannedOrder();
-          System.out.println("6");
-
+        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+          
+        plannedOrder = PO.getPlannedOrder(id,department);
+        plannedOrderUnconfirmed = PO.getUnconfirmedPlannedOrder(id,department);
+        plannedOrderConfirmed = PO.getConfirmedPlannedOrder(id,department);
+        plannedOrderCancelled = PO.getCancelledPlannedOrder(id,department);
     }
     
     public List<PlannedOrderEntity> getPlannedOrder(){
@@ -119,5 +119,14 @@ public class PlannedOrderBean {
 
     }
     
+    
+    public Date convert(Calendar cal){
+        Date result = cal.getTime();
+        
+        System.out.println("Calendar"+cal.getTime().toString());
+        System.out.println("Date"+ result.toString());
+        
+        return result;
+    }
     
 }

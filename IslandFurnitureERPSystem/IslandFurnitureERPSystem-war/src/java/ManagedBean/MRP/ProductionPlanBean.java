@@ -6,13 +6,17 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
+import Entity.Factory.MRP.WeeklyProductionPlanEntity;
+import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
+import SessionBean.MRP.WeeklyProductionPlanLocal;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -35,14 +39,20 @@ public class ProductionPlanBean implements Serializable {
 
     @EJB
     private ProductionPlanManagementModuleLocal PP;
+    @EJB
+    private PlannedOrderManagementModuleLocal PO;
+    @EJB
+    private WeeklyProductionPlanLocal WPO;
 
     private ProductionPlanEntity pp;
     private Long productionPlanId;
     private Object quantity;
-    private Calendar targetPeriod;
-    private Long productId;
+//    private Calendar targetPeriod;
+//    private Long productId;
     private String status;
     private String remark;
+    private Long id;
+    private String department;
 
     public Long getProductionPlanId() {
         return productionPlanId;
@@ -60,31 +70,43 @@ public class ProductionPlanBean implements Serializable {
 
         this.quantity = quantity;
     }
+//
 
-    public Calendar getTargetPeriod() {
-        return targetPeriod;
+    public Long getId() {
+        return id;
     }
 
-    public Long getProductId() {
-        return productId;
+    public String getDepartment() {
+        return department;
     }
-
+     
+    
+    
+//    public Calendar getTargetPeriod() {
+//        
+//        return targetPeriod;
+//    }
+//
+//    public Long getProductId() {
+//        return productId;
+//    }
+//
     public String getStatus() {
         return status;
     }
-
+//
     public String getRemark() {
         return remark;
     }
-
-    public void setTargetPeriod(Calendar targetPeriod) {
-        this.targetPeriod = targetPeriod;
-    }
-
-    public void setProductId(Long productionId) {
-        this.productId = productionId;
-    }
-
+//
+//    public void setTargetPeriod(Calendar targetPeriod) {
+//        this.targetPeriod = targetPeriod;
+//    }
+//
+//    public void setProductId(Long productionId) {
+//        this.productId = productionId;
+//    }
+//
     public void setStatus(String status) {
         this.status = status;
     }
@@ -95,9 +117,11 @@ public class ProductionPlanBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed();
-        productionPlanConfirmed = PP.getProductionPlanConfirmed();
-        productionPlanCancelled = PP.getProductionPlanCancelled();
+        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed(id,department);
+        productionPlanConfirmed = PP.getProductionPlanConfirmed(id,department);
+        productionPlanCancelled = PP.getProductionPlanCancelled(id,department);
     }
 
     public List<ProductionPlanEntity> getProductionPlanConfirmed() {
@@ -116,12 +140,11 @@ public class ProductionPlanBean implements Serializable {
         return productionPlan;
     }
 
+    
+    
     public void saveId(Long id) {
-        System.out.println("5");
         productionPlanId = id;
-        System.out.println("6");
         pp = PP.searchProductionPlan(productionPlanId);
-        System.out.println(productionPlanId + "!@#$%^&*&*");
         if (!pp.getQuantity().equals(quantity) && quantity != null) {
             save(productionPlanId, "quantity", quantity);
         } else if (!pp.getStatus().equals(status) && status != null) {
@@ -183,6 +206,9 @@ public class ProductionPlanBean implements Serializable {
         Calendar confirmDate = Calendar.getInstance();
         PP.editProductionPlan(id, "status", "confirmed");
         PP.editProductionPlan(id, "confirmDate", confirmDate);
+        PO.createPlannedOrder(id);
+        WPO.generateWeeklyProductionPlan(id);
+        
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
     
@@ -190,5 +216,13 @@ public class ProductionPlanBean implements Serializable {
         PP.editProductionPlan(id, "status", "cancelled");
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
+    
+    public String viewWeeklyProductionPlan(List<WeeklyProductionPlanEntity> selectedWeeklyProductionPlan){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedWeeklyProductionPlan", selectedWeeklyProductionPlan);
+        return "/secured/restricted/Factory/MRP/ProductionPlan/MRPWeeklyProductionPlanView?faces-redirect=true";
+
+    }
+    
+    
 
 }

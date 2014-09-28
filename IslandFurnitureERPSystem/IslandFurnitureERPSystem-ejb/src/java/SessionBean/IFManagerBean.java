@@ -20,7 +20,7 @@ import javax.persistence.PersistenceContext;
  * @author zhangshiyu
  */
 @Stateless
-public class IFManagerBean implements IFManagerBeanRemote{
+public class IFManagerBean implements IFManagerBeanRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -40,28 +40,28 @@ public class IFManagerBean implements IFManagerBeanRemote{
 
             switch (department.charAt(0)) {
                 case 'H':
-                    idNumber = (int)idNum.getId_H() + 1;
+                    idNumber = (int) idNum.getId_H() + 1;
                     idNum.setId_H((long) idNumber);
-                    
+
                     user = new HQUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, false, departmentId);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
 
                 case 'F':
-                    idNumber = (int)idNum.getId_F() + 1;
+                    idNumber = (int) idNum.getId_F() + 1;
                     idNum.setId_H((long) idNumber);
                     user = new FactoryUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, false);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
                 case 'S':
-                    idNumber = (int)idNum.getId_S() + 1;
+                    idNumber = (int) idNum.getId_S() + 1;
                     idNum.setId_H((long) idNumber);
                     user = new StoreUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, false);
+                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
                     em.persist(user);
                     msg = user.getUserId() + " " + user.getPwd();
                     break;
@@ -91,9 +91,9 @@ public class IFManagerBean implements IFManagerBeanRemote{
 //    }
 
     @Override
-    public boolean checkAccount(String userId, String pwd) {
+    public int checkAccount(String userId, String pwd) {
         UserEntity user;
-        boolean check = false;
+        int check = 0;
 
         System.out.println("IFManagerBean: checkAccount()");
         //Query q = em.createQuery("SELECT t FROM UserEntity t WHERE t.userId=:userId");
@@ -102,13 +102,18 @@ public class IFManagerBean implements IFManagerBeanRemote{
         user = em.find(UserEntity.class, userId);
         //user = (UserEntity)q.getResultList();
         //if the user exsit and password correct
-        if (user == null) {
+        if (user.isDeleteFlag()) {
+            System.out.println("User is Deleted!");
+            check = -1;//user not found
+        } else if (user == null) {
             System.out.println("User Not Found!");
+            check = -1;
         } else if ((user.getPwd().equals(pwd))) {
-            check = true;
+            check = 1;
             System.out.println("User Found!");
         } else {
             System.out.println("User Found but password inccorect!");
+            check = 0;
         }
 
         return check;
@@ -123,7 +128,7 @@ public class IFManagerBean implements IFManagerBeanRemote{
         }
         return fullName;
     }
-    
+
     @Override
     public String getDepartment(String userId) {
         String department = null;
@@ -133,7 +138,7 @@ public class IFManagerBean implements IFManagerBeanRemote{
         }
         return department;
     }
-    
+
     @Override
     public Long getDepartmentId(String userId) {
         Long departmentId = null;
@@ -143,13 +148,13 @@ public class IFManagerBean implements IFManagerBeanRemote{
         }
         return departmentId;
     }
-    
+
     @Override
-    public int getUserLevel(String userId){
-     int userLevel;
+    public int getUserLevel(String userId) {
+        int userLevel;
         if (true) {
             UserEntity user = em.find(UserEntity.class, userId);
-            userLevel = user.getUserLevel();           
+            userLevel = user.getUserLevel();
         }
         return userLevel;
     }
