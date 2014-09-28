@@ -74,7 +74,6 @@
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
-                    <p:growl id="growl" sticky="true" showDetail="true"/>
                     <p:wizard flowListener="#{addSupplier.onFlowProcess}">
 
                         <p:tab id="basic" title="Basic">
@@ -164,7 +163,7 @@
                                         </h:outputText>
                                     </h:panelGrid>
                                 </h:panelGrid>
-                                <p:commandButton value="Submit" action="#{addSupplier.save()}" update="growl"/>
+                                <p:commandButton value="Submit" action="#{addSupplier.save()}" update="messages"/>
                             </p:panel>
                         </p:tab>
                     </p:wizard>

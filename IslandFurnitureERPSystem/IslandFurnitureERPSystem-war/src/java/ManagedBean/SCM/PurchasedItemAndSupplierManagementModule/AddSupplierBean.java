@@ -177,9 +177,9 @@ public class AddSupplierBean implements Serializable {
         result = pmb.addSupplier(itemType, itemId, supplierName, address, telephone, fax, remark,
                 contractPrice, leadTime, lotSize, startDate, endDate);
 
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
+        
         return "/secured/public/WorkPlace?faces-redirect=true";
 
     }

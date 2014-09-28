@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -72,9 +73,10 @@ public class DisplayManuallyGeneratedPO implements Serializable {
             purchaseAmount = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("purchaseAmount");
             //be put @selectedDeliveryDestination, could be null if destination is factory
             store = (StoreEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedStore");
-            if(store == null)
+            if (store == null) {
                 storeId = null;
-            
+            }
+
             //be put @selectedDeliveryDestination
             destination = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("destination");
             //be put @displayContractForManuallyGeneratedPO
@@ -228,31 +230,43 @@ public class DisplayManuallyGeneratedPO implements Serializable {
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
     }
+
     public DisplayManuallyGeneratedPO() {
     }
 
     public String generatePO() throws Exception {
-        
+
         System.out.println("factoryId = " + factoryId);
         System.out.println("contractId = " + contract.getContractId());
         System.out.println("purchaseAmount = " + purchaseAmount);
         System.out.println("storeId = " + storeId);
         System.out.println("destination = " + destination);
         System.out.println("deliveryDate = " + deliveryDate);
-        
+        try {
+            purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(),
+                    purchaseAmount, storeId, destination, deliveryDate);
 
-        purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(), 
-                purchaseAmount, storeId, destination, deliveryDate);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ",
+                    "Purchase order [id = " + purchaseOrder.getId() + "] been created!");
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
 
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
+
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+        } catch (Exception ex) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Result: ",
+                    "Purchase order create failed.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+        }
+
     }
-
 }

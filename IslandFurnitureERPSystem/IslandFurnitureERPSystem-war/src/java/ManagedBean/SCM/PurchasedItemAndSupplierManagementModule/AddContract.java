@@ -159,11 +159,10 @@ public class AddContract implements Serializable {
                     itemType, itemId,
                     contractPrice, leadTime, lotSize, startDate, endDate);
         }
-        System.out.println("Result = " + result);
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
 
-        return "/secured/public/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 

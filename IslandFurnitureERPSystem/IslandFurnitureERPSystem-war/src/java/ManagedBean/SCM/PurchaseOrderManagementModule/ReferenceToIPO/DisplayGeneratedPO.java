@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -242,37 +243,45 @@ public class DisplayGeneratedPO {
     }
 
     public String generatePO() throws Exception {
-        System.out.println("factoryId = " + factoryId);
-        System.out.println("IPO id = " + integratedPlannedOrder.getId());
-        System.out.println("purchaseAmount = " + purchaseAmount);
-        System.out.println("nextMonthBeginPlannedAmount = " + nextMonthBeginPlannedAmount);
-        System.out.println("contractId = " + contract.getContractId());
-        System.out.println("storeId = " + storeId);
-        System.out.println("destination = " + destination);
-        System.out.println("itemType = " + itemType);
-        
-        if (destination != null && destination.equals("store")) {
-            destinationAddress = pmb.getStoreEntity(storeId).getAddress();
-        } else {
-            destination = "factory";
-            storeId = 0L;
-            destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
+        try {
+            System.out.println("factoryId = " + factoryId);
+            System.out.println("IPO id = " + integratedPlannedOrder.getId());
+            System.out.println("purchaseAmount = " + purchaseAmount);
+            System.out.println("nextMonthBeginPlannedAmount = " + nextMonthBeginPlannedAmount);
+            System.out.println("contractId = " + contract.getContractId());
+            System.out.println("storeId = " + storeId);
+            System.out.println("destination = " + destination);
+            System.out.println("itemType = " + itemType);
+
+            if (destination != null && destination.equals("store")) {
+                destinationAddress = pmb.getStoreEntity(storeId).getAddress();
+            } else {
+                destination = "factory";
+                storeId = 0L;
+                destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
+            }
+
+            purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType);
+
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ",
+                    "Purchase order [id = " + purchaseOrder.getId() + "] been created!");
+
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("nextMonthBeginPlannedAmount");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("storeId");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
+
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
+
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+        } catch (Exception ex) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Result: ",
+                    "Purchase order create failed.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
         }
-
-        purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType);
-
-        System.out.println(purchaseOrder.toString());
-
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("nextMonthBeginPlannedAmount");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("storeId");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
-
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
-
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/GetGeneratedPO?faces-redirect=true";
-
     }
-
 }

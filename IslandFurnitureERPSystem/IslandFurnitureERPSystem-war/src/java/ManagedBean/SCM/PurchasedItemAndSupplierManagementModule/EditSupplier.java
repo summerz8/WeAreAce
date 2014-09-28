@@ -88,10 +88,10 @@ public class EditSupplier implements Serializable {
                 selectedSupplier.getSupplierAddress(), selectedSupplier.getSupplierContact(),
                 selectedSupplier.getSupplierFax(), selectedSupplier.getRemark());
 
-        FacesMessage msg = new FacesMessage("Information: " + result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
+        FacesContext.getCurrentInstance().addMessage(null,msg);
 
-        return "/secured/public/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
 
     }
 }
