@@ -18,7 +18,7 @@
 
             <h:form id="formMain">
 
-                <p:growl id="messages" showDetail="true" sticky="true"/>
+                <p:growl id="messages" showDetail="true" sticky="true" autoUpdate="true"/>
 
                 <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
@@ -108,14 +108,14 @@
                                     <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
                                 </p:submenu>
 
-                                <p:submenu label="Factory Inventory Management">
-                                    <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
-                                    <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
-                                    <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
-                                    <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
-                                    <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
-                                    <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
-                                    <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
+                                <p:submenu label="Factory Inventory Management" >
+                                    <p:menuitem value="Factory Bin"  actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}" update="messages"/>
+                                    <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}"/>
+                                    <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}"/>
+                                    <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}"/>
+                                    <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}"/>
+                                    <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}"/>
+                                    <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" actionListener="#{factoryInventoryManagementBean.hasAccessToFIM}"/>
                                 </p:submenu>
 
                                 <p:submenu label="Raw Material Monitoring">

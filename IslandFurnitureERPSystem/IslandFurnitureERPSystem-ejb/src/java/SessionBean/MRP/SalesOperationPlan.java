@@ -48,7 +48,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
             salesOperationPlan.setTargetPeriod(targetPeriod);
             salesOperationPlan.setIntegratedSalesForecast(isf);
             salesOperationPlan.setWorkingDay(workingDays);
-            salesOperationPlan.setStatus("Unconfirmed");
+            salesOperationPlan.setStatus("unconfirmed");
             salesOperationPlan.setPlannedProductionPlanQuantity(ProductionPlanQuantity);
             System.out.println("GenerateSalesOperationPlan(): 2");
 
@@ -284,11 +284,11 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         Calendar targetPeriod = salesOperationPlan.getTargetPeriod();
         Double productionPlanQuantity = salesOperationPlan.getPlannedProductionPlanQuantity();
         FactoryProductEntity factoryProduct = salesOperationPlan.getFactoryProduct();
-        ProductionPlanEntity productionPlan = new ProductionPlanEntity("Unconfirmed", generatedDate, targetPeriod, productionPlanQuantity, factoryProduct, "");
+        ProductionPlanEntity productionPlan = new ProductionPlanEntity("unconfirmed", generatedDate, targetPeriod, productionPlanQuantity, factoryProduct, "");
 
         em.persist(productionPlan);
         em.flush();
-        salesOperationPlan.setStatus("Confirmed");
+        salesOperationPlan.setStatus("confirmed");
         salesOperationPlan.setProductionPlan(productionPlan);
         em.persist(salesOperationPlan);
         em.flush();
@@ -300,7 +300,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
         SalesOperationPlanEntity salesOperationPlan = em.find(SalesOperationPlanEntity.class, salesOperationPlanId);
 
-        salesOperationPlan.setStatus("Cancelled");
+        salesOperationPlan.setStatus("cancelled");
 
         em.persist(salesOperationPlan);
         em.flush();
@@ -315,7 +315,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         Calendar targetPeriod = Calendar.getInstance();
         targetPeriod.add(Calendar.MONTH, 1);
         for (SalesOperationPlanEntity s : templist) {
-            if (s.getStatus().equals("Confirmed") && s.getFactoryProduct().getFactoryProductId().equals(factoryProductId) && s.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH) && (s.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR))) {
+            if (s.getStatus().equals("confirmed") && s.getFactoryProduct().getFactoryProductId().equals(factoryProductId) && s.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH) && (s.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR))) {
                 return true;
             }
         }

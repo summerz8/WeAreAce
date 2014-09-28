@@ -41,9 +41,9 @@ public class ViewSalesOperationPlan {
         salesOperationPlanList = salesOperationPlanLocal.ListSalesOperationPlan(productId, null, null);
 //        if(!salesOperationPlanList.isEmpty()){
         for (SalesOperationPlanEntity sop : salesOperationPlanList) {
-            if (sop.getStatus().equals("Unconfirmed")) {
+            if (sop.getStatus().equals("unconfirmed")) {
                 unconfirmedSalesOperationPlanList.add(sop);
-            } else if (sop.getStatus().equals("Confirmed")) {
+            } else if (sop.getStatus().equals("confirmed")) {
                 confirmedSalesOperationPlanList.add(sop);
             }
         }
