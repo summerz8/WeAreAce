@@ -15,6 +15,29 @@
 
     <h:body>
         <h:form id="formMain">
+<<<<<<< HEAD
+=======
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+>>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
 
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
@@ -58,6 +81,11 @@
                     </h:outputLabel>                     
                 </p:layoutUnit>
 
+<<<<<<< HEAD
+=======
+
+                               
+>>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>

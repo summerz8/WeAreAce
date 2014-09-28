@@ -70,8 +70,16 @@ public class GoodsReceiptEntity implements Serializable {
         return purchaseOrder;
     }
 
+<<<<<<< HEAD
     public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
 
+=======
+<<<<<<< HEAD
+    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
+=======
+    public void setPurchaseOder(PurchaseOrderEntity purchaseOrder) {
+>>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
+>>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
         this.purchaseOrder = purchaseOrder;
     }
 
