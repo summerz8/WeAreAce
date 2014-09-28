@@ -183,6 +183,12 @@ public class Test {
         fp7.setFactory(f2);fp8.setFactory(f2);fp9.setFactory(f2);fp10.setFactory(f2);fp11.setFactory(f2);fp12.setFactory(f2);
         fp13.setFactory(f3);fp14.setFactory(f3);fp15.setFactory(f3);fp16.setFactory(f3);fp17.setFactory(f3);fp18.setFactory(f3);fp19.setFactory(f3);fp20.setFactory(f3);
         
+        fp1.setDeleteFlag(false);fp2.setDeleteFlag(false);fp3.setDeleteFlag(false);fp4.setDeleteFlag(false);fp5.setDeleteFlag(false);
+        fp6.setDeleteFlag(false);fp7.setDeleteFlag(false);fp8.setDeleteFlag(false);fp9.setDeleteFlag(false);fp10.setDeleteFlag(false);
+        fp11.setDeleteFlag(false);fp12.setDeleteFlag(false);fp13.setDeleteFlag(false);fp14.setDeleteFlag(false);fp15.setDeleteFlag(false);
+        fp16.setDeleteFlag(false);fp17.setDeleteFlag(false);fp18.setDeleteFlag(false);fp19.setDeleteFlag(false);fp20.setDeleteFlag(false);
+        
+        
         fp1.setProduct(p1);fp2.setProduct(p2);
         fp3.setProduct(p3);fp4.setProduct(p4);
         fp5.setProduct(p5);fp6.setProduct(p6);
@@ -317,6 +323,8 @@ public class Test {
         frm1.setRawMaterial(rm1);frm2.setRawMaterial(rm2);frm3.setRawMaterial(rm3);frm4.setRawMaterial(rm4);frm5.setRawMaterial(rm5);
         frm6.setRawMaterial(rm1);frm7.setRawMaterial(rm2);frm8.setRawMaterial(rm3);frm9.setRawMaterial(rm4);frm10.setRawMaterial(rm5);
         frm11.setRawMaterial(rm1);frm12.setRawMaterial(rm2);frm13.setRawMaterial(rm3);frm14.setRawMaterial(rm4);frm15.setRawMaterial(rm5);
+        
+        
         
         em.persist(frm1);em.flush();em.persist(frm2);em.flush();em.persist(frm3);em.flush();em.persist(frm4);em.flush();em.persist(frm5);em.flush();
         em.persist(frm6);em.flush();em.persist(frm7);em.flush();em.persist(frm8);em.flush();em.persist(frm9);em.flush();em.persist(frm10);em.flush();

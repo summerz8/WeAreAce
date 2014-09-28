@@ -52,7 +52,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
-            
+            System.out.println("Session Bean view Raw Material With Select Type: " + factoryRawMaterialList.size());
             for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
                 if (!frm.getIsDeleted()) {
                     frmList.add(frm);
@@ -92,24 +92,29 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     public Collection<RawMaterialEntity> viewRawMaterialListNotInFactory(Long factoryId) throws Exception {//test works!!
         System.out.println("viewRawMaterialListNotInFactory():");
 
-        Collection<RawMaterialEntity> rmList = new ArrayList<>();
+        Integer flag = 0;
+        Collection<RawMaterialEntity> rmList = new ArrayList<> ();
+        FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
+        Collection<FactoryRawMaterialEntity> currentFactoryRawMaterialList = currentFactory.getFactoryRawMaterials();
         try {
             Query q = em.createQuery("Select rm from RawMaterialEntity RM");
             outerLoop:
             for (Object o : q.getResultList()) {
-                RawMaterialEntity rm = (RawMaterialEntity) o;
-                Collection<FactoryRawMaterialEntity> factoryRawMaterialList = rm.getFactoryRawMaterials();
-                //for the Raw material in each factory
-                for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
-                    //if find a factoryRawMaterial belongs to the user's factory
-                    if (frm.getFactory().getFactoryId() == factoryId && !frm.getIsDeleted()) {
-                        continue outerLoop;//break out the inner loop, continue outer loop  
-                    }
-                }
-                //if all the factory not equal to the user's facotry, add to the return list
-                rmList.add(rm);
+                RawMaterialEntity rawmaterial = (RawMaterialEntity) o;
+                  for(FactoryRawMaterialEntity frm: currentFactoryRawMaterialList){
+                      FactoryRawMaterialEntity frawmaterial = frm;
+                      if(frawmaterial.getRawMaterial().equals(rawmaterial) && (!frawmaterial.getIsDeleted())){
+                           flag = 1;
+                           break;
+                      }
+                  }
+                 if(flag == 0){
+                     rmList.add(rawmaterial);
+                 }
+                 flag = 0;
+               
             }
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
@@ -119,24 +124,29 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     @Override
     public Collection<RetailProductEntity> viewRetailProductListNotInFactory(Long factoryId) throws Exception {//test works!!
         System.out.println("viewRetailProductListNotInFactory():");
-        Collection<RetailProductEntity> rpList = new ArrayList<>();
+        Integer flag = 0;
+        Collection<RetailProductEntity> rpList = new ArrayList<> ();
+        FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
+        Collection<FactoryRetailProductEntity> currentFactoryRetailProductList = currentFactory.getFactoryRetailProducts();
         try {
-            Query q = em.createQuery("Select rp from RetailProductEntity RP");
+            Query q = em.createQuery("Select pd from RetailProductEntity PD");
             outerLoop:
             for (Object o : q.getResultList()) {
                 RetailProductEntity rp = (RetailProductEntity) o;
-                Collection<FactoryRetailProductEntity> factoryRetailProductList = rp.getFactoryRetailProducts();
-                //for the Retail Product in each factory
-                for (FactoryRetailProductEntity frp : factoryRetailProductList) {
-                    //if find a factoryRawMaterial belongs to the user's factory
-                    if (frp.getFactory().getFactoryId() == factoryId && !frp.getIsDeleted()) {
-                        continue outerLoop;//break out the inner loop, continue outer loop                        
-                    }
-                }
-                //if all the factory not equal to the user's facotry, add to the return list
-                rpList.add(rp);
+                  for(FactoryRetailProductEntity frp: currentFactoryRetailProductList){
+                      FactoryRetailProductEntity fRetailproduct = frp;
+                      if(fRetailproduct.getRetailProduct().equals(rp) && (!fRetailproduct.getIsDeleted())){
+                           flag = 1;
+                           break;
+                      }
+                  }
+                 if(flag == 0){
+                     rpList.add(rp);
+                 }
+                 flag = 0;
+               
             }
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
@@ -562,6 +572,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemFactoryId);
                 String rmName = factoryRawMaterial.getMaterialName();
+                
                 Collection<ContractEntity> contractList = factoryRawMaterial.getContracts();
 
                 Iterator iterator = contractList.iterator();
@@ -580,8 +591,19 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                         System.out.println(result);
                         return result;
                     }
+                   
                 }
-
+                if(factoryRawMaterial.getBlockedInventory() != 0){
+                    System.out.println("rm : getBlockedInventory");
+                   result = "You cannot delete this raw material because it still has inventory.";
+                   return result;
+                }
+                else if ( factoryRawMaterial.getUnrestrictedInventory() != 0 ){
+                     System.out.println("rm : getUnrestrictedInventory");
+                   result = "You cannot delete this raw material because it still has inventory.";
+                   return result;
+                }
+                
                 factoryRawMaterial.setIsDeleted(Boolean.TRUE);
                 result = "Raw Material " + rmName + " has been deleted.";
 
@@ -607,6 +629,22 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                         System.out.println(result);
                         return result;
                     }
+                }
+                
+                if(factoryRetailProduct.getBlockedInventory() != 0){
+                    System.out.println("RP : getBlockedInventory");
+                   result = "You cannot delete this raw material because it still has inventory.";
+                   return result;
+                }
+                else if ( factoryRetailProduct.getUnrestrictedInventory() != 0 ){
+                    System.out.println("RP : getUnrestrictedInventory");
+                   result = "You cannot delete this raw material because it still has inventory.";
+                   return result;
+                }
+                else if ( factoryRetailProduct.getReturnedInventory() != 0 ){
+                   System.out.println("RP : getReturnedInventory");
+                   result = "You cannot delete this raw material because it still has inventory.";
+                   return result;
                 }
 
                 factoryRetailProduct.setIsDeleted(Boolean.TRUE);

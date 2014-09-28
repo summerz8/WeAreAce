@@ -33,7 +33,7 @@ public class FactoryProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long factoryProductId;
     private Double unrestrictedInventory = 0D;
     private Double blockedInventory = 0D;
@@ -59,7 +59,7 @@ public class FactoryProductEntity implements Serializable {
 
     public FactoryProductEntity() {
     }
-
+    
     public Long getFactoryProductId() {
         return factoryProductId;
     }

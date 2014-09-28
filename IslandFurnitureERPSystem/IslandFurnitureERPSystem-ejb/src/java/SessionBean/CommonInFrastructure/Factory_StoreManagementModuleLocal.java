@@ -7,8 +7,11 @@
 package SessionBean.CommonInFrastructure;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.ProductEntity;
 import Entity.Store.StoreEntity;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -36,5 +39,13 @@ public interface Factory_StoreManagementModuleLocal {
     public void ModifyStore(long storeId, String country, String address, String contact, String manager);
 
     public List<StoreEntity> ListStore();
+
+    public Collection<ProductEntity> viewProductListNotInFactory(Long factoryId) throws Exception;
+
+    public Collection<FactoryProductEntity> listFactoryProduct(Long factoryId) throws Exception;
+
+    public Integer deleteFatoryProduct(Long factoryProductId);
+
+    public Integer addFactoryProduct(Long FactoryId, Long ProductId);
     
 }
