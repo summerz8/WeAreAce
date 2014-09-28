@@ -12,10 +12,14 @@
                 </library>
                 <library dirs="200">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <file>${libs.PrimesFaces_5.0.classpath}</file>
 =======
                     <file>${libs.PrimeFace_5.0.classpath}</file>
 >>>>>>> 696390f4488900849dbdba99ea460d2180dc7b2c
+=======
+                    <file>${libs.PrimeFace_5.0.classpath}</file>
+>>>>>>> 2e09a0cb5dac84bce67523d9dcbbff09b5845f72
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

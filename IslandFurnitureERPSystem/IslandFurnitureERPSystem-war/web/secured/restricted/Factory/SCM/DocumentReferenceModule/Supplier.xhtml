@@ -19,7 +19,7 @@
 
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
