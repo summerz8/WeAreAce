@@ -1007,27 +1007,15 @@ exists or setup the property manually. For example like this:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
-<<<<<<< HEAD
-=======
->>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-=======
-        <copyfiles files="${libs.PrimeFaces5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
->>>>>>> b2211914ec891aa7c73a96ca6230e0fd72d320a9
-<<<<<<< HEAD
->>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d
-=======
 >>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
 =======
-
-        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 >>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
 =======
-
-        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 >>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
@@ -1037,23 +1025,15 @@ exists or setup the property manually. For example like this:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 =======
-<<<<<<< HEAD
-=======
->>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-=======
-        <copyfiles files="${libs.PrimeFaces5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
->>>>>>> b2211914ec891aa7c73a96ca6230e0fd72d320a9
-<<<<<<< HEAD
->>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d
-=======
 >>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
 =======
+        <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 >>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
 =======
+        <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 >>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
