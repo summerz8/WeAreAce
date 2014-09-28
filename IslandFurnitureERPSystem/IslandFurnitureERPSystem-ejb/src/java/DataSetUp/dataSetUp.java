@@ -91,10 +91,10 @@ public class dataSetUp {
         em.flush();
 
         //Factory
-        FactoryEntity f1 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "Zhang Shiyu", false);
+        FactoryEntity f1 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
         em.persist(f1);
         em.flush();
-        FactoryEntity f2 = new FactoryEntity("United States", "4400 Shellmound St, Emeryville, CA", "+1888-888-4532", "Jeremy Bowen", false);
+        FactoryEntity f2 = new FactoryEntity("United States", "4400 Shellmound St, Emeryville, CA", "+1888-888-4532", "F1000002", false);
         em.persist(f2);
         em.flush();
 
@@ -152,10 +152,10 @@ public class dataSetUp {
         em.flush();
 
         //Store
-        StoreEntity s1 = new StoreEntity("60 Anson Road, #14-01 Mapletree Anson, Singapore 079914", "Singapore", "+65 6889 1000", "Mark Reckless", false);
+        StoreEntity s1 = new StoreEntity("60 Anson Road, #14-01 Mapletree Anson, Singapore 079914", "Singapore", "+65 6889 1000", "", false);
         em.persist(s1);
         em.flush();
-        StoreEntity s2 = new StoreEntity("1 Raffles Link, 07-01 South Lobby, Singapore 039393", "Singapore", "+65 6889 1000", "Brooks Newmark", false);
+        StoreEntity s2 = new StoreEntity("1 Raffles Link, 07-01 South Lobby, Singapore 039393", "Singapore", "+65 6889 1000", "", false);
         em.persist(s2);
         em.flush();
 
