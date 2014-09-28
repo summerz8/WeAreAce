@@ -14,7 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -23,7 +23,7 @@ import javax.faces.event.ActionEvent;
  * @author Yoky
  */
 @ManagedBean(name = "factoryInventoryManagementBean")
-@SessionScoped
+@RequestScoped
 public class FactoryInventoryManagementBean implements Serializable {
 
     @EJB
@@ -513,10 +513,7 @@ public class FactoryInventoryManagementBean implements Serializable {
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
         fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
     }
-    
-    public long findFactoryIdByUserId(String userId) {
-        return fim.findFactoryIdByUserId(userId);
-    }
+
     public void recordReturnedItemInboundMovement(ActionEvent event) {
        Long temp;
         if (itemTypeIndicator == 2) {
@@ -605,7 +602,7 @@ public class FactoryInventoryManagementBean implements Serializable {
 
 
     public int recordRurrentInventoryLevel(ActionEvent event) {
-        return fim.recordRurrentInventoryLevel(factoryId);
+        return fim.recordCurrentInventoryLevel(factoryId);
     }
 
 }
