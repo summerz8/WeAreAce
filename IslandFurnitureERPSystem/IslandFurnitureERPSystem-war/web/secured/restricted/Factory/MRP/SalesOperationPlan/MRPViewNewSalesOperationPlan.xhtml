@@ -15,6 +15,24 @@
 
     <h:body>
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -48,8 +66,7 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>
-
+                
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
@@ -72,10 +89,6 @@
                             <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan" >
                             </p:commandButton>
 
-                            <p:button  value="Edit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" >
-                            </p:button>
-
-
                             <br></br>
                             <br></br>
                             <p:panel id="basic" header="Create New Operation Plan For Product" style="margin-bottom" >
@@ -86,7 +99,7 @@
 
                                     <p:outputLabel for="TargetMonth" value="Target Month" />
                                     <h:outputText id="TargetMonth" value="#{checkNewSalesOperationPlanBean.targetPeriod.getTime()}"  > 
-                                        <f:convertDateTime pattern="MM/yyyy"/>  
+                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
                                     </h:outputText>                                                                    
 
                                     <p:outputLabel for="SalesForecast" value="Sales Forcast" />

@@ -33,8 +33,9 @@ public class ViewNewSalesOperationPlanBean implements Serializable {
     
     @PostConstruct
     public void viewNewSalesOperationPlan() {
-        
-        Long salesOperationPlanId=(Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesOperationpPlanId");
+        System.out.println("44444444");
+        Long salesOperationPlanId=(Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesOperationPlanId");
+        System.out.println("5555555");
         salesOperationPlan=salesOperationPlanLocal.getSalesOperationPlan(salesOperationPlanId);
 //        
 //        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("salesOperationpPlanId");
@@ -48,5 +49,8 @@ public class ViewNewSalesOperationPlanBean implements Serializable {
         this.salesOperationPlan = salesOperationPlan;
     }
 
-    
+    public String Back(){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("salesOperationPlanId");
+        return "MRPSalesOperationPlan?faces-redirect=true";
+    }
 }

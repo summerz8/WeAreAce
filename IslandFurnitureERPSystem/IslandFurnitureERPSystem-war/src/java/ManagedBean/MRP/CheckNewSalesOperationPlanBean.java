@@ -32,7 +32,7 @@ public class CheckNewSalesOperationPlanBean {
     SalesOperationPlanEntity salesOperationPlan;
     Integer workingDays;
     Double plannedEndInventory;
-    Double productionPlanQuantit;
+    Double productionPlanQuantity;
     Long productId;
     Long integratedSalesForecastId;
     Calendar targetPeriod;
@@ -45,7 +45,7 @@ public class CheckNewSalesOperationPlanBean {
     public void Check() {
         workingDays = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("WorkingDay");
         plannedEndInventory = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("PlannedOrderInventory");
-        productionPlanQuantit = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ProductionPlanQuantity");
+        productionPlanQuantity = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ProductionPlanQuantity");
         productId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ProductId");
         integratedSalesForecastId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("IntegratedSalesForecastId");
         targetPeriod = (Calendar) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("TargetPeriod");
@@ -55,8 +55,8 @@ public class CheckNewSalesOperationPlanBean {
 
     public String Confirm() {
 
-        salesOperationPlan = salesOperationPlanLocal.GenerateSalesOperationPlan(productId, targetPeriod, integratedSalesForecastId, productionPlanQuantit, plannedEndInventory, workingDays);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesOperationpPlanId", salesOperationPlan.getId());
+        salesOperationPlan = salesOperationPlanLocal.GenerateSalesOperationPlan(productId, targetPeriod, integratedSalesForecastId, plannedEndInventory, workingDays,productionPlanQuantity);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesOperationPlanId", salesOperationPlan.getId());
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("WorkingDay");        
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("PlannedOrderInventory");        
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("ProductionPlanQuantity");        
@@ -66,7 +66,7 @@ public class CheckNewSalesOperationPlanBean {
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("SalesForecast");
  
         
-        return "MRPNewSalesOperationPlanConfirmed";
+        return "MRPNewSalesOperationPlanConfirmed?faces-redirect=true";
     }
 
     public Integer getWorkingDays() {
@@ -86,11 +86,11 @@ public class CheckNewSalesOperationPlanBean {
     }
 
     public Double getProductionPlanQuantit() {
-        return productionPlanQuantit;
+        return productionPlanQuantity;
     }
 
     public void setProductionPlanQuantit(Double productionPlanQuantit) {
-        this.productionPlanQuantit = productionPlanQuantit;
+        this.productionPlanQuantity = productionPlanQuantit;
     }
 
     public Long getProductId() {

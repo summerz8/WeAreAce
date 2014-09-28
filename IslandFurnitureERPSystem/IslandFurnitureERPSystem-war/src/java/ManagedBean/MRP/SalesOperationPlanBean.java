@@ -24,7 +24,7 @@ import javax.inject.Named;
  * @author apple
  */
 @Named(value = "salesOperationPlanBean")
-@RequestScoped
+@ViewScoped
 public class SalesOperationPlanBean {
 
     /**
@@ -52,17 +52,20 @@ public class SalesOperationPlanBean {
 
     public String findSalesOperationPlanList(Long id) {
         productId = id;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesproductId", productId);
         salesOperationPlanList = salesOperationPlanLocal.ListSalesOperationPlan(id, null, null);
         if (salesOperationPlanList.isEmpty()) {
             System.out.println("4");
         }
-        return "MRPViewSalesOperationPlan";
+        return "MRPViewSalesOperationPlan?faces-redirect=true";
     }
     
     public String GETProductId(){
     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", productId);
-    
-    return "MRPNewSalesOperationPlan";
+    boolean bo=salesOperationPlanLocal.IsThereForecast(productId);
+    if(bo==false)return "MRPSalesForecastNotExist?faces-redirect=true";
+    else
+    return "MRPNewSalesOperationPlan?faces-redirect=true"; 
     }
     
     public SalesOperationPlanLocal getSalesOperationPlanLocal() {

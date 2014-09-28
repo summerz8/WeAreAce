@@ -24,16 +24,15 @@ public interface SalesOperationPlanLocal {
     public SalesOperationPlanEntity GenerateSalesOperationPlan(Long factoryProductId,
             Calendar targetPeriod,
             Long integratedSalesForecastId,
-            Double productionPlanQuantity,
             Double plannedEndMonthInventory,
-            Integer workingDays);
+            Integer workingDays,
+            Double ProductionPlanQuantity
+                                );
 
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
-            FactoryProductEntity factoryProduct,
-            ProductionPlanEntity productionPlan,
+            Double productionPlanQuantity,
             Calendar targetPeriod,
-            IntegratedSalesForecastEntity integratedSalesForecast,
             Double plannedEndMonthInventory,
             Integer workingDay);
 
@@ -46,4 +45,12 @@ public interface SalesOperationPlanLocal {
     public SalesOperationPlanEntity createSalesOperationPlan(Long targetProductId);
     
     public SalesOperationPlanEntity getSalesOperationPlan(Long salesOperationPlanId);
+    
+    public SalesOperationPlanEntity confirmSalesOperationPlan(Long salesOperationPlan);
+        
+    public SalesOperationPlanEntity cancelSalesOperationPlan(Long salesOperationPlan);
+    
+    public boolean IsThereSalesOperation(Long factoryProductId);
+    
+    public boolean IsThereForecast(Long factoryProductId);
 }

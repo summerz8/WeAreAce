@@ -49,7 +49,7 @@ public class IntegratedSalesForecastEntity implements Serializable {
     //factory  entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
     private FactoryEntity factory;
-       
+
     //sales forecast list -- integrated sales forcast   M <-- M
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="INTEGRATEDSALESFORECAST_SALESFORECAST")
@@ -125,7 +125,6 @@ public class IntegratedSalesForecastEntity implements Serializable {
     public void setSalesOperationPlan(SalesOperationPlanEntity salesOperationPlan) {
         this.salesOperationPlan = salesOperationPlan;
     }
-
     
     @Override
     public int hashCode() {
