@@ -18,7 +18,7 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -133,8 +133,8 @@
 
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRM.unit}" />
-
-                                    <p:commandButton update="growl" action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" update="messages" value="Confirm"/>
+                                    
+                                    <p:commandButton action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" update="messages" value="Confirm"/>
 
                                 </p:panelGrid>
                             </p:outputPanel>
@@ -196,7 +196,8 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRP.unit}" />
 
-                                    <p:commandButton update="growl" action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" update="messages" value="Confrim"/>
+                                    <p:commandButton action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" update="messages" value="Confrim"/>
+
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>

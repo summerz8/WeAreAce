@@ -18,7 +18,7 @@
         <h:form id="globalNavigation">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-            <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
             <p:confirmDialog id="confirmDialog"
                              message="You have been idle for at least 10 seconds, 
@@ -90,13 +90,19 @@
                     <p:panel id="basic" header="Purchase Order" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="purchaseOrder" value="#{documentReferenceBean.allPurchaseOrders}">
+                    <p:dataTable var="purchaseOrder" value="#{documentReferenceBean.purchaseOrders}">
+
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{purchaseOrder.factory.factoryId}" />
+                        </p:column>
+
                         <p:column headerText="Purchase Order ID">
                             #{purchaseOrder.id}
                         </p:column>
 
-                        <p:column headerText="Status">
-                            #{purchaseOrder.status}
+                        <p:column headerText="Item Name">
+                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.materialName}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.name}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount}" />
                         </p:column>
 
                         <p:column headerText="Total Amount">
@@ -107,12 +113,8 @@
                             #{purchaseOrder.unit}
                         </p:column>
 
-                        <p:column headerText="Create Date">
-                            #{purchaseOrder.createDate.time}
-                        </p:column>
-
-                        <p:column headerText="Destination">
-                            #{purchaseOrder.destination}
+                        <p:column headerText="Status">
+                            #{purchaseOrder.status}
                         </p:column>
 
                         <p:column headerText="Lead Time (Day)">
@@ -123,16 +125,24 @@
                             #{purchaseOrder.totalPrice}
                         </p:column>
 
-                        <p:column headerText="Factory">
-                            #{purchaseOrder.factory.factoryId}
+                        <p:column headerText="Create Date">
+                            #{purchaseOrder.createDate.time}
+                        </p:column>
+
+                        <p:column headerText="Destination">
+                            #{purchaseOrder.destination}
+                        </p:column>
+
+                        <p:column headerText="Integrated Planned Order">
+                            #{purchaseOrder.integratedPlannedOrder.id}
                         </p:column>
 
                         <p:column headerText="Goods Receipt">
                             #{purchaseOrder.goodsReceipt.goodsReceiptId}
                         </p:column>
 
-                        <p:column headerText="Integrated Planned Order">
-                            #{purchaseOrder.integratedPlannedOrder.id}
+                        <p:column headerText="Contract">
+                            #{purchaseOrder.contract.contractId}
                         </p:column>
 
                         <p:column headerText="Delivery Orders">

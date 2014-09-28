@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package SessionBean.CommonInFrastructure;
 
 import Entity.Factory.BOMEntity;
@@ -16,8 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface EnterpriseInventoryManagementModule_BOMLocal {
-  
-    
+
     public Integer addANewBOM(Long productId, Long rawMaterialId, Double quantity) throws Exception;
 
     public void updateANewBom(Long bomId, Double quantity) throws Exception;
@@ -25,9 +23,4 @@ public interface EnterpriseInventoryManagementModule_BOMLocal {
     public void deleteANewBom(Long bomId) throws Exception;
 
     public List<BOMEntity> getAllBOM(Long productId);
-     
-     
-    
-    
-    
 }

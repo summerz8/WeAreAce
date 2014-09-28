@@ -5,7 +5,6 @@
  */
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
-import Entity.CommonInfrastructure.InternalMessageReceive;
 import Entity.Factory.BOMEntity;
 import Entity.Factory.ProductEntity;
 import SessionBean.CommonInFrastructure.EnterpriseInventoryManagementModule_BOMLocal;
@@ -29,6 +28,7 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class ProductBOMControl {
 
+
     /**
      * Creates a new instance of ProductBOMControl
      */
@@ -42,8 +42,10 @@ public class ProductBOMControl {
     private Double newAmount;
     private String message;
 
+
     @EJB
     EnterpriseInventoryManagementModule_BOMLocal EMBOM;
+
 
     @PostConstruct
     public void init() {
@@ -51,6 +53,7 @@ public class ProductBOMControl {
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("selectedProduct");
         System.out.println("ProductBOMControlBean: init(): " + selectedProduct.getName());
         productBOMList = EMBOM.getAllBOM(selectedProduct.getProductId());
+
         filteredBOMList = productBOMList;
     }
 

@@ -18,7 +18,7 @@
         <h:form id="globalNavigation">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -90,13 +90,20 @@
                     <p:panel id="basic" header="Returned Stock" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="rs" value="#{documentReferenceBean.allReturnedStocks}">
-                        <p:column headerText="Factory Bin Stored Product Id">
-                            #{rs.factoryBinStoredProductId}
+                    <p:dataTable var="rs" value="#{documentReferenceBean.returnedStocks}">
+                        
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{rs.factoryBin.factory.factoryId}" />
                         </p:column>
-
-                        <p:column headerText="Factory Bin">
-                            #{rs.factoryBin.factoryBinId}
+                        
+                        <p:column headerText="Stock Name">
+                            <h:outputText value="#{rs.factoryProduct.product.name}" rendered="#{rs.stockTypeIndicator == 2}" />
+                            <h:outputText value="#{rs.factoryRetailProduct.retailProduct.name}" rendered="#{rs.stockTypeIndicator == 3}" />
+                        </p:column>
+                        
+                        <p:column headerText="Stock Type">
+                            <h:outputText value="Factory Product" rendered="#{rs.stockTypeIndicator == 2}" />
+                            <h:outputText value="Factory Retail Product" rendered="#{rs.stockTypeIndicator == 3}" />
                         </p:column>
 
                         <p:column headerText="Amount">
@@ -106,16 +113,10 @@
                         <p:column headerText="Status">
                             #{rs.status}
                         </p:column>
-
-                        <p:column headerText="Stock Type">
-                            <h:outputText value="Factory Product" rendered="#{rs.stockTypeIndicator == 2}" />
-                            <h:outputText value="Factory Retail Product" rendered="#{rs.stockTypeIndicator == 3}" />
-                        </p:column>
-
-                        <p:column headerText="Stock Name">
-                            <h:outputText value="#{rs.factoryProduct.product.name}" rendered="#{rs.stockTypeIndicator == 2}" />
-                            <h:outputText value="#{rs.factoryRetailProduct.retailProduct.name}" rendered="#{rs.stockTypeIndicator == 3}" />
-                        </p:column>
+                        
+                        <p:column headerText="Factory Bin">
+                            #{rs.factoryBin.factoryBinId}
+                        </p:column>       
 
                     </p:dataTable>
 

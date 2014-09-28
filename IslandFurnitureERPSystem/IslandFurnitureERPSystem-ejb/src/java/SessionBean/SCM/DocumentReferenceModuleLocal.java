@@ -22,32 +22,48 @@ import javax.ejb.Local;
 @Local
 public interface DocumentReferenceModuleLocal {
 
-    PlannedOrderEntity viewPlannedOrder(Long id);
+    public PlannedOrderEntity viewPlannedOrder(Long id);
 
-    ProductionPlanEntity viewProductionPlan(Long id);
+    public ProductionPlanEntity viewProductionPlan(Long id);
 
-    List viewAllBlockedStock();
+    public List viewAllBlockedStock();
 
-    List viewAllReturnedProduct();
+    public List viewAllReturnedProduct();
 
-    PurchaseOrderEntity viewPurchaseOrder(Long id);
+    public PurchaseOrderEntity viewPurchaseOrder(Long id);
 
-    GoodsReceiptEntity viewGoodsReceipt(Long id);
+    public GoodsReceiptEntity viewGoodsReceipt(Long id);
 
-    ContractEntity viewContract(Long id);
+    public ContractEntity viewContract(Long id);
 
-    SupplierEntity viewSupplier(Long id);
+    public SupplierEntity viewSupplier(Long id);
 
-    List viewAllProductionPlans();
+    public List viewAllProductionPlans();
 
-    List viewAllPlannedOrders();
+    public List viewAllPlannedOrders();
 
-    List viewAllPurchaseOrders();
+    public List viewAllPurchaseOrders();
 
-    List viewAllGoodsReceipts();
+    public List viewAllGoodsReceipts();
 
-    List viewAllContracts();
+    public List viewAllContracts();
 
-    List viewAllSuppliers();
+    public List viewAllSuppliers();
+
+    public List viewProductionPlansByFactory(long factoryId);
+
+    public List viewPlannedOrdersByFactory(long factoryId);
+
+    public List viewBlockedStockByFactory(long factoryId);
+
+    public List viewReturnedProductByFactory(long factoryId);
+
+    public List viewPurchaseOrdersByFactory(long factoryId);
+
+    public List viewGoodsReceiptsByFactory(long factoryId);
+
+    public List viewContractsByFactory(long factoryId);
+
+    public List viewSupplierByFactory(long factoryId);
 
 }

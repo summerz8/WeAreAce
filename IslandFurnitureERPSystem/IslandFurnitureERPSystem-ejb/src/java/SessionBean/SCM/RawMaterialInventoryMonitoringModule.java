@@ -28,8 +28,9 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;
 
+    
     @Override
-    public List ViewWeeklyRawMaterialInventoryInFlow(long factoryId) {
+    public List viewWeeklyRawMaterialInventoryInFlow(long factoryId) {
         try {
             Calendar currentDate = new GregorianCalendar();
             List weeklyRawMaterialInventoryInFlow = new ArrayList();
@@ -54,7 +55,7 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
     }
 
     @Override
-    public List ViewWeeklyRawMaterialInventoryOutFlow(long factoryId) {
+    public List viewWeeklyRawMaterialInventoryOutFlow(long factoryId) {
         try {
             Calendar currentDate = new GregorianCalendar();
             List weeklyRawMaterialInventoryOutFlow = new ArrayList();
@@ -77,21 +78,51 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
         }
     }
 
-    //return factoryId
-    //       -1L if the userId is not a factory userId
-    //       -2 if unexpected error occurred
+    
     @Override
-    public long findFactoryIdByUserId(String userId) {
+    public List viewAllWeeklyRawMaterialInventoryInFlow() {
         try {
-            FactoryUserEntity factoryUser = em.find(FactoryUserEntity.class, userId);
-            if (factoryUser == null) {
-                return 0L;
+            Calendar currentDate = new GregorianCalendar();
+            List weeklyRawMaterialInventoryInFlow = new ArrayList();
+
+            Query q = em.createQuery("SELECT i from InboundMovementEntity i");
+            for (Object o : q.getResultList()) {
+                InboundMovementEntity inboundMovement = (InboundMovementEntity) o;
+                if (inboundMovement.getFactoryRawMaterial() != null) {
+                    if (inboundMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)
+                            && inboundMovement.getCreationDate().get(java.util.Calendar.YEAR) == currentDate.get(java.util.Calendar.YEAR)) {
+                        weeklyRawMaterialInventoryInFlow.add(inboundMovement);
+                    }
+                }
             }
-            return factoryUser.getDepartmentId();
+            return weeklyRawMaterialInventoryInFlow;
         } catch (Exception ex) {
-            System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: findFactoryIdByUserId(): Caught an unexpected exception.");
+            System.err.println("SessionBean.SCM.RawMaterialInventoryMonitoringModule: recordInboundMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-            return -2L;
+            return null;
+        }
+    }
+
+    @Override
+    public List viewAllWeeklyRawMaterialInventoryOutFlow() {
+        try {
+            Calendar currentDate = new GregorianCalendar();
+            List weeklyRawMaterialInventoryOutFlow = new ArrayList();
+
+            Query q = em.createQuery("SELECT r from RawMaterialInFactoryUseMovementEntity r");
+
+            for (Object o : q.getResultList()) {
+                RawMaterialInFactoryUseMovementEntity rawMaterialInFactoryUseMovement = (RawMaterialInFactoryUseMovementEntity) o;
+                if (rawMaterialInFactoryUseMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)
+                        && rawMaterialInFactoryUseMovement.getCreationDate().get(java.util.Calendar.YEAR) == currentDate.get(java.util.Calendar.YEAR)) {
+                    weeklyRawMaterialInventoryOutFlow.add(rawMaterialInFactoryUseMovement);
+                }
+            }
+            return weeklyRawMaterialInventoryOutFlow;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.RawMaterialInventoryMonitoringModule: recordInboundMovement(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
         }
     }
 }

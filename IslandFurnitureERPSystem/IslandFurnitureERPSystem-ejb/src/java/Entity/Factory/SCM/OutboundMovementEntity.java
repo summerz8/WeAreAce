@@ -57,6 +57,13 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     public OutboundMovementEntity() {
     }
 
+    public OutboundMovementEntity(FactoryBinEntity fromBin, StoreEntity toStore, double quantity, Calendar creationDate) {
+        this.fromBin = fromBin;
+        this.toStore = toStore;
+        this.quantity = quantity;
+        this.creationDate = creationDate;
+    }
+
     public Long getOutboundMovementId() {
         return OutboundMovementId;
     }
@@ -87,6 +94,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
 
     public void setFactoryProduct(FactoryProductEntity factoryProduct) {
         this.factoryProduct = factoryProduct;
+        this.stockTypeIndicator = 2;
     }
 
     public FactoryRetailProductEntity getFactoryRetailProduct() {
@@ -95,6 +103,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
 
     public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
         this.factoryRetailProduct = factoryRetailProduct;
+        this.stockTypeIndicator = 3;
     }
 
     public int getStockTypeIndicator() {

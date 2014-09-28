@@ -19,7 +19,7 @@
 
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-            <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
             <p:confirmDialog id="confirmDialog"
                              message="You have been idle for at least 10 seconds, 
@@ -86,13 +86,18 @@
 
                     <p:dataTable var="o" value="#{rawMaterialInventoryMonitoringBean.weeklyRawMaterialInventoryOutFlow}">
 
-                        <p:column headerText="Raw Material In-Factory Usee Movement ID">
+                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
+                            <h:outputText value="#{o.factoryRawMaterial.factory.factoryId}" />
+                        </p:column>
+
+                        <p:column headerText="ID">
                             #{o.rawMaterialInFactoryUseMovementId}
                         </p:column>
 
                         <p:column headerText="Material Name">
                             #{o.factoryRawMaterial.rawMaterial.materialName}
                         </p:column>
+
 
                         <p:column headerText="Factory Raw Material ID">
                             #{o.factoryRawMaterial.factoryRawMaterialId}
@@ -104,6 +109,11 @@
 
                         <p:column headerText="Quantity">
                             #{o.quantity}
+                        </p:column>
+
+
+                        <p:column headerText="Unit">
+                            #{o.factoryRawMaterial.unit}
                         </p:column>
 
                         <p:column headerText="Date">
