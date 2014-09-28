@@ -116,7 +116,7 @@
                                     <h:outputText value="Status" />
                                     <h:outputText value="#{selectedDeliveryOrder.selectedDO.status}" />
 
-                                    <p:commandButton action="#{displayDeliveryOrdersForSelectedPO.fulfillDO(selectedDO)}" value="Comfirm" />
+                                    <p:commandButton action="#{displayDeliveryOrdersForSelectedPO.fulfillDO(selectedDO)}" value="Comfirm" update="messages" />
 
                                 </p:panelGrid>
                             </p:outputPanel>

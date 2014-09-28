@@ -110,7 +110,7 @@
                                 <p:inputText value="#{editSupplier.selectedSupplier.remark}" required="true" label="text" />
                             </p:inplace>
 
-                            <p:commandButton action="#{editSupplier.save()}" value="Submit"></p:commandButton>
+                            <p:commandButton action="#{editSupplier.save()}" value="Submit" update="messages"></p:commandButton>
                         </h:panelGrid>
                     </p:panel>
                 </p:layoutUnit>

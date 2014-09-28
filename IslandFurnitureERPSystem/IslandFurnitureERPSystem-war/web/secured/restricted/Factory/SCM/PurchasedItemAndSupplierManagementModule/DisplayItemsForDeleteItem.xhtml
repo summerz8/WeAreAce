@@ -77,8 +77,6 @@
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="true">
-                    <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
-
                     <p:panel id="basic" header="Choose A Raw Material or A Retail Product From the List " style="margin-bottom" >
                         <h3 style="margin-top: 0">Items Available for Purchase</h3>
                         <p:dataTable var="frm" value="#{deleteItem.frmList}" >
@@ -136,7 +134,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRM.unit}" />
 
-                                    <p:commandButton update="growl" action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" value="Confirm"/>
+                                    <p:commandButton update="growl" action="#{deleteItem.delete('RawMaterial', selectedFactoryItem.selectedFRM.factoryRawMaterialId)}" update="messages" value="Confirm"/>
 
                                 </p:panelGrid>
                             </p:outputPanel>
@@ -198,7 +196,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{selectedFactoryItem.selectedFRP.unit}" />
 
-                                    <p:commandButton update="growl" action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" value="Confrim"/>
+                                    <p:commandButton update="growl" action="#{deleteItem.delete('RetailProduct', selectedFactoryItem.selectedFRP.factoryRetailProdctId)}" update="messages" value="Confrim"/>
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.SCM.PurchaseOrderManagementModule;
 
 import Entity.Factory.SCM.PurchaseOrderEntity;
@@ -91,7 +90,7 @@ public class GetManuallyGeneratedPO {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("po");
-        return "/secured/public/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
     }
 
 }
