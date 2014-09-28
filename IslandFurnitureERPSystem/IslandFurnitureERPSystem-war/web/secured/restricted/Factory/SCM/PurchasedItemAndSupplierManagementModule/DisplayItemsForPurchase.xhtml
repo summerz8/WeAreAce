@@ -34,6 +34,7 @@
                                  actionListener="#{idleBean.logoutListener}" />
 
             </p:confirmDialog>
+
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -41,13 +42,20 @@
                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                    </p:commandButton>
 
-                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>
+                        </p:commandButton>
 
-                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>  
+
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        </p:button>
 
                     <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                     </p:button> 
@@ -61,8 +69,6 @@
 
                     </h:outputLabel>                     
                 </p:layoutUnit>
-
-
 
 
                 <p:layoutUnit position="west" size="1000px">
