@@ -731,8 +731,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
+
+ 
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
+
 
             em.persist(returnedFactoryRetailProductInboundMovement);
             em.flush();
@@ -812,8 +815,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-            return -3L;
 
+            return -3L;
         }
 
     }

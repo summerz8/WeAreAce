@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
 import javax.faces.event.ActionEvent;
 
 /**
@@ -221,8 +222,6 @@ public class FactoryInventoryManagementBean implements Serializable {
         return fim.listStorageBinInformation(factoryId);
     }
 
-
-
     public void recordInboundMovement(ActionEvent event) {
         Long temp = fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
@@ -384,13 +383,13 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurredy"));
-            }  else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
-            
+
         } else if (itemTypeIndicator == 2) {
             temp = fim.recordInFactoryProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
             if (temp == -1L) {
@@ -423,7 +422,7 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurred "));
-            }  else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
@@ -461,7 +460,7 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurred "));
-            }  else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
@@ -473,6 +472,7 @@ public class FactoryInventoryManagementBean implements Serializable {
     public void recordRawMaterialInFactoryUseMovement(ActionEvent event) {
         Long temp = fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
         if (temp == -1L) {
+
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
@@ -513,15 +513,15 @@ public class FactoryInventoryManagementBean implements Serializable {
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
         fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
     }
-    
+
     public long findFactoryIdByUserId(String userId) {
         return fim.findFactoryIdByUserId(userId);
     }
     public void recordReturnedItemInboundMovement(ActionEvent event) {
-       Long temp;
+        Long temp;
         if (itemTypeIndicator == 2) {
             temp = fim.recordReturnedProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
-             if (temp == -1L) {
+            if (temp == -1L) {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
@@ -581,28 +581,28 @@ public class FactoryInventoryManagementBean implements Serializable {
     public void recordProductToBinMovement(ActionEvent event) {
         Long temp = fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
-                                "factoryProductId is invalid"));
-            } else if (temp == -2L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
-                                "toBinId is invalid"));
-            } else if (temp == -3L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
-                                "unexpected exception occurred"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
-                                ""));
-            }
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "factoryProductId is invalid"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "toBinId is invalid"));
+        } else if (temp == -3L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "unexpected exception occurred"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                            ""));
+        }
     }
- 
+
 //    public long findFactoryIdByUserId(String userId) {
 //        long temp = fim.findFactoryIdByUserId(userId);
 //        if (temp == -1L) {
@@ -623,7 +623,6 @@ public class FactoryInventoryManagementBean implements Serializable {
 //            }
 //        return temp;
 //    }
-
 
     public int recordRurrentInventoryLevel(ActionEvent event) {
         return fim.recordRurrentInventoryLevel(factoryId);
