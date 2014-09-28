@@ -68,7 +68,7 @@ public class dataSetUp {
 
         //idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000001L);
+        id.setId_F(1000002L);
         id.setId_H(1000001L);
         id.setId_S(1000000L);
         em.persist(id);
