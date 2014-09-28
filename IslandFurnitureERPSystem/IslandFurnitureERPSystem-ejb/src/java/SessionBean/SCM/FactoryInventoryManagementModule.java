@@ -11,6 +11,7 @@ import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.SCM.GoodsReceiptEntity;
 import Entity.Factory.SCM.InFactoryMovementEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
@@ -20,6 +21,7 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.ReturnedItemInboundMovementEntity;
 import Entity.Store.StoreEntity;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -80,6 +82,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             }
 
             InboundMovementEntity inboundMovement = new InboundMovementEntity();
+            em.persist(inboundMovement);
             if (goodsReceipt.getPurchaseOrder().getContract().getFactoryRetailProduct() == null) {
                 if (goodsReceipt.getPurchaseOrder().getContract().getFactoryRawMaterial().getFactory().getFactoryId() != factoryId) {
                     System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInboundMovement():Faild. The Factory " + factoryId + " has no access to Goods Receipt " + goodsReceiptId + ".");
@@ -97,6 +100,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct = new FactoryBinStoredProductEntity();
                     factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRawMaterial, toBin, status);
                     em.persist(factoryBinStoredProduct);
+                    factoryRawMaterial.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 } else {
                     factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
                 }
@@ -121,6 +125,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct = new FactoryBinStoredProductEntity();
                     factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, status);
                     em.persist(factoryBinStoredProduct);
+                    factoryRetailProduct.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 } else {
                     factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
                 }
@@ -194,6 +199,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             }
 
             OutboundMovementEntity factoryProductOutboundMovement = new OutboundMovementEntity();
+            em.persist(factoryProductOutboundMovement);
             factoryProductOutboundMovement.recordFactoryProductOutboundMovement(factoryBinStoredProduct, toStore, quantity, creationDate);
             em.persist(factoryProductOutboundMovement);
             if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
@@ -338,6 +344,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
                 factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRawMaterial(), toBin, factoryFromBinStoredProduct.getStatus());
                 em.persist(factoryToBinStoredProduct);
+                factoryFromBinStoredProduct.getFactoryRawMaterial().getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
             } else {
                 factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q5.getSingleResult();
             }
@@ -417,6 +424,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
                 factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryProduct(), toBin, factoryFromBinStoredProduct.getStatus());
                 em.persist(factoryToBinStoredProduct);
+                factoryFromBinStoredProduct.getFactoryProduct().getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
             } else {
                 factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q5.getSingleResult();
             }
@@ -668,6 +676,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
 
             ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
+
             em.persist(returnedFactoryProductInboundMovement);
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedProductInboundMovement(): Successful.");
@@ -723,7 +732,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
 
-
+ 
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
 
@@ -810,6 +819,48 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             return -3L;
         }
 
+    }
+
+    //return 0 if successful
+    //       -1 if error occurred        
+    @Override
+    public int recordRurrentInventoryLevel(long factoryId) {
+        try {
+            Query q1 = em.createQuery("SELECT frm FROM FactoryRawMaterialEntity frm WHERE frm.factory.factoryId = :factoryId");
+            q1.setParameter("factoryId", factoryId);
+            for (Object o : q1.getResultList()) {
+                FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) o;
+                InventoryRecordEntity frmIr = new InventoryRecordEntity(frm, new GregorianCalendar(), frm.getUnrestrictedInventory());
+                em.persist(frmIr);
+                frm.getInventoryRecord().add(frmIr);
+                em.flush();
+            }
+            
+            Query q2 = em.createQuery("SELECT fp FROM FactoryProductEntity fp WHERE fp.factory.factoryId = :factoryId");
+            q2.setParameter("factoryId", factoryId);
+            for (Object o : q2.getResultList()) {
+                FactoryProductEntity fp = (FactoryProductEntity) o;
+                InventoryRecordEntity fpIr = new InventoryRecordEntity(fp, new GregorianCalendar(), fp.getUnrestrictedInventory());
+                em.persist(fpIr);
+                fp.getRecord().add(fpIr);
+                em.flush();
+            }
+            
+            Query q3 = em.createQuery("SELECT frp FROM FactoryRetailProductEntity frp WHERE frp.factory.factoryId = :factoryId");
+            q3.setParameter("factoryId", factoryId);
+            for (Object o : q3.getResultList()) {
+                FactoryRetailProductEntity frp = (FactoryRetailProductEntity) o;
+                InventoryRecordEntity frpIr = new InventoryRecordEntity(frp, new GregorianCalendar(), frp.getUnrestrictedInventory());
+                em.persist(frpIr);
+                frp.getInventoryRecords().add(frpIr);
+                em.flush();
+            }
+            return 0;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1;
+        }
     }
 
 }

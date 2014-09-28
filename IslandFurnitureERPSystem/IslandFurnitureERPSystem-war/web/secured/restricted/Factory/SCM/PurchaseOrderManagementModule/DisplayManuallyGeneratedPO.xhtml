@@ -111,7 +111,7 @@
                             <h:outputText  id="destination" value="#{displayManuallyGeneratedPO.destinationAddress}" style="font-weight:bold" />
 
 
-                            <p:commandButton action="#{displayManuallyGeneratedPO.generatePO()}" value="Confirm"></p:commandButton>
+                            <p:commandButton action="#{displayManuallyGeneratedPO.generatePO()}" value="Confirm" update="messages"></p:commandButton>
 
                         </h:panelGrid>
                     </p:panel>

@@ -128,7 +128,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{addItem.selectedRM.unit}" />
 
-                                    <p:commandButton action="#{addItem.add('RawMaterial', addItem.selectedRM.materialId)}" value="Comfirm"/>
+                                    <p:commandButton action="#{addItem.add('RawMaterial', addItem.selectedRM.materialId)}" update="messages" value="Comfirm"/>
 
                                 </p:panelGrid>
                             </p:outputPanel>
@@ -183,7 +183,7 @@
                                     <h:outputText value="Unit" />
                                     <h:outputText value="#{addItem.selectedRP.unit}" />
 
-                                    <p:commandButton action="#{addItem.add('RetailProduct', addItem.selectedRP.retailProductId)}" value="Confrim"/>
+                                    <p:commandButton action="#{addItem.add('RetailProduct', addItem.selectedRP.retailProductId)}" update="messages" value="Confrim"/>
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>

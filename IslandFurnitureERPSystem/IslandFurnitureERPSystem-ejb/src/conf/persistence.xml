@@ -2,56 +2,6 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="IslandFurnitureERPSystem-ejbPU" transaction-type="JTA">
     <jta-data-source>jdbc/myLocalIFDatasource</jta-data-source>
-    <class>Entity.CommonInfrastructure.FactoryUserEntity</class>
-    <class>Entity.CommonInfrastructure.HQUserEntity</class>
-    <class>Entity.CommonInfrastructure.IdNumberEntity</class>
-    <class>Entity.CommonInfrastructure.InternalMessageEntity</class>
-    <class>Entity.CommonInfrastructure.InternalMessageReceive</class>
-    <class>Entity.CommonInfrastructure.StoreUserEntity</class>
-    <class>Entity.CommonInfrastructure.TicketEntity</class>
-    <class>Entity.CommonInfrastructure.UserEntity</class>
-    <class>Entity.Factory.BOMEntity</class>
-    <class>Entity.Factory.FactoryBin.FactoryBinEntity</class>
-    <class>Entity.Factory.FactoryBin.FactoryBinStoredProductEntity</class>
-    <class>Entity.Factory.FactoryEntity</class>
-    <class>Entity.Factory.FactoryProductAmountEntity</class>
-    <class>Entity.Factory.FactoryProductEntity</class>
-    <class>Entity.Factory.FactoryRawMaterialAmountEntity</class>
-    <class>Entity.Factory.FactoryRawMaterialEntity</class>
-    <class>Entity.Factory.FactoryRetailProductAmountEntity</class>
-    <class>Entity.Factory.FactoryRetailProductEntity</class>
-    <class>Entity.Factory.InventoryRecordEntity</class>
-    <class>Entity.Factory.MRP.IntegratedPlannedOrderEntity</class>
-    <class>Entity.Factory.MRP.IntegratedSalesForecastEntity</class>
-    <class>Entity.Factory.MRP.PlannedOrderEntity</class>
-    <class>Entity.Factory.MRP.ProductionPlanEntity</class>
-    <class>Entity.Factory.MRP.SalesForecastEntity</class>
-    <class>Entity.Factory.MRP.SalesOperationPlanEntity</class>
-    <class>Entity.Factory.MRP.WeeklyProductionPlanEntity</class>
-    <class>Entity.Factory.ProductEntity</class>
-    <class>Entity.Factory.RawMaterialEntity</class>
-    <class>Entity.Factory.RetailProductEntity</class>
-    <class>Entity.Factory.SCM.ContractEntity</class>
-    <class>Entity.Factory.SCM.DeliveryOrderEntity</class>
-    <class>Entity.Factory.SCM.GoodsReceiptEntity</class>
-    <class>Entity.Factory.SCM.InFactoryMovementEntity</class>
-    <class>Entity.Factory.SCM.InboundMovementEntity</class>
-    <class>Entity.Factory.SCM.OutboundMovementEntity</class>
-    <class>Entity.Factory.SCM.ProductToBinMovementEntity</class>
-    <class>Entity.Factory.SCM.PurchaseOrderEntity</class>
-    <class>Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity</class>
-    <class>Entity.Factory.SCM.ReturnedItemInboundMovementEntity</class>
-    <class>Entity.Factory.SCM.SupplierEntity</class>
-    <class>Entity.Store.StoreBinStoredProductEntity</class>
-    <class>Entity.Store.StoreEntity</class>
-    <class>Entity.Store.StoreInStoreEntity</class>
-    <class>Entity.Store.StoreInboundEntity</class>
-    <class>Entity.Store.StoreInventoryMovement</class>
-    <class>Entity.Store.StoreOutboundEntity</class>
-    <class>Entity.Store.StoreProductEntity</class>
-    <class>Entity.Store.StorePurchaseRecordEntity</class>
-    <class>Entity.Store.StoreRetailProductEntity</class>
-    <class>Entity.Store.StoreStorageBinEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

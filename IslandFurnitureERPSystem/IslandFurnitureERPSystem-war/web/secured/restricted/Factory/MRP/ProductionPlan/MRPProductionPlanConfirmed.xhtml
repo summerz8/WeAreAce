@@ -124,12 +124,12 @@
 
                                 <h:outputText value="Generate Date: " />
                                 <h:outputText value="#{productionPlan.generatedDate.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
 
                                 <h:outputText value="Target Period: " />
                                 <h:outputText  value="#{productionPlan.targetPeriod.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="MM/yyyy" />
+                                    <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
 
                                 <h:outputText value="Product Id: " />
@@ -143,12 +143,13 @@
 
                                 <h:outputText value="Confirm Date: " />
                                 <h:outputText value="#{productionPlan.confirmDate.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
 
                                 <h:outputText value="Remark: " />
                                 <h:outputText value="#{productionPlan.remark}" style="font-weight: bold"/>
-                                                        
+                                   
+                                <p:commandButton value="View Weekly Production Plan" style="font-weight: bold" icon="ui-icon-search" action ="#{productionPlanView.viewWeeklyProductionPlan(productionPlan.weeklyProductionPlanEntity)}" />
 
                             </h:panelGrid>
 

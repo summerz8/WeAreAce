@@ -8,6 +8,7 @@ package ManagedBean.SCM.PurchaseOrderManagementModule.ReferenceToIPO;
 
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,18 +24,22 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "displayIntegratedPlannedOrders")
 @ViewScoped
-public class DisplayIntegratedPlannedOrders {
+public class DisplayIntegratedPlannedOrders implements Serializable{
 
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
     
     private Long factoryId;
     private Collection<IntegratedPlannedOrderEntity> integratedPlannedOrderList;
+    
     @PostConstruct
     public void init(){
         try {
-            factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             integratedPlannedOrderList = pmb.viewWaitingIntegratedPlannedOrder(factoryId);
+            for(IntegratedPlannedOrderEntity ipo : integratedPlannedOrderList){
+                System.out.println("IPO = " + ipo.toString());
+            }
         } catch (Exception ex) {
             Logger.getLogger(DisplayIntegratedPlannedOrders.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,9 +66,6 @@ public class DisplayIntegratedPlannedOrders {
     }
     
     public String displayIntegratedPlannedOrders(){
-        
         return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders";
     }
-    
-    
 }

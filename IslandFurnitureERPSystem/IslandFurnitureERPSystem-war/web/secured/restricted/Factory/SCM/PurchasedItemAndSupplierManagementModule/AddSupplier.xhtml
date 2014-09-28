@@ -14,45 +14,43 @@
     </h:head>
 
     <h:body>
-
         <h:form id="formMain">
+
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
-                <p:messages id="messagesStatus" redisplay="false" />
-
                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                        </p:commandButton>
+                    </p:commandButton>
 
-                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
 
-                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
 
-                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button> 
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
 
-                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                        </p:button>
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -60,8 +58,6 @@
                     </h:outputLabel>                     
                 </p:layoutUnit>
 
-
-                               
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
@@ -78,12 +74,10 @@
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
-                    <p:growl id="growl" sticky="true" showDetail="true"/>
                     <p:wizard flowListener="#{addSupplier.onFlowProcess}">
 
                         <p:tab id="basic" title="Basic">
                             <p:panel  header="Supplier Basic Information">
-                                <p:messages />
                                 <h:panelGrid columns="2" cellpadding="5">
                                     <p:outputLabel for="name" value="Name:" style="font-weight:bold" />
                                     <p:inputText id="name" value="#{addSupplier.supplierName}" required="true"/>
@@ -106,7 +100,6 @@
 
                         <p:tab id="contract" title="Contract">
                             <p:panel header="Contract Details">
-                                <p:messages />
                                 <h:panelGrid columns="2" columnClasses="label, value">
                                     <p:outputLabel for="contractPrice" value="Contract Price: " style="font-weight:bold" />
                                     <p:inputText id="contractPrice" value="#{addSupplier.contractPrice}" required="true"/>
@@ -118,16 +111,16 @@
                                     <p:inputText id="lotSize" value="#{addSupplier.lotSize}" required="true"/>
 
                                     <p:outputLabel for="startDate" value="Contract Start Date: "  style="font-weight:bold"/>
-                                    <p:calendar id="startDate" value="#{addSupplier.startDate}" pattern="dd-MM-yyyy" mask="true" timeZone="GMT+8"/>
+                                    <p:calendar id="startDate" value="#{addSupplier.startDate}" pattern="dd/MM/yyyy" mask="true" timeZone="GMT+8"/>
 
                                     <p:outputLabel for="endDate" value="Contract End Date: "  style="font-weight:bold"/>
-                                    <p:calendar id="endDate" value="#{addSupplier.endDate}" pattern="dd-MM-yyyy" mask="true" timeZone="GMT+8"/>
+                                    <p:calendar id="endDate" value="#{addSupplier.endDate}" pattern="dd/MM/yyyy" mask="true" timeZone="GMT+8"/>
 
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
 
-                        <p:tab id="confirm" title="Confirmation">
+                        <p:tab id="inputConfirma" title="Confirmation">
                             <p:panel header="Confirmation">
                                 <h:panelGrid id="confirmation" columns="2" columnClasses="grid,grid">
                                     <h:panelGrid columns="2" columnClasses="label, value">
@@ -170,7 +163,7 @@
                                         </h:outputText>
                                     </h:panelGrid>
                                 </h:panelGrid>
-                                <p:commandButton value="Submit" action="#{addSupplier.save()}" update="growl"/>
+                                <p:commandButton value="Submit" action="#{addSupplier.save()}" update="messages"/>
                             </p:panel>
                         </p:tab>
                     </p:wizard>

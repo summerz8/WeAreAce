@@ -68,7 +68,7 @@
 
 
                     </p:layoutUnit>
-                    
+
 
                     <p:layoutUnit position="west"  style = "border:0px;">
 
@@ -83,6 +83,7 @@
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                             </p:submenu>
                             <p:submenu label="Supply Chain Management">
+
                                 <p:submenu label="Purchased Items and Suppliers Management">
                                     <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
                                     <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
@@ -125,7 +126,6 @@
                             
                             <p:submenu label="Empolyees">
                                 <p:menuitem value="Empolyees List"/>
-
                                 <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage.xhtml" />
                                 <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml" />
                                 <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml" />

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.SCM.PurchaseOrderManagementModule;
 
 import Entity.Factory.SCM.PurchaseOrderEntity;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "selectedUnconfirmedPO")
 @ViewScoped
-public class SelectedUnconfirmedPO {
+public class SelectedUnconfirmedPO implements Serializable{
 
     PurchaseOrderEntity upo;
 
@@ -29,10 +29,7 @@ public class SelectedUnconfirmedPO {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedUPO", upo);
         this.upo = upo;
     }
-    
+
     public SelectedUnconfirmedPO() {
     }
-    
-    
-    
 }

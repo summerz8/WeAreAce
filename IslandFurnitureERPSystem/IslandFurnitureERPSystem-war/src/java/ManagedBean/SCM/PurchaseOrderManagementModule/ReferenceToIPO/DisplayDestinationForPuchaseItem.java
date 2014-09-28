@@ -13,15 +13,15 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author zhangshiyu
  */
 @ManagedBean(name = "displayDestinationForPurchaseItem")
-@SessionScoped
+@ViewScoped
 public class DisplayDestinationForPuchaseItem {
 
     /**
@@ -35,12 +35,11 @@ public class DisplayDestinationForPuchaseItem {
     private Long storeId;
     private Long factoryId;
     private Collection<StoreEntity> storeList;
-    private String itemType;
 
     @PostConstruct
     public void init() {
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             storeList = pmb.viewAvailStore(factoryId);
         } catch (Exception ex) {
             Logger.getLogger(DisplayDestinationForPuchaseItem.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,12 +79,13 @@ public class DisplayDestinationForPuchaseItem {
         this.storeList = storeList;
     }
 
-    public String displayDestination() {
-        if (itemType.equals("RawMaterial")) {
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO?faces-redirect=true";
-        } else {//itemType.equals("RetailProduct")
-
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayDeliveryDestination?faces-redirect=true";
-        }
-    }
+//    public String displayDestination() {
+//        itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
+//        
+//        if (itemType.equals("RawMaterial")) {
+//            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO?faces-redirect=true";
+//        } else {//itemType.equals("RetailProduct")
+//            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayDeliveryDestination?faces-redirect=true";
+//        }
+//    }
 }

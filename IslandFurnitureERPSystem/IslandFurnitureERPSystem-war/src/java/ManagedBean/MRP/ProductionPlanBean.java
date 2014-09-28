@@ -6,8 +6,10 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
+import Entity.Factory.MRP.WeeklyProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
+import SessionBean.MRP.WeeklyProductionPlanLocal;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +41,8 @@ public class ProductionPlanBean implements Serializable {
     private ProductionPlanManagementModuleLocal PP;
     @EJB
     private PlannedOrderManagementModuleLocal PO;
-    
+    @EJB
+    private WeeklyProductionPlanLocal WPO;
 
     private ProductionPlanEntity pp;
     private Long productionPlanId;
@@ -48,7 +51,8 @@ public class ProductionPlanBean implements Serializable {
 //    private Long productId;
     private String status;
     private String remark;
-    private Long factoryId;
+    private Long id;
+    private String department;
 
     public Long getProductionPlanId() {
         return productionPlanId;
@@ -68,9 +72,14 @@ public class ProductionPlanBean implements Serializable {
     }
 //
 
-    public Long getFactoryId() {
-        return factoryId;
+    public Long getId() {
+        return id;
     }
+
+    public String getDepartment() {
+        return department;
+    }
+     
     
     
 //    public Calendar getTargetPeriod() {
@@ -108,11 +117,11 @@ public class ProductionPlanBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-        System.out.println("factoryId    " + factoryId);
-        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed(factoryId);
-        productionPlanConfirmed = PP.getProductionPlanConfirmed(factoryId);
-        productionPlanCancelled = PP.getProductionPlanCancelled(factoryId);
+        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed(id,department);
+        productionPlanConfirmed = PP.getProductionPlanConfirmed(id,department);
+        productionPlanCancelled = PP.getProductionPlanCancelled(id,department);
     }
 
     public List<ProductionPlanEntity> getProductionPlanConfirmed() {
@@ -134,11 +143,8 @@ public class ProductionPlanBean implements Serializable {
     
     
     public void saveId(Long id) {
-        System.out.println("5");
         productionPlanId = id;
-        System.out.println("6");
         pp = PP.searchProductionPlan(productionPlanId);
-        System.out.println(productionPlanId + "!@#$%^&*&*");
         if (!pp.getQuantity().equals(quantity) && quantity != null) {
             save(productionPlanId, "quantity", quantity);
         } else if (!pp.getStatus().equals(status) && status != null) {
@@ -201,6 +207,8 @@ public class ProductionPlanBean implements Serializable {
         PP.editProductionPlan(id, "status", "confirmed");
         PP.editProductionPlan(id, "confirmDate", confirmDate);
         PO.createPlannedOrder(id);
+        WPO.generateWeeklyProductionPlan(id);
+        
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
     
@@ -208,6 +216,13 @@ public class ProductionPlanBean implements Serializable {
         PP.editProductionPlan(id, "status", "cancelled");
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
     }
+    
+    public String viewWeeklyProductionPlan(List<WeeklyProductionPlanEntity> selectedWeeklyProductionPlan){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedWeeklyProductionPlan", selectedWeeklyProductionPlan);
+        return "/secured/restricted/Factory/MRP/ProductionPlan/MRPWeeklyProductionPlanView?faces-redirect=true";
+
+    }
+    
     
 
 }

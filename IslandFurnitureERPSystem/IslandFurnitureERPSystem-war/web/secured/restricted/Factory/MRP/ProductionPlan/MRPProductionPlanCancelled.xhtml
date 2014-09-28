@@ -124,12 +124,12 @@
 
                                 <h:outputText value="Generate Date: " />
                                 <h:outputText value="#{productionPlan.generatedDate.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
 
                                 <h:outputText value="Target Period: " />
                                 <h:outputText  value="#{productionPlan.targetPeriod.getTime()}" style="font-weight: bold">
-                                    <f:convertDateTime pattern="MM/yyyy" />
+                                    <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                 </h:outputText>
                                 
                                 <h:outputText value="Product Id: " />

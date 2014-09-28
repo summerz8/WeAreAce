@@ -53,6 +53,11 @@ public class SalesForecastEntity implements Serializable {
      
     public SalesForecastEntity(){
     }
+
+    public SalesForecastEntity(StoreEntity store, Calendar targetPeriod) {
+        this.store = store;
+        this.targetPeriod = targetPeriod;
+    }
     
     public Long getId() {
         return id;

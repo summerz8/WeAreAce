@@ -132,20 +132,20 @@
 
                                     <h:outputText value="Generate Date:" />
                                     <h:outputText value="#{plannedOrderpo.generatedDate.getTime()}" style="font-weight: bold">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
 
                                     <h:outputText value="Target Period:" />
                                     <h:outputText value="#{plannedOrderpo.targetPeriod.getTime()}" style="font-weight: bold">
-                                        <f:convertDateTime pattern="MM/yyyy" />
+                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
 
                                     <h:outputText value="Status:" />
                                     <h:outputText value="#{plannedOrderpo.status}" style="font-weight: bold"/>
                                     
-                                     <h:outputText value="Confirm Date:" />
+                                    <h:outputText value="Confirm Date:" />
                                      <h:outputText value="#{plannedOrderpo.confirmDate.getTime()}" style="font-weight: bold">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
 
                                     <h:outputText value="Production Plan Id:" />

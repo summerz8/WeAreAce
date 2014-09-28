@@ -15,24 +15,6 @@
     <h:body>
 
         <h:form id="formMain">
-            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
-
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
-
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
-
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
-
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
-
-                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -54,7 +36,7 @@
                     </p:button> 
 
                     <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                    </p:button>    
 
 
                     <h:outputLabel value = "Welcome Back " >
@@ -66,7 +48,8 @@
                 </p:layoutUnit>
 
 
-                
+                <p:growl id="messages" showDetail="false"/>
+
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
@@ -89,13 +72,54 @@
 
                     <p:toolbar>
                         <f:facet name="left">
-                            <p:button value="Go back and recreate" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrder?faces-redirect=true"/>
-                            <p:button value="View Integrated Planned Order" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true"/>
-                        </f:facet>
-
+                            <p:button value="Go back" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanConfirmed"/>
+                            <span class="ui-separator">
+                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                            </span>                         
+                        </f:facet>                      
                     </p:toolbar>
 
-                        <h:outputText value="Sorry!The Raw Material Id that you entered has already been used in another planned order or does not exist in current factory." style="font-weight: bold;font-size: 100%"/>
+                    <p:dataTable var="weeklyProductionPlan" value="#{weeklyProductionPlanBean.selectedWeeklyProductionPlanList}">
+
+                        <p:column headerText="Weekly Production Plan Id">
+                            <h:outputText value="#{weeklyProductionPlan.id}" />
+                        </p:column>
+                        
+                        <h:outputText value="Production Month" />
+                        <h:outputText value="#{weeklyProductionPlan.productionMonth.getTime()}" style="font-weight: bold">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
+                        </h:outputText>
+                        
+                        <p:column headerText="Quantity">
+                            <h:outputText value="#{weeklyProductionPlan.productionPlan.quantity}" />
+                        </p:column>
+                        
+                        <p:column headerText="Week">
+                            <h:outputText value="#{weeklyProductionPlan.week}" />
+                        </p:column>
+
+                        <p:column headerText="Weekly Demand">
+                            <p:inplace  editor="true" style="font-weight: bold"> 
+                                <p:ajax event="save" listener="#{weeklyProductionPlanBean.saveId(weeklyProductionPlan.id)}"/> 
+                                    <p:inputText value="#{weeklyProductionPlan.weeklyDemand}" valueChangeListener="#{weeklyProductionPlanBean.demandChanged}" style="font-weight: bold" label="text" />
+                            </p:inplace>
+                        </p:column>
+                        
+                         
+
+                        <p:column headerText="Working Days in Week">
+                            <h:outputText value="#{weeklyProductionPlan.workingDayInWeek}" />
+                        </p:column>
+                        
+                        <p:column headerText="Working Days in Month">
+                            <h:outputText value="#{weeklyProductionPlan.workingDayInMonth}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+
 
                 </p:layoutUnit>
 

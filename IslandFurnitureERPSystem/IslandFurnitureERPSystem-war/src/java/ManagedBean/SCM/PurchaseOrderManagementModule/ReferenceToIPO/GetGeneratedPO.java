@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManagedBean.SCM.PurchaseOrderManagementModule;
+
+package ManagedBean.SCM.PurchaseOrderManagementModule.ReferenceToIPO;
 
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
@@ -19,11 +20,11 @@ import javax.faces.view.ViewScoped;
  *
  * @author dan
  */
-@Named(value = "getManuallyGeneratedPO")
+@Named(value = "getGeneratedPO")
 @ViewScoped
-public class GetManuallyGeneratedPO {
+public class GetGeneratedPO {
 
-    @EJB
+     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
 
     private PurchaseOrderEntity po;
@@ -34,7 +35,7 @@ public class GetManuallyGeneratedPO {
     @PostConstruct
     public void init() {
         try {
-            System.out.println("getManuallyGeneratedPO:");
+            
             po = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("po");
             itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
             itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
@@ -47,7 +48,7 @@ public class GetManuallyGeneratedPO {
                 itemName = pmb.getFactoryRP(itemId).getName();
             }
         } catch (Exception ex) {
-            Logger.getLogger(GetManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -83,14 +84,13 @@ public class GetManuallyGeneratedPO {
         this.itemName = itemName;
     }
 
-    public GetManuallyGeneratedPO() {
-    }
-
     public String backToHome() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("po");
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
+        return "/secured/public/WorkPlace?faces-redirect=true";
     }
-
+    public GetGeneratedPO() {
+    }
+    
 }

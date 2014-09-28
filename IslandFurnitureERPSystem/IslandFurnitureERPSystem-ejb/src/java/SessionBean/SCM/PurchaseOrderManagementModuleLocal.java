@@ -107,9 +107,9 @@ public interface PurchaseOrderManagementModuleLocal {
 //    //7. Cancel purchase order
 //    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception;
     //8. Generate Goods Receipt
-    public String confirmPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception;
+    public String confirmPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
 
-    public String cancelPurchaseOrder(Long userId, Long purchaseOrderId) throws Exception;
+    public String cancelPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
     
     public String generateGoodsReciptForDeliveryOrders(Long purchaseOrderId, Long deliveryOrderId) throws Exception;
 

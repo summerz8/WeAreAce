@@ -78,7 +78,6 @@
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
-                    <p:growl id="growl" sticky="true" showDetail="true"/>
                     <p:panel id="basic" header="Input Contract Details " style="margin-bottom" >
                         <p:messages />
                         <h:panelGrid columns="2" cellpadding="5">
@@ -99,7 +98,7 @@
                             <p:outputLabel for="endDate" value="Contract End Date" style="font-weight:bold" />
                             <p:calendar id="endDate" value="#{addContract.endDate}"  pattern="dd/MM/yyyy" mask="true"/>
 
-                            <p:commandButton action="#{addContract.save()}" value="Confrim" update="growl"/>
+                            <p:commandButton action="#{addContract.save()}" value="Confrim" update="messages" />
 
                        
                         </h:panelGrid>
