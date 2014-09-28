@@ -1006,6 +1006,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}"/>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
 <<<<<<< HEAD
@@ -1019,11 +1020,16 @@ exists or setup the property manually. For example like this:
 >>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d
 =======
 >>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
+=======
+
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+>>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
         <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" todir="${build.web.dir}/WEB-INF/lib"/>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
@@ -1039,6 +1045,8 @@ exists or setup the property manually. For example like this:
 >>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d
 =======
 >>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
+=======
+>>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
