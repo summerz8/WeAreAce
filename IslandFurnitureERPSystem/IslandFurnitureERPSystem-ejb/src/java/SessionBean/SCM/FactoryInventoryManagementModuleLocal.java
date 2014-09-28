@@ -42,4 +42,6 @@ public interface FactoryInventoryManagementModuleLocal {
 
     Long recordProductToBinMovement(Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
 
+    int recordRurrentInventoryLevel(long factoryId);
+
 }

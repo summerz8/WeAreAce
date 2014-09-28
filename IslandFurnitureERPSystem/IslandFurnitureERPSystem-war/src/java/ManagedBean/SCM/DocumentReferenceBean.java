@@ -12,6 +12,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -25,14 +26,18 @@ public class DocumentReferenceBean implements Serializable {
     @EJB
     private DocumentReferenceModuleLocal dr;
 
-    private List allBlockedStocks = new ArrayList();
-    private List allContracts = new ArrayList();
-    private List allGoodsReceipts = new ArrayList();
-    private List allPlannedOrders = new ArrayList();
-    private List allProductionPlans = new ArrayList();
-    private List allPurchaseOrders = new ArrayList();
-    private List allReturnedStocks = new ArrayList();
-    private List allSuppliers = new ArrayList();
+    @ManagedProperty(value = "#{loginBean.department}")
+    private String department;
+    @ManagedProperty(value = "#{loginBean.departmentId}")
+    private long factoryId;
+    private List blockedStocks = new ArrayList();
+    private List contracts = new ArrayList();
+    private List goodsReceipts = new ArrayList();
+    private List plannedOrders = new ArrayList();
+    private List productionPlans = new ArrayList();
+    private List purchaseOrders = new ArrayList();
+    private List returnedStocks = new ArrayList();
+    private List suppliers = new ArrayList();
     private List filteredSuppliers = new ArrayList();
 
     /**
@@ -41,119 +46,144 @@ public class DocumentReferenceBean implements Serializable {
     public DocumentReferenceBean() {
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public long getFactoryId() {
+        return factoryId;
+    }
+
+    public void setFactoryId(long factoryId) {
+        this.factoryId = factoryId;
+    }
+
     @PostConstruct
     public void init() {
-        filteredSuppliers = this.viewAllSuppliers();
+        if (department.equals("H")) {
+            filteredSuppliers = dr.viewAllSuppliers();
+        } else {
+            filteredSuppliers = dr.viewSupplierByFactory(factoryId);
+        }
     }
 
-    public List getAllBlockedStocks() {
-        allBlockedStocks = this.viewAllBlockedStock();
-        return allBlockedStocks;
+    public List getBlockedStocks() {
+        if (department.equals("H")) {
+            blockedStocks = dr.viewAllBlockedStock();
+        } else {
+            blockedStocks = dr.viewBlockedStockByFactory(factoryId);
+        }
+        return blockedStocks;
     }
 
-    public void setAllBlockedStocks(List allBlockedStocks) {
-        this.allBlockedStocks = allBlockedStocks;
+    public void setBlockedStocks(List blockedStocks) {
+        this.blockedStocks = blockedStocks;
     }
 
-    public List getAllContracts() {
-        allContracts = this.viewAllContracts();
-        return allContracts;
+    public List getContracts() {
+        if (department.equals("H")) {
+            contracts = dr.viewAllContracts();
+        } else {
+            contracts = dr.viewContractsByFactory(factoryId);
+        }
+        return contracts;
     }
 
-    public void setAllContracts(List allContracts) {
-        this.allContracts = allContracts;
+    public void setContracts(List contracts) {
+        this.contracts = contracts;
     }
 
-    public List getAllGoodsReceipts() {
-        allGoodsReceipts = this.viewAllGoodsReceipts();
-        return allGoodsReceipts;
+    public List getGoodsReceipts() {
+        if (department.equals("H")) {
+            goodsReceipts = dr.viewAllGoodsReceipts();
+        } else {
+            goodsReceipts = dr.viewGoodsReceiptsByFactory(factoryId);
+        }
+        return goodsReceipts;
     }
 
-    public void setAllGoodsReceipts(List allGoodsReceipts) {
-        this.allGoodsReceipts = allGoodsReceipts;
+    public void setGoodsReceipts(List goodsReceipts) {
+        this.goodsReceipts = goodsReceipts;
     }
 
-    public List getAllPlannedOrders() {
-        allPlannedOrders = this.viewAllPlannedOrders();
-        return allPlannedOrders;
+    public List getPlannedOrders() {
+        if (department.equals("H")) {
+            plannedOrders = dr.viewAllPlannedOrders();
+        } else {
+            plannedOrders = dr.viewPlannedOrdersByFactory(factoryId);
+        }
+        return plannedOrders;
     }
 
-    public void setAllPlannedOrders(List allPlannedOrders) {
-        this.allPlannedOrders = allPlannedOrders;
+    public void setPlannedOrders(List plannedOrders) {
+        this.plannedOrders = plannedOrders;
     }
 
-    public List getAllProductionPlans() {
-        allProductionPlans = this.viewAllProductionPlans();
-        return allProductionPlans;
+    public List getProductionPlans() {
+        if (department.equals("H")) {
+            productionPlans = dr.viewAllProductionPlans();
+        } else {
+            productionPlans = dr.viewProductionPlansByFactory(factoryId);
+        }
+        return productionPlans;
     }
 
-    public void setAllProductionPlans(List allProductionPlans) {
-        this.allProductionPlans = allProductionPlans;
+    public void setProductionPlans(List productionPlans) {
+        this.productionPlans = productionPlans;
     }
 
-    public List getAllPurchaseOrders() {
-        allPurchaseOrders = this.viewAllPurchaseOrders();
-        return allPurchaseOrders;
+    public List getPurchaseOrders() {
+        if (department.equals("H")) {
+            purchaseOrders = dr.viewAllPurchaseOrders();
+        } else {
+            purchaseOrders = dr.viewPurchaseOrdersByFactory(factoryId);
+        }
+        return purchaseOrders;
     }
 
-    public void setAllPurchaseOrders(List allPurchaseOrders) {
-        this.allPurchaseOrders = allPurchaseOrders;
+    public void setPurchaseOrders(List purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
     }
 
-    public List getAllReturnedStocks() {
-        allReturnedStocks = this.viewAllReturnedProduct();
-        return allReturnedStocks;
+    public List getReturnedStocks() {
+        if (department.equals("H")) {
+            returnedStocks = dr.viewAllReturnedProduct();
+        } else {
+            returnedStocks = dr.viewReturnedProductByFactory(factoryId);
+        }
+        return returnedStocks;
     }
 
-    public void setAllReturnedStocks(List allReturnedStocks) {
-        this.allReturnedStocks = allReturnedStocks;
+    public void setReturnedStocks(List returnedStocks) {
+        this.returnedStocks = returnedStocks;
     }
 
-    public List getAllSuppliers() {
-        allSuppliers = this.viewAllSuppliers();
-        return allSuppliers;
+    public List getSuppliers() {
+        if (department.equals("H")) {
+            suppliers = dr.viewAllSuppliers();
+        } else {
+            suppliers = dr.viewSupplierByFactory(factoryId);
+        }
+        return suppliers;
     }
 
-    public void setAllSuppliers(List allSuppliers) {
-        this.allSuppliers = allSuppliers;
+    public void setSuppliers(List suppliers) {
+        this.suppliers = suppliers;
     }
 
     public List getFilteredSuppliers() {
         return filteredSuppliers;
     }
 
+
     public void setFilteredSuppliers(List filteredSuppliers) {
         this.filteredSuppliers = filteredSuppliers;
     }
-
-    public List viewAllBlockedStock() {
-        return dr.viewAllBlockedStock();
-    }
-
-    public List viewAllReturnedProduct() {
-        return dr.viewAllReturnedProduct();
-    }
-
-    public List viewAllProductionPlans() {
-        return dr.viewAllProductionPlans();
-    }
-
-    public List viewAllPlannedOrders() {
-        return dr.viewAllPlannedOrders();
-    }
-
-    public List viewAllPurchaseOrders() {
-        return dr.viewAllPurchaseOrders();
-    }
-
-    public List viewAllGoodsReceipts() {
-        return dr.viewAllGoodsReceipts();
-    }
-
-    public List viewAllContracts() {
-        return dr.viewAllContracts();
-    }
-
+    
     public List viewAllSuppliers() {
         return dr.viewAllSuppliers();
 

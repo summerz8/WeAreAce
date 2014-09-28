@@ -60,6 +60,13 @@ public class FactoryProductEntity implements Serializable {
     public FactoryProductEntity() {
     }
 
+    public FactoryProductEntity(String unit, FactoryEntity factory, ProductEntity product) {
+        this.unit = unit;
+        this.factory = factory;
+        this.product = product;
+        this.deleteFlag = false;
+    }
+
     public Long getFactoryProductId() {
         return factoryProductId;
     }

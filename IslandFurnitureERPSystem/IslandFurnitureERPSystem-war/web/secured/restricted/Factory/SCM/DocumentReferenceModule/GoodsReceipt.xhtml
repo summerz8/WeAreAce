@@ -92,8 +92,13 @@
                     <p:panel id="basic" header="Goods Receipt" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="gr" value="#{documentReferenceBean.allGoodsReceipts}">
+                    <p:dataTable var="gr" value="#{documentReferenceBean.goodsReceipts}">
 
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.factory.factoryId}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.factory.factoryId}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                        </p:column>
+                        
                         <p:column headerText="Goods Receipt ID">
                             #{gr.goodsReceiptId}
                         </p:column>
@@ -103,6 +108,11 @@
                             <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.retailProduct.name}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
                         </p:column>
 
+                        <p:column headerText="Item Type">
+                            <h:outputText value="Factory Raw Material" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="Factory Retail Product" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                        </p:column>
+                        
                         <p:column headerText="Supplier">
                             #{gr.purchaseOrder.contract.supplier.supplierName}
                         </p:column>
