@@ -128,10 +128,6 @@ public class DocumentReferenceBean implements Serializable {
 
     public List viewAllBlockedStock() {
         return dr.viewAllBlockedStock();
-<<<<<<< HEAD
-=======
-        
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
     }
 
     public List viewAllReturnedProduct() {
@@ -160,10 +156,7 @@ public class DocumentReferenceBean implements Serializable {
 
     public List viewAllSuppliers() {
         return dr.viewAllSuppliers();
-<<<<<<< HEAD
-=======
-        
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
+
     }
 
 }

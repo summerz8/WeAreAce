@@ -11,17 +11,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-<<<<<<< HEAD
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-=======
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
+
 import javax.faces.event.ActionEvent;
 
 /**
@@ -227,32 +222,6 @@ public class FactoryInventoryManagementBean implements Serializable {
         return fim.listStorageBinInformation(factoryId);
     }
 
-<<<<<<< HEAD
-    public Long recordInboundMovement(ActionEvent event) {
-        return fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
-    }
-
-    public Long recordOutboundMovement(ActionEvent event) {
-        if (itemTypeIndicator == 2) {
-            return fim.recordFactoryProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
-        } else {
-            return fim.recordFactoryRetailProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
-        }
-    }
-
-    public Long recordInFactoryMovement(ActionEvent event) {
-        if (itemTypeIndicator == 1) {
-            return fim.recordInFactoryRawMaterialMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
-        } else if (itemTypeIndicator == 2) {
-            return fim.recordInFactoryProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
-        } else {
-            return fim.recordInFactoryRetailProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
-        }
-    }
-
-    public Long recordRawMaterialInFactoryUseMovement(ActionEvent event) {
-        return fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
-=======
     public void recordInboundMovement(ActionEvent event) {
         Long temp = fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
@@ -414,13 +383,13 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurredy"));
-            }  else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
-            
+
         } else if (itemTypeIndicator == 2) {
             temp = fim.recordInFactoryProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
             if (temp == -1L) {
@@ -453,7 +422,7 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurred "));
-            }  else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
@@ -491,7 +460,7 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurred "));
-            }  else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
@@ -503,70 +472,52 @@ public class FactoryInventoryManagementBean implements Serializable {
     public void recordRawMaterialInFactoryUseMovement(ActionEvent event) {
         Long temp = fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
         if (temp == -1L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "fromBinId is invalid"));
-            } else if (temp == -2L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "factoryRawMaterial is not found"));
-            } else if (temp == -3L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "specified storage bin does not contain this factoryRawMaterial available for use"));
-            } else if (temp == -4L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "required quantity exceeds the total stock in this storage bin"));
-            } else if (temp == -5L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "required quantity exceeds the minimum stock level in the factory"));
-            } else if (temp == -6L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "unexpected exception occurred "));
-            }  else {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
-                                ""));
-            }
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "fromBinId is invalid"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "factoryRawMaterial is not found"));
+        } else if (temp == -3L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "specified storage bin does not contain this factoryRawMaterial available for use"));
+        } else if (temp == -4L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "required quantity exceeds the total stock in this storage bin"));
+        } else if (temp == -5L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "required quantity exceeds the minimum stock level in the factory"));
+        } else if (temp == -6L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "unexpected exception occurred "));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                            ""));
+        }
     }
 
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
         fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
     }
 
-<<<<<<< HEAD
-    public Long recordReturnedItemInboundMovement(ActionEvent event) {
-        if (itemTypeIndicator == 2) {
-            return fim.recordReturnedProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
-        } else {
-            return fim.recordReturnedRetailProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
-        }
-    }
-    
-    public Long recordProductToBinMovement(ActionEvent event) {
-        return fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
-    }
-
-    public long findFactoryIdByUserId(String userId) {
-        return fim.findFactoryIdByUserId(userId);
-    }
-=======
     public void recordReturnedItemInboundMovement(ActionEvent event) {
-       Long temp;
+        Long temp;
         if (itemTypeIndicator == 2) {
             temp = fim.recordReturnedProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
-             if (temp == -1L) {
+            if (temp == -1L) {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
@@ -626,28 +577,28 @@ public class FactoryInventoryManagementBean implements Serializable {
     public void recordProductToBinMovement(ActionEvent event) {
         Long temp = fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
-                                "factoryProductId is invalid"));
-            } else if (temp == -2L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
-                                "toBinId is invalid"));
-            } else if (temp == -3L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
-                                "unexpected exception occurred"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
-                                ""));
-            }
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "factoryProductId is invalid"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "toBinId is invalid"));
+        } else if (temp == -3L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "unexpected exception occurred"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                            ""));
+        }
     }
- 
+
 //    public long findFactoryIdByUserId(String userId) {
 //        long temp = fim.findFactoryIdByUserId(userId);
 //        if (temp == -1L) {
@@ -668,6 +619,4 @@ public class FactoryInventoryManagementBean implements Serializable {
 //            }
 //        return temp;
 //    }
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
-
 }

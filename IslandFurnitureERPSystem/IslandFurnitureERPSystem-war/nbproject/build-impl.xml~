@@ -1007,15 +1007,7 @@ exists or setup the property manually. For example like this:
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
-<<<<<<< HEAD
-<<<<<<< HEAD
         <copyfiles files="${libs.PrimesFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-=======
-        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
->>>>>>> 028c3f8eb38bde5a0110b911746aa1c9b5e382ca
-=======
-        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
->>>>>>> 028c3f8eb38bde5a0110b911746aa1c9b5e382ca
 >>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
@@ -1025,15 +1017,7 @@ exists or setup the property manually. For example like this:
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 =======
-<<<<<<< HEAD
-<<<<<<< HEAD
         <copyfiles files="${libs.PrimesFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-=======
-        <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
->>>>>>> 028c3f8eb38bde5a0110b911746aa1c9b5e382ca
-=======
-        <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
->>>>>>> 028c3f8eb38bde5a0110b911746aa1c9b5e382ca
 >>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">

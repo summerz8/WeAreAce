@@ -664,17 +664,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
-<<<<<<< HEAD
+
 
             ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
-
-=======
-
-            ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
-            returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
-
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
             em.persist(returnedFactoryProductInboundMovement);
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedProductInboundMovement(): Successful.");
@@ -729,17 +722,12 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
-<<<<<<< HEAD
+
 
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
 
-=======
 
-            ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
-            returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
-
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
             em.persist(returnedFactoryRetailProductInboundMovement);
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedRetailProductInboundMovement(): Successful.");
@@ -818,11 +806,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-<<<<<<< HEAD
-            return -4L;
-=======
+
             return -3L;
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
         }
 
     }

@@ -919,7 +919,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
         po.getGoodsReceiptList().add(gr);
         gr.setCreateDate(Calendar.getInstance());
-        gr.setPurchaseOder(po);
+        gr.setPurchaseOrder(po);
 
         po.setStatus("accomplished");
 
@@ -936,7 +936,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
         po.getGoodsReceiptList().add(gr);
         gr.setCreateDate(Calendar.getInstance());
-        gr.setPurchaseOder(po);
+        gr.setPurchaseOrder(po);
 
         DeliveryOrderEntity deliveryOrder = em.find(DeliveryOrderEntity.class, deliveryOrderId);
         deliveryOrder.setStatus("fulfilled");
