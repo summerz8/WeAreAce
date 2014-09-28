@@ -1006,10 +1006,14 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}"/>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 >>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
+=======
+        <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+>>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
 =======
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 >>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
@@ -1020,10 +1024,14 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" todir="${build.web.dir}/WEB-INF/lib"/>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 =======
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 >>>>>>> 182c5ae704be5a5dbd968b503eeb1414566b069d
+=======
+        <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+>>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
 =======
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 >>>>>>> 42b2dc3737e230d02c41ed266acfed19d730b083
