@@ -11,17 +11,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-<<<<<<< HEAD
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-=======
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
 import javax.faces.event.ActionEvent;
 
 /**
@@ -227,32 +221,8 @@ public class FactoryInventoryManagementBean implements Serializable {
         return fim.listStorageBinInformation(factoryId);
     }
 
-<<<<<<< HEAD
-    public Long recordInboundMovement(ActionEvent event) {
-        return fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
-    }
 
-    public Long recordOutboundMovement(ActionEvent event) {
-        if (itemTypeIndicator == 2) {
-            return fim.recordFactoryProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
-        } else {
-            return fim.recordFactoryRetailProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
-        }
-    }
 
-    public Long recordInFactoryMovement(ActionEvent event) {
-        if (itemTypeIndicator == 1) {
-            return fim.recordInFactoryRawMaterialMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
-        } else if (itemTypeIndicator == 2) {
-            return fim.recordInFactoryProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
-        } else {
-            return fim.recordInFactoryRetailProductMovement(factoryId, fromBinId, toBinId, itemId, status, quantity, creationDate);
-        }
-    }
-
-    public Long recordRawMaterialInFactoryUseMovement(ActionEvent event) {
-        return fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
-=======
     public void recordInboundMovement(ActionEvent event) {
         Long temp = fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
@@ -538,30 +508,15 @@ public class FactoryInventoryManagementBean implements Serializable {
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
                                 ""));
             }
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
     }
 
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
         fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
     }
-
-<<<<<<< HEAD
-    public Long recordReturnedItemInboundMovement(ActionEvent event) {
-        if (itemTypeIndicator == 2) {
-            return fim.recordReturnedProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
-        } else {
-            return fim.recordReturnedRetailProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
-        }
-    }
     
-    public Long recordProductToBinMovement(ActionEvent event) {
-        return fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
-    }
-
     public long findFactoryIdByUserId(String userId) {
         return fim.findFactoryIdByUserId(userId);
     }
-=======
     public void recordReturnedItemInboundMovement(ActionEvent event) {
        Long temp;
         if (itemTypeIndicator == 2) {
@@ -668,6 +623,5 @@ public class FactoryInventoryManagementBean implements Serializable {
 //            }
 //        return temp;
 //    }
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
 
 }

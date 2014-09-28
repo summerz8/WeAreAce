@@ -46,22 +46,10 @@ public class IntegratedSalesForecastEntity implements Serializable {
     //factory  entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
     private FactoryEntity factory;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
-    
     //factory retail product entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
-<<<<<<< HEAD
 
-=======
-    
-=======
-       
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
     //sales forecast list -- integrated sales forcast   M <-- M
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="INTEGRATEDSALESFORECAST_SALESFORECAST")
@@ -137,19 +125,6 @@ public class IntegratedSalesForecastEntity implements Serializable {
     public void setSalesOperationPlan(SalesOperationPlanEntity salesOperationPlan) {
         this.salesOperationPlan = salesOperationPlan;
     }
-<<<<<<< HEAD
-=======
-
-    public FactoryRetailProductEntity getFactoryRetailProduct() {
-        return factoryRetailProduct;
-    }
-
-    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProdct) {
-        this.factoryRetailProduct = factoryRetailProdct;
-    }
-
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
-    
     @Override
     public int hashCode() {
         int hash = 0;
