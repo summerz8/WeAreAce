@@ -86,7 +86,7 @@
                 <p:layoutUnit position="center" resizable="false">
                     <h:form> 
                         <p:panel id="basic" header="Sales Operation Plan" style="margin-bottom" >
-                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan?faces-redirect=true" >
+                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan?faces-redirect=true" rendered="#{salesOperationPlanBean.department.equals('F')}">
                             </p:commandButton>
 
 

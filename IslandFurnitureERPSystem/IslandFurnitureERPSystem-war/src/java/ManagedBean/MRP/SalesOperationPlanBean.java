@@ -37,9 +37,9 @@ public class SalesOperationPlanBean {
     private List<FactoryProductEntity> factoryProductList;
     private Long productId;
     private Calendar targetPeriod;
-
+    private String department;
     private Integer workingDay = 0;
-    private Double PlannedEndInventory=0D;
+    private Double PlannedEndInventory = 0D;
 
     public SalesOperationPlanBean() {
     }
@@ -47,6 +47,7 @@ public class SalesOperationPlanBean {
     @PostConstruct
     public void getAllFactoryProductList() {
         factoryProductList = salesOperationPlanLocal.getAllFacotryProduct();
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
 
     }
 
@@ -59,15 +60,17 @@ public class SalesOperationPlanBean {
         }
         return "MRPViewSalesOperationPlan?faces-redirect=true";
     }
-    
-    public String GETProductId(){
-    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", productId);
-    boolean bo=salesOperationPlanLocal.IsThereForecast(productId);
-    if(bo==false)return "MRPSalesForecastNotExist?faces-redirect=true";
-    else
-    return "MRPNewSalesOperationPlan?faces-redirect=true"; 
+
+    public String GETProductId() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", productId);
+        boolean bo = salesOperationPlanLocal.IsThereForecast(productId);
+        if (bo == false) {
+            return "MRPSalesForecastNotExist?faces-redirect=true";
+        } else {
+            return "MRPNewSalesOperationPlan?faces-redirect=true";
+        }
     }
-    
+
     public SalesOperationPlanLocal getSalesOperationPlanLocal() {
         return salesOperationPlanLocal;
     }
@@ -116,9 +119,6 @@ public class SalesOperationPlanBean {
         this.salesOperationPlan = salesOperationPlan;
     }
 
-
-
-
     public Integer getWorkingDay() {
         return workingDay;
     }
@@ -135,6 +135,12 @@ public class SalesOperationPlanBean {
         this.PlannedEndInventory = PlannedEndInventory;
     }
 
-    
-    
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
 }

@@ -43,16 +43,19 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
         List<SalesForecastEntity> templist1;
         List<SalesForecastEntity> templist = new ArrayList<>();;
         try {
-            System.out.println(factoryId);
+
             Query query = em.createQuery("SELECT t FROM SalesForecastEntity t");
             templist1 = (List<SalesForecastEntity>) query.getResultList();
-            for (SalesForecastEntity s : templist1) {
-                if (s.getFactoryProductList().get(0).getFactoryProduct().getFactory().getFactoryId().equals(factoryId)) {
-                    templist.add(s);
-                    System.out.println(s.getId());
+            if (factoryId != null) {
+                for (SalesForecastEntity s : templist1) {
+                    if (s.getFactoryProductList().get(0).getFactoryProduct().getFactory().getFactoryId().equals(factoryId)) {
+                        templist.add(s);
+                        System.out.println(s.getId());
+                    }
                 }
             }
-
+            else templist=templist1;
+            
             if (product == null) {
 
                 //search criteria:   search all products for a certain targetPeriod in certain store
