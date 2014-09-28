@@ -38,10 +38,8 @@ public interface FactoryInventoryManagementModuleLocal {
 
     public Long recordReturnedRetailProductInboundMovement(long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
 
-    public long findFactoryIdByUserId(String userId);
-
     public Long recordProductToBinMovement(Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
 
-    public int recordRurrentInventoryLevel(long factoryId);
+    public int recordCurrentInventoryLevel(long factoryId);
 
 }
