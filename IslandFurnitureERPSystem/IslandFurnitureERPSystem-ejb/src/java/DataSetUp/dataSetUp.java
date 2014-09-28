@@ -68,7 +68,7 @@ public class dataSetUp {
 
         //idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000001L);
+        id.setId_F(1000002L);
         id.setId_H(1000001L);
         id.setId_S(1000000L);
         em.persist(id);
@@ -328,19 +328,19 @@ public class dataSetUp {
         f1.getFactoryProducts().add(fp1_1);
         p1.getFactoryProduct().add(fp1_1);
         FactoryProductEntity fp1_2 = new FactoryProductEntity(p2.getUnit(), f1, p2);
-        em.persist(fp1_1);
+        em.persist(fp1_2);
         f1.getFactoryProducts().add(fp1_2);
         p2.getFactoryProduct().add(fp1_2);
         FactoryProductEntity fp1_3 = new FactoryProductEntity(p3.getUnit(), f1, p3);
-        em.persist(fp1_1);
+        em.persist(fp1_3);
         f1.getFactoryProducts().add(fp1_3);
         p3.getFactoryProduct().add(fp1_3);
         FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p4);
-        em.persist(fp1_1);
+        em.persist(fp1_4);
         f1.getFactoryProducts().add(fp1_4);
         p4.getFactoryProduct().add(fp1_4);
         FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
-        em.persist(fp1_1);
+        em.persist(fp1_5);
         f1.getFactoryProducts().add(fp1_5);
         p5.getFactoryProduct().add(fp1_5);
         em.flush();
@@ -350,7 +350,7 @@ public class dataSetUp {
         f2.getFactoryProducts().add(fp2_1);
         p1.getFactoryProduct().add(fp2_1);
         FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
-        em.persist(fp2_1);
+        em.persist(fp2_2);
         f2.getFactoryProducts().add(fp2_2);
         p2.getFactoryProduct().add(fp2_2);
         em.flush();
