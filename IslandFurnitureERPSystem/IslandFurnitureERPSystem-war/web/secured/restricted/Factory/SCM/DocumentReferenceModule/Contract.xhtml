@@ -16,8 +16,7 @@
     <h:body>
 
         <h:form id="globalNavigation">
-<<<<<<< HEAD
-=======
+
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
                 <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
@@ -36,7 +35,7 @@
                                      actionListener="#{idleBean.logoutListener}" />
 
                 </p:confirmDialog>
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
+
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -69,33 +68,10 @@
                 </p:layoutUnit>
 
 
-<<<<<<< HEAD
-                <p:growl id="messages" showDetail="false"/>
-
-                <p:layoutUnit position="west" size="1000px">
-
-                    <p:menu>
-                        <p:submenu label="Supply Chain Management">
-                            <p:submenu label="Purchased Items and Suppliers Management">
-                                <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
-                                <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
-                                <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
-                                <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
-                                <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
-                                <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
-                            </p:submenu>
-                            
-                            <p:submenu label="Purchase Order Management">
-                                <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
-                                <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
-                            </p:submenu>
-                            
-=======
                 
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                             <p:submenu label="Document Reference">
                                 <p:menuitem value="Purchase Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PurchaseOrder?faces-redirect=true" />
                                 <p:menuitem value="Planned Order" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder?faces-redirect=true" />
@@ -106,32 +82,10 @@
                                 <p:menuitem value="Contract" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Contract?faces-redirect=true" />
                                 <p:menuitem value="Supplier" action="/secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier?faces-redirect=true" />
                             </p:submenu>
-<<<<<<< HEAD
-
-                            <p:submenu label="Factory Inventory Management">
-                                <p:menuitem value="Factory Bin" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin?faces-redirect=true" />
-                                <p:menuitem value="Record Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement?faces-redirect=true" />
-                                <p:menuitem value="Record Outbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordOutboundMovement?faces-redirect=true" />
-                                <p:menuitem value="Record Intra-Factory Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement?faces-redirect=true" />
-                                <p:menuitem value="Record Raw Material In-Factory Use Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement?faces-redirect=true" />
-                                <p:menuitem value="Change Stock Status" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus?faces-redirect=true" />
-                                <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
-                            </p:submenu>
-
-                            <p:submenu label="Raw Material Monitoring">
-                                <p:menuitem value="Weekly Raw Material In-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialInFlow?faces-redirect=true" />
-                                <p:menuitem value="Weekly Raw Material Out-Flow" action="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow?faces-redirect=true" />
-                            </p:submenu>    
-                        </p:submenu>
-                    </p:menu>
-
-
-=======
                     </p:menu>
 
 
 
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 
