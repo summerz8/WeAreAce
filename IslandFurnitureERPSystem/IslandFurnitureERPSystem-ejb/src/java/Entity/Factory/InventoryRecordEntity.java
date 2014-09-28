@@ -39,13 +39,18 @@ public class InventoryRecordEntity implements Serializable {
     
     //inventory record entity -- factory retail product entity : M <--> 1
     @ManyToOne
+<<<<<<< HEAD
 
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
+=======
+    private FactoryRetailProductEntity factoryRetailProduct;
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
 
     public InventoryRecordEntity() {
     }
 
+<<<<<<< HEAD
     public InventoryRecordEntity(FactoryRawMaterialEntity factoryRawMaterial, Calendar recordDate, Double amount) {
         this.factoryRawMaterial = factoryRawMaterial;
         this.recordDate = recordDate;
@@ -63,6 +68,15 @@ public class InventoryRecordEntity implements Serializable {
         this.recordDate = recordDate;
         this.amount = amount;
 
+=======
+    
+    public InventoryRecordEntity(Calendar recordDate, Double amount, FactoryRawMaterialEntity factoryRawMaterial, FactoryProductEntity factoryProduct, FactoryRetailProductEntity factoryRetailProduct) {
+        this.recordDate = recordDate;
+        this.amount = amount;
+        this.factoryRawMaterial = factoryRawMaterial;
+        this.factoryProduct = factoryProduct;
+        this.factoryRetailProduct = factoryRetailProduct;
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
     }
             
     
@@ -90,7 +104,11 @@ public class InventoryRecordEntity implements Serializable {
         this.amount = amount;
     }
 
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
     public FactoryRawMaterialEntity getFactoryRawMaterial() {
         return factoryRawMaterial;
     }

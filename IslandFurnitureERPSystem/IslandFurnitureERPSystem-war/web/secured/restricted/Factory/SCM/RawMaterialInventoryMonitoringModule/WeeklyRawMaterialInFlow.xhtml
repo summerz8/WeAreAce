@@ -90,10 +90,13 @@
                         <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
                             <h:outputText value="#{i.factoryRawMaterial.factory.factoryId}" />
                         </p:column>
+<<<<<<< HEAD
                         
                         <p:column headerText="ID">
                             #{i.inboundMovementId}
                         </p:column>
+=======
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
 
                         <p:column headerText="Material Name">
                             #{i.fromGoodsRecipt.purchaseOrder.contract.factoryRawMaterial.rawMaterial.materialName}
@@ -119,6 +122,7 @@
                             #{i.toBin.factoryBinId}
                         </p:column>
 
+<<<<<<< HEAD
                         
                         <p:column headerText="Quantity">
                             #{i.quantity}
@@ -132,6 +136,15 @@
                             #{i.status}
                         </p:column>
                         
+=======
+                        <p:column headerText="Raw Material Status">
+                            #{i.status}
+                        </p:column>
+
+                        <p:column headerText="Quantity">
+                            #{i.quantity}
+                        </p:column>
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
 
                         <p:column headerText="Date">
                             #{i.creationDate.time}
