@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -65,83 +64,63 @@
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                        </p:submenu>
                     </p:menu>
-
-
+                    
                 </p:layoutUnit>
 
-                <p:layoutUnit position="center" resizable="false">
+                <p:layoutUnit position="center" resizable="false">                   
+
 
                     <p:toolbar>
                         <f:facet name="left">
-                            <p:button value="Unconfirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed?faces-redirect=true"/>
+                            <p:button value="Go back" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanConfirmed"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                            </span>
-                            <p:button value="Confirmed" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderConfirmed?faces-redirect=true"/>
-                            <span class="ui-separator">
-                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                            </span>
-                            <p:button value="Cancelled" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderCancelled?faces-redirect=true"/>
-                            <span class="ui-separator">
-                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                            </span>
-
-                        </f:facet>
-                        
-                        <f:facet name="right">
-                            <p:button value="Create integrated planned order for next month" icon="ui-icon-lightbulb" outcome="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrder?faces-redirect=true"/>
-                        </f:facet>
+                            </span>                         
+                        </f:facet>                      
                     </p:toolbar>
 
-                    <p:dataScroller value="#{plannedOrderView.plannedOrderConfirmed}" var="plannedOrderpo" chunkSize="5">
-                        <f:facet name="header">
-                            Scroll Down to Load More Planned Orders
-                        </f:facet>
+                    <p:dataTable var="weeklyProductionPlan" value="#{weeklyProductionPlanBean.selectedWeeklyProductionPlanList}">
 
-                        <f:facet name="loader">
-                            <p:commandButton type="button" value="More" icon="ui-icon-circle-triangle-s"/>
-                        </f:facet>
-
-                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-
-
-                            <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{plannedOrderpo.plannedOrderId}" style="font-weight: bold"/>
-
-                                    <h:outputText value="Factory Id:" />
-                                    <h:outputText value="#{plannedOrderpo.factory.factoryId}" style="font-weight: bold"/>
-
-                                    <h:outputText value="Generate Date:" />
-                                    <h:outputText value="#{plannedOrderpo.generatedDate.getTime()}" style="font-weight: bold">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Target Period:" />
-                                    <h:outputText value="#{plannedOrderpo.targetPeriod.getTime()}" style="font-weight: bold">
-                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Status:" />
-                                    <h:outputText value="#{plannedOrderpo.status}" style="font-weight: bold"/>
-                                    
-                                    <h:outputText value="Confirm Date:" />
-                                     <h:outputText value="#{plannedOrderpo.confirmDate.getTime()}" style="font-weight: bold">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Production Plan Id:" />
-                                    <h:outputText value="#{plannedOrderpo.productionPlan.productionPlanId}" style="font-weight: bold"/>
-
-                                    <p:commandButton value="View Raw Material" style="font-weight: bold" icon="ui-icon-search" action ="#{plannedOrderView.viewRawMaterial(plannedOrderpo.factoryRawMaterialAmountList)}" />
-
-
-                                </h:panelGrid>
-                            </p:outputPanel>
-                        </h:panelGrid>
+                        <p:column headerText="Weekly Production Plan Id">
+                            <h:outputText value="#{weeklyProductionPlan.id}" />
+                        </p:column>
                         
-                    </p:dataScroller>
+                        <h:outputText value="Production Month" />
+                        <h:outputText value="#{weeklyProductionPlan.productionMonth.getTime()}" style="font-weight: bold">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
+                        </h:outputText>
+                        
+                        <p:column headerText="Quantity">
+                            <h:outputText value="#{weeklyProductionPlan.productionPlan.quantity}" />
+                        </p:column>
+                        
+                        <p:column headerText="Week">
+                            <h:outputText value="#{weeklyProductionPlan.week}" />
+                        </p:column>
+
+                        <p:column headerText="Weekly Demand">
+                            <p:inplace  editor="true" style="font-weight: bold"> 
+                                <p:ajax event="save" listener="#{weeklyProductionPlanBean.saveId(weeklyProductionPlan.id)}"/> 
+                                    <p:inputText value="#{weeklyProductionPlan.weeklyDemand}" valueChangeListener="#{weeklyProductionPlanBean.demandChanged}" style="font-weight: bold" label="text" />
+                            </p:inplace>
+                        </p:column>
+                        
+                         
+
+                        <p:column headerText="Working Days in Week">
+                            <h:outputText value="#{weeklyProductionPlan.workingDayInWeek}" />
+                        </p:column>
+                        
+                        <p:column headerText="Working Days in Month">
+                            <h:outputText value="#{weeklyProductionPlan.workingDayInMonth}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+
+
                 </p:layoutUnit>
 
             </p:layout>
@@ -150,3 +129,6 @@
     </h:body>
 
 </html>
+
+
+

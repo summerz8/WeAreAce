@@ -12,6 +12,7 @@ import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,8 +34,8 @@ public class IntegratedPlannedOrderManagement implements IntegratedPlannedOrderM
     
     
     @Override
-    public void createIntegratedPlannedOrder(Calendar targetPeriod,Long factoryRawMaterialId){
-        List<PlannedOrderEntity> plannedOrderConfirmed = getConfirmedPlannedOrder();
+    public void createIntegratedPlannedOrder(Calendar targetPeriod,Long factoryRawMaterialId,Long id,String department){
+        List<PlannedOrderEntity> plannedOrderConfirmed = getConfirmedPlannedOrder(id,department);
         System.out.println("factoryRawMaterialId"+factoryRawMaterialId+ " " + targetPeriod.toString());
         FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class,factoryRawMaterialId);
         
@@ -94,43 +95,83 @@ public class IntegratedPlannedOrderManagement implements IntegratedPlannedOrderM
         
         em.persist(integratedPlannedOrder);
         em.flush();
+        factory.getIntegratedPlannedOrders().add(integratedPlannedOrder);
+        em.flush();
         
     }
     
     
     @Override
-    public List<PlannedOrderEntity> getConfirmedPlannedOrder(){
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department){
         Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
+        
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
             PlannedOrderEntity po = (PlannedOrderEntity) o;
             if(po.getStatus().equals("confirmed"))
                 plannedOrderList.add(po);
             }
+        }
+        else{
+            for(Object o : q.getResultList()){
+            PlannedOrderEntity po = (PlannedOrderEntity) o;
+            Long departmentId = po.getFactory().getFactoryId();
+            if(po.getStatus().equals("confirmed") && departmentId.equals(id))
+                plannedOrderList.add(po);
+            }
+        }
+    
           return plannedOrderList;
         }
     
     @Override
-    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder(){
+    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder(Long id,String department){
         Query q = em.createQuery("SELECT ipo FROM IntegratedPlannedOrderEntity ipo");
         List<IntegratedPlannedOrderEntity> integratedPlannedOrderList = new ArrayList();
-        for(Object o : q.getResultList()){
-            IntegratedPlannedOrderEntity ipo = (IntegratedPlannedOrderEntity) o;
-            if(ipo.getFactoryRawMaterialAmount()!=null)
-                integratedPlannedOrderList.add(ipo);
+        
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity ipo = (IntegratedPlannedOrderEntity) o;
+                if(ipo.getFactoryRawMaterialAmount()!=null)
+                    integratedPlannedOrderList.add(ipo);
             }
+        }
+        
+        else{
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity ipo = (IntegratedPlannedOrderEntity) o;
+                Long departmentId = ipo.getFactory().getFactoryId();
+                if(ipo.getFactoryRawMaterialAmount()!=null && departmentId.equals(id))
+                    integratedPlannedOrderList.add(ipo);
+            }
+        }
+       
           return integratedPlannedOrderList;
         }
     
     @Override
-    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(){
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(Long id,String department){
         Query q = em.createQuery("SELECT ipo FROM IntegratedPlannedOrderEntity ipo");
         List<IntegratedPlannedOrderEntity> retailProductPurchasePlanList = new ArrayList();
-        for(Object o : q.getResultList()){
-            IntegratedPlannedOrderEntity ipo = (IntegratedPlannedOrderEntity) o;
-            if(ipo.getFactoryRetailProductAmount()!=null)
-                retailProductPurchasePlanList.add(ipo);
+        
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity ipo = (IntegratedPlannedOrderEntity) o;
+                if(ipo.getFactoryRetailProductAmount()!=null)
+                    retailProductPurchasePlanList.add(ipo);
             }
+        }
+        else{
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity ipo = (IntegratedPlannedOrderEntity) o;
+                Long departmentId = ipo.getFactory().getFactoryId();
+                if(ipo.getFactoryRetailProductAmount()!=null && departmentId.equals(id))
+                    retailProductPurchasePlanList.add(ipo);
+            }
+        
+        }
+        
           return retailProductPurchasePlanList;
     }    
     
@@ -155,5 +196,23 @@ public class IntegratedPlannedOrderManagement implements IntegratedPlannedOrderM
         }
         em.persist(integratedPlannedOrder);
         em.flush();
+    }
+    
+    @Override
+    public boolean findFactoryRawMaterialIdList(Long id,String department,Long factoryRawMaterialId){
+         List<PlannedOrderEntity> plannedOrderList = getConfirmedPlannedOrder(id,department);     
+         boolean flag = Boolean.FALSE;
+         for(PlannedOrderEntity po: plannedOrderList){
+             List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = po.getFactoryRawMaterialAmountList();
+                 for(FactoryRawMaterialAmountEntity frma : factoryRawMaterialAmountList){
+                     Long factoryRawMaterialid = frma.getFactoryRawMaterial().getFactoryRawMaterialId();
+                     if(factoryRawMaterialid.equals(factoryRawMaterialId)){
+                     flag = Boolean.TRUE;
+                     break;
+                 }        
+             }
+             if(flag) break;
+         }         
+         return flag;
     }
 }

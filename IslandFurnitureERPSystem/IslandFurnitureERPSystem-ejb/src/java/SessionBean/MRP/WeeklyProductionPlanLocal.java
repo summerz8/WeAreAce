@@ -24,8 +24,10 @@ public interface WeeklyProductionPlanLocal {
 
     public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id,Calendar month, Integer week, Integer workingDayInWeek, Integer workingDayInMonth, Double weeklyDemand);
 
-    public List<WeeklyProductionPlanEntity>  getWeeklyProductionPlan(ProductionPlanEntity productionPlan);
+    public List<WeeklyProductionPlanEntity>  getWeeklyProductionPlan(Long productionPlanId);
     
     public ProductEntity getProduct(Long factoryProductId);
+
+    public void Edit(Long id, String field, Object content);
     
 }

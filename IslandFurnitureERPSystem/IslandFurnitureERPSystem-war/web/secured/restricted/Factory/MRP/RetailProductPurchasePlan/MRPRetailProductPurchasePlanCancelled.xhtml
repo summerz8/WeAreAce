@@ -82,7 +82,8 @@
                             <p:button value="Cancelled" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanCancelled"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                            </span>      
+                            </span> 
+                            <p:button value="Go back" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan"/>   
                             
                         </f:facet>
                         <f:facet name="left">
@@ -109,12 +110,12 @@
 
                                     <h:outputText value="Generate Date:" />
                                     <h:outputText value="#{retailProductPurchasePlan.generatedDate.getTime()}" style="font-weight: bold">
-                                      <f:convertDateTime pattern="dd/MM/yyyy" />
+                                      <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
                                     
                                     <h:outputText value="Target Period:" />
                                     <h:outputText value="#{retailProductPurchasePlan.targetPeriod.getTime()}" style="font-weight: bold">
-                                          <f:convertDateTime pattern="MM/yyyy" />
+                                          <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg" />
                                     </h:outputText>
                                     
                                     <h:outputText value="Retail Product Id:" />

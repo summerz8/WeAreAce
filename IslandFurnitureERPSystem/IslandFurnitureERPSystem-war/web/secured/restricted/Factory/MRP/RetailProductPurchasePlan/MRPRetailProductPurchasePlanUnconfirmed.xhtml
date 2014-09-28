@@ -55,14 +55,14 @@
 
                     <p:menu>
                         <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />
-                                <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
-                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                            <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                            <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                            <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                            <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                            <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                            <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />
+                            <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
+                            <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
 
@@ -82,14 +82,15 @@
                             <p:button value="Cancelled" icon="ui-icon-folder-open" outcome="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanCancelled"/>
                             <span class="ui-separator">
                                 <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                            </span>      
-                            
+                            </span> 
+                            <p:button value="Go back" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan"/>    
+
                         </f:facet>
                         <f:facet name="left">
                             Welconme To MRP Retail Product Purchase Plan Page!!!
                         </f:facet>
                     </p:toolbar>
-                    
+
                     <p:dataScroller value="#{retailProductPurchasePlanView.retialProductPurchasePlanUnconfirmed}" var="retailProductPurchasePlan" chunkSize="5">
                         <f:facet name="header">
                             Scroll Down to Load More Production Plans
@@ -109,33 +110,36 @@
 
                                     <h:outputText value="Generate Date:" />
                                     <h:outputText value="#{retailProductPurchasePlan.generatedDate.getTime()}" style="font-weight: bold">
-                                      <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
-                                    
+
                                     <h:outputText value="Target Period:" />
                                     <h:outputText value="#{retailProductPurchasePlan.targetPeriod.getTime()}" style="font-weight: bold">
-                                          <f:convertDateTime pattern="MM/yyyy" />
+                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
-                                    
+
                                     <h:outputText value="Retail Product Id:" />
                                     <h:outputText value="#{retailProductPurchasePlan.factoryRetailProductAmount.factoryRetailProduct.factoryRetailProdctId}" style="font-weight: bold"/>
-                                    
+
                                     <h:outputText value="Retail Product Name:" />
                                     <h:outputText value="#{retailProductPurchasePlan.factoryRetailProductAmount.factoryRetailProduct.name}" style="font-weight: bold"/>
-                                    
-                                    <h:outputText value="Amount:" />
-                                    <h:outputText value="#{retailProductPurchasePlan.factoryRetailProductAmount.amount}" style="font-weight: bold"/>
-                                    
+
+                                    <h:outputLabel for="amount" value="Amount: " />
+                                    <p:inplace  id="amount" editor="true" style="font-weight: bold"> 
+                                        <p:ajax event="save" listener="#{retailProductPurchasePlanView.saveId(retailProductPurchasePlan.id)}"/> 
+                                        <p:inputText value="#{retailProductPurchasePlan.factoryRetailProductAmount.amount}" valueChangeListener="#{retailProductPurchasePlanView.amountChanged}" style="font-weight: bold" label="text" />
+                                    </p:inplace>
+
                                     <h:outputText value="Unit:" />
                                     <h:outputText value="#{retailProductPurchasePlan.factoryRetailProductAmount.unit}" style="font-weight: bold"/>
-                                    
+
                                     <h:outputText value="Status:" />
                                     <h:outputText value="#{retailProductPurchasePlan.status}" style="font-weight: bold"/>
-                                    
+
                                     <p:commandButton value="Confirm" style="font-weight: bold" icon="ui-icon-disk" action ="#{retailProductPurchasePlanView.confirm(retailProductPurchasePlan.id)}" />
 
                                     <p:commandButton value="Cancel" style="font-weight: bold" icon="ui-icon-trash" action ="#{retailProductPurchasePlanView.cancel(retailProductPurchasePlan.id)}" />
-                                    
+
                                 </h:panelGrid>
                             </p:outputPanel>
                         </h:panelGrid>
