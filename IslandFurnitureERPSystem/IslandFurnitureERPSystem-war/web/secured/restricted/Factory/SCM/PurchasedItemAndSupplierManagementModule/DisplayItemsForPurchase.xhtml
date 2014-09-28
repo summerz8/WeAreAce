@@ -18,10 +18,6 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
                 <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
@@ -45,9 +41,7 @@
                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
                         </p:commandButton>
 
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
@@ -62,36 +56,11 @@
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
-=======
-                    </p:commandButton>
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
 
                         </p:commandButton>
 
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                         </p:button>
-
-<<<<<<< HEAD
-                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button>  
-
-                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button> 
-
-                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                        </p:button>
-=======
-                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
->>>>>>> 6b17cf52643cdb1287dbdcb5b626a202bc992bf4
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
-
-                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button> 
-
-                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button>
-
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -99,11 +68,6 @@
                     </h:outputLabel>                     
                 </p:layoutUnit>
 
-
-<<<<<<< HEAD
-=======
-                                
->>>>>>> a4c07b826d3b5bfa1ad4431d95cbe65f6a4af8e0
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchased Item And Supplier Management">
