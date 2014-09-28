@@ -52,15 +52,9 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             System.out.println("Session Bean view Raw Material With Select Type: " + factoryRawMaterialList.size());
-=======
 
->>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d
-=======
-
->>>>>>> 5610e888745b99da80e76f3274ecdb8ab3b53f4d
             for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
                 if (!frm.getIsDeleted()) {
                     frmList.add(frm);
