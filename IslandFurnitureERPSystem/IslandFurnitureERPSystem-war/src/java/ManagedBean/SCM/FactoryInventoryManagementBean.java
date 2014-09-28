@@ -6,10 +6,13 @@
 package ManagedBean.SCM;
 
 import SessionBean.SCM.FactoryInventoryManagementModuleLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -473,47 +476,46 @@ public class FactoryInventoryManagementBean implements Serializable {
         Long temp = fim.recordRawMaterialInFactoryUseMovement(factoryId, fromBinId, factoryRawMaterialId, quantity, creationDate);
         if (temp == -1L) {
 
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "fromBinId is invalid"));
-            } else if (temp == -2L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "factoryRawMaterial is not found"));
-            } else if (temp == -3L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "specified storage bin does not contain this factoryRawMaterial available for use"));
-            } else if (temp == -4L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "required quantity exceeds the total stock in this storage bin"));
-            } else if (temp == -5L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "required quantity exceeds the minimum stock level in the factory"));
-            } else if (temp == -6L) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                                "unexpected exception occurred "));
-            }  else {
-                FacesContext.getCurrentInstance().addMessage(
-                        null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
-                                ""));
-            }
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "fromBinId is invalid"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "factoryRawMaterial is not found"));
+        } else if (temp == -3L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "specified storage bin does not contain this factoryRawMaterial available for use"));
+        } else if (temp == -4L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "required quantity exceeds the total stock in this storage bin"));
+        } else if (temp == -5L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "required quantity exceeds the minimum stock level in the factory"));
+        } else if (temp == -6L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
+                            "unexpected exception occurred "));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                            ""));
+        }
     }
 
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
         fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
     }
-
 
     public void recordReturnedItemInboundMovement(ActionEvent event) {
         Long temp;
@@ -601,26 +603,23 @@ public class FactoryInventoryManagementBean implements Serializable {
         }
     }
 
-//    public long findFactoryIdByUserId(String userId) {
-//        long temp = fim.findFactoryIdByUserId(userId);
-//        if (temp == -1L) {
-//                FacesContext.getCurrentInstance().addMessage(
-//                        null,
-//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to find factory id",
-//                                "userId is not a factory userId"));
-//            } else if (temp == -2L) {
-//                FacesContext.getCurrentInstance().addMessage(
-//                        null,
-//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to find factory id",
-//                                "unexpected error occurred"));
-//            } else {
-//                FacesContext.getCurrentInstance().addMessage(
-//                        null,
-//                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory ID found!",
-//                                ""));               
-//            }
-//        return temp;
-//    }
+    public void hasAccessToFIM(ActionEvent event) {
+        if (department.equals("H")) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "No Access", ""));
+        }
+        else{
+         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+            String path ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin.xhtml";
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(url+path);
+            } catch (IOException ex) {
+                Logger.getLogger(FactoryInventoryManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }
 
     public int recordRurrentInventoryLevel(ActionEvent event) {
         return fim.recordCurrentInventoryLevel(factoryId);
