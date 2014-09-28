@@ -33,7 +33,7 @@ public class DisplayContractForSelectedSupplierIPO {
     private SupplierEntity supplier;
     private String itemType;
     private Long itemId;
-    private Long factoryId = 1L;
+    private Long factoryId;
     private Calendar deliveryDate;
     private Double nextMonthBeginPlannedAmount;
 
@@ -41,7 +41,7 @@ public class DisplayContractForSelectedSupplierIPO {
     public void init() {
 
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryId");
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
             //be put @selectedIntegratedPlannedOrder
             integratedPlannedOrder = (IntegratedPlannedOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedIPO");
@@ -68,8 +68,6 @@ public class DisplayContractForSelectedSupplierIPO {
     }
 
     public void setContract(ContractEntity contract) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("contractId", this.contract.getContractId());
-
         this.contract = contract;
     }
 

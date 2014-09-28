@@ -16,6 +16,25 @@
     <h:body>
 
         <h:form id="globalNavigation">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -46,10 +65,7 @@
 
 
                 </p:layoutUnit>
-
-
-                <p:growl id="messages" showDetail="false"/>
-
+               
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
@@ -63,7 +79,6 @@
                             <p:menuitem value="Record Returned Item Inbound Movement" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement?faces-redirect=true" />
                         </p:submenu>
                     </p:menu>
-
 
 
                 </p:layoutUnit>

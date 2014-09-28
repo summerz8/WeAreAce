@@ -32,15 +32,14 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     public SalesOperationPlanEntity GenerateSalesOperationPlan(Long factoryProductId,
             Calendar targetPeriod,
             Long integratedSalesForecastId,
-            Double productionPlanQuantity,
             Double plannedEndMonthInventory,
-            Integer workingDays) {
+            Integer workingDays,
+            Double ProductionPlanQuantity) {
 
         try {
 
             FactoryProductEntity fpe = em.find(FactoryProductEntity.class, factoryProductId);
             IntegratedSalesForecastEntity isf = em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
-            FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
 
             System.out.println("GenerateSalesOperationPlan(): 1");
             SalesOperationPlanEntity salesOperationPlan = new SalesOperationPlanEntity();
@@ -49,20 +48,10 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
             salesOperationPlan.setTargetPeriod(targetPeriod);
             salesOperationPlan.setIntegratedSalesForecast(isf);
             salesOperationPlan.setWorkingDay(workingDays);
-
+            salesOperationPlan.setStatus("Unconfirmed");
+            salesOperationPlan.setPlannedProductionPlanQuantity(ProductionPlanQuantity);
             System.out.println("GenerateSalesOperationPlan(): 2");
 
-            Calendar generatedDate = Calendar.getInstance();
-            ProductionPlanEntity productionPlan = new ProductionPlanEntity("Unconfirmed", generatedDate, targetPeriod, productionPlanQuantity, factoryProduct, "");
-
-//            System.out.println(productionPlan.getProductionPlanId());
-            em.persist(productionPlan);
-            em.flush();
-
-            salesOperationPlan.setProductionPlan(productionPlan);
-
-            System.out.println("GenerateSalesOperationPlan(): 4");
-            System.out.println(productionPlan.getProductionPlanId());
             em.persist(salesOperationPlan);
             em.flush();
 
@@ -78,21 +67,17 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     @Override
     public SalesOperationPlanEntity EditSalesOperationPlanEntity(
             Long Id,
-            FactoryProductEntity factoryProduct,
-            ProductionPlanEntity productionPlan,
+            Double productionPlanQuantity,
             Calendar targetPeriod,
-            IntegratedSalesForecastEntity integratedSalesForecast,
             Double plannedEndMonthInventory,
             Integer workingDay) {
         try {
             SalesOperationPlanEntity salesOperationPlan = em.find(SalesOperationPlanEntity.class, Id);
 
-            salesOperationPlan.setFactoryProduct(factoryProduct);
             salesOperationPlan.setPlannedEndMonthInventory(plannedEndMonthInventory);
-            salesOperationPlan.setProductionPlan(productionPlan);
+            salesOperationPlan.setPlannedProductionPlanQuantity(productionPlanQuantity);
             salesOperationPlan.setTargetPeriod(targetPeriod);
             salesOperationPlan.setWorkingDay(workingDay);
-            salesOperationPlan.setIntegratedSalesForecast(integratedSalesForecast);
             em.persist(salesOperationPlan);
             em.flush();
             return salesOperationPlan;
@@ -106,14 +91,21 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     @Override
     public List<SalesOperationPlanEntity> ListSalesOperationPlan(Long factoryProductId, Calendar startPeriod, Calendar endPeriod) {
-        List<SalesOperationPlanEntity> list = new ArrayList<SalesOperationPlanEntity>();
-        List<SalesOperationPlanEntity> templist = new ArrayList<SalesOperationPlanEntity>();
+        List<SalesOperationPlanEntity> list = new ArrayList<>();
+        List<SalesOperationPlanEntity> templist = new ArrayList<>();
+        List<SalesOperationPlanEntity> templist1 = new ArrayList<>();
 
         try {
             if (startPeriod != null) {
                 if (factoryProductId == null) {
                     Query query = em.createQuery("SELECT t FROM SalesOperationPlanEntity t ORDER BY t.targetPeriod DESC");
-                    templist = (List<SalesOperationPlanEntity>) query.getResultList();
+                    templist1 = (List<SalesOperationPlanEntity>) query.getResultList();
+                    while (templist1.isEmpty()) {
+                        if (templist1.get(0).getStatus().equals("Cancelled")) {
+                            templist.add(templist1.get(0));
+                        }
+                        templist1.remove(0);
+                    }
 
                     while (!templist.isEmpty()) {
                         Calendar tempPeriod = templist.get(0).getTargetPeriod();
@@ -204,29 +196,40 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         System.out.println("1");
         Query q = em.createQuery("SELECT s FROM SalesOperationPlanEntity s ORDER BY s.targetPeriod DESC");
         System.out.println("2");
+        Double inventory;
         List<SalesOperationPlanEntity> tempSalesList = (List<SalesOperationPlanEntity>) q.getResultList();
-        List<SalesOperationPlanEntity> List = new ArrayList<>();
-        while (!tempSalesList.isEmpty()) {
-            if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct)) {
-                System.out.println("SalesOperationPlan calendar: " + tempSalesList.get(0).getTargetPeriod().getTime());
+        if (tempSalesList.isEmpty()) {
+            inventory = 0D;
+        } else {
+            List<SalesOperationPlanEntity> List = new ArrayList<>();
+            while (!tempSalesList.isEmpty()) {
+                if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct)) {
+                    System.out.println("SalesOperationPlan calendar: " + tempSalesList.get(0).getTargetPeriod().getTime());
+                    tempSalesList.get(0).getTargetPeriod().get(Calendar.MILLISECOND);
+                    tempSalesList.get(0).getTargetPeriod().set(Calendar.MILLISECOND, 0);
+                    System.out.println("SalesOperationPlan calendar: " + tempSalesList.get(0).getTargetPeriod().getTime());
+                    List.add(tempSalesList.get(0));
+                }
+                tempSalesList.remove(0);
             }
-            List.add(tempSalesList.get(0));
-            tempSalesList.remove(0);
-        }
+            if (List.isEmpty()) {
+                inventory = 0D;
+            } else {
+                inventory = List.get(0).getPlannedEndMonthInventory();
+            }
 
-        Double inventory = List.get(0).getPlannedEndMonthInventory();
+        }
         Calendar targetPeriod = Calendar.getInstance();
         targetPeriod.set(targetPeriod.get(Calendar.YEAR), targetPeriod.get(Calendar.MONTH), 1, 0, 0, 0);
         targetPeriod.add(Calendar.MONTH, 2);
 
-        System.out.println(List.get(0).getTargetPeriod().getTime());
         System.out.println("3");
         System.out.println(targetPeriod.getTime());
         Query qq = em.createQuery("SELECT i FROM IntegratedSalesForecastEntity i ORDER BY i.targetPeriod DESC");
         List<IntegratedSalesForecastEntity> tempSalesList1 = (List<IntegratedSalesForecastEntity>) qq.getResultList();
         List<IntegratedSalesForecastEntity> List1 = new ArrayList<>();
         while (!tempSalesList1.isEmpty()) {
-            if (tempSalesList1.get(0).getFactoryProduct().equals(factoryProduct)) {
+            if ((tempSalesList1.get(0).getFactoryProduct() != null) && (tempSalesList1.get(0).getFactoryProduct().equals(factoryProduct))) {
                 System.out.println(tempSalesList1.get(0).getTargetPeriod().getTime());
                 if ((tempSalesList1.get(0).getTargetPeriod().get(Calendar.MONTH) == (targetPeriod.get(Calendar.MONTH))) && (tempSalesList1.get(0).getTargetPeriod().get(Calendar.YEAR) == (targetPeriod.get(Calendar.YEAR)))) {
                     List1.add(tempSalesList1.get(0));
@@ -270,6 +273,69 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     public SalesOperationPlanEntity getSalesOperationPlan(Long salesOperationPlanId) {
 
         return em.find(SalesOperationPlanEntity.class, salesOperationPlanId);
+    }
+
+    @Override
+    public SalesOperationPlanEntity confirmSalesOperationPlan(Long salesOperationPlanId) {
+
+        SalesOperationPlanEntity salesOperationPlan = em.find(SalesOperationPlanEntity.class, salesOperationPlanId);
+
+        Calendar generatedDate = Calendar.getInstance();
+        Calendar targetPeriod = salesOperationPlan.getTargetPeriod();
+        Double productionPlanQuantity = salesOperationPlan.getPlannedProductionPlanQuantity();
+        FactoryProductEntity factoryProduct = salesOperationPlan.getFactoryProduct();
+        ProductionPlanEntity productionPlan = new ProductionPlanEntity("Unconfirmed", generatedDate, targetPeriod, productionPlanQuantity, factoryProduct, "");
+
+        em.persist(productionPlan);
+        em.flush();
+        salesOperationPlan.setStatus("Confirmed");
+        salesOperationPlan.setProductionPlan(productionPlan);
+        em.persist(salesOperationPlan);
+        em.flush();
+        return salesOperationPlan;
+    }
+
+    @Override
+    public SalesOperationPlanEntity cancelSalesOperationPlan(Long salesOperationPlanId) {
+
+        SalesOperationPlanEntity salesOperationPlan = em.find(SalesOperationPlanEntity.class, salesOperationPlanId);
+
+        salesOperationPlan.setStatus("Cancelled");
+
+        em.persist(salesOperationPlan);
+        em.flush();
+        return salesOperationPlan;
+    }
+
+    @Override
+    public boolean IsThereSalesOperation(Long factoryProductId) {
+
+        Query query = em.createQuery("SELECT t FROM SalesOperationPlanEntity t ORDER BY t.targetPeriod DESC");
+        List<SalesOperationPlanEntity> templist = (List<SalesOperationPlanEntity>) query.getResultList();
+        Calendar targetPeriod = Calendar.getInstance();
+        targetPeriod.add(Calendar.MONTH, 1);
+        for (SalesOperationPlanEntity s : templist) {
+            if (s.getStatus().equals("Confirmed") && s.getFactoryProduct().getFactoryProductId().equals(factoryProductId) && s.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH) && (s.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean IsThereForecast(Long factoryProductId) {
+        Query query = em.createQuery("SELECT t FROM IntegratedSalesForecastEntity t ORDER BY t.targetPeriod DESC");
+        List<IntegratedSalesForecastEntity> templist = (List<IntegratedSalesForecastEntity>) query.getResultList();
+        Calendar targetPeriod = Calendar.getInstance();
+        targetPeriod.add(Calendar.MONTH, 2);
+        for (IntegratedSalesForecastEntity s : templist) {
+            if (s.getFactoryProduct() != null) {
+                if (s.getFactoryProduct().getFactoryProductId().equals(factoryProductId) && s.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH) && (s.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

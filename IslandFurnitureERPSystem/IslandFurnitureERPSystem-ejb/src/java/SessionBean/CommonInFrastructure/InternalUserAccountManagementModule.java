@@ -29,7 +29,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
 
     @PersistenceContext
     private EntityManager em;
-    
+
     private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
 
     public InternalUserAccountManagementModule() {
@@ -62,15 +62,14 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("IMPORTANT!!!: password before hashing: "+ PWD +" Please remember this!");  
+        System.out.println("IMPORTANT!!!: password before hashing: " + PWD + " Please remember this!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-        
+
         String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
-        
+
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
-        
 
         switch (department.charAt(0)) {
             case 'H':
@@ -96,7 +95,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
                 idNum.setId_S((long) idNumber);
                 Suser = new StoreUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
-                        title, address, postalCode, email, departmentId,hashedpwd, false);
+                        title, address, postalCode, email, departmentId, hashedpwd, false);
                 em.persist(Suser);
                 System.out.println("User S" + idNumber.toString() + "created!");
                 break;
@@ -187,8 +186,51 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         List requiredUserList = new ArrayList();
         for (Object o : q.getResultList()) {
             UserEntity u = (UserEntity) o;
-            if(!u.isDeleteFlag())requiredUserList.add(u);
-            else System.out.println("deleted user: "+u.getUserId());
+            if (!u.isDeleteFlag()) {
+                requiredUserList.add(u);
+            } else {
+                System.out.println("deleted user: " + u.getUserId());
+            }
+        }
+        return requiredUserList;
+    }
+
+    @Override
+    public List<UserEntity> ListFactoryUser(Long id) {
+        System.out.println("InternalUserAccountModule: ListUser(): for factory " + id);
+        Query q = em.createQuery("SELECT t FROM UserEntity t");
+        List requiredUserList = new ArrayList();
+        for (Object o : q.getResultList()) {
+            UserEntity u = (UserEntity) o;
+            if ((!u.isDeleteFlag()) && (u.getDepartment().equals("F") && u.getDepartmentId() == id)) {
+                requiredUserList.add(u);
+                System.out.println("added user: " + u.getUserId());
+            } else {
+                System.out.println("deleted user: " + u.getUserId());
+            }
+        }
+        if (requiredUserList.isEmpty()) {
+            System.out.println("factoryuserlist is null~~~");
+        }
+        return requiredUserList;
+    }
+    
+    @Override
+    public List<UserEntity> ListStoreUser(Long id) {
+        System.out.println("InternalUserAccountModule: ListUser(): for store " + id);
+        Query q = em.createQuery("SELECT t FROM UserEntity t");
+        List requiredUserList = new ArrayList();
+        for (Object o : q.getResultList()) {
+            UserEntity u = (UserEntity) o;
+            if ((!u.isDeleteFlag()) && (u.getDepartment().equals("S") && u.getDepartmentId() == id)) {
+                requiredUserList.add(u);
+                System.out.println("added user: " + u.getUserId());
+            } else {
+                System.out.println("deleted user: " + u.getUserId());
+            }
+        }
+        if (requiredUserList.isEmpty()) {
+            System.out.println("storeuserlist is null~~~");
         }
         return requiredUserList;
     }
@@ -203,7 +245,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             System.out.println("error 1");
             user = em.find(UserEntity.class, userId);
             System.out.println("error 2");
-        //user = (UserEntity)q.getResultList();
+            //user = (UserEntity)q.getResultList();
             //if the user exsit 
             if (user == null) {
                 System.out.println("IUMA:getUser(): User Not Found!");
@@ -222,7 +264,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void changePass(String newPass, String userId) {
         System.out.println("InternalUserAccountModule: change password: ");
-        System.out.println("IMPORTANT!!!: IUAM: New password before hashing: "+ newPass +" Just for check!");        
+        System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
         UserEntity user = em.find(UserEntity.class, userId);
         user.setPwd(cryptographicHelper.doMD5Hashing(newPass));
         em.persist(user);

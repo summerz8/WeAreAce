@@ -16,6 +16,24 @@
     <h:body>
 
         <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for at least 10 seconds, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -43,7 +61,7 @@
                 </p:layoutUnit>
 
 
-                <p:growl id="messages" showDetail="false"/>                
+                              
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
@@ -57,7 +75,7 @@
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 
-                  <p:panel id="basic" header="Unconfirmed Purchase Orders" style="margin-bottom" >
+                    <p:panel id="basic" header="Unconfirmed Purchase Orders" style="margin-bottom" >
 
                         <p:dataTable var="upo" value="#{displayUnconfirmedPO.unconfirmedPOList}" >
                             <f:facet name="header">
@@ -69,7 +87,9 @@
                             </p:column>
 
                             <p:column headerText="Create Date" width="15%">
-                                <p:calendar value="#{upo.createDate}" style="font-weight: bold" pattern="dd/MM/YYYY" mask="true"/> 
+                                <h:outputText value="#{upo.createDate.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                </h:outputText>
                             </p:column>
 
                             <p:column headerText="Purchase Amount" width="15%">
@@ -93,17 +113,13 @@
                             </p:column>
                             <p:column headerText="Please Select Here" width="15%" >
                                 <p:commandButton update=":formMain:upoDetail" oncomplete="PF('upoDialog').show()" value="Confirm">
-
-                                    <f:setPropertyActionListener value="#{upo}" target="#{selectedIUnconfirmedPO.upo}" />
-
+                                    <f:setPropertyActionListener value="#{upo}" target="#{selectedUnconfirmedPO.upo}" />
                                 </p:commandButton>
                             </p:column>
 
                             <p:column headerText="Please Select Here" width="15%" >
-                                <p:commandButton update=":formMain:upoCancelDetail" oncomplete="PF('upoCancelDialog').show()" value="Cancell">
-
-                                    <f:setPropertyActionListener value="#{upo}" target="#{selectedIUnconfirmedPO.upo}" />
-
+                                <p:commandButton update=":formMain:upoCancelDetail" oncomplete="PF('upoCancelDialog').show()" value="Cancel">
+                                    <f:setPropertyActionListener value="#{upo}" target="#{selectedUnconfirmedPO.upo}" />
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
@@ -114,16 +130,18 @@
                             <p:outputPanel id="upoDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
                                     <h:outputText value="Id:" />
-                                    <h:outputText value="#{selectedIUnconfirmedPO.upo.id}"  style="font-weight: bold" />  
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.id}"  style="font-weight: bold" />  
 
                                     <h:outputText value="Create Date:"/>
-                                    <p:calendar value="#{selectedIUnconfirmedPO.upo.createDate}" pattern="dd/MM/YYYY" mask="true"/>
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.createDate.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
 
                                     <h:outputText value="Purchase Amount:" />
-                                    <h:outputText value="#{selectedIUnconfirmedPO.upo.totalAmount}" />
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.totalAmount}" />
 
                                     <h:outputText value="Total Price:" />
-                                    <h:outputText value="#{selectedIUnconfirmedPO.upo.totalPrice}" />
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.totalPrice}" />
 
                                     <h:outputText value="Item Name:" />
                                     <h:outputText value="#{selectedPurchaseOrder.selectedPO.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.materialName}" 
@@ -133,31 +151,33 @@
                                                   rendered="#{selectedPurchaseOrder.selectedPO.integratedPlannedOrder.factoryRawMaterialAmount eq null}"  />
 
                                     <h:outputText value="Supplier Name:" />
-                                    <h:outputText value="#{upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
 
-                                    <p:commandButton action="#{displayUnconfirmedPO.confirmPurchaseOrder()}" value="Comfirm" />
+                                    <p:commandButton action="#{displayUnconfirmedPO.confirmPurchaseOrder()}" value="Confirm" />
 
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>
-                        
-                        
+
+
                         <p:dialog header="Unconfirmed Purchase Order Info" widgetVar="upoCancelDialog" position="center"
                                   showEffect="fade" hideEffect="fade" resizable="true" 
                                   draggable="true" closable="true" width="300">
                             <p:outputPanel id="upoCancelDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
                                     <h:outputText value="Id:" />
-                                    <h:outputText value="#{selectedIUnconfirmedPO.upo.id}"  style="font-weight: bold" />  
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.id}"  style="font-weight: bold" />  
 
                                     <h:outputText value="Create Date:"/>
-                                    <p:calendar value="#{selectedIUnconfirmedPO.upo.createDate}" pattern="dd/MM/YYYY" mask="true"/>
-
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.createDate.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
+                                    
                                     <h:outputText value="Purchase Amount:" />
-                                    <h:outputText value="#{selectedIUnconfirmedPO.upo.totalAmount}" />
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.totalAmount}" />
 
                                     <h:outputText value="Total Price:" />
-                                    <h:outputText value="#{selectedIUnconfirmedPO.upo.totalPrice}" />
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.totalPrice}" />
 
                                     <h:outputText value="Item Name:" />
                                     <h:outputText value="#{selectedPurchaseOrder.selectedPO.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.materialName}" 
@@ -167,14 +187,14 @@
                                                   rendered="#{selectedPurchaseOrder.selectedPO.integratedPlannedOrder.factoryRawMaterialAmount eq null}"  />
 
                                     <h:outputText value="Supplier Name:" />
-                                    <h:outputText value="#{upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
 
-                                    <p:commandButton action="#{displayUnconfirmedPO.cancellUPO()}" value="Comfirm" />
+                                    <p:commandButton action="#{displayUnconfirmedPO.cancelUPO()}" value="Confirm" />
 
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>
-                  </p:panel>
+                    </p:panel>
 
                 </p:layoutUnit>
             </p:layout>

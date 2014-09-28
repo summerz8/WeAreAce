@@ -28,7 +28,6 @@ public class InventoryRecordEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar recordDate;
     private Double amount;
-    private String unit;
     
     //inventory record entity -- factory raw material entity : M <--> 1
     @ManyToOne
@@ -41,7 +40,20 @@ public class InventoryRecordEntity implements Serializable {
     //inventory record entity -- factory retail product entity : M <--> 1
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
+
+    public InventoryRecordEntity() {
+    }
+
+    
+    public InventoryRecordEntity(Calendar recordDate, Double amount, FactoryRawMaterialEntity factoryRawMaterial, FactoryProductEntity factoryProduct, FactoryRetailProductEntity factoryRetailProduct) {
+        this.recordDate = recordDate;
+        this.amount = amount;
+        this.factoryRawMaterial = factoryRawMaterial;
+        this.factoryProduct = factoryProduct;
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
             
+    
     public Long getId() {
         return id;
     }
@@ -66,14 +78,7 @@ public class InventoryRecordEntity implements Serializable {
         this.amount = amount;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
+   
     public FactoryRawMaterialEntity getFactoryRawMaterial() {
         return factoryRawMaterial;
     }

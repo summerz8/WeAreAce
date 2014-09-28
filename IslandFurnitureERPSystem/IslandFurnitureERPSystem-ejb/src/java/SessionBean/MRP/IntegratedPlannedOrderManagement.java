@@ -94,6 +94,8 @@ public class IntegratedPlannedOrderManagement implements IntegratedPlannedOrderM
         integratedPlannedOrder.setFactory(factory);
         
         em.persist(integratedPlannedOrder);
+        
+        factory.getIntegratedPlannedOrders().add(integratedPlannedOrder);
         em.flush();
         factory.getIntegratedPlannedOrders().add(integratedPlannedOrder);
         em.flush();
