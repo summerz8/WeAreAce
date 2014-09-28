@@ -19,7 +19,7 @@
 
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-            <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
             <p:confirmDialog id="confirmDialog"
                              message="You have been idle for at least 10 seconds, 
@@ -89,22 +89,16 @@
                         <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
                             <h:outputText value="#{o.factoryRawMaterial.factory.factoryId}" />
                         </p:column>
-<<<<<<< HEAD
-                        
+
                         <p:column headerText="ID">
                             #{o.rawMaterialInFactoryUseMovementId}
                         </p:column>
-=======
->>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
 
                         <p:column headerText="Material Name">
                             #{o.factoryRawMaterial.rawMaterial.materialName}
                         </p:column>
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
                         <p:column headerText="Factory Raw Material ID">
                             #{o.factoryRawMaterial.factoryRawMaterialId}
                         </p:column>
@@ -117,14 +111,11 @@
                             #{o.quantity}
                         </p:column>
 
-<<<<<<< HEAD
-                        
+
                         <p:column headerText="Unit">
                             #{o.factoryRawMaterial.unit}
                         </p:column>
-                        
-=======
->>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
+
                         <p:column headerText="Date">
                             #{o.creationDate.time}
                         </p:column>

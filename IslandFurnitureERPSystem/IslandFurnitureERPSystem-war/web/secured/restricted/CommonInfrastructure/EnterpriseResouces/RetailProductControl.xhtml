@@ -16,7 +16,7 @@
             <h:form id="formMain">
                 <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
                                  message="You have been idle for at least 10 seconds, 
@@ -55,13 +55,7 @@
 
                         </h:outputLabel>
                     </p:layoutUnit>
-<<<<<<< HEAD
-              
-=======
 
-
-                    
->>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
