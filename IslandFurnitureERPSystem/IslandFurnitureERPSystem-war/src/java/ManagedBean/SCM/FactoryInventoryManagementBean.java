@@ -624,10 +624,9 @@ public class FactoryInventoryManagementBean implements Serializable {
 //        return temp;
 //    }
 
-<<<<<<< HEAD
+
     public int recordRurrentInventoryLevel(ActionEvent event) {
         return fim.recordRurrentInventoryLevel(factoryId);
     }
-=======
->>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
+
 }
