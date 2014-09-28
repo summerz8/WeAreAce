@@ -73,6 +73,14 @@ public class FactoryRetailProductEntity implements Serializable {
     public FactoryRetailProductEntity() {
     }
 
+    public FactoryRetailProductEntity(String unit, String name, String description, FactoryEntity factory, RetailProductEntity retailProduct) {
+        this.unit = unit;
+        this.name = name;
+        this.description = description;
+        this.factory = factory;
+        this.retailProduct = retailProduct;
+    }
+
     public Long getFactoryRetailProdctId() {
         return factoryRetailProdctId;
     }

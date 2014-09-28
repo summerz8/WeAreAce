@@ -20,8 +20,9 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class RawMaterialInventoryMonitoringBean {
 
-    @ManagedProperty(value = "#{loginBean.userId}")
-    private String userId;
+    @ManagedProperty(value = "#{loginBean.department}")
+    private String department;
+    @ManagedProperty(value = "#{loginBean.departmentId}")
     private long factoryId;
     private List weeklyRawMaterialInventoryInFlow;
     private List weeklyRawMaterialInventoryOutFlow;
@@ -32,13 +33,12 @@ public class RawMaterialInventoryMonitoringBean {
     public RawMaterialInventoryMonitoringBean() {
     }
 
-    public String getUserId() {
-        return userId;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-        this.setFactoryId(rmim.findFactoryIdByUserId(userId));
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public long getFactoryId() {
@@ -50,7 +50,11 @@ public class RawMaterialInventoryMonitoringBean {
     }
 
     public List getWeeklyRawMaterialInventoryInFlow() {
-        weeklyRawMaterialInventoryInFlow = rmim.ViewWeeklyRawMaterialInventoryInFlow(factoryId);
+        if (department.equals("H")) {
+            weeklyRawMaterialInventoryInFlow = rmim.viewWeeklyRawMaterialInventoryInFlow(factoryId);
+        } else {
+            weeklyRawMaterialInventoryInFlow = rmim.viewAllWeeklyRawMaterialInventoryInFlow();
+        }
         return weeklyRawMaterialInventoryInFlow;
     }
 
@@ -59,7 +63,11 @@ public class RawMaterialInventoryMonitoringBean {
     }
 
     public List getWeeklyRawMaterialInventoryOutFlow() {
-        weeklyRawMaterialInventoryOutFlow = rmim.ViewWeeklyRawMaterialInventoryOutFlow(factoryId);
+        if (department.equals("H")) {
+            weeklyRawMaterialInventoryOutFlow = rmim.viewWeeklyRawMaterialInventoryOutFlow(factoryId);
+        } else {
+            weeklyRawMaterialInventoryOutFlow = rmim.viewAllWeeklyRawMaterialInventoryOutFlow();
+        }
         return weeklyRawMaterialInventoryOutFlow;
     }
 

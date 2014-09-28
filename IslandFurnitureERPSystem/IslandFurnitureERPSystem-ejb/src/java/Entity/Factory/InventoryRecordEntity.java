@@ -31,28 +31,38 @@ public class InventoryRecordEntity implements Serializable {
     
     //inventory record entity -- factory raw material entity : M <--> 1
     @ManyToOne
-    private FactoryRawMaterialEntity factoryRawMaterial;
+    private FactoryRawMaterialEntity factoryRawMaterial = null;
     
     //inventory record entity -- factory product entity : M <--> 1
     @ManyToOne
-    private FactoryProductEntity factoryProduct;
+    private FactoryProductEntity factoryProduct = null;
     
     //inventory record entity -- factory retail product entity : M <--> 1
     @ManyToOne
-    private FactoryRetailProductEntity factoryRetailProduct;
+    private FactoryRetailProductEntity factoryRetailProduct = null;
+
 
     public InventoryRecordEntity() {
     }
 
-    
-    public InventoryRecordEntity(Calendar recordDate, Double amount, FactoryRawMaterialEntity factoryRawMaterial, FactoryProductEntity factoryProduct, FactoryRetailProductEntity factoryRetailProduct) {
+
+    public InventoryRecordEntity(FactoryRawMaterialEntity factoryRawMaterial, Calendar recordDate, Double amount) {
+        this.factoryRawMaterial = factoryRawMaterial;
         this.recordDate = recordDate;
         this.amount = amount;
-        this.factoryRawMaterial = factoryRawMaterial;
-        this.factoryProduct = factoryProduct;
-        this.factoryRetailProduct = factoryRetailProduct;
     }
-            
+    
+    public InventoryRecordEntity(FactoryProductEntity factoryProduct, Calendar recordDate, Double amount) {
+        this.factoryProduct = factoryProduct;
+        this.recordDate = recordDate;
+        this.amount = amount;
+    }
+    
+    public InventoryRecordEntity(FactoryRetailProductEntity factoryRetailProduct, Calendar recordDate, Double amount) {
+        this.factoryRetailProduct = factoryRetailProduct;
+        this.recordDate = recordDate;
+        this.amount = amount;
+    } 
     
     public Long getId() {
         return id;
@@ -78,7 +88,6 @@ public class InventoryRecordEntity implements Serializable {
         this.amount = amount;
     }
 
-   
     public FactoryRawMaterialEntity getFactoryRawMaterial() {
         return factoryRawMaterial;
     }

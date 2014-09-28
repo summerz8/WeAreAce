@@ -90,13 +90,19 @@
                     <p:panel id="basic" header="Purchase Order" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="purchaseOrder" value="#{documentReferenceBean.allPurchaseOrders}">
+                    <p:dataTable var="purchaseOrder" value="#{documentReferenceBean.purchaseOrders}">
+
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{purchaseOrder.factory.factoryId}" />
+                        </p:column>
+
                         <p:column headerText="Purchase Order ID">
                             #{purchaseOrder.id}
                         </p:column>
 
-                        <p:column headerText="Status">
-                            #{purchaseOrder.status}
+                        <p:column headerText="Item Name">
+                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.materialName}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.name}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount}" />
                         </p:column>
 
                         <p:column headerText="Total Amount">
@@ -107,12 +113,8 @@
                             #{purchaseOrder.unit}
                         </p:column>
 
-                        <p:column headerText="Create Date">
-                            #{purchaseOrder.createDate.time}
-                        </p:column>
-
-                        <p:column headerText="Destination">
-                            #{purchaseOrder.destination}
+                        <p:column headerText="Status">
+                            #{purchaseOrder.status}
                         </p:column>
 
                         <p:column headerText="Lead Time (Day)">
@@ -123,16 +125,24 @@
                             #{purchaseOrder.totalPrice}
                         </p:column>
 
-                        <p:column headerText="Factory">
-                            #{purchaseOrder.factory.factoryId}
+                        <p:column headerText="Create Date">
+                            #{purchaseOrder.createDate.time}
+                        </p:column>
+
+                        <p:column headerText="Destination">
+                            #{purchaseOrder.destination}
+                        </p:column>
+
+                        <p:column headerText="Integrated Planned Order">
+                            #{purchaseOrder.integratedPlannedOrder.id}
                         </p:column>
 
                         <p:column headerText="Goods Receipt">
                             #{purchaseOrder.goodsReceipt.goodsReceiptId}
                         </p:column>
 
-                        <p:column headerText="Integrated Planned Order">
-                            #{purchaseOrder.integratedPlannedOrder.id}
+                        <p:column headerText="Contract">
+                            #{purchaseOrder.contract.contractId}
                         </p:column>
 
                         <p:column headerText="Delivery Orders">
@@ -142,11 +152,16 @@
                                     #{do.id}
                                 </p:column>
                             </p:dataTable>
+<<<<<<< HEAD
+                        </p:column>       
+
+=======
                         </p:column>
 
                         <p:column headerText="Contract">
                             #{purchaseOrder.contract.contractId}
                         </p:column>
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
 
                     </p:dataTable>
 

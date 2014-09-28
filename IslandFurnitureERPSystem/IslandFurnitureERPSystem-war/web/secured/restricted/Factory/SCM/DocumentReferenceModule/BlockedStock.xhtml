@@ -92,16 +92,24 @@
                     <p:panel id="basic" header="Blocked Stock" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="bs" value="#{documentReferenceBean.allBlockedStocks}" >
+                    <p:dataTable var="bs" value="#{documentReferenceBean.blockedStocks}" >
 
-                        <p:column headerText="Factory Bin Stored Product Id">
-                            #{bs.factoryBinStoredProductId}
+                        <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
+                            <h:outputText value="#{bs.factoryBin.factory.factoryId}" />
                         </p:column>
-
-                        <p:column headerText="Factory Bin">
-                            #{bs.factoryBin.factoryBinId}
+                        
+                        <p:column headerText="Stock Name">
+                            <h:outputText value="#{bs.factoryRawMaterial.rawMaterial.materialName}" rendered="#{bs.stockTypeIndicator == 1}" />
+                            <h:outputText value="#{bs.factoryProduct.product.name}" rendered="#{bs.stockTypeIndicator == 2}" />
+                            <h:outputText value="#{bs.factoryRetailProduct.retailProduct.name}" rendered="#{bs.stockTypeIndicator == 3}" />
                         </p:column>
-
+                        
+                        <p:column headerText="Stock Type">
+                            <h:outputText value="Factory Raw Material" rendered="#{bs.stockTypeIndicator == 1}" />
+                            <h:outputText value="Factory Product" rendered="#{bs.stockTypeIndicator == 2}" />
+                            <h:outputText value="Factory Retail Product" rendered="#{bs.stockTypeIndicator == 3}" />
+                        </p:column>
+                        
                         <p:column headerText="Amount">
                             #{bs.amount}
                         </p:column>
@@ -109,17 +117,9 @@
                         <p:column headerText="Status">
                             #{bs.status}
                         </p:column>
-
-                        <p:column headerText="Stock Type">
-                            <h:outputText value="Factory Raw Material" rendered="#{bs.stockTypeIndicator == 1}" />
-                            <h:outputText value="Factory Product" rendered="#{bs.stockTypeIndicator == 2}" />
-                            <h:outputText value="Factory Retail Product" rendered="#{bs.stockTypeIndicator == 3}" />
-                        </p:column>
-
-                        <p:column headerText="Stock Name">
-                            <h:outputText value="#{bs.factoryRawMaterial.rawMaterial.materialName}" rendered="#{bs.stockTypeIndicator == 1}" />
-                            <h:outputText value="#{bs.factoryProduct.product.name}" rendered="#{bs.stockTypeIndicator == 2}" />
-                            <h:outputText value="#{bs.factoryRetailProduct.retailProduct.name}" rendered="#{bs.stockTypeIndicator == 3}" />
+                        
+                        <p:column headerText="Factory Bin">
+                            #{bs.factoryBin.factoryBinId}
                         </p:column>
 
                     </p:dataTable>

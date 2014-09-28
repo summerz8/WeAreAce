@@ -50,4 +50,20 @@ public interface DocumentReferenceModuleLocal {
 
     List viewAllSuppliers();
 
+    List viewProductionPlansByFactory(long factoryId);
+
+    List viewPlannedOrdersByFactory(long factoryId);
+
+    List viewBlockedStockByFactory(long factoryId);
+
+    List viewReturnedProductByFactory(long factoryId);
+
+    List viewPurchaseOrdersByFactory(long factoryId);
+
+    List viewGoodsReceiptsByFactory(long factoryId);
+
+    List viewContractsByFactory(long factoryId);
+
+    List viewSupplierByFactory(long factoryId);
+
 }

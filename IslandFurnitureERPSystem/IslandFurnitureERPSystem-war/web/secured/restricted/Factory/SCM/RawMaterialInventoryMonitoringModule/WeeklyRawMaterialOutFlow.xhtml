@@ -86,14 +86,25 @@
 
                     <p:dataTable var="o" value="#{rawMaterialInventoryMonitoringBean.weeklyRawMaterialInventoryOutFlow}">
 
-                        <p:column headerText="Raw Material In-Factory Usee Movement ID">
+                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
+                            <h:outputText value="#{o.factoryRawMaterial.factory.factoryId}" />
+                        </p:column>
+<<<<<<< HEAD
+                        
+                        <p:column headerText="ID">
                             #{o.rawMaterialInFactoryUseMovementId}
                         </p:column>
+=======
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
 
                         <p:column headerText="Material Name">
                             #{o.factoryRawMaterial.rawMaterial.materialName}
                         </p:column>
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
                         <p:column headerText="Factory Raw Material ID">
                             #{o.factoryRawMaterial.factoryRawMaterialId}
                         </p:column>
@@ -106,6 +117,14 @@
                             #{o.quantity}
                         </p:column>
 
+<<<<<<< HEAD
+                        
+                        <p:column headerText="Unit">
+                            #{o.factoryRawMaterial.unit}
+                        </p:column>
+                        
+=======
+>>>>>>> b8eb2397ec83f52290202fff9465a7b317d3a164
                         <p:column headerText="Date">
                             #{o.creationDate.time}
                         </p:column>
