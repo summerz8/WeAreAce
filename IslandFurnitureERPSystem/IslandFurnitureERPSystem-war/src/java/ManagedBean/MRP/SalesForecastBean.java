@@ -30,16 +30,21 @@ public class SalesForecastBean {
     private Long storeId;
     private Calendar targetPeriod;
     private Long factoryId;
+    private String department;
 
     public SalesForecastBean() {
     }
 
     @PostConstruct
     public void getAllSalesForecast() {
+        
         factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        department=(String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
 
         try {
-            salesForecastList = salesForecastModule.ListSalesForecast(factoryId, null, null, null);
+            if(department.equals("H"))
+            salesForecastList = salesForecastModule.ListSalesForecast(null, null, null, null);
+            else salesForecastList = salesForecastModule.ListSalesForecast(factoryId, null, null, null);
         } catch (Exception e) {
             System.err.println("Caught an unexpected exception managedbean");
             e.printStackTrace();
@@ -103,4 +108,11 @@ public class SalesForecastBean {
         this.factoryId = factoryId;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 }

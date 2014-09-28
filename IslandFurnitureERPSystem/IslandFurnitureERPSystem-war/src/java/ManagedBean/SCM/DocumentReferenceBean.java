@@ -149,6 +149,11 @@ public class DocumentReferenceBean implements Serializable {
         this.purchaseOrders = purchaseOrders;
     }
 
+    public List viewAllBlockedStock() {
+        return dr.viewAllBlockedStock();
+
+    }
+
     public List getReturnedStocks() {
         if (department.equals("H")) {
             returnedStocks = dr.viewAllReturnedProduct();
@@ -179,13 +184,14 @@ public class DocumentReferenceBean implements Serializable {
         return filteredSuppliers;
     }
 
-
     public void setFilteredSuppliers(List filteredSuppliers) {
         this.filteredSuppliers = filteredSuppliers;
     }
-    
+
     public List viewAllSuppliers() {
         return dr.viewAllSuppliers();
 
     }
+
 }
+    

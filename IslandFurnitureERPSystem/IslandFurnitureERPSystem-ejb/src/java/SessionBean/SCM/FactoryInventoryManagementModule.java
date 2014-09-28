@@ -5,7 +5,6 @@
  */
 package SessionBean.SCM;
 
-import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.Factory.FactoryBin.FactoryBinEntity;
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.FactoryProductEntity;
@@ -101,6 +100,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRawMaterial, toBin, status);
                     em.persist(factoryBinStoredProduct);
                     factoryRawMaterial.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
+                    toBin.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 } else {
                     factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
                 }
@@ -126,6 +126,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, status);
                     em.persist(factoryBinStoredProduct);
                     factoryRetailProduct.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
+                    toBin.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 } else {
                     factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
                 }
@@ -345,6 +346,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRawMaterial(), toBin, factoryFromBinStoredProduct.getStatus());
                 em.persist(factoryToBinStoredProduct);
                 factoryFromBinStoredProduct.getFactoryRawMaterial().getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
+                toBin.getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
             } else {
                 factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q5.getSingleResult();
             }
@@ -425,6 +427,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryProduct(), toBin, factoryFromBinStoredProduct.getStatus());
                 em.persist(factoryToBinStoredProduct);
                 factoryFromBinStoredProduct.getFactoryProduct().getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
+                toBin.getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
             } else {
                 factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q5.getSingleResult();
             }
@@ -504,6 +507,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             if (q5.getResultList().isEmpty()) {
                 factoryToBinStoredProduct = new FactoryBinStoredProductEntity();
                 factoryToBinStoredProduct.createFactoryBinStoredProduct(factoryFromBinStoredProduct.getFactoryRetailProduct(), toBin, factoryFromBinStoredProduct.getStatus());
+                toBin.getFactoryBinStoredProducts().add(factoryToBinStoredProduct);
                 em.persist(factoryToBinStoredProduct);
             } else {
                 factoryToBinStoredProduct = (FactoryBinStoredProductEntity) q5.getSingleResult();
@@ -612,6 +616,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 FactoryBinStoredProductEntity factoryBinStoredProduct2 = new FactoryBinStoredProductEntity();
                 factoryBinStoredProduct2.createFactoryBinStoredProduct(factoryBinStoredProduct1.getFactoryRawMaterial(), factoryBinStoredProduct1.getFactoryBin(), toStatus);
                 factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                factoryBinStoredProduct1.getFactoryBin().getFactoryBinStoredProducts().add(factoryBinStoredProduct2);
                 em.persist(factoryBinStoredProduct2);
                 em.remove(factoryBinStoredProduct1);
             } else {
@@ -668,6 +673,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             if (q.getResultList().isEmpty()) {
                 factoryBinStoredProduct = new FactoryBinStoredProductEntity();
                 factoryBinStoredProduct.createFactoryBinStoredProduct(factoryProduct, toBin, "returned");
+                toBin.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 em.persist(factoryBinStoredProduct);
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
@@ -727,12 +733,16 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             if (q.getResultList().isEmpty()) {
                 factoryBinStoredProduct = new FactoryBinStoredProductEntity();
                 factoryBinStoredProduct.createFactoryBinStoredProduct(factoryRetailProduct, toBin, "returned");
+                toBin.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 em.persist(factoryBinStoredProduct);
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
+
+ 
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
+
 
             em.persist(returnedFactoryRetailProductInboundMovement);
             em.flush();
@@ -747,24 +757,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
 
     }
 
-    //return factoryId
-    //       -1L if the userId is not a factory userId
-    //       -2 if unexpected error occurred
-    @Override
-    public long findFactoryIdByUserId(String userId) {
-        try {
-            FactoryUserEntity factoryUser = em.find(FactoryUserEntity.class, userId);
-            if (factoryUser == null) {
-                return 0L;
-            }
-            return factoryUser.getDepartmentId();
-        } catch (Exception ex) {
-            System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: findFactoryIdByUserId(): Caught an unexpected exception.");
-            ex.printStackTrace();
-            return -2L;
-        }
 
-    }
 
     // return -1L if factoryProductId is invalid
     //        -2L if the toBinId is invalid
@@ -796,6 +789,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             if (q.getResultList().isEmpty()) {
                 factoryBinStoredProduct = new FactoryBinStoredProductEntity();
                 factoryBinStoredProduct.createFactoryBinStoredProduct(factoryProduct, toBin, status);
+                toBin.getFactoryBinStoredProducts().add(factoryBinStoredProduct);
                 em.persist(factoryBinStoredProduct);
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
@@ -812,8 +806,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-            return -3L;
 
+            return -3L;
         }
 
     }
@@ -821,7 +815,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //return 0 if successful
     //       -1 if error occurred        
     @Override
-    public int recordRurrentInventoryLevel(long factoryId) {
+    public int recordCurrentInventoryLevel(long factoryId) {
         try {
             Query q1 = em.createQuery("SELECT frm FROM FactoryRawMaterialEntity frm WHERE frm.factory.factoryId = :factoryId");
             q1.setParameter("factoryId", factoryId);
