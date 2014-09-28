@@ -97,7 +97,11 @@
                             <h:outputText value="The Storage Bin is Empty" rendered="#{b.factoryBinStoredProducts.isEmpty()}" />
                             <p:dataTable var="i" value="#{b.factoryBinStoredProducts}" rendered="#{!b.factoryBinStoredProducts.isEmpty()}">
                                 
-                                <p:column headerText="ID">
+                                <p:column headerText="FBSP ID">
+                                    <h:outputText value="#{i.factoryBinStoredProductId}" />
+                                </p:column>
+                                
+                                <p:column headerText="Item ID">
                                     <h:outputText value="#{i.factoryRawMaterial.factoryRawMaterialId}" rendered="#{i.stockTypeIndicator == 1}" />
                                     <h:outputText value="#{i.factoryProduct.factoryProductId}" rendered="#{i.stockTypeIndicator == 2}" />
                                     <h:outputText value="#{i.factoryRetailProduct.factoryRetailProdctId}" rendered="#{i.stockTypeIndicator == 3}" />
