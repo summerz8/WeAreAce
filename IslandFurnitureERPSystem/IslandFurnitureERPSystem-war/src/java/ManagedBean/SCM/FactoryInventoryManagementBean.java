@@ -602,27 +602,6 @@ public class FactoryInventoryManagementBean implements Serializable {
                                 ""));
             }
     }
- 
-//    public long findFactoryIdByUserId(String userId) {
-//        long temp = fim.findFactoryIdByUserId(userId);
-//        if (temp == -1L) {
-//                FacesContext.getCurrentInstance().addMessage(
-//                        null,
-//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to find factory id",
-//                                "userId is not a factory userId"));
-//            } else if (temp == -2L) {
-//                FacesContext.getCurrentInstance().addMessage(
-//                        null,
-//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to find factory id",
-//                                "unexpected error occurred"));
-//            } else {
-//                FacesContext.getCurrentInstance().addMessage(
-//                        null,
-//                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory ID found!",
-//                                ""));               
-//            }
-//        return temp;
-//    }
 
 
     public int recordRurrentInventoryLevel(ActionEvent event) {
