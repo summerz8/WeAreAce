@@ -16,11 +16,11 @@ import javax.ejb.Local;
 @Local
 public interface RawMaterialInventoryMonitoringModuleLocal {
 
-    List viewWeeklyRawMaterialInventoryInFlow(long factoryId);
+    public List viewWeeklyRawMaterialInventoryInFlow(long factoryId);
     
-    List viewWeeklyRawMaterialInventoryOutFlow(long factoryId);
+    public List viewWeeklyRawMaterialInventoryOutFlow(long factoryId);
     
-    List viewAllWeeklyRawMaterialInventoryInFlow();
+    public List viewAllWeeklyRawMaterialInventoryInFlow();
 
-    List viewAllWeeklyRawMaterialInventoryOutFlow();
+    public List viewAllWeeklyRawMaterialInventoryOutFlow();
 }
