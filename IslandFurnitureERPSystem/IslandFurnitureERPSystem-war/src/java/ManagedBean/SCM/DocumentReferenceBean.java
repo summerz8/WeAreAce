@@ -156,6 +156,7 @@ public class DocumentReferenceBean implements Serializable {
 
     public List viewAllSuppliers() {
         return dr.viewAllSuppliers();
+
     }
 
 }

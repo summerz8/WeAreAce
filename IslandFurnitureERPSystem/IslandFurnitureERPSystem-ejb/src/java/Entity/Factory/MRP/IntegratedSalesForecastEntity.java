@@ -46,7 +46,6 @@ public class IntegratedSalesForecastEntity implements Serializable {
     //factory  entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
     private FactoryEntity factory;
-
     
     //factory retail product entity -- integrated sales forecast entity   1 <-- M
     @ManyToOne
