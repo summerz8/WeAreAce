@@ -80,12 +80,12 @@
                     </p:menu>
 
                 </p:layoutUnit>
-                <p:layoutUnit position="center" resizable="false">
+                <p:layoutUnit position="center" resizable="false" >
 
                     <p:panel id="basic" header="Record Inbound Movement" style="margin-bottom" >
                     </p:panel>
 
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Goods Receipt: " />
                         <h:inputText value="#{factoryInventoryManagementBean.goodsReceiptId}" />

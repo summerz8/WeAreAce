@@ -59,9 +59,8 @@ public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
                 frp = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct();
                 itemId = frp.getFactoryRetailProdctId();
             }
-
-            deliveryOrderList = pmb.getDeliveryAmountAndDate(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount);
             purchaseAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType);
+            deliveryOrderList = pmb.getDeliveryAmountAndDate(integratedPlannedOrder.getId(), purchaseAmount);
         } catch (Exception ex) {
             Logger.getLogger(DisplayPlannedDeliveryAmountAndDate.class.getName()).log(Level.SEVERE, null, ex);
         }

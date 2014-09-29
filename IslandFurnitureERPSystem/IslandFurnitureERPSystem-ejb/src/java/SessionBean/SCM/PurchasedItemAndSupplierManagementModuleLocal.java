@@ -13,6 +13,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.RawMaterialEntity;
@@ -29,6 +30,8 @@ import javax.ejb.Local;
 @Local
 public interface PurchasedItemAndSupplierManagementModuleLocal {
 
+    public UserEntity getUser(String userId) throws Exception;
+    
     public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception;
 
     public Collection<FactoryRetailProductEntity> viewRetailProductWithSelectType(Long factoryId) throws Exception;

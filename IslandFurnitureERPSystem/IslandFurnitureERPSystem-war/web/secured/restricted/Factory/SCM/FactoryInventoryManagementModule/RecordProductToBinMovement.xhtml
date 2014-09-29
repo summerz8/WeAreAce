@@ -91,7 +91,7 @@
                     <p:panel id="basic" header="Record Product-To-Bin Movement" style="margin-bottom" >
                     </p:panel>
 
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Factory Product ID: " />
                         <h:inputText value="#{factoryInventoryManagementBean.factoryProductId}" />

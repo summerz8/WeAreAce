@@ -11,9 +11,11 @@
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <title>Island Furniture ERP System</title>
+
     </h:head>
 
     <h:body>
+
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
@@ -42,19 +44,19 @@
                     <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                    </p:commandButton>
+                        </p:commandButton>
+                        
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>
 
-                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button>  
 
-                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                        </p:button> 
 
-                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                    </p:button> 
-
-                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                        </p:button>
 
 
                     <h:outputLabel value = "Welcome Back " >
@@ -83,19 +85,19 @@
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
-                    <h:form> 
-                        <p:commandButton  id = "back" value="Back" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="SearchBOM?faces-redirect=true" >
+
+                    
+                         <p:commandButton  id = "back" value="Back" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="SearchBOM?faces-redirect=true" >
                         </p:commandButton>
                         <br></br><br></br>
-                        <h:panelGrid columns="3" cellpadding="5">
-                            
-                            <h:outputLabel for="Factory Product Id" value="Factory Product ID:" style="font-weight:bold" />
-                            <p:inputText id="productionId" value="#{searchBOM.factoryProductId}" />
-                            <p:commandButton value="Search"  action="#{searchBOM.goNext()}" icon="ui-icon-check" />
-                        </h:panelGrid>
-                    </h:form>
+
+                        <h:outputText value="Sorry, there is no such product." />
+                                       
+                    
 
                 </p:layoutUnit>
+
+
 
             </p:layout>
         </h:form>

@@ -5,6 +5,8 @@
  */
 package ManagedBean.MRP;
 
+import SessionBean.MRP.WeeklyProductionPlanLocal;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -17,18 +19,19 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class SearchBOMBean {
 
-    /**
-     * Creates a new instance of SearchBOM
-     */
+    @EJB
+    WeeklyProductionPlanLocal wppl;
     Long factoryProductId;
     
     public SearchBOMBean() {
     }
 
     public String goNext() {
+        if(wppl.isProduct(factoryProductId).equals("yes")){
+        System.out.println("ahaha");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryProductId", factoryProductId);
         return "ViewBOM?faces-redirect=true";
-
+        }else return "NoSuchProduct?faces-redirect=true";
     }
 
     public Long getFactoryProductId() {

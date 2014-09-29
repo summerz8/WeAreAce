@@ -40,7 +40,7 @@ public interface SalesOperationPlanLocal {
 
     public Calendar removeTime(Calendar cal);
     
-    public List<FactoryProductEntity> getAllFacotryProduct();
+    public List<FactoryProductEntity> getAllFacotryProduct(Long factoryId);
     
     public SalesOperationPlanEntity createSalesOperationPlan(Long targetProductId);
     

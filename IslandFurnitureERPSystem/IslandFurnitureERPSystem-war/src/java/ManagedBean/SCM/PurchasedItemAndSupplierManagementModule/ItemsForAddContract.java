@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM.PurchasedItemAndSupplierManagementModule;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import SessionBean.SCM.PurchasedItemAndSupplierManagementModuleLocal;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -32,11 +34,13 @@ public class ItemsForAddContract implements Serializable {
     Long factoryId;
     Collection<FactoryRawMaterialEntity> frmList;
     Collection<FactoryRetailProductEntity> frpList;
+    private String userId;
 
     @PostConstruct
     public void init() {
         try {
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
@@ -86,8 +90,15 @@ public class ItemsForAddContract implements Serializable {
     }
 
     public String displayAllFactoryItems() throws Exception {
+        UserEntity user = pmb.getUser(userId);
+        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract?faces-redirect=true";
+        } else {
 
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract?faces-redirect=true";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
+
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
+        }
     }
 
 }

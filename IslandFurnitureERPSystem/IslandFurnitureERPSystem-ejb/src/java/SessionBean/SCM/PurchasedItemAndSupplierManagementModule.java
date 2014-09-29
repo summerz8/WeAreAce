@@ -12,6 +12,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
@@ -95,7 +96,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         System.out.println("viewRawMaterialListNotInFactory():");
 
         Integer flag = 0;
-        Collection<RawMaterialEntity> rmList = new ArrayList<> ();
+        Collection<RawMaterialEntity> rmList = new ArrayList<>();
         FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
         Collection<FactoryRawMaterialEntity> currentFactoryRawMaterialList = currentFactory.getFactoryRawMaterials();
         try {
@@ -103,20 +104,20 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             outerLoop:
             for (Object o : q.getResultList()) {
                 RawMaterialEntity rawmaterial = (RawMaterialEntity) o;
-                  for(FactoryRawMaterialEntity frm: currentFactoryRawMaterialList){
-                      FactoryRawMaterialEntity frawmaterial = frm;
-                      if(frawmaterial.getRawMaterial().equals(rawmaterial) && (!frawmaterial.getIsDeleted())){
-                           flag = 1;
-                           break;
-                      }
-                  }
-                 if(flag == 0){
-                     rmList.add(rawmaterial);
-                 }
-                 flag = 0;
-               
+                for (FactoryRawMaterialEntity frm : currentFactoryRawMaterialList) {
+                    FactoryRawMaterialEntity frawmaterial = frm;
+                    if (frawmaterial.getRawMaterial().equals(rawmaterial) && (!frawmaterial.getIsDeleted())) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    rmList.add(rawmaterial);
+                }
+                flag = 0;
+
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
@@ -127,7 +128,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     public Collection<RetailProductEntity> viewRetailProductListNotInFactory(Long factoryId) throws Exception {//test works!!
         System.out.println("viewRetailProductListNotInFactory():");
         Integer flag = 0;
-        Collection<RetailProductEntity> rpList = new ArrayList<> ();
+        Collection<RetailProductEntity> rpList = new ArrayList<>();
         FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
         Collection<FactoryRetailProductEntity> currentFactoryRetailProductList = currentFactory.getFactoryRetailProducts();
         try {
@@ -135,20 +136,20 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             outerLoop:
             for (Object o : q.getResultList()) {
                 RetailProductEntity rp = (RetailProductEntity) o;
-                  for(FactoryRetailProductEntity frp: currentFactoryRetailProductList){
-                      FactoryRetailProductEntity fRetailproduct = frp;
-                      if(fRetailproduct.getRetailProduct().equals(rp) && (!fRetailproduct.getIsDeleted())){
-                           flag = 1;
-                           break;
-                      }
-                  }
-                 if(flag == 0){
-                     rpList.add(rp);
-                 }
-                 flag = 0;
-               
+                for (FactoryRetailProductEntity frp : currentFactoryRetailProductList) {
+                    FactoryRetailProductEntity fRetailproduct = frp;
+                    if (fRetailproduct.getRetailProduct().equals(rp) && (!fRetailproduct.getIsDeleted())) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    rpList.add(rp);
+                }
+                flag = 0;
+
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
@@ -380,7 +381,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         String result = null;
         try {
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
-           
+
             String supplierName = supplier.getSupplierName();
             Collection<ContractEntity> contractList = supplier.getContractList();
 
@@ -393,14 +394,14 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 Calendar today = Calendar.getInstance();
 
                 if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//get unexpired contract
-                    result = "Supplier [id = "+supplier.getSupplierId()+", Name =" + supplierName + "] contains at least one unexpired contract, it cannot be deleted. ";
+                    result = "Supplier [id = " + supplier.getSupplierId() + ", Name =" + supplierName + "] contains at least one unexpired contract, it cannot be deleted. ";
                     System.out.println(result);
                     return result;
                 }
             }
             supplier.setIsDeleted(Boolean.TRUE);
 
-            result = "Supplier [id = "+supplier.getSupplierId()+", Name =" + supplierName + "] has been deleted.";
+            result = "Supplier [id = " + supplier.getSupplierId() + ", Name =" + supplierName + "] has been deleted.";
             em.flush();
 
         } catch (Exception ex) {
@@ -438,7 +439,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 factoryRawMaterial.setRawMaterial(rawMaterial);
                 rawMaterial.getFactoryRawMaterials().add(factoryRawMaterial);
                 em.flush();
-                result = "Factory Raw material [id = "+ factoryRawMaterial.getFactoryRawMaterialId()+ " Name = " + factoryRawMaterial.getMaterialName() + "] has been added";
+                result = "Factory Raw material [id = " + factoryRawMaterial.getFactoryRawMaterialId() + " Name = " + factoryRawMaterial.getMaterialName() + "] has been added";
 
             } else {// itemType.equals("RetailProduct")
                 RetailProductEntity retailProduct = em.find(RetailProductEntity.class, itemId);
@@ -456,7 +457,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 retailProduct.getFactoryRetailProducts().add(factoryRetailProduct);
                 em.flush();
 
-                result = "Factory Retail prodcuct [id = "+ factoryRetailProduct.getFactoryRetailProdctId() + " Name = " + factoryRetailProduct.getName() +"] has been added";
+                result = "Factory Retail prodcuct [id = " + factoryRetailProduct.getFactoryRetailProdctId() + " Name = " + factoryRetailProduct.getName() + "] has been added";
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -542,7 +543,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemFactoryId);
                 String rmName = factoryRawMaterial.getMaterialName();
-                
+
                 Collection<ContractEntity> contractList = factoryRawMaterial.getContracts();
 
                 Iterator iterator = contractList.iterator();
@@ -561,19 +562,18 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                         System.out.println(result);
                         return result;
                     }
-                   
+
                 }
-                if(factoryRawMaterial.getBlockedInventory() != 0){
+                if (factoryRawMaterial.getBlockedInventory() != 0) {
                     System.out.println("rm : getBlockedInventory");
-                   result = "You cannot delete this raw material because it still has inventory.";
-                   return result;
+                    result = "You cannot delete this raw material because it still has inventory.";
+                    return result;
+                } else if (factoryRawMaterial.getUnrestrictedInventory() != 0) {
+                    System.out.println("rm : getUnrestrictedInventory");
+                    result = "You cannot delete this raw material because it still has inventory.";
+                    return result;
                 }
-                else if ( factoryRawMaterial.getUnrestrictedInventory() != 0 ){
-                     System.out.println("rm : getUnrestrictedInventory");
-                   result = "You cannot delete this raw material because it still has inventory.";
-                   return result;
-                }
-                
+
                 factoryRawMaterial.setIsDeleted(Boolean.TRUE);
                 result = "Raw Material [id = " + factoryRawMaterial.getFactoryRawMaterialId() + "] has been deleted.";
 
@@ -595,30 +595,28 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     Calendar today = Calendar.getInstance();
 
                     if (removeTime(today).compareTo(removeTime(contractEndDate)) <= 0) {//check unexpired contract
-                        result = "Retail Product [id = " + factoryRetailProduct.getDescription()+ "] contains at least one unexpired contract, it cannot be deleted ";
+                        result = "Retail Product [id = " + factoryRetailProduct.getDescription() + "] contains at least one unexpired contract, it cannot be deleted ";
                         System.out.println(result);
                         return result;
                     }
                 }
-                
-                if(factoryRetailProduct.getBlockedInventory() != 0){
+
+                if (factoryRetailProduct.getBlockedInventory() != 0) {
                     System.out.println("RP : getBlockedInventory");
-                   result = "You cannot delete this raw material because it still has inventory.";
-                   return result;
-                }
-                else if ( factoryRetailProduct.getUnrestrictedInventory() != 0 ){
+                    result = "You cannot delete this raw material because it still has inventory.";
+                    return result;
+                } else if (factoryRetailProduct.getUnrestrictedInventory() != 0) {
                     System.out.println("RP : getUnrestrictedInventory");
-                   result = "You cannot delete this raw material because it still has inventory.";
-                   return result;
-                }
-                else if ( factoryRetailProduct.getReturnedInventory() != 0 ){
-                   System.out.println("RP : getReturnedInventory");
-                   result = "You cannot delete this raw material because it still has inventory.";
-                   return result;
+                    result = "You cannot delete this raw material because it still has inventory.";
+                    return result;
+                } else if (factoryRetailProduct.getReturnedInventory() != 0) {
+                    System.out.println("RP : getReturnedInventory");
+                    result = "You cannot delete this raw material because it still has inventory.";
+                    return result;
                 }
 
                 factoryRetailProduct.setIsDeleted(Boolean.TRUE);
-                result = "Retail Product [id = " + factoryRetailProduct.getDescription()+ "] has been deleted.";
+                result = "Retail Product [id = " + factoryRetailProduct.getDescription() + "] has been deleted.";
                 em.flush();
             }
 
@@ -654,6 +652,12 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             isExpired = false;
         }
         return isExpired;
+    }
+
+    @Override
+    public UserEntity getUser(String userId) throws Exception {
+        UserEntity user = em.find(UserEntity.class, userId);
+        return user;
     }
 
 }

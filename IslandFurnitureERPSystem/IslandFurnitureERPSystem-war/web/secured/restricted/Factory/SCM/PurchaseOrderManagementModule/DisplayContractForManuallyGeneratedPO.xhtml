@@ -127,7 +127,7 @@
                                   draggable="true" closable="true" width="300">
                             <p:outputPanel id="inputDetail" style="text-align:center;">
                                 <h:outputText value="#{displayContractForManuallyGeneratedPO.result}"></h:outputText>
-                                <p:commandButton action="#{displayDeliveryDestinationForManuallyGeneratedPO.displayDestination()}" value="Submit" rendered="#{displayContractForManuallyGeneratedPO.isValid eq true}"></p:commandButton>
+                                <p:commandButton action="#{displayDeliveryDestinationForManuallyGeneratedPO.displayDestination()}" value="Submit" rendered="#{displayContractForManuallyGeneratedPO.isValid}"></p:commandButton>
                             </p:outputPanel>
                         </p:dialog>
                     </p:panel>

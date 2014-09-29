@@ -22,12 +22,14 @@ public interface WeeklyProductionPlanLocal {
 
     public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId);
 
-    public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id,Calendar month, Integer week, Integer workingDayInWeek, Integer workingDayInMonth, Double weeklyDemand);
+    public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id, Calendar month, Integer week, Integer workingDayInWeek, Integer workingDayInMonth, Double weeklyDemand);
 
-    public List<WeeklyProductionPlanEntity>  getWeeklyProductionPlan(Long productionPlanId);
-    
+    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId);
+
     public ProductEntity getProduct(Long factoryProductId);
 
+    public String isProduct(Long factoryProductId);
+  
     public void Edit(Long id, String field, Object content);
-    
+
 }
