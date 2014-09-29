@@ -246,16 +246,11 @@ public class DisplayManuallyGeneratedPO implements Serializable {
             purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(),
                     purchaseAmount, storeId, destination, deliveryDate);
 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ",
-                    "Purchase order [id = " + purchaseOrder.getId() + "] been created!");
-
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 
@@ -265,7 +260,7 @@ public class DisplayManuallyGeneratedPO implements Serializable {
                     "Purchase order create failed.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayManuallyGeneratedPO?faces-redirect=true";
         }
 
     }
