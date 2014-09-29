@@ -90,7 +90,7 @@ public class GetManuallyGeneratedPO {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("po");
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
     }
 
 }

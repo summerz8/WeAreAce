@@ -33,8 +33,10 @@ public class DisplayContractForManuallyGeneratedPO {
     private Long itemId;
     private SupplierEntity supplier;
     private Double purchaseAmount;
-    private Long factoryId ;
+    private Long factoryId;
     private Calendar deliveryDate = Calendar.getInstance();
+    private String result = null;
+    private Boolean isValid = true;
 
     @PostConstruct
     public void init() {
@@ -93,7 +95,6 @@ public class DisplayContractForManuallyGeneratedPO {
 
     public void setPurchaseAmount(Double purchaseAmount) {
         this.purchaseAmount = purchaseAmount;
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("purchaseAmount", purchaseAmount);
 
     }
 
@@ -119,9 +120,61 @@ public class DisplayContractForManuallyGeneratedPO {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate.setTime(deliveryDate);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryDate", this.deliveryDate);
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public Boolean getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Boolean isValid) {
+        this.isValid = isValid;
     }
 
     public DisplayContractForManuallyGeneratedPO() {
     }
+
+    public void checkInput() {
+        Calendar checkDate = Calendar.getInstance();
+        checkDate.add(Calendar.DAY_OF_MONTH, this.contract.getLeadTime());
+
+        if ((purchaseAmount % this.contract.getLotSize()) == 0) {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("purchaseAmount", purchaseAmount);
+            result = "Purchase amount valid.\n";
+        } else {
+            result = "Purchase amount required to be multiples of lot size. \n";
+            isValid = false;
+
+        }
+        System.out.println("Check Date:" + checkDate.toString());
+        if (removeTime(checkDate).before(removeTime(this.deliveryDate))) {
+            result = result + "Arrival date valid.";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryDate", this.deliveryDate);
+        } else {
+            int month = checkDate.get(Calendar.MONTH);
+            month++;
+            result = result + "Arrival date should be later than " + checkDate.get(Calendar.DAY_OF_MONTH) + "/"
+                    + month + "/" + checkDate.get(Calendar.YEAR);
+            isValid = false;
+        }
+        
+        System.out.println("Is valid: " + isValid);
+
+    }
+
+    public Calendar removeTime(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
+
 }

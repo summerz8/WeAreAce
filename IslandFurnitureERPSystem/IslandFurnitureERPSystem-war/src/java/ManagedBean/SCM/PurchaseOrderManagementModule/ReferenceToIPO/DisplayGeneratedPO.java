@@ -53,6 +53,7 @@ public class DisplayGeneratedPO {
     private Double nextMonthBeginPlannedAmount;
     private Collection<DeliveryOrderEntity> deliveryOrderList;
     private SupplierEntity supplier;
+    private Double originalAmount;
 
     @PostConstruct
     public void init() {
@@ -88,8 +89,18 @@ public class DisplayGeneratedPO {
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
 
-            purchaseAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType);
-
+            originalAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType);
+            System.out.println("originalAmount = " + originalAmount);
+            
+            if ((originalAmount % this.contract.getLotSize()) == 0) {
+                purchaseAmount = originalAmount;
+            } else {
+                Double temp = originalAmount / this.contract.getLotSize();
+                System.out.println("Temp = " + temp);
+                System.out.println("Math.ceil(temp) = " + Math.ceil(temp));
+                purchaseAmount = Math.ceil(temp) * this.contract.getLotSize();
+            }
+            
             if (itemType.equals("RawMaterial")) {
 
                 itemName = pmb.getFactoryRM(itemId).getMaterialName();
@@ -128,6 +139,22 @@ public class DisplayGeneratedPO {
 
     public void setFactoryId(Long factoryId) {
         this.factoryId = factoryId;
+    }
+
+    public SupplierEntity getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(SupplierEntity supplier) {
+        this.supplier = supplier;
+    }
+
+    public Double getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Double originalAmount) {
+        this.originalAmount = originalAmount;
     }
 
     public Double getPurchaseAmount() {
@@ -243,7 +270,6 @@ public class DisplayGeneratedPO {
     }
 
     public String generatePO() throws Exception {
-        try {
             System.out.println("factoryId = " + factoryId);
             System.out.println("IPO id = " + integratedPlannedOrder.getId());
             System.out.println("purchaseAmount = " + purchaseAmount);
@@ -263,10 +289,6 @@ public class DisplayGeneratedPO {
 
             purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType);
 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ",
-                    "Purchase order [id = " + purchaseOrder.getId() + "] been created!");
-
-            FacesContext.getCurrentInstance().addMessage(null, msg);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("nextMonthBeginPlannedAmount");
@@ -276,12 +298,6 @@ public class DisplayGeneratedPO {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
-        } catch (Exception ex) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Result: ",
-                    "Purchase order create failed.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
-        }
+       
     }
 }

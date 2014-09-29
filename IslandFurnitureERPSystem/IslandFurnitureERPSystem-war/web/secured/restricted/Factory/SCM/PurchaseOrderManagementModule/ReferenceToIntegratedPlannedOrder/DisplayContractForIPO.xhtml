@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -61,7 +61,7 @@
                 </p:layoutUnit>
 
 
-                             
+
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
@@ -72,7 +72,7 @@
                         </p:submenu>
                     </p:menu>
                 </p:layoutUnit>
-                
+
                 <p:layoutUnit position="center" resizable="false">
 
                     <p:panel id="basic" header="Contract Information" style="margin-bottom" >
@@ -102,22 +102,21 @@
                             <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.contractEndDate.time}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                             </h:outputText>
-                            
+
                             <h:outputLabel for="supplierId" value="Supplier Id: " />
                             <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.supplier.supplierId}"/>
 
                             <h:outputLabel for="supplierName" value="Supplier Name: " />
                             <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.supplier.supplierName}"/>
                         </h:panelGrid>
+                    </p:panel>
 
-                        <h:outputText value="Please Input the Planned Inventory of this item in the Factory at end of the month: " />
+                    <p:panel id="basic2" header="Input Purchase Infomation" style="margin-bottom" >
+                        <h:panelGrid columns="2" columnClasses="column" cellpadding="5"></h:panelGrid>
+                        <h:outputText value="Please Input the Planned Inventory of this item in the Factory at end of the month: " style="font-size: 120%"/>
                         <h:inputText  value="#{displayContractForSelectedSupplierIPO.nextMonthBeginPlannedAmount}"/>
-
+                        
                         <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.displayPlannedDeliveryOrders()}" value="Submit"></p:commandButton>
-
-
-
-
                     </p:panel>
                 </p:layoutUnit>
             </p:layout>

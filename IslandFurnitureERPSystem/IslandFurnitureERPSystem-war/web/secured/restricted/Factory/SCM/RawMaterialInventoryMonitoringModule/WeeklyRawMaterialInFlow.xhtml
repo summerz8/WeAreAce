@@ -87,10 +87,10 @@
 
                     <p:dataTable var="i" value="#{rawMaterialInventoryMonitoringBean.weeklyRawMaterialInventoryInFlow}">
 
-                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
+                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department eq 'H'}">
                             <h:outputText value="#{i.factoryRawMaterial.factory.factoryId}" />
                         </p:column>
-                        
+
                         <p:column headerText="ID">
                             #{i.inboundMovementId}
                         </p:column>
@@ -133,9 +133,13 @@
                         </p:column>
 
 
-                        <p:column headerText="Date">
-                            #{i.creationDate.time}
+                        <p:column headerText="Create Date">
+                            <h:outputText value="#{i.creationDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
+
+
 
                     </p:dataTable>
 

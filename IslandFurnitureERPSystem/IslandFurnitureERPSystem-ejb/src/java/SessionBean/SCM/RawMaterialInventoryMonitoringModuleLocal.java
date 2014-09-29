@@ -6,6 +6,7 @@
 
 package SessionBean.SCM;
 
+import Entity.Factory.SCM.InboundMovementEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -16,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface RawMaterialInventoryMonitoringModuleLocal {
 
-    public List viewWeeklyRawMaterialInventoryInFlow(long factoryId);
+    public List<InboundMovementEntity> viewWeeklyRawMaterialInventoryInFlow(long factoryId);
     
     public List viewWeeklyRawMaterialInventoryOutFlow(long factoryId);
     

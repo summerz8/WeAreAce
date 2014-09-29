@@ -88,7 +88,7 @@ public class GetGeneratedPO {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("po");
-        return "/secured/public/WorkPlace?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
     }
     public GetGeneratedPO() {
     }

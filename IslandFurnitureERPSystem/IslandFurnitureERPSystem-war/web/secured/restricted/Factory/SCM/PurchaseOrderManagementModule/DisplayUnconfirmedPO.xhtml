@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -61,7 +61,7 @@
                 </p:layoutUnit>
 
 
-                              
+
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
@@ -153,9 +153,20 @@
                                     <h:outputText value="Supplier Name:" />
                                     <h:outputText value="#{selectedUnconfirmedPO.upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
 
-                                    <p:commandButton action="#{displayUnconfirmedPO.confirmPurchaseOrder()}" value="Confirm" />
+                                     <p:commandButton action="#{displayUnconfirmedPO.confirmPurchaseOrder()}" 
+                                                     update=":formMain:confirmDetail" oncomplete="PF('confirmDialog').show()" value="Confirm">
+                                    </p:commandButton>
 
                                 </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                        <p:dialog header="Result Info" widgetVar="confirmDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="confirmDetail" style="text-align:center;">
+                                <h:outputText value="#{displayUnconfirmedPO.result}"></h:outputText>
+                                <p:commandButton action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true"
+                                                 value="Back"/>
                             </p:outputPanel>
                         </p:dialog>
 
@@ -172,7 +183,7 @@
                                     <h:outputText value="#{selectedUnconfirmedPO.upo.createDate.time}" >
                                         <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                                     </h:outputText>
-                                    
+
                                     <h:outputText value="Purchase Amount:" />
                                     <h:outputText value="#{selectedUnconfirmedPO.upo.totalAmount}" />
 
@@ -189,9 +200,20 @@
                                     <h:outputText value="Supplier Name:" />
                                     <h:outputText value="#{selectedUnconfirmedPO.upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
 
-                                    <p:commandButton action="#{displayUnconfirmedPO.cancelUPO()}" value="Confirm" />
+                                    <p:commandButton action="#{displayUnconfirmedPO.cancelUPO()}" 
+                                                     update=":formMain:cancelDetail" oncomplete="PF('cancelDialog').show()" value="Confirm">
+                                    </p:commandButton>
 
                                 </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                        <p:dialog header="Result Info" widgetVar="cancelDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="cancelDetail" style="text-align:center;">
+                                <h:outputText value="#{displayUnconfirmedPO.result}"></h:outputText>
+                                <p:commandButton action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true"
+                                                 value="Back"/>
                             </p:outputPanel>
                         </p:dialog>
                     </p:panel>

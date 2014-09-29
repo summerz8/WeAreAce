@@ -56,7 +56,7 @@ public class PurchaseOrderEntity implements Serializable {
 
     //integrated planned order entity -- purchase order entity: 1 <--> 1
     @OneToOne(mappedBy = "purchaseOrder")
-    private IntegratedPlannedOrderEntity integratedPlannedOrder;
+    private IntegratedPlannedOrderEntity integratedPlannedOrder = null;
 
     //purchase order entity -- contract entity: M --> 1
     @ManyToOne

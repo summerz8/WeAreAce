@@ -134,11 +134,16 @@
                         </p:column>
 
                         <p:column headerText="Contract Start Date">
-                            #{c.contractStartDate.time}
+                            <h:outputText value="#{c.contractStartDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Contract End Date">
-                            #{c.contractEndDate.time}
+                            
+                            <h:outputText value="#{c.contractEndDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                     </p:dataTable>

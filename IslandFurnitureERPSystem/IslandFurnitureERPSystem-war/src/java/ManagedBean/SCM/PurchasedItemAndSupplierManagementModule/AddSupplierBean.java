@@ -154,6 +154,15 @@ public class AddSupplierBean implements Serializable {
         this.endDate.setTime(endDate);
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    
     public String setItemIdAndType(String itemType, Long itemId) {
 
         this.itemType = itemType;
@@ -165,7 +174,7 @@ public class AddSupplierBean implements Serializable {
         return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/AddSupplier?faces-redirect=true";
     }
 
-    public String save() throws Exception {
+    public void save() throws Exception {
 
      
         itemType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemType");
@@ -174,14 +183,16 @@ public class AddSupplierBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
 
+        System.out.println("itemType  = " + itemType);
+        System.out.println("itemId  =  " + itemId);
+
         result = pmb.addSupplier(itemType, itemId, supplierName, address, telephone, fax, remark,
                 contractPrice, leadTime, lotSize, startDate, endDate);
 
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
-        FacesContext.getCurrentInstance().addMessage(null,msg);
+        System.out.println("startDate + " + startDate.get(Calendar.MONTH) + " " + startDate.get(Calendar.DAY_OF_MONTH));
+        System.out.println("end + " + endDate.get(Calendar.MONTH) + " " + endDate.get(Calendar.DAY_OF_MONTH));
         
-        return "/secured/public/WorkPlace?faces-redirect=true";
-
+        System.out.println("Result: " + result);
     }
 
     public String onFlowProcess(FlowEvent event) {

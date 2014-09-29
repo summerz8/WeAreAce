@@ -66,15 +66,15 @@ public class EditSupplier implements Serializable {
         this.selectedSupplier = selectedSupplier;
     }
 
-    public PurchasedItemAndSupplierManagementModuleLocal getPmb() {
-        return pmb;
+    public String getResult() {
+        return result;
     }
 
-    public void setPmb(PurchasedItemAndSupplierManagementModuleLocal pmb) {
-        this.pmb = pmb;
+    public void setResult(String result) {
+        this.result = result;
     }
 
-    public String save() throws Exception {
+    public void save() throws Exception {
 
         System.out.println("save() ");
 
@@ -88,10 +88,6 @@ public class EditSupplier implements Serializable {
                 selectedSupplier.getSupplierAddress(), selectedSupplier.getSupplierContact(),
                 selectedSupplier.getSupplierFax(), selectedSupplier.getRemark());
 
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
-        FacesContext.getCurrentInstance().addMessage(null,msg);
-
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
-
+        System.out.println("Result = " + result);
     }
 }

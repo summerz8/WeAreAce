@@ -30,10 +30,10 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
 
     
     @Override
-    public List viewWeeklyRawMaterialInventoryInFlow(long factoryId) {
+    public List<InboundMovementEntity> viewWeeklyRawMaterialInventoryInFlow(long factoryId) {
         try {
             Calendar currentDate = new GregorianCalendar();
-            List weeklyRawMaterialInventoryInFlow = new ArrayList();
+            List<InboundMovementEntity> weeklyRawMaterialInventoryInFlow = new ArrayList();
 
             Query q = em.createQuery("SELECT i from InboundMovementEntity i");
             for (Object o : q.getResultList()) {
