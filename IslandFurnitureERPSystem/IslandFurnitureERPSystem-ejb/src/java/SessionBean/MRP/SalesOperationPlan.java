@@ -181,10 +181,21 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     }
 
     @Override
-    public List<FactoryProductEntity> getAllFacotryProduct() {
+    public List<FactoryProductEntity> getAllFacotryProduct(Long factoryId) {
+        if(factoryId==null){
         Query query = em.createQuery("SELECT t FROM FactoryProductEntity t");
         return (List<FactoryProductEntity>) query.getResultList();
-
+        }
+        else {
+        Query query = em.createQuery("SELECT t FROM FactoryProductEntity t");
+        List<FactoryProductEntity> temp=(List<FactoryProductEntity>) query.getResultList();
+        List<FactoryProductEntity> temp1=new ArrayList<>();
+        for(FactoryProductEntity f: temp){
+            if(f.getFactory().getFactoryId().equals(factoryId))
+                temp1.add(f);
+        }
+        return temp1;
+        }
     }
 
     @Override

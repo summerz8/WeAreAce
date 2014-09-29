@@ -230,13 +230,27 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     
     @Override
     public ProductEntity getProduct(Long factoryProductId){
-  
+        
         FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
         
         return factoryProduct.getProduct(); 
-    
-    
     }
+    
+    @Override
+    public String isProduct(Long factoryProductId){
+//        try{
+        
+        FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
+        if(factoryProduct!=null){
+        System.out.println("return yes");
+        return "yes";      }
+        else return "no";
+//        }catch (Exception ex){
+//            System.out.println("return no");
+//        return "no";
+//        }
+    }
+    
     
     @Override
     public void Edit(Long id,String field,Object content){
