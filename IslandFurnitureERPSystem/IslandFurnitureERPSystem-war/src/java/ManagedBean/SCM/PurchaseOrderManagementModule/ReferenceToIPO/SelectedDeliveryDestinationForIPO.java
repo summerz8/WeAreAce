@@ -68,7 +68,7 @@ public class SelectedDeliveryDestinationForIPO {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("destination", destination);
 
-        if (destination.equals("Store")) {
+        if (destination.equals("store")) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedStore", selectedStore);
         }
         return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO?faces-redirect=true";
