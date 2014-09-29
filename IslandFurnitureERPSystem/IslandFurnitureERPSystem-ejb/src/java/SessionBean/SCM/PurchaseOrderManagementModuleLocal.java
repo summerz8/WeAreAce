@@ -13,6 +13,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
@@ -34,6 +35,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface PurchaseOrderManagementModuleLocal {
+
+    public UserEntity getUser(String userId) throws Exception;
 
     public FactoryEntity getFactoryEntity(Long factoryiId) throws Exception;
 
@@ -106,7 +109,7 @@ public interface PurchaseOrderManagementModuleLocal {
 
     //8. Generate Goods Receipt
     public String confirmPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
-    
+
     //7. Cancel purchase order
     public String cancelPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
 

@@ -52,6 +52,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     @Override
+    public UserEntity getUser(String userId) throws Exception {
+        UserEntity user = em.find(UserEntity.class, userId);
+        return user;
+    }
+
+    @Override
     public FactoryEntity getFactoryEntity(Long factoryId) throws Exception {
         FactoryEntity factory = null;
 
@@ -915,6 +921,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
         gr.setCreateDate(Calendar.getInstance());
         gr.setPurchaseOrder(po);
+        gr.setAmount(po.getTotalAmount());
 
         em.persist(gr);
         po.getGoodsReceiptList().add(gr);
@@ -938,10 +945,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         gr.setPurchaseOrder(po);
 
         em.persist(gr);
-        po.getGoodsReceiptList().add(gr);
-
         DeliveryOrderEntity deliveryOrder = em.find(DeliveryOrderEntity.class, deliveryOrderId);
         deliveryOrder.setStatus("fulfilled");
+        po.getGoodsReceiptList().add(gr);
+        gr.setAmount(deliveryOrder.getAmount());
         em.flush();
         for (DeliveryOrderEntity delivery : po.getDeliveryOrderList()) {
             if (!delivery.getStatus().equals("fulfilled")) {

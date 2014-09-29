@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM.PurchasedItemAndSupplierManagementModule;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import SessionBean.SCM.PurchasedItemAndSupplierManagementModuleLocal;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -29,15 +31,17 @@ public class ItemsForPurchase implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId;
-    Collection<FactoryRawMaterialEntity> frmList;
-    Collection<FactoryRetailProductEntity> frpList;
+    private Long factoryId;
+    private Collection<FactoryRawMaterialEntity> frmList;
+    private Collection<FactoryRetailProductEntity> frpList;
+    private String userId;
 
     @PostConstruct
     public void init() {
-        factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
-        System.out.println("factoryId "  + factoryId);
+        System.out.println("factoryId " + factoryId);
         try {
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
@@ -83,6 +87,15 @@ public class ItemsForPurchase implements Serializable {
     }
 
     public String displayAllFactoryItems() throws Exception {
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForPurchase?faces-redirect=true";
+        UserEntity user = pmb.getUser(userId);
+        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForPurchase?faces-redirect=true";
+        } else {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied",null));
+
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
+        }
+
     }
 }

@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM.PurchasedItemAndSupplierManagementModule;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import SessionBean.SCM.PurchasedItemAndSupplierManagementModuleLocal;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -31,12 +33,14 @@ public class DeleteSupplier {
     Collection<SupplierEntity> supplierList;
     SupplierEntity selectedSupplier;
     String result = null;
+    private String userId;
 
     @PostConstruct
     public void init() {
         try {
             System.out.println("displaySuppliers():");
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
             supplierList = pmb.viewAvailSupplier(factoryId);
 
@@ -82,12 +86,19 @@ public class DeleteSupplier {
         this.result = result;
     }
 
-
     public DeleteSupplier() {
     }
 
     public String displaySuppliers() throws Exception {
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForDeleteSupplier?faces-redirect=true";
+        UserEntity user = pmb.getUser(userId);
+        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForDeleteSupplier?faces-redirect=true";
+        } else {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
+
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
+        }
     }
 
     public void delete() throws Exception {
