@@ -326,7 +326,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
     //5. Select date and amount for goods receipt
     @Override
-    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount) throws Exception {
+    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double purchaseAmount) throws Exception {
         System.out.println("SessionBean: getDeliveryAmount():");
 
         Collection<DeliveryOrderEntity> deliveryOrderList = new ArrayList<>();
@@ -334,13 +334,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             System.out.println("Session Bean: getDeliveryAmount:()  1");
             IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
             Calendar period = integratedPlannedOrder.getTargetPeriod();
-            Double amount;
-
-            if (integratedPlannedOrder.getFactoryRawMaterialAmount() != null) {
-                amount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, "RawMaterial");
-            } else {
-                amount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, "RetailProduct");
-            }
+            Double amount = purchaseAmount;
 
             Calendar cal1 = Calendar.getInstance();
             cal1.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH), 1, 0, 0, 0);
@@ -537,6 +531,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     destinationId, leadTime, totalPrice, factory, contract, deliveryDate);
 
             em.persist(purchaseOrder);
+
+            factory.getPurchaseOrders().add(purchaseOrder);
+
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -720,16 +717,26 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
         try {
             IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
-
+            ContractEntity contract = em.find(ContractEntity.class, contractId);
             if (itemType.equals("RawMaterial")) {
                 itemId = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial().getFactoryRawMaterialId();
             } else {
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
 
-            Double purchaseAmount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, itemType);
+            Double originalAmount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, itemType);
+            Double purchaseAmount;
 
-            Collection<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmountAndDate(integratedPlannedOrderId, nextMonthBeginPlannedAmount);
+            if ((originalAmount % contract.getLotSize()) == 0) {
+                purchaseAmount = originalAmount;
+            } else {
+                Double temp = originalAmount / contract.getLotSize();
+                System.out.println("SB: Temp = " + temp);
+                System.out.println("Math.ceil(temp) = " + Math.ceil(temp));
+                purchaseAmount = Math.ceil(temp) * contract.getLotSize();
+            }
+
+            Collection<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmountAndDate(integratedPlannedOrderId, purchaseAmount);
 
             purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null);
             em.persist(purchaseOrder);
@@ -827,6 +834,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrder.setIntegratedPlannedOrder(integratedPlannedOrder);
 
             purchaseOrder.setContract(contract);
+
+            em.flush();
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
@@ -834,22 +843,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return purchaseOrder;
     }
 
-//    //7. Cancel purchase order
-//    @Override
-//    public String cancelPurchaseOrder(Long purchaseOrderId) throws Exception {
-//        System.out.println("editPurchaseOrder():");
-//
-//        String result = null;
-//        try {
-//            PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
-//            purchaseOrder.setStatus("cancelled");
-//        } catch (Exception ex) {
-//            System.err.println("Caught an unexpected exception!");
-//            ex.printStackTrace();
-//        }
-//
-//        return result = "PurchaseOrder with id " + purchaseOrderId + "has been removed";
-//    }
     //8. Confirm purchase order
     //only be factory manager
     @Override
@@ -858,7 +851,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         String result = null;
         try {
             UserEntity user = em.find(UserEntity.class, userId);
-            if (user.getUserLevel().intValue() > 1) {
+            if (user.getUserLevel() != 1) {
                 result = "\"Confirm Purchase Order\" Permission Denied.";
                 System.out.println(result);
                 return result;
@@ -867,11 +860,13 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
 
             purchaseOrder.setStatus("confirmed");
-            purchaseOrder.getIntegratedPlannedOrder().setStatus("processing");
+            if (purchaseOrder.getIntegratedPlannedOrder() != null) {
+                purchaseOrder.getIntegratedPlannedOrder().setStatus("processing");
+            }
 
             em.flush();
 
-            result = "Status Changed!";
+            result = "Purchase Order Confirmed!";
 
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -888,7 +883,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
         try {
             UserEntity user = em.find(UserEntity.class, userId);
-            if (user.getUserLevel().intValue() > 1) {
+            if (user.getUserLevel() != 1) {
                 result = "\"Confirm Purchase Order\" Permission Denied.";
                 return result;
             }
@@ -898,7 +893,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrder.setStatus("cancelled");
             em.flush();
 
-            result = "Status Changed!";
+            result = "Purchase Order Cancelleds!";
 
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -927,7 +922,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         po.setStatus("accomplished");
         em.flush();
 
-        result = "Purchase Order [id = " + po.getId() 
+        result = "Purchase Order [id = " + po.getId()
                 + "] is fulfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
         return result;
     }

@@ -23,13 +23,14 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class DisplayUnconfirmedPO implements Serializable{
+public class DisplayUnconfirmedPO implements Serializable {
 
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
     private Long factoryId;
     private Collection<PurchaseOrderEntity> unconfirmedPOList;
     private PurchaseOrderEntity purchaseOrder;
+    private String result;
 
     @PostConstruct
     public void init() {
@@ -37,7 +38,7 @@ public class DisplayUnconfirmedPO implements Serializable{
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             System.out.println("factoryId = " + factoryId);
             unconfirmedPOList = pmb.viewUnconfirmedPurchaseOrder(factoryId);
-            for(PurchaseOrderEntity upo : unconfirmedPOList){
+            for (PurchaseOrderEntity upo : unconfirmedPOList) {
                 System.out.println("UPO: " + upo.toString());
             }
         } catch (Exception ex) {
@@ -61,6 +62,22 @@ public class DisplayUnconfirmedPO implements Serializable{
         this.unconfirmedPOList = unconfirmedPOList;
     }
 
+    public PurchaseOrderEntity getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrderEntity purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     public DisplayUnconfirmedPO() {
     }
 
@@ -68,27 +85,29 @@ public class DisplayUnconfirmedPO implements Serializable{
         return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
     }
 
-    public String confirmPurchaseOrder() {
+    public void confirmPurchaseOrder() {
         try {
-            purchaseOrder = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedUPO");
+            purchaseOrder = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedUPO");
             String userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
             System.out.println("UserId = " + userId);
-            String result = pmb.confirmPurchaseOrder(userId, purchaseOrder.getId());
+            result = pmb.confirmPurchaseOrder(userId, purchaseOrder.getId());
+            System.out.println("Result = " + result);
+
         } catch (Exception ex) {
             Logger.getLogger(DisplayUnconfirmedPO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
     }
 
-    public String cancelUPO() {
+    public void cancelUPO() {
         try {
-            purchaseOrder = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedUPO");
+            purchaseOrder = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedUPO");
             String userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-            
-            String result = pmb.cancelPurchaseOrder(userId, purchaseOrder.getId());
+
+            result = pmb.cancelPurchaseOrder(userId, purchaseOrder.getId());
+
+            System.out.println("Result = " + result);
         } catch (Exception ex) {
             Logger.getLogger(DisplayUnconfirmedPO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
     }
 }

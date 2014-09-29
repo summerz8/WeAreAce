@@ -69,8 +69,6 @@
                             <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
                             <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
-                            <p:menuitem value="Add Item" update="messages" action = "#{itemsForAddItem.displayAllFactoryItems()}"/>
-                            <p:menuitem value="Delete Item" update="messages" action = "#{deleteItem.displayItems()}"/> 
                             <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
                         </p:submenu>
                     </p:menu>
@@ -98,11 +96,21 @@
                             <p:outputLabel for="endDate" value="Contract End Date" style="font-weight:bold" />
                             <p:calendar id="endDate" value="#{addContract.endDate}"  pattern="dd/MM/yyyy" mask="true"/>
 
-                            <p:commandButton action="#{addContract.save()}" value="Confrim" update="messages" />
-
+                            <p:commandButton update=":formMain:addDetail" oncomplete="PF('addDialog').show()" 
+                                             action="#{addContract.save()}" value="Confirm" >
+                            </p:commandButton>  
 
                         </h:panelGrid>
                     </p:panel>
+                    
+                    <p:dialog header="Spplier and Contract Info" widgetVar="addDialog" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true" width="300">
+                        <p:outputPanel id="addDetail" style="text-align:center;">
+                            <h:outputText value="#{addContract.result}"></h:outputText>
+                                <p:commandButton action="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true" value="Back"/>
+                        </p:outputPanel>
+                    </p:dialog>
                 </p:layoutUnit>
             </p:layout>
         </h:form>

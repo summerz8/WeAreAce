@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -75,13 +74,14 @@ public class DeleteSupplier {
         this.selectedSupplier = selectedSupplier;
     }
 
-    public PurchasedItemAndSupplierManagementModuleLocal getPmb() {
-        return pmb;
+    public String getResult() {
+        return result;
     }
 
-    public void setPmb(PurchasedItemAndSupplierManagementModuleLocal pmb) {
-        this.pmb = pmb;
+    public void setResult(String result) {
+        this.result = result;
     }
+
 
     public DeleteSupplier() {
     }
@@ -90,7 +90,7 @@ public class DeleteSupplier {
         return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForDeleteSupplier?faces-redirect=true";
     }
 
-    public String delete() throws Exception {
+    public void delete() throws Exception {
 
         System.out.println("save() ");
 
@@ -98,12 +98,6 @@ public class DeleteSupplier {
         System.out.println(this.selectedSupplier.getSupplierName());
 
         result = pmb.deleteSupplier(this.selectedSupplier.getSupplierId());
-        
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
-
     }
 
 }

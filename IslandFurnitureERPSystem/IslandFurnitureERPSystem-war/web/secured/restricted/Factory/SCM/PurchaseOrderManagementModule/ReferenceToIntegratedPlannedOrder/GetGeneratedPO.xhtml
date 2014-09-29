@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -61,7 +61,7 @@
                 </p:layoutUnit>
 
 
-                           
+
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
@@ -76,6 +76,8 @@
                 <p:layoutUnit position="center" resizable="false">
 
                     <p:panel id="basic" header="Purchase Order: #{getGeneratedPO.po.id}" style="margin-bottom" >
+                        <h:outputText value="Purchase Order: Id = #{getManuallyGeneratedPO.po.id} has been created!" style="font-size:200%" />
+
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="5" >
 
                             <h:outputLabel for="itemType" value="Purchase Item Type: " />
@@ -121,7 +123,7 @@
 
                             </p:dataTable>
 
-                            <p:commandButton action="#{getGeneratedPO.backToHome()}" value="Back to Home Page"/>
+                            <p:commandButton action="#{getGeneratedPO.backToHome()}" value="Back to Home"/>
 
                         </h:panelGrid>
 

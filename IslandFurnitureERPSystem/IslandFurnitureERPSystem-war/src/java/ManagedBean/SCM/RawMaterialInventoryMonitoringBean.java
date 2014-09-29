@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM;
 
+import Entity.Factory.SCM.InboundMovementEntity;
 import SessionBean.SCM.RawMaterialInventoryMonitoringModuleLocal;
 import java.util.List;
 import javax.ejb.EJB;
@@ -49,7 +50,7 @@ public class RawMaterialInventoryMonitoringBean {
         this.factoryId = factoryId;
     }
 
-    public List getWeeklyRawMaterialInventoryInFlow() {
+    public List<InboundMovementEntity> getWeeklyRawMaterialInventoryInFlow() {
         if (department.equals("H")) {
             weeklyRawMaterialInventoryInFlow = rmim.viewWeeklyRawMaterialInventoryInFlow(factoryId);
         } else {

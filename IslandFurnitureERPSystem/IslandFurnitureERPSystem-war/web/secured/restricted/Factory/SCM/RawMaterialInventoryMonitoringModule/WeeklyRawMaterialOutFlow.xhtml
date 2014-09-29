@@ -86,7 +86,7 @@
 
                     <p:dataTable var="o" value="#{rawMaterialInventoryMonitoringBean.weeklyRawMaterialInventoryOutFlow}">
 
-                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department.equals('H')}">
+                        <p:column headerText="Factory ID" rendered="#{rawMaterialInventoryMonitoringBean.department eq 'H'}">
                             <h:outputText value="#{o.factoryRawMaterial.factory.factoryId}" />
                         </p:column>
 
@@ -116,8 +116,10 @@
                             #{o.factoryRawMaterial.unit}
                         </p:column>
 
-                        <p:column headerText="Date">
-                            #{o.creationDate.time}
+                        <p:column headerText="Create Date">
+                            <h:outputText  value="#{o.creationDate.time}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                     </p:dataTable>

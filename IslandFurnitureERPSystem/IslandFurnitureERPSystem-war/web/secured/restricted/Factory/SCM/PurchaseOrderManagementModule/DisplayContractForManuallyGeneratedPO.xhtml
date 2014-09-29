@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -108,18 +108,30 @@
 
                         </h:panelGrid>
                     </p:panel>
-                    
+
                     <p:panel id="basic2" header="Input Purchase Infomation" style="margin-bottom" >
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                             <h:outputLabel for="purchaseAmount" value="Purchase Amount: " style="font-weight:bold" />
-                            <p:inputText id="purchaseAmount" value="#{displayContractForManuallyGeneratedPO.purchaseAmount}" required="true"/>
+                            <p:inputText id="purchaseAmount" value="#{displayContractForManuallyGeneratedPO.purchaseAmount}" required="true" />
 
                             <p:outputLabel for="deliveryDate" value="Estimated Arrival Date " style="font-weight:bold" />
                             <p:calendar id="deliveryDate" value="#{displayContractForManuallyGeneratedPO.deliveryDate}" pattern="dd/MM/yyyy" timeZone="GMT+8" mask="true" required="true"/>
                         </h:panelGrid>
-                        <p:commandButton action="#{displayDeliveryDestinationForManuallyGeneratedPO.displayDestination()}" value="Submit"></p:commandButton>
+
+                        <p:commandButton action="#{displayContractForManuallyGeneratedPO.checkInput()}" 
+                                         update=":formMain:inputDetail" oncomplete="PF('inputDialog').show()" value="Confirm">
+                        </p:commandButton>
+
+                        <p:dialog header="Result Info" widgetVar="inputDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="inputDetail" style="text-align:center;">
+                                <h:outputText value="#{displayContractForManuallyGeneratedPO.result}"></h:outputText>
+                                <p:commandButton action="#{displayDeliveryDestinationForManuallyGeneratedPO.displayDestination()}" value="Submit" rendered="#{displayContractForManuallyGeneratedPO.isValid}"></p:commandButton>
+                            </p:outputPanel>
+                        </p:dialog>
                     </p:panel>
-                    
+
                 </p:layoutUnit>
             </p:layout>
         </h:form>

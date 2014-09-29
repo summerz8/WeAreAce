@@ -57,6 +57,4 @@ public interface PurchasedItemAndSupplierManagementModuleLocal {
             Double contractPrice, Integer leadTime, Double lotSize, Calendar contractStartDate, Calendar contractEndDate) throws Exception;
 
     public String deleteItem(String itemType, Long itemFactoryId) throws Exception;
-
-    public void addDB();
 }

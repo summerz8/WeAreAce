@@ -140,7 +140,7 @@ public class AddContract implements Serializable {
         this.result = result;
     }
 
-    public String save() throws Exception {
+    public void save() throws Exception {
 
         System.out.println("save() ");
         itemId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
@@ -159,11 +159,8 @@ public class AddContract implements Serializable {
                     itemType, itemId,
                     contractPrice, leadTime, lotSize, startDate, endDate);
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
-        FacesContext.getCurrentInstance().addMessage(null,msg);
-
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
-
+        
+        System.out.println("Result = " + result);
     }
 
 }

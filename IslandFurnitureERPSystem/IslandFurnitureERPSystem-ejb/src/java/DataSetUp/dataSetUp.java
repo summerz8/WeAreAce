@@ -164,16 +164,24 @@ public class dataSetUp {
         //s1.factoryProduct
         StoreProductEntity sp1_1 = new StoreProductEntity(f1, s1);
         em.persist(sp1_1);
+        f1.getStoreProduct().add(sp1_1);
+        s1.getStoreProduct().add(sp1_1);
         em.flush();
         StoreProductEntity sp1_2 = new StoreProductEntity(f2, s1);
         em.persist(sp1_2);
+        f2.getStoreProduct().add(sp1_2);
+        s1.getStoreProduct().add(sp1_2);
         em.flush();
         //s2.factoryProduct
         StoreProductEntity sp2_1 = new StoreProductEntity(f1, s2);
         em.persist(sp2_1);
+        f1.getStoreProduct().add(sp2_1);
+        s2.getStoreProduct().add(sp2_1);
         em.flush();
         StoreProductEntity sp2_2 = new StoreProductEntity(f2, s2);
         em.persist(sp2_2);
+        f2.getStoreProduct().add(sp2_2);
+        s2.getStoreProduct().add(sp2_2);
         em.flush();
         
         //StoreRetailProduct    /* Further Modification*/
@@ -181,16 +189,24 @@ public class dataSetUp {
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(f1, s1);
         em.persist(srp1_1);
+        f1.getStoreRetailProduct().add(srp1_1);
+        s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(f2, s1);
         em.persist(srp1_2);
+        f1.getStoreRetailProduct().add(srp1_2);
+        s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(f1, s2);
         em.persist(srp2_1);
+        f1.getStoreRetailProduct().add(srp2_1);
+        s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(f2, s2);
         em.persist(srp2_2);
+        f2.getStoreRetailProduct().add(srp2_2);
+        s2.getStoreRetailProduct().add(srp2_2);
         em.flush();
         
         

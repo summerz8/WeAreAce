@@ -126,7 +126,9 @@
                         </p:column>
 
                         <p:column headerText="Create Date">
-                            #{purchaseOrder.createDate.time}
+                            <h:outputText value="#{purchaseOrder.createDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Destination">
