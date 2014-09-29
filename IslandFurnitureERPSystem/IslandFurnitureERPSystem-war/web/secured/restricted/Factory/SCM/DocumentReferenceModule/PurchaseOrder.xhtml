@@ -152,8 +152,12 @@
                         <p:column headerText="Goods Receipt">
                             <h:outputText value="No Record" rendered="#{purchaseOrder.goodsReceiptList.isEmpty()}"/>
                             <p:dataTable value="#{purchaseOrder.goodsReceiptList}" var="gr" rendered="#{!purchaseOrder.goodsReceiptList.isEmpty()}">
-                                <p:column>
+                                <p:column headerText="ID">
                                     #{gr.goodsReceiptId}
+                                </p:column>
+                                
+                                <p:column headerText="Quantity">
+                                    #{gr.amount}
                                 </p:column>
                             </p:dataTable>
                         </p:column>
