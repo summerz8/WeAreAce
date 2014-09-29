@@ -116,7 +116,9 @@
                         <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
 
                         <p:outputLabel value="Date: " />
-                        <p:calendar value="#{factoryInventoryManagementBean.inputDate}" />
+                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                        </h:outputText>
 
                         <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordInFactoryMovement}"/>
 

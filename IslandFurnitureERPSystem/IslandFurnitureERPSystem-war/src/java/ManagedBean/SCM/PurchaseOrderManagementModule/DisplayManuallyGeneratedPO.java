@@ -92,7 +92,7 @@ public class DisplayManuallyGeneratedPO implements Serializable {
                 unit = pmb.getFactoryRM(itemId).getUnit();
             }
             contract = pmb.getContract(contract.getContractId());
-            totalPrice = purchaseAmount * contract.getContractPrice();
+            totalPrice = (purchaseAmount/contract.getLotSize()) * contract.getContractPrice();
             System.out.println("Total Price: " + totalPrice.toString());
 
             this.setTotalPrice(totalPrice);
@@ -132,6 +132,7 @@ public class DisplayManuallyGeneratedPO implements Serializable {
     }
 
     public void setPurchaseAmount(Double purchaseAmount) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("purchaseAmount", purchaseAmount);
         this.purchaseAmount = purchaseAmount;
     }
 
@@ -148,7 +149,8 @@ public class DisplayManuallyGeneratedPO implements Serializable {
     }
 
     public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate.setTime(null);
+        this.deliveryDate.setTime(deliveryDate);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryDate", deliveryDate);
     }
 
     public Long getItemId() {
@@ -203,10 +205,6 @@ public class DisplayManuallyGeneratedPO implements Serializable {
         return destinationAddress;
     }
 
-    public void setDestinationAddress(String destinationAddress) {
-        this.destinationAddress = destinationAddress;
-    }
-
     public SupplierEntity getSupplier() {
         return supplier;
     }
@@ -246,20 +244,10 @@ public class DisplayManuallyGeneratedPO implements Serializable {
             purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(),
                     purchaseAmount, storeId, destination, deliveryDate);
 
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
-
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
         } catch (Exception ex) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Result: ",
-                    "Purchase order create failed.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayManuallyGeneratedPO?faces-redirect=true";
         }
 

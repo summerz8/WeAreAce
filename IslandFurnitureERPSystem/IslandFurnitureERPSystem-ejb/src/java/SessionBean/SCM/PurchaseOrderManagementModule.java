@@ -567,7 +567,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             Calendar createDate = Calendar.getInstance();
 
             //totalPrice
-            Double totalPrice = purchaseAmount * contract.getContractPrice();
+            Double totalPrice = (purchaseAmount/contract.getLotSize()) * contract.getContractPrice();
             //leadTime
             Integer leadTime = contract.getLeadTime();
 
@@ -935,6 +935,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
 
             purchaseOrder.setStatus("cancelled");
+            purchaseOrder.getIntegratedPlannedOrder().setStatus("waiting");
             em.flush();
 
             result = "Purchase Order Cancelleds!";
@@ -996,6 +997,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             }
         }
         po.setStatus("accomplished");
+        po.getIntegratedPlannedOrder().setStatus("accomplished");
         em.flush();
         result = "Purchase Order [id = " + po.getId() + "] is fulfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
         return result;
