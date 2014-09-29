@@ -107,6 +107,15 @@
                             <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.rawMaterial.materialName}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
                             <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.retailProduct.name}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
                         </p:column>
+                        
+                        <p:column headerText="Quantity">
+                            #{gr.amount}
+                        </p:column>
+                        
+                        <p:column headerText="Unit">
+                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.rawMaterial.unit}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
+                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.retailProduct.unit}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                        </p:column>
 
                         <p:column headerText="Item Type">
                             <h:outputText value="Factory Raw Material" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />

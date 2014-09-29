@@ -113,7 +113,7 @@
                             #{purchaseOrder.unit}
                         </p:column>
 
-                        <p:column headerText="Status">
+                        <p:column headerText="Order Status">
                             #{purchaseOrder.status}
                         </p:column>
 
@@ -123,6 +123,10 @@
 
                         <p:column headerText="Total Price (US$)">
                             #{purchaseOrder.totalPrice}
+                        </p:column>
+                        
+                        <p:column headerText="Contract">
+                            #{purchaseOrder.contract.contractId}
                         </p:column>
 
                         <p:column headerText="Create Date">
@@ -135,29 +139,36 @@
                             #{purchaseOrder.destination}
                         </p:column>
 
+                        <p:column headerText="Delivery Date">
+                            <h:outputText value="#{purchaseOrder.deliveryDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
+                        </p:column>
+
                         <p:column headerText="Integrated Planned Order">
                             #{purchaseOrder.integratedPlannedOrder.id}
                         </p:column>
 
                         <p:column headerText="Goods Receipt">
-                            #{purchaseOrder.goodsReceipt.goodsReceiptId}
+                            <h:outputText value="No Record" rendered="#{purchaseOrder.goodsReceiptList.isEmpty()}"/>
+                            <p:dataTable value="#{purchaseOrder.goodsReceiptList}" var="gr" rendered="#{!purchaseOrder.goodsReceiptList.isEmpty()}">
+                                <p:column headerText="ID">
+                                    #{gr.goodsReceiptId}
+                                </p:column>
+                                
+                                <p:column headerText="Quantity">
+                                    #{gr.amount}
+                                </p:column>
+                            </p:dataTable>
                         </p:column>
 
-                        <p:column headerText="Contract">
-                            #{purchaseOrder.contract.contractId}
-                        </p:column>
-
-                        <p:column headerText="Delivery Orders">
+                        <p:column headerText="Delivery Order">
                             <h:outputText value="No Record" rendered="#{purchaseOrder.deliveryOrderList.isEmpty()}" />
                             <p:dataTable var="do" value="#{purchaseOrder.deliveryOrderList}" rendered="#{!purchaseOrder.deliveryOrderList.isEmpty()}">
                                 <p:column>
                                     #{do.id}
                                 </p:column>
                             </p:dataTable>
-                        </p:column>
-
-                        <p:column headerText="Contract">
-                            #{purchaseOrder.contract.contractId}
                         </p:column>
 
                     </p:dataTable>
