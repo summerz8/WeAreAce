@@ -115,15 +115,21 @@
                         </p:column>
 
                         <p:column headerText="Generate Date">
-                            #{pp.generatedDate.time}
+                            <h:outputText value="#{pp.generatedDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Confirm Date">
-                            #{pp.confirmDate.time}
+                            <h:outputText value="#{pp.confirmDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Target Period">
-                            #{pp.targetPeriod.time}
+                            <h:outputText value="#{pp.targetPeriod.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Remark">
