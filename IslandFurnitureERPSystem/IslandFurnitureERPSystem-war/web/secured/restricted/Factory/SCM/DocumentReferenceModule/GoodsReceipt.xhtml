@@ -118,8 +118,9 @@
                         </p:column>
 
                         <p:column headerText="Create Date">
-                            #{gr.createDate}
-                            
+                            <h:outputText value="#{gr.createDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Purchase Order">

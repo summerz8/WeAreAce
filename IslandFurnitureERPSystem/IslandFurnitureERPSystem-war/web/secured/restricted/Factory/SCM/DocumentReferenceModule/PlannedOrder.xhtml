@@ -133,11 +133,15 @@
                         </p:column>
 
                         <p:column headerText="Generated Date">
-                            #{po.generatedDate.time}
+                            <h:outputText value="#{po.generatedDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Target Period">
-                            #{po.targetPeriod.time}
+                            <h:outputText value="#{po.targetPeriod.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Status">
@@ -145,11 +149,13 @@
                         </p:column>
 
                         <p:column headerText="Confirm Date">
-                            #{po.confirmDate.time}
+                            <h:outputText value="#{po.confirmDate.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Production Plan">
-                            #{po.productionPlan}
+                            #{po.productionPlan.productionPlanId}
                         </p:column>
 
                     </p:dataTable>
