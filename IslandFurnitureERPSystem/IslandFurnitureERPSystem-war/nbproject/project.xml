@@ -11,15 +11,7 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-<<<<<<< HEAD
                     <file>${libs.primefaces.classpath}</file>
-=======
-<<<<<<< HEAD
-                    <file>${libs.PrimeFaces5.0.classpath}</file>
-=======
-                    <file>${libs.PrimeFaces_5.0.classpath}</file>
->>>>>>> 5d640e79e282f0df636c75eddbe182952d7dfae8
->>>>>>> f42f4ff01a52e1136566ee77ee75d16b0eb8d8d8
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

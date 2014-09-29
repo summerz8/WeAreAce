@@ -17,6 +17,7 @@ import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
@@ -48,6 +49,7 @@ public interface PurchaseOrderManagementModuleLocal {
 
     public ContractEntity getContract(Long contractId) throws Exception;
 
+    public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception;
     //1. View and Select item for purchase
     public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception;
 
@@ -68,7 +70,7 @@ public interface PurchaseOrderManagementModuleLocal {
     public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
 
     //5. input amount for given date of goods receipt
-    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount) throws Exception;
+    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double purchaseAmount) throws Exception;
 
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)

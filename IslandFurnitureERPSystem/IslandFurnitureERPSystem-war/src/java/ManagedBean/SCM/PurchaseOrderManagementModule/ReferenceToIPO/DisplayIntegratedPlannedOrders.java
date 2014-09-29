@@ -33,13 +33,14 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
     private Long factoryId;
     private Collection<IntegratedPlannedOrderEntity> integratedPlannedOrderList;
     private String userId;
+    UserEntity user;
 
     @PostConstruct
     public void init() {
         try {
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-
+            user = pmb.getUser(userId);
             integratedPlannedOrderList = pmb.viewWaitingIntegratedPlannedOrder(factoryId);
             for (IntegratedPlannedOrderEntity ipo : integratedPlannedOrderList) {
                 System.out.println("IPO = " + ipo.toString());
@@ -57,6 +58,22 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
         this.factoryId = factoryId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
     public Collection<IntegratedPlannedOrderEntity> getIntegratedPlannedOrderList() {
         return integratedPlannedOrderList;
     }
@@ -69,7 +86,7 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
     }
 
     public String displayIntegratedPlannedOrders() throws Exception {
-        UserEntity user = pmb.getUser(userId);
+
         if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders";
         } else {

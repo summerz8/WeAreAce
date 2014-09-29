@@ -42,7 +42,7 @@
                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
 
 
-                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                    <h:panelGrid columns="2" cellpadding="10" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
                         </p:commandButton>
@@ -63,7 +63,7 @@
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
                     </h:outputLabel>
-
+                    </h:panelGrid>
 
                 </p:layoutUnit>
 
@@ -90,7 +90,7 @@
                     <p:panel id="basic" header="Record Raw Material In-Factory Use Movement" style="margin-bottom" >
                     </p:panel>
 
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Raw Material ID: " />
                         <h:inputText value="#{factoryInventoryManagementBean.factoryRawMaterialId}" />

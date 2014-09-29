@@ -52,6 +52,44 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     @Override
+    public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception {
+        InventoryRecordEntity ir = null;
+
+        if (itemType.equals("RawMaterial")) {
+            System.out.println("SB  check1");
+            FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
+            List<InventoryRecordEntity> inventoryRecordList = factoryRawMaterial.getInventoryRecord();
+            Iterator iterator = inventoryRecordList.iterator();
+
+            //check the inventory level of the material in the beginning of the month
+            while (iterator.hasNext() && (ir == null)) {
+                InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                    ir = inventoryRecord;
+                }
+            }
+        } else {//itemType.equals("RetailProduct")
+            FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
+            List<InventoryRecordEntity> inventoryRecordList = factoryRetailProduct.getInventoryRecords();
+            Iterator iterator = inventoryRecordList.iterator();
+
+            //check the inventory level of the material in the beginning of the month
+            while (iterator.hasNext() && (ir == null)) {
+                InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                    ir = inventoryRecord;
+                }
+            }
+        }
+        System.out.println("Amount = " + ir.getAmount());
+        return ir;
+    }
+
+    @Override
     public UserEntity getUser(String userId) throws Exception {
         UserEntity user = em.find(UserEntity.class, userId);
         return user;
@@ -962,9 +1000,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         result = "Purchase Order [id = " + po.getId() + "] is fulfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
         return result;
     }
-
     // for comparing two dates
     //function to set all the other attributes to be 0
+
     public Calendar removeTime(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
