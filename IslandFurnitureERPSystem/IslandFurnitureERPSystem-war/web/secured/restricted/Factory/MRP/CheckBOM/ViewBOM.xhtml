@@ -72,12 +72,13 @@
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
-                        <p:submenu label="Manufacturing Resource Planning">
-                            <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                            <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                            <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
-                            <p:menuitem value="Planned Order"  update="messages" action="/secured/restricted/Factory/MRP/SalesForecast/MRPPlannedOrder?faces-redirect=true"/>
-                            <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                        <p:submenu label="Manufacturing Resource Planning">  
+                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
 
@@ -93,7 +94,7 @@
 
                         <p:dataTable var="bom" value="#{viewBOM.bom}">
                             <p:column headerText="BOM ID">
-                                <h:outputText value="#{bom.BOMId}" />
+                                <h:outputText value="#{bom.rawMaterial.materialId}" />
                             </p:column>
 
                             <p:column headerText="Material Name">

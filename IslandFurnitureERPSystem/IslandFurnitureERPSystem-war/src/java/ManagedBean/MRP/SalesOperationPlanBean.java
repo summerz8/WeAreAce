@@ -40,14 +40,22 @@ public class SalesOperationPlanBean {
     private String department;
     private Integer workingDay = 0;
     private Double PlannedEndInventory = 0D;
+    private Long factoryId;
 
     public SalesOperationPlanBean() {
     }
 
     @PostConstruct
     public void getAllFactoryProductList() {
-        factoryProductList = salesOperationPlanLocal.getAllFacotryProduct();
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+        System.out.println(department);
+        if (department.equals("H")) {
+            System.out.println("hhhhh");
+            factoryProductList = salesOperationPlanLocal.getAllFacotryProduct(null);
+        } else {
+            factoryProductList = salesOperationPlanLocal.getAllFacotryProduct(factoryId);
+        }
 
     }
 
