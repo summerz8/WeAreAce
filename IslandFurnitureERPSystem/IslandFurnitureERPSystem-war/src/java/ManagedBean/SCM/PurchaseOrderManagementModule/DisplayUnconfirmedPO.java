@@ -110,7 +110,7 @@ public class DisplayUnconfirmedPO implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
 
-            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementPageModule/PurchaseOrderManagementPage.xhtml";
         }
     }
 
