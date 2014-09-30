@@ -94,10 +94,10 @@
                             </p:column>
 
                             <p:column headerText="Please Select Here" width="15%" >
-                                <p:commandButton update=":formMain:doDetail" oncomplete="PF('doDialog').show()" rendered="#{deliveryOrder.status eq 'waiting'}" value="Fulfill">
+                                <p:commandButton update=":formMain:doDetail" oncomplete="PF('doDialog').show()" rendered="#{deliveryOrder.status.equals('waiting')}" value="Fulfill">
                                     <f:setPropertyActionListener value="#{deliveryOrder}" target="#{selectedDeliveryOrder.selectedDO}" />
                                 </p:commandButton>
-                                <h:outputText value="Fulfilled" rendered="#{deliveryOrder.status ne 'waiting'}"/>
+                                <h:outputText value="Fulfilled" rendered="#{!deliveryOrder.status.equals('waiting')}"/>
                             </p:column>
                         </p:dataTable>
 
@@ -109,7 +109,7 @@
                                 <p:panelGrid  columns="2" columnClasses="label,value">
                                     <h:outputText value="Delivery Date:" />
                                     <h:outputText value="#{selectedDeliveryOrder.selectedDO.deliveryDate}" >
-                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/YYYY"/>
+                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/yyyy"/>
                                     </h:outputText>
                                     <h:outputText value="Amount: " />
                                     <h:outputText value="#{selectedDeliveryOrder.selectedDO.amount}" />
@@ -117,7 +117,7 @@
                                     <h:outputText value="Status" />
                                     <h:outputText value="#{selectedDeliveryOrder.selectedDO.status}" />
 
-                                    <p:commandButton action="#{displayDeliveryOrdersForSelectedPO.fulfillDO(selectedDO)}" value="Comfirm" update="messages" />
+                                    <p:commandButton action="#{displayDeliveryOrdersForSelectedPO.fulfillDO(selectedDeliveryOrder.selectedDO)}" value="Comfirm" />
 
                                 </p:panelGrid>
                             </p:outputPanel>

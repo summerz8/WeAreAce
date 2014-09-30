@@ -29,15 +29,21 @@ public class DisplayDeliveryOrdersForSelectedPO {
     @EJB
     private PurchaseOrderManagementModuleLocal pmb;
 
-    private PurchaseOrderEntity po;
+    private PurchaseOrderEntity po = new PurchaseOrderEntity();
     private Collection<DeliveryOrderEntity> deliveryOrderList;
-    private DeliveryOrderEntity selectedDO;
+    private DeliveryOrderEntity selectedDO = new DeliveryOrderEntity();
     private String result;
 
     @PostConstruct
     public void init() {
-        po = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedPO");
-        deliveryOrderList = po.getDeliveryOrderList();
+        try {
+            po = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedPO");
+            System.out.println("init: selectedPO" + po.getId());
+            po = pmb.getPO(po.getId());
+            deliveryOrderList = po.getDeliveryOrderList();
+        } catch (Exception ex) {
+            Logger.getLogger(DisplayDeliveryOrdersForSelectedPO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public PurchaseOrderEntity getPo() {
@@ -70,18 +76,16 @@ public class DisplayDeliveryOrdersForSelectedPO {
     public String fulfillDO(DeliveryOrderEntity selectedDO) {
         try {
             this.selectedDO = selectedDO;
+            System.out.println("po.getDestinationId()" + po.getDestinationId());
+            System.out.println("this.selectedDO.getId()" + this.selectedDO.getId());
             result = pmb.generateGoodsReciptForDeliveryOrders(po.getDestinationId(), this.selectedDO.getId());
-            
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Result: ", result);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(DisplayDeliveryOrdersForSelectedPO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
-
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO?faces-redirect=true";
     }
 
 }

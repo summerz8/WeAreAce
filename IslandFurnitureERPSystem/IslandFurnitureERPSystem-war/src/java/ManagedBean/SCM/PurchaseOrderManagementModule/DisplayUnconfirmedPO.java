@@ -115,7 +115,7 @@ public class DisplayUnconfirmedPO implements Serializable {
 
     public void confirmPurchaseOrder() {
         try {
-            purchaseOrder = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedUPO");
+            purchaseOrder = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedUPO");
             String userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
             System.out.println("UserId = " + userId);
             result = pmb.confirmPurchaseOrder(userId, purchaseOrder.getId());

@@ -172,10 +172,10 @@
                                 </h:outputText>
                                 
                                 <p:commandButton action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage?faces-redirect=true" 
-                                                 value="OK" rendered="#{selectedPO.getDeliveryOrderList().isEmpty()}"/>
+                                                 value="Back" rendered="#{selectedPurchaseOrder.selectedPO.isManual}"/>
 
                                 <p:commandButton action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO?faces-redirect=true" 
-                                                 value="OK2" rendered="#{!selectedPO.getDeliveryOrderList().isEmpty()}"/>
+                                                 value="OK" rendered="#{!selectedPurchaseOrder.selectedPO.isManual}"/>
 
                             </p:outputPanel>
                         </p:dialog>

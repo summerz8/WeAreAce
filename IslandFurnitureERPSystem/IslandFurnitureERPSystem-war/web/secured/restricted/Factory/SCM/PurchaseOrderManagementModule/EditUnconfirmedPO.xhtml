@@ -90,22 +90,21 @@
                             <h:outputLabel for="unit" value="Unit: " />
                             <h:outputText  id="unit" value="#{editUnconfirmedPO.upo.unit}" style="font-weight:bold" />
 
-                            <h:outputLabel for="purchaseAmount" value="Purchase Amount: " 
-                                           rendered="#{editUnconfirmedPO.upo.isManual}"/>                                                      
-                            <p:inplace id="purchaseAmount" editor="true" rendered="#{editUnconfirmedPO.upo.isManual}">  
+                            <h:outputLabel for="purchaseAmount" value="Purchase Amount: " />                                             
+                                                    
+                            <p:inplace id="purchaseAmount" editor="true" >  
                                 <p:inputText id="Amount" value="#{editUnconfirmedPO.upo.totalAmount}" 
-                                             valueChangeListener="#{editUnconfirmedPO.changeAmount}" label="text" 
-                                             rendered="#{editUnconfirmedPO.upo.isManual}"/>
+                                             valueChangeListener="#{editUnconfirmedPO.changeAmount}" label="text"  />
                             </p:inplace>
 
                             <h:outputLabel for="totalPrice" value="Total Price: " />
                             <h:outputText  id="totalPrice" value="#{editUnconfirmedPO.upo.totalPrice}" style="font-weight:bold" />
 
-<!--                            <p:outputLabel for="supplier" value="Supplier " />
+                            <p:outputLabel for="supplier" value="Supplier " />
                             <p:selectOneMenu id="supplier" value="#{editUnconfirmedPO.supplier}" effect="fold" editable="true">
                                 <f:selectItem itemLabel="Select One" itemValue="" />
-                                <f:selectItems value="#{editUnconfirmedPO.suppliers}" />
-                            </p:selectOneMenu>   -->
+                                <f:selectItems value="#{editUnconfirmedPO.suppliersNames}" />
+                            </p:selectOneMenu>   
 
                             <p:outputLabel for="Store" value="Destination: " rendered="#{editUnconfirmedPO.itemType.equals('RetailProduct')}"/>
                             <p:selectOneMenu id="Store" value="#{editUnconfirmedPO.store}" 
@@ -114,17 +113,6 @@
                                 <f:selectItems value="#{editUnconfirmedPO.storeAddress}" />
                             </p:selectOneMenu>  
 
-<!--                            <h:outputLabel for="deliveryList" value="Delivery Order List: " 
-                                           rendered="#{editUnconfirmedPO.upo.isManual == false}" />
-                            <p:commandButton id="deliveryList" action="EditDeliveryOrderList?faces-redirect=true" 
-                                             rendered="#{editUnconfirmedPO.upo.deliveryDate ==false}"/>-->
-
-                            <!--
-                            
-                                                        <h:outputLabel for="destination" value="Destination: "/>
-                                                        <h:outputText  id="destination" value="#{displayManuallyGeneratedPO.destinationAddress}" style="font-weight:bold" />
-                                                        <p:commandButton action="#{displayManuallyGeneratedPO.generatePO()}" value="Change Destination" update="messages"></p:commandButton>
-                            -->
 
                             <p:commandButton update=":formMain:editDetail" oncomplete="PF('editDialog').show()" 
                                              action="#{editUnconfirmedPO.submit()}" value="Confirm" >

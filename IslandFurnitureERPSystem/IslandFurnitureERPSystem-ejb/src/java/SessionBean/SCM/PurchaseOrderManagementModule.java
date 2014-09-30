@@ -51,6 +51,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     public PurchaseOrderManagementModule() {
     }
 
+    
+    @Override
+    public PurchaseOrderEntity getPO(Long poId) throws Exception {
+        PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, poId);
+        return po;
+    }
     @Override
     public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception {
         InventoryRecordEntity ir = null;
@@ -467,6 +473,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                         workingDayInWeek = 1;
                     }
                     weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    weeklyDemand = (double) Math.round(weeklyDemand);
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
 
                     deliveryOrder.setDeliveryDate(cal5.getTime());
@@ -480,6 +487,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 } else if (a == 1) {
                     workingDayInWeek = 5;
                     weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    weeklyDemand = (double) Math.round(weeklyDemand);
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
                     deliveryOrder.setDeliveryDate(cal5.getTime());
                     deliveryOrder.setAmount(weeklyDemand);
@@ -490,10 +498,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
                 } else if (a == 2) {
                     workingDayInWeek = 5;
-                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
                     deliveryOrder.setDeliveryDate(cal5.getTime());
-
+                    weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    weeklyDemand = (double) Math.round(weeklyDemand);
                     deliveryOrder.setAmount(weeklyDemand);
                     em.persist(deliveryOrder);
                     em.flush();
@@ -514,6 +522,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                         workingDayInWeek = 5;
                     }
                     weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    weeklyDemand = (double) Math.round(weeklyDemand);
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
                     deliveryOrder.setDeliveryDate(cal5.getTime());
 
@@ -527,6 +536,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 } else if (a == 3 && week == 5) {
                     workingDayInWeek = 5;
                     weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    weeklyDemand = (double) Math.round(weeklyDemand);
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
                     deliveryOrder.setDeliveryDate(cal5.getTime());
 
@@ -550,6 +560,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                         workingDayInWeek = 5;
                     }
                     weeklyDemand = amount / daysInMonth * workingDayInWeek;
+                    weeklyDemand = (double) Math.round(weeklyDemand);
                     DeliveryOrderEntity deliveryOrder = new DeliveryOrderEntity();
                     deliveryOrder.setDeliveryDate(cal5.getTime());
 
@@ -1066,5 +1077,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return isExpired;
     }
+
 
 }

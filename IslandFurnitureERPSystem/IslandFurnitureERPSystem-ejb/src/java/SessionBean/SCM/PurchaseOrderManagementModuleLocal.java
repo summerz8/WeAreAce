@@ -37,6 +37,8 @@ import javax.ejb.Local;
 @Local
 public interface PurchaseOrderManagementModuleLocal {
 
+    public PurchaseOrderEntity getPO(Long poId) throws Exception;
+    
     public UserEntity getUser(String userId) throws Exception;
 
     public FactoryEntity getFactoryEntity(Long factoryiId) throws Exception;

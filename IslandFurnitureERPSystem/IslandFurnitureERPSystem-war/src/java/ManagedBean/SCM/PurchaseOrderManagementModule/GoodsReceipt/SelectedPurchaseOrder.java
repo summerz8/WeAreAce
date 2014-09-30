@@ -50,10 +50,8 @@ public class SelectedPurchaseOrder {
         
         if (selectedPO.getDeliveryOrderList().isEmpty()) {
             result = pmb.generateGoodsRecipt(selectedPO.getId());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
-
         } else {
-            result = null;
+            result = "Go to next";
         }
     }
 }
