@@ -111,7 +111,7 @@ public class DisplayGeneratedPO {
                 unit = pmb.getFactoryRM(itemId).getUnit();
 
             }
-            totalPrice = purchaseAmount * contract.getContractPrice();
+            totalPrice = (purchaseAmount/contract.getContractPrice()) * contract.getContractPrice();
             if (destination != null && destination.equals("store")) {
                 destinationAddress = pmb.getStoreEntity(storeId).getAddress();
             } else {

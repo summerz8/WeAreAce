@@ -86,7 +86,7 @@
                                 <h:outputText value="#{upo.id}"  style="font-weight: bold" />    
                             </p:column>
 
-                            <p:column headerText="Create Date" width="15%">
+                            <p:column headerText="Create Date" width="10%">
                                 <h:outputText value="#{upo.createDate.time}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                                 </h:outputText>
@@ -100,13 +100,14 @@
                                 <h:outputText value="#{upo.totalPrice}" style="font-weight: bold" /> 
                             </p:column>
 
-                            <p:column  headerText="Item Name" width="20%">
+                            <p:column  headerText="Item Name" width="10%">
                                 <h:outputText value="#{upo.itemName}" />
                             </p:column>
 
-                            <p:column headerText="Supplier Name" width="20%">
+                            <p:column headerText="Supplier Name" width="10%">
                                 <h:outputText value="#{upo.contract.supplier.supplierName}" style="font-weight: bold" /> 
                             </p:column>
+                  
                             <p:column headerText="Please Select Here" width="15%" >
                                 <p:commandButton update=":formMain:upoDetail" oncomplete="PF('upoDialog').show()" value="Confirm">
                                     <f:setPropertyActionListener value="#{upo}" target="#{selectedUnconfirmedPO.upo}" />
@@ -117,6 +118,13 @@
                                 <p:commandButton update=":formMain:upoCancelDetail" oncomplete="PF('upoCancelDialog').show()" value="Cancel">
                                     <f:setPropertyActionListener value="#{upo}" target="#{selectedUnconfirmedPO.upo}" />
                                 </p:commandButton>
+                            </p:column>
+                            
+                            <p:column headerText="Please Select Here" width="10%" >
+                                <p:commandButton action="#{displayUnconfirmedPO.edit(upo)}" value="Edit"  rendered="#{upo.isManual}">
+                                </p:commandButton>
+                                 <h:outputText value="Unable to Edit" style="font-weight: bold" rendered="#{!upo.isManual}"/> 
+                                
                             </p:column>
                         </p:dataTable>
 
@@ -140,7 +148,7 @@
                                     <h:outputText value="#{selectedUnconfirmedPO.upo.totalPrice}" />
 
                                     <h:outputText value="Item Name:" />
-                                    <h:outputText value="#{selectedPurchaseOrder.selectedPO.itemName}"/>
+                                    <h:outputText value="#{selectedUnconfirmedPO.upo.itemName}"/>
 
                                     <h:outputText value="Supplier Name:" />
                                     <h:outputText value="#{selectedUnconfirmedPO.upo.contract.supplier.supplierName}" style="font-weight: bold" /> 

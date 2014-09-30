@@ -91,6 +91,12 @@
 
                             <h:outputLabel for="unit" value="Unit: " />
                             <h:outputText  id="unit" value="#{getGeneratedPO.po.unit}" style="font-weight:bold" />
+                            
+                             <h:outputLabel for="lotSize" value="Lot Size: " />
+                            <h:outputText  id="lotSize" value="#{getGeneratedPO.po.contract.lotSize}" style="font-weight:bold" />
+
+                            <h:outputLabel for="unitP" value="UPrice per lot size: " />
+                            <h:outputText  id="unitP" value="#{displayGeneratedPO.contract.contractPrice}" style="font-weight:bold" />
 
                             <h:outputLabel for="purchaseAmount" value="Purchase Amount: " />
                             <h:outputText  id="purchaseAmount" value="#{getGeneratedPO.po.totalPrice}" style="font-weight:bold" />

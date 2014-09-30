@@ -189,6 +189,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 factoryRawMaterial.getContracts()
                         .add(contract);
                 unit = factoryRawMaterial.getUnit();
+                contract.setTypeIndicator(1);
+
             } //create relationship between contract and retail products
             else {//itemType.equals("RetailProducts")
                 FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
@@ -196,6 +198,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
                 factoryRetailProduct.getContracts().add(contract);
                 unit = factoryRetailProduct.getUnit();
+                contract.setTypeIndicator(3);
+
             }
 
             //create new supplier entity and contract entity
@@ -491,6 +495,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
             ContractEntity contract = new ContractEntity();
 
             if (itemType.equals("RawMaterial")) {
+
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
 
                 //create relationship between contract and factory raw material
@@ -498,6 +503,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 contract.setFactoryRawMaterial(factoryRawMaterial);
 
                 unit = factoryRawMaterial.getUnit();
+                contract.setTypeIndicator(1);
                 em.persist(contract);
                 em.flush();
                 result = "New contract [id = " + contract.getContractId() + "] added!";
@@ -509,6 +515,8 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 contract.setFactoryRetailProduct(factoryRetailProduct);
 
                 unit = factoryRetailProduct.getUnit();
+                contract.setTypeIndicator(3);
+
                 em.persist(contract);
                 em.flush();
                 result = "New contract [id = " + contract.getContractId() + "] added!";
