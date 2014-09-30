@@ -103,7 +103,6 @@
                         <p:column headerText="Item" >
 
                             <p:dataTable var="i" value="#{po.factoryRawMaterialAmountList}" rendered="#{po.factoryRawMaterialAmountList != null}">
-
                                 <p:column headerText="Raw Material Name">
                                     <h:outputText value="#{i.factoryRawMaterial.rawMaterial.materialName}" />
                                 </p:column>
@@ -115,20 +114,21 @@
                                 <p:column headerText="Unit">
                                     <h:outputText value="#{i.unit}" />
                                 </p:column>
-
                             </p:dataTable>
 
-                            <p:column headerText="Raw Material Name" rendered="#{po.factoryRetailProductAmount != null}">
-                                <h:outputText value="#{i.factoryRetailProductAmount.factoryRetailProduct.name}" />
-                            </p:column>
+                            <p:dataTable rendered="#{po.factoryRetailProductAmount != null}">
+                                <p:column headerText="Retail Product Name">
+                                    <h:outputText value="#{i.factoryRetailProductAmount.factoryRetailProduct.name}" />
+                                </p:column>
 
-                            <p:column headerText="Quantity" rendered="#{po.factoryRetailProductAmount != null}">
-                                <h:outputText value="#{i.factoryRetailProductAmount.amount}" />
-                            </p:column>
+                                <p:column headerText="Quantity">
+                                    <h:outputText value="#{i.factoryRetailProductAmount.amount}" />
+                                </p:column>
 
-                            <p:column headerText="Unit" rendered="#{po.factoryRetailProductAmount != null}">
-                                <h:outputText value="#{i.factoryRetailProductAmount.unit}" />
-                            </p:column>
+                                <p:column headerText="Unit">
+                                    <h:outputText value="#{i.factoryRetailProductAmount.unit}" />
+                                </p:column>
+                            </p:dataTable>
 
                         </p:column>
 

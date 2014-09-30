@@ -87,6 +87,12 @@ public class GetManuallyGeneratedPO {
     }
 
     public String backToHome() {
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplier");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("purchaseAmount");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("deliveryDate");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("po");

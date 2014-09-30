@@ -52,6 +52,50 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     @Override
+    public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception {
+        InventoryRecordEntity ir = null;
+
+        if (itemType.equals("RawMaterial")) {
+            System.out.println("SB  check1");
+            FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
+            List<InventoryRecordEntity> inventoryRecordList = factoryRawMaterial.getInventoryRecord();
+            Iterator iterator = inventoryRecordList.iterator();
+
+            //check the inventory level of the material in the beginning of the month
+            while (iterator.hasNext() && (ir == null)) {
+                InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                    ir = inventoryRecord;
+                }
+            }
+        } else {//itemType.equals("RetailProduct")
+            FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
+            List<InventoryRecordEntity> inventoryRecordList = factoryRetailProduct.getInventoryRecords();
+            Iterator iterator = inventoryRecordList.iterator();
+
+            //check the inventory level of the material in the beginning of the month
+            while (iterator.hasNext() && (ir == null)) {
+                InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                    ir = inventoryRecord;
+                }
+            }
+        }
+        System.out.println("Amount = " + ir.getAmount());
+        return ir;
+    }
+
+    @Override
+    public UserEntity getUser(String userId) throws Exception {
+        UserEntity user = em.find(UserEntity.class, userId);
+        return user;
+    }
+
+    @Override
     public FactoryEntity getFactoryEntity(Long factoryId) throws Exception {
         FactoryEntity factory = null;
 
@@ -523,7 +567,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             Calendar createDate = Calendar.getInstance();
 
             //totalPrice
-            Double totalPrice = purchaseAmount * contract.getContractPrice();
+            Double totalPrice = (purchaseAmount/contract.getLotSize()) * contract.getContractPrice();
             //leadTime
             Integer leadTime = contract.getLeadTime();
 
@@ -891,6 +935,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
 
             purchaseOrder.setStatus("cancelled");
+            purchaseOrder.getIntegratedPlannedOrder().setStatus("waiting");
             em.flush();
 
             result = "Purchase Order Cancelleds!";
@@ -915,6 +960,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
         gr.setCreateDate(Calendar.getInstance());
         gr.setPurchaseOrder(po);
+        gr.setAmount(po.getTotalAmount());
 
         em.persist(gr);
         po.getGoodsReceiptList().add(gr);
@@ -938,10 +984,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         gr.setPurchaseOrder(po);
 
         em.persist(gr);
-        po.getGoodsReceiptList().add(gr);
-
         DeliveryOrderEntity deliveryOrder = em.find(DeliveryOrderEntity.class, deliveryOrderId);
         deliveryOrder.setStatus("fulfilled");
+        po.getGoodsReceiptList().add(gr);
+        gr.setAmount(deliveryOrder.getAmount());
         em.flush();
         for (DeliveryOrderEntity delivery : po.getDeliveryOrderList()) {
             if (!delivery.getStatus().equals("fulfilled")) {
@@ -951,13 +997,14 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             }
         }
         po.setStatus("accomplished");
+        po.getIntegratedPlannedOrder().setStatus("accomplished");
         em.flush();
         result = "Purchase Order [id = " + po.getId() + "] is fulfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
         return result;
     }
-
     // for comparing two dates
     //function to set all the other attributes to be 0
+
     public Calendar removeTime(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);

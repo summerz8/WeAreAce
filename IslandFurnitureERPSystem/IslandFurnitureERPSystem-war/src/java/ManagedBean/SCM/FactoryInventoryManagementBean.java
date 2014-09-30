@@ -50,7 +50,7 @@ public class FactoryInventoryManagementBean implements Serializable {
     private String toStatus;
     private double quantity;
     private Calendar creationDate = Calendar.getInstance();
-    private Date inputDate;
+    private Calendar inputDate = Calendar.getInstance();
     private List storageBinInformation;
     private Long inboundMovementId;
     private int itemTypeIndicator;
@@ -148,11 +148,11 @@ public class FactoryInventoryManagementBean implements Serializable {
     }
 
     public Date getInputDate() {
-        return inputDate;
+        return inputDate.getTime();
     }
 
     public void setInputDate(Date inputDate) {
-        this.inputDate = inputDate;
+        this.inputDate.setTime(inputDate);
         creationDate.setTime(inputDate);
     }
 

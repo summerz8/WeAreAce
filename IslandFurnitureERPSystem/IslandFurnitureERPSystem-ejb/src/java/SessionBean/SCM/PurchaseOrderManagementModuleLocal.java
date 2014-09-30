@@ -13,9 +13,11 @@
  */
 package SessionBean.SCM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
@@ -35,6 +37,8 @@ import javax.ejb.Local;
 @Local
 public interface PurchaseOrderManagementModuleLocal {
 
+    public UserEntity getUser(String userId) throws Exception;
+
     public FactoryEntity getFactoryEntity(Long factoryiId) throws Exception;
 
     public StoreEntity getStoreEntity(Long storeId) throws Exception;
@@ -45,6 +49,7 @@ public interface PurchaseOrderManagementModuleLocal {
 
     public ContractEntity getContract(Long contractId) throws Exception;
 
+    public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception;
     //1. View and Select item for purchase
     public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception;
 
@@ -65,7 +70,7 @@ public interface PurchaseOrderManagementModuleLocal {
     public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception;
 
     //5. input amount for given date of goods receipt
-    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount) throws Exception;
+    public Collection<DeliveryOrderEntity> getDeliveryAmountAndDate(Long integratedPlannedOrderId, Double purchaseAmount) throws Exception;
 
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
@@ -106,7 +111,7 @@ public interface PurchaseOrderManagementModuleLocal {
 
     //8. Generate Goods Receipt
     public String confirmPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
-    
+
     //7. Cancel purchase order
     public String cancelPurchaseOrder(String userId, Long purchaseOrderId) throws Exception;
 

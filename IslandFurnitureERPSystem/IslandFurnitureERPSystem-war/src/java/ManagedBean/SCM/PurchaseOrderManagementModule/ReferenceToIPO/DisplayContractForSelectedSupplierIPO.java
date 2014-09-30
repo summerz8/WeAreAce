@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM.PurchaseOrderManagementModule.ReferenceToIPO;
 
+import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.SupplierEntity;
@@ -36,6 +37,8 @@ public class DisplayContractForSelectedSupplierIPO {
     private Long factoryId;
     private Calendar deliveryDate;
     private Double nextMonthBeginPlannedAmount;
+    private InventoryRecordEntity ir;
+    private Double purchaseAmount;
 
     @PostConstruct
     public void init() {
@@ -51,11 +54,13 @@ public class DisplayContractForSelectedSupplierIPO {
             if (integratedPlannedOrder.getFactoryRawMaterialAmount() != null) {
                 itemType = "RawMaterial";
                 itemId = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial().getFactoryRawMaterialId();
+                purchaseAmount = integratedPlannedOrder.getFactoryRawMaterialAmount().getAmount();
             } else {
                 itemType = "RetailProduct";
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
+                purchaseAmount = integratedPlannedOrder.getFactoryRetailProductAmount().getAmount();
             }
-
+            ir = pmb.getIR(integratedPlannedOrder.getTargetPeriod(), itemType, itemId);
             contract = pmb.selectSupplier(itemType, itemId, supplier.getSupplierId());
         } catch (Exception ex) {
             Logger.getLogger(DisplayContractForSelectedSupplierIPO.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,6 +126,22 @@ public class DisplayContractForSelectedSupplierIPO {
 
     public Double getNextMonthBeginPlannedAmount() {
         return nextMonthBeginPlannedAmount;
+    }
+
+    public InventoryRecordEntity getIr() {
+        return ir;
+    }
+
+    public void setIr(InventoryRecordEntity ir) {
+        this.ir = ir;
+    }
+
+    public Double getPurchaseAmount() {
+        return purchaseAmount;
+    }
+
+    public void setPurchaseAmount(Double purchaseAmount) {
+        this.purchaseAmount = purchaseAmount;
     }
 
     public void setNextMonthBeginPlannedAmount(Double nextMonthBeginPlannedAmount) {

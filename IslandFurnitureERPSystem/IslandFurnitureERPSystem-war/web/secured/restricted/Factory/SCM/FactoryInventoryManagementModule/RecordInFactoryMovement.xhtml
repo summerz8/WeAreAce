@@ -87,7 +87,7 @@
                     <p:panel id="basic" header="Record Intra-Factory Movement" style="margin-bottom" >
                     </p:panel>
 
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Item ID: " />
                         <h:inputText value="#{factoryInventoryManagementBean.itemId}" />
@@ -116,7 +116,9 @@
                         <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
 
                         <p:outputLabel value="Date: " />
-                        <p:calendar value="#{factoryInventoryManagementBean.inputDate}" />
+                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                        </h:outputText>
 
                         <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordInFactoryMovement}"/>
 

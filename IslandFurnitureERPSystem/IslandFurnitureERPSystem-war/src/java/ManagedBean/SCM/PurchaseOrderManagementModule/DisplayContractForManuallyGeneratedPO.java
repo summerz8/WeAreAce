@@ -145,7 +145,7 @@ public class DisplayContractForManuallyGeneratedPO {
         Calendar checkDate = Calendar.getInstance();
         checkDate.add(Calendar.DAY_OF_MONTH, this.contract.getLeadTime());
 
-        if ((purchaseAmount % this.contract.getLotSize()) == 0) {
+        if ((purchaseAmount % this.contract.getLotSize()) == 0 && purchaseAmount > 0) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("purchaseAmount", purchaseAmount);
             result = "Purchase amount valid.\n";
             isValid = true;

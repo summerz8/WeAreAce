@@ -19,22 +19,22 @@
 
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -64,10 +64,10 @@
 
 
                 </p:layoutUnit>
-               
+
                 <p:layoutUnit position="west" size="1000px">
 
-                     <p:menu>
+                    <p:menu>
                         <p:submenu label="Factory Inventory Management">
                             <p:menuitem value="Factory Bin" url="FactoryBin.xhtml?faces-redirect=true" />
                             <p:menuitem value="Record Inbound Movement" url="RecordInboundMovement.xhtml?faces-redirect=true" />
@@ -80,12 +80,12 @@
                     </p:menu>
 
                 </p:layoutUnit>
-                <p:layoutUnit position="center" resizable="false">
+                <p:layoutUnit position="center" resizable="false" >
 
                     <p:panel id="basic" header="Record Inbound Movement" style="margin-bottom" >
                     </p:panel>
 
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Goods Receipt: " />
                         <h:inputText value="#{factoryInventoryManagementBean.goodsReceiptId}" />
@@ -103,7 +103,9 @@
                         <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
 
                         <p:outputLabel value="Date: " />
-                        <p:calendar value="#{factoryInventoryManagementBean.inputDate}" />
+                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                        </h:outputText>
 
                         <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordInboundMovement}"/>
 

@@ -33,6 +33,7 @@ public class GoodsReceiptEntity implements Serializable {
     private Long goodsReceiptId;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
+    private Double amount;
 
     //goods receipt entity -- purchase order entity : M <--> 1
     @ManyToOne
@@ -64,6 +65,14 @@ public class GoodsReceiptEntity implements Serializable {
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public PurchaseOrderEntity getPurchaseOrder() {

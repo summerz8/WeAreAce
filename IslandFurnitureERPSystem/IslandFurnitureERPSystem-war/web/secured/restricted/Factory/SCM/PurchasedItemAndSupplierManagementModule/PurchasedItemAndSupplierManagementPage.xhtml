@@ -66,8 +66,8 @@
 
                     <p:menu>
                         <p:submenu label="Purchased Item And Supplier Management">
-                            <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
-                            <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
+                            <p:menuitem value="Add New Supplier" update="messages" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
+                            <p:menuitem value="Edit Supplier" update="messages" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
                             <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
                         </p:submenu>

@@ -232,6 +232,10 @@ public class dataSetUp {
         RawMaterialEntity rm5 = new RawMaterialEntity("fabric", "blue", false, "square meter");
         em.persist(rm5);
         em.flush();
+        RawMaterialEntity rm6 = new RawMaterialEntity("fibreboard", "white", false, "square meter");
+        em.persist(rm6);
+        em.flush();
+        
 
         //Product
         ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, "set", false);
@@ -248,6 +252,9 @@ public class dataSetUp {
         em.flush();
         ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, "one", false);
         em.persist(p5);
+        em.flush();
+        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
+        em.persist(p6);
         em.flush();
 
         //Product.BOM

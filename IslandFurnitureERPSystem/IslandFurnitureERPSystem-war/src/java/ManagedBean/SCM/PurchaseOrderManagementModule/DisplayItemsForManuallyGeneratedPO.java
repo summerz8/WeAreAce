@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM.PurchaseOrderManagementModule;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -32,11 +34,13 @@ public class DisplayItemsForManuallyGeneratedPO implements Serializable {
     private Long factoryId;
     private Collection<FactoryRawMaterialEntity> frmList;
     private Collection<FactoryRetailProductEntity> frpList;
+    private String userId;
 
     @PostConstruct
     public void init() {
         try {
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
             frmList = pmb.viewRawMaterialWithSelectType(factoryId);
             frpList = pmb.viewRetailProductWithSelectType(factoryId);
@@ -85,7 +89,15 @@ public class DisplayItemsForManuallyGeneratedPO implements Serializable {
         this.pmb = pmb;
     }
 
-    public String displayAllFactoryItems() {
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO?faces-redirect=true";
+    public String displayAllFactoryItems() throws Exception {
+        UserEntity user = pmb.getUser(userId);
+        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO?faces-redirect=true";
+        } else {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
+
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
+        }
     }
 }

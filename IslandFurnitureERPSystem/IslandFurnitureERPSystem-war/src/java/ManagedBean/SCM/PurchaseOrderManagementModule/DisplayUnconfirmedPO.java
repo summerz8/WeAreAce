@@ -5,6 +5,7 @@
  */
 package ManagedBean.SCM.PurchaseOrderManagementModule;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -31,11 +33,14 @@ public class DisplayUnconfirmedPO implements Serializable {
     private Collection<PurchaseOrderEntity> unconfirmedPOList;
     private PurchaseOrderEntity purchaseOrder;
     private String result;
+    private String userId;
 
     @PostConstruct
     public void init() {
         try {
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
+
             System.out.println("factoryId = " + factoryId);
             unconfirmedPOList = pmb.viewUnconfirmedPurchaseOrder(factoryId);
             for (PurchaseOrderEntity upo : unconfirmedPOList) {
@@ -81,8 +86,16 @@ public class DisplayUnconfirmedPO implements Serializable {
     public DisplayUnconfirmedPO() {
     }
 
-    public String displayDisplayUnconfirmedPurchaseOrder() {
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
+    public String displayDisplayUnconfirmedPurchaseOrder() throws Exception {
+        UserEntity user = pmb.getUser(userId);
+        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
+        } else {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
+
+            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
+        }
     }
 
     public void confirmPurchaseOrder() {

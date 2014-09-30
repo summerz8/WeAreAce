@@ -46,6 +46,7 @@ public class PurchaseOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar deliveryDate ;
 
+    private String itemName;
     //purchase order entity -- factory entity: M <--> 1 
     @ManyToOne
     private FactoryEntity factory;
@@ -196,8 +197,23 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setIntegratedPlannedOrder(IntegratedPlannedOrderEntity integratedPlannedOrder) {
         this.integratedPlannedOrder = integratedPlannedOrder;
+        
+        if(integratedPlannedOrder.getFactoryRawMaterialAmount() == null){
+            itemName = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getName();
+        }else{
+            itemName = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial().getMaterialName();
+        }
     }
 
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    
     public Collection<DeliveryOrderEntity> getDeliveryOrderList() {
         return deliveryOrderList;
     }
