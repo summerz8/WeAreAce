@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -64,6 +65,7 @@ public class DocumentReferenceBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         if (department.equals("H")) {
             filteredSuppliers = dr.viewAllSuppliers();
         } else {
@@ -194,4 +196,3 @@ public class DocumentReferenceBean implements Serializable {
     }
 
 }
-    

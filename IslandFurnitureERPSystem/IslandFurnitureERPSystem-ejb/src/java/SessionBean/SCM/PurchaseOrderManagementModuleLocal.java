@@ -37,6 +37,8 @@ import javax.ejb.Local;
 @Local
 public interface PurchaseOrderManagementModuleLocal {
 
+    public PurchaseOrderEntity getPO(Long poId) throws Exception;
+    
     public UserEntity getUser(String userId) throws Exception;
 
     public FactoryEntity getFactoryEntity(Long factoryiId) throws Exception;
@@ -49,6 +51,8 @@ public interface PurchaseOrderManagementModuleLocal {
 
     public ContractEntity getContract(Long contractId) throws Exception;
 
+    public ContractEntity getContract2(Long supplierId, Long itemId, String itemType) throws Exception;
+    
     public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception;
     //1. View and Select item for purchase
     public Collection<FactoryRawMaterialEntity> viewRawMaterialWithSelectType(Long factoryId) throws Exception;
@@ -75,7 +79,7 @@ public interface PurchaseOrderManagementModuleLocal {
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
-            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate) throws Exception;
+            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate, Boolean isManual) throws Exception;
 
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
@@ -105,7 +109,7 @@ public interface PurchaseOrderManagementModuleLocal {
 
     //6. Edit unconfirmed purchase order
     public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount,
-            String unit, Calendar createDate, String destination, Integer leadTime,
+            String unit, Calendar createDate, String destination, Long destinationId, Integer leadTime,
             Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder,
             ContractEntity contract) throws Exception;
 

@@ -52,17 +52,16 @@
                     </p:button> 
 
                     <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button> 
+                    </p:button>
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
-
                     </h:outputLabel>                     
                 </p:layoutUnit>
 
 
-
                 <p:layoutUnit position="west" size="1000px">
+
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
                             <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
@@ -71,61 +70,69 @@
                             <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}"/>
                         </p:submenu>
                     </p:menu>
-                </p:layoutUnit>
 
+                </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="Contract Information" style="margin-bottom" >
+                    <p:panel id="basic" header="Generated Purchase Order" style="margin-bottom" >
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
 
-                            <h:outputLabel for="id" value="Id: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.contractId}"/>
 
-                            <h:outputLabel for="contractPrice" value="Contract Pirce:" />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.contractPrice}"/>
+                            <h:outputLabel for="itemType" value="Purchase Item Type: " />
+                            <h:outputText  value="#{editUnconfirmedPO.itemType}" style="font-weight:bold" />
+
+                            <h:outputLabel for="itemId" value="Purchase Item Id:" />
+                            <h:outputText  id="itemId" value="#{editUnconfirmedPO.itemId}" style="font-weight:bold" />
+
+                            <h:outputLabel for="itemName" value="Purchase Item Name: " />
+                            <h:outputText  id="itemName" value="#{editUnconfirmedPO.upo.itemName}" style="font-weight:bold" />
 
                             <h:outputLabel for="unit" value="Unit: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.unit}"/>
+                            <h:outputText  id="unit" value="#{editUnconfirmedPO.upo.unit}" style="font-weight:bold" />
 
-                            <h:outputLabel for="lotSize" value="Lot Size: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.lotSize}"/>
+                            <h:outputLabel for="purchaseAmount" value="Purchase Amount: " />                                             
+                                                    
+                            <p:inplace id="purchaseAmount" editor="true" >  
+                                <p:inputText id="Amount" value="#{editUnconfirmedPO.upo.totalAmount}" 
+                                             valueChangeListener="#{editUnconfirmedPO.changeAmount}" label="text"  />
+                            </p:inplace>
 
-                            <h:outputLabel for="leadTime" value="Lead Time: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.leadTime}"/>
+                            <h:outputLabel for="totalPrice" value="Total Price: " />
+                            <h:outputText  id="totalPrice" value="#{editUnconfirmedPO.upo.totalPrice}" style="font-weight:bold" />
 
-                            <h:outputLabel for="startDate" value="Contract Start Date: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.contractStartDate.time}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                            </h:outputText>
+                            <p:outputLabel for="supplier" value="Supplier " />
+                            <p:selectOneMenu id="supplier" value="#{editUnconfirmedPO.supplier}" effect="fold" editable="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editUnconfirmedPO.suppliersNames}" />
+                            </p:selectOneMenu>   
 
-                            <h:outputLabel for="endDate" value="Contract End Date: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.contractEndDate.time}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                            </h:outputText>
+                            <p:outputLabel for="Store" value="Destination: " rendered="#{editUnconfirmedPO.itemType.equals('RetailProduct')}"/>
+                            <p:selectOneMenu id="Store" value="#{editUnconfirmedPO.store}" 
+                                             effect="fold" editable="true" rendered="#{editUnconfirmedPO.itemType.equals('RetailProduct')}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editUnconfirmedPO.storeAddress}" />
+                            </p:selectOneMenu>  
 
-                            <h:outputLabel for="supplierId" value="Supplier Id: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.supplier.supplierId}"/>
 
-                            <h:outputLabel for="supplierName" value="Supplier Name: " />
-                            <h:outputText  value="#{displayContractForSelectedSupplierIPO.contract.supplier.supplierName}"/>
+                            <p:commandButton update=":formMain:editDetail" oncomplete="PF('editDialog').show()" 
+                                             action="#{editUnconfirmedPO.submit()}" value="Confirm" >
+                            </p:commandButton> 
                         </h:panelGrid>
                     </p:panel>
 
-                    <p:panel id="basic2" header="Input Purchase Infomation" style="margin-bottom" >
-                        <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-                            <h:outputLabel for="output" value="Planned Inventory of this item in the Factory at the end of the month: " style="font-size: 120%"/>
-                            <h:outputText id="ouput" value="#{displayContractForSelectedSupplierIPO.ir.amount}"/>
-                            <h:outputLabel for="ipoAmount" value="Order Request Amount:"  style="font-size: 120%"/>
-                            <h:outputText id="ipoAmount" value="#{displayContractForSelectedSupplierIPO.purchaseAmount}"/>
-                            <h:outputLabel for="input" value="Please Input the Planned Inventory of this item in the Factory at end of next month: " style="font-size: 120%"/>
-                            <h:inputText  id="input" value="#{displayContractForSelectedSupplierIPO.nextMonthBeginPlannedAmount}"/>
+                    <p:dialog header="Result Info" widgetVar="editDialog" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true" width="300">
+                        <p:outputPanel id="editDetail" style="text-align:center;">
+                            <h:outputText value="#{editUnconfirmedPO.result}"></h:outputText>
+                            <p:commandButton action="DisplayUnconfirmedPO?faces-redirect=true" value="Back"/>
+                        </p:outputPanel>
+                    </p:dialog>
 
-                            <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.displayPlannedDeliveryOrders()}" value="Submit"></p:commandButton>
-                        </h:panelGrid>
-                    </p:panel>
                 </p:layoutUnit>
             </p:layout>
         </h:form>
     </h:body>
 
 </html>
+

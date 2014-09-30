@@ -76,14 +76,14 @@
 
                     <p:panel id="basic" header="Planned Delivery Date and Amount" style="margin-bottom" >
 
-                        <p:dataTable id="deliveryOrders" var="deliveryOrder" value="#{displayPlannedOrderDeliveryAmountAndDate.deliveryOrderList}" 
+                        <p:dataTable id="deliveryOrders" var="deliveryOrder" value="#{editUnconfirmedPO.doe}" 
                                      editable="true" style="margin-bottom:20px">
                             <f:facet name="header">
                                 Planned Delivery Date and Amount
                             </f:facet>
 
-                            <p:ajax event="rowEdit" listener="#{displayPlannedOrderDeliveryAmountAndDate.onRowEdit}" update=":formMain:messages" />
-                            <p:ajax event="rowEditCancel" listener="#{displayPlannedOrderDeliveryAmountAndDate.onRowCancel}" update=":formMain:messages" />
+                            <p:ajax event="rowEdit" listener="#{editUnconfirmedPO.onRowEdit}" update=":formMain:messages" />
+                            <p:ajax event="rowEditCancel" listener="#{editUnconfirmedPO.onRowCancel}" update=":formMain:messages" />
 
 
                             <p:column headerText="Delivery Date">
@@ -104,13 +104,15 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
 
                         </p:dataTable>
-                        <h:outputText value="Total Purchase Amount: #{displayPlannedOrderDeliveryAmountAndDate.purchaseAmount}" 
+                        <h:outputText value="Total Purchase Amount: #{editUnconfirmedPO.upo.totalAmount}" 
                                       style="font-weight: bold;font-size:150%;" />
 
-                        <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.passValue()}" value="Confirm" />
+                        <p:commandButton action="EditUnconfirmedPO?faces-redirect=true" value="Confirm" />
                     </p:panel>
                 </p:layoutUnit>
             </p:layout>

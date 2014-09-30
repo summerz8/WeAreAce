@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -80,7 +80,7 @@
 
                             <h:outputLabel for="itemType" value="Purchase Item Type: " />
                             <h:outputText  value="#{displayManuallyGeneratedPO.itemType}" style="font-weight:bold" />
-                            
+
                             <h:outputLabel for="itemId" value="Purchase Item Id:" />
                             <h:outputText  id="itemId" value="#{displayManuallyGeneratedPO.itemId}" style="font-weight:bold" />
 
@@ -89,6 +89,12 @@
 
                             <h:outputLabel for="unit" value="Unit: " />
                             <h:outputText  id="unit" value="#{displayManuallyGeneratedPO.unit}" style="font-weight:bold" />
+
+                            <h:outputLabel for="lotSize" value="Lot Size: " />
+                            <h:outputText  id="lotSize" value="#{displayManuallyGeneratedPO.contract.lotSize}" style="font-weight:bold" />
+
+                            <h:outputLabel for="unitP" value="Price per lot size: " />
+                            <h:outputText  id="unitP" value="#{displayManuallyGeneratedPO.contract.contractPrice}" style="font-weight:bold" />
 
                             <h:outputLabel for="purchaseAmount" value="Purchase Amount: " />
                             <h:outputText  id="purchaseAmount" value="#{displayManuallyGeneratedPO.purchaseAmount}" style="font-weight:bold" />
@@ -106,7 +112,7 @@
                             <h:outputText id="deliveryDate" value="#{displayManuallyGeneratedPO.deliveryDate}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                             </h:outputText>
-                            
+
                             <h:outputLabel for="destination" value="Destination: "/>
                             <h:outputText  id="destination" value="#{displayManuallyGeneratedPO.destinationAddress}" style="font-weight:bold" />
 
