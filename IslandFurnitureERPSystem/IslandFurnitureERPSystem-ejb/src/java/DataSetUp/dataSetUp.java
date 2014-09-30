@@ -68,7 +68,7 @@ public class dataSetUp {
 
         //idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000002L);
+        id.setId_F(1000003L);
         id.setId_H(1000001L);
         id.setId_S(1000000L);
         em.persist(id);
@@ -145,13 +145,13 @@ public class dataSetUp {
         em.persist(u1);
         em.flush();
         //FactoryUser(f2)
-        UserEntity u2 = new FactoryUserEntity("F", "1000002", 1, "Bowen", null,
-                "Jeremy", "Factory Manager", birthday, "Male",
-                "Mr", "New York Road 20", "250620", "jeremy.bowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
+        UserEntity u2 = new FactoryUserEntity("F", "1000002", 3, "Zhang", null,
+                "Yaowen", "Factory SCM Staff", birthday, "Female",
+                "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
         
-         UserEntity u3 = new FactoryUserEntity("F", "1000003", 3, "He", null,
+         UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
                 "Jinqiao", "Factory MRP Staff", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u3);

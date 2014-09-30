@@ -96,6 +96,7 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
 
             return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
         }
+
     }
 
 }
