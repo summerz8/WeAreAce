@@ -6,6 +6,8 @@
 
 package ManagedBean.MRP;
 
+import Entity.Factory.FactoryProductAmountEntity;
+import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
 import SessionBean.MRP.SalesForecastModuleLocal;
@@ -48,9 +50,24 @@ public class CreateIntegratedSalesForecastBean {
         integratedSalesForecast=SFML.IntegrateSalesForecast(type,productId, null);
 //         System.out.println("4");
         quantity=integratedSalesForecast.getAmount();
-        salesForecastList=integratedSalesForecast.getSalesForecastList();
+        salesForecastList=integratedSalesForecast.getSalesForecastList();       
         targetPeriod=integratedSalesForecast.getTargetPeriod();
-
+        
+        for(SalesForecastEntity s:salesForecastList){
+            s.setTempProductAmount(0D);
+            s.setTempRetailAmount(0D);
+            if(!s.getFactoryProductList().isEmpty()){
+                for(FactoryProductAmountEntity f:s.getFactoryProductList()){
+                    if(f.getFactoryProduct().getFactoryProductId().equals(productId))s.setTempProductAmount(s.getTempProductAmount()+f.getAmount());
+                }
+            }
+            
+            if(!s.getFactoryRetailProductList().isEmpty()){
+                for(FactoryRetailProductAmountEntity f:s.getFactoryRetailProductList()){
+                    if(f.getFactoryRetailProduct().getFactoryRetailProdctId().equals(productId))s.setTempRetailAmount(s.getTempRetailAmount()+f.getAmount());
+                }
+            }
+        }
     }
 
     

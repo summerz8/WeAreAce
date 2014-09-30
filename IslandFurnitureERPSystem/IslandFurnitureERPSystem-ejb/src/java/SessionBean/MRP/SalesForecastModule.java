@@ -228,14 +228,15 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                 targetPeriod.set(targetPeriod.get(Calendar.YEAR), targetPeriod.get(Calendar.MONTH), 1, 0, 0, 0);
                 targetPeriod.add(Calendar.MONTH, 2);
 
-                List<SalesForecastEntity> templist;
+                List<SalesForecastEntity> templist=new ArrayList<>();
+         
 
                 IntegratedSalesForecastEntity integratedSalesForecast = new IntegratedSalesForecastEntity();
                 integratedSalesForecast.setAmount(0D);
                 integratedSalesForecast.setTargetPeriod(targetPeriod);
 
                 Query query = em.createQuery("SELECT t FROM SalesForecastEntity t ORDER BY t.targetPeriod DESC");
-                templist = (List<SalesForecastEntity>) query.getResultList();
+                templist = (List<SalesForecastEntity>) query.getResultList();    
                 System.out.println("inegrateSalesForecast: 2");
                 // If it is an integrated sales forecast for self-produced product
                 if (type.equals("factoryProduct")) {
@@ -251,13 +252,12 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                         if ((targetPeriod.get(Calendar.YEAR) == templist.get(0).getTargetPeriod().get(Calendar.YEAR) && (targetPeriod.get(Calendar.MONTH) == templist.get(0).getTargetPeriod().get(Calendar.MONTH)))) {
                             tempFactoryProductAmountList = templist.get(0).getFactoryProductList();
                             System.out.println(templist.get(0).getId());
-                            int size = tempFactoryProductAmountList.size();
-                            for (int a = 0; a < size; a++) {
-                                if (tempFactoryProductAmountList.get(0).getFactoryProduct().getFactoryProductId().equals(productId)) {
-                                    integratedSalesForecast.setAmount(integratedSalesForecast.getAmount() + tempFactoryProductAmountList.get(0).getAmount());
+                            for (FactoryProductAmountEntity fpa : tempFactoryProductAmountList) {
+                                if (fpa.getFactoryProduct().getFactoryProductId().equals(productId)) {
+                                    System.out.println("hahah");
+                                    integratedSalesForecast.setAmount(integratedSalesForecast.getAmount() + fpa.getAmount());
                                     hasIt = true;
                                 }
-                                a++;
                             }
 
                             if (hasIt == true) {

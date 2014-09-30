@@ -17,22 +17,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -54,7 +54,7 @@
                     </p:button> 
 
                     <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button> 
+                    </p:button>
 
 
                     <h:outputLabel value = "Welcome Back " >
@@ -66,7 +66,7 @@
                 </p:layoutUnit>
 
 
-               
+
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
@@ -84,47 +84,15 @@
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
-                    <h:form id="test"> 
-                        <p:panel id="sales" header="Sales Operation Plan" style="margin-bottom" >
-                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan?faces-redirect=true" >
-                            </p:commandButton>
-
-                            <p:commandButton  id = "back" value="Back" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{viewNewSalesOperationPlanBean.Back()}" >
-                            </p:commandButton>
+                    <h:form> 
+                        <p:panel id="basic" header="Sales Operation Plans of Product #{viewSalesOperationPlan.productId}" style="margin-bottom" >
                             <br></br>
-                            <br></br>
-                            <p:panel id="basic" header="Create New Operation Plan For Product" style="margin-bottom" >
-
-                                <h:outputText value="The new operation plan #{viewNewSalesOperationPlanBean.salesOperationPlan.id} is created/updated"   />
-                                <br></br>
-                                <br></br>
-
-                                <h:panelGrid id="newSalesOperationPlan" columns="2">
+                            <p:commandButton value="Back"  action="#{viewSalesOperationPlan.Back()}" />
+                            <br></br><br></br><br></br>
+                            <h:outputText  value ="Sorry, you are not allowed to confirm the sales operation paln"  />
 
 
-                                    <p:outputLabel for="TargetMonth" value="Target Month" />
-                                    <h:outputText id="TargetMonth" value="#{viewNewSalesOperationPlanBean.salesOperationPlan.targetPeriod.getTime()}"  > 
-                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
-                                    </h:outputText>                                                                    
-
-                                    <p:outputLabel for="SalesForecast" value="Sales Forcast" />
-                                    <h:outputText id="SalesForecast" value="#{viewNewSalesOperationPlanBean.salesOperationPlan.integratedSalesForecast.amount}"    />
-
-
-                                    <p:outputLabel for="Production" value="Production Plan Quantity" />                                                                    
-                                    <h:outputText id="Production"  value="#{viewNewSalesOperationPlanBean.salesOperationPlan.plannedProductionPlanQuantity}"   />
-
-
-                                    <p:outputLabel for="Inventory" value="Planned End of Month Inventory" />
-                                    <h:outputText id="Inventory" value="#{viewNewSalesOperationPlanBean.salesOperationPlan.plannedEndMonthInventory}"  />
-
-
-                                    <p:outputLabel for="WorkingDay" value="Working Days" />
-                                    <h:outputText id="WorkingDay" value="#{viewNewSalesOperationPlanBean.salesOperationPlan.workingDay}"  />
-
-
-                                </h:panelGrid>
-                            </p:panel>
+                        </p:panel>
                         </p:panel>
                     </h:form>
 

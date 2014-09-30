@@ -8,6 +8,7 @@ package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
+import Entity.Factory.MRP.SalesOperationPlanEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -70,6 +71,15 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
             case "status":
                 String status = (String) content;
                 productionPlan.setStatus(status);
+                if(status.equals("cancelled")){
+                Long id=productionPlan.getProductionPlanId();
+                Query q = em.createQuery("SELECT pp FROM SalesOperationPlanEntity pp");
+                for(Object o : q.getResultList()){
+                SalesOperationPlanEntity pp = (SalesOperationPlanEntity) o;
+                if(pp.getStatus().equals("confirmed")&&pp.getProductionPlan().getProductionPlanId().equals(id))
+                    pp.setStatus("cancelled");
+                }                 
+                }
                 break;
             case "remark":
                 String remark = (String) content;

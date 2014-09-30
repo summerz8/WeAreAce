@@ -84,6 +84,11 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
 
     public DisplayIntegratedPlannedOrders() {
     }
+<<<<<<< HEAD
+    
+    public String displayIntegratedPlannedOrders(){
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders?faces-redirect=true";
+=======
 
     public String displayIntegratedPlannedOrders() throws Exception {
 
@@ -95,6 +100,7 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
 
             return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
         }
+>>>>>>> 8cdf63fed3dfcb4e825990448244e947deeb05bb
     }
 
 }

@@ -60,7 +60,9 @@ public class IntegrateSalesForecast {
 
         System.out.println(time.getTime());
         factoryProductList = sfml.productListNeededTobeIntegrated(factoryId);
-        factoryRetailProductList = sfml.retailProductListNeedToBeIntegrated(1L);
+        factoryRetailProductList = sfml.retailProductListNeedToBeIntegrated(factoryId);
+        
+        
 
     }
 
@@ -97,19 +99,19 @@ public class IntegrateSalesForecast {
     }
 
     public String integrateFactoryProduct(Long ProductId) {
-        System.out.println("1");
+      
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", ProductId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("type", "factoryProduct");
-        System.out.println("11");
+        
         return "MRPListSalesForecast?faces-redirect=true";
 
     }
 
     public String integrateFactoryRetailProduct(Long ProductId) {
-        System.out.println("1");
+     
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", ProductId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("type", "factoryRetailProduct");
-        System.out.println("11");
+       
         return "MRPListSalesForecast?faces-redirect=true";
 
     }

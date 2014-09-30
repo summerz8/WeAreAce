@@ -103,7 +103,7 @@ public class CreateSalesOperationPlanBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("IntegratedSalesForecastId", integratedSalesForecastId);      
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("TargetPeriod", targetPeriod);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("SalesForecast", salesForecastQuantity);
-        return "MRPViewNewSalesOperationPlan";
+        return "MRPViewNewSalesOperationPlan?faces-redirect=true";
     }
     
     

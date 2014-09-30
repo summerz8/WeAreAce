@@ -167,7 +167,7 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
             for(Object o : q.getResultList()){
                 IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
                 if(rppp.getFactoryRetailProductAmount()!= null){
-                    if(rppp.getStatus().equals("confirmed"))
+                    if(rppp.getStatus().equals("waiting"))
                         integratedPlannedOrderList.add(rppp);
                 }
             }
@@ -177,7 +177,7 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
                 IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
                 if(rppp.getFactoryRetailProductAmount()!= null){
                     Long departmentId =rppp.getFactory().getFactoryId();
-                    if(rppp.getStatus().equals("confirmed") && departmentId.equals(id))
+                    if(rppp.getStatus().equals("waiting") && departmentId.equals(id))
                         integratedPlannedOrderList.add(rppp);
                 }
             }
@@ -220,5 +220,29 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
         Long factoryRetailProductId = integratedSalesForecast.getFactoryRetailProduct().getFactoryRetailProdctId();
         System.out.println("factoryRetailProductId " + factoryRetailProductId);
         return factoryRetailProductId;
+    }
+    
+    @Override
+    public boolean findIntegratedSalesForecast(Long integratedSalesForecastId){   
+        boolean flag = Boolean.FALSE;
+        
+        IntegratedSalesForecastEntity isf = em.find(IntegratedSalesForecastEntity.class,integratedSalesForecastId);
+        Long factoryRetailProductId =isf.getFactoryRetailProduct().getFactoryRetailProdctId();               
+        
+        Query q =em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
+            for(Object o : q.getResultList()){
+                IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
+                if(rppp.getFactoryRetailProductAmount()!=null){
+                        Long retailProductId = rppp.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
+                        if(retailProductId.equals(factoryRetailProductId)){
+                            flag = Boolean.TRUE;
+                            return flag;
+                        }
+                            
+                    }
+            }
+                    
+            
+        return flag;   
     }
 }

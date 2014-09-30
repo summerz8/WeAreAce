@@ -100,10 +100,26 @@
 
                     </p:toolbar>
 
-                    <h:outputText value="Please Enter Factory Raw Material Id: " style="font-weight: bold;font-size: 100%"/>
+                    <p:dataTable var="rawMaterial" value="#{integratedPlannedOrderView.factoryRawMaterialList}">
 
-                    <p:inputText  value="#{integratedPlannedOrderView.factoryRawMaterialId}" />
-                    <p:commandButton value="Submit"  icon="ui-icon-check" action="#{integratedPlannedOrderView.createIntegratedPlannedOrder(integratedPlannedOrderView.factoryRawMaterialId)}"/>
+                        <p:column headerText="Factory Raw Material Id">
+                            <h:outputText value="#{rawMaterial.factoryRawMaterialId}" />
+                        </p:column>
+                        
+                        <p:column headerText="Raw Material Id">
+                            <h:outputText value="#{rawMaterial.rawMaterial.materialId}" />
+                        </p:column>
+                        
+                        <p:column headerText="Raw Material Name">
+                            <h:outputText value="#{rawMaterial.rawMaterial.materialName}" />
+                        </p:column>
+
+                        <p:column headerText="Create">
+                            <p:commandButton value="Submit"  icon="ui-icon-check" action="#{integratedPlannedOrderView.createIntegratedPlannedOrder(rawMaterial.factoryRawMaterialId)}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                                     
 
                 </p:layoutUnit>
 

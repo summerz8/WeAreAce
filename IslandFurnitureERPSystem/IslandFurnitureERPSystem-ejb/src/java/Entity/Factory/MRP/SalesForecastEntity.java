@@ -50,6 +50,9 @@ public class SalesForecastEntity implements Serializable {
     
     @ManyToOne
     private SalesOperationPlanEntity salesOperationPlan;
+    
+    private Double tempProductAmount;
+    private Double tempRetailAmount;
      
     public SalesForecastEntity(){
     }
@@ -113,6 +116,22 @@ public class SalesForecastEntity implements Serializable {
 
     public void setFactoryRetailProductList(List<FactoryRetailProductAmountEntity> factoryretailProductList) {
         this.factoryRetailProductList = factoryretailProductList;
+    }
+
+    public Double getTempProductAmount() {
+        return tempProductAmount;
+    }
+
+    public void setTempProductAmount(Double tempProductAmount) {
+        this.tempProductAmount = tempProductAmount;
+    }
+
+    public Double getTempRetailAmount() {
+        return tempRetailAmount;
+    }
+
+    public void setTempRetailAmount(Double tempRetailAmount) {
+        this.tempRetailAmount = tempRetailAmount;
     }
     
     

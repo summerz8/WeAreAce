@@ -6,6 +6,7 @@
 
 package ManagedBean.MRP;
 
+import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
 import SessionBean.MRP.WeeklyProductionPlanLocal;
 import java.util.List;
@@ -29,6 +30,7 @@ public class WeeklyProductionPlanBean {
     
 //    private Long productionPlanId;
     private List<WeeklyProductionPlanEntity> selectedWeeklyProductionPlanList;
+    private ProductionPlanEntity selectedProductionPlan;
     private Double demand;
     /**
      * Creates a new instance of WeeklyProductionPlanBean
@@ -44,6 +46,16 @@ public class WeeklyProductionPlanBean {
 //        this.productionPlanId = productionPlanId;
 //    }
 
+    public ProductionPlanEntity getSelectedProductionPlan() {
+        return selectedProductionPlan;
+    }
+
+    public void setSelectedProductionPlan(ProductionPlanEntity selectedProductionPlan) {
+        this.selectedProductionPlan = selectedProductionPlan;
+    }
+
+    
+    
     public Double getDemand() {
         return demand;
     }
@@ -69,6 +81,7 @@ public class WeeklyProductionPlanBean {
     @PostConstruct
     public void init(){
        selectedWeeklyProductionPlanList =(List<WeeklyProductionPlanEntity>)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedWeeklyProductionPlan");
+       selectedProductionPlan = selectedWeeklyProductionPlanList.get(0).getProductionPlan();
     }
     
     public void saveId(Long id){

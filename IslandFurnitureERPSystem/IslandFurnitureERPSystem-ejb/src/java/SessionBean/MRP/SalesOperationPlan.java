@@ -214,7 +214,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         } else {
             List<SalesOperationPlanEntity> List = new ArrayList<>();
             while (!tempSalesList.isEmpty()) {
-                if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct)) {
+                if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct)&&tempSalesList.get(0).getStatus().equals("confirmed")) {
                     System.out.println("SalesOperationPlan calendar: " + tempSalesList.get(0).getTargetPeriod().getTime());
                     tempSalesList.get(0).getTargetPeriod().get(Calendar.MILLISECOND);
                     tempSalesList.get(0).getTargetPeriod().set(Calendar.MILLISECOND, 0);

@@ -118,7 +118,7 @@
                         <p:outputPanel>
                             <h:panelGrid columns="2" cellpadding="5">
 
-                                <h:outputText value="Id:" />
+                                <h:outputText value="Production Plan Id:" />
                                 <h:outputText value="#{productionPlan.productionPlanId}" style="font-weight: bold"/>
 
                                 <h:outputText value="Generate Date: " />
@@ -143,10 +143,7 @@
                                 <h:outputText value="Confirm Date: " />
                                 <h:outputText value="#{productionPlan.confirmDate.getTime()}" style="font-weight: bold">
                                     <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
-                                </h:outputText>
-
-                                <h:outputText value="Remark: " />
-                                <h:outputText value="#{productionPlan.remark}" style="font-weight: bold"/>
+                                </h:outputText>    
                                    
                                 <p:commandButton value="View Weekly Production Plan" style="font-weight: bold" icon="ui-icon-search" action ="#{productionPlanView.viewWeeklyProductionPlan(productionPlan.weeklyProductionPlanEntity)}" />
 

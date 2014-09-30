@@ -73,9 +73,10 @@
                         <p:submenu label="Manufacturing Resource Planning">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />
+                                <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                        </p:submenu>
                     </p:menu>
@@ -85,7 +86,7 @@
                 <p:layoutUnit position="center" resizable="false">
                     <h:form id="test"> 
                         <p:panel id="sales" header="Sales Operation Plan" style="margin-bottom" >
-                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan" >
+                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan?faces-redirect=true" >
                             </p:commandButton>
 
                             <br></br>
@@ -117,7 +118,7 @@
                                     <h:outputText id="WorkingDay" value="#{createSalesOperationPlanBean.workingDays}"  />
 
                                     <p:commandButton  id = "change" value="Submit" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{checkNewSalesOperationPlanBean.Confirm()}" ajax="false"/>
-                                    <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan" />
+                                    <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="MRPCreateSalesOperationPlan?faces-redirect=true" />
 
                                 </h:panelGrid>
                             </p:panel>

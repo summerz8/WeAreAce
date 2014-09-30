@@ -209,12 +209,34 @@ public class IntegratedPlannedOrderManagement implements IntegratedPlannedOrderM
                  for(FactoryRawMaterialAmountEntity frma : factoryRawMaterialAmountList){
                      Long factoryRawMaterialid = frma.getFactoryRawMaterial().getFactoryRawMaterialId();
                      if(factoryRawMaterialid.equals(factoryRawMaterialId)){
-                     flag = Boolean.TRUE;
-                     break;
-                 }        
+                         flag = Boolean.TRUE;
+                         return flag;
+                     }//if        
              }
-             if(flag) break;
+             
          }         
          return flag;
+    }
+    
+    public List<FactoryRawMaterialEntity> getFactoryRawMaterial(Long factoryId,String department){
+        Query q = em.createQuery("SELECT frm FROM FactoryRawMaterialEntity frm");
+        List<FactoryRawMaterialEntity> factoryRawMaterialList = new ArrayList();
+        
+        if(department.equals("H")){
+            for(Object o : q.getResultList()){
+                FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) o;
+                if(!frm.getIsDeleted())
+                    factoryRawMaterialList.add(frm);
+            }
+        }
+        
+        else{
+            for(Object o : q.getResultList()){
+                FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) o;
+                if(!frm.getIsDeleted() && frm.getFactory().getFactoryId().equals(factoryId))
+                    factoryRawMaterialList.add(frm);
+            }
+        }
+        return factoryRawMaterialList;
     }
 }

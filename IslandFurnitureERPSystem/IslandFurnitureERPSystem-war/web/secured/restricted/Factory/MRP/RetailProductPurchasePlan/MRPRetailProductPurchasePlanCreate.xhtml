@@ -91,11 +91,25 @@
                             <p:button value="Go back" icon="ui-icon-arrowreturn-1-w" outcome="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan"/>                          
                         </f:facet>                        
                     </p:toolbar>
+                    
+                    <p:dataTable var="integratedFactoryRetailProduct" value="#{integrateSalesForecast.factoryRetailProduct}">
 
-                    <h:outputText value="Please Enter Integrated Sales Forecast Id: " style="font-weight: bold;font-size: 100%"/>
+                            <p:column headerText="Integrated Sales Forecast Id">
+                                <h:outputText value="#{integratedFactoryRetailProduct.id}" />
+                            </p:column>
 
-                    <p:inputText value="#{retailProductPurchasePlanView.integratedSalesForecastId}" />
-                    <p:commandButton value="Submit"  icon="ui-icon-check" action="#{retailProductPurchasePlanView.create()}"/>
+                            <p:column headerText="Factory Retail Product Id">
+                                <h:outputText value="#{integratedFactoryRetailProduct.factoryRetailProduct.factoryRetailProdctId}" />
+                            </p:column>
+
+                            <p:column headerText="Monthly Demand">
+                                <h:outputText value="#{integratedFactoryRetailProduct.amount}" />
+                            </p:column>
+                          <p:column headerText="Create">
+                             <p:commandButton value="Submit"  icon="ui-icon-check" action="#{retailProductPurchasePlanView.create(integratedFactoryRetailProduct.id)}"/>
+                          </p:column>>
+                    </p:dataTable> 
+                    
 
                 </p:layoutUnit>
 
