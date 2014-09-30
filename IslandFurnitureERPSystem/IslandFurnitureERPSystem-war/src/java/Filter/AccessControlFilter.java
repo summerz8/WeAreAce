@@ -32,8 +32,9 @@ public class AccessControlFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         int userLevel = (Integer) req.getSession().getAttribute("Userlvl");
         String url = req.getRequestURI();
+        Long HFactoryId = (Long) req.getSession().getAttribute("HFactoryId");
 
-        System.err.println("isLogin: " + userLevel);
+        System.err.println("AccessControl: isLogin: " + userLevel);
 
         if (url.contains("javax.faces.resource")) {
             chain.doFilter(request, response);
@@ -41,9 +42,25 @@ public class AccessControlFilter implements Filter {
         //check first time login or logged out
         if (url.contains("loginPage.xhtml")) {
             chain.doFilter(request, response);
-        }        
+        }
+        
         if (userLevel == 0) {
-            chain.doFilter(request, response);
+            if (url.contains("/Factory/")) {
+                if (url.contains("/SCM/")) {
+                    if (url.contains("/DocumentReferenceModule/")) {
+                        chain.doFilter(request, response);
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don not have access right!");
+                    }
+                } else if (url.contains("/MRP/")) {
+                    chain.doFilter(request, response);
+                } else if (url.contains("FactoryResourceControl.xhtml") && HFactoryId==null) {
+                    String contextPath = req.getServletContext().getContextPath();
+                    resp.sendRedirect(contextPath + "/secured/restricted/Factory/FactoryResourceControlForHQ.xhtml");
+                } else {
+                    chain.doFilter(request, response);
+                }
+            }
 
         } else if (userLevel == 1 && url.contains("/Factory/")) {
             chain.doFilter(request, response);
@@ -51,19 +68,19 @@ public class AccessControlFilter implements Filter {
         } else if (userLevel == 2 && url.contains("/Store/")) {
 
             chain.doFilter(request, response);
-        } else if (userLevel == 3 && url.contains("/SCM/") ) {
+        } else if (userLevel == 3 && url.contains("/SCM/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 4 && url.contains("/MRP/") ) {
+        } else if (userLevel == 4 && url.contains("/MRP/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 5 && url.contains("/Kitchen/") ) {
+        } else if (userLevel == 5 && url.contains("/Kitchen/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 6 && url.contains("/Market/") ) {
+        } else if (userLevel == 6 && url.contains("/Market/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 7 && url.contains("/ticket/") ) {
+        } else if (userLevel == 7 && url.contains("/ticket/")) {
             chain.doFilter(request, response);
         } else {
 
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don't have access right!");
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don not have access right!");
 
         }
     }

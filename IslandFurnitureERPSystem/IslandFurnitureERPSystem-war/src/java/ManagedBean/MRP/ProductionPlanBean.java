@@ -9,11 +9,9 @@ import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
-import SessionBean.MRP.SalesOperationPlan;
 import SessionBean.MRP.WeeklyProductionPlanLocal;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -112,17 +110,7 @@ public class ProductionPlanBean implements Serializable {
         this.department = department;
     }
      
-    
-    
-//    public Calendar getTargetPeriod() {
-//        
-//        return targetPeriod;
-//    }
-//
-//    public Long getProductId() {
-//        return productId;
-//    }
-//
+
     public String getStatus() {
         return status;
     }
@@ -130,15 +118,7 @@ public class ProductionPlanBean implements Serializable {
     public String getRemark() {
         return remark;
     }
-//
-//    public void setTargetPeriod(Calendar targetPeriod) {
-//        this.targetPeriod = targetPeriod;
-//    }
-//
-//    public void setProductId(Long productionId) {
-//        this.productId = productionId;
-//    }
-//
+
     public void setStatus(String status) {
         this.status = status;
     }
@@ -184,20 +164,10 @@ public class ProductionPlanBean implements Serializable {
         } else if (!pp.getRemark().equals(remark) && remark != null) {
             save(productionPlanId, "remark", remark);
         }
-//        else if(!pp.getTargetPeriod().equals(targetPeriod) && targetPeriod != null)
-//            save(productionPlanId,"targetPeriod",targetPeriod);
 
     }
 
-//    public void targetPeriodChanged(ValueChangeEvent event) {
-//        System.out.println("period1");
-//        Object newValue = event.getNewValue(); 
-//        Date targetPeriodDate = (Date) newValue;
-//        System.out.println("date"+targetPeriodDate.toString());
-//        targetPeriod = Calendar.getInstance();
-//        targetPeriod.setTime(targetPeriodDate);
-//        System.out.println("period2" + targetPeriod.toString());
-//}
+
     public void quantityChanged(ValueChangeEvent event) {
         Object newValue = event.getNewValue();
         quantity = (Double) newValue;

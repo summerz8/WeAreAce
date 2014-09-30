@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -28,13 +27,7 @@ public class ViewSalesForecastBean {
 
     @EJB
     private SalesForecastModuleLocal salesForecastModule;
-//    
-//    @ManagedProperty("#{salesForecastBean}")
-//    private SalesForecastBean salesForecastBean;
 
-//    private Long storeId;
-//    private Calendar targetPeriod;
-//    private Object product;
     private SalesForecastEntity salesForecast;
     private List<SalesForecastEntity> salesForecastList;
     private List<FactoryProductAmountEntity> factoryProductList;

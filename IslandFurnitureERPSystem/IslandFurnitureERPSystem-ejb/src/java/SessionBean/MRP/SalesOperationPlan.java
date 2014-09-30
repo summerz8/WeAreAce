@@ -6,7 +6,6 @@
 package SessionBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
-import Entity.Factory.InventoryRecordEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.SalesOperationPlanEntity;

@@ -42,13 +42,10 @@ public class CreateIntegratedSalesForecastBean {
     
     @PostConstruct
     public void ListSalesForecast(){
-//        System.out.println("2");
         productId=(Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productId");
         
-         type =(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("type");
-//         System.out.println("3");
+        type =(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("type");
         integratedSalesForecast=SFML.IntegrateSalesForecast(type,productId, null);
-//         System.out.println("4");
         quantity=integratedSalesForecast.getAmount();
         salesForecastList=integratedSalesForecast.getSalesForecastList();       
         targetPeriod=integratedSalesForecast.getTargetPeriod();

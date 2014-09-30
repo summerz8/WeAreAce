@@ -88,14 +88,8 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
 
     public String displayIntegratedPlannedOrders() throws Exception {
 
-        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders";
-        } else {
+            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders.xhtml";
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
-
-            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
-        }
 
     }
 

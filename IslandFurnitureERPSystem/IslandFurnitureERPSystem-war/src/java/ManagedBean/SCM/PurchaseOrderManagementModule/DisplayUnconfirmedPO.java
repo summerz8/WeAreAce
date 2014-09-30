@@ -38,7 +38,7 @@ public class DisplayUnconfirmedPO implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            
+
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
@@ -104,14 +104,9 @@ public class DisplayUnconfirmedPO implements Serializable {
 
     public String displayDisplayUnconfirmedPurchaseOrder() throws Exception {
         UserEntity user = pmb.getUser(userId);
-        if (user.getUserLevel() == 1 || user.getUserLevel() == 4) {
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
-        } else {
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Permission Denied", null));
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO.xhtml";
 
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementPageModule/PurchaseOrderManagementPage.xhtml";
-        }
     }
 
     public void confirmPurchaseOrder() {

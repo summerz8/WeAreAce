@@ -44,7 +44,7 @@ public class ViewSalesOperationPlan {
         userlvl = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl");
         department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
         salesOperationPlanList = salesOperationPlanLocal.ListSalesOperationPlan(productId, null, null);
-//        if(!salesOperationPlanList.isEmpty()){
+
         for (SalesOperationPlanEntity sop : salesOperationPlanList) {
             if (sop.getStatus().equals("unconfirmed")) {
                 unconfirmedSalesOperationPlanList.add(sop);
@@ -69,7 +69,7 @@ public class ViewSalesOperationPlan {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesOperationPlanId", salesOperationPlanId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("salesproductId");
         if (userlvl != 1) {
-            return "MRPCantConfirm?faces-redirecet=true";
+            return "MRPCantConfirm?faces-redirect=true";
         } else {
             return "MRPConfirmSalesOperationPlan?faces-redirect=true";
         }

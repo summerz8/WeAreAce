@@ -46,7 +46,12 @@ public class AddFactoryRawMaterial {
     public void init() {
 
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            if ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl")==0) {
+                factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("HFactoryId");
+            
+            } else {
+                factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            }
             addedFactoryRawMaterialList = PASMM.viewRawMaterialWithSelectType(factoryId);
             System.out.println("AddFactoryRM ManageBean: addedListsize :" + addedFactoryRawMaterialList.size());
             notAddRawMaterialList = PASMM.viewRawMaterialListNotInFactory(factoryId);
@@ -58,7 +63,7 @@ public class AddFactoryRawMaterial {
     }
 
     public void selectFactoryRawMaterial(FactoryRawMaterialEntity frm) {
-        System.out.println("IT IS SELECTED. SELECTED FRM : "+  frm.getFactoryRawMaterialId());
+        System.out.println("IT IS SELECTED. SELECTED FRM : " + frm.getFactoryRawMaterialId());
         selectedFRM = frm;
     }
 
@@ -67,7 +72,7 @@ public class AddFactoryRawMaterial {
     }
 
     public void deleteFactoryRawMaterial(FactoryRawMaterialEntity frm) throws Exception {
-      //  System.out.println("have a check:" + frm.getFactoryRawMaterialId());
+        //  System.out.println("have a check:" + frm.getFactoryRawMaterialId());
         msgPrint = PASMM.deleteItem("RawMaterial", frm.getFactoryRawMaterialId());
         addedFactoryRawMaterialList = PASMM.viewRawMaterialWithSelectType(factoryId);
         notAddRawMaterialList = PASMM.viewRawMaterialListNotInFactory(factoryId);
@@ -75,10 +80,10 @@ public class AddFactoryRawMaterial {
     }
 
     public void addFactoryRawMaterial(RawMaterialEntity rm) throws Exception {
-        msgPrint2  = PASMM.addItem(factoryId, "RawMaterial", rm.getMaterialId());
+        msgPrint2 = PASMM.addItem(factoryId, "RawMaterial", rm.getMaterialId());
         addedFactoryRawMaterialList = PASMM.viewRawMaterialWithSelectType(factoryId);
         notAddRawMaterialList = PASMM.viewRawMaterialListNotInFactory(factoryId);
-        
+
     }
 
     public PurchasedItemAndSupplierManagementModuleLocal getPASMM() {
@@ -144,6 +149,5 @@ public class AddFactoryRawMaterial {
     public void setSelectedRawMaterial(RawMaterialEntity selectedRawMaterial) {
         this.selectedRawMaterial = selectedRawMaterial;
     }
-
 
 }

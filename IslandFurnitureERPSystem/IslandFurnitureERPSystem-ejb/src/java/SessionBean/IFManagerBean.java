@@ -102,13 +102,13 @@ public class IFManagerBean implements IFManagerBeanRemote {
         user = em.find(UserEntity.class, userId);
         //user = (UserEntity)q.getResultList();
         //if the user exsit and password correct
-        if (user.isDeleteFlag()) {
-            System.out.println("User is Deleted!");
-            check = -1;//user not found
-        } else if (user == null) {
+        if (user == null) {
             System.out.println("User Not Found!");
             check = -1;
-        } else if ((user.getPwd().equals(pwd))) {
+        }else if (user.isDeleteFlag()) {
+            System.out.println("User is Deleted!");
+            check = -1;//user not found
+        }else if ((user.getPwd().equals(pwd))) {
             check = 1;
             System.out.println("User Found!");
         } else {

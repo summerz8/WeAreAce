@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.SCM;
 
 import Entity.Factory.FactoryRetailProductEntity;
@@ -46,7 +45,12 @@ public class AddFactoryRetailProduct {
     public void init() {
 
         try {
-            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            if ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl")==0) {
+                factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("HFactoryId");
+            
+            } else {
+                factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            }
             addedFactoryRetailProductList = PASMM.viewRetailProductWithSelectType(factoryId);
             System.out.println("AddFactory RP ManageBean: addedListsize :" + addedFactoryRetailProductList.size());
             notAddRetailProductList = PASMM.viewRetailProductListNotInFactory(factoryId);
@@ -58,7 +62,7 @@ public class AddFactoryRetailProduct {
     }
 
     public void selectFactoryRetailProduct(FactoryRetailProductEntity frp) {
-        System.out.println("get into select factory retail product."+ frp.getName());
+        System.out.println("get into select factory retail product." + frp.getName());
         selectedFRP = frp;
     }
 
@@ -75,10 +79,10 @@ public class AddFactoryRetailProduct {
     }
 
     public void addFactoryRetailProduct(RetailProductEntity rp) throws Exception {
-        msgPrint2  = PASMM.addItem(factoryId, "RetailProduct", rp.getRetailProductId());
+        msgPrint2 = PASMM.addItem(factoryId, "RetailProduct", rp.getRetailProductId());
         addedFactoryRetailProductList = PASMM.viewRetailProductWithSelectType(factoryId);
         notAddRetailProductList = PASMM.viewRetailProductListNotInFactory(factoryId);
-        
+
     }
 
     public PurchasedItemAndSupplierManagementModuleLocal getPASMM() {
@@ -144,6 +148,5 @@ public class AddFactoryRetailProduct {
     public void setSelectedRetailProuct(RetailProductEntity selectedRetailProuct) {
         this.selectedRetailProuct = selectedRetailProuct;
     }
-    
-    
+
 }
