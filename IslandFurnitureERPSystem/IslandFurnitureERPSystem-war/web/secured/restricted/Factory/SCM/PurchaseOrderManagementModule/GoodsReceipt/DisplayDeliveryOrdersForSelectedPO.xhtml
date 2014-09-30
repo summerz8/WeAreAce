@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -61,7 +61,7 @@
                 </p:layoutUnit>
 
 
-                               
+
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
@@ -92,7 +92,7 @@
                             <p:column headerText="Status">
                                 <h:outputText value="#{deliveryOrder.status}" />
                             </p:column>
-                            
+
                             <p:column headerText="Please Select Here" width="15%" >
                                 <p:commandButton update=":formMain:doDetail" oncomplete="PF('doDialog').show()" rendered="#{deliveryOrder.status eq 'waiting'}" value="Fulfill">
                                     <f:setPropertyActionListener value="#{deliveryOrder}" target="#{selectedDeliveryOrder.selectedDO}" />
@@ -108,8 +108,9 @@
                             <p:outputPanel id="doDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
                                     <h:outputText value="Delivery Date:" />
-                                    <p:calendar value="#{selectedDeliveryOrder.selectedDO.deliveryDate}" mask="true" pattern="dd/MM/YYYY"/>
-
+                                    <h:outputText value="#{selectedDeliveryOrder.selectedDO.deliveryDate}" >
+                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/YYYY"/>
+                                    </h:outputText>
                                     <h:outputText value="Amount: " />
                                     <h:outputText value="#{selectedDeliveryOrder.selectedDO.amount}" />
 

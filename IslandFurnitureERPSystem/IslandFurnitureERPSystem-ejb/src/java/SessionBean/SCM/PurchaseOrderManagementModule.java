@@ -164,6 +164,41 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
     }
 
+    @Override
+    public ContractEntity getContract2(Long supplierId, Long itemId, String itemType) throws Exception {
+        ContractEntity contract = null;
+        if (itemType.equals("RawMaterial")) {
+            FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
+            Collection<ContractEntity> contractList = item.getContracts();
+            Iterator iterator = contractList.iterator();
+
+            while (iterator.hasNext()) {
+                Object obj = iterator.next();
+                ContractEntity c = (ContractEntity) obj;
+                SupplierEntity supplier = contract.getSupplier();
+
+                if (supplier.getSupplierId().equals(supplierId)) {
+                    contract = c;
+                }
+            }
+        } else {
+            FactoryRetailProductEntity item = em.find(FactoryRetailProductEntity.class, itemId);
+            Collection<ContractEntity> contractList = item.getContracts();
+            Iterator iterator = contractList.iterator();
+
+            while (iterator.hasNext()) {
+                Object obj = iterator.next();
+                ContractEntity c = (ContractEntity) obj;
+                SupplierEntity supplier = contract.getSupplier();
+
+                if (supplier.getSupplierId().equals(supplierId)) {
+                    contract = c;
+                }
+            }
+        }
+        return contract;
+    }
+
     //1. View an item for purcahse 
     //RawMaterials
     @Override
@@ -538,7 +573,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
-            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate)
+            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate, Boolean isManual)
             throws Exception {
         System.out.println("createPurchaseOrder():");
 
@@ -554,6 +589,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
             //destination and destinationId
             Long destinationId = null;
+            String itemName = null;
 
             if (destination.equals("store")) {
                 StoreEntity store = em.find(StoreEntity.class, storeId);
@@ -567,12 +603,16 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             Calendar createDate = Calendar.getInstance();
 
             //totalPrice
-            Double totalPrice = (purchaseAmount/contract.getLotSize()) * contract.getContractPrice();
+            Double totalPrice = (purchaseAmount / contract.getLotSize()) * contract.getContractPrice();
             //leadTime
             Integer leadTime = contract.getLeadTime();
-
-            purchaseOrder = new PurchaseOrderEntity(status, purchaseAmount, unit, createDate, destination,
-                    destinationId, leadTime, totalPrice, factory, contract, deliveryDate);
+            if (contract.getFactoryRawMaterial() != null) {
+                itemName = contract.getFactoryRawMaterial().getMaterialName();
+            } else {
+                itemName = contract.getFactoryRetailProduct().getName();
+            }
+            purchaseOrder = new PurchaseOrderEntity(itemName, status, purchaseAmount, unit, createDate, destination,
+                    destinationId, leadTime, totalPrice, factory, contract, deliveryDate, isManual);
 
             em.persist(purchaseOrder);
 
@@ -782,8 +822,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
             Collection<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmountAndDate(integratedPlannedOrderId, purchaseAmount);
 
-            purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null);
-            em.persist(purchaseOrder);
+            purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null, false);
 
             //set relationship between delivery orders and purchase order
             for (DeliveryOrderEntity deliveryOrder : deliveryOrderList) {
@@ -935,7 +974,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
 
             purchaseOrder.setStatus("cancelled");
-            purchaseOrder.getIntegratedPlannedOrder().setStatus("waiting");
+            if (purchaseOrder.getIntegratedPlannedOrder() != null) {
+                purchaseOrder.getIntegratedPlannedOrder().setStatus("waiting");
+            }
             em.flush();
 
             result = "Purchase Order Cancelleds!";

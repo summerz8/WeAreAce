@@ -51,6 +51,21 @@ public class DisplayUnconfirmedPO implements Serializable {
         }
     }
 
+    public String edit(PurchaseOrderEntity upo) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("upo", upo);
+        if (upo.getContract().getFactoryRawMaterial() == null) {
+            Long itemId = upo.getContract().getFactoryRetailProduct().getFactoryRetailProdctId();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "RetailProduct");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+
+        } else {
+            Long itemId = upo.getContract().getFactoryRawMaterial().getFactoryRawMaterialId();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "RawMaterial");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+        }
+        return "EditUnconfirmedPO?faces-redirect=true";
+    }
+
     public Long getFactoryId() {
         return factoryId;
     }
@@ -107,7 +122,8 @@ public class DisplayUnconfirmedPO implements Serializable {
             System.out.println("Result = " + result);
 
         } catch (Exception ex) {
-            Logger.getLogger(DisplayUnconfirmedPO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DisplayUnconfirmedPO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -119,8 +135,10 @@ public class DisplayUnconfirmedPO implements Serializable {
             result = pmb.cancelPurchaseOrder(userId, purchaseOrder.getId());
 
             System.out.println("Result = " + result);
+
         } catch (Exception ex) {
-            Logger.getLogger(DisplayUnconfirmedPO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DisplayUnconfirmedPO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

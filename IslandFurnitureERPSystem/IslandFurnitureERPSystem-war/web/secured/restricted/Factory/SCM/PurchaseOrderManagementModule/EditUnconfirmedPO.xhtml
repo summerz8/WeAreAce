@@ -52,14 +52,12 @@
                     </p:button> 
 
                     <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button> 
+                    </p:button>
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
-
                     </h:outputLabel>                     
                 </p:layoutUnit>
-
 
 
                 <p:layoutUnit position="west" size="1000px">
@@ -81,62 +79,68 @@
 
 
                             <h:outputLabel for="itemType" value="Purchase Item Type: " />
-                            <h:outputText  value="#{displayGeneratedPO.itemType}" style="font-weight:bold" />
+                            <h:outputText  value="#{editUnconfirmedPO.itemType}" style="font-weight:bold" />
 
                             <h:outputLabel for="itemId" value="Purchase Item Id:" />
-                            <h:outputText  id="itemId" value="#{displayGeneratedPO.itemId}" style="font-weight:bold" />
+                            <h:outputText  id="itemId" value="#{editUnconfirmedPO.itemId}" style="font-weight:bold" />
 
                             <h:outputLabel for="itemName" value="Purchase Item Name: " />
-                            <h:outputText  id="itemName" value="#{displayGeneratedPO.itemName}" style="font-weight:bold" />
+                            <h:outputText  id="itemName" value="#{editUnconfirmedPO.upo.itemName}" style="font-weight:bold" />
 
                             <h:outputLabel for="unit" value="Unit: " />
-                            <h:outputText  id="unit" value="#{displayGeneratedPO.unit}" style="font-weight:bold" />
-                            
-                            <h:outputLabel for="lotSize" value="Lot Size: " />
-                            <h:outputText  id="lotSize" value="#{displayGeneratedPO.contract.lotSize}" style="font-weight:bold" />
+                            <h:outputText  id="unit" value="#{editUnconfirmedPO.upo.unit}" style="font-weight:bold" />
 
-                            <h:outputLabel for="unitP" value="Price per lot size: " />
-                            <h:outputText  id="unitP" value="#{displayGeneratedPO.contract.contractPrice}" style="font-weight:bold" />
-                            
-                            <h:outputLabel for="purchaseAmount" value="Purchase Amount: " />
-                            <h:outputText  id="purchaseAmount" value="#{displayGeneratedPO.purchaseAmount}" style="font-weight:bold" />
-
-                            <h:outputLabel for="original" value="Original Amount: " />
-                            <h:outputText  id="original" value="#{displayGeneratedPO.originalAmount}" style="font-weight:bold" />
+                            <h:outputLabel for="purchaseAmount" value="Purchase Amount: " 
+                                           rendered="#{editUnconfirmedPO.upo.isManual}"/>                                                      
+                            <p:inplace id="purchaseAmount" editor="true" rendered="#{editUnconfirmedPO.upo.isManual}">  
+                                <p:inputText id="Amount" value="#{editUnconfirmedPO.upo.totalAmount}" 
+                                             valueChangeListener="#{editUnconfirmedPO.changeAmount}" label="text" 
+                                             rendered="#{editUnconfirmedPO.upo.isManual}"/>
+                            </p:inplace>
 
                             <h:outputLabel for="totalPrice" value="Total Price: " />
-                            <h:outputText  id="totalPrice" value="#{displayGeneratedPO.totalPrice}" style="font-weight:bold" />
+                            <h:outputText  id="totalPrice" value="#{editUnconfirmedPO.upo.totalPrice}" style="font-weight:bold" />
 
-                            <h:outputLabel for="supplierId" value="Supplier Id: " />
-                            <h:outputText  id="supplierId" value="#{displayGeneratedPO.contract.supplier.supplierId}" style="font-weight:bold" />
+<!--                            <p:outputLabel for="supplier" value="Supplier " />
+                            <p:selectOneMenu id="supplier" value="#{editUnconfirmedPO.supplier}" effect="fold" editable="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editUnconfirmedPO.suppliers}" />
+                            </p:selectOneMenu>   -->
 
-                            <h:outputLabel for="supplierName" value="Supplier Name: " />
-                            <h:outputText  id="supplierName" value="#{displayGeneratedPO.contract.supplier.supplierName}"  style="font-weight:bold" />
+                            <p:outputLabel for="Store" value="Destination: " rendered="#{editUnconfirmedPO.itemType.equals('RetailProduct')}"/>
+                            <p:selectOneMenu id="Store" value="#{editUnconfirmedPO.store}" 
+                                             effect="fold" editable="true" rendered="#{editUnconfirmedPO.itemType.equals('RetailProduct')}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editUnconfirmedPO.storeAddress}" />
+                            </p:selectOneMenu>  
 
-                            <h:outputLabel for="destination" value="Destination: "/>
-                            <h:outputText  id="destination" value="#{displayGeneratedPO.destinationAddress}" style="font-weight:bold" />
+<!--                            <h:outputLabel for="deliveryList" value="Delivery Order List: " 
+                                           rendered="#{editUnconfirmedPO.upo.isManual == false}" />
+                            <p:commandButton id="deliveryList" action="EditDeliveryOrderList?faces-redirect=true" 
+                                             rendered="#{editUnconfirmedPO.upo.deliveryDate ==false}"/>-->
 
-                            <h:outputLabel for="deliveryOrders" value="Planned Delivery Date and Amount: "/>
-                            <p:dataTable id="deliveryOrders" var="deliveryOrder" value="#{displayGeneratedPO.deliveryOrderList}" 
-                                         style="margin-bottom:20px">
+                            <!--
+                            
+                                                        <h:outputLabel for="destination" value="Destination: "/>
+                                                        <h:outputText  id="destination" value="#{displayManuallyGeneratedPO.destinationAddress}" style="font-weight:bold" />
+                                                        <p:commandButton action="#{displayManuallyGeneratedPO.generatePO()}" value="Change Destination" update="messages"></p:commandButton>
+                            -->
 
-                                <p:column headerText="Delivery Date">
-                                    <h:outputText value="#{deliveryOrder.deliveryDate}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-                                </p:column>
-
-                                <p:column headerText="Purchase Amount ">
-                                    <h:outputText value="#{deliveryOrder.amount}" />                            
-                                </p:column>
-
-                            </p:dataTable>
-
-
-                            <p:commandButton action="#{displayGeneratedPO.generatePO()}" value="Confirm" update="messages"></p:commandButton>
-
+                            <p:commandButton update=":formMain:editDetail" oncomplete="PF('editDialog').show()" 
+                                             action="#{editUnconfirmedPO.submit()}" value="Confirm" >
+                            </p:commandButton> 
                         </h:panelGrid>
                     </p:panel>
+
+                    <p:dialog header="Result Info" widgetVar="editDialog" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true" width="300">
+                        <p:outputPanel id="editDetail" style="text-align:center;">
+                            <h:outputText value="#{editUnconfirmedPO.result}"></h:outputText>
+                            <p:commandButton action="DisplayUnconfirmedPO?faces-redirect=true" value="Back"/>
+                        </p:outputPanel>
+                    </p:dialog>
+
                 </p:layoutUnit>
             </p:layout>
         </h:form>

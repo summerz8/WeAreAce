@@ -72,7 +72,7 @@ public class SupplierEntity implements Serializable {
         return ContractList;
     }
 
-    public void setContractList(Collection<ContractEntity> ContractlList) {
+    public void setContractList(Collection<ContractEntity> ContractList) {
         this.ContractList = ContractList;
     }
 

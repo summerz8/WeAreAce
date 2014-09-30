@@ -113,11 +113,11 @@
 
                     <p:panel id="basic2" header="Input Purchase Infomation" style="margin-bottom" >
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-                            <h:outputLabel for="output" value="Inventory Record of this item in the Factory at the beginning of the month: " style="font-size: 120%"/>
+                            <h:outputLabel for="output" value="Planned Inventory of this item in the Factory at the end of the month: " style="font-size: 120%"/>
                             <h:outputText id="ouput" value="#{displayContractForSelectedSupplierIPO.ir.amount}"/>
                             <h:outputLabel for="ipoAmount" value="Order Request Amount:"  style="font-size: 120%"/>
                             <h:outputText id="ipoAmount" value="#{displayContractForSelectedSupplierIPO.purchaseAmount}"/>
-                            <h:outputLabel for="input" value="Please Input the Planned Inventory of this item in the Factory at end of the month: " style="font-size: 120%"/>
+                            <h:outputLabel for="input" value="Please Input the Planned Inventory of this item in the Factory at end of next month: " style="font-size: 120%"/>
                             <h:inputText  id="input" value="#{displayContractForSelectedSupplierIPO.nextMonthBeginPlannedAmount}"/>
 
                             <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.displayPlannedDeliveryOrders()}" value="Submit"></p:commandButton>

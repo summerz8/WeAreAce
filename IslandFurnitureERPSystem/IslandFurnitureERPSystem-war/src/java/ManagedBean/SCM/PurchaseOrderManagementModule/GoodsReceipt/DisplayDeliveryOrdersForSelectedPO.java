@@ -81,7 +81,7 @@ public class DisplayDeliveryOrdersForSelectedPO {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedPO");
 
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage?faces-redirect=true";
     }
 
 }
