@@ -109,7 +109,7 @@ public interface PurchaseOrderManagementModuleLocal {
 
     //6. Edit unconfirmed purchase order
     public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount,
-            String unit, Calendar createDate, String destination, Integer leadTime,
+            String unit, Calendar createDate, String destination, Long destinationId, Integer leadTime,
             Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder,
             ContractEntity contract) throws Exception;
 

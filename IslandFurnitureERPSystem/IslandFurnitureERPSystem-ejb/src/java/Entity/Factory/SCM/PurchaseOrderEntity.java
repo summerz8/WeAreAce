@@ -199,12 +199,6 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setIntegratedPlannedOrder(IntegratedPlannedOrderEntity integratedPlannedOrder) {
         this.integratedPlannedOrder = integratedPlannedOrder;
-
-        if (integratedPlannedOrder.getFactoryRawMaterialAmount() == null) {
-            itemName = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getName();
-        } else {
-            itemName = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial().getMaterialName();
-        }
     }
 
     public Boolean getIsManual() {

@@ -51,12 +51,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     public PurchaseOrderManagementModule() {
     }
 
-    
     @Override
     public PurchaseOrderEntity getPO(Long poId) throws Exception {
         PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, poId);
         return po;
     }
+
     @Override
     public InventoryRecordEntity getIR(Calendar targetPeriod, String itemType, Long itemId) throws Exception {
         InventoryRecordEntity ir = null;
@@ -176,14 +176,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         if (itemType.equals("RawMaterial")) {
             FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
             Collection<ContractEntity> contractList = item.getContracts();
-            Iterator iterator = contractList.iterator();
-
-            while (iterator.hasNext()) {
-                Object obj = iterator.next();
-                ContractEntity c = (ContractEntity) obj;
-                SupplierEntity supplier = contract.getSupplier();
-
-                if (supplier.getSupplierId().equals(supplierId)) {
+            for( ContractEntity c : contractList){
+                if ((c.getSupplier() != null)
+                        && c.getSupplier().getSupplierId().equals(supplierId)) {
                     contract = c;
                 }
             }
@@ -902,7 +897,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //6. Edit unconfirmed purchase order
     @Override
     public PurchaseOrderEntity editPurchaseOrder(Long purchaseOrderId, String status, Double totalAmount,
-            String unit, Calendar createDate, String destination, Integer leadTime,
+            String unit, Calendar createDate, String destination, Long destinationId, Integer leadTime,
             Double totalPrice, FactoryEntity factory, IntegratedPlannedOrderEntity integratedPlannedOrder,
             ContractEntity contract) throws Exception {
         System.out.println("editPurchaseOrder():");
@@ -920,6 +915,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrder.setCreateDate(createDate);
 
             purchaseOrder.setDestination(destination);
+            
+            purchaseOrder.setDestinationId(destinationId);
 
             purchaseOrder.setLeadTime(leadTime);
 
@@ -1077,6 +1074,5 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return isExpired;
     }
-
 
 }

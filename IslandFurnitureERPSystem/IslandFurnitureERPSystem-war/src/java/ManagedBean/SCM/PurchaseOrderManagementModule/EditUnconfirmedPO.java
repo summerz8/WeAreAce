@@ -40,11 +40,11 @@ public class EditUnconfirmedPO {
     PurchaseOrderManagementModuleLocal pomml;
 
     private Collection<SupplierEntity> suppliers;
-    private List<Long> suppliersNames = new ArrayList<>();
+    private List<String> suppliersNames = new ArrayList<>();
     private PurchaseOrderEntity upo;
     private Long itemId;
     private String itemType;
-    private Long supplier;
+    private String supplier;
     private Long factoryId;
     private List<StoreEntity> stores;
     private List<String> storeAddress = new ArrayList<>();
@@ -52,6 +52,8 @@ public class EditUnconfirmedPO {
     private Double amount;
     private Collection<DeliveryOrderEntity> doe = new ArrayList<>();
     private String result;
+    private String destination;
+    private long destinationId;
 
     public EditUnconfirmedPO() {
     }
@@ -68,12 +70,12 @@ public class EditUnconfirmedPO {
             stores = pomml.viewAvailStore(factoryId);
 
             for (SupplierEntity s : suppliers) {
-                suppliersNames.add(s.getSupplierId());
+                suppliersNames.add(s.getSupplierId() + " " + s.getSupplierName());
             }
             for (StoreEntity s : stores) {
-                storeAddress.add(s.getAddress());
+                storeAddress.add("store : id = " + s.getStoreId() + " " + s.getAddress());
             }
-            storeAddress.add(pomml.getFactoryEntity(factoryId).getAddress());
+            storeAddress.add("factory : id = " + factoryId + " " + pomml.getFactoryEntity(factoryId).getAddress());
 
         } catch (Exception ex) {
             Logger.getLogger(EditUnconfirmedPO.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,26 +89,31 @@ public class EditUnconfirmedPO {
         amount = (Double) newValue;
     }
 
-    public void changeStore(ValueChangeEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        store = (String) newValue;
-    }
-
     public void submit() throws Exception {
-        ContractEntity contract = pomml.getContract2(supplier, itemId, itemType);
+        System.out.println("supplierID" + supplier + "      shuliang" + amount);
 
+        String[] parts = supplier.split(" ");
+        System.out.println(parts[0]);
+        Long supplierId = Long.parseLong(parts[0]);
+
+        ContractEntity contract = pomml.getContract2(supplierId, itemId, itemType);
+        if (itemType.equals("RetailProduct")) {
+            String[] parts2 = store.split(" ");
+            destination = parts2[0];
+            destinationId = Long.parseLong(parts2[4]);
+        }else{
+            destination = "factory";
+            destinationId = factoryId;
+        }
         if (amount % contract.getLotSize() == 0) {
 
             Double totalPrice = amount / contract.getLotSize() * contract.getContractPrice();
 
             //get store, get supplierId
-            pomml.editPurchaseOrder(upo.getId(), "unconfirmed", amount, contract.getUnit(), upo.getCreateDate(), store, contract.getLeadTime(),
+            pomml.editPurchaseOrder(upo.getId(), "unconfirmed", amount, contract.getUnit(), upo.getCreateDate(), destination, destinationId, contract.getLeadTime(),
                     totalPrice, pomml.getFactoryEntity(factoryId), upo.getIntegratedPlannedOrder(), contract);
 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("upo");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("departmentId");
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemId");
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("itemType");
 
@@ -164,19 +171,19 @@ public class EditUnconfirmedPO {
         this.suppliers = suppliers;
     }
 
-    public List<Long> getSuppliersNames() {
+    public List<String> getSuppliersNames() {
         return suppliersNames;
     }
 
-    public void setSuppliersNames(List<Long> suppliersNames) {
+    public void setSuppliersNames(List<String> suppliersNames) {
         this.suppliersNames = suppliersNames;
     }
 
-    public Long getSupplier() {
+    public String getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(Long supplier) {
+    public void setSupplier(String supplier) {
         this.supplier = supplier;
     }
 
@@ -187,7 +194,6 @@ public class EditUnconfirmedPO {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-
 
     public Long getFactoryId() {
         return factoryId;

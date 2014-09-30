@@ -38,10 +38,11 @@ public class DisplayUnconfirmedPO implements Serializable {
     @PostConstruct
     public void init() {
         try {
+            
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
-            System.out.println("factoryId = " + factoryId);
+            System.out.println(" DisplayUnconfirmedPO : factoryId = " + factoryId);
             unconfirmedPOList = pmb.viewUnconfirmedPurchaseOrder(factoryId);
             for (PurchaseOrderEntity upo : unconfirmedPOList) {
                 System.out.println("UPO: " + upo.toString());
