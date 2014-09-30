@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import java.util.Calendar;
@@ -29,5 +30,7 @@ public interface IntegratedPlannedOrderManagementLocal {
     public void editIntegratedPlannedOrder(Long id, String field, Object content);
 
     public boolean findFactoryRawMaterialIdList(Long id, String department, Long factoryRawMaterialId);
+
+    public List<FactoryRawMaterialEntity> getFactoryRawMaterial(Long factoryId, String department);
     
 }

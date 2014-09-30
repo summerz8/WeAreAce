@@ -66,6 +66,6 @@ public class DisplayIntegratedPlannedOrders implements Serializable{
     }
     
     public String displayIntegratedPlannedOrders(){
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders?faces-redirect=true";
     }
 }

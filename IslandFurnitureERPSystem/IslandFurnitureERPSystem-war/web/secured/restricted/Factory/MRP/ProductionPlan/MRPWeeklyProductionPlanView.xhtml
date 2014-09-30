@@ -95,6 +95,20 @@
                         </f:facet>                      
                     </p:toolbar>
 
+                    <h:outputText value="Productioin Plan Id: "/>
+                    <h:outputText value="#{weeklyProductionPlanBean.selectedProductionPlan.productionPlanId}"/>
+                    <br/>
+                    <h:outputText value="Factory Product Id: "/>
+                    <h:outputText value="#{weeklyProductionPlanBean.selectedProductionPlan.factoryProduct.factoryProductId}"/>
+                    <br/>
+                    <h:outputText value="Quantity: "/>
+                    <h:outputText value="#{weeklyProductionPlanBean.selectedProductionPlan.quantity}"/>
+                    <br/>
+                    <h:outputText value="Target Period: "/>
+                    <h:outputText value="#{weeklyProductionPlanBean.selectedProductionPlan.targetPeriod.getTime()}">
+                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
+                    </h:outputText>
+                    
                     <p:dataTable var="weeklyProductionPlan" value="#{weeklyProductionPlanBean.selectedWeeklyProductionPlanList}">
 
                         <p:column headerText="Weekly Production Plan Id">
@@ -105,11 +119,7 @@
                         <h:outputText value="#{weeklyProductionPlan.productionMonth.getTime()}" style="font-weight: bold">
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
                         </h:outputText>
-                        
-                        <p:column headerText="Quantity">
-                            <h:outputText value="#{weeklyProductionPlan.productionPlan.quantity}" />
-                        </p:column>
-                        
+                                                 
                         <p:column headerText="Week">
                             <h:outputText value="#{weeklyProductionPlan.week}" />
                         </p:column>
@@ -117,7 +127,9 @@
                         <p:column headerText="Weekly Demand">
                             <p:inplace  editor="true" style="font-weight: bold"> 
                                 <p:ajax event="save" listener="#{weeklyProductionPlanBean.saveId(weeklyProductionPlan.id)}"/> 
-                                    <p:inputText value="#{weeklyProductionPlan.weeklyDemand}" valueChangeListener="#{weeklyProductionPlanBean.demandChanged}" style="font-weight: bold" label="text" />
+                                    <p:inputText value="#{weeklyProductionPlan.weeklyDemand}" valueChangeListener="#{weeklyProductionPlanBean.demandChanged}" style="font-weight: bold" label="text" >
+                                    <f:convertNumber pattern="#0"/>
+                                    </p:inputText>>
                             </p:inplace>
                         </p:column>
                         

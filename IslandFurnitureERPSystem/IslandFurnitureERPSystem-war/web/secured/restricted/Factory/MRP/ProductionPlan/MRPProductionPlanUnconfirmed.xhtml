@@ -118,7 +118,7 @@
                         <p:outputPanel>
                             <h:panelGrid columns="2" cellpadding="5">
 
-                                <h:outputText value="Id:" />
+                                <h:outputText value="Production Plan Id:" />
                                 <h:outputText value="#{productionPlan.productionPlanId}" style="font-weight: bold"/>
 
                                 <h:outputText value="Generate Date: " />
@@ -143,12 +143,6 @@
 
                                 <h:outputText value="Status: " />
                                 <h:outputText value="#{productionPlan.status}"  style="font-weight: bold"/>                                 
-
-                                <h:outputLabel for="remark" value="Remark: " />
-                                <p:inplace  id="remark" editor="true" style="font-weight: bold">
-                                    <p:ajax event="save" listener="#{productionPlanView.saveId(productionPlan.productionPlanId)}"/> 
-                                    <p:inputText value="#{productionPlan.remark}" valueChangeListener="#{productionPlanView.remarkChanged}" style="font-weight: bold" label="text"/>
-                                </p:inplace>   
 
                                 <p:commandButton value="Confirm and Create Planned Order" style="font-weight: bold" icon="ui-icon-disk" action ="#{productionPlanView.confirm(productionPlan.productionPlanId)}" />
 

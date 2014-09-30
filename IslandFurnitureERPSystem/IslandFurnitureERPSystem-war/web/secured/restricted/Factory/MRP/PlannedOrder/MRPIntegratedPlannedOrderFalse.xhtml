@@ -73,7 +73,7 @@
                         <p:submenu label="Manufacturing Resource Planning">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Weekly Production Plan"  update="messages" action="/secured/restricted/Factory/MRP/WeeklyProductionPlan/WeeklyProductionPlan?faces-redirect=true"/>
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
                                 <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
                                 <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />
                                 <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
@@ -94,7 +94,7 @@
 
                     </p:toolbar>
 
-                        <h:outputText value="Sorry!The Raw Material Id that you entered has already been used in another planned order or does not exist in current factory." style="font-weight: bold;font-size: 100%"/>
+                        <h:outputText value="Sorry!The Raw Material Id that you entered has already been used in another integrated planned order or does not exist in current planned orders." style="font-weight: bold;font-size: 100%"/>
 
                 </p:layoutUnit>
 

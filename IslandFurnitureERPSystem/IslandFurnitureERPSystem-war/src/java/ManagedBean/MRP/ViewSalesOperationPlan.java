@@ -30,14 +30,19 @@ public class ViewSalesOperationPlan {
     List<SalesOperationPlanEntity> salesOperationPlanList;
     List<SalesOperationPlanEntity> unconfirmedSalesOperationPlanList = new ArrayList<>();
     List<SalesOperationPlanEntity> confirmedSalesOperationPlanList = new ArrayList<>();
+    List<SalesOperationPlanEntity> cancelledSalesOperationPlanList = new ArrayList<>();
 
-    ;
+    String department;
+    int userlvl;
+
     public ViewSalesOperationPlan() {
     }
 
     @PostConstruct
     public void viewSalesOperationPlan() {
         productId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesproductId");
+        userlvl = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl");
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
         salesOperationPlanList = salesOperationPlanLocal.ListSalesOperationPlan(productId, null, null);
 //        if(!salesOperationPlanList.isEmpty()){
         for (SalesOperationPlanEntity sop : salesOperationPlanList) {
@@ -45,7 +50,8 @@ public class ViewSalesOperationPlan {
                 unconfirmedSalesOperationPlanList.add(sop);
             } else if (sop.getStatus().equals("confirmed")) {
                 confirmedSalesOperationPlanList.add(sop);
-            }
+            }else if(sop.getStatus().equals("cancelled"))
+                cancelledSalesOperationPlanList.add(sop);
         }
 //        }
 
@@ -62,7 +68,11 @@ public class ViewSalesOperationPlan {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesOperationPlanId", salesOperationPlanId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("salesproductId");
-        return "MRPConfirmSalesOperationPlan?faces-redirect=true";
+        if (userlvl != 1) {
+            return "MRPCantConfirm?faces-redirecet=true";
+        } else {
+            return "MRPConfirmSalesOperationPlan?faces-redirect=true";
+        }
     }
 
     public String cancel(Long salesOperationPlanId) {
@@ -116,5 +126,31 @@ public class ViewSalesOperationPlan {
     public void setConfirmedSalesOperationPlanList(List<SalesOperationPlanEntity> confirmedSalesOperationPlanList) {
         this.confirmedSalesOperationPlanList = confirmedSalesOperationPlanList;
     }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public int getUserlvl() {
+        return userlvl;
+    }
+
+    public void setUserlvl(int userlvl) {
+        this.userlvl = userlvl;
+    }
+
+    public List<SalesOperationPlanEntity> getCancelledSalesOperationPlanList() {
+        return cancelledSalesOperationPlanList;
+    }
+
+    public void setCancelledSalesOperationPlanList(List<SalesOperationPlanEntity> cancelledSalesOperationPlanList) {
+        this.cancelledSalesOperationPlanList = cancelledSalesOperationPlanList;
+    }
+    
+    
 
 }

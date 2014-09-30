@@ -75,21 +75,31 @@
 
                         <p:menu>
                             <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Plan" actionListener="#{menuView.save}" update="messages"  />
-                                <p:menuitem value="Sales Forcast" actionListener="#{menuView.update}" update="messages" />
-                                <p:menuitem value="Calendar" actionListener="#{menuView.update}" update="messages" />
-                                <p:menuitem value="View Stores" actionListener="#{menuView.update}" update="messages" />
+                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />                  
+                                <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
+                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                             </p:submenu>
                             <p:submenu label="Supply Chain Management">
-                                <p:menuitem value="Planned Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Purchasing Order" actionListener="#{menuView.delete}" />
-                                <p:menuitem value="Bill of Material" actionListener="#{menuView.delete}" />
+                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Document Reference" outcome ="/secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml?faces-redirect=true" />
                             </p:submenu>
-                            <p:submenu label="Empolyees">
-                                <p:menuitem value="Empolyees List"/>
+
+                            <p:submenu label="Enterprise Management">
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Resource Control" />
+                            </p:submenu>
+                            <p:submenu label="Ticket Management">
+                                <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>
                             </p:submenu>
                         </p:menu>
-
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">

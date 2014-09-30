@@ -150,6 +150,12 @@ public class dataSetUp {
                 "Mr", "New York Road 20", "250620", "jeremy.bowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
+        
+         UserEntity u3 = new FactoryUserEntity("F", "1000003", 3, "He", null,
+                "Jinqiao", "Factory MRP Staff", birthday, "Male",
+                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(u3);
+        em.flush();
 
         //Store
         StoreEntity s1 = new StoreEntity("60 Anson Road, #14-01 Mapletree Anson, Singapore 079914", "Singapore", "+65 6889 1000", "", false);

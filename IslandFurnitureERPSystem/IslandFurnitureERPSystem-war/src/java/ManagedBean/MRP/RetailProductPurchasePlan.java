@@ -124,16 +124,16 @@ public class RetailProductPurchasePlan{
         this.integratedSalesForecastId = integratedSalesForecastId;
     }
 
-    public String create(){
-        System.out.println("SalesForecastId" + integratedSalesForecastId);
-        Long factoryRetailProductId = RPPP.getFactoryRetailProductId(integratedSalesForecastId);
-        System.out.println("factoryRetailProductId " + factoryRetailProductId);
-        RPPP.generateRetailProductPurchasePlan(integratedSalesForecastId, factoryRetailProductId);
-        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true";
+    public String create(Long id){
+        if(RPPP.findIntegratedSalesForecast(id))
+            return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanFalse?faces-redirect=true";
+        Long factoryRetailProductId = RPPP.getFactoryRetailProductId(id);     
+        RPPP.generateRetailProductPurchasePlan(id, factoryRetailProductId);
+        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
     }
     
     public String confirm(Long id){
-        RPPP.editRetailProductPurchasePlan(id, "status", "confirmed");     
+        RPPP.editRetailProductPurchasePlan(id, "status", "waiting");     
         return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
     }
     

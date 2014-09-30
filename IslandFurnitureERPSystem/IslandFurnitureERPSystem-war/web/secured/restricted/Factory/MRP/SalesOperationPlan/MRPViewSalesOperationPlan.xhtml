@@ -17,22 +17,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -66,16 +66,17 @@
                 </p:layoutUnit>
 
 
-               
+
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
                         <p:submenu label="Manufacturing Resource Planning">
                             <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                             <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                            <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                            <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                            <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
+                            <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                            <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                            <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />  
+                            <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
                             <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
@@ -137,15 +138,40 @@
                                     <p:column headerText="Working Day">
                                         <h:outputText value="#{unconfirmedSalesOperationPlan.workingDay}" />
                                     </p:column>       
-                                    <p:column headerText="Edit">
+                                    <p:column headerText="Edit" rendered="#{viewSalesOperationPlan.department.equals('F')}">
                                         <p:commandButton value="Edit"  action="#{viewSalesOperationPlan.edit(unconfirmedSalesOperationPlan.id)}" icon="ui-icon-pencil" />
                                     </p:column>   
-                                    <p:column headerText="Confirm">
+                                    <p:column headerText="Confirm" rendered="#{viewSalesOperationPlan.department.equals('F')}">
                                         <p:commandButton value="Confirm"  action="#{viewSalesOperationPlan.confirm(unconfirmedSalesOperationPlan.id)}" icon="ui-icon-check" />
                                     </p:column>   
-                                    <p:column headerText="Cancel">
+                                    <p:column headerText="Cancel" rendered="#{viewSalesOperationPlan.department.equals('F')}">
                                         <p:commandButton value="Cancel"  action="#{viewSalesOperationPlan.cancel(unconfirmedSalesOperationPlan.id)}" icon="ui-icon-trash" />
                                     </p:column>   
+                                </p:dataTable>
+                            </p:panel>
+                            <p:panel id="cancelled" header="Cancelled Sales Operation Plan" style="margin-bottom" >
+
+                                <p:dataTable var="cancellededSalesOperationPlan" value="#{viewSalesOperationPlan.cancelledSalesOperationPlanList}">
+                                    <p:column headerText="Target Month">
+                                        <h:outputText value="#{cancellededSalesOperationPlan.targetPeriod.getTime()}" >
+                                            <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{cancellededSalesOperationPlan.id}" />
+                                    </p:column>
+                                    <p:column headerText="Sales Forecast">
+                                        <h:outputText value="#{cancellededSalesOperationPlan.integratedSalesForecast.amount}" />
+                                    </p:column>
+                                    <p:column headerText="Production Plan Quantity">
+                                        <h:outputText value="#{cancellededSalesOperationPlan.plannedProductionPlanQuantity}" />
+                                    </p:column>
+                                    <p:column headerText="Planned End of Month Inventory">
+                                        <h:outputText value="#{cancellededSalesOperationPlan.plannedEndMonthInventory}" />
+                                    </p:column>
+                                    <p:column headerText="Working Day">
+                                        <h:outputText value="#{cancellededSalesOperationPlan.workingDay}" />
+                                    </p:column>       
                                 </p:dataTable>
                             </p:panel>
                         </p:panel>

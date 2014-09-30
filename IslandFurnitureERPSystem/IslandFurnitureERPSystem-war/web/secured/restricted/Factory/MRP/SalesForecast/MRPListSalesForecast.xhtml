@@ -17,22 +17,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for at least 10 seconds, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -66,18 +66,19 @@
                 </p:layoutUnit>
 
 
-                
+
                 <p:layoutUnit position="west" size="1000px" resizable="false">
 
                     <p:menu>
                         <p:submenu label="Manufacturing Resource Planning">
-                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
-                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
-                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
-                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
-                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />                                    
-                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
-                       </p:submenu>
+                            <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                            <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                            <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan" />                            
+                            <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan" />                                   
+                            <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder" />  
+                            <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
+                            <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                        </p:submenu>
                     </p:menu>
 
 
@@ -98,7 +99,7 @@
                         <br></br><br></br>
                         <p:outputPanel>
                             <h:panelGrid columns="2" cellpadding="5" >
-                                <h:outputText value="Factory Product Id:  " />
+                                <h:outputText value="Product Id:  " />
                                 <h:outputText value="#{createIntegratedSalesForecastBean.productId}" style="font-weight: bold"/>
 
                                 <h:outputText value="Monthly Demand:  " />
@@ -110,7 +111,7 @@
                         <h:outputText value="Sales Forecast Target Sales Period:  ">                           
                         </h:outputText>
                         <h:outputText value="#{createIntegratedSalesForecastBean.targetPeriod.getTime()}">
-                            <f:convertDateTime pattern="MM/yyyy"/>
+                            <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                         </h:outputText>
                         <br></br><br></br>
                         <p:commandButton  value="Create" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{createIntegratedSalesForecastBean.confirm()}" >
@@ -128,6 +129,14 @@
                                 <h:outputText value="#{salesForecast.id}" />
                             </p:column>
 
+                            <p:column headerText="Forecast Amount" rendered="#{createIntegratedSalesForecastBean.type.equals('factoryProduct')}">
+                                <h:outputText value="#{salesForecast.tempProductAmount}"  />
+                            </p:column>
+
+                            <p:column headerText="Forecast Amount" rendered="#{createIntegratedSalesForecastBean.type.equals('factoryRetailProduct')}">
+                                <h:outputText value="#{salesForecast.tempRetailAmount}" />
+                            </p:column>
+                            
                             <p:column headerText="View its Sales Forecast" >
                                 <p:commandButton  value="Product " style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{salesForecastBean.ViewSalesForecast(salesForecast.id)}" >
                                 </p:commandButton>

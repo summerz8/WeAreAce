@@ -32,5 +32,7 @@ public interface RetailProductPurchasePlanModuleLocal {
     public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanCancelled(Long id,String department);
 
     public Long getFactoryRetailProductId(Long integratedSalesForecastId);
+
+    public boolean findIntegratedSalesForecast(Long integratedSalesForecastId);
     
 }

@@ -9,6 +9,7 @@ import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
+import SessionBean.MRP.SalesOperationPlan;
 import SessionBean.MRP.WeeklyProductionPlanLocal;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -78,6 +79,37 @@ public class ProductionPlanBean implements Serializable {
 
     public String getDepartment() {
         return department;
+    }
+
+    
+
+    public void setProductionPlan(List<ProductionPlanEntity> ProductionPlan) {
+        this.productionPlan = ProductionPlan;
+    }
+
+    public void setProductionPlanConfirmed(List<ProductionPlanEntity> productionPlanConfirmed) {
+        this.productionPlanConfirmed = productionPlanConfirmed;
+    }
+
+    public void setProductionPlanUnconfirmed(List<ProductionPlanEntity> productionPlanUnconfirmed) {
+        this.productionPlanUnconfirmed = productionPlanUnconfirmed;
+    }
+
+    public void setProductionPlanCancelled(List<ProductionPlanEntity> productionPlanCancelled) {
+        this.productionPlanCancelled = productionPlanCancelled;
+    }
+ 
+
+    public void setQuantity(Object quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
      
     
@@ -219,6 +251,7 @@ public class ProductionPlanBean implements Serializable {
     
     public String viewWeeklyProductionPlan(List<WeeklyProductionPlanEntity> selectedWeeklyProductionPlan){
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedWeeklyProductionPlan", selectedWeeklyProductionPlan);
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedProductionPlan", selectedProductionPlan);
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPWeeklyProductionPlanView?faces-redirect=true";
 
     }

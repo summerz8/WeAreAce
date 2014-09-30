@@ -100,7 +100,7 @@
 
                             <p:outputPanel>
                                 <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Id:" />
+                                    <h:outputText value="Integrated Planned Order Id:" />
                                     <h:outputText value="#{integratedPlannedOrder.id}" style="font-weight: bold"/>
 
                                     <h:outputText value="Factory Id:" />
@@ -136,7 +136,8 @@
                                     
                                     <h:outputText value="Unit:" />
                                     <h:outputText value="#{integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.rawMaterial.unit}" style="font-weight: bold"/>
-                                                                      
+                                     
+                                    <br/>
                                 </h:panelGrid>
                             </p:outputPanel>
                         </h:panelGrid>

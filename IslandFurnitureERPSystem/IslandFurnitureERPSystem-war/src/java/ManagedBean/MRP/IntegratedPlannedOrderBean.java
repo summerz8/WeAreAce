@@ -5,6 +5,7 @@
  */
 package ManagedBean.MRP;
 
+import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import SessionBean.MRP.IntegratedPlannedOrderManagementLocal;
@@ -36,6 +37,7 @@ public class IntegratedPlannedOrderBean {
     private Long factoryRawMaterialId;
     private Long id;
     private String department;
+    private List<FactoryRawMaterialEntity> factoryRawMaterialList;
     
     @EJB
     private IntegratedPlannedOrderManagementLocal IPO;
@@ -79,6 +81,16 @@ public class IntegratedPlannedOrderBean {
     public String getDepartment() {
         return department;
     }
+
+    public List<FactoryRawMaterialEntity> getFactoryRawMaterialList() {
+        return factoryRawMaterialList;
+    }
+
+    public void setFactoryRawMaterialList(List<FactoryRawMaterialEntity> factoryRawMaterialList) {
+        this.factoryRawMaterialList = factoryRawMaterialList;
+    }
+    
+    
     
     @PostConstruct
     public void init(){
@@ -89,6 +101,7 @@ public class IntegratedPlannedOrderBean {
         targetMonth.set(Calendar.DATE,1);
         targetMonth.set(Calendar.MONTH,targetMonth.get(Calendar.MONTH)+1);        
         integratedPlannedOrder = IPO.getIntegratedPlannedOrder(id,department);
+        factoryRawMaterialList = IPO.getFactoryRawMaterial(id, department);
     }
     
     public String createIntegratedPlannedOrder(Long factoryRawMaterialId){
@@ -103,10 +116,13 @@ public class IntegratedPlannedOrderBean {
             if(ipo.getFactoryRawMaterialAmount().getFactoryRawMaterial().getFactoryRawMaterialId().equals(factoryRawMaterialId)
                     && month == m && year == y)
                 return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
-            else if(!IPO.findFactoryRawMaterialIdList(id, department, factoryRawMaterialId)){
-                return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
-            }
+            
         }
+        
+        if(!IPO.findFactoryRawMaterialIdList(id, department, factoryRawMaterialId))
+                
+            return "/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderFalse?faces-redirect=true";
+            
         
         IPO.createIntegratedPlannedOrder(targetMonth, factoryRawMaterialId,id,department);
         
