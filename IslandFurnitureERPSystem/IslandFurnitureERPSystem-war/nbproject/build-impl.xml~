@@ -1008,7 +1008,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.PrimeFaces5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
->>>>>>> 5d640e79e282f0df636c75eddbe182952d7dfae8
+>>>>>>> 8cdf63fed3dfcb4e825990448244e947deeb05bb
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1018,7 +1018,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.PrimeFaces5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 =======
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
->>>>>>> 5d640e79e282f0df636c75eddbe182952d7dfae8
+>>>>>>> 8cdf63fed3dfcb4e825990448244e947deeb05bb
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
