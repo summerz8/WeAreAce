@@ -204,7 +204,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             factoryProductOutboundMovement.recordFactoryProductOutboundMovement(factoryBinStoredProduct, toStore, quantity, creationDate);
             em.persist(factoryProductOutboundMovement);
             if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
-                em.remove(factoryBinStoredProduct);
+               factoryBinStoredProduct.setAmount(0.0);
             }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement(): Successful.");
@@ -275,7 +275,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             factoryRetailProductOutboundMovement.recordFactoryRetailProductOutboundMovement(factoryBinStoredProduct, toStore, quantity, creationDate);
             em.persist(factoryRetailProductOutboundMovement);
             if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
-                em.remove(factoryBinStoredProduct);
+                factoryBinStoredProduct.setAmount(0.0);
             }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement(): Successful.");
@@ -355,7 +355,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             inFactoryRawMaterialMovement.recordInFactoryRawMaterialMovement(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity, creationDate);
             em.persist(inFactoryRawMaterialMovement);
             if (factoryFromBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryFromBinStoredProduct);
+                factoryFromBinStoredProduct.setAmount(0.0);
             }
             em.flush();
 
@@ -436,7 +436,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             inFactoryProductMovement.recordInFactoryProductMovement(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity, creationDate);
             em.persist(inFactoryProductMovement);
             if (factoryFromBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryFromBinStoredProduct);
+                factoryFromBinStoredProduct.setAmount(0.0);
             }
             em.flush();
 
@@ -517,7 +517,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             inFactoryRetailProductMovement.recordInFactoryRetailProductMovement(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity, creationDate);
             em.persist(inFactoryRetailProductMovement);
             if (factoryFromBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryFromBinStoredProduct);
+                factoryFromBinStoredProduct.setAmount(0.0);
             }
             em.flush();
 
@@ -582,7 +582,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             rawMaterialInFactoryUseMovement.recordRawMaterialInFactoryUseMovement(factoryBinStoredProduct, quantity, creationDate);
             em.persist(rawMaterialInFactoryUseMovement);
             if (factoryBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryBinStoredProduct);
+                factoryBinStoredProduct.setAmount(0.0);
             }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement(): Successful.");
@@ -607,26 +607,46 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 System.exit(1);
             }
 
-            Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :toStatus");
-            q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
-            q2.setParameter("factoryRawMaterial", factoryBinStoredProduct1.getFactoryRawMaterial());
-            q2.setParameter("toStatus", toStatus);
+            if (factoryBinStoredProduct1.getStockTypeIndicator() == 1) {
+                Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :toStatus");
+                q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
+                q2.setParameter("factoryRawMaterial", factoryBinStoredProduct1.getFactoryRawMaterial());
+                q2.setParameter("toStatus", toStatus);
 
-            if (q2.getResultList().isEmpty()) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct2 = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct2.createFactoryBinStoredProduct(factoryBinStoredProduct1.getFactoryRawMaterial(), factoryBinStoredProduct1.getFactoryBin(), toStatus);
-                factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
-                factoryBinStoredProduct1.getFactoryBin().getFactoryBinStoredProducts().add(factoryBinStoredProduct2);
-                em.persist(factoryBinStoredProduct2);
-                em.remove(factoryBinStoredProduct1);
+                if (q2.getResultList().isEmpty()) {
+                    factoryBinStoredProduct1.setStatus(toStatus);
+                } else {
+                    FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
+                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct1.setAmount(0.0);
+                }
+            } else if (factoryBinStoredProduct1.getStockTypeIndicator() == 2) {
+                Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :toStatus");
+                q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
+                q2.setParameter("factoryProduct", factoryBinStoredProduct1.getFactoryProduct());
+                q2.setParameter("toStatus", toStatus);
+
+                if (q2.getResultList().isEmpty()) {
+                    factoryBinStoredProduct1.setStatus(toStatus);
+                } else {
+                    FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
+                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct1.setAmount(0.0);
+                }
             } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
-                factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
-                em.remove(factoryBinStoredProduct1);
-                em.flush();
-            }
+                Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = :toStatus");
+                q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
+                q2.setParameter("factoryRetailProduct", factoryBinStoredProduct1.getFactoryRetailProduct());
+                q2.setParameter("toStatus", toStatus);
 
-            factoryBinStoredProduct1.setStatus(toStatus);
+                if (q2.getResultList().isEmpty()) {
+                    factoryBinStoredProduct1.setStatus(toStatus);
+                } else {
+                    FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
+                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct1.setAmount(0.0);
+                }
+            }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: changeFactoryBinStoredProductStatus(): Successful.");
         } catch (Exception ex) {
@@ -678,7 +698,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
-
 
             ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
@@ -739,10 +758,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
 
- 
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
-
 
             em.persist(returnedFactoryRetailProductInboundMovement);
             em.flush();
@@ -756,8 +773,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         }
 
     }
-
-
 
     // return -1L if factoryProductId is invalid
     //        -2L if the toBinId is invalid
@@ -826,7 +841,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 frm.getInventoryRecord().add(frmIr);
                 em.flush();
             }
-            
+
             Query q2 = em.createQuery("SELECT fp FROM FactoryProductEntity fp WHERE fp.factory.factoryId = :factoryId");
             q2.setParameter("factoryId", factoryId);
             for (Object o : q2.getResultList()) {
@@ -836,7 +851,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 fp.getRecord().add(fpIr);
                 em.flush();
             }
-            
+
             Query q3 = em.createQuery("SELECT frp FROM FactoryRetailProductEntity frp WHERE frp.factory.factoryId = :factoryId");
             q3.setParameter("factoryId", factoryId);
             for (Object o : q3.getResultList()) {
