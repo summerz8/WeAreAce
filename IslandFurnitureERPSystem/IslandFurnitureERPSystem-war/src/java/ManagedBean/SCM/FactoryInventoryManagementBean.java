@@ -252,11 +252,6 @@ public class FactoryInventoryManagementBean implements Serializable {
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
                             "unexpected exception occurred"));
-        }else if (temp == -6L) {
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
-                            "quantity exceed the goods receipt amount"));
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -298,12 +293,17 @@ public class FactoryInventoryManagementBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
-                                "required quantity exceeds the minimum inventory level in the factory"));
+                                "required quantity exceeds the available inventory stock in the factory"));
             } else if (temp == -7L) {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
                                 "unexpected exception occurred"));
+            } else if (temp == -8L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -341,12 +341,17 @@ public class FactoryInventoryManagementBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
-                                "required quantity exceeds the minimum inventory level in the factory"));
+                                "required quantity exceeds the available inventory stock in the factory"));
             } else if (temp == -7L) {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
                                 "unexpected exception occurred"));
+            } else if (temp == -8L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -391,6 +396,11 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurredy"));
+            } else if (temp == -7L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create infatcory movement",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -430,6 +440,11 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurred "));
+            } else if (temp == -7L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create infactory movement",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -468,6 +483,11 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record infactory movement",
                                 "unexpected exception occurred "));
+            } else if (temp == -7L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create infactory movement record",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -504,12 +524,17 @@ public class FactoryInventoryManagementBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
-                            "required quantity exceeds the minimum stock level in the factory"));
+                            "required quantity exceeds the available stock in the factory"));
         } else if (temp == -6L) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record raw material infactory use movement",
                             "unexpected exception occurred "));
+        } else if (temp == -7L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create raw material infactory use movement",
+                            "factory has no access to this factory bin"));
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -519,7 +544,17 @@ public class FactoryInventoryManagementBean implements Serializable {
     }
 
     public void changeFactoryBinStoredProductStatus(ActionEvent event) {
-        fim.changeFactoryBinStoredProductStatus(factoryBinStoredProductId, toStatus);
+        Long temp = fim.changeFactoryBinStoredProductStatus(factoryId, factoryBinStoredProductId, toStatus);
+        if (temp == -1L) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to change status",
+                    "factory has no access to this factory bin"));
+        } else if (temp == -2L) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to change status",
+                    "unexpected exception occurred"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Successful",
+                    ""));
+        }
     }
 
     public void recordReturnedItemInboundMovement(ActionEvent event) {
@@ -546,6 +581,11 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
                                 "unexpected exception occurred"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -574,6 +614,11 @@ public class FactoryInventoryManagementBean implements Serializable {
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
                                 "unexpected exception occurred"));
+            } else if (temp == -5L) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
+                                "factory has no access to this factory bin"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -584,7 +629,7 @@ public class FactoryInventoryManagementBean implements Serializable {
     }
 
     public void recordProductToBinMovement(ActionEvent event) {
-        Long temp = fim.recordProductToBinMovement(factoryProductId, toBinId, status, quantity, creationDate);
+        Long temp = fim.recordProductToBinMovement(factoryId, factoryProductId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -600,6 +645,11 @@ public class FactoryInventoryManagementBean implements Serializable {
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
                             "unexpected exception occurred"));
+        } else if (temp == -4L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record product to bin movement",
+                            "factory has no access to this factory bin"));
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -613,21 +663,31 @@ public class FactoryInventoryManagementBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "No Access", ""));
-        }
-        else{
-         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-            String path ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin.xhtml";
+        } else {
+            String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+            String path = "/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryBin.xhtml";
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(url+path);
+                FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
             } catch (IOException ex) {
                 Logger.getLogger(FactoryInventoryManagementBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
 
-    public int recordRurrentInventoryLevel(ActionEvent event) {
-        return fim.recordCurrentInventoryLevel(factoryId);
+    public void recordCurrentInventoryLevel(ActionEvent event) {
+        int temp = fim.recordCurrentInventoryLevel(factoryId);
+        if (temp == -1) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record current inventory level",
+                            "unexpected exception occurred"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Record Successful!",
+                            ""));
+        }
     }
 
 }
