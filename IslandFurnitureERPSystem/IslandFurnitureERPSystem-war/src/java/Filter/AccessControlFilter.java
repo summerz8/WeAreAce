@@ -43,7 +43,7 @@ public class AccessControlFilter implements Filter {
         if (url.contains("loginPage.xhtml")) {
             chain.doFilter(request, response);
         }
-        
+
         if (userLevel == 0) {
             if (url.contains("/Factory/")) {
                 if (url.contains("/SCM/")) {
@@ -54,12 +54,14 @@ public class AccessControlFilter implements Filter {
                     }
                 } else if (url.contains("/MRP/")) {
                     chain.doFilter(request, response);
-                } else if (url.contains("FactoryResourceControl.xhtml") && HFactoryId==null) {
+                } else if (url.contains("FactoryResourceControl.xhtml") && HFactoryId == null) {
                     String contextPath = req.getServletContext().getContextPath();
                     resp.sendRedirect(contextPath + "/secured/restricted/Factory/FactoryResourceControlForHQ.xhtml");
                 } else {
                     chain.doFilter(request, response);
                 }
+            } else {
+                chain.doFilter(request, response);
             }
 
         } else if (userLevel == 1 && url.contains("/Factory/")) {

@@ -16,16 +16,14 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
-                    <path-in-war>/</path-in-war>
+                    <file>${reference.SCMTest.j2ee-module-car}</file>
                 </library>
                 <library>
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.SuperUserClient.j2ee-module-car}</file>
-                    <path-in-war>/</path-in-war>
+                    <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD}</file>
                 </library>
             </web-module-additional-libraries>
         </data>
