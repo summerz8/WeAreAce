@@ -80,6 +80,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -4L;
             }
 
+            if(goodsReceipt.getAmount() <  quantity) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInboundMovement():Faild. The Goods Receipt Amount " + goodsReceipt.getAmount() + " is less than the quantity required.");
+                return -6L;
+            }
+            
             InboundMovementEntity inboundMovement = new InboundMovementEntity();
             em.persist(inboundMovement);
             if (goodsReceipt.getPurchaseOrder().getContract().getFactoryRetailProduct() == null) {
@@ -106,6 +111,9 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 }
 
                 inboundMovement.recordInboundMovement(goodsReceipt, factoryBinStoredProduct, quantity, creationDate);
+                double oldAmount = goodsReceipt.getAmount();
+                double newAmount = oldAmount - quantity;
+                goodsReceipt.setAmount(newAmount);
                 em.flush();
             } else {
                 if (goodsReceipt.getPurchaseOrder().getContract().getFactoryRetailProduct().getFactory().getFactoryId() != factoryId) {
@@ -132,6 +140,9 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 }
 
                 inboundMovement.recordInboundMovement(goodsReceipt, factoryBinStoredProduct, quantity, creationDate);
+                double oldAmount = goodsReceipt.getAmount();
+                double newAmount = oldAmount - quantity;
+                goodsReceipt.setAmount(newAmount);
                 em.flush();
             }
             em.persist(inboundMovement);

@@ -147,6 +147,7 @@ public class DisplayContractForSelectedSupplierIPO {
     public void setNextMonthBeginPlannedAmount(Double nextMonthBeginPlannedAmount) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nextMonthBeginPlannedAmount", nextMonthBeginPlannedAmount);
         this.nextMonthBeginPlannedAmount = nextMonthBeginPlannedAmount;
+        
     }
 
     public DisplayContractForSelectedSupplierIPO() {

@@ -95,8 +95,9 @@ public interface PurchaseOrderManagementModuleLocal {
     //Step 3: user choose one of the suppliers displayed
     //input : supplierId, planned 1st of next month 's left inventory (means this month's left inventory)
     //output: display the generated amount for purchase
-    public Double generatePurchaseAmount(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception;
+    public Double generatePurchaseAmount(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount, String itemType, Double lotSize) throws Exception;
 
+    public Double generateOriginalAmount(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception;
     //Step 4: user confirm the displayed amount 
     //output: purchase order
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId,

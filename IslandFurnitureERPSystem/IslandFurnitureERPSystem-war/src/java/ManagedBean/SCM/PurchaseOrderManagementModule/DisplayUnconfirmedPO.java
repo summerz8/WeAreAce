@@ -105,7 +105,7 @@ public class DisplayUnconfirmedPO implements Serializable {
     public String displayDisplayUnconfirmedPurchaseOrder() throws Exception {
         UserEntity user = pmb.getUser(userId);
 
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO.xhtml";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true";
 
     }
 

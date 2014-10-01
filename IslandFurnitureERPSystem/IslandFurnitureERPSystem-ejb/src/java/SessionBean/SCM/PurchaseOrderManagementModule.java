@@ -90,8 +90,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     ir = inventoryRecord;
                 }
             }
+            System.out.println("Amount = " + ir.getAmount());
+
         }
-        System.out.println("Amount = " + ir.getAmount());
         return ir;
     }
 
@@ -176,7 +177,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         if (itemType.equals("RawMaterial")) {
             FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
             Collection<ContractEntity> contractList = item.getContracts();
-            for( ContractEntity c : contractList){
+            for (ContractEntity c : contractList) {
                 if ((c.getSupplier() != null)
                         && c.getSupplier().getSupplierId().equals(supplierId)) {
                     contract = c;
@@ -648,7 +649,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             integratedPlannedOrderList = factory.getIntegratedPlannedOrders();
             for (IntegratedPlannedOrderEntity ipo : integratedPlannedOrderList) {
                 //check whether this intergrated planned order is in waiting status
-                if (ipo.getStatus().equals("waiting")) {
+                if (ipo.getStatus().equals("waiting") && (ipo.getPurchaseOrder() == null)) {
                     System.out.println(ipo.toString());
                     waitingIntegratedPlannedOrderList.add(ipo);
                 }
@@ -734,8 +735,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //output: display the generated amount for purchase
     @Override
     public Double generatePurchaseAmount(Long integratedPlannedOrderId,
-            Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
+            Double nextMonthBeginPlannedAmount, String itemType, Double lotSize) throws Exception {
         System.out.println("generatePurchaseAmount():");
+        Double originalAmount = 0D;
         Double purchaseAmount = 0D;
         Double monthBeginInventory = -1D;
         Double plannedOrderAmount = 0D;
@@ -781,7 +783,17 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
                 plannedOrderAmount = integratedPlannedOrder.getFactoryRetailProductAmount().getAmount();
             }
-            purchaseAmount = plannedOrderAmount + (nextMonthBeginPlannedAmount - monthBeginInventory);
+            originalAmount = plannedOrderAmount + (nextMonthBeginPlannedAmount - monthBeginInventory);
+            if (originalAmount < 0) {
+                purchaseAmount = 0.0;
+            } else if ((originalAmount % lotSize) == 0) {
+                purchaseAmount = originalAmount;
+            } else {
+                Double temp = originalAmount / lotSize;
+                System.out.println("SB: Temp = " + temp);
+                System.out.println("Math.ceil(temp) = " + Math.ceil(temp));
+                purchaseAmount = Math.ceil(temp) * lotSize;
+            }
 
             System.out.println(
                     "Purchase Amount = " + purchaseAmount);
@@ -791,6 +803,104 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
 
         return purchaseAmount;
+    }
+
+    @Override
+    public Double generateOriginalAmount(Long integratedPlannedOrderId, Double nextMonthBeginPlannedAmount, String itemType) throws Exception {
+        System.out.println("generatePurchaseAmount():");
+        Double originalAmount = 0D;
+        Double monthBeginInventory = -1D;
+        Double plannedOrderAmount = 0D;
+
+        try {
+            IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, integratedPlannedOrderId);
+
+            if (itemType.equals("RawMaterial")) {
+                FactoryRawMaterialAmountEntity factoryRawMaterialAmount = integratedPlannedOrder.getFactoryRawMaterialAmount();
+                FactoryRawMaterialEntity factoryRawMaterial = factoryRawMaterialAmount.getFactoryRawMaterial();
+                List<InventoryRecordEntity> inventoryRecordList = factoryRawMaterial.getInventoryRecord();
+                Iterator iterator = inventoryRecordList.iterator();
+
+                //check the inventory level of the material in the beginning of the month
+                while (iterator.hasNext() && (monthBeginInventory < 0D)) {
+                    InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                    Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                    firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                    if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                        monthBeginInventory = inventoryRecord.getAmount();
+                    }
+
+                    //to record the user input planned amount 
+                    firstDateOfMonth.add(Calendar.MONTH, 1); //represent the beginning of next month
+                    if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {//there is no record for next month planned begin amount
+                        inventoryRecord.setAmount(nextMonthBeginPlannedAmount);
+                        em.flush();
+                    } else if (!iterator.hasNext()) {//there is a record for next month planned begin amount
+                        InventoryRecordEntity ir = new InventoryRecordEntity();
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.DAY_OF_MONTH, 1);
+                        cal.add(Calendar.MONTH, 1);
+                        ir.setRecordDate(cal);
+                        ir.setAmount(nextMonthBeginPlannedAmount);
+                        ir.setFactoryRawMaterial(factoryRawMaterial);
+                        factoryRawMaterial.getInventoryRecord().add(ir);
+                        em.persist(ir);
+                        em.flush();
+                    }
+                }
+
+                System.out.println("monthBeginInventory = " + monthBeginInventory);
+                plannedOrderAmount = integratedPlannedOrder.getFactoryRawMaterialAmount().getAmount();
+
+            } else {//itemType.equals("RetailProduct")
+                FactoryRetailProductAmountEntity factoryRetailProductAmount = integratedPlannedOrder.getFactoryRetailProductAmount();
+                FactoryRetailProductEntity factoryRetailProduct = factoryRetailProductAmount.getFactoryRetailProduct();
+                List<InventoryRecordEntity> inventoryRecordList = factoryRetailProduct.getInventoryRecords();
+                Iterator iterator = inventoryRecordList.iterator();
+
+                //check the inventory level of the material in the beginning of the month
+                while (iterator.hasNext() && (monthBeginInventory < 0D)) {
+                    InventoryRecordEntity inventoryRecord = (InventoryRecordEntity) iterator.next();
+                    Calendar firstDateOfMonth = Calendar.getInstance();   // this takes current date
+                    firstDateOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+                    if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {
+                        monthBeginInventory = inventoryRecord.getAmount();
+                    }
+
+                    //to record the user input planned amount 
+                    firstDateOfMonth.add(Calendar.MONTH, 1); //represent the beginning of next month
+                    if (removeTime(inventoryRecord.getRecordDate()).equals(removeTime(firstDateOfMonth))) {//there is no record for next month planned begin amount
+                        inventoryRecord.setAmount(nextMonthBeginPlannedAmount);
+                        em.flush();
+                    } else if (!iterator.hasNext()) {//there is a record for next month planned begin amount
+                        InventoryRecordEntity ir = new InventoryRecordEntity();
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.DAY_OF_MONTH, 1);
+                        cal.add(Calendar.MONTH, 1);
+                        ir.setRecordDate(cal);
+                        ir.setAmount(nextMonthBeginPlannedAmount);
+                        ir.setFactoryRetailProduct(factoryRetailProduct);
+                        factoryRetailProduct.getInventoryRecords().add(ir);
+                        em.persist(ir);
+                        em.flush();
+                    }
+
+                }
+                System.out.println("monthBeginInventory = " + monthBeginInventory);
+
+                plannedOrderAmount = integratedPlannedOrder.getFactoryRetailProductAmount().getAmount();
+            }
+            originalAmount = plannedOrderAmount + (nextMonthBeginPlannedAmount - monthBeginInventory);
+
+            System.out.println(
+                    "Original Amount = " + originalAmount);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+
+        return originalAmount;
+
     }
 
     //Step 4: user confirm the displayed amount 
@@ -814,7 +924,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
 
-            Double originalAmount = generatePurchaseAmount(integratedPlannedOrderId, nextMonthBeginPlannedAmount, itemType);
+            Double originalAmount = generatePurchaseAmount(integratedPlannedOrderId,
+                    nextMonthBeginPlannedAmount, itemType, contract.getLotSize());
             Double purchaseAmount;
 
             if ((originalAmount % contract.getLotSize()) == 0) {
@@ -836,6 +947,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             }
 
             purchaseOrder.setIntegratedPlannedOrder(integratedPlannedOrder);
+            integratedPlannedOrder.setPurchaseOrder(purchaseOrder);
             purchaseOrder.setDeliveryOrderList(deliveryOrderList);
 
         } catch (Exception ex) {
@@ -915,7 +1027,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrder.setCreateDate(createDate);
 
             purchaseOrder.setDestination(destination);
-            
+
             purchaseOrder.setDestinationId(destinationId);
 
             purchaseOrder.setLeadTime(leadTime);
@@ -951,6 +1063,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             PurchaseOrderEntity purchaseOrder = em.find(PurchaseOrderEntity.class, purchaseOrderId);
 
             purchaseOrder.setStatus("confirmed");
+
             if (purchaseOrder.getIntegratedPlannedOrder() != null) {
                 purchaseOrder.getIntegratedPlannedOrder().setStatus("processing");
             }
@@ -984,10 +1097,11 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrder.setStatus("cancelled");
             if (purchaseOrder.getIntegratedPlannedOrder() != null) {
                 purchaseOrder.getIntegratedPlannedOrder().setStatus("waiting");
+                purchaseOrder.getIntegratedPlannedOrder().setPurchaseOrder(null);
             }
             em.flush();
 
-            result = "Purchase Order Cancelleds!";
+            result = "Purchase Order Cancelled!";
 
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -1009,6 +1123,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
         gr.setCreateDate(Calendar.getInstance());
         gr.setPurchaseOrder(po);
+        gr.setOriginalAmount(po.getTotalAmount());
         gr.setAmount(po.getTotalAmount());
 
         em.persist(gr);
@@ -1036,12 +1151,15 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         DeliveryOrderEntity deliveryOrder = em.find(DeliveryOrderEntity.class, deliveryOrderId);
         deliveryOrder.setStatus("fulfilled");
         po.getGoodsReceiptList().add(gr);
+        gr.setOriginalAmount(deliveryOrder.getAmount());
         gr.setAmount(deliveryOrder.getAmount());
         em.flush();
+
         for (DeliveryOrderEntity delivery : po.getDeliveryOrderList()) {
             if (!delivery.getStatus().equals("fulfilled")) {
-                result = "Delivery order [id = " + delivery.getId()
+                result = "Delivery order [id = " + deliveryOrder.getId()
                         + "] is fullfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
+                System.out.println(result);
                 return result;
             }
         }
@@ -1049,9 +1167,11 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         po.getIntegratedPlannedOrder().setStatus("accomplished");
         em.flush();
         result = "Purchase Order [id = " + po.getId() + "] is fulfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
+        System.out.println(result);
+
         return result;
     }
-    // for comparing two dates
+        // for comparing two dates
     //function to set all the other attributes to be 0
 
     public Calendar removeTime(Calendar cal) {

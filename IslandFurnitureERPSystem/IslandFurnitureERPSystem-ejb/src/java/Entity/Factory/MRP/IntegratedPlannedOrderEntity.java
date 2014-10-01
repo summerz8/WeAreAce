@@ -56,7 +56,7 @@ public class IntegratedPlannedOrderEntity implements Serializable {
 
     //integrated planned order entity -- purchase order entity: 1 <--> 1
     @OneToOne(cascade={CascadeType.PERSIST})
-    private PurchaseOrderEntity purchaseOrder;
+    private PurchaseOrderEntity purchaseOrder = null;
 
     //integrated planned order entity -- factory entity: M <--> 1
     @ManyToOne

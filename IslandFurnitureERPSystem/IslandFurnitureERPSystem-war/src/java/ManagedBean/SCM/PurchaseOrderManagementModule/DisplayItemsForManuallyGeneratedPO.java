@@ -90,7 +90,7 @@ public class DisplayItemsForManuallyGeneratedPO implements Serializable {
     }
 
     public String displayAllFactoryItems() throws Exception {
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO.xhtml";
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO?faces-redirect=true";
 
     }
 }
