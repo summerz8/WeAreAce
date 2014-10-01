@@ -46,7 +46,7 @@ public class HQchooseFactory {
             Logger.getLogger(HQchooseFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
         }else{
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory not exist!", ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory not exist!", ""));
         }
     }
 

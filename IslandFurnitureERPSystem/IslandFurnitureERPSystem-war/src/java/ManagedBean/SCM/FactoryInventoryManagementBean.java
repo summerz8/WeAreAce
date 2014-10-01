@@ -252,10 +252,15 @@ public class FactoryInventoryManagementBean implements Serializable {
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
                             "unexpected exception occurred"));
+        }else if (temp == -6L) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create inbound movement record",
+                            "quantity exceed the goods receipt amount"));
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                             ""));
         }
     }
@@ -307,7 +312,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
         } else {
@@ -355,7 +360,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
         }
@@ -448,7 +453,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
         } else {
@@ -491,7 +496,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
         }
@@ -538,7 +543,7 @@ public class FactoryInventoryManagementBean implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                             ""));
         }
     }
@@ -589,7 +594,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
         } else {
@@ -622,7 +627,7 @@ public class FactoryInventoryManagementBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
         }
@@ -653,7 +658,7 @@ public class FactoryInventoryManagementBean implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Create Successful!",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                             ""));
         }
     }
@@ -685,7 +690,7 @@ public class FactoryInventoryManagementBean implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Record Successful!",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Record Successful!",
                             ""));
         }
     }
