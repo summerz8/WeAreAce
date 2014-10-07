@@ -7,7 +7,6 @@
 package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.VoucherEntity;
 import ManagedBean.CommonInfrastructure.EnterpriseResourceControl.FactoryControlBean;
 import SessionBean.OCRM.MemberRegistrationModuleLocal;
 import java.io.IOException;
@@ -69,9 +68,9 @@ public class MemberControlBean {
     public void onRowEdit(RowEditEvent event) {
         System.out.println("onRowEdit test:");
         MemberEntity entity = (MemberEntity) event.getObject();
-        System.out.println("onRowEdit test: " + entity.getMemberId() + entity.getName());
+        System.out.println("onRowEdit test: " + entity.getMemberId());
 
-        VOMM.ModifyMember(entity.getMemberId(), entity.getName(), entity.getDescription(), entity.getValue());
+        MRMM.ModifyMember(entity.getId(), entity.getLastName(), entity.getMidName(), entity.getFirstName(), entity.getBirthday(), entity.getGender(), entity.getTitle(), entity.getAddress(), entity.getPostalCode(), entity.getEmail());
         FacesMessage msg = new FacesMessage("Member Edited", String.valueOf(entity.getMemberId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -93,7 +92,7 @@ public class MemberControlBean {
     public void addMember() {
         System.out.println("MemberControlBean: addMember: ");
         
-        VOMM.AddMember(newMemberName, newMemberDescription, newMemberValue);
+        MRMM.AddMember(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Member added successfully! ", ""));       
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("viewMember.xhtml");
@@ -102,4 +101,23 @@ public class MemberControlBean {
         }
     }
     
+//    public void changePassword(ActionEvent event) {
+//        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
+//        System.out.println("UserInfoManageBean: change password");
+//        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
+//        System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
+//        if (cryptographicHelper.doMD5Hashing(inputOldPass).equals(password)) {
+//            //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
+//            IUMA.changePass(newPass, userId);
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+//                    "Password changed successfully!", ""));
+//        } else {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+//                    "Wrong Password, please enter again!", ""));
+//        }
+//
+//        inputOldPass = null;
+//        password = IUMA.getUser(userId).getPwd();
+//
+//    }
 }
