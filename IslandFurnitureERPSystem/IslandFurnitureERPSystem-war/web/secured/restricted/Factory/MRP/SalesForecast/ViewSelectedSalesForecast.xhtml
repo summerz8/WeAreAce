@@ -93,26 +93,15 @@
 
                             <p:commandButton  value="View Integrated Sales Forecast" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="MRPViewIntegratedSalesForecast?faces-redirect=true" >
                             </p:commandButton>
+                            
+                            <p:commandButton  value="Back" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="MRPSalesForecast?faces-redirect=true" >
+                            </p:commandButton>
                             <br></br>
                             <br></br>
-                            <h:panelGrid columns="2" cellpadding="5" >
-                                <h:outputText value="Store Id:  " />
-                                <p:inputText value="#{salesForecastBean.storeId}" style="font-weight: bold"/>
-                                <h:outputText value="Year:  " />
-                                <p:inputMask value="#{salesForecastBean.year}" style="font-weight: bold" mask="9999"/>                               
-                                <h:outputText value="Month  " />
-                                <p:inputMask value="#{salesForecastBean.month}" style="font-weight: bold" mask="99"/>
-
-                                <p:commandButton action="#{salesForecastBean.SelectSalesForecast()}" value="View Product List" />                                                 
-
-                            </h:panelGrid>
-
 
                             <br></br><br></br>
-                            <p:dataScroller value="#{salesForecastBean.salesForecastList}" var="salesForecast" chunkSize="10">
-                                <f:facet name="header">
-                                    Recent Sales Forecast
-                                </f:facet>
+                            <p:dataScroller value="#{selectedSalesForecastBean.salesForecastList}" var="salesForecast" chunkSize="10">
+                          
 
                                 <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 
