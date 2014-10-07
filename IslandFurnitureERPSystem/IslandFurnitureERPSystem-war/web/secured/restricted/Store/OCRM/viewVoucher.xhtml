@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="OCRM Management">
+                                <p:menuitem value="Member registration"/>
+                                <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
+                                <p:menuitem value="Feedback" />
+                            </p:submenu>
+
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
+                            <p:dataTable id="vouchertable" var="voucher" value="#{voucherControl.voucherList}" 
+                                         scrollable="true"  scrollHeight="100%"
+                                         widgetVar="voucherTable" emptyMessage="No factory found with given criteria" 
+                                         filteredValue="#{voucherControl.filteredVoucher}"
+                                         editable="true" >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('voucherTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:ajax event="rowEdit" listener="#{voucherControl.onRowEdit}" update="@this" />
+                                <p:ajax event="rowEditCancel" listener="#{voucherControl.onRowCancel}" update=":formMain:messagesStatus" />
+
+                                <p:column style="width:6%">
+                                    <p:rowEditor />
+                                </p:column>    
+
+                                <p:column headerText = "Delete" style="width:6%;text-align: center">                                    
+
+                                    <p:commandButton  update=":formMain" actionListener="#{voucherControl.deleteVoucher(voucher.voucherId)}" 
+                                                      icon="ui-icon-trash" title="Delete" >
+
+                                    </p:commandButton>  
+
+                                </p:column>
+
+                                <p:column headerText = "Fulfill" style="width:6%;text-align: center">                                    
+
+                                    <p:commandButton  update=":formMain" actionListener="#{voucherControl.fulfillVoucher(voucher.voucherId)}" 
+                                                      icon="ui-icon-trash" title="Fulfill" rendered="#{!voucher.isFulfillFlag()}">
+
+                                    </p:commandButton> 
+                                    <h:outputText value="Fulfilled" rendered="#{voucher.isFulfillFlag()}"/>
+                                </p:column>                                
+
+                                <p:column filterBy="#{voucher.voucherId}" headerText="voucher Id" width="10%">                                    
+                                    <h:outputText value="#{voucher.voucherId}" />                                                                
+                                </p:column>                               
+
+
+                                <p:column  filterBy="#{voucher.name}" headerText="Name" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{voucher.name}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{voucher.name}"  style="width:96%"/>
+
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{voucher.value}" headerText="Price" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{voucher.value}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{voucher.value}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>                       
+                                </p:column>                                
+
+                                <p:column filterBy="#{voucher.description}" headerText="Description" width="15%">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{voucher.description}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{voucher.description}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{voucher.expireDate.getTime()}" headerText="voucher expiredate" width="10%">  
+                                    <h:outputText value="#{voucher.expireDate.getTime()}" >
+                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/yyyy"/>                                        
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column filterBy="#{voucher.usageDate.getTime()}" headerText="voucher usageDate" width="10%">                                    
+                                    <h:outputText value="#{voucher.usageDate.getTime()}" > 
+                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <p:button value="Add voucher" outcome="AddNewVoucher"></p:button>
+                        </p:panel>
+
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+
