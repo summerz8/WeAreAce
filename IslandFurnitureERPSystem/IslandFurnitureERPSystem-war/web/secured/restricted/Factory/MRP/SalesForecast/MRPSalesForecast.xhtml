@@ -25,6 +25,7 @@
                              Please click ok to continue."
                              header="Are you there?" severity="alert" widgetVar="idleDialog">
 
+
                 <p:commandButton id="confirm" value="Ok" update="messages"
                                  oncomplete="PF('idleDialog').hide()"
                                  actionListener="#{idleBean.welcomeListener}" />

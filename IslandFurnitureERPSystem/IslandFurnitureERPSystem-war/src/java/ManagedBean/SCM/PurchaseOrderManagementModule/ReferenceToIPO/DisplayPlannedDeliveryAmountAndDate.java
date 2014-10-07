@@ -8,7 +8,9 @@ package ManagedBean.SCM.PurchaseOrderManagementModule.ReferenceToIPO;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
+import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
+import Entity.Factory.SCM.SupplierEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
 import java.io.Serializable;
 import java.util.Collection;
@@ -43,6 +45,8 @@ public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
     private Long itemId;
     private FactoryRawMaterialEntity frm;
     private FactoryRetailProductEntity frp;
+    private SupplierEntity supplier;
+    private ContractEntity contract;
 
     @PostConstruct
     private void init() {
@@ -50,6 +54,8 @@ public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
             //be put @selectedIntegratedPlannedOrder
             integratedPlannedOrder = (IntegratedPlannedOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedIPO");
             nextMonthBeginPlannedAmount = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nextMonthBeginPlannedAmount");
+            supplier = (SupplierEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSupplierIPO");
+
             if (integratedPlannedOrder.getFactoryRawMaterialAmount() != null) {
                 itemType = "RawMaterial";
                 frm = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial();
@@ -59,7 +65,9 @@ public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
                 frp = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct();
                 itemId = frp.getFactoryRetailProdctId();
             }
-            purchaseAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType);
+            contract = pmb.selectSupplier(itemType, itemId, supplier.getSupplierId());
+            purchaseAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType, contract.getLotSize());
+
             deliveryOrderList = pmb.getDeliveryAmountAndDate(integratedPlannedOrder.getId(), purchaseAmount);
         } catch (Exception ex) {
             Logger.getLogger(DisplayPlannedDeliveryAmountAndDate.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,7 +138,6 @@ public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
         this.frp = frp;
     }
 
-
     public DisplayPlannedDeliveryAmountAndDate() {
     }
 
@@ -142,14 +149,13 @@ public class DisplayPlannedDeliveryAmountAndDate implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("deliveryOrderList", deliveryOrderList);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", itemType);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
-                
+
         if (itemType.equals("RawMaterial")) {
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO?faces-redirect=true";
         } else {//itemType.equals("RetailProduct")
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayDeliveryDestination?faces-redirect=true";
         }
     }
-    
 
     public void onRowEdit(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Delivery Order Edited");

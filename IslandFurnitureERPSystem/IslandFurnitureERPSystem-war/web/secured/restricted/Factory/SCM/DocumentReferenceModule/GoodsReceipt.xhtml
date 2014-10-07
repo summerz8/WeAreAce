@@ -21,7 +21,7 @@
                 <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
+                                 message="You have been idle for a while, 
                                  Please click ok to continue."
                                  header="Are you there?" severity="alert" widgetVar="idleDialog">
 
@@ -95,8 +95,8 @@
                     <p:dataTable var="gr" value="#{documentReferenceBean.goodsReceipts}">
 
                         <p:column headerText="Factory ID" rendered="#{documentReferenceBean.department.equals('H')}">
-                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.factory.factoryId}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
-                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.factory.factoryId}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRawMaterial.factory.factoryId}" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
+                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRetailProduct.factory.factoryId}" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct != null}" />
                         </p:column>
                         
                         <p:column headerText="Goods Receipt ID">
@@ -104,22 +104,26 @@
                         </p:column>
 
                         <p:column headerText="Item Name">
-                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.rawMaterial.materialName}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
-                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.retailProduct.name}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRawMaterial.rawMaterial.materialName}" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
+                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRetailProduct.retailProduct.name}" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct != null}" />
                         </p:column>
                         
                         <p:column headerText="Quantity">
+                            #{gr.originalAmount}
+                        </p:column>
+                        
+                        <p:column headerText="Left Amount">
                             #{gr.amount}
                         </p:column>
                         
                         <p:column headerText="Unit">
-                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.rawMaterial.unit}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
-                            <h:outputText value="#{gr.purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.retailProduct.unit}" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRawMaterial.rawMaterial.unit}" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
+                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRetailProduct.retailProduct.unit}" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct != null}" />
                         </p:column>
 
                         <p:column headerText="Item Type">
-                            <h:outputText value="Factory Raw Material" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
-                            <h:outputText value="Factory Retail Product" rendered="#{gr.purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount == null}" />
+                            <h:outputText value="Factory Raw Material" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
+                            <h:outputText value="Factory Retail Product" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct == null}" />
                         </p:column>
                         
                         <p:column headerText="Supplier">

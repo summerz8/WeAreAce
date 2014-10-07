@@ -73,8 +73,11 @@ public class DisplayManuallyGeneratedPO implements Serializable {
             purchaseAmount = (Double) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("purchaseAmount");
             //be put @selectedDeliveryDestination, could be null if destination is factory
             store = (StoreEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedStore");
+
             if (store == null) {
                 storeId = null;
+            } else {
+                storeId = store.getStoreId();
             }
 
             //be put @selectedDeliveryDestination
@@ -92,7 +95,7 @@ public class DisplayManuallyGeneratedPO implements Serializable {
                 unit = pmb.getFactoryRM(itemId).getUnit();
             }
             contract = pmb.getContract(contract.getContractId());
-            totalPrice = (purchaseAmount/contract.getLotSize()) * contract.getContractPrice();
+            totalPrice = (purchaseAmount / contract.getLotSize()) * contract.getContractPrice();
             System.out.println("Total Price: " + totalPrice.toString());
 
             this.setTotalPrice(totalPrice);
@@ -242,7 +245,7 @@ public class DisplayManuallyGeneratedPO implements Serializable {
         System.out.println("deliveryDate = " + deliveryDate);
         try {
             purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(),
-                    purchaseAmount, storeId, destination, deliveryDate);
+                    purchaseAmount, storeId, destination, deliveryDate, true);
 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 

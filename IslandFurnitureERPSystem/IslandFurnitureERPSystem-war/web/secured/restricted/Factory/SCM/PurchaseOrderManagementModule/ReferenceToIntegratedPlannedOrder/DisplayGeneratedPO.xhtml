@@ -21,7 +21,7 @@
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
             <p:confirmDialog id="confirmDialog"
-                             message="You have been idle for at least 10 seconds, 
+                             message="You have been idle for a while, 
                              Please click ok to continue."
                              header="Are you there?" severity="alert" widgetVar="idleDialog">
 
@@ -91,7 +91,13 @@
 
                             <h:outputLabel for="unit" value="Unit: " />
                             <h:outputText  id="unit" value="#{displayGeneratedPO.unit}" style="font-weight:bold" />
+                            
+                            <h:outputLabel for="lotSize" value="Lot Size: " />
+                            <h:outputText  id="lotSize" value="#{displayGeneratedPO.contract.lotSize}" style="font-weight:bold" />
 
+                            <h:outputLabel for="unitP" value="Price per lot size: " />
+                            <h:outputText  id="unitP" value="#{displayGeneratedPO.contract.contractPrice}" style="font-weight:bold" />
+                            
                             <h:outputLabel for="purchaseAmount" value="Purchase Amount: " />
                             <h:outputText  id="purchaseAmount" value="#{displayGeneratedPO.purchaseAmount}" style="font-weight:bold" />
 

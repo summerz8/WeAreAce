@@ -96,9 +96,9 @@ public class StoreControlBean {
 
     public void addStore() {
         System.out.println("StoreControlBean: addStore: " + newStoreCountry + newStoreAddress + newStoreContact + newStoreManager);
-        if (IUMA.getUser(newStoreManager) == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store added failed! ", "Manager not found!"));
-        } else {
+//        if (IUMA.getUser(newStoreManager) == null) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store added failed! ", "Manager not found!"));
+//        } else {
             FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
 
@@ -107,7 +107,7 @@ public class StoreControlBean {
             } catch (IOException ex) {
                 Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        //}
     }
 
     public List<StoreEntity> getStoreList() {

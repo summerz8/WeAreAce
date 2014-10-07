@@ -44,8 +44,8 @@ public class PurchaseOrderEntity implements Serializable {
     private Integer leadTime;
     private Double totalPrice; // the totalPrice price
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar deliveryDate ;
-
+    private Calendar deliveryDate;
+    private Boolean isManual;
     private String itemName;
     //purchase order entity -- factory entity: M <--> 1 
     @ManyToOne
@@ -70,10 +70,11 @@ public class PurchaseOrderEntity implements Serializable {
     public PurchaseOrderEntity() {
     }
 
-    public PurchaseOrderEntity(String status, Double totalAmount,
+    public PurchaseOrderEntity(String itemName, String status, Double totalAmount,
             String unit, Calendar createDate, String destination, Long destinationId,
             Integer leadTime, Double totalPrice, FactoryEntity factory,
-            ContractEntity contract, Calendar deliveryDate) {
+            ContractEntity contract, Calendar deliveryDate, Boolean isManual) {
+        this.itemName = itemName;
         this.status = status;
         this.totalAmount = totalAmount;
         this.unit = unit;
@@ -85,6 +86,7 @@ public class PurchaseOrderEntity implements Serializable {
         this.factory = factory;
         this.contract = contract;
         this.deliveryDate = deliveryDate;
+        this.isManual = isManual;
     }
 
     public Long getId() {
@@ -197,13 +199,16 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setIntegratedPlannedOrder(IntegratedPlannedOrderEntity integratedPlannedOrder) {
         this.integratedPlannedOrder = integratedPlannedOrder;
-        
-        if(integratedPlannedOrder.getFactoryRawMaterialAmount() == null){
-            itemName = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getName();
-        }else{
-            itemName = integratedPlannedOrder.getFactoryRawMaterialAmount().getFactoryRawMaterial().getMaterialName();
-        }
     }
+
+    public Boolean getIsManual() {
+        return isManual;
+    }
+
+    public void setIsManual(Boolean isManual) {
+        this.isManual = isManual;
+    }
+    
 
     public String getItemName() {
         return itemName;
@@ -213,7 +218,6 @@ public class PurchaseOrderEntity implements Serializable {
         this.itemName = itemName;
     }
 
-    
     public Collection<DeliveryOrderEntity> getDeliveryOrderList() {
         return deliveryOrderList;
     }

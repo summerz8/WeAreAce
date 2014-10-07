@@ -20,10 +20,10 @@
 
                 <p:growl id="messages" showDetail="true" sticky="true"/>
 
-                <p:idleMonitor timeout="10000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
+                                 message="You have been idle for a while, 
                                  Please click ok to continue."
                                  header="Are you there?" severity="alert" widgetVar="idleDialog">
 
@@ -91,9 +91,14 @@
                             </p:submenu>
 
                             <p:submenu label="Enterprise Management">
-                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true"/>
                                 <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Store Resource Control" />
+                            </p:submenu>
+                            <p:submenu label="OCRM Management">
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
+                                <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
+                                <p:menuitem value="Feedback" />
                             </p:submenu>
                             <p:submenu label="Ticket Management">
                                 <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>

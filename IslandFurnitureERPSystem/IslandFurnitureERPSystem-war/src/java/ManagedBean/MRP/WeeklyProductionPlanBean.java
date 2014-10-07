@@ -38,13 +38,6 @@ public class WeeklyProductionPlanBean {
     public WeeklyProductionPlanBean() {
     }
 
-//    public Long getProductionPlanId() {
-//        return productionPlanId;
-//    }
-//
-//    public void setProductionPlanId(Long productionPlanId) {
-//        this.productionPlanId = productionPlanId;
-//    }
 
     public ProductionPlanEntity getSelectedProductionPlan() {
         return selectedProductionPlan;
@@ -72,12 +65,6 @@ public class WeeklyProductionPlanBean {
         this.selectedWeeklyProductionPlanList = selectedWeeklyProductionPlanList;
     }  
        
-//    public String getProduction(Long productionPlanId){
-//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productionPlanId", productionPlanId);
-//        return "CreateWeeklyProductionPlan";
-//    
-//    }
-    
     @PostConstruct
     public void init(){
        selectedWeeklyProductionPlanList =(List<WeeklyProductionPlanEntity>)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedWeeklyProductionPlan");

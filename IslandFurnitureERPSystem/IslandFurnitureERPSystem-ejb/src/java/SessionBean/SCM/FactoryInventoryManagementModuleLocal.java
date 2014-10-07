@@ -32,13 +32,13 @@ public interface FactoryInventoryManagementModuleLocal {
 
     public Long recordRawMaterialInFactoryUseMovement(long factoryId, Long fromBinId, Long factoryRawMaterialId, double quantity, Calendar creationDate);
 
-    public void changeFactoryBinStoredProductStatus(Long factoryBinStoredProductId, String toStatus);
+    public Long changeFactoryBinStoredProductStatus(long factoryId, Long factoryBinStoredProductId, String toStatus);
 
     public Long recordReturnedProductInboundMovement(long factoryId, Long factoryProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
 
     public Long recordReturnedRetailProductInboundMovement(long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
 
-    public Long recordProductToBinMovement(Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
+    public Long recordProductToBinMovement(long factoryID, Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
 
     public int recordCurrentInventoryLevel(long factoryId);
 

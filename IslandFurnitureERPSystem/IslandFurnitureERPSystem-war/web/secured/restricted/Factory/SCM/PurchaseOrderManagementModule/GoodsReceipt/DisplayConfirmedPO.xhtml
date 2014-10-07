@@ -18,22 +18,22 @@
         <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
-                                 message="You have been idle for at least 10 seconds, 
-                                 Please click ok to continue."
-                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
 
-                    <p:commandButton id="confirm" value="Ok" update="messages"
-                                     oncomplete="PF('idleDialog').hide()"
-                                     actionListener="#{idleBean.welcomeListener}" />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
 
-                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
-                                     oncomplete="idleDialog.hide()"
-                                     actionListener="#{idleBean.logoutListener}" />
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>
+            </p:confirmDialog>
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -60,7 +60,7 @@
                 </p:layoutUnit>
 
 
-                         
+
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
@@ -158,12 +158,27 @@
                                     <h:outputText value="#{selectedPurchaseOrder.selectedPO.deliveryDate.time}" rendered="#{selectedPurchaseOrder.selectedPO.deliveryDate ne null}" >
                                         <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                                     </h:outputText>
-                                   
-                                    <p:commandButton action="#{selectedPurchaseOrder.passValue()}" value="Confirm" />
 
+                                    <p:commandButton update=":formMain:rDetail" oncomplete="PF('rDialog').show()" action="#{selectedPurchaseOrder.passValue()}" value="Confirm" />
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog> 
+
+                        <p:dialog header="Result Info" widgetVar="rDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="rDetail" style="text-align:center;">
+                                <h:outputText value="#{selectedPurchaseOrder.result}">                           
+                                </h:outputText>
+                                
+                                <p:commandButton action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage?faces-redirect=true" 
+                                                 value="Back" rendered="#{selectedPurchaseOrder.selectedPO.isManual}"/>
+
+                                <p:commandButton action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO?faces-redirect=true" 
+                                                 value="OK" rendered="#{!selectedPurchaseOrder.selectedPO.isManual}"/>
+
+                            </p:outputPanel>
+                        </p:dialog>
                     </p:panel>
                 </p:layoutUnit>
             </p:layout>

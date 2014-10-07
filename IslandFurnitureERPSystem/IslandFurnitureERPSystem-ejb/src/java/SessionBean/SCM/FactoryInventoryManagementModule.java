@@ -37,7 +37,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;
 
-    // return null if unexpected exception occurred 
     @Override
     public List listStorageBinInformation(long factoryId) {
         try {
@@ -80,6 +79,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -4L;
             }
 
+            if(goodsReceipt.getAmount() <  quantity) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInboundMovement():Faild. The Goods Receipt Amount " + goodsReceipt.getAmount() + " is less than the quantity required.");
+                return -6L;
+            }
+            
             InboundMovementEntity inboundMovement = new InboundMovementEntity();
             em.persist(inboundMovement);
             if (goodsReceipt.getPurchaseOrder().getContract().getFactoryRetailProduct() == null) {
@@ -106,6 +110,9 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 }
 
                 inboundMovement.recordInboundMovement(goodsReceipt, factoryBinStoredProduct, quantity, creationDate);
+                double oldAmount = goodsReceipt.getAmount();
+                double newAmount = oldAmount - quantity;
+                goodsReceipt.setAmount(newAmount);
                 em.flush();
             } else {
                 if (goodsReceipt.getPurchaseOrder().getContract().getFactoryRetailProduct().getFactory().getFactoryId() != factoryId) {
@@ -132,6 +139,9 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 }
 
                 inboundMovement.recordInboundMovement(goodsReceipt, factoryBinStoredProduct, quantity, creationDate);
+                double oldAmount = goodsReceipt.getAmount();
+                double newAmount = oldAmount - quantity;
+                goodsReceipt.setAmount(newAmount);
                 em.flush();
             }
             em.persist(inboundMovement);
@@ -151,11 +161,12 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -3L if the factoryProduct is not found
     //        -4L if the specified storage bin does not contain this factoryProduct available for shipping
     //        -5L if the required quantity exceeds the total stock from this storage bin
-    //        -6L if the required quantity exceeds the minimum inventory level in the factory
+    //        -6L if the required quantity exceeds the available inventory stock in the factory
     //        -7L if unexpected exception occurred 
+    //        -8L if the factory has no access to this factory bin
     //        else return outboundMovementId
     //
-    //pre-cond: the status of the product must be unrestricted in order to be shipped out
+    //cond: the status of the product must be unrestricted in order to be shipped out
     @Override
     public Long recordFactoryProductOutboundMovement(long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, double quantity, Calendar creationDate) {
         try {
@@ -173,6 +184,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -2L;
             }
 
+            if (fromBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+                return -8L;
+            }
+            
             FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
 
             if (factoryProduct == null) {
@@ -203,9 +219,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             em.persist(factoryProductOutboundMovement);
             factoryProductOutboundMovement.recordFactoryProductOutboundMovement(factoryBinStoredProduct, toStore, quantity, creationDate);
             em.persist(factoryProductOutboundMovement);
-            if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
-                em.remove(factoryBinStoredProduct);
-            }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement(): Successful.");
             return factoryProductOutboundMovement.getOutboundMovementId();
@@ -222,29 +235,34 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -3L if the factoryRetailProduct is not found
     //        -4L if the specified storage bin does not contain this factoryRetailProduct available for shipping
     //        -5L if the required quantity exceeds the total stock from this storage bin
-    //        -6L if the required quantity exceeds the minimum stock level in the factory
+    //        -6L if the required quantity exceeds the available stock in the factory
     //        -7L if unexpected exception occurred 
+    //        -8L if the factory has no access to this factory bin
     //        else return outboundMovementId
     //
-    //pre-cond: the status of the product must be unrestricted in order to be shipped out
+    //cond: the status of the product must be unrestricted in order to be shipped out
     @Override
-    // does not verify that the bin belongs to the factory
     public Long recordFactoryRetailProductOutboundMovement(long factoryId, Long fromBinId, Long factoryRetailProductId, Long toStoreId, double quantity, Calendar creationDate) {
         try {
             StoreEntity toStore = em.find(StoreEntity.class, toStoreId);
 
             if (toStore == null) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Store " + toStoreId + " is not found.");
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement():Faild. The Store " + toStoreId + " is not found.");
                 return -1L;
             }
 
             FactoryBinEntity fromBin = em.find(FactoryBinEntity.class, fromBinId);
 
             if (fromBin == null) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory Bin " + fromBinId + " is not found.");
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement():Faild. The Factory Bin " + fromBinId + " is not found.");
                 return -2L;
             }
 
+            if (fromBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+                return -8L;
+            }
+            
             FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, factoryRetailProductId);
 
             if (factoryRetailProduct == null) {
@@ -274,9 +292,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             OutboundMovementEntity factoryRetailProductOutboundMovement = new OutboundMovementEntity();
             factoryRetailProductOutboundMovement.recordFactoryRetailProductOutboundMovement(factoryBinStoredProduct, toStore, quantity, creationDate);
             em.persist(factoryRetailProductOutboundMovement);
-            if (factoryBinStoredProduct.getAmount() == 0) { //not sure about the comparation of double
-                em.remove(factoryBinStoredProduct);
-            }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement(): Successful.");
             return factoryRetailProductOutboundMovement.getOutboundMovementId();
@@ -294,22 +309,27 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -4L if the specified storage bin does not contain this factoryRawMaterial with required status
     //        -5L if the required quantity exceeds the total stock from this storage bin
     //        -6L if unexpected exception occurred 
+    //        -7L if the factory has no access to this factory bin
     //        else return inFactoryMovementId
     @Override
-    // does not verify that the bin belongs to the factory
     public Long recordInFactoryRawMaterialMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRawMaterialId, String status, double quantity, Calendar creationDate) {
         try {
             FactoryBinEntity fromBin = em.find(FactoryBinEntity.class, fromBinId);
 
             if (fromBin == null) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory Bin " + fromBinId + " is not found.");
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRawMaterialMovement():Faild. The Factory Bin " + fromBinId + " is not found.");
                 return -1L;
+            }
+            
+            if (fromBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRawMaterialMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+                return -7L;
             }
 
             FactoryBinEntity toBin = em.find(FactoryBinEntity.class, toBinId);
 
             if (toBin == null) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory Bin " + toBinId + " is not found.");
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRawMaterialMovement():Faild. The Factory Bin " + toBinId + " is not found.");
                 return -2L;
             }
 
@@ -354,9 +374,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             InFactoryMovementEntity inFactoryRawMaterialMovement = new InFactoryMovementEntity();
             inFactoryRawMaterialMovement.recordInFactoryRawMaterialMovement(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity, creationDate);
             em.persist(inFactoryRawMaterialMovement);
-            if (factoryFromBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryFromBinStoredProduct);
-            }
             em.flush();
 
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRawMaterialMovement(): Successful.");
@@ -374,7 +391,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -3L if the factoryRetailProduct is not found
     //        -4L if the specified storage bin does not contain this factoryRetailProduct with required status
     //        -5L if the required quantity exceeds the total stock from this storage bin
-    //        -6L if unexpected exception occurred 
+    //        -7L if the factory has no access to this factory bin
     //        else return inFactoryMovementId
     @Override
     // does not verify that the bin belongs to the factory
@@ -387,6 +404,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -1L;
             }
 
+            if (fromBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryProductMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+                return -7L;
+            }
+            
             FactoryBinEntity toBin = em.find(FactoryBinEntity.class, toBinId);
 
             if (toBin == null) {
@@ -435,9 +457,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             InFactoryMovementEntity inFactoryProductMovement = new InFactoryMovementEntity();
             inFactoryProductMovement.recordInFactoryProductMovement(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity, creationDate);
             em.persist(inFactoryProductMovement);
-            if (factoryFromBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryFromBinStoredProduct);
-            }
             em.flush();
 
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryProductMovement(): Successful.");
@@ -456,6 +475,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -4L if the specified storage bin does not contain this factoryRetailproduct with required status
     //        -5L if the required quantity exceeds the total stock from this storage bin
     //        -6L if unexpected exception occurred 
+    //        -7L if the factory has no access to this factory bin
     //        else return inFactoryMovementId
     @Override
     // does not verify that the bin belongs to the factory
@@ -469,6 +489,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -1L;
             }
 
+            if (fromBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRetailProductMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+                return -7L;
+            }
+            
             FactoryBinEntity toBin = em.find(FactoryBinEntity.class, toBinId);
 
             if (toBin == null) {
@@ -516,9 +541,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             InFactoryMovementEntity inFactoryRetailProductMovement = new InFactoryMovementEntity();
             inFactoryRetailProductMovement.recordInFactoryRetailProductMovement(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity, creationDate);
             em.persist(inFactoryRetailProductMovement);
-            if (factoryFromBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryFromBinStoredProduct);
-            }
             em.flush();
 
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRetailProductMovement(): Successful.");
@@ -535,8 +557,9 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -2L if the factoryRawMaterial is not found
     //        -3L if the specified storage bin does not contain this factoryRawMaterial available for use
     //        -4L if the required quantity exceeds the total stock in this storage bin
-    //        -5L if the required quantity exceeds the minimum stock level in the factory
+    //        -5L if the required quantity exceeds the available stock in the factory
     //        -6L if unexpected exception occurred 
+    //        -7L if the factory has no access to this factory bin
     //        else return outboundMovementId
     //
     //pre-cond: the status of the product must be unrestricted in order to be shipped out
@@ -549,6 +572,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             if (fromBin == null) {
                 System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement():Faild. The Factory Bin " + fromBinId + " is not found.");
                 return -1L;
+            }
+            
+            if (fromBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+                return -7L;
             }
 
             FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, factoryRawMaterialId);
@@ -575,15 +603,12 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
 
             if (factoryRawMaterial.getUnrestrictedInventory() - factoryRawMaterial.getMinimumInventory() < quantity) {
                 System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement():Faild. The retuired quantity exceeds the total stock in the Factory.");
-                return -7L;
+                return -5L;
             }
 
             RawMaterialInFactoryUseMovementEntity rawMaterialInFactoryUseMovement = new RawMaterialInFactoryUseMovementEntity();
             rawMaterialInFactoryUseMovement.recordRawMaterialInFactoryUseMovement(factoryBinStoredProduct, quantity, creationDate);
             em.persist(rawMaterialInFactoryUseMovement);
-            if (factoryBinStoredProduct.getAmount() == 0) {
-                em.remove(factoryBinStoredProduct);
-            }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement(): Successful.");
             return rawMaterialInFactoryUseMovement.getRawMaterialInFactoryUseMovementId();
@@ -591,14 +616,17 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement(): Caught an unexpected exception.");
             ex.printStackTrace();
-            return -7L;
+            return -6L;
         }
     }
 
     @Override
     //need further modification
     //do not record date, need modification
-    public void changeFactoryBinStoredProductStatus(Long factoryBinStoredProductId, String toStatus) {
+    //return -1L if the factory has no access to this factory bin
+    //       -2L if unexpected exception occurred
+    //       else return the factoryBinStoredProductId
+    public Long changeFactoryBinStoredProductStatus(long factoryId, Long factoryBinStoredProductId, String toStatus) {
         try {
             FactoryBinStoredProductEntity factoryBinStoredProduct1 = em.find(FactoryBinStoredProductEntity.class, factoryBinStoredProductId);
 
@@ -606,33 +634,60 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: changeFactoryBinStoredProductStatus():Faild. The factoryBinStoredProduct " + factoryBinStoredProductId + " is not found.");
                 System.exit(1);
             }
-
-            Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :toStatus");
-            q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
-            q2.setParameter("factoryRawMaterial", factoryBinStoredProduct1.getFactoryRawMaterial());
-            q2.setParameter("toStatus", toStatus);
-
-            if (q2.getResultList().isEmpty()) {
-                FactoryBinStoredProductEntity factoryBinStoredProduct2 = new FactoryBinStoredProductEntity();
-                factoryBinStoredProduct2.createFactoryBinStoredProduct(factoryBinStoredProduct1.getFactoryRawMaterial(), factoryBinStoredProduct1.getFactoryBin(), toStatus);
-                factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
-                factoryBinStoredProduct1.getFactoryBin().getFactoryBinStoredProducts().add(factoryBinStoredProduct2);
-                em.persist(factoryBinStoredProduct2);
-                em.remove(factoryBinStoredProduct1);
-            } else {
-                FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
-                factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
-                em.remove(factoryBinStoredProduct1);
-                em.flush();
+            
+            if (factoryBinStoredProduct1.getFactoryBin().getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + factoryBinStoredProduct1.getFactoryBin() + ".");
+                return -1L;
             }
 
-            factoryBinStoredProduct1.setStatus(toStatus);
+            if (factoryBinStoredProduct1.getStockTypeIndicator() == 1) {
+                Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :toStatus");
+                q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
+                q2.setParameter("factoryRawMaterial", factoryBinStoredProduct1.getFactoryRawMaterial());
+                q2.setParameter("toStatus", toStatus);
+
+                if (q2.getResultList().isEmpty()) {
+                    factoryBinStoredProduct1.setStatus(toStatus);
+                } else {
+                    FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
+                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct1.setAmount(0.0);
+                }
+            } else if (factoryBinStoredProduct1.getStockTypeIndicator() == 2) {
+                Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :toStatus");
+                q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
+                q2.setParameter("factoryProduct", factoryBinStoredProduct1.getFactoryProduct());
+                q2.setParameter("toStatus", toStatus);
+
+                if (q2.getResultList().isEmpty()) {
+                    factoryBinStoredProduct1.setStatus(toStatus);
+                } else {
+                    FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
+                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct1.setAmount(0.0);
+                }
+            } else {
+                Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = :toStatus");
+                q2.setParameter("factoryBin", factoryBinStoredProduct1.getFactoryBin());
+                q2.setParameter("factoryRetailProduct", factoryBinStoredProduct1.getFactoryRetailProduct());
+                q2.setParameter("toStatus", toStatus);
+
+                if (q2.getResultList().isEmpty()) {
+                    factoryBinStoredProduct1.setStatus(toStatus);
+                } else {
+                    FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
+                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct1.setAmount(0.0);
+                }
+            }
             em.flush();
             System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: changeFactoryBinStoredProductStatus(): Successful.");
+            return factoryBinStoredProductId;
         } catch (Exception ex) {
             System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: changeFactoryBinStoredProductStatus(): Caught an unexpected exception.");
             ex.printStackTrace();
             System.exit(2);
+            return -2L;
         }
     }
 
@@ -640,6 +695,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -2L if storeId is invalid
     //        -3L if the toBinId is invalid
     //        -4L if unexpected exception occurred 
+    //        -5L if the factory has no access to this factory bin
     //        else return inboundMovementId
     @Override
     public Long recordReturnedProductInboundMovement(long factoryId, Long factoryProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate) {
@@ -665,6 +721,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -3L;
             }
 
+            if (toBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedProductInboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
+                return -5L;
+            }
+            
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = 'returned'");
             q.setParameter("toBin", toBin);
             q.setParameter("factoryProduct", factoryProduct);
@@ -678,7 +739,6 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             } else {
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
-
 
             ReturnedItemInboundMovementEntity returnedFactoryProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryProductInboundMovement.recordReturnedFactoryProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
@@ -700,6 +760,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
     //        -2L if storeId is invalid
     //        -3L if the toBinId is invalid
     //        -4L if unexpected exception occurred 
+    //        -5L if the factory has no access to this factory bin
     //        else return inboundMovementId
     @Override
     public Long recordReturnedRetailProductInboundMovement(long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate) {
@@ -725,6 +786,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -3L;
             }
 
+            if (toBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
+                return -5L;
+            }
+            
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'returned'");
             q.setParameter("toBin", toBin);
             q.setParameter("factoryRetailProduct", factoryRetailProduct);
@@ -739,10 +805,8 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 factoryBinStoredProduct = (FactoryBinStoredProductEntity) q.getSingleResult();
             }
 
- 
             ReturnedItemInboundMovementEntity returnedFactoryRetailProductInboundMovement = new ReturnedItemInboundMovementEntity();
             returnedFactoryRetailProductInboundMovement.recordReturnedFactoryRetailProductInboundMovement(factoryBinStoredProduct, fromStore, quantity, creationDate);
-
 
             em.persist(returnedFactoryRetailProductInboundMovement);
             em.flush();
@@ -757,14 +821,13 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
 
     }
 
-
-
     // return -1L if factoryProductId is invalid
     //        -2L if the toBinId is invalid
     //        -3L if unexpected exception occurred 
+    //        -4L if the factory has no access to this factory bin
     //        else return productToBinMovementId
     @Override
-    public Long recordProductToBinMovement(Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate) {
+    public Long recordProductToBinMovement(long factoryId, Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate) {
         try {
             FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
 
@@ -780,6 +843,11 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -2L;
             }
 
+            if (toBin.getFactory().getFactoryId() != factoryId) {
+                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
+                return -4L;
+            }
+            
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :status");
             q.setParameter("toBin", toBin);
             q.setParameter("factoryProduct", factoryProduct);
@@ -826,7 +894,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 frm.getInventoryRecord().add(frmIr);
                 em.flush();
             }
-            
+
             Query q2 = em.createQuery("SELECT fp FROM FactoryProductEntity fp WHERE fp.factory.factoryId = :factoryId");
             q2.setParameter("factoryId", factoryId);
             for (Object o : q2.getResultList()) {
@@ -836,7 +904,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 fp.getRecord().add(fpIr);
                 em.flush();
             }
-            
+
             Query q3 = em.createQuery("SELECT frp FROM FactoryRetailProductEntity frp WHERE frp.factory.factoryId = :factoryId");
             q3.setParameter("factoryId", factoryId);
             for (Object o : q3.getResultList()) {

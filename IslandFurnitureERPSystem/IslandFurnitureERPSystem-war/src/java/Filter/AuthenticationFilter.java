@@ -31,10 +31,14 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         Boolean isLogin = (Boolean) req.getSession().getAttribute("isLogin");
+        Long HFactoryId = (Long) req.getSession().getAttribute("HFactoryId");
         String url = req.getRequestURI();
 
         System.err.println("isLogin: " + isLogin);
 
+        if (!(url.contains("/Factory/")&&!url.contains("/SCM/")&&!url.contains("MRP")) && HFactoryId != null) {
+            req.getSession().removeAttribute("HFactoryId");
+        }
         if (url.contains("javax.faces.resource")) {
             chain.doFilter(request, response);
         }

@@ -21,7 +21,7 @@
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
             <p:confirmDialog id="confirmDialog"
-                             message="You have been idle for at least 10 seconds, 
+                             message="You have been idle for a while, 
                              Please click ok to continue."
                              header="Are you there?" severity="alert" widgetVar="idleDialog">
 
@@ -95,12 +95,12 @@
 
                             <h:outputLabel for="contact" value="Contact: " />
                             <p:inplace id="contact" editor="true">
-                                <p:inputText value="#{editSupplier.selectedSupplier.supplierContact}" required="true" label="text" />
+                                <p:inputText value="#{editSupplier.selectedSupplier.supplierContact}" required="true" label="text"  />
                             </p:inplace>
 
                             <h:outputLabel for="fax" value="Fax: " />
                             <p:inplace id="fax" editor="true">
-                                <p:inputText value="#{editSupplier.selectedSupplier.supplierFax}" required="true" label="text" />
+                                <p:inputText value="#{editSupplier.selectedSupplier.supplierFax}" required="true" label="text"/>
                             </p:inplace>
 
                             <h:outputLabel for="remark" value="Remark: " />

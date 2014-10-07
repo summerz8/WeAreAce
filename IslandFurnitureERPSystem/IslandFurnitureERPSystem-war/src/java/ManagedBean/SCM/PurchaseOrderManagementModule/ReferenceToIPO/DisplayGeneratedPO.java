@@ -89,18 +89,11 @@ public class DisplayGeneratedPO {
                 itemId = integratedPlannedOrder.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
             }
 
-            originalAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType);
+            originalAmount = pmb.generateOriginalAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType);
+
+            purchaseAmount = pmb.generatePurchaseAmount(integratedPlannedOrder.getId(), nextMonthBeginPlannedAmount, itemType, contract.getLotSize());
             System.out.println("originalAmount = " + originalAmount);
-            
-            if ((originalAmount % this.contract.getLotSize()) == 0) {
-                purchaseAmount = originalAmount;
-            } else {
-                Double temp = originalAmount / this.contract.getLotSize();
-                System.out.println("Temp = " + temp);
-                System.out.println("Math.ceil(temp) = " + Math.ceil(temp));
-                purchaseAmount = Math.ceil(temp) * this.contract.getLotSize();
-            }
-            
+
             if (itemType.equals("RawMaterial")) {
 
                 itemName = pmb.getFactoryRM(itemId).getMaterialName();
@@ -111,7 +104,8 @@ public class DisplayGeneratedPO {
                 unit = pmb.getFactoryRM(itemId).getUnit();
 
             }
-            totalPrice = purchaseAmount * contract.getContractPrice();
+            totalPrice = (purchaseAmount / contract.getLotSize()) * contract.getContractPrice();
+            
             if (destination != null && destination.equals("store")) {
                 destinationAddress = pmb.getStoreEntity(storeId).getAddress();
             } else {
@@ -270,34 +264,34 @@ public class DisplayGeneratedPO {
     }
 
     public String generatePO() throws Exception {
-            System.out.println("factoryId = " + factoryId);
-            System.out.println("IPO id = " + integratedPlannedOrder.getId());
-            System.out.println("purchaseAmount = " + purchaseAmount);
-            System.out.println("nextMonthBeginPlannedAmount = " + nextMonthBeginPlannedAmount);
-            System.out.println("contractId = " + contract.getContractId());
-            System.out.println("storeId = " + storeId);
-            System.out.println("destination = " + destination);
-            System.out.println("itemType = " + itemType);
+        System.out.println("factoryId = " + factoryId);
+        System.out.println("IPO id = " + integratedPlannedOrder.getId());
+        System.out.println("purchaseAmount = " + purchaseAmount);
+        System.out.println("nextMonthBeginPlannedAmount = " + nextMonthBeginPlannedAmount);
+        System.out.println("contractId = " + contract.getContractId());
+        System.out.println("storeId = " + storeId);
+        System.out.println("destination = " + destination);
+        System.out.println("itemType = " + itemType);
 
-            if (destination != null && destination.equals("store")) {
-                destinationAddress = pmb.getStoreEntity(storeId).getAddress();
-            } else {
-                destination = "factory";
-                storeId = 0L;
-                destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
-            }
+        if (destination != null && destination.equals("store")) {
+            destinationAddress = pmb.getStoreEntity(storeId).getAddress();
+        } else {
+            destination = "factory";
+            storeId = 0L;
+            destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
+        }
 
-            purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType);
+        purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType);
 
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("nextMonthBeginPlannedAmount");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("storeId");
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("nextMonthBeginPlannedAmount");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("storeId");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
 
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 
-            return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
-       
+        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO?faces-redirect=true";
+
     }
 }

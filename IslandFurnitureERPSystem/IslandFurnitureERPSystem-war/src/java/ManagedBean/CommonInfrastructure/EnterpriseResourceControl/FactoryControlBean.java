@@ -95,9 +95,9 @@ public class FactoryControlBean {
 
     public void addFactory() {
         System.out.println("FactoryControlBean: addFactory: ");
-        if (IUMA.getUser(newFactoryManager) == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory added failed! ", "Manager not found!"));
-        } else {
+//        if (IUMA.getUser(newFactoryManager) == null) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory added failed! ", "Manager not found!"));
+//        } else {
             FSMM.AddFactory(newFactoryCountry, newFactoryAddress, newFactoryContact, newFactoryManager);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory added successfully! ", ""));
 
@@ -106,7 +106,7 @@ public class FactoryControlBean {
             } catch (IOException ex) {
                 Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+       // }
     }
 
     public List<FactoryEntity> getFactoryList() {

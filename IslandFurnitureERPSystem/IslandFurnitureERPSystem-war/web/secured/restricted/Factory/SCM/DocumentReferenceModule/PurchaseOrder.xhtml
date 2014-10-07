@@ -21,7 +21,7 @@
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
             <p:confirmDialog id="confirmDialog"
-                             message="You have been idle for at least 10 seconds, 
+                             message="You have been idle for a while, 
                              Please click ok to continue."
                              header="Are you there?" severity="alert" widgetVar="idleDialog">
 
@@ -101,8 +101,8 @@
                         </p:column>
 
                         <p:column headerText="Item Name">
-                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount.factoryRawMaterial.materialName}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRawMaterialAmount != null}" />
-                            <h:outputText value="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount.factoryRetailProduct.name}" rendered="#{purchaseOrder.integratedPlannedOrder.factoryRetailProductAmount}" />
+                            <h:outputText value="#{purchaseOrder.contract.factoryRawMaterial.materialName}" rendered="#{purchaseOrder.contract.factoryRawMaterial != null}" />
+                            <h:outputText value="#{purchaseOrder.contract.factoryRetailProduct.name}" rendered="#{purchaseOrder.contract.factoryRetailProduct != null}" />
                         </p:column>
 
                         <p:column headerText="Total Amount">
@@ -152,12 +152,8 @@
                         <p:column headerText="Goods Receipt">
                             <h:outputText value="No Record" rendered="#{purchaseOrder.goodsReceiptList.isEmpty()}"/>
                             <p:dataTable value="#{purchaseOrder.goodsReceiptList}" var="gr" rendered="#{!purchaseOrder.goodsReceiptList.isEmpty()}">
-                                <p:column headerText="ID">
+                                <p:column>
                                     #{gr.goodsReceiptId}
-                                </p:column>
-                                
-                                <p:column headerText="Quantity">
-                                    #{gr.amount}
                                 </p:column>
                             </p:dataTable>
                         </p:column>

@@ -68,7 +68,7 @@ public class dataSetUp {
 
         //idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000002L);
+        id.setId_F(1000003L);
         id.setId_H(1000001L);
         id.setId_S(1000000L);
         em.persist(id);
@@ -145,13 +145,13 @@ public class dataSetUp {
         em.persist(u1);
         em.flush();
         //FactoryUser(f2)
-        UserEntity u2 = new FactoryUserEntity("F", "1000002", 1, "Bowen", null,
-                "Jeremy", "Factory Manager", birthday, "Male",
-                "Mr", "New York Road 20", "250620", "jeremy.bowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
+        UserEntity u2 = new FactoryUserEntity("F", "1000002", 3, "Zhang", null,
+                "Yaowen", "Factory SCM Staff", birthday, "Female",
+                "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
         
-         UserEntity u3 = new FactoryUserEntity("F", "1000003", 3, "He", null,
+         UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
                 "Jinqiao", "Factory MRP Staff", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u3);
@@ -741,11 +741,11 @@ public class dataSetUp {
         //Inventory Record
         //Inventory Record.Calendars
         Calendar ci1 = Calendar.getInstance();
-        ci1.set(2014, 6, 1);
+        ci1.set(2014, 7, 1);
         Calendar ci2 = Calendar.getInstance();
-        ci2.set(2014, 7, 1);
+        ci2.set(2014, 8, 1);
         Calendar ci3 = Calendar.getInstance();
-        ci3.set(2014, 8, 1);
+        ci3.set(2014, 9, 1);
         //for f1.factoryRawMaterial
         InventoryRecordEntity ir1_1_1_1 = new InventoryRecordEntity(frm1_1, ci1, 1000.0);
         em.persist(ir1_1_1_1);
@@ -1130,13 +1130,13 @@ public class dataSetUp {
         //Sales Forecast
         //Calendars for Sales Forecast
         Calendar c1 = Calendar.getInstance();
-        c1.set(2014, 10, 2);
+        c1.set(2014, 11, 2);
         Calendar c2 = Calendar.getInstance();
-        c2.set(2014, 10, 2);
+        c2.set(2014, 11, 2);
         Calendar c3 = Calendar.getInstance();
-        c3.set(2014, 9, 2);
+        c3.set(2014, 10, 2);
         Calendar c4 = Calendar.getInstance();
-        c4.set(2014, 9, 2);
+        c4.set(2014, 10, 2);
         //sf1_1
         SalesForecastEntity sf1_1 = new SalesForecastEntity(s1, c1);
         em.persist(sf1_1);

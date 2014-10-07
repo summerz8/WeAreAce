@@ -47,5 +47,7 @@ public interface Factory_StoreManagementModuleLocal {
     public Integer deleteFatoryProduct(Long factoryProductId);
 
     public Integer addFactoryProduct(Long FactoryId, Long ProductId);
+
+    public FactoryEntity getFactory(Long factoryId);
     
 }

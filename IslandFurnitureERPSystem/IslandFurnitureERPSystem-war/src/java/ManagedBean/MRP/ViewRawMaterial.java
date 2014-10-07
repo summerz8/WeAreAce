@@ -9,7 +9,6 @@ import Entity.Factory.FactoryRawMaterialAmountEntity;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 

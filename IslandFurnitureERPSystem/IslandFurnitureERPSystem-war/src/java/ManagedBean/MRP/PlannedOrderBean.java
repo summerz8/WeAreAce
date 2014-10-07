@@ -7,7 +7,6 @@ package ManagedBean.MRP;
 
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
-import Entity.Factory.MRP.ProductionPlanEntity;
 import SessionBean.MRP.PlannedOrderManagementModuleLocal;
 import SessionBean.MRP.ProductionPlanManagementModuleLocal;
 import java.util.Calendar;

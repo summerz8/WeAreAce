@@ -111,24 +111,6 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         UserEntity user = em.find(UserEntity.class, userId);
         user.setDeleteFlag(Boolean.TRUE);
         em.persist(user);
-//        Query query;
-//        switch (userId.charAt(0)) {
-//            case 'H':
-//                query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=userId");
-//                HQUserEntity HQUser = (HQUserEntity) query.getSingleResult();
-//                HQUser.setDeleteFlag(true);
-//                em.persist(HQUser);
-//            case 'F':
-//                query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=userId");
-//                FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
-//                FactoryUser.setDeleteFlag(true);
-//                em.persist(FactoryUser);
-//            case 'S':
-//                query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
-//                StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
-//                StoreUser.setDeleteFlag(true);
-//                em.persist(StoreUser);
-//        }
         em.flush();
 
     }
@@ -271,38 +253,5 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         em.flush();
 
     }
-//    public List<UserEntity> searchUser(String userId, String department, Long departmentId, String lastName, 
-//            String firstName, String position){
-//        System.out.println("InternalUserAccountModule: searchUser():");
-//        Query query;
-//        if (department != null) {
-//            query = em.createQuery("SELECT c FROM UserEntity c WHERE c.department = department");
-//            List<UserEntity> userList = new ArrayList();
-//            for(Object o: query.getResultList()){
-//            UserEntity u = (UserEntity) o;
-//            userList.add(0,u);
-//            }
-//            
-//        }
-//        
-//        if (userId != null) {
-//            switch (userId.charAt(0)) {
-//                case 'H':
-//                    HQUserEntity HQUser = em.find(HQUserEntity.class, userId);
-//                    HQUser.setDeleteFlag(false);
-//                    em.persist(HQUser);
-//                case 'F':
-//                    FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
-//                    FactoryUser.setDeleteFlag(false);
-//                    em.persist(FactoryUser);
-//                case 'S':
-//                    StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
-//                    StoreUser.setDeleteFlag(false);
-//                    em.persist(StoreUser);
-//            }
-//        }
-//        
-//        return;
-//
-//    }
+
 }

@@ -6,7 +6,6 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.FactoryProductEntity;
-import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.SalesOperationPlanEntity;
 import SessionBean.MRP.SalesOperationPlanLocal;
 import java.io.Serializable;
@@ -16,9 +15,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 /**
  *
  * @author apple
