@@ -5,15 +5,8 @@
  */
 package SessionBean.OCRM;
 
-import Entity.CommonInfrastructure.FactoryUserEntity;
-import Entity.CommonInfrastructure.HQUserEntity;
-import Entity.CommonInfrastructure.StoreUserEntity;
-import Entity.CommonInfrastructure.UserEntity;
-import static Entity.CommonInfrastructure.UserEntity_.department;
-import static Entity.CommonInfrastructure.UserEntity_.departmentId;
-import static Entity.CommonInfrastructure.UserEntity_.position;
-import static Entity.CommonInfrastructure.UserEntity_.userLevel;
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.OCRM.MembershipLevel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -72,9 +65,10 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
         member = new MemberEntity(PWD, lastName, midName, firstName,
                 birthday, gender, title, address, postalCode,
-                email, Boolean.FALSE);       
+                email, Boolean.FALSE); 
+        member.setMemberlvl(em.find(MembershipLevel.class, 0L));
         em.persist(member);
-        System.out.println("New Member" + member.getId().toString() + "created!");
+        System.out.println("New Member created!");
         em.flush();
     }
 

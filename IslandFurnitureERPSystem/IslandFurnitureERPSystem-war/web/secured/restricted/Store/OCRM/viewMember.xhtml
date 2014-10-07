@@ -84,23 +84,23 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
-                            <p:dataTable id="vouchertable" var="voucher" value="#{voucherControl.voucherList}" 
+                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
+                            <p:dataTable id="membertable" var="member" value="#{memberControl.memberList}" 
                                          scrollable="true"  scrollHeight="100%"
-                                         widgetVar="voucherTable" emptyMessage="No factory found with given criteria" 
-                                         filteredValue="#{voucherControl.filteredVoucher}"
+                                         widgetVar="memberTable" emptyMessage="No factory found with given criteria" 
+                                         filteredValue="#{memberControl.filteredMember}"
                                          editable="true" >
 
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter"  onkeyup="PF('voucherTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <p:inputText id="globalFilter"  onkeyup="PF('memberTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
                                 </f:facet>
 
 
-                                <p:ajax event="rowEdit" listener="#{voucherControl.onRowEdit}" update="@this" />
-                                <p:ajax event="rowEditCancel" listener="#{voucherControl.onRowCancel}" update=":formMain:messagesStatus" />
+                                <p:ajax event="rowEdit" listener="#{memberControl.onRowEdit}" update=":formMain:messages" />
+                                <p:ajax event="rowEditCancel" listener="#{memberControl.onRowCancel}" update=":formMain:messagesStatus" />
 
                                 <p:column style="width:6%">
                                     <p:rowEditor />
@@ -108,66 +108,90 @@
 
                                 <p:column headerText = "Delete" style="width:6%;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{voucherControl.deleteVoucher(voucher.voucherId)}" 
+                                    <p:commandButton  update=":formMain" actionListener="#{memberControl.deleteMember(member.memberId)}" 
                                                       icon="ui-icon-trash" title="Delete" >
-
                                     </p:commandButton>  
 
-                                </p:column>
-
-                                <p:column headerText = "Fulfill" style="width:6%;text-align: center">                                    
-
-                                    <p:commandButton  update=":formMain" actionListener="#{voucherControl.fulfillVoucher(voucher.voucherId)}" 
-                                                      icon="ui-icon-trash" title="Fulfill" rendered="#{!voucher.isFulfillFlag()}">
-
-                                    </p:commandButton> 
-                                    <h:outputText value="Fulfilled" rendered="#{voucher.isFulfillFlag()}"/>
                                 </p:column>                                
 
-                                <p:column filterBy="#{voucher.voucherId}" headerText="voucher Id" width="10%">                                    
-                                    <h:outputText value="#{voucher.voucherId}" />                                                                
-                                </p:column>                               
+                                <p:column filterBy="#{member.memberId}" headerText="Member Id" width="10%">                                    
+                                    <h:outputText value="#{member.memberId}" />                                                                
+                                </p:column>                                                            
 
-
-                                <p:column  filterBy="#{voucher.name}" headerText="Name" width="10%" filterMatchMode="contains">
+                                <p:column  filterBy="#{member.title}" headerText="Title" width="40" filterMatchMode="contains">
                                     <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{voucher.name}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{voucher.name}"  style="width:96%"/>
-
+                                        <f:facet name="output"><h:outputText value="#{member.title}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{member.title}" style="width:100%">
+                                                <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                            </h:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{voucher.value}" headerText="Price" width="10%" filterMatchMode="contains">
+                                <p:column filterBy="#{member.firstName}" headerText="First Name" width="150" filterMatchMode="contains">
                                     <p:cellEditor>                              
-                                        <f:facet name="output"><h:outputText value="#{voucher.value}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{voucher.value}"  style="width:96%"/></f:facet>
+                                        <f:facet name="output"><h:outputText value="#{member.firstName}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.firstName}"  style="width:96%"/></f:facet>
                                     </p:cellEditor>                       
-                                </p:column>                                
+                                </p:column>
 
-                                <p:column filterBy="#{voucher.description}" headerText="Description" width="15%">
+                                <p:column filterBy="#{member.midName}" headerText="Middle Name" width="150">
                                     <p:cellEditor>                              
-                                        <f:facet name="output"><h:outputText value="#{voucher.description}" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{voucher.description}"  style="width:96%"/></f:facet>
+                                        <f:facet name="output"><h:outputText value="#{member.midName}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.midName}"  style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{voucher.expireDate.getTime()}" headerText="voucher expiredate" width="10%">  
-                                    <h:outputText value="#{voucher.expireDate.getTime()}" >
-                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/yyyy"/>                                        
-                                    </h:outputText>
+                                <p:column filterBy="#{member.lastName}" headerText="Last Name" width="150">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{member.lastName}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.lastName}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{voucher.usageDate.getTime()}" headerText="voucher usageDate" width="10%">                                    
-                                    <h:outputText value="#{voucher.usageDate.getTime()}" > 
-                                        <f:convertDateTime timeZone="GMT+8" pattern="dd/MM/yyyy"/>
-                                    </h:outputText>
+                                <p:column filterBy="#{member.gender}" headerText="Gender" width="100">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{member.gender}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{member.gender}" style="width:100%">
+                                                <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>                                                                                           
 
+                                <p:column filterBy="#{member.email}" headerText="Email" width="300">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{member.email}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.email}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
                                 </p:column>
+
+                                <p:column filterBy="#{member.address}" headerText="Address" width="400">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{member.address}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.address}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.postalCode}" headerText="Postal Code" width="150">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{member.postalCode}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.postalCode}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.birthday}" headerText="Birthday" width="150">                                    
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{memberControl.BirString(member.birthday)}" /></f:facet>
+                                        <f:facet name="input"><p:inputMask  value="#{memberControl.birString}" style="width:96%" mask="99-99-9999"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>                                
 
                             </p:dataTable>
 
-                            <p:button value="Add voucher" outcome="AddNewVoucher"></p:button>
+                            <p:button value="Add Member" outcome="AddNewMember"></p:button>
                         </p:panel>
 
                     </p:layoutUnit>

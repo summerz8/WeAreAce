@@ -28,10 +28,7 @@ public class MembershipLevel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long level;
        
-    private double discount;
-
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
-    private Collection<MemberEntity> members;
+    private double discount;    
     
     public MembershipLevel() {
     }
@@ -42,14 +39,6 @@ public class MembershipLevel implements Serializable {
 
     public void setDiscount(double discount) {
         this.discount = discount;
-    }
-
-    public Collection<MemberEntity> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Collection<MemberEntity> members) {
-        this.members = members;
     }
 
     

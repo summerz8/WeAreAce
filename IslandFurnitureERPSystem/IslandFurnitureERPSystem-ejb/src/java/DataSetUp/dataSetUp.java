@@ -27,6 +27,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
@@ -1329,6 +1330,32 @@ public class dataSetUp {
         em.persist(rmifu2_1);
         em.flush();
         rmifu2_1.recordRawMaterialInFactoryUseMovement(fbsp2_1_1, 20.0, com1);
+        em.flush();
+        
+        //Membership level set up
+        MembershipLevel memlvl0 = new MembershipLevel();
+        memlvl0.setDiscount(1D);
+        em.persist(memlvl0);
+        em.flush();
+        MembershipLevel memlvl1 = new MembershipLevel();
+        memlvl1.setDiscount(0.9);
+        em.persist(memlvl1);
+        em.flush();
+        MembershipLevel memlvl2 = new MembershipLevel();
+        memlvl2.setDiscount(0.85);
+        em.persist(memlvl2);
+        em.flush();
+        MembershipLevel memlvl3 = new MembershipLevel();
+        memlvl3.setDiscount(0.8);
+        em.persist(memlvl3);
+        em.flush();
+        MembershipLevel memlvl4 = new MembershipLevel();
+        memlvl4.setDiscount(0.75);
+        em.persist(memlvl4);
+        em.flush();
+        MembershipLevel memlvl5 = new MembershipLevel();
+        memlvl5.setDiscount(0.7);
+        em.persist(memlvl5);
         em.flush();
     }
 }

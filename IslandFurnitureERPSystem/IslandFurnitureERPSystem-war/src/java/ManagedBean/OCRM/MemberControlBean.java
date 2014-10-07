@@ -10,6 +10,7 @@ import Entity.Store.OCRM.MemberEntity;
 import ManagedBean.CommonInfrastructure.EnterpriseResourceControl.FactoryControlBean;
 import SessionBean.OCRM.MemberRegistrationModuleLocal;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class MemberControlBean {
     private String departmentId;
 
     private Date birDate;// used to convert birthday between string and calendar
-    
+    private String birString;
     /**
      * Creates a new instance of MemberControlBean
      */
@@ -70,7 +71,9 @@ public class MemberControlBean {
         MemberEntity entity = (MemberEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getMemberId());
 
-        MRMM.ModifyMember(entity.getId(), entity.getLastName(), entity.getMidName(), entity.getFirstName(), entity.getBirthday(), entity.getGender(), entity.getTitle(), entity.getAddress(), entity.getPostalCode(), entity.getEmail());
+        MRMM.ModifyMember(entity.getMemberId(), entity.getLastName(), entity.getMidName(), 
+                entity.getFirstName(), entity.getBirthday(), entity.getGender(), entity.getTitle(), 
+                entity.getAddress(), entity.getPostalCode(), entity.getEmail());
         FacesMessage msg = new FacesMessage("Member Edited", String.valueOf(entity.getMemberId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -120,4 +123,137 @@ public class MemberControlBean {
 //        password = IUMA.getUser(userId).getPwd();
 //
 //    }
+    
+    public String BirString(Calendar bir) {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        if (bir != null) {
+            birString = format.format(bir.getTime());
+        } else {
+            birString = null;
+        }
+        System.out.println("UserControlBean: birstring:" + birString);
+        return birString;
+    }
+    public MemberRegistrationModuleLocal getMRMM() {
+        return MRMM;
+    }
+
+    public void setMRMM(MemberRegistrationModuleLocal MRMM) {
+        this.MRMM = MRMM;
+    }
+
+    public List<MemberEntity> getMemberList() {
+        return memberList;
+    }
+
+    public void setMemberList(List<MemberEntity> memberList) {
+        this.memberList = memberList;
+    }
+
+    public List<MemberEntity> getFilteredMember() {
+        return filteredMember;
+    }
+
+    public void setFilteredMember(List<MemberEntity> filteredMember) {
+        this.filteredMember = filteredMember;
+    }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(String FirstName) {
+        this.FirstName = FirstName;
+    }
+
+    public String getMidName() {
+        return MidName;
+    }
+
+    public void setMidName(String MidName) {
+        this.MidName = MidName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String LastName) {
+        this.LastName = LastName;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String Title) {
+        this.Title = Title;
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String Gender) {
+        this.Gender = Gender;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
+
+    public String getPostal() {
+        return Postal;
+    }
+
+    public void setPostal(String Postal) {
+        this.Postal = Postal;
+    }
+
+    public Calendar getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Calendar birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Date getBirDate() {
+        return birDate;
+    }
+
+    public void setBirDate(Date birDate) {
+        this.birDate = birDate;
+    }
+
+    public String getBirString() {
+        return birString;
+    }
+
+    public void setBirString(String birString) {
+        this.birString = birString;
+    }
+    
+    
+    
 }

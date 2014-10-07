@@ -1,12 +1,145 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="true" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="OCRM Management">
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
+                                <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
+                                <p:menuitem value="Feedback" />
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Please Input New Member Information " style="margin-bottom" >
+                            <h:panelGrid columns="2" cellpadding="10">                                
+
+                                <h:outputLabel for="title" value="Title: *" />
+                                <h:selectOneMenu value="#{memberControl.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
+                                    <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                </h:selectOneMenu>
+
+
+                                <h:outputLabel for="firstname" value="FirstName *:" />
+                                <p:inputText value="#{memberControl.firstName}" required="true" requiredMessage="Please input user firstname" label="text" >
+
+                                </p:inputText>
+
+
+                                <h:outputLabel for="midname" value="MidName:" />
+                                <p:inputText value="#{memberControl.midName}" label="text" />
+
+
+                                <h:outputLabel for="lastname" value="LastName: *" />
+                                <p:inputText value="#{memberControl.lastName}" required="true" requiredMessage="Please input user lastname" label="text" />                               
+
+                                <h:outputLabel for="gender" value="Gender: *" />
+                                <h:selectOneMenu value="#{memberControl.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
+                                    <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="birthday" value="Birthday:*" />
+                                <p:calendar id="birthday" value="#{memberControl.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+
+                                <h:outputLabel for="email" value="Email: *" />
+                                <p:inputText value="#{memberControl.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
+                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                </p:inputText>
+
+
+                                <h:outputLabel for="addr" value="Address:" />
+                                <p:inputText value="#{memberControl.address}" label="text" />
+
+
+                                <h:outputLabel for="postal" value="Postal Code:" />
+                                <p:inputText value="#{memberControl.postal}" label="text" />
+
+
+                                <p:commandButton actionListener="#{memberControl.addMember}" value="Save"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
 </html>
 
