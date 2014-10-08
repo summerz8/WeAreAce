@@ -11,7 +11,6 @@
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
         </h:head>
-
         <h:body>
 
             <h:form id="formMain">
@@ -34,7 +33,7 @@
 
                 </p:confirmDialog>
                 <p:layout >
-                    <p:messages id="messagesStatus" redisplay="true" />
+                    <p:messages id="messagesStatus" redisplay="false" />
 
                     <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
 
@@ -78,62 +77,43 @@
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
                                 <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome ="/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                                <p:menuitem value="Create Feedback Test" outcome ="/secured/restricted/Store/OCRM/createFeedback?faces-redirect=true"/>
                             </p:submenu>
+
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Please Input New Member Information " style="margin-bottom" >
-                            <h:panelGrid columns="2" cellpadding="10">                                
+                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
+                            <p:dataTable var="feedback" value="#{feedbackControlBean.viewFeedbackList()}">
 
-                                <h:outputLabel for="title" value="Title: *" />
-                                <h:selectOneMenu value="#{memberControl.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
-                                    <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
-                                </h:selectOneMenu>
+                                <p:column headerText="Feedback Id">
+                                    <h:outputText value="#{feedback.id}" />
+                                </p:column>
 
+                                <p:column headerText="Customer Email">
+                                    <h:outputText value="#{feedback.email}" />
+                                </p:column>
 
-                                <h:outputLabel for="firstname" value="FirstName *:" />
-                                <p:inputText value="#{memberControl.firstName}" required="true" requiredMessage="Please input user firstname" label="text" >
+                                <p:column headerText="Subject">
+                                    <h:outputText value="#{feedback.title}" />
+                                </p:column>
 
-                                </p:inputText>
+                                <p:column headerText="Content">
+                                    <h:outputText value="#{feedback.content}" />
+                                </p:column>
 
+                                <p:column headerText="Generated Time">
+                                    <h:outputText value="#{feedback.generatedTime.getTime()}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" timeZone="GMT+8" locale="sg"/>
+                                    </h:outputText>
+                                </p:column>
 
-                                <h:outputLabel for="midname" value="MidName:" />
-                                <p:inputText value="#{memberControl.midName}" label="text" />
+                            </p:dataTable>
 
-
-                                <h:outputLabel for="lastname" value="LastName: *" />
-                                <p:inputText value="#{memberControl.lastName}" required="true" requiredMessage="Please input user lastname" label="text" />                               
-
-                                <h:outputLabel for="gender" value="Gender: *" />
-                                <h:selectOneMenu value="#{memberControl.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
-                                    <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
-                                </h:selectOneMenu>
-
-                                <h:outputLabel for="birthday" value="Birthday:*" />
-                                <p:calendar id="birthday" value="#{memberControl.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
-
-
-                                <h:outputLabel for="email" value="Email: *" />
-                                <p:inputText value="#{memberControl.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
-                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                                </p:inputText>
-
-
-                                <h:outputLabel for="addr" value="Address:" />
-                                <p:inputText value="#{memberControl.address}" label="text" />
-
-
-                                <h:outputLabel for="postal" value="Postal Code:" />
-                                <p:inputText value="#{memberControl.postal}" label="text" />
-
-
-                                <p:commandButton actionListener="#{memberControl.addMember}" value="Save"/>
-                            </h:panelGrid>
                         </p:panel>
+
                     </p:layoutUnit>
 
 
