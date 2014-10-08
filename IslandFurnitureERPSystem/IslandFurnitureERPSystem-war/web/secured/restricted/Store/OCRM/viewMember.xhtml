@@ -5,12 +5,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-        <h:head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <h:outputStylesheet name="./css/default.css"/>
-            <h:outputStylesheet name="./css/cssLayout.css"/>
-            <title>Island Furniture ERP System</title>
-        </h:head>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
         <h:body>
 
             <h:form id="formMain">
@@ -69,27 +70,27 @@
                     </p:layoutUnit>
 
 
-
+                   
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
                             <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" />
                             </p:submenu>
-
+                            
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
                             <p:dataTable id="membertable" var="member" value="#{memberControl.memberList}" 
-                                         scrollable="true"  scrollHeight="100%"
-                                         widgetVar="memberTable" emptyMessage="No factory found with given criteria" 
+                                         scrollable="true" scrollWidth="100%" scrollHeight="100%"
+                                         widgetVar="memberTable" emptyMessage="No member found with given criteria" 
                                          filteredValue="#{memberControl.filteredMember}"
-                                         editable="true" >
+                                         editable="true">
 
                                 <f:facet name="header">
                                     <p:outputPanel>
@@ -99,24 +100,25 @@
                                 </f:facet>
 
 
-                                <p:ajax event="rowEdit" listener="#{memberControl.onRowEdit}" update=":formMain:messages" />
-                                <p:ajax event="rowEditCancel" listener="#{memberControl.onRowCancel}" update=":formMain:messagesStatus" />
+                                <p:ajax event="rowEdit" listener="#{memberControl.onRowEdit}" update=":formMain:membertable" />
+                                <p:ajax event="rowEditCancel" listener="#{memberControl.onRowCancel}" update=":formMain:membertable" />
 
-                                <p:column style="width:6%">
+                                <p:column style="width:32px">
                                     <p:rowEditor />
-                                </p:column>    
+                                </p:column>
 
-                                <p:column headerText = "Delete" style="width:6%;text-align: center">                                    
+                                <p:column style="width:32px;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{memberControl.deleteMember(member.memberId)}" 
-                                                      icon="ui-icon-trash" title="Delete" >
-                                    </p:commandButton>  
+                                    <p:commandButton  update=":formMain"  actionListener="#{memberControl.deleteMember(member.memberId)}" icon="ui-icon-trash" title="Delete">
 
-                                </p:column>                                
+                                    </p:commandButton>    
+                                   
+                                </p:column>
+                                
+                                <p:column filterBy="#{member.memberId}" headerText="member Id" width="100">
+                                    <h:outputText value="#{member.memberId}" />                                                                         
+                                </p:column>                               
 
-                                <p:column filterBy="#{member.memberId}" headerText="Member Id" width="10%">                                    
-                                    <h:outputText value="#{member.memberId}" />                                                                
-                                </p:column>                                                            
 
                                 <p:column  filterBy="#{member.title}" headerText="Title" width="40" filterMatchMode="contains">
                                     <p:cellEditor>
@@ -159,7 +161,7 @@
                                             </h:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>
-                                </p:column>                                                                                           
+                                </p:column>                                                              
 
                                 <p:column filterBy="#{member.email}" headerText="Email" width="300">
                                     <p:cellEditor> 
@@ -187,13 +189,11 @@
                                         <f:facet name="output"><h:outputText value="#{memberControl.BirString(member.birthday)}" /></f:facet>
                                         <f:facet name="input"><p:inputMask  value="#{memberControl.birString}" style="width:96%" mask="99-99-9999"/></f:facet>
                                     </p:cellEditor>
-                                </p:column>                                
-
-                            </p:dataTable>
-
+                                </p:column>
+                                
+                            </p:dataTable>                            
                             <p:button value="Add Member" outcome="AddNewMember"></p:button>
                         </p:panel>
-
                     </p:layoutUnit>
 
 

@@ -75,7 +75,7 @@
 
                         <p:menu>
                             <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" />
                             </p:submenu>
@@ -84,7 +84,10 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Please Input New Member Information " style="margin-bottom" >
+
+                        <p:panel id="basic" header="Please Input New Member Information " style="margin-bottom" >  
+                            <p:button  value="View Existing Member" outcome="viewMember?faces-redirect=true" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px;"/>
+                            <br/>
                             <h:panelGrid columns="2" cellpadding="10">                                
 
                                 <h:outputLabel for="title" value="Title: *" />
@@ -131,7 +134,7 @@
                                 <p:inputText value="#{memberControl.postal}" label="text" />
 
 
-                                <p:commandButton actionListener="#{memberControl.addMember}" value="Save"/>
+                                <p:commandButton actionListener="#{memberControl.addMember}" value="Save"/>                                                            
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>
