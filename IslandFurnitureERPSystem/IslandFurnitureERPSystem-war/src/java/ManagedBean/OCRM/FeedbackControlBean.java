@@ -8,6 +8,7 @@ package ManagedBean.OCRM;
 import Entity.Store.OCRM.FeedbackEntity;
 import SessionBean.OCRM.FeedbackModuleLocal;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -25,6 +26,7 @@ public class FeedbackControlBean {
     
     
     private List<FeedbackEntity> feedbackList;
+    private List<FeedbackEntity> filteredFeedback;
     private String email;
     private String title;
     private String content;
@@ -35,15 +37,16 @@ public class FeedbackControlBean {
     }
     
     
-//    @PostConstruct
-//    public void init(){
-//        feedbackList = fm.getFeedbackList();
-//    }
-    
-    public List<FeedbackEntity> viewFeedbackList(){
+    @PostConstruct
+    public void init(){
         feedbackList = fm.getFeedbackList();
-        return feedbackList;
+        filteredFeedback = feedbackList;
     }
+    
+//    public List<FeedbackEntity> viewFeedbackList(){
+//        feedbackList = fm.getFeedbackList();
+//        return feedbackList;
+//    }
     
     public String createFeedback() throws Exception{
         
@@ -90,6 +93,14 @@ public class FeedbackControlBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<FeedbackEntity> getFilteredFeedback() {
+        return filteredFeedback;
+    }
+
+    public void setFilteredFeedback(List<FeedbackEntity> filteredFeedback) {
+        this.filteredFeedback = filteredFeedback;
     }
     
     

@@ -74,10 +74,10 @@
 
                         <p:menu>
                             <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
-                                <p:menuitem value="Feedback" outcome ="/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                                <p:menuitem value="Create Feedback Test" outcome ="/secured/restricted/Store/OCRM/createFeedback?faces-redirect=true"/>
+                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                                <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                             </p:submenu>
 
                         </p:menu>
@@ -85,33 +85,44 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
-                            <p:dataTable var="feedback" value="#{feedbackControlBean.viewFeedbackList()}">
+                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >                           
 
-                                <p:column headerText="Feedback Id">
+                            <p:dataTable id="feedbacktable" var="feedback" value="#{feedbackControlBean.feedbackList}" 
+                                         scrollable="true" scrollWidth="100%" scrollHeight="100%"
+                                         widgetVar="feedbackTable" emptyMessage="No member found with given criteria" 
+                                         filteredValue="#{feedbackControlBean.filteredFeedback}"
+                                         editable="true">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('feedbackTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                
+                                <p:column filterBy="#{feedback.id}" filterStyle="width:50px" headerText="Feedback Id" width="10%">
                                     <h:outputText value="#{feedback.id}" />
                                 </p:column>
 
-                                <p:column headerText="Customer Email">
+                                <p:column filterBy="#{feedback.email}" filterStyle="width:150px" headerText="Customer Email" width="25%">
                                     <h:outputText value="#{feedback.email}" />
                                 </p:column>
 
-                                <p:column headerText="Subject">
+                                <p:column filterBy="#{feedback.title}" headerText="Subject" width="15%">
                                     <h:outputText value="#{feedback.title}" />
                                 </p:column>
 
-                                <p:column headerText="Content">
+                                <p:column filterBy="#{feedback.content}" filterStyle="width:200px" headerText="Content" width="35%">
                                     <h:outputText value="#{feedback.content}" />
                                 </p:column>
 
-                                <p:column headerText="Generated Time">
+                                <p:column filterBy="#{feedback.generatedTime.getTime()}" headerText="Generated Time" width="15%">
                                     <h:outputText value="#{feedback.generatedTime.getTime()}" >
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8" locale="sg"/>
                                     </h:outputText>
                                 </p:column>
 
                             </p:dataTable>
-
+                            <p:button value="Create New Feedback" outcome="createFeedback"></p:button>
                         </p:panel>
 
                     </p:layoutUnit>
