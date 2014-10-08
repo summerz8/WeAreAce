@@ -43,7 +43,7 @@ public class FactoryProductEntity implements Serializable {
     private Boolean deleteFlag;
     //inventory record entity -- factory product entity : M <--> 1
     @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="factoryProduct")
-    private List<InventoryRecordEntity> record= new ArrayList<>();;
+    private List<InventoryRecordEntity> record= new ArrayList<>();
     
     //factory entity -- factory product entity: 1 <--> M 
     @ManyToOne

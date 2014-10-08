@@ -85,7 +85,6 @@ public class DisplayIntegratedPlannedOrders implements Serializable {
     public DisplayIntegratedPlannedOrders() {
     }
 
-
     public String displayIntegratedPlannedOrders() throws Exception {
 
             return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders?faces-redirect=true";

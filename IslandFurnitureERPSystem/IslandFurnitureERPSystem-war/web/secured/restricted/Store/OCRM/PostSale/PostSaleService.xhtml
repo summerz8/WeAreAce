@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="Manufacturing Resource Planning">
+                            <p:menuitem value="PostSaleService" update="messages"  action="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true" />
+                        </p:submenu>
+                    </p:menu>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" resizable="false">                   
+
+                    <p:panel id="basic" header="Sales Forecast" style="margin-bottom" >
+                        <h:form> 
+                            <p:commandButton  value="Create Record"  style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="CreateRecord?faces-redirect=true" >
+                            </p:commandButton>
+
+                            <br></br>
+                            <br></br>
+                            <!--                            <h:panelGrid columns="2" cellpadding="5" >
+                                                            <h:outputText value="Store Id:  " />
+                                                            <p:inputText value="#{salesForecastBean.storeId}" style="font-weight: bold"/>
+                                                            <h:outputText value="Year:  " />
+                                                            <p:inputMask value="#{salesForecastBean.year}" style="font-weight: bold" mask="9999"/>                               
+                                                            <h:outputText value="Month  " />
+                                                            <p:inputMask value="#{salesForecastBean.month}" style="font-weight: bold" mask="99"/>
+                            
+                                                            <p:commandButton action="#{salesForecastBean.SelectSalesForecast()}" value="View Product List" />                                                 
+                            
+                                                        </h:panelGrid>-->
+                            <!--
+                            
+                                                        <br></br><br></br>-->
+                            <p:dataScroller value="#{postSaleService.recordList}" var="record" chunkSize="10">
+                                <f:facet name="header">
+                                    Recent RMA Records
+                                </f:facet>
+
+                                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+
+                                    <p:outputPanel>
+                                        <h:panelGrid columns="2" cellpadding="5" >
+                                            <h:outputText value="Create Date:  " />
+                                            <h:outputText value="#{record.createdDate.getTime()}" style="font-weight: bold">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                            </h:outputText>
+
+                                            <h:outputText value="Store Product Id  " />
+                                            <h:outputText value="#{record.storeProduct.storeProductId}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Product Name:  " />
+                                            <h:outputText value="#{record.storeProduct.product.name}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Description  " />
+                                            <h:outputText value="#{record.description}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Type  " />
+                                            <h:outputText value="#{record.type}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Status  " />
+                                            <h:outputText value="#{record.status}" style="font-weight: bold"/>
+
+                                     
+                                        </h:panelGrid>
+
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                            </p:dataScroller>
+                        </h:form>
+                    </p:panel>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:form>
+    </h:body>
+
+</html>
+
+
+

@@ -8,6 +8,7 @@ package DataSetUp;
 import Entity.CommonInfrastructure.FactoryUserEntity;
 import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
+import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.BOMEntity;
 import Entity.Factory.FactoryBin.FactoryBinEntity;
@@ -57,7 +58,7 @@ public class dataSetUp {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
 
     @PostConstruct
@@ -84,8 +85,7 @@ public class dataSetUp {
         } catch (ParseException ex) {
             Logger.getLogger(dataSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       
+
         UserEntity u = new HQUserEntity("H", "1000001", 0, "Zheng", null, "Yuan", "Global Manager",
                 birthday, "Female", "Ms", "Kent Ridge Crescent 15", "119215", "vicky.yuanzheng@gmail.com", 1L, cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u);
@@ -151,8 +151,8 @@ public class dataSetUp {
                 "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
-        
-         UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
+
+        UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
                 "Jinqiao", "Factory MRP Staff", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u3);
@@ -166,10 +166,18 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
+        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
+                "Jinqiao", "Store Manager", birthday, "Male",
+                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(u4);
+        em.flush();
+        
+        
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.factoryProduct
         StoreProductEntity sp1_1 = new StoreProductEntity(f1, s1);
+
         em.persist(sp1_1);
         f1.getStoreProduct().add(sp1_1);
         s1.getStoreProduct().add(sp1_1);
@@ -190,7 +198,7 @@ public class dataSetUp {
         f2.getStoreProduct().add(sp2_2);
         s2.getStoreProduct().add(sp2_2);
         em.flush();
-        
+
         //StoreRetailProduct    /* Further Modification*/
         //for s1
         //s1.StoreRetailProduct
@@ -215,15 +223,14 @@ public class dataSetUp {
         f2.getStoreRetailProduct().add(srp2_2);
         s2.getStoreRetailProduct().add(srp2_2);
         em.flush();
-        
-        
+
         //Raw Material
         RawMaterialEntity rm1 = new RawMaterialEntity("board", "wood", false, "square meter");
         em.persist(rm1);
         em.flush();
         RawMaterialEntity rm2 = new RawMaterialEntity("nail", "2mm, 50pcs/box", false, "box");
         em.persist(rm2);
-        
+
         RawMaterialEntity rm3 = new RawMaterialEntity("glass", "sekken frosted glass", false, "square meter");
         em.persist(rm3);
         em.flush();
@@ -236,7 +243,6 @@ public class dataSetUp {
         RawMaterialEntity rm6 = new RawMaterialEntity("fibreboard", "white", false, "square meter");
         em.persist(rm6);
         em.flush();
-        
 
         //Product
         ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, "set", false);
@@ -257,7 +263,12 @@ public class dataSetUp {
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
         em.persist(p6);
         em.flush();
-
+        sp1_1.setProduct(p1);
+        sp1_2.setProduct(p2);
+        em.persist(sp1_1);
+        em.persist(sp1_2);
+        em.flush();
+        
         //Product.BOM
         //for p1
         BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
@@ -738,7 +749,6 @@ public class dataSetUp {
         frp2_2.getFactoryBinStoredProducts().add(fbsp2_3_2);
         em.flush();
 
-        
         //Inventory Record
         //Inventory Record.Calendars
         Calendar ci1 = Calendar.getInstance();
@@ -1186,7 +1196,7 @@ public class dataSetUp {
         em.flush();
         sf1_1.getFactoryRetailProductList().add(frpa1_1_3_5);
         em.flush();
-        
+
         //sf1_2
         SalesForecastEntity sf1_2 = new SalesForecastEntity(s2, c1);
         em.persist(sf1_2);
@@ -1235,7 +1245,7 @@ public class dataSetUp {
         em.flush();
         sf1_2.getFactoryRetailProductList().add(frpa1_2_3_5);
         em.flush();
-        
+
         //sf2_1
         SalesForecastEntity sf2_1 = new SalesForecastEntity(s1, c1);
         em.persist(sf2_1);
@@ -1260,7 +1270,7 @@ public class dataSetUp {
         em.flush();
         sf2_1.getFactoryRetailProductList().add(frpa2_1_3_2);
         em.flush();
-        
+
         //sf2_2
         SalesForecastEntity sf2_2 = new SalesForecastEntity(s2, c1);
         em.persist(sf2_2);
@@ -1302,7 +1312,7 @@ public class dataSetUp {
         OutboundMovementEntity om1_3_1 = new OutboundMovementEntity();
         om1_3_1.recordFactoryRetailProductOutboundMovement(fbsp1_3_1, s2, 100.0, com2);
         em.persist(om1_3_1);
-        
+
         em.flush();
         //for f2
         OutboundMovementEntity om2_2_1 = new OutboundMovementEntity();
@@ -1313,7 +1323,7 @@ public class dataSetUp {
         om2_3_1.recordFactoryRetailProductOutboundMovement(fbsp1_3_1, s1, 60.0, com3);
         em.persist(om2_3_1);
         em.flush();
-        
+
         //Raw material In-Factory Use Movement
         //for f1
         RawMaterialInFactoryUseMovementEntity rmifu1_1 = new RawMaterialInFactoryUseMovementEntity();

@@ -44,8 +44,7 @@ public class MemberEntity implements Serializable {
     private String email;
     
     private Boolean deleteFlag;
-    
-    //member to membership level M-->1
+
     @ManyToOne
     private MembershipLevel memberlvl;
 
@@ -163,6 +162,14 @@ public class MemberEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+//
+//    public MembershipLevel getMemberlvl() {
+//        return memberlvl;
+//    }
+//
+//    public void setMemberlvl(MembershipLevel memberlvl) {
+//        this.memberlvl = memberlvl;
+//    }
 
     public MembershipLevel getMemberlvl() {
         return memberlvl;
