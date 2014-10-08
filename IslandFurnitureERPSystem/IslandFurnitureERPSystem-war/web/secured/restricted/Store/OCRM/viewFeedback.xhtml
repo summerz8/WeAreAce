@@ -11,7 +11,6 @@
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
         </h:head>
-
         <h:body>
 
             <h:form id="formMain">
@@ -34,7 +33,7 @@
 
                 </p:confirmDialog>
                 <p:layout >
-                    <p:messages id="messagesStatus" redisplay="true" />
+                    <p:messages id="messagesStatus" redisplay="false" />
 
                     <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
 
@@ -42,18 +41,22 @@
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
-                        </p:commandButton>
 
+                        </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
                         </p:button>
 
-                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
-                        </p:button> 
 
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
                         </p:button> 
 
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
                         </p:button>
 
 
@@ -65,38 +68,52 @@
 
                     </p:layoutUnit>
 
+
+
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
                             <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
                                 <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome ="/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                                <p:menuitem value="Create Feedback Test" outcome ="/secured/restricted/Store/OCRM/createFeedback?faces-redirect=true"/>
                             </p:submenu>
+
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Please Input New Voucher Information " style="margin-bottom" >
-                            <h:panelGrid columns="2" cellpadding="10">                                
+                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
+                            <p:dataTable var="feedback" value="#{feedbackControlBean.viewFeedbackList()}">
 
-                                <h:outputLabel for="Name" value="Name: *" />
-                                <p:inputText value="#{voucherControl.newVoucherName}" required="true" label="text" />
+                                <p:column headerText="Feedback Id">
+                                    <h:outputText value="#{feedback.id}" />
+                                </p:column>
 
+                                <p:column headerText="Customer Email">
+                                    <h:outputText value="#{feedback.email}" />
+                                </p:column>
 
-                                <h:outputLabel for="price" value="Value *:" />
-                                <p:inputText value="#{voucherControl.newVoucherValue}" required="true" label="text" />
-                               
-                                <h:outputLabel for="description" value="Description: *" />
-                                <p:inputText value="#{voucherControl.newVoucherDescription}" required="true" label="text" />  
-                                
-                                <h:outputLabel for="quantity" value="Quantity *:" />
-                                <p:inputText value="#{voucherControl.newVoucherQuantity}" required="true" label="text" />
-                                                               
-                                <p:commandButton actionListener="#{voucherControl.addVoucher()}" value="Save"/>
-                            </h:panelGrid>
+                                <p:column headerText="Subject">
+                                    <h:outputText value="#{feedback.title}" />
+                                </p:column>
+
+                                <p:column headerText="Content">
+                                    <h:outputText value="#{feedback.content}" />
+                                </p:column>
+
+                                <p:column headerText="Generated Time">
+                                    <h:outputText value="#{feedback.generatedTime.getTime()}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8" locale="sg"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+
                         </p:panel>
+
                     </p:layoutUnit>
 
 
