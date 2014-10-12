@@ -95,26 +95,26 @@
                     <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Factory Product ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.factoryProductId}" />
+                        <h:inputText value="#{recordProductToBinMovementBean.factoryProductId}" />
 
                         <p:outputLabel value="To Storage Bin: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.toBinId}" />
+                        <h:inputText value="#{recordProductToBinMovementBean.toBinId}" />
 
                         <p:outputLabel value="Factory Product Status: " />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.status}">
+                        <p:selectOneRadio value="#{recordProductToBinMovementBean.status}">
                             <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
                             <f:selectItem itemLabel="Blocked" itemValue="blocked" />
                         </p:selectOneRadio>
 
                         <p:outputLabel value="Quantity: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
+                        <h:inputText value="#{recordProductToBinMovementBean.quantity}" />
 
                         <p:outputLabel value="Date: " />
-                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}">
+                        <h:outputText value="#{recordProductToBinMovementBean.inputDate}">
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                         </h:outputText>
 
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordProductToBinMovement}"/>
+                        <h:commandButton value="Submit" actionListener="#{recordProductToBinMovementBean.recordProductToBinMovement}"/>
 
                     </h:panelGrid>
 

@@ -5,6 +5,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.SCM.GoodsReceiptEntity;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
@@ -41,5 +42,7 @@ public interface FactoryInventoryManagementModuleLocal {
     public Long recordProductToBinMovement(long factoryID, Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
 
     public int recordCurrentInventoryLevel(long factoryId);
+
+    List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId);
 
 }

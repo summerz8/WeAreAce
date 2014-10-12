@@ -91,37 +91,37 @@
                     <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Item ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.itemId}" />
+                        <h:inputText value="#{recordInFactoryMovementBean.itemId}" />
 
                         <p:outputLabel value="Item type" />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.itemTypeIndicator}">
+                        <p:selectOneRadio value="#{recordInFactoryMovementBean.itemTypeIndicator}">
                             <f:selectItem itemLabel="Raw Material" itemValue="1" />
                             <f:selectItem itemLabel="Factory Product" itemValue="2" />
                             <f:selectItem itemLabel="Retail Product" itemValue="3" />
                         </p:selectOneRadio>
 
                         <p:outputLabel value="From Storage Bin: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.fromBinId}" />
+                        <h:inputText value="#{recordInFactoryMovementBean.fromBinId}" />
 
                         <p:outputLabel value="To Storage Bin: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.toBinId}" />
+                        <h:inputText value="#{recordInFactoryMovementBean.toBinId}" />
 
                         <p:outputLabel value="Status: " />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.status}">
+                        <p:selectOneRadio value="#{recordInFactoryMovementBean.status}">
                             <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
                             <f:selectItem itemLabel="Blocked" itemValue="blocked" />
                             <f:selectItem itemLabel="Returned" itemValue="returned" />
                         </p:selectOneRadio>
 
                         <p:outputLabel value="Quantity: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
+                        <h:inputText value="#{recordInFactoryMovementBean.quantity}" />
 
                         <p:outputLabel value="Date: " />
-                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}" >
+                        <h:outputText value="#{recordInFactoryMovementBean.inputDate}" >
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                         </h:outputText>
 
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordInFactoryMovement}"/>
+                        <h:commandButton value="Submit" actionListener="#{recordInFactoryMovementBean.recordInFactoryMovement}"/>
 
                     </h:panelGrid>
 

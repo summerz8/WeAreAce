@@ -95,6 +95,15 @@
                                 <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Store Resource Control" />
                             </p:submenu>
+
+                            <p:submenu label="Kitchen Management">
+                                <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Demand Forecast" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Menu Management" outcome = "/secured/restricted/Store/KM/MenuManagementModule/MenuManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Raw Ingredient Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
+                            </p:submenu>
+
                             <p:submenu label="Ticket Management">
                                 <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>
                             </p:submenu>

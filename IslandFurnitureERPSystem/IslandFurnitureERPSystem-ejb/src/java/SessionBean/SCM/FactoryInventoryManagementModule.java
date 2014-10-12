@@ -922,4 +922,18 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
         }
     }
 
+    @Override
+    public List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId) {
+        try {
+            Query q = em.createQuery("SELECT g FROM GoodsReceiptEntity g WHERE g.purchaseOrder.factory.factoryId = :factoryId AND g.amount > 0.001");
+            q.setParameter("factoryId", factoryId);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.SCM.FactoryInventoryManagementModule: findUnfulfilledGoodsReceipts(): Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    
 }

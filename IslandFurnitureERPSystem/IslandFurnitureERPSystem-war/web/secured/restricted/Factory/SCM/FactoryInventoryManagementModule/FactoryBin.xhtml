@@ -88,7 +88,7 @@
                     <p:panel id="basic" header="Factory Bin" style="margin-bottom" >
                     </p:panel>
 
-                    <p:dataTable var="b" value="#{factoryInventoryManagementBean.storageBinInformation}" >
+                    <p:dataTable var="b" value="#{factoryBinBean.storageBinInformation}" >
                         
                         <p:column headerText="Storage Bin ID">
                             #{b.factoryBinId}
@@ -132,6 +132,8 @@
                         </p:column>
 
                     </p:dataTable>
+                    
+                    <p:commandButton value="Record Current Inventory Level" actionListener="#{factoryBinBean.recordCurrentInventoryLevel}" />
                 </p:layoutUnit>
 
 

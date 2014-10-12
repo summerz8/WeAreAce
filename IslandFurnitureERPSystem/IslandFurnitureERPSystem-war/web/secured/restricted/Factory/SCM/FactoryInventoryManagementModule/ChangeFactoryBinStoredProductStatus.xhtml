@@ -92,21 +92,21 @@
                     <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                         <p:outputLabel value="Factory Bin Stored Product ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.factoryBinStoredProductId}" />
+                        <h:inputText value="#{changeFactoryBinStoredProductStatusBean.factoryBinStoredProductId}" />
 
                         <p:outputLabel value="To Status: " />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.toStatus}">
+                        <p:selectOneRadio value="#{changeFactoryBinStoredProductStatusBean.toStatus}">
                             <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
                             <f:selectItem itemLabel="Blocked" itemValue="blocked" />
                             <f:selectItem itemLabel="Returned" itemValue="returned" />
                         </p:selectOneRadio>
                         
                         <p:outputLabel value="Date: " />
-                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}" >
+                        <h:outputText value="#{changeFactoryBinStoredProductStatusBean.inputDate}" >
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                         </h:outputText>
 
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.changeFactoryBinStoredProductStatus}"/>
+                        <h:commandButton value="Submit" actionListener="#{changeFactoryBinStoredProductStatusBean.changeFactoryBinStoredProductStatus}"/>
 
                     </h:panelGrid>
 

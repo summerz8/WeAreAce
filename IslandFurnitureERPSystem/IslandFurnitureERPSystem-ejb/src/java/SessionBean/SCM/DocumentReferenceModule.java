@@ -274,7 +274,7 @@ public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
     @Override
     public List viewGoodsReceiptsByFactory(long factoryId) {
         try {
-            Query q = em.createQuery("SELECT g FROM GoodsReceiptEntity g WHERE g.purchaseOrder.factory.factoryId = :factoryId");
+            Query q = em.createQuery("SELECT g FROM GoodsReceiptEntity g WHERE g.purchaseOrder.factory.factoryId = :factoryId AND g.amount > 0.001");
             q.setParameter("factoryId", factoryId);
 
             return q.getResultList();
