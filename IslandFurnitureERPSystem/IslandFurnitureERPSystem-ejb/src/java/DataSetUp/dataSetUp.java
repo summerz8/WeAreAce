@@ -36,6 +36,7 @@ import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
@@ -58,6 +59,8 @@ import util.security.CryptographicHelper;
  *
  * @author Yoky
  */
+
+
 @Singleton
 @LocalBean
 @Startup
@@ -158,6 +161,7 @@ public class dataSetUp {
                 "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
+
         //FactoryUser(f1)
         UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
                 "Jinqiao", "Factory MRP Staff", birthday, "Male",
@@ -179,11 +183,19 @@ public class dataSetUp {
                 "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(us1_1);
         em.flush();
+        
+        //StoreUser(s1)
+        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
+                "Jinqiao", "Store Manager", birthday, "Male",
+                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(u4);
+        em.flush();
 
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.factoryProduct
         StoreProductEntity sp1_1 = new StoreProductEntity(f1, s1);
+
         em.persist(sp1_1);
         f1.getStoreProduct().add(sp1_1);
         s1.getStoreProduct().add(sp1_1);
@@ -268,6 +280,11 @@ public class dataSetUp {
         em.flush();
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
         em.persist(p6);
+        em.flush();
+        sp1_1.setProduct(p1);
+        sp1_2.setProduct(p2);
+        em.persist(sp1_1);
+        em.persist(sp1_2);
         em.flush();
 
         //Product.BOM
@@ -1485,6 +1502,30 @@ public class dataSetUp {
         em.flush();
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
+
+        MembershipLevel memlvl0 = new MembershipLevel();
+        memlvl0.setDiscount(1D);
+        em.persist(memlvl0);
+        em.flush();
+        MembershipLevel memlvl1 = new MembershipLevel();
+        memlvl1.setDiscount(0.9);
+        em.persist(memlvl1);
+        em.flush();
+        MembershipLevel memlvl2 = new MembershipLevel();
+        memlvl2.setDiscount(0.85);
+        em.persist(memlvl2);
+        em.flush();
+        MembershipLevel memlvl3 = new MembershipLevel();
+        memlvl3.setDiscount(0.8);
+        em.persist(memlvl3);
+        em.flush();
+        MembershipLevel memlvl4 = new MembershipLevel();
+        memlvl4.setDiscount(0.75);
+        em.persist(memlvl4);
+        em.flush();
+        MembershipLevel memlvl5 = new MembershipLevel();
+        memlvl5.setDiscount(0.7);
+        em.persist(memlvl5);
         em.flush();
     }
 }

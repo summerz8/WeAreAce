@@ -31,6 +31,8 @@ public class SalesForecastBean {
     private Calendar targetPeriod;
     private Long factoryId;
     private String department;
+    private int year = 0;
+    private int month = 0;
 
     public SalesForecastBean() {
     }
@@ -70,6 +72,29 @@ public class SalesForecastBean {
 //        return department.equals("F");
 //        
 //    }
+    public String SelectSalesForecast() {
+
+        try {
+
+            if (year != 0 && month != 0) {
+                Calendar period = Calendar.getInstance();
+                period.set(year, month - 1, 1);
+                salesForecastList = salesForecastModule.ListSalesForecast(factoryId, storeId, null, period);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesForecastList", salesForecastList);
+                return "ViewSelectedSalesForecast?faces-redirect=true";
+            } else {
+                salesForecastList = salesForecastModule.ListSalesForecast(factoryId, storeId, null, null);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesForecastList", salesForecastList);
+                return "ViewSelectedSalesForecast?faces-redirect=true";
+            }
+        }
+            catch (Exception e) {
+            System.err.println("Caught an unexpected exception managedbean");
+            e.printStackTrace();
+        }
+        return "ViewSelectedSalesForecast?faces-redirect=true";
+
+    }
 
     public SalesForecastModuleLocal getSalesForecastModule() {
         return salesForecastModule;
@@ -124,5 +149,21 @@ public class SalesForecastBean {
     public void setDepartment(String department) {
         this.department = department;
     }
-    
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
 }

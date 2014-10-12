@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/WorkspaceTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+
+
+        <h:outputText value="You are not logged in yet" rendered="#{!memberLoginBean.isLogged}" />
+        <h:form id="workgroup">
+
+            <p:growl id="wgmessage" showDetail="true" showSummary="true"/>
+            <p:panel  rendered="#{memberLoginBean.isLogged}">
+                <f:facet name="header">
+                    "#{workSpaceManagement.currentStaff.fullName},  Welcome to Coral Island Resort Staff Workspace!" 
+                </f:facet>
+                <h:panelGrid  columns="3" >
+                    <h:outputLabel value="Choose Work Group : "/>
+                    <p:selectOneMenu id="wgchoice" value="#{workSpaceManagement.workgroupId}" >
+                        <f:selectItem itemLabel="Select One" itemValue=""/>
+                        <f:selectItems value="#{workSpaceManagement.workgroups}" var="workGroup" itemLabel="#{workGroup.workgroupName}" itemValue="#{workGroup.id}"/> 
+                    </p:selectOneMenu>
+                    <p:commandButton value="Select" actionListener="#{workSpaceManagement.selectWorkGroup}" update="wgmessage,:tagbiew1,:tagbiew1:WelcomeGroup"/>
+                    <p:commandButton id="Create" value="Create New Work Group" onclick="PF('dlg').show();"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <h:form id="createRoom">
+            <p:growl id="message" showDetail="true" showSummary="true"/>
+            <p:dialog header="Create a New Work Group" widgetVar="dlg" resizable="false">
+                <p:growl id="messageGrowl" showDetail="true" showSummary="true"/>
+                <h:panelGrid columns="2">
+                    <h:outputText value="New Work Group Name:"/>
+                    <p:inputText id="workGroupName" value="#{workSpaceManagement.workGroupName}" required="true" requiredMessage="Please input work group name"/>
+                    <p:commandButton id="submit" update=":workgroup,message" value="Submit" validateClient="true" actionListener="#{workSpaceManagement.createWorkGroup}" oncomplete="PF('dlg').hide();"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+
+        <p:accordionPanel id="tagbiew1" >
+            <p:tab id="tab1"  title="WorkGroup Log">
+                
+                <h:outputText id="WelcomeGroup" value="Welcome to Work Group: #{workSpaceManagement.workgroupId}" rendered="#{workSpaceManagement.workgroupId!=null}" style="color: darkred; font-weight: bold"/>
+                <p:separator rendered="#{workSpaceManagement.workgroupId!=null}"/>
+                
+                <h:form id="viewWGInfo">
+
+                    <p:growl id="wglog"/>
+                    <p:dataTable value="#{workSpaceManagement.workgroupLogs}" id="workGpList" var="workgroupLog"  editable="true">
+                        <p:column headerText="WorkdingGroup Log ID" width="5%">
+                            <h:outputText value="#{workgroupLog.id}" />  
+                        </p:column>
+
+                        <p:column headerText="Log Titile">
+                            <h:outputText value="#{workgroupLog.logTitle}" />  
+                        </p:column>
+
+                        <p:column headerText="Log Content">
+                            <h:outputText value="#{workgroupLog.logContent}" />  
+                        </p:column>
+
+                        <p:column headerText="Log Creator">
+                            <h:outputText value="#{workgroupLog.writtenBy.fullName}" />  
+                        </p:column>
+
+
+                        <p:column headerText="Log Creation Time" sortBy="creationTime">
+                            <h:outputText value="#{workgroupLog.creationTime}" >
+                                <f:convertDateTime pattern="d/M/yyyy"/>  
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Delete Entry" style="width:50px">  
+                            <p:commandLink actionListener="#{workSpaceManagement.deleteWGLog(workgroupLog)}" value="Delete" update=":tagbiew1:viewWGInfo:wglog, :tagbiew1:viewWGInfo:workGpList"/>  
+
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h:form id="createWGLog">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Log Tile:"/>
+                        <p:inputTextarea value="#{workSpaceManagement.wgTitle}" cols="49" rows="1"/>
+                        <h:outputLabel value="Log Content:"/>
+                        <p:inputTextarea value="#{workSpaceManagement.wgContent}" cols="49" rows="5"/>
+                        <p:commandButton value="Submit" update=":tagbiew1:viewWGInfo" actionListener="#{workSpaceManagement.createWorkGroupLog}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+
+            <p:tab id="tab2"  title="WorkGroup Staff">
+                <p:growl id="staffMessage" showDetail="true"  showSummary="true"/>
+
+                <h:form id="remove">
+
+                    <p:dataTable id="removestaffs" var="s" value="#{workSpaceManagement.staffInGroup}" paginator="true" rows="15"  
+                                 selection="#{workSpaceManagement.selectedStaffInGroup}" rowKey ="#{s.id}">  
+                        <f:facet name="header">
+                            Staff in Work Group 
+                        </f:facet>
+
+                        <p:column selectionMode="multiple" style="width:2%" />  
+                        <p:column headerText="Staff ID" style="width:25%">  
+                            #{s.id}   
+                        </p:column>  
+                        <p:column headerText="Full Name" style="width:25%">  
+                            #{s.fullName}   
+                        </p:column>
+
+                        <p:column headerText="Email" style="width:25%">  
+                            #{s.email}   
+                        </p:column> 
+                        <f:facet name="footer">  
+                            <p:commandButton id="RemoveButton" value="Remove Staff" icon="ui-icon-search" 
+                                             rendered="#{workSpaceManagement.visible}"
+                                             actionListener="#{workSpaceManagement.remove}"  update="removestaffs,:tagbiew1:staffMessage,:tagbiew1:assign:assignstaffs,:tagbiew1:assignStaffShift:staffs,:tagbiew1:shiftSchdule:shiftscheduleTable"/>  
+                        </f:facet>
+                    </p:dataTable>  
+                </h:form>
+                <p:separator />
+                <h:form id="assign" rendered="#{workSpaceManagement.visible}">
+                    <p:dataTable id="assignstaffs" var="s" value="#{workSpaceManagement.staffOutGroup}" paginator="true" rows="15"  
+                                 selection="#{workSpaceManagement.selectedStaffOutGroup}" rowKey ="#{s.id}">  
+                        <f:facet name="header">
+                            Staff to be Assigned 
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:2%" />  
+                        <p:column headerText="Staff ID" sortBy="#{s.id}" style="width:25%">  
+                            #{s.id}   
+                        </p:column>  
+                        <p:column sortBy="#{s.fullName}" headerText="Full Name" style="width:25%">  
+                            #{s.fullName}   
+                        </p:column>
+
+                        <p:column sortBy="#{s.email}" headerText="Email" style="width:25%">  
+                            #{s.email}   
+                        </p:column> 
+                        <f:facet name="footer">  
+                            <p:commandButton id="assignButton" value="Assign Staff" icon="ui-icon-search"  
+                                             actionListener="#{workSpaceManagement.assign}" update="assignstaffs,:tagbiew1:staffMessage,:tagbiew1:remove:removestaffs,:tagbiew1:assignStaffShift:staffs,:tagbiew1:shiftSchdule:shiftscheduleTable"/>  
+                        </f:facet>
+                    </p:dataTable>  
+                </h:form>
+            </p:tab>
+
+
+
+            <p:tab title="WorkGroup Shift">
+
+                <h:form id="createShift">
+                    <p:growl id="shiftMessage" showDetail="true" showSummary="true"/>
+                    <p:dataTable id="shiftTable" value="#{workSpaceManagement.shifts}" var="shift"  editable="true">
+                        <f:facet name="header">  
+                            Shift List  
+                        </f:facet>
+                        <p:ajax event="rowEdit" listener="#{workSpaceManagement.onEditShift}" update=":tagbiew1:createShift:shiftMessage,:tagbiew1:shiftSchdule:shiftscheduleTable" />  
+
+                        <p:column headerText="Shift ID">
+                            <h:outputText value="#{shift.id}" />  
+                        </p:column>
+
+                        <p:column headerText="Shift Name">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{shift.shiftName}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{shift.shiftName}"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Shift Timing and Description">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{shift.shiftDescription}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{shift.shiftDescription}"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+
+                        <p:column rendered="#{workSpaceManagement.visible}" headerText="Edit" style="width:50px">  
+                            <p:rowEditor />  
+                        </p:column> 
+                        <p:column rendered="#{workSpaceManagement.visible}" headerText="Delete shift" style="width:50px">  
+                            <p:commandLink value="Delete" actionListener="#{workSpaceManagement.deleteShift(shift)}" update=":tagbiew1:createShift:shiftMessage,:tagbiew1:createShift:shiftTable,:tagbiew1:shiftSchdule:shiftscheduleTable,:tagbiew1:shiftavailable:shifts"/> 
+                        </p:column>
+                    </p:dataTable>  
+                    <p:commandButton rendered="#{workSpaceManagement.visible}" value="Create a Shift" onclick="PF('dlgshift').show();"/>
+
+                </h:form>
+                <h:form >
+                    <p:dialog header="Create a New Work Group Shift" widgetVar="dlgshift" resizable="false">
+                        <p:growl id="createShiftmsg" showDetail="true" showSummary="true"/>
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel for="shiftName" value="Shift Name: " style="font-weight:bold"/>
+                            <p:inputText id="shiftName" value="#{workSpaceManagement.shiftName}" /> 
+                            <h:outputLabel for="shiftDescription" value="Shift Description:" style="font-weight:bold"/>
+                            <p:inputText id="shiftDescription" value="#{workSpaceManagement.shiftDescription}" />
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Create WorkGroup Shift" actionListener="#{workSpaceManagement.addShift()}" update=":tagbiew1:createShift:shiftTable,:tagbiew1:createShift:shiftMessage,:tagbiew1:shiftavailable:shifts,:tagbiew1:assignStaffShift:staffs"
+                                                 oncomplete="PF('dlgshift').hide();"/>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </p:tab>
+
+
+            <p:tab title="Assign Staff Shift" rendered="#{workSpaceManagement.visible}" >
+                <h:form id="assignStaffShift">
+                    <p:growl id="shiftAssignmsg"/>
+
+                    <h:panelGrid id="panelGrid" columns="2" >
+                        <h:outputLabel for="validFrom" value="Shift applied from date:"/>
+                        <p:calendar value="#{workSpaceManagement.fromDate}" id="validFrom" showOn="button" required="true" requiredMessage="Please input from date.">
+                            <p:ajax event="dateSelect" update="validTo" />
+                        </p:calendar>
+
+                        <h:outputLabel value="Shift applied end date:"/>
+                        <p:calendar value="#{workSpaceManagement.endDate}" mindate="#{workSpaceManagement.fromDate}"
+                                    id="validTo" showOn="button" required="ture" requiredMessage="Please input end date."/>
+                        <h:outputLabel/>
+
+                    </h:panelGrid>
+
+                    <p:dataTable id="staffs" var="s" value="#{workSpaceManagement.staffInGroup}" paginator="true" rows="15"  
+                                 selection="#{workSpaceManagement.selectedStaffforShift}" rowKey ="#{s.id}">  
+                        <f:facet name="header">
+                            Staff in Work Group 
+                        </f:facet>
+
+                        <p:column selectionMode="multiple" style="width:2%" />  
+                        <p:column headerText="Staff ID" style="width:25%">  
+                            #{s.id}   
+                        </p:column>  
+                        <p:column headerText="Full Name" style="width:25%">  
+                            #{s.fullName}   
+                        </p:column>
+
+                        <p:column headerText="Email" style="width:25%">  
+                            #{s.email}   
+                        </p:column> 
+                        <f:facet name="footer">  
+                            <p:commandButton id="assignShiftButton" value="Confirm Staff Selected" icon="ui-icon-search" 
+                                             update=":tagbiew1:assignStaffShift:shiftAssignmsg,:tagbiew1:shiftSchdule:shiftscheduleTable"  actionListener="#{workSpaceManagement.confirmSelectedStaff()}"/>  
+                        </f:facet>
+                    </p:dataTable>  
+                </h:form>
+                <p:separator/>
+
+                <h:form id="shiftavailable">
+                    <p:growl id="addshiftschedule" showDetail="true" showSummary="true" />
+                    <p:dataTable id="shifts" value="#{workSpaceManagement.shifts}" var="shift"  editable="true"
+                                 selection="#{workSpaceManagement.selectedShift}" rowKey ="#{shift.id}">
+                        <f:facet name="header">  
+                            Shift List  
+                        </f:facet>
+                        <p:column selectionMode="single" style="width:2%" /> 
+                        <p:column headerText="Shift ID">
+                            <h:outputText value="#{shift.id}" />  
+                        </p:column>
+
+                        <p:column headerText="Shift Name">
+                            <h:outputText value="#{shift.shiftName}" />  
+                        </p:column>
+                        <p:column headerText="Shift Timing and Description">
+                            <h:outputText value="#{shift.shiftDescription}" />  
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Assign Staff to Selected Shift"  update=":tagbiew1:shiftavailable:addshiftschedule,:tagbiew1:shiftSchdule:shiftscheduleTable,:tagbiew1:ownss:ownssTable" actionListener="#{workSpaceManagement.assignStaffShift}"/>
+                        </f:facet>
+
+                    </p:dataTable>  
+                </h:form>
+            </p:tab>  
+            <p:tab title="Work Group Shift Schedule">
+                <h:form id="shiftSchdule">
+                    <p:growl id="shiftscheduleinfo"/>
+                    <p:dataTable id="shiftscheduleTable" value="#{workSpaceManagement.shiftScheules}" var="schedule"  editable="true">
+                        <f:facet name="header">  
+                            Shift Schedule for All Staff in one work group  
+                        </f:facet>
+                        <p:ajax event="rowEdit" listener="#{workSpaceManagement.onEditShiftSchedule}"  update=":tagbiew1:shiftSchdule:shiftscheduleinfo,:tagbiew1:shiftSchdule:shiftscheduleTable" />
+
+                        <p:column headerText="Shift Schedule ID">
+                            <h:outputText value="#{schedule.id}" />  
+                        </p:column>
+
+                        <p:column headerText="Staff Name">
+                            <h:outputText value ="#{schedule.staff.fullName}"/>
+                        </p:column>
+
+                        <p:column headerText="Shift Name">
+                            <h:outputText value="#{schedule.shift.shiftName}" />  
+                        </p:column>
+                        <p:column headerText="Duty Date" sortBy="dutyDate">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:outputLabel value="#{schedule.dutyDate}" > 
+                                        <f:convertDateTime pattern="d/M/yyyy"/>
+                                    </p:outputLabel>
+                                </f:facet>
+                                <f:facet name="input"  >
+                                    <p:calendar value="#{schedule.dutyDate}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+
+                        <p:column headerText="Shift Description ">
+                            <h:outputText value="#{schedule.shift.shiftDescription}" />  
+                        </p:column>
+
+                        <p:column rendered="#{workSpaceManagement.visible}"  headerText="Edit" style="width:50px">  
+                            <p:rowEditor />  
+                        </p:column>
+
+                        <p:column rendered="#{workSpaceManagement.visible}"  headerText="Remove Assignment" style="width:50px">  
+                            <p:commandLink value ="Delete" actionListener="#{workSpaceManagement.deleteShiftSchedule(schedule.id)}" update="shiftscheduleTable"/> 
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+            </p:tab>
+            <p:tab title="View Shift Schedule(Own)">
+                <h:form id="ownss">
+                    <p:dataTable id="ownssTable" value="#{workSpaceManagement.ownShiftShedule}" var="schedule"  editable="true">
+                        <f:facet name="header">  
+                            Shift Schedule for All Staff in one work group  
+                        </f:facet>
+
+                        <p:column headerText="Shift Schedule ID">
+                            <h:outputText value="#{schedule.id}" />  
+                        </p:column>
+                        <p:column headerText="WorkGroup Name">
+                            <h:outputText value="#{schedule.shift.workGroup.workgroupName}"/>
+                        </p:column>
+
+                        <p:column headerText="Staff Name">
+                            <h:outputText value ="#{schedule.staff.fullName}"/>
+                        </p:column>
+
+                        <p:column headerText="Shift Name">
+                            <h:outputText value="#{schedule.shift.shiftName}" />  
+                        </p:column>
+                        <p:column headerText="Duty Date">
+                            <p:outputLabel value="#{schedule.dutyDate}" > 
+                                <f:convertDateTime pattern="d/M/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Shift Description ">
+                            <h:outputText value="#{schedule.shift.shiftDescription}" />  
+                        </p:column>
+                    </p:dataTable>
+
+
+                </h:form>
+
+            </p:tab>
+
+        </p:accordionPanel>
+    </ui:define>
+</ui:composition>

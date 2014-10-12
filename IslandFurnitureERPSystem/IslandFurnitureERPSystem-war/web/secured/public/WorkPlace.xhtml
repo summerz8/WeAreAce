@@ -104,6 +104,13 @@
                                 <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
                             </p:submenu>
 
+                            <p:submenu label="OCRM Management">
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
+                                <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
+                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                                <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                            </p:submenu>
+                            
                             <p:submenu label="Ticket Management">
                                 <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>
                             </p:submenu>
@@ -112,13 +119,19 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
-                        <p:panel id="basic" header =" " style="height:800px;" >
-                            <h:panelGrid columns="2" cellpadding="6">
+<!--                        <p:panel id="basic" header =" " style="height:800px;" >-->
+                            <!--                            <p:panelGrid columns="2" style="width: 100%!important">
+                                                            <p:column>
+                                                                <p:graphicImage width="250px"  height="250px" value="../resources/images/homepage1.jpg"/>
+                                                            </p:column>
+                                                            <p:column>
+                                                                <p:graphicImage width="250px"  height="250px" value="../resources/images/homepage2.jpg"/>
+                                                            </p:column>
+                                                        </p:panelGrid>-->
 
-
-                            </h:panelGrid>
-                        </p:panel>
-                    </p:layoutUnit>
+                                                                
+                        
+                 </p:layoutUnit>
 
 
                 </p:layout>

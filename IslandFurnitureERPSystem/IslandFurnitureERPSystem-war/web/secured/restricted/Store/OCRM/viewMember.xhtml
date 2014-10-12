@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+                   
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="OCRM Management">
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
+                                <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
+                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                                <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
+                            <p:dataTable id="membertable" var="member" value="#{memberControl.memberList}" 
+                                         scrollable="true" scrollWidth="100%" scrollHeight="100%"
+                                         widgetVar="memberTable" emptyMessage="No member found with given criteria" 
+                                         filteredValue="#{memberControl.filteredMember}"
+                                         editable="true">
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('memberTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:ajax event="rowEdit" listener="#{memberControl.onRowEdit}" update=":formMain:membertable" />
+                                <p:ajax event="rowEditCancel" listener="#{memberControl.onRowCancel}" update=":formMain:membertable" />
+
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+
+                                <p:column style="width:32px;text-align: center">                                    
+
+                                    <p:commandButton  update=":formMain"  actionListener="#{memberControl.deleteMember(member.memberId)}" icon="ui-icon-trash" title="Delete">
+
+                                    </p:commandButton>    
+                                   
+                                </p:column>
+                                
+                                <p:column filterBy="#{member.memberId}" headerText="member Id" width="100">
+                                    <h:outputText value="#{member.memberId}" />                                                                         
+                                </p:column>                               
+
+
+                                <p:column  filterBy="#{member.title}" headerText="Title" width="40" filterMatchMode="contains">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{member.title}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{member.title}" style="width:100%">
+                                                <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.firstName}" headerText="First Name" width="150" filterMatchMode="contains">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{member.firstName}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.firstName}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>                       
+                                </p:column>
+
+                                <p:column filterBy="#{member.midName}" headerText="Middle Name" width="150">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{member.midName}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.midName}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.lastName}" headerText="Last Name" width="150">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{member.lastName}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.lastName}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.gender}" headerText="Gender" width="100">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{member.gender}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{member.gender}" style="width:100%">
+                                                <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>                                                              
+
+                                <p:column filterBy="#{member.email}" headerText="Email" width="300">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{member.email}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.email}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.address}" headerText="Address" width="400">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{member.address}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.address}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.postalCode}" headerText="Postal Code" width="150">
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{member.postalCode}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{member.postalCode}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{member.birthday}" headerText="Birthday" width="150">                                    
+                                    <p:cellEditor> 
+                                        <f:facet name="output"><h:outputText value="#{memberControl.BirString(member.birthday)}" /></f:facet>
+                                        <f:facet name="input"><p:inputMask  value="#{memberControl.birString}" style="width:96%" mask="99-99-9999"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                
+                            </p:dataTable>                            
+                            <p:button value="Add Member" outcome="AddNewMember"></p:button>
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

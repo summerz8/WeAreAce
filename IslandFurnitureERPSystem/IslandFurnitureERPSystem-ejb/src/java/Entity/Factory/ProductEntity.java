@@ -6,6 +6,7 @@
  */
 package Entity.Factory;
 
+import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +44,12 @@ public class ProductEntity implements Serializable {
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
     private Collection<FactoryProductEntity> factoryProduct = new ArrayList<>();
+    
+    //product entity -- store product entity: 1<--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
+    private Collection<StoreProductEntity> storeProduct = new ArrayList<>();
+    
+    
   
     public ProductEntity() {
     }
