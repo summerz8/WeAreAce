@@ -45,4 +45,6 @@ public interface FactoryInventoryManagementModuleLocal {
 
     List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId);
 
+    List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId);
+
 }

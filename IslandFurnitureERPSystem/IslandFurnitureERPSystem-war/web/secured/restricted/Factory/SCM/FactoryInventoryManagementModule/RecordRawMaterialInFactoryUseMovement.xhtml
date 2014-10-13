@@ -90,6 +90,7 @@
 
                         <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
+<<<<<<< HEAD
                             <p:outputLabel value="Raw Material ID: " />
                             <h:inputText value="#{recordRawMaterialInFactoryUseMovement.factoryRawMaterialId}" />
 
@@ -105,6 +106,23 @@
                             </h:outputText>
 
                             <h:commandButton value="Submit" actionListener="#{recordRawMaterialInFactoryUseMovement.recordRawMaterialInFactoryUseMovement}"/>
+=======
+                        <p:outputLabel value="Raw Material ID: " />
+                        <h:inputText value="#{recordRawMaterialInFactoryUseMovement.factoryRawMaterialId}" />
+
+                        <p:outputLabel value="From Storage Bin: " />
+                        <h:inputText value="#{recordRawMaterialInFactoryUseMovement.fromBinId}" />
+
+                        <p:outputLabel value="Quantity: " />
+                        <h:inputText value="#{recordRawMaterialInFactoryUseMovement.quantity}" />
+
+                        <p:outputLabel value="Date: " />
+                        <h:outputText value="#{recordRawMaterialInFactoryUseMovement.inputDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                        </h:outputText>
+
+                        <h:commandButton value="Submit" actionListener="#{recordRawMaterialInFactoryUseMovement.recordRawMaterialInFactoryUseMovement}"/>
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
 
                         </h:panelGrid>
 

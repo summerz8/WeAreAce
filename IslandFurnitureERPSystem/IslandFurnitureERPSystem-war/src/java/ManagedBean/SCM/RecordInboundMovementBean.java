@@ -31,20 +31,36 @@ public class RecordInboundMovementBean implements Serializable {
     private FactoryInventoryManagementModuleLocal fim;
 
     @ManagedProperty(value = "#{loginBean.departmentId}")
+<<<<<<< HEAD
     private Long factoryId;
     private Long goodsReceiptId;
     private Long toBinId;
     private String status;
     private Double quantity;
+=======
+    private long factoryId;
+    private Long goodsReceiptId;
+    private Long toBinId;
+    private String status;
+    private double quantity;
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     private Calendar creationDate = Calendar.getInstance();
     private Calendar inputDate = Calendar.getInstance();
     private List<GoodsReceiptEntity> unfulfilledGoodsReceipts;
 
+<<<<<<< HEAD
     public Long getFactoryId() {
         return factoryId;
     }
 
     public void setFactoryId(Long factoryId) {
+=======
+    public long getFactoryId() {
+        return factoryId;
+    }
+
+    public void setFactoryId(long factoryId) {
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.factoryId = factoryId;
     }
 
@@ -54,8 +70,11 @@ public class RecordInboundMovementBean implements Serializable {
 
     public void setGoodsReceiptId(Long goodsReceiptId) {
         this.goodsReceiptId = goodsReceiptId;
+<<<<<<< HEAD
         System.out.println("1. GR ID: " + goodsReceiptId);
         System.out.println(goodsReceiptId.getClass());
+=======
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     }
 
     public Long getToBinId() {
@@ -74,11 +93,19 @@ public class RecordInboundMovementBean implements Serializable {
         this.status = status;
     }
 
+<<<<<<< HEAD
     public Double getQuantity() {
         return quantity;
     }
 
     public void setQuantity(Double quantity) {
+=======
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.quantity = quantity;
     }
 
@@ -112,8 +139,11 @@ public class RecordInboundMovementBean implements Serializable {
     }
 
     public void recordInboundMovement(ActionEvent event) {
+<<<<<<< HEAD
         System.out.println("3. GR ID: " + goodsReceiptId);
         System.out.println(goodsReceiptId.getClass());
+=======
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         Long temp = fim.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
         if (temp == -1L) {
             FacesContext.getCurrentInstance().addMessage(
@@ -155,8 +185,11 @@ public class RecordInboundMovementBean implements Serializable {
 
     public void setSelectedGoodsReceipt(ActionEvent event) {
         goodsReceiptId = (Long) event.getComponent().getAttributes().get("goodsReceiptId");
+<<<<<<< HEAD
         System.out.println("2. GR ID: " + goodsReceiptId);
         System.out.println(goodsReceiptId.getClass());
+=======
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     }
 
 }

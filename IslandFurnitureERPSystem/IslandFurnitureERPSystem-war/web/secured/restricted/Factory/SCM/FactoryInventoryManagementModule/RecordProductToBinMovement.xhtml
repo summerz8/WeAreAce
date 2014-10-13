@@ -93,6 +93,7 @@
 
                         <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
+<<<<<<< HEAD
                             <p:outputLabel value="Factory Product ID: " />
                             <h:inputText value="#{recordProductToBinMovementBean.factoryProductId}" />
 
@@ -114,6 +115,29 @@
                             </h:outputText>
 
                             <h:commandButton value="Submit" actionListener="#{recordProductToBinMovementBean.recordProductToBinMovement}"/>
+=======
+                        <p:outputLabel value="Factory Product ID: " />
+                        <h:inputText value="#{recordProductToBinMovementBean.factoryProductId}" />
+
+                        <p:outputLabel value="To Storage Bin: " />
+                        <h:inputText value="#{recordProductToBinMovementBean.toBinId}" />
+
+                        <p:outputLabel value="Factory Product Status: " />
+                        <p:selectOneRadio value="#{recordProductToBinMovementBean.status}">
+                            <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
+                            <f:selectItem itemLabel="Blocked" itemValue="blocked" />
+                        </p:selectOneRadio>
+
+                        <p:outputLabel value="Quantity: " />
+                        <h:inputText value="#{recordProductToBinMovementBean.quantity}" />
+
+                        <p:outputLabel value="Date: " />
+                        <h:outputText value="#{recordProductToBinMovementBean.inputDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                        </h:outputText>
+
+                        <h:commandButton value="Submit" actionListener="#{recordProductToBinMovementBean.recordProductToBinMovement}"/>
+>>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
 
                         </h:panelGrid>
                     </p:panel>

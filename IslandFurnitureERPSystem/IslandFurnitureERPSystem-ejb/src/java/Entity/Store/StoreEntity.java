@@ -5,7 +5,7 @@
  */
 package Entity.Store;
 
-import Entity.Factory.FactoryEntity;
+import Entity.Kitchen.KitchenEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -35,6 +35,8 @@ public class StoreEntity implements Serializable {
     private String contact;
     private String manager;//manager id
     private Boolean deleteFlag;
+    @OneToOne
+    private KitchenEntity kitchen;
 
 //    //factory entity -- store entity: M <--> M 
 //    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
@@ -123,6 +125,14 @@ public class StoreEntity implements Serializable {
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public KitchenEntity getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(KitchenEntity kitchen) {
+        this.kitchen = kitchen;
     }
      
     @Override

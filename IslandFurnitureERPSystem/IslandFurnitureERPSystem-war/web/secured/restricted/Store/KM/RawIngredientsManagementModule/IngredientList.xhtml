@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>KM: Raw Ingredient List</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="Kitchen Management">
+                            <p:submenu label="Raw Ingredient Management">
+                                <p:menuitem value="Add Raw Ingredient" url="AddIngredient.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Raw Ingredient List" url="IngredientList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Storage Place List" url="StoragePlaceList.xhtml?faces-redirect=true" />
+                            </p:submenu>
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center" resizable="false">
+
+                    <p:panel id="basic" header="Raw Ingredient List" style="margin-bottom" >
+
+                        <p:dataTable id="ingredientList" var="i" widgetVar="ingredientTable" value="#{rawIngredientsManagementBean.kitchen.ingredients}" 
+                                     filteredValue="#{rawIngredientsManagementBean.filteredIngredients}" emptyMessage="No Raw Ingredient Found With Given Criteria" editable="true" >
+                            
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search Raw Ingredient: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('ingredientTable').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
+                            </f:facet>
+                            
+                            <p:ajax event="rowEdit" listener="#{rawIngredientsManagementBean.onRowEdit}" update="@this"/>
+                            <p:ajax event="rowEditCancel" listener="#{rawIngredientsManagementBean.onRowCancel}" update="ingredientList"/>
+
+                            <p:column headerText="ID">
+                                <h:outputText value="#{i.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Name" width="12%" filterBy="#{i.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{i.name}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.name}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Price (Per Unit)"  filterBy="#{i.price}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{i.price}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.price}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Unit" width="10%" filterBy="#{i.unit}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{i.unit}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.unit}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Stock" width="5%" filterBy="#{i.stock}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{i.stock}"/>
+                            </p:column>
+
+                            <p:column headerText="Lot Size" filterBy="#{i.lotSize}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{i.lotSize}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.lotSize}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Storage Places" width="13%">
+<!--                                <f:facet name="spFilter">
+                                    <p:spinner onchange="PF('ingredientTable').filter()">
+                                        <f:converter converterId="storagePlaceConverter" />
+                                    </p:spinner>
+                                </f:facet>-->
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <p:dataTable var="sp" value="#{i.storagePlaces}">
+                                            <p:column>
+                                                #{sp.location}
+                                            </p:column>
+                                        </p:dataTable>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectCheckboxMenu value="#{i.storagePlaces}" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
+                                            <f:selectItems value="#{rawIngredientsManagementBean.kitchen.storagePlaces}" var="sp" itemLabel="#{sp.location}" itemValue="#{sp}" />
+                                        </p:selectCheckboxMenu>
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Supplier" width="15%" filterBy="#{i.supplier.name}" filterMatchMode="contains" filterStyle="display:none">
+<!--                                <f:facet name="isFilter">
+                                    <p:spinner onchange="PF('ingredientTable').filter()">
+                                        <f:converter converterId="ingredientSupplierConverter" />
+                                    </p:spinner>
+                                </f:facet>-->
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{i.supplier.name}"/></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{i.supplier}" converter="ingredientSupplierConverter">
+                                            <f:selectItems value="#{rawIngredientsManagementBean.kitchen.ingredientSuppliers}" var="s" itemLabel="#{s.name}" itemValue="#{s}" />
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Remark" width="20%" filterBy="#{i.remark}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{i.remark}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.remark}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Edit" width="5%">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column headerText="Delete" width="6%">       
+                                <p:commandButton update="ingredientList" actionListener="#{rawIngredientsManagementBean.deleteIngredient(i)}" icon="ui-icon-trash" title="Delete">
+                                </p:commandButton>    
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <!--        ~~~~~~~~<p:column width="4%">       
+                                <p:commandButton type="button" onclick="PF('dlg').show();" icon="ui-icon-trash" title="Delete" rendered="#{!i.deleted}">
+                                </p:commandButton>    
+                                </p:column>~~~~~~~~~~~~        
+           
+                                                <p:dialog header="Comfirmation" widgetVar="dlg" position="center" showEffect="fade" hideEffect="fade" resizable="true" draggable="true" closable="true" width="200">
+                                                <p:outputPanel style="text-align:center;">
+                                                <h:outputText value="Please Confirm Deletion" />
+                                                <p:commandButton value="Confirm" update="ingredientList" actionListener="#{rawIngredientsManagementBean.deleteIngredient(i.id)}">
+                                                </p:commandButton> 
+                                                </p:outputPanel>
+                                            </p:dialog>-->
+
+
+                    </p:panel>
+                </p:layoutUnit>
+
+
+
+            </p:layout>
+        </h:form>
+    </h:body>
+
+</html>
+

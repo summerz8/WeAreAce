@@ -28,6 +28,14 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.DishEntity;
+import Entity.Kitchen.DishItemEntity;
+import Entity.Kitchen.IngredientEntity;
+import Entity.Kitchen.IngredientItemEntity;
+import Entity.Kitchen.IngredientSupplierEntity;
+import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
@@ -145,13 +153,14 @@ public class dataSetUp {
                 "Ms", "West Coast Road 20", "250620", "ms.z.summer@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u1);
         em.flush();
-        //FactoryUser(f2)
+        //FactoryUser(f1)
         UserEntity u2 = new FactoryUserEntity("F", "1000002", 3, "Zhang", null,
                 "Yaowen", "Factory SCM Staff", birthday, "Female",
                 "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
 
+        //FactoryUser(f1)
         UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
                 "Jinqiao", "Factory MRP Staff", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
@@ -166,13 +175,20 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
+        //StoreUser(s1)
+        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(us1_1);
+        em.flush();
+
+        //StoreUser(s1)
         UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
         em.flush();
-        
-        
+
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.factoryProduct
@@ -268,7 +284,7 @@ public class dataSetUp {
         em.persist(sp1_1);
         em.persist(sp1_2);
         em.flush();
-        
+
         //Product.BOM
         //for p1
         BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
@@ -1341,8 +1357,155 @@ public class dataSetUp {
         em.flush();
         rmifu2_1.recordRawMaterialInFactoryUseMovement(fbsp2_1_1, 20.0, com1);
         em.flush();
-        
-        //Membership level set up
+
+        //Kitchen of s1
+        KitchenEntity k1 = new KitchenEntity(s1);
+        em.persist(k1);
+        s1.setKitchen(k1);
+        em.flush();
+
+        //Storage Places for k1
+        StoragePlaceEntity stp1_1 = new StoragePlaceEntity(k1, "Refrigerator 1");
+        em.persist(stp1_1);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_1);
+        em.flush();
+        StoragePlaceEntity stp1_2 = new StoragePlaceEntity(k1, "Refrigerator 2");
+        em.persist(stp1_2);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_2);
+        em.flush();
+        StoragePlaceEntity stp1_3 = new StoragePlaceEntity(k1, "Refrigerator 3");
+        em.persist(stp1_3);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_3);
+        em.flush();
+        StoragePlaceEntity stp1_4 = new StoragePlaceEntity(k1, "Shelf 1");
+        em.persist(stp1_4);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_4);
+        em.flush();
+        StoragePlaceEntity stp1_5 = new StoragePlaceEntity(k1, "Shelf 2");
+        em.persist(stp1_5);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_5);
+        em.flush();
+
+        //IngredientSuppliers for k1
+        IngredientSupplierEntity ks1_1 = new IngredientSupplierEntity("Q.B. Food Trading Pte Ltd", "8 Chin Bee Crescent, Jurong, Singapore 619893", "+65 6261 6410", "+65 6261 6120", "Other Enquiries: +65 6261 6120", k1);
+        em.persist(ks1_1);
+        em.flush();
+        k1.getIngredientSuppliers().add(ks1_1);
+        em.flush();
+        IngredientSupplierEntity ks1_2 = new IngredientSupplierEntity("Fresh Direct Pte Ltd", "Blk 17, Pasir Panjang Wholesale Centre, #01-119/120, Singapore 110017", "+65 6775 4454", "+65 6872 1911", "Sales and Business Development: desmond@freshdirect.com.sg", k1);
+        em.persist(ks1_2);
+        em.flush();
+        k1.getIngredientSuppliers().add(ks1_2);
+        em.flush();
+        IngredientSupplierEntity ks1_3 = new IngredientSupplierEntity("Boba Planet Private Limited", "11 Woodlands Close, #10-19, Woodlands 11, S(737853)", "+65 6458 0490", "+65 6458 4760", "Bubble Tea ingredient supplier", k1);
+        em.persist(ks1_3);
+        em.flush();
+        k1.getIngredientSuppliers().add(ks1_3);
+        em.flush();
+
+        //Ingredients for k1
+        IngredientEntity i1_1 = new IngredientEntity("Lettuce", 5.0, "kg", "bitterness will increase with extended storage", 10.0, k1, ks1_2);
+        em.persist(i1_1);
+        em.flush();
+        ArrayList<StoragePlaceEntity> stps1_1 = new ArrayList<>();
+        stps1_1.add(stp1_1);
+        for (StoragePlaceEntity storagePlace : stps1_1) {
+            i1_1.getStoragePlaces().add(storagePlace);
+            storagePlace.getIngredients().add(i1_1);
+        }
+        i1_1.getKitchen().getIngredients().add(i1_1);
+        i1_1.getSupplier().getIngredients().add(i1_1);
+        em.flush();
+
+        IngredientEntity i1_2 = new IngredientEntity("Chilled Beef", 32.0, "kg", "hunter valley australian grass fed ribeye", 10.0, k1, ks1_1);
+        em.persist(i1_2);
+        em.flush();
+        ArrayList<StoragePlaceEntity> stps1_2 = new ArrayList<>();
+        stps1_2.add(stp1_1);
+        stps1_2.add(stp1_2);
+        for (StoragePlaceEntity storagePlace : stps1_2) {
+            i1_2.getStoragePlaces().add(storagePlace);
+            storagePlace.getIngredients().add(i1_2);
+        }
+        i1_2.getKitchen().getIngredients().add(i1_2);
+        i1_2.getSupplier().getIngredients().add(i1_2);
+        em.flush();
+        IngredientEntity i1_3 = new IngredientEntity("Blueberry Syrup", 15.2, "bottle (5kg)", "Free local delivery for orders more than S$ 150, Delivery surcharge of S$ 15 applicable, for orders below S$ 150", 1.0, k1, ks1_3);
+        em.persist(i1_3);
+        em.flush();
+        ArrayList<StoragePlaceEntity> stps1_3 = new ArrayList<>();
+        stps1_3.add(stp1_1);
+        stps1_3.add(stp1_2);
+        stps1_3.add(stp1_3);
+        for (StoragePlaceEntity storagePlace : stps1_3) {
+            i1_3.getStoragePlaces().add(storagePlace);
+            storagePlace.getIngredients().add(i1_3);
+        }
+        i1_3.getKitchen().getIngredients().add(i1_3);
+        i1_3.getSupplier().getIngredients().add(i1_3);
+        em.flush();
+
+        //Dishes for k1
+        DishEntity d1_1 = new DishEntity("Steak", 10.0, "Beef Steak", 5, k1);
+        em.persist(d1_1);
+        em.flush();
+        d1_1.getKitchen().getDishes().add(d1_1);
+        IngredientItemEntity ii1_1_1 = new IngredientItemEntity(i1_1, 1.0);
+        em.persist(ii1_1_1);
+        em.flush();
+        ii1_1_1.getIngredient().getDishes().add(d1_1);
+        d1_1.getRecipe().add(ii1_1_1);
+        IngredientItemEntity ii1_1_2 = new IngredientItemEntity(i1_2, 2.0);
+        em.persist(ii1_1_2);
+        em.flush();
+        ii1_1_2.getIngredient().getDishes().add(d1_1);
+        d1_1.getRecipe().add(ii1_1_2);
+        em.flush();
+
+        DishEntity d1_2 = new DishEntity("Beef Salad", 12.0, "Beef Salad", 5, k1);
+        em.persist(d1_2);
+        em.flush();
+        d1_2.getKitchen().getDishes().add(d1_2);
+        IngredientItemEntity ii1_2_1 = new IngredientItemEntity(i1_1, 1.0);
+        em.persist(ii1_2_1);
+        em.flush();
+        ii1_2_1.getIngredient().getDishes().add(d1_2);
+        d1_2.getRecipe().add(ii1_2_1);
+        IngredientItemEntity ii1_2_2 = new IngredientItemEntity(i1_2, 2.0);
+        em.persist(ii1_2_2);
+        em.flush();
+        ii1_2_2.getIngredient().getDishes().add(d1_2);
+        d1_2.getRecipe().add(ii1_2_2);
+        em.flush();
+        IngredientItemEntity ii1_2_3 = new IngredientItemEntity(i1_3, 0.5);
+        em.persist(ii1_2_3);
+        em.flush();
+        ii1_2_3.getIngredient().getDishes().add(d1_2);
+        d1_2.getRecipe().add(ii1_2_3);
+        em.flush();
+
+        // Combos for k1
+        ComboEntity c1_1 = new ComboEntity("Beef Set", 40.0, "Beef Set 2px", k1);
+        em.persist(c1_1);
+        c1_1.getKitchen().getCombos().add(c1_1);
+        em.flush();
+        DishItemEntity di1_1_1 = new DishItemEntity(d1_1, 2);
+        em.persist(di1_1_1);
+        em.flush();
+        di1_1_1.getDish().getCombos().add(c1_1);
+        c1_1.getDishes().add(di1_1_1);
+        em.flush();
+        DishItemEntity di1_1_2 = new DishItemEntity(d1_2, 2);
+        em.persist(di1_1_2);
+        em.flush();
+        di1_1_2.getDish().getCombos().add(c1_1);
+        c1_1.getDishes().add(di1_1_2);
+
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
         em.persist(memlvl0);
