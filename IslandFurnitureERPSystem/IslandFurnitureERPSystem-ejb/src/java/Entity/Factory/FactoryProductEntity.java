@@ -38,9 +38,11 @@ public class FactoryProductEntity implements Serializable {
     private Double unrestrictedInventory = 0D;
     private Double blockedInventory = 0D;
     private Double returnedInventory = 0D;
+    private String name;
     private String unit;
     private Double minimumInventory = 50D;
     private Boolean deleteFlag;
+    
     //inventory record entity -- factory product entity : M <--> 1
     @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="factoryProduct")
     private List<InventoryRecordEntity> record= new ArrayList<>();
@@ -66,6 +68,7 @@ public class FactoryProductEntity implements Serializable {
         this.unit = unit;
         this.factory = factory;
         this.product = product;
+        name = product.getName();
         this.deleteFlag = false;
     }
 
@@ -124,6 +127,14 @@ public class FactoryProductEntity implements Serializable {
 
     public void setReturnedInventory(Double returnedInventory) {
         this.returnedInventory = returnedInventory;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUnit() {

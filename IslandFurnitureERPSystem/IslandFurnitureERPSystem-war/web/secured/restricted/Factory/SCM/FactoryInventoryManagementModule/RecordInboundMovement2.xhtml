@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>SCM: Record Raw Material In-Factory Use Movement</title>
+        <title>SCM: Record Inbound Movement</title>
     </h:head>
 
     <h:body>
@@ -35,7 +35,6 @@
                                  actionListener="#{idleBean.logoutListener}" />
 
             </p:confirmDialog>
-
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -66,7 +65,6 @@
 
                 </p:layoutUnit>
 
-
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
@@ -82,29 +80,34 @@
                         </p:submenu>
                     </p:menu>
 
-
                 </p:layoutUnit>
-                <p:layoutUnit position="center" resizable="false">
+                <p:layoutUnit position="center" resizable="false" >
 
-                    <p:panel id="basic" header="Record Raw Material In-Factory Use Movement" style="margin-bottom" >
+                    <p:panel id="basic" header="Record Inbound Movement" style="margin-bottom" >
 
                         <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
-                            <p:outputLabel value="Raw Material ID: " />
-                            <h:inputText value="#{recordRawMaterialInFactoryUseMovement.factoryRawMaterialId}" />
+                            <p:outputLabel value="Goods Receipt: " />
+                            <h:outputText value="#{recordInboundMovementBean.goodsReceiptId}"/>
 
-                            <p:outputLabel value="From Storage Bin: " />
-                            <h:inputText value="#{recordRawMaterialInFactoryUseMovement.fromBinId}" />
+                            <p:outputLabel value="Destination Storage Bin: " />
+                            <h:inputText value="#{recordInboundMovementBean.toBinId}" />
+
+                            <p:outputLabel value="Item Status: " />
+                            <p:selectOneRadio value="#{recordInboundMovementBean.status}">
+                                <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
+                                <f:selectItem itemLabel="Blocked" itemValue="blocked" />
+                            </p:selectOneRadio>
 
                             <p:outputLabel value="Quantity: " />
-                            <h:inputText value="#{recordRawMaterialInFactoryUseMovement.quantity}" />
+                            <h:inputText value="#{recordInboundMovementBean.quantity}" />
 
                             <p:outputLabel value="Date: " />
-                            <h:outputText value="#{recordRawMaterialInFactoryUseMovement.inputDate}">
+                            <h:outputText value="#{recordInboundMovementBean.inputDate}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                             </h:outputText>
 
-                            <h:commandButton value="Submit" actionListener="#{recordRawMaterialInFactoryUseMovement.recordRawMaterialInFactoryUseMovement}"/>
+                            <h:commandButton value="Submit" actionListener="#{recordInboundMovementBean.recordInboundMovement}"/>
 
                         </h:panelGrid>
 

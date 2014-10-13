@@ -33,7 +33,7 @@ public class StoreEntity implements Serializable {
     private String address;
     private String country;
     private String contact;
-    private String manager;
+    private String manager;//manager id
     private Boolean deleteFlag;
 
 //    //factory entity -- store entity: M <--> M 

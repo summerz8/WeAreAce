@@ -44,7 +44,7 @@ public class FactoryEntity implements Serializable {
     private String country;
     private String address;
     private String contact;
-    private String manager; // managerEntity
+    private String manager; // manager id
     private Boolean deleteFlag;//a flag used to mark as deleted or not
     
     //purchase order entity -- factory entity: M <--> 1 
@@ -131,11 +131,11 @@ public class FactoryEntity implements Serializable {
         this.contact = contact;
     }
 
-    public String getManager() {
+    public String getManagerId() {
         return manager;
     }
 
-    public void setManager(String manager) {
+    public void setManagerId(String manager) {
         this.manager = manager;
     }
 

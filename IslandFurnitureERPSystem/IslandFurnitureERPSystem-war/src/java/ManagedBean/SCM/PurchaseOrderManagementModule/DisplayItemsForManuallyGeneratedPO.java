@@ -5,7 +5,6 @@
  */
 package ManagedBean.SCM.PurchaseOrderManagementModule;
 
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
@@ -15,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -89,8 +87,8 @@ public class DisplayItemsForManuallyGeneratedPO implements Serializable {
         this.pmb = pmb;
     }
 
-    public String displayAllFactoryItems() throws Exception {
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO?faces-redirect=true";
-
-    }
+//    public String displayAllFactoryItems() throws Exception {
+//        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO?faces-redirect=true";
+//
+//    }
 }

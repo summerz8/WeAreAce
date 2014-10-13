@@ -5,6 +5,7 @@
  */
 package SessionBean.SCM;
 
+import Entity.Factory.SCM.GoodsReceiptEntity;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
@@ -16,30 +17,32 @@ import javax.ejb.Local;
 @Local
 public interface FactoryInventoryManagementModuleLocal {
 
-    public List listStorageBinInformation(long factoryId);
+    public List listStorageBinInformation(Long factoryId);
 
-    public Long recordInboundMovement(long factoryId, Long goodsReceiptId, Long toBinId, String status, double quantity, Calendar creationDate);
+    public Long recordInboundMovement(Long factoryId, Long goodsReceiptId, Long toBinId, String status, Double quantity, Calendar creationDate);
 
-    public Long recordFactoryProductOutboundMovement(long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, double quantity, Calendar creationDate);
+    public Long recordFactoryProductOutboundMovement(Long factoryId, Long fromBinId, Long factoryProductId, Long toStoreId, Double quantity, Calendar creationDate);
 
-    public Long recordFactoryRetailProductOutboundMovement(long factoryId, Long fromBinId, Long factoryRetailProductId, Long toStoreId, double quantity, Calendar creationDate);
+    public Long recordFactoryRetailProductOutboundMovement(Long factoryId, Long fromBinId, Long factoryRetailProductId, Long toStoreId, Double quantity, Calendar creationDate);
 
-    public Long recordInFactoryRawMaterialMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRawMaterialId, String status, double quantity, Calendar creationDate);
+    public Long recordInFactoryRawMaterialMovement(Long factoryId, Long fromBinId, Long toBinId, Long factoryRawMaterialId, String status, Double quantity, Calendar creationDate);
 
-    public Long recordInFactoryProductMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryProductId, String status, double quantity, Calendar creationDate);
+    public Long recordInFactoryProductMovement(Long factoryId, Long fromBinId, Long toBinId, Long factoryProductId, String status, Double quantity, Calendar creationDate);
 
-    public Long recordInFactoryRetailProductMovement(long factoryId, Long fromBinId, Long toBinId, Long factoryRetailProductId, String status, double quantity, Calendar creationDate);
+    public Long recordInFactoryRetailProductMovement(Long factoryId, Long fromBinId, Long toBinId, Long factoryRetailProductId, String status, Double quantity, Calendar creationDate);
 
-    public Long recordRawMaterialInFactoryUseMovement(long factoryId, Long fromBinId, Long factoryRawMaterialId, double quantity, Calendar creationDate);
+    public Long recordRawMaterialInFactoryUseMovement(Long factoryId, Long fromBinId, Long factoryRawMaterialId, Double quantity, Calendar creationDate);
 
-    public Long changeFactoryBinStoredProductStatus(long factoryId, Long factoryBinStoredProductId, String toStatus);
+    public Long changeFactoryBinStoredProductStatus(Long factoryId, Long factoryBinStoredProductId, String toStatus);
 
-    public Long recordReturnedProductInboundMovement(long factoryId, Long factoryProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
+    public Long recordReturnedProductInboundMovement(Long factoryId, Long factoryProductId, Long fromStoreId, Long toBinId, Double quantity, Calendar creationDate);
 
-    public Long recordReturnedRetailProductInboundMovement(long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, double quantity, Calendar creationDate);
+    public Long recordReturnedRetailProductInboundMovement(Long factoryId, Long factoryRetailProductId, Long fromStoreId, Long toBinId, Double quantity, Calendar creationDate);
 
-    public Long recordProductToBinMovement(long factoryID, Long factoryProductId, Long toBinId, String status, double quantity, Calendar creationDate);
+    public Long recordProductToBinMovement(Long factoryID, Long factoryProductId, Long toBinId, String status, Double quantity, Calendar creationDate);
 
-    public int recordCurrentInventoryLevel(long factoryId);
+    public int recordCurrentInventoryLevel(Long factoryId);
+
+    List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId);
 
 }

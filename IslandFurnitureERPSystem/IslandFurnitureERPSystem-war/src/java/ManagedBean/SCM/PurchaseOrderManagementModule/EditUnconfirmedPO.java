@@ -5,8 +5,6 @@
  */
 package ManagedBean.SCM.PurchaseOrderManagementModule;
 
-import Entity.Factory.FactoryEntity;
-import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
@@ -14,7 +12,6 @@ import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;

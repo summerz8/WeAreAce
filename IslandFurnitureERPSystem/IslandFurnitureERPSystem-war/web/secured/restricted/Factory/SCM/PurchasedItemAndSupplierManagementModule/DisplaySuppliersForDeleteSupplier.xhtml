@@ -66,10 +66,10 @@
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchased Item And Supplier Management">
-                            <p:menuitem value="Add New Supplier" action="#{itemsForPurchase.displayAllFactoryItems()}"/>
-                            <p:menuitem value="Edit Supplier" action = "#{displaySuppliersForEditSupplier.displaySuppliers()}"/>
-                            <p:menuitem value="Delete Supplier" update="messages" action = "#{deleteSupplier.displaySuppliers()}"/>
-                            <p:menuitem value="Add Contract" update="messages" action = "#{itemsForAddContract.displayAllFactoryItems()}"/> 
+                            <p:menuitem value="Add New Supplier" update="messages" action="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForPurchase?faces-redirect=true"/>
+                            <p:menuitem value="Edit Supplier" update="messages" action = "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForEditSupplier?faces-redirect=true"/>
+                            <p:menuitem value="Delete Supplier" update="messages" action = "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForDeleteSupplier?faces-redirect=true"/>
+                            <p:menuitem value="Add Contract" update="messages" action = "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract?faces-redirect=true"/> 
                         </p:submenu>
                     </p:menu>
 

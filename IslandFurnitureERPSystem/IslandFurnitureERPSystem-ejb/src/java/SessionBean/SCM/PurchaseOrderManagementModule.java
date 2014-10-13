@@ -62,7 +62,6 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         InventoryRecordEntity ir = null;
 
         if (itemType.equals("RawMaterial")) {
-            System.out.println("SB  check1");
             FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
             List<InventoryRecordEntity> inventoryRecordList = factoryRawMaterial.getInventoryRecord();
             Iterator iterator = inventoryRecordList.iterator();
@@ -145,15 +144,15 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     @Override
     public FactoryRetailProductEntity getFactoryRP(Long itemId) throws Exception {
         System.out.println("getFactoryRP():");
-        FactoryRetailProductEntity retailProduct = null;
+        FactoryRetailProductEntity frp = null;
         try {
-            retailProduct = em.find(FactoryRetailProductEntity.class, itemId);
+            frp = em.find(FactoryRetailProductEntity.class, itemId);
 
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        return retailProduct;
+        return frp;
     }
 
     @Override
@@ -175,8 +174,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     public ContractEntity getContract2(Long supplierId, Long itemId, String itemType) throws Exception {
         ContractEntity contract = null;
         if (itemType.equals("RawMaterial")) {
-            FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
-            Collection<ContractEntity> contractList = item.getContracts();
+            FactoryRawMaterialEntity frm = em.find(FactoryRawMaterialEntity.class, itemId);
+            Collection<ContractEntity> contractList = frm.getContracts();
             for (ContractEntity c : contractList) {
                 if ((c.getSupplier() != null)
                         && c.getSupplier().getSupplierId().equals(supplierId)) {
@@ -184,15 +183,10 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 }
             }
         } else {
-            FactoryRetailProductEntity item = em.find(FactoryRetailProductEntity.class, itemId);
-            Collection<ContractEntity> contractList = item.getContracts();
-            Iterator iterator = contractList.iterator();
-
-            while (iterator.hasNext()) {
-                Object obj = iterator.next();
-                ContractEntity c = (ContractEntity) obj;
-                SupplierEntity supplier = contract.getSupplier();
-
+            FactoryRetailProductEntity frp = em.find(FactoryRetailProductEntity.class, itemId);
+            Collection<ContractEntity> contractList = frp.getContracts();
+            for(ContractEntity c : contractList){
+                SupplierEntity supplier = c.getSupplier();
                 if (supplier.getSupplierId().equals(supplierId)) {
                     contract = c;
                 }
@@ -256,8 +250,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
         try {
             if (itemType.equals("RawMaterial")) {
-                FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
-                Collection<ContractEntity> contractList = item.getContracts();
+                FactoryRawMaterialEntity frm = em.find(FactoryRawMaterialEntity.class, itemId);
+                Collection<ContractEntity> contractList = frm.getContracts();
                 Iterator iterator = contractList.iterator();
 
                 while (iterator.hasNext()) {
@@ -271,8 +265,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                     }
                 }
             } else {// itemType.equals("RetailProduct")
-                FactoryRetailProductEntity item = em.find(FactoryRetailProductEntity.class, itemId);
-                Collection<ContractEntity> contractList = item.getContracts();
+                FactoryRetailProductEntity frp = em.find(FactoryRetailProductEntity.class, itemId);
+                Collection<ContractEntity> contractList = frp.getContracts();
                 Iterator iterator = contractList.iterator();
 
                 while (iterator.hasNext()) {
@@ -341,8 +335,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
         try {
             if (itemType.equals("RawMaterial")) {
-                FactoryRawMaterialEntity item = em.find(FactoryRawMaterialEntity.class, itemId);
-                Collection<ContractEntity> contractList = item.getContracts();
+                FactoryRawMaterialEntity frm = em.find(FactoryRawMaterialEntity.class, itemId);
+                Collection<ContractEntity> contractList = frm.getContracts();
 
                 Iterator iterator = contractList.iterator();
 
@@ -357,8 +351,8 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 }
 
             } else {// itemType.equals("RetailProduct")
-                FactoryRetailProductEntity item = em.find(FactoryRetailProductEntity.class, itemId);
-                Collection<ContractEntity> contractList = item.getContracts();
+                FactoryRetailProductEntity frp = em.find(FactoryRetailProductEntity.class, itemId);
+                Collection<ContractEntity> contractList = frp.getContracts();
 
                 Iterator iterator = contractList.iterator();
 
@@ -395,6 +389,31 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 StoreEntity store = storeRetailProduct.getStore();
                 if (!storeList.contains(store)) {
                     storeList.add(store);
+                }
+            }
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception!");
+            ex.printStackTrace();
+        }
+        return storeList;
+    }
+
+    @Override
+    public Collection<StoreEntity> viewAvailStoreForRetailProduct(Long factoryId, Long frpId) throws Exception {
+        List<StoreEntity> storeList = new ArrayList<>();
+        try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, frpId);
+            List<StoreRetailProductEntity> storeRetailProductList = factory.getStoreRetailProduct();
+            for (Object o : storeRetailProductList) {
+                StoreRetailProductEntity storeRetailProduct = (StoreRetailProductEntity) o;
+                if (storeRetailProduct.getRetailProduct().getRetailProductId()
+                        .equals(factoryRetailProduct.getRetailProduct().getRetailProductId())) {
+                    StoreEntity store = storeRetailProduct.getStore();
+                    if (!storeList.contains(store)) {
+                        storeList.add(store);
+                    }
                 }
             }
 
@@ -1146,7 +1165,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, purchaseOrderId);
         gr.setCreateDate(Calendar.getInstance());
         gr.setPurchaseOrder(po);
-
+        System.out.println("Check 1");
         em.persist(gr);
         DeliveryOrderEntity deliveryOrder = em.find(DeliveryOrderEntity.class, deliveryOrderId);
         deliveryOrder.setStatus("fulfilled");
@@ -1154,9 +1173,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         gr.setOriginalAmount(deliveryOrder.getAmount());
         gr.setAmount(deliveryOrder.getAmount());
         em.flush();
-
+        
+        System.out.println("check 2");
         for (DeliveryOrderEntity delivery : po.getDeliveryOrderList()) {
+            System.out.println("CHECK 3 = " + delivery.toString());
             if (!delivery.getStatus().equals("fulfilled")) {
+               System.out.println("CHECK 4 = " + delivery.toString());
                 result = "Delivery order [id = " + deliveryOrder.getId()
                         + "] is fullfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
                 System.out.println(result);
@@ -1171,7 +1193,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
         return result;
     }
-        // for comparing two dates
+    // for comparing two dates
     //function to set all the other attributes to be 0
 
     public Calendar removeTime(Calendar cal) {
@@ -1194,5 +1216,4 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         }
         return isExpired;
     }
-
 }

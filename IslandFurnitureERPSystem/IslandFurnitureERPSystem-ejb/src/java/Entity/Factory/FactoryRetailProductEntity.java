@@ -203,10 +203,10 @@ public class FactoryRetailProductEntity implements Serializable {
         this.inventoryRecords = inventoryRecords;
     }
 
-    public void create(String name, String description) {
-        setName(name);
-        setDescription(description);
-    }
+//    public void create(String name, String description) {
+//        setName(name);
+//        setDescription(description);
+//}
 
     
 }
