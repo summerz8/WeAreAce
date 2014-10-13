@@ -89,7 +89,6 @@
                     <p:panel id="basic" header="Change Stock Status" style="margin-bottom" >
 
 
-<<<<<<< HEAD
                         <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
                             <p:outputLabel value="Factory Bin Stored Product ID: " />
@@ -101,24 +100,6 @@
                                 <f:selectItem itemLabel="Blocked" itemValue="blocked" />
                                 <f:selectItem itemLabel="Returned" itemValue="returned" />
                             </p:selectOneRadio>
-=======
-                        <p:outputLabel value="Factory Bin Stored Product ID: " />
-                        <h:inputText value="#{changeFactoryBinStoredProductStatusBean.factoryBinStoredProductId}" />
-
-                        <p:outputLabel value="To Status: " />
-                        <p:selectOneRadio value="#{changeFactoryBinStoredProductStatusBean.toStatus}">
-                            <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
-                            <f:selectItem itemLabel="Blocked" itemValue="blocked" />
-                            <f:selectItem itemLabel="Returned" itemValue="returned" />
-                        </p:selectOneRadio>
-                        
-                        <p:outputLabel value="Date: " />
-                        <h:outputText value="#{changeFactoryBinStoredProductStatusBean.inputDate}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                        </h:outputText>
-
-                        <h:commandButton value="Submit" actionListener="#{changeFactoryBinStoredProductStatusBean.changeFactoryBinStoredProductStatus}"/>
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
 
                             <p:outputLabel value="Date: " />
                             <h:outputText value="#{changeFactoryBinStoredProductStatusBean.inputDate}" >

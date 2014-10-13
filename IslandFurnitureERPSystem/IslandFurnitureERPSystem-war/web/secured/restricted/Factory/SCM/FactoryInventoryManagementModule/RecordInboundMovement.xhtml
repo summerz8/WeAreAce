@@ -84,7 +84,6 @@
                 <p:layoutUnit position="center" resizable="false" >
 
                     <p:panel id="basic" header="Record Inbound Movement" style="margin-bottom" >
-<<<<<<< HEAD
 
                         <p:dataTable var="gr" value="#{recordInboundMovementBean.unfulfilledGoodsReceipts}">
 
@@ -149,70 +148,6 @@
 
                         </p:dataTable>
                     </p:panel>
-=======
-                    </p:panel>
-
-                    <p:dataTable var="gr" value="#{recordInboundMovementBean.unfulfilledGoodsReceipts}">
-
-                        <p:column headerText="Goods Receipt ID">
-                            #{gr.goodsReceiptId}
-                        </p:column>
-
-                        <p:column headerText="Item Name">
-                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRawMaterial.rawMaterial.materialName}" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
-                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRetailProduct.retailProduct.name}" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct != null}" />
-                        </p:column>
-
-                        <p:column headerText="Quantity">
-                            #{gr.originalAmount}
-                        </p:column>
-
-                        <p:column headerText="Left Amount">
-                            #{gr.amount}
-                        </p:column>
-
-                        <p:column headerText="Unit">
-                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRawMaterial.rawMaterial.unit}" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
-                            <h:outputText value="#{gr.purchaseOrder.contract.factoryRetailProduct.retailProduct.unit}" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct != null}" />
-                        </p:column>
-
-                        <p:column headerText="Item Type">
-                            <h:outputText value="Factory Raw Material" rendered="#{gr.purchaseOrder.contract.factoryRawMaterial != null}" />
-                            <h:outputText value="Factory Retail Product" rendered="#{gr.purchaseOrder.contract.factoryRetailProduct == null}" />
-                        </p:column>
-
-                        <p:column headerText="Supplier">
-                            #{gr.purchaseOrder.contract.supplier.supplierName}
-                        </p:column>
-
-                        <p:column headerText="Create Date">
-                            <h:outputText value="#{gr.createDate.time}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                            </h:outputText>
-                        </p:column>
-
-                        <p:column headerText="Purchase Order">
-                            #{gr.purchaseOrder.id}
-                        </p:column>
-
-                        <p:column headerText="Inbound Movements">
-                            <h:outputText value="No Record" rendered="#{gr.inboundMovements.isEmpty()}" />
-                            <p:dataTable var="im" value="#{gr.inboundMovements}" rendered="#{!gr.inboundMovements.isEmpty()}">
-                                <p:column>
-                                    #{im.inboundMovementId}
-                                </p:column>
-                            </p:dataTable>
-                        </p:column>
-
-                        <p:column headerText="Select">
-                            <p:commandButton value="Select" action="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement2?faces-redirect=true" >
-                                <f:setPropertyActionListener target="#{recordInboundMovementBean.goodsReceiptId}" value="#{gr.goodsReceiptId}" />
-
-                            </p:commandButton>
-                        </p:column>
-
-                    </p:dataTable>
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
 
                 </p:layoutUnit>
 

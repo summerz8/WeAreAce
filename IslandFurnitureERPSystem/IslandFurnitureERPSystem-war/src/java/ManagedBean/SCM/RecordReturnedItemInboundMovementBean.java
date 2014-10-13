@@ -28,35 +28,20 @@ public class RecordReturnedItemInboundMovementBean {
     private FactoryInventoryManagementModuleLocal fim;
 
     @ManagedProperty(value = "#{loginBean.departmentId}")
-<<<<<<< HEAD
     private Long factoryId;
     private Long toBinId;
     private Long fromStoreId;
     private Double quantity;
-=======
-    private long factoryId;
-    private Long toBinId;
-    private Long fromStoreId;
-    private double quantity;
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     private Calendar creationDate = Calendar.getInstance();
     private Calendar inputDate = Calendar.getInstance();
     private int itemTypeIndicator;
     private Long itemId;
 
-<<<<<<< HEAD
     public Long getFactoryId() {
         return factoryId;
     }
 
     public void setFactoryId(Long factoryId) {
-=======
-    public long getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(long factoryId) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.factoryId = factoryId;
     }
 
@@ -76,19 +61,11 @@ public class RecordReturnedItemInboundMovementBean {
         this.fromStoreId = fromStoreId;
     }
 
-<<<<<<< HEAD
     public Double getQuantity() {
         return quantity;
     }
 
     public void setQuantity(Double quantity) {
-=======
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.quantity = quantity;
     }
 
@@ -163,11 +140,7 @@ public class RecordReturnedItemInboundMovementBean {
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
-<<<<<<< HEAD
         } else if (itemTypeIndicator == 3){
-=======
-        } else {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
             temp = fim.recordReturnedRetailProductInboundMovement(factoryId, itemId, fromStoreId, toBinId, quantity, creationDate);
             if (temp == -1L) {
                 FacesContext.getCurrentInstance().addMessage(
@@ -200,14 +173,11 @@ public class RecordReturnedItemInboundMovementBean {
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
-<<<<<<< HEAD
         } else{
             FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to record returned item inbound movement",
                                 "please select valid item type"));
-=======
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         }
     }
 

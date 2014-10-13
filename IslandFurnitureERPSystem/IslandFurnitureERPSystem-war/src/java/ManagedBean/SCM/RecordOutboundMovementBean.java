@@ -28,35 +28,20 @@ public class RecordOutboundMovementBean {
     private FactoryInventoryManagementModuleLocal fim;
 
     @ManagedProperty(value = "#{loginBean.departmentId}")
-<<<<<<< HEAD
     private Long factoryId;
     private Long fromBinId;
     private Long toStoreId;
     private Double quantity;
-=======
-    private long factoryId;
-    private Long fromBinId;
-    private Long toStoreId;
-    private double quantity;
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     private Calendar creationDate = Calendar.getInstance();
     private Calendar inputDate = Calendar.getInstance();
     private int itemTypeIndicator;
     private Long itemId;
 
-<<<<<<< HEAD
     public Long getFactoryId() {
         return factoryId;
     }
 
     public void setFactoryId(Long factoryId) {
-=======
-    public long getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(long factoryId) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.factoryId = factoryId;
     }
 
@@ -76,19 +61,11 @@ public class RecordOutboundMovementBean {
         this.toStoreId = toStoreId;
     }
 
-<<<<<<< HEAD
     public Double getQuantity() {
         return quantity;
     }
 
     public void setQuantity(Double quantity) {
-=======
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.quantity = quantity;
     }
 
@@ -178,11 +155,7 @@ public class RecordOutboundMovementBean {
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Create Successful!",
                                 ""));
             }
-<<<<<<< HEAD
         } else if(itemTypeIndicator == 3){
-=======
-        } else {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
             temp = fim.recordFactoryRetailProductOutboundMovement(factoryId, fromBinId, itemId, toStoreId, quantity, creationDate);
             if (temp == -1L) {
                 FacesContext.getCurrentInstance().addMessage(
@@ -231,15 +204,12 @@ public class RecordOutboundMovementBean {
                                 ""));
             }
         }
-<<<<<<< HEAD
         else{
             FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed to create outbound movement record",
                                 "Item Type has not been seleted"));
         }
-=======
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     }
 
 }

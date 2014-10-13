@@ -44,7 +44,4 @@ public interface FactoryInventoryManagementModuleLocal {
     public int recordCurrentInventoryLevel(Long factoryId);
 
     List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId);
-
-    List<GoodsReceiptEntity> findUnfulfilledGoodsReceipts(Long factoryId);
-
 }

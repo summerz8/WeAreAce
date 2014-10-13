@@ -28,37 +28,21 @@ public class RecordInFactoryMovementBean {
     private FactoryInventoryManagementModuleLocal fim;
 
     @ManagedProperty(value = "#{loginBean.departmentId}")
-<<<<<<< HEAD
     private Long factoryId;
-=======
-    private long factoryId;
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     private Calendar inputDate = Calendar.getInstance();
     private Long fromBinId;
     private Long toBinId;
     private String status;
-<<<<<<< HEAD
     private Double quantity;
-=======
-    private double quantity;
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     private Calendar creationDate = Calendar.getInstance();
     private int itemTypeIndicator;
     private Long itemId;
 
-<<<<<<< HEAD
     public Long getFactoryId() {
         return factoryId;
     }
 
     public void setFactoryId(Long factoryId) {
-=======
-    public long getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(long factoryId) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.factoryId = factoryId;
     }
 
@@ -95,19 +79,11 @@ public class RecordInFactoryMovementBean {
         this.status = status;
     }
 
-<<<<<<< HEAD
     public Double getQuantity() {
         return quantity;
     }
 
     public void setQuantity(Double quantity) {
-=======
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.quantity = quantity;
     }
 

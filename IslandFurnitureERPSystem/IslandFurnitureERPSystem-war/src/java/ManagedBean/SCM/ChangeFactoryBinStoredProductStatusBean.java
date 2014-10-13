@@ -28,11 +28,7 @@ public class ChangeFactoryBinStoredProductStatusBean {
     private FactoryInventoryManagementModuleLocal fim;
 
     @ManagedProperty(value = "#{loginBean.departmentId}")
-<<<<<<< HEAD
     private Long factoryId;
-=======
-    private long factoryId;
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
     private Long factoryBinStoredProductId;
     private String toStatus;
     private Calendar creationDate = Calendar.getInstance();
@@ -41,19 +37,11 @@ public class ChangeFactoryBinStoredProductStatusBean {
     public ChangeFactoryBinStoredProductStatusBean() {
     }
 
-<<<<<<< HEAD
     public Long getFactoryId() {
         return factoryId;
     }
 
     public void setFactoryId(Long factoryId) {
-=======
-    public long getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(long factoryId) {
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
         this.factoryId = factoryId;
     }
 

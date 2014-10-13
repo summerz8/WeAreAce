@@ -84,7 +84,6 @@
                 <p:layoutUnit position="center" resizable="false" >
 
                     <p:panel id="basic" header="Record Inbound Movement" style="margin-bottom" >
-<<<<<<< HEAD
 
                         <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
 
@@ -113,36 +112,6 @@
                         </h:panelGrid>
 
                     </p:panel>
-=======
-                    </p:panel>
-
-                    <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
-
-                        <p:outputLabel value="Goods Receipt: " />
-                        <h:outputText value="#{recordInboundMovementBean.goodsReceiptId}"/>
-
-                        <p:outputLabel value="Destination Storage Bin: " />
-                        <h:inputText value="#{recordInboundMovementBean.toBinId}" />
-
-                        <p:outputLabel value="Item Status: " />
-                        <p:selectOneRadio value="#{recordInboundMovementBean.status}">
-                            <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
-                            <f:selectItem itemLabel="Blocked" itemValue="blocked" />
-                        </p:selectOneRadio>
-
-                        <p:outputLabel value="Quantity: " />
-                        <h:inputText value="#{recordInboundMovementBean.quantity}" />
-
-                        <p:outputLabel value="Date: " />
-                        <h:outputText value="#{recordInboundMovementBean.inputDate}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                        </h:outputText>
-
-                        <h:commandButton value="Submit" actionListener="#{recordInboundMovementBean.recordInboundMovement}"/>
-
-                    </h:panelGrid>
-
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
 
                 </p:layoutUnit>
 

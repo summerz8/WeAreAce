@@ -934,9 +934,4 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
             return null;
         }
     }
-<<<<<<< HEAD
-=======
-
-    
->>>>>>> 2b4be6cba12607486d6f2d0ee91e40619f339de7
 }
