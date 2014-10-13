@@ -40,10 +40,13 @@ public class RawIngredientsManagementBean implements Serializable {
     private String remark;
     private Double lotSize;
     private IngredientSupplierEntity supplier;
+    private List<IngredientSupplierEntity> filteredSuppliers;
     private Long ingredientId;
     private List<StoragePlaceEntity> selectedStoragePlaces;
+    private List<StoragePlaceEntity> filteredStoragePlaces;
     private IngredientEntity selectedIngredient;
     private List<IngredientEntity> filteredIngredients;
+    
 
     public RawIngredientsManagementBean() {
     }
@@ -136,6 +139,22 @@ public class RawIngredientsManagementBean implements Serializable {
         this.filteredIngredients = filteredIngredients;
     }
 
+    public List<IngredientSupplierEntity> getFilteredSuppliers() {
+        return rim.getSuppliers(kitchen.getId());
+    }
+
+    public void setFilteredSuppliers(List<IngredientSupplierEntity> filteredSuppliers) {
+        this.filteredSuppliers = filteredSuppliers;
+    }
+
+    public List<StoragePlaceEntity> getFilteredStoragePlaces() {
+        return rim.getStoragePlaces(kitchen.getId());
+    }
+
+    public void setFilteredStoragePlaces(List<StoragePlaceEntity> filteredStoragePlaces) {
+        this.filteredStoragePlaces = filteredStoragePlaces;
+    }
+
     @PostConstruct
     public void init() {
         try {
@@ -173,7 +192,7 @@ public class RawIngredientsManagementBean implements Serializable {
                 FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Raw Ingredient Edited", ((IngredientEntity) event.getObject()).getId().toString());
+                FacesMessage msg = new FacesMessage("Successful", "Ingredient " + ingredient.getId() + "is Edited");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         } catch (Exception ex) {
@@ -186,7 +205,7 @@ public class RawIngredientsManagementBean implements Serializable {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ((IngredientEntity) event.getObject()).getId().toString());
+        FacesMessage msg = new FacesMessage("Edit Cancelled", null);
         FacesContext.getCurrentInstance().addMessage(null, msg);
         filteredIngredients = rim.getIngredients(kitchen.getId());
     }

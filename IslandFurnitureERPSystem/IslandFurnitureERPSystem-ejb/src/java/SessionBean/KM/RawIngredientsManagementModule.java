@@ -10,9 +10,7 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,35 +36,14 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             for (Long spId : storagePlaceIds) {
                 storagePlaces.add(em.find(StoragePlaceEntity.class, spId));
             }
-//            System.out.println("2. selected SP: ");
-//            for (StoragePlaceEntity o : storagePlaces) {
-//                System.out.println("----------SP: " + o.getLocation());
-//                System.out.println(o.getClass());
-//            }
-//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!! ");
-            IngredientEntity ingredient = new IngredientEntity(name, price, unit, remark, lotSize, storagePlaces, kitchen, supplier);
+
+            IngredientEntity ingredient = new IngredientEntity(name, price, unit, remark, lotSize, kitchen, supplier);
             em.persist(ingredient);
 
             for (StoragePlaceEntity storagePlace : storagePlaces) {
                 ingredient.getStoragePlaces().add(storagePlace);
                 storagePlace.getIngredients().add(ingredient);
             }
-
-//            for (StoragePlaceEntity storagePlace : storagePlaces) {
-//                
-//            }
-//            System.out.println("5. selected SP: ");
-//            for (StoragePlaceEntity o : ingredient.getStoragePlaces()) {
-//                System.out.println("----------SP: " + o.getLocation());
-//                System.out.println(o.getClass());
-//                System.out.println("FOR EACH SP-------------------: ");
-//                for (IngredientEntity i : o.getIngredients()) {
-//                    System.out.println("---ING: " + i.getName());
-//                    System.out.println(i.getClass());
-//                }
-//                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-//            }
-//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!! ");
 
             kitchen.getIngredients().add(ingredient);
             supplier.getIngredients().add(ingredient);
@@ -115,15 +92,12 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
         }
     }
 
+    // return ingredient ID
+    //        -1L if an unexpected exception occurred
     @Override
     public Long editIngredient(Long ingredientId, String name, Double price, String unit, String remark, Double lotSize, List<Long> storagePlaceIds, Long supplierId) {
         try {
             IngredientEntity ingredient = em.find(IngredientEntity.class, ingredientId);
-//            Iterator<StoragePlaceEntity> it = ingredient.getStoragePlaces().iterator();
-//            while (it.hasNext()) {
-//                StoragePlaceEntity storagePlace = it.next();
-//                storagePlace.getIngredients().remove(ingredient);
-//            }
             for (StoragePlaceEntity storagePlace : ingredient.getStoragePlaces()) {
                 storagePlace.getIngredients().remove(ingredient);
             }
@@ -153,12 +127,144 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             ex.printStackTrace();
             return -1L;
         }
-        
-        
+
     }
 
     @Override
     public List<IngredientEntity> getIngredients(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredients();
     }
+
+    // return ingredient supplier ID
+    //        -1L if an unexpected exception occurred
+    @Override
+    public Long addSupplier(Long kitchenId, String name, String address, String contact, String fax, String remark) {
+        try {
+            KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
+            IngredientSupplierEntity supplier = new IngredientSupplierEntity(name, address, contact, fax, remark, kitchen);
+            em.persist(supplier);
+            kitchen.getIngredientSuppliers().add(supplier);
+            em.flush();
+            System.out.println("SessionBean.KM.RawIngredientsManagementModule: addSupplier(): Succcessful. New Ingredient Supplier " + supplier.getId() + " is added.");
+            return supplier.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.RawIngredientsManagementModule: addSupplier(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    // return ingredient supplier ID
+    //        -1L if an unexpected exception occurred
+    @Override
+    public Long editSupplier(Long ingredientSupplierId, String name, String address, String contact, String fax, String remark) {
+        try {
+            IngredientSupplierEntity supplier = em.find(IngredientSupplierEntity.class, ingredientSupplierId);
+            supplier.setName(name);
+            supplier.setAddress(address);
+            supplier.setContact(contact);
+            supplier.setFax(fax);
+            supplier.setRemark(remark);
+            em.flush();
+            System.out.println("SessionBean.KM.RawIngredientsManagementModule: editSupplier(): Succcessful. Ingredient Supplier " + supplier.getId() + " is edited.");
+            return supplier.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.RawIngredientsManagementModule: editSupplier(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    // return ingredient supplier ID
+    //        -1L if ingredient supplier has raw ingredients to supply currently
+    //        -2L if an unexpected exception occurred
+    @Override
+    public Long deleteSupplier(Long ingredientSupplierId) {
+        try {
+            IngredientSupplierEntity supplier = em.find(IngredientSupplierEntity.class, ingredientSupplierId);
+            if (!supplier.getIngredients().isEmpty()) {
+                System.out.println("SessionBean.KM.RawIngredientsManagementModule: deleteSupplier(): Failed. The ingredient supplier has raw ingredients to supply currently.");
+                return -1L;
+            }
+            supplier.getKitchen().getIngredientSuppliers().remove(supplier);
+            supplier.setKitchen(null);
+            supplier.setDeleted(true);
+            em.flush();
+            return supplier.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.RawIngredientsManagementModule: deleteSupplier(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -2L;
+        }
+    }
+
+    @Override
+    public List<IngredientSupplierEntity> getSuppliers(Long kitchenId) {
+        return em.find(KitchenEntity.class, kitchenId).getIngredientSuppliers();
+    }
+
+    // return storage place ID
+    //        -1L if an unexpected exception occurred
+    @Override
+    public Long addStoragePlace(Long kitchenId, String location) {
+        try {
+            KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
+            StoragePlaceEntity storagePlace = new StoragePlaceEntity(kitchen, location);
+            em.persist(storagePlace);
+            kitchen.getStoragePlaces().add(storagePlace);
+            em.flush();
+            System.out.println("SessionBean.KM.RawIngredientsManagementModule: addStoragePlace(): Succcessful. New Storage Place " + storagePlace.getId() + " is added.");
+            return storagePlace.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.RawIngredientsManagementModule: addStoragePlace(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    // return storage place ID
+    //        -1L if an unexpected exception occurred
+    @Override
+    public Long editStoragePlace(Long storagePlaceId, String location) {
+        try {
+            StoragePlaceEntity storagePlace = em.find(StoragePlaceEntity.class, storagePlaceId);
+            storagePlace.setLocation(location);
+            em.flush();
+            System.out.println("SessionBean.KM.RawIngredientsManagementModule: editStoragePlace(): Succcessful. Storage Place " + storagePlace.getId() + " is edited.");
+            return storagePlace.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.RawIngredientsManagementModule: editStoragePlace(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    // return storage place ID
+    //        -1L if Storage Place has raw ingredients in it
+    //        -2L if an unexpected exception occurred
+    @Override
+    public Long deleteStoragePlace(Long storagePlaceId) {
+        try {
+            StoragePlaceEntity storagePlace = em.find(StoragePlaceEntity.class, storagePlaceId);
+            if (!storagePlace.getIngredients().isEmpty()) {
+                System.out.println("SessionBean.KM.RawIngredientsManagementModule: deleteStoragePlace(): Failed. The Storage Place has raw ingredients in it.");
+                return -1L;
+            }
+            storagePlace.getKitchen().getStoragePlaces().remove(storagePlace);
+            storagePlace.setKitchen(null);
+            storagePlace.setDeleted(true);
+            em.flush();
+            return storagePlace.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.RawIngredientsManagementModule: deleteStoragePlace(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -2L;
+        }
+    }
+
+    @Override
+    public List<StoragePlaceEntity> getStoragePlaces(Long kitchenId) {
+        return em.find(KitchenEntity.class, kitchenId).getStoragePlaces();
+    }
+
 }

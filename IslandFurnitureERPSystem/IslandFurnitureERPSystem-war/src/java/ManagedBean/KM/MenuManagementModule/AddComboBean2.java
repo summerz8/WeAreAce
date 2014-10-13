@@ -35,8 +35,8 @@ public class AddComboBean2 implements Serializable {
     private ComboEntity combo;
     private DishEntity dish;
     private Integer quantity;
-    private Long dishItemId;
     private List<DishItemEntity> filteredDishItems;
+    private List<DishEntity> filteredDishs;
 
     public AddComboBean2() {
     }
@@ -73,20 +73,20 @@ public class AddComboBean2 implements Serializable {
         this.quantity = quantity;
     }
 
-    public Long getDishItemId() {
-        return dishItemId;
-    }
-
-    public void setDishItemId(Long dishItemId) {
-        this.dishItemId = dishItemId;
-    }
-
     public List<DishItemEntity> getFilteredDishItems() {
         return filteredDishItems;
     }
 
     public void setFilteredDishItems(List<DishItemEntity> filteredDishItems) {
         this.filteredDishItems = filteredDishItems;
+    }
+
+    public List<DishEntity> getFilteredDishs() {
+        return mm.getDishes(kitchen.getId());
+    }
+
+    public void setFilteredDishs(List<DishEntity> filteredDishs) {
+        this.filteredDishs = filteredDishs;
     }
     
     @PostConstruct
@@ -102,7 +102,7 @@ public class AddComboBean2 implements Serializable {
     }
     
     public void addDishItem(ActionEvent event) {
-        dishItemId = mm.addDishItem(combo.getId(), dish.getId(), quantity);
+        Long dishItemId = mm.addDishItem(combo.getId(), dish.getId(), quantity);
         if (dishItemId == -1L) {
             FacesMessage msg = new FacesMessage("Faild", "The Dish " + dish.getName() + " is already in the Combo");
             FacesContext.getCurrentInstance().addMessage(null, msg);

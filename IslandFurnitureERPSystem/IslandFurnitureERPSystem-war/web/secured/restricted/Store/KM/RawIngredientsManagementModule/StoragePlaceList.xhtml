@@ -10,12 +10,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>KM: Add Raw Ingredient</title>
+        <title>KM: Storage Place List</title>
     </h:head>
 
     <h:body>
 
-        <h:form id="globalNavigation">
+        <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
@@ -84,47 +84,69 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="New Raw Ingredient" style="margin-bottom" >
+                    <p:panel id="basic" header="Storage Place List" style="margin-bottom" >
+
+                        <p:dataTable id="storagePlaceList" var="sp" widgetVar="storagePlaceTable" value="#{storagePlaceBean.kitchen.storagePlaces}" 
+                                     filteredValue="#{storagePlaceBean.filteredStoragePlaces}" emptyMessage="No Storage place Found With Given Criteria" editable="true" >
+
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search Storage Place By Location: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('storagePlaceTable').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{storagePlaceBean.onRowEdit}" update="@this"/>
+                            <p:ajax event="rowEditCancel" listener="#{storagePlaceBean.onRowCancel}" update="storagePlaceList"/>
+
+                            <p:column headerText="ID">
+                                <h:outputText value="#{sp.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Location" filterBy="#{sp.location}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{sp.location}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{sp.location}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Raw Ingredients">
+                                <p:dataTable var="i" value="#{sp.ingredients}">
+                                    <p:column>
+                                        #{i.name}
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+
+
+                            <p:column headerText="Edit" width="5%">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column headerText="Delete" width="5%">       
+                                <p:commandButton update="storagePlaceList" actionListener="#{storagePlaceBean.deleteStoragePlace(sp)}" icon="ui-icon-trash" title="Delete">
+                                </p:commandButton>    
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:commandButton value="Add A Storage Place" onclick="PF('dlg1').show();">
+                        </p:commandButton>
+
                     </p:panel>
 
-                    <h:form>
-                        <h:panelGrid columns="2" cellpadding="5">
+                    <p:dialog widgetVar="dlg1" header="New Storage Place" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true">
+ 
+                            <p:outputLabel value="Location: " />
+                            <h:inputText value="#{storagePlaceBean.location}" />
 
-                            <p:outputLabel value="Name: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.name}" />
 
-                            <p:outputLabel value="Price: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.price}" />
-
-                            <p:outputLabel value="Unit: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.unit}" />
-
-                            <p:outputLabel value="Remark: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.remark}" />
-
-                            <p:outputLabel value="Lot Size: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.lotSize}" />
-
-                            <p:outputLabel value="Storage Place: " />
-                            <p:selectCheckboxMenu value="#{rawIngredientsManagementBean.selectedStoragePlaces}" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
-                                <f:selectItems value="#{rawIngredientsManagementBean.filteredStoragePlaces}" var="sp" itemLabel="#{sp.location}" itemValue="#{sp}" />
-                            </p:selectCheckboxMenu>
-
-                            <p:outputLabel value="Supplier: " />
-                            <p:selectOneMenu value="#{rawIngredientsManagementBean.supplier}" converter="ingredientSupplierConverter">
-                                <f:selectItems value="#{rawIngredientsManagementBean.filteredSuppliers}" var="s" itemLabel="#{s.name}" itemValue="#{s}" />
-                            </p:selectOneMenu>
-
-                        </h:panelGrid>
-
-                        <p:commandButton value="Submit" actionListener="#{rawIngredientsManagementBean.addIngredient}"/>
-
-                    </h:form>
-
+                        <p:commandButton value="Submit" actionListener="#{storagePlaceBean.addStoragePlace}" update="storagePlaceList" oncomplete="PF('dlg1').hide()">
+                        </p:commandButton>
+                    </p:dialog>
                 </p:layoutUnit>
-
-
-
             </p:layout>
         </h:form>
     </h:body>

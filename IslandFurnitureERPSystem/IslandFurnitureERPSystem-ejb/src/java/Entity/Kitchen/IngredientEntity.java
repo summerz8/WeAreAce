@@ -66,16 +66,13 @@ public class IngredientEntity implements Serializable {
 //        this.supplier = supplier;
 //        this.deleted = false;
 //    }
-    public IngredientEntity(String name, Double price, String unit, String remark, Double lotSize, List<StoragePlaceEntity> storagePlaces, KitchenEntity kitchen, IngredientSupplierEntity supplier) {
+    public IngredientEntity(String name, Double price, String unit, String remark, Double lotSize, KitchenEntity kitchen, IngredientSupplierEntity supplier) {
         this.name = name;
         this.price = price;
         this.unit = unit;
         this.remark = remark;
         this.stock = 0.0;
         this.lotSize = lotSize;
-        for (StoragePlaceEntity storagePlace : storagePlaces) {
-            this.storagePlaces.add(storagePlace);
-        }
         this.kitchen = kitchen;
         this.supplier = supplier;
         this.deleted = false;

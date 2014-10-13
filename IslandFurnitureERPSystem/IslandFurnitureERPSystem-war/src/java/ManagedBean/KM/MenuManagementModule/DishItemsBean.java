@@ -6,6 +6,7 @@
 package ManagedBean.KM.MenuManagementModule;
 
 import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import SessionBean.KM.MenuManagementModuleLocal;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -30,7 +32,10 @@ public class DishItemsBean implements Serializable {
     MenuManagementModuleLocal mm;
 
     private ComboEntity selectedCombo;
+    private DishEntity dish;
+    private Integer quantity;
     private List<DishItemEntity> filteredDishItems;
+    private List<DishEntity> filteredDishs;
 
     public DishItemsBean() {
     }
@@ -49,6 +54,30 @@ public class DishItemsBean implements Serializable {
 
     public void setFilteredDishItems(List<DishItemEntity> filteredDishItems) {
         this.filteredDishItems = filteredDishItems;
+    }
+
+    public DishEntity getDish() {
+        return dish;
+    }
+
+    public void setDish(DishEntity dish) {
+        this.dish = dish;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public List<DishEntity> getFilteredDishs() {
+        return mm.getDishes(selectedCombo.getKitchen().getId());
+    }
+
+    public void setFilteredDishs(List<DishEntity> filteredDishs) {
+        this.filteredDishs = filteredDishs;
     }
 
     @PostConstruct
@@ -99,4 +128,20 @@ public class DishItemsBean implements Serializable {
         }
         filteredDishItems = mm.getDishItems(selectedCombo.getId());
     }
+    
+    public void addDishItem(ActionEvent event) {
+        Long dishItemId = mm.addDishItem(selectedCombo.getId(), dish.getId(), quantity);
+        if (dishItemId == -1L) {
+            FacesMessage msg = new FacesMessage("Faild", "The Dish " + dish.getName() + " is already in the Combo");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else if (dishItemId == -2L) {
+            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            FacesMessage msg = new FacesMessage("Successful", "New Dish Item " + dishItemId + " is added");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        filteredDishItems = mm.getDishItems(selectedCombo.getId());
+    }
+
 }

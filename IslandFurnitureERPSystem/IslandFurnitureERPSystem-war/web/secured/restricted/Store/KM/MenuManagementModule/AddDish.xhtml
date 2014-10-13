@@ -72,9 +72,9 @@
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Menu Management">
                                 <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
                                 <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>

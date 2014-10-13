@@ -72,9 +72,9 @@
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Menu Management">
                                 <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
                                 <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -114,6 +114,27 @@
                                 </p:column>
                             </p:dataTable>
                             <p:button value="Back" outcome="ComboList.xhtml?faces-redirect=true"/>
+                            <p:commandButton value="Add A Dish Item" onclick="PF('dlg1').show();">
+                            </p:commandButton>
+
+                            <p:dialog widgetVar="dlg1" header="New Dish Item" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <p:outputLabel value="Dish: " />
+                                    <p:selectOneMenu value="#{dishItemsBean.dish}" converter="dishConverter" effect="fade" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{dishItemsBean.filteredDishs}" var="d" itemLabel="#{d.name}" itemValue="#{d}" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Quantity: " />
+                                    <h:inputText value="#{dishItemsBean.quantity}" />
+
+                                </h:panelGrid>
+
+                                <p:commandButton value="Submit" actionListener="#{dishItemsBean.addDishItem}" update="dishItems" oncomplete="PF('dlg1').hide()">
+                                </p:commandButton>
+                            </p:dialog>
+
                         </h:form>
                     </p:panel>
 

@@ -71,8 +71,11 @@
                     <p:menu>
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Raw Ingredient Management">
-                                <p:menuitem value="Add Ingredient" url="AddIngredient.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Add Raw Ingredient" url="AddIngredient.xhtml?faces-redirect=true" />
                                 <p:menuitem value="Raw Ingredient List" url="IngredientList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Storage Place List" url="StoragePlaceList.xhtml?faces-redirect=true" />
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -83,15 +86,17 @@
 
                     <p:panel id="basic" header="Raw Ingredient List" style="margin-bottom" >
 
-
-                        <p:dataTable id="ingredientList" var="i" value="#{rawIngredientsManagementBean.kitchen.ingredients}" filteredValue="#{rawIngredientsManagementBean.filteredIngredients}" editable="true" >
-
-                            <p:outputPanel>
-                                <h:outputText value="Search Raw Ingredient: " />
-                                <p:inputText id="search" onkeyup="PF('ingredientList').filter()" placeholder="Enter keyword" />
-                            </p:outputPanel>
+                        <p:dataTable id="ingredientList" var="i" widgetVar="ingredientTable" value="#{rawIngredientsManagementBean.kitchen.ingredients}" 
+                                     filteredValue="#{rawIngredientsManagementBean.filteredIngredients}" emptyMessage="No Raw Ingredient Found With Given Criteria" editable="true" >
                             
-                            <p:ajax event="rowEdit" listener="#{rawIngredientsManagementBean.onRowEdit}" update="ingredientList"/>
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search Raw Ingredient: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('ingredientTable').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
+                            </f:facet>
+                            
+                            <p:ajax event="rowEdit" listener="#{rawIngredientsManagementBean.onRowEdit}" update="@this"/>
                             <p:ajax event="rowEditCancel" listener="#{rawIngredientsManagementBean.onRowCancel}" update="ingredientList"/>
 
                             <p:column headerText="ID">
@@ -105,25 +110,25 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Price (Per Unit)">
+                            <p:column headerText="Price (Per Unit)"  filterBy="#{i.price}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.price}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.price}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Unit" width="10%">
+                            <p:column headerText="Unit" width="10%" filterBy="#{i.unit}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.unit}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.unit}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Stock" width="5%">
-                                <h:outputText value="#{i.stock}" rendered="#{!i.deleted}"/>
+                            <p:column headerText="Stock" width="5%" filterBy="#{i.stock}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{i.stock}"/>
                             </p:column>
 
-                            <p:column headerText="Lot Size">
+                            <p:column headerText="Lot Size" filterBy="#{i.lotSize}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.lotSize}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.lotSize}"/></f:facet>
@@ -131,6 +136,11 @@
                             </p:column>
 
                             <p:column headerText="Storage Places" width="13%">
+<!--                                <f:facet name="spFilter">
+                                    <p:spinner onchange="PF('ingredientTable').filter()">
+                                        <f:converter converterId="storagePlaceConverter" />
+                                    </p:spinner>
+                                </f:facet>-->
                                 <p:cellEditor>
                                     <f:facet name="output">
                                         <p:dataTable var="sp" value="#{i.storagePlaces}">
@@ -148,7 +158,12 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Supplier" width="20%">
+                            <p:column headerText="Supplier" width="15%" filterBy="#{i.supplier.name}" filterMatchMode="contains" filterStyle="display:none">
+<!--                                <f:facet name="isFilter">
+                                    <p:spinner onchange="PF('ingredientTable').filter()">
+                                        <f:converter converterId="ingredientSupplierConverter" />
+                                    </p:spinner>
+                                </f:facet>-->
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.supplier.name}"/></f:facet>
                                     <f:facet name="input">
@@ -159,18 +174,18 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Remark" width="20%">
+                            <p:column headerText="Remark" width="20%" filterBy="#{i.remark}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.remark}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.remark}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Edit" width="4%">
+                            <p:column headerText="Edit" width="5%">
                                 <p:rowEditor/>
                             </p:column>
 
-                            <p:column headerText="Delete" width="4%">       
+                            <p:column headerText="Delete" width="6%">       
                                 <p:commandButton update="ingredientList" actionListener="#{rawIngredientsManagementBean.deleteIngredient(i)}" icon="ui-icon-trash" title="Delete">
                                 </p:commandButton>    
                             </p:column>

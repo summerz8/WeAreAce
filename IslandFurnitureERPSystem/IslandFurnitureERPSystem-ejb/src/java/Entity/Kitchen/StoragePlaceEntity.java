@@ -29,17 +29,20 @@ public class StoragePlaceEntity implements Serializable {
     private Long id;
     @Column(unique = true, nullable = false)
     private String location;
+    private boolean deleted;
     @ManyToOne
     private KitchenEntity kitchen;
     @ManyToMany
     private List<IngredientEntity> ingredients = new ArrayList<>();
 
     public StoragePlaceEntity() {
+        this.deleted = false;
     }
 
     public StoragePlaceEntity(KitchenEntity kitchen, String location) {
         this.kitchen = kitchen;
         this.location = location;
+        this.deleted = false;
     }
     
     public Long getId() {
@@ -56,6 +59,14 @@ public class StoragePlaceEntity implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public KitchenEntity getKitchen() {

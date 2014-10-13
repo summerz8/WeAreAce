@@ -72,9 +72,9 @@
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Menu Management">
                                 <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
                                 <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -86,37 +86,44 @@
                     <p:panel id="basic" header="Dish List" style="margin-bottom" >
 
                         <h:form id="formDish">
-                            <p:dataTable id="dishList" var="d" value="#{dishListBean.kitchen.dishes}" filteredValue="#{dishListBean.filteredDishes}" editable="true">
+                            <p:dataTable id="dishList" widgetVar="dishTable" var="d" value="#{dishListBean.kitchen.dishes}" filteredValue="#{dishListBean.filteredDishes}" editable="true">
 
-                                <p:ajax event="rowEdit" listener="#{dishListBean.onRowEdit}" update="dishList"/>
+                                <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search Dish: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('dishTable').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
+                            </f:facet>
+                                
+                                <p:ajax event="rowEdit" listener="#{dishListBean.onRowEdit}" update="@this"/>
                                 <p:ajax event="rowEditCancel" listener="#{dishListBean.onRowCancel}" update="dishList"/>
 
-                                <p:column headerText=" Dish ID">
+                                <p:column headerText=" Dish ID" filterBy="#{d.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{d.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" >
+                                <p:column headerText="Name" filterBy="#{d.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.name}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.name}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Price">
+                                <p:column headerText="Price" filterBy="#{d.price}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.price}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.price}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Recipe Quantity">
+                                <p:column headerText="Recipe Quantity" filterBy="#{d.recipeQuantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.recipeQuantity}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.recipeQuantity}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Remark">
+                                <p:column headerText="Remark" filterBy="#{d.remark}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.remark}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.remark}"/></f:facet>

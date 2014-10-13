@@ -37,6 +37,7 @@ public class AddDishBean2 implements Serializable {
     private Double quantity;
     private Long ingredientItemId;
     private List<IngredientItemEntity> filteredRecipeItems;
+    private List<IngredientEntity> filteredIngredients;
 
     public AddDishBean2() {
     }
@@ -87,6 +88,14 @@ public class AddDishBean2 implements Serializable {
 
     public void setFilteredRecipeItems(List<IngredientItemEntity> filteredRecipeItems) {
         this.filteredRecipeItems = filteredRecipeItems;
+    }
+
+    public List<IngredientEntity> getFilteredIngredients() {
+        return mm.getIngredients(kitchen.getId());
+    }
+
+    public void setFilteredIngredients(List<IngredientEntity> filteredIngredients) {
+        this.filteredIngredients = filteredIngredients;
     }
 
     @PostConstruct

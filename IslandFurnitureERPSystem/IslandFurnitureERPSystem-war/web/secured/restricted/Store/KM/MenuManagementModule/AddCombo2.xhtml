@@ -73,9 +73,9 @@
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Menu Management">
                                 <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
                                 <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -130,7 +130,7 @@
                             <h:panelGrid columns="2" cellpadding="5">
                                 <p:outputLabel value="Dish: " />
                                 <p:selectOneMenu value="#{addComboBean2.dish}" converter="dishConverter" effect="fade" filter="true" filterMatchMode="contains">
-                                    <f:selectItems value="#{addComboBean2.kitchen.dishes}" var="d" itemLabel="#{d.name}" itemValue="#{d}" />
+                                    <f:selectItems value="#{addComboBean2.filteredDishs}" var="d" itemLabel="#{d.name}" itemValue="#{d}" />
                                 </p:selectOneMenu>
 
                                 <p:outputLabel value="Quantity: " />
@@ -138,7 +138,7 @@
 
                             </h:panelGrid>
 
-                            <p:commandButton value="Submit" actionListener="#{addComboBean2.addDishItem(event)}" update="dishItems" oncomplete="PF('dlg1').hide()">
+                            <p:commandButton value="Submit" actionListener="#{addComboBean2.addDishItem}" update="dishItems" oncomplete="PF('dlg1').hide()">
                             </p:commandButton>
                         </p:dialog>
 

@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>KM: Add Raw Ingredient</title>
+        <title>KM: Add Ingredient Supplier</title>
     </h:head>
 
     <h:body>
@@ -84,40 +84,30 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="New Raw Ingredient" style="margin-bottom" >
+                    <p:panel id="basic" header="New Ingredient Supplier" style="margin-bottom" >
                     </p:panel>
 
                     <h:form>
                         <h:panelGrid columns="2" cellpadding="5">
 
                             <p:outputLabel value="Name: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.name}" />
+                            <h:inputText value="#{ingredientSupplierBean.name}" />
 
-                            <p:outputLabel value="Price: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.price}" />
+                            <p:outputLabel value="Addrss: " />
+                            <h:inputText value="#{ingredientSupplierBean.address}" />
 
-                            <p:outputLabel value="Unit: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.unit}" />
+                            <p:outputLabel value="Contact: " />
+                            <h:inputText value="#{ingredientSupplierBean.contact}" />
 
+                            <p:outputLabel value="Fax: " />
+                            <h:inputText value="#{ingredientSupplierBean.fax}" />
+                            
                             <p:outputLabel value="Remark: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.remark}" />
-
-                            <p:outputLabel value="Lot Size: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.lotSize}" />
-
-                            <p:outputLabel value="Storage Place: " />
-                            <p:selectCheckboxMenu value="#{rawIngredientsManagementBean.selectedStoragePlaces}" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
-                                <f:selectItems value="#{rawIngredientsManagementBean.filteredStoragePlaces}" var="sp" itemLabel="#{sp.location}" itemValue="#{sp}" />
-                            </p:selectCheckboxMenu>
-
-                            <p:outputLabel value="Supplier: " />
-                            <p:selectOneMenu value="#{rawIngredientsManagementBean.supplier}" converter="ingredientSupplierConverter">
-                                <f:selectItems value="#{rawIngredientsManagementBean.filteredSuppliers}" var="s" itemLabel="#{s.name}" itemValue="#{s}" />
-                            </p:selectOneMenu>
+                            <h:inputText value="#{ingredientSupplierBean.remark}" />
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Submit" actionListener="#{rawIngredientsManagementBean.addIngredient}"/>
+                        <p:commandButton value="Submit" actionListener="#{ingredientSupplierBean.addSupplier}"/>
 
                     </h:form>
 

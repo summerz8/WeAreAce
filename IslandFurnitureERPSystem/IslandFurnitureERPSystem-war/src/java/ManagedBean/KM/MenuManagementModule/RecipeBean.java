@@ -6,6 +6,7 @@
 package ManagedBean.KM.MenuManagementModule;
 
 import Entity.Kitchen.DishEntity;
+import Entity.Kitchen.IngredientEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import SessionBean.KM.MenuManagementModuleLocal;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -30,7 +32,11 @@ public class RecipeBean implements Serializable {
     MenuManagementModuleLocal mm;
 
     private DishEntity selectedDish;
+    private IngredientEntity ingredient;
+    private Double quantity;
+    private Long ingredientItemId;
     private List<IngredientItemEntity> filteredRecipeItems;
+    private List<IngredientEntity> filteredIngredients;
 
     public RecipeBean() {
     }
@@ -49,6 +55,38 @@ public class RecipeBean implements Serializable {
 
     public void setFilteredRecipeItems(List<IngredientItemEntity> filteredRecipeItems) {
         this.filteredRecipeItems = filteredRecipeItems;
+    }
+
+    public List<IngredientEntity> getFilteredIngredients() {
+        return mm.getIngredients(selectedDish.getKitchen().getId());
+    }
+
+    public void setFilteredIngredients(List<IngredientEntity> filteredIngredients) {
+        this.filteredIngredients = filteredIngredients;
+    }
+
+    public IngredientEntity getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(IngredientEntity ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public Long getIngredientItemId() {
+        return ingredientItemId;
+    }
+
+    public void setIngredientItemId(Long ingredientItemId) {
+        this.ingredientItemId = ingredientItemId;
     }
 
 
@@ -99,6 +137,21 @@ public class RecipeBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             FacesMessage msg = new FacesMessage("Deletion Successful", "Recipe Item " + ingredientItemId + " is deleted");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        filteredRecipeItems = mm.getRecipeItems(selectedDish.getId());
+    }
+    
+    public void addIngredientItem(ActionEvent event) {
+        ingredientItemId = mm.addIngredientItem(selectedDish.getId(), ingredient.getId(), quantity);
+        if (ingredientItemId == -1L) {
+            FacesMessage msg = new FacesMessage("Faild", "The raw ingredient " + ingredient.getName() + " is already in the recipe");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else if (ingredientItemId == -2L) {
+            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            FacesMessage msg = new FacesMessage("Successful", "New Ingredient Item " + ingredientItemId + " is added");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         filteredRecipeItems = mm.getRecipeItems(selectedDish.getId());

@@ -72,9 +72,9 @@
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Menu Management">
                                 <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
                                 <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -86,30 +86,37 @@
                     <p:panel id="basic" header="Combo List" style="margin-bottom" >
 
                         <h:form id="formDish">
-                            <p:dataTable id="comboList" var="c" value="#{comboListBean.kitchen.combos}" filteredValue="#{comboListBean.filteredCombos}" editable="true" >
+                            <p:dataTable id="comboList" widgetVar="comboTable" var="c" value="#{comboListBean.kitchen.combos}" filteredValue="#{comboListBean.filteredCombos}" editable="true" >
 
-                                <p:ajax event="rowEdit" listener="#{comboListBean.onRowEdit}" update="comboList"/>
+                                <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search Combo: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('comboTable').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
+                            </f:facet>
+                                
+                                <p:ajax event="rowEdit" listener="#{comboListBean.onRowEdit}" update="@this"/>
                                 <p:ajax event="rowEditCancel" listener="#{comboListBean.onRowCancel}" update="comboList"/>
 
-                                <p:column headerText=" Combo ID">
+                                <p:column headerText=" Combo ID" filterBy="#{c.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{c.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" >
+                                <p:column headerText="Name" filterBy="#{c.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.name}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{c.name}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Price">
+                                <p:column headerText="Price" filterBy="#{c.price}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.price}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{c.price}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Remark">
+                                <p:column headerText="Remark" filterBy="#{c.remark}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.remark}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{c.remark}"/></f:facet>

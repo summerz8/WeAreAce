@@ -8,6 +8,7 @@ package SessionBean.KM;
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
+import Entity.Kitchen.IngredientEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -50,4 +51,6 @@ public interface MenuManagementModuleLocal {
     List<DishEntity> getDishes(Long kitchenId);
     
     List<ComboEntity> getCombos(Long kitchenId);
+
+    List<IngredientEntity> getIngredients(Long kitchenId);
 }

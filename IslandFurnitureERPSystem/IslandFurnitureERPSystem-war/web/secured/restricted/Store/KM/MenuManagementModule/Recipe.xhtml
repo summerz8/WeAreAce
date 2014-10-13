@@ -72,9 +72,9 @@
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Menu Management">
                                 <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
                                 <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -116,10 +116,30 @@
                                     </p:commandButton>    
                                 </p:column>
                             </p:dataTable>
-                            
-                            <p:button value="Back" outcome="DishList.xhtml?faces-redirect=true"/>
-                        </h:form>
 
+                            <p:button value="Back" outcome="DishList.xhtml?faces-redirect=true"/>
+                            <p:commandButton value="Add A Recipe Item" onclick="PF('addRecipeItem').show();">
+                            </p:commandButton>
+
+
+                            <p:dialog widgetVar="addRecipeItem" header="New Recipe Item" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <p:outputLabel value="Raw Ingredient: " />
+                                    <p:selectOneMenu value="#{recipeBean.ingredient}" converter="ingredientConverter" effect="fade" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{recipeBean.filteredIngredients}" var="i" itemLabel="#{i.name}: #{i.unit}" itemValue="#{i}" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Quantity: " />
+                                    <h:inputText value="#{recipeBean.quantity}" />
+
+                                </h:panelGrid>
+
+                                <p:commandButton value="Submit" actionListener="#{recipeBean.addIngredientItem}" update="recipe" oncomplete="PF('addRecipeItem').hide()">
+                                </p:commandButton>
+                            </p:dialog>
+                        </h:form>
                     </p:panel>
 
                 </p:layoutUnit>

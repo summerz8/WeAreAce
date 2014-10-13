@@ -164,9 +164,9 @@ public class MenuManagementModule implements MenuManagementModuleLocal {
                     return -1L;
                 }
             }
-            System.out.println("---------------Dish: " + dish.getName());
             IngredientItemEntity ii = new IngredientItemEntity(ingredient, quantity);
             em.persist(ii);
+            ingredient.getDishes().add(dish);
             dish.getRecipe().add(ii);
             em.flush();
             System.out.println("SessionBean.KM.MenuManagementModule: addIngredientItem(): Succcessful. New ingredient item " + ii.getId() + " is added.");
@@ -194,6 +194,7 @@ public class MenuManagementModule implements MenuManagementModuleLocal {
             }
             DishItemEntity di = new DishItemEntity(dish, quantity);
             em.persist(di);
+            dish.getCombos().add(combo);
             combo.getDishes().add(di);
             em.flush();
             System.out.println("SessionBean.KM.MenuManagementModule: addDishItem(): Succcessful. New dish item " + di.getId() + " is added.");
@@ -291,5 +292,11 @@ public class MenuManagementModule implements MenuManagementModuleLocal {
     public List<ComboEntity> getCombos(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getCombos();
     }
+
+    @Override
+    public List<IngredientEntity> getIngredients(Long kitchenId) {
+        return em.find(KitchenEntity.class, kitchenId).getIngredients();
+    }
+    
     
 }
