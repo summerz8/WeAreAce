@@ -88,7 +88,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             String title, String address, String postalCode, String email) {
 
         System.out.println("MemberRegistrationModule: ModifyStaff():" + userId);
-        System.out.println("MemberRegistrationModule: ModifyStaff(): birthday" + birthday.getTime().toString());
+        //System.out.println("MemberRegistrationModule: ModifyStaff(): birthday" + birthday.getTime().toString());
 
         MemberEntity member = em.find(MemberEntity.class, userId);
         member.setAddress(address);
