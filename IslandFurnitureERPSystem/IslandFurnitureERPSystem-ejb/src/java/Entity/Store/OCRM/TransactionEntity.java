@@ -7,21 +7,31 @@
 package Entity.Store.OCRM;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 =======
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
+<<<<<<< HEAD
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
+=======
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import javax.persistence.ManyToOne;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 =======
 import javax.persistence.ManyToOne;
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
@@ -40,6 +50,7 @@ public class TransactionEntity implements Serializable {
     private Long TransactionId;
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar generateTime;
     
@@ -49,6 +60,8 @@ public class TransactionEntity implements Serializable {
     @OneToMany
     private List<TransactionItem> transactionItems;
 =======
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar generateTime;
     
@@ -64,6 +77,9 @@ public class TransactionEntity implements Serializable {
     
     @ManyToOne
     private StoreEntity store;
+<<<<<<< HEAD
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
+=======
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
       
 
@@ -76,7 +92,10 @@ public class TransactionEntity implements Serializable {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     public Calendar getGenerateTime() {
         return generateTime;
     }
@@ -143,6 +162,9 @@ public class TransactionEntity implements Serializable {
     
     
 
+<<<<<<< HEAD
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
+=======
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {

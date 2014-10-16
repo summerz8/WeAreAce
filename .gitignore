@@ -42,6 +42,7 @@
 /SCMTest/nbproject/private/
 /MRPTest/nbproject/private/
 <<<<<<< HEAD
+<<<<<<< HEAD
 /IslandFurniturePOS/nbproject/private/
 /JavaFXSwingApplication1/nbproject/private/
 /IFInternal/nbproject/private/
@@ -49,6 +50,8 @@
 /IFInternal/dist/
 /IFInternalWebService/nbproject/private/
 =======
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 /IslandFurnitureERPSystem2/IslandFurnitureERPSystem-ejb/build/
 /IslandFurnitureERPSystem2/IslandFurnitureERPSystem-ejb/dist/
 /IslandFurnitureERPSystem2/IslandFurnitureERPSystem-ejb/nbproject/private/
@@ -57,5 +60,9 @@
 /IslandFurnitureERPSystem2/IslandFurnitureERPSystem-war/nbproject/private/
 /IslandFurnitureERPSystem2/build/
 /IslandFurnitureERPSystem2/dist/
+<<<<<<< HEAD
+/IslandFurnitureERPSystem2/nbproject/private/
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
+=======
 /IslandFurnitureERPSystem2/nbproject/private/
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b

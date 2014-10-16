@@ -13,7 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import javax.persistence.OneToOne;
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 =======
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 
@@ -33,6 +36,10 @@ public class TransactionItem implements Serializable {
     private Double unitPrice;
     private Double totalPrice;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    private String itemName;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 =======
     private String itemName;
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
@@ -55,7 +62,10 @@ public class TransactionItem implements Serializable {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -118,6 +128,9 @@ public class TransactionItem implements Serializable {
     
     
 
+<<<<<<< HEAD
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
+=======
 >>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {
