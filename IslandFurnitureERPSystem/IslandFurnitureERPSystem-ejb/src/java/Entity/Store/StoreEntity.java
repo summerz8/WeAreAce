@@ -6,6 +6,7 @@
 package Entity.Store;
 
 import Entity.Kitchen.KitchenEntity;
+import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class StoreEntity implements Serializable {
     private String contact;
     private String manager;//manager id
     private Boolean deleteFlag;
+    
     @OneToOne
     private KitchenEntity kitchen;
 
@@ -49,6 +51,12 @@ public class StoreEntity implements Serializable {
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<TransactionEntity> transacion = new ArrayList<>();
     
     public StoreEntity() {
     }
@@ -127,6 +135,19 @@ public class StoreEntity implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public List<StoreItemMappingEntity> getStoreProductMapping() {
+        return storeItemMapping;
+    }
+
+    public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
+        this.storeItemMapping = storeProductMapping;
+    }
+    
     public KitchenEntity getKitchen() {
         return kitchen;
     }
@@ -134,7 +155,24 @@ public class StoreEntity implements Serializable {
     public void setKitchen(KitchenEntity kitchen) {
         this.kitchen = kitchen;
     }
-     
+
+    public List<StoreItemMappingEntity> getStoreItemMapping() {
+        return storeItemMapping;
+    }
+
+    public List<TransactionEntity> getTransacion() {
+        return transacion;
+    }
+
+    public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
+        this.storeItemMapping = storeItemMapping;
+    }
+
+    public void setTransacion(List<TransactionEntity> transacion) {
+        this.transacion = transacion;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

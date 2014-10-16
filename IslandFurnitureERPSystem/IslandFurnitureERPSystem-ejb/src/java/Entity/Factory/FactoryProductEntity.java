@@ -7,6 +7,7 @@ package Entity.Factory;
 
 
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
+import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +59,10 @@ public class FactoryProductEntity implements Serializable {
     //factory product entity -- product entity    M <--> 1
     @ManyToOne
     private ProductEntity product;
+    
+    //factory product entity -- store product entity: 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryProduct")
+    private List<StoreProductEntity> storeProducts = new ArrayList<>();
 
     public FactoryProductEntity() {
     }
@@ -167,6 +172,14 @@ public class FactoryProductEntity implements Serializable {
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public List<StoreProductEntity> getStoreProducts() {
+        return storeProducts;
+    }
+
+    public void setStoreProducts(List<StoreProductEntity> storeProducts) {
+        this.storeProducts = storeProducts;
     }
 
     

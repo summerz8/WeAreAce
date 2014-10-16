@@ -47,7 +47,7 @@ public class ProductEntity implements Serializable {
     
     //product entity -- store product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
-    private Collection<StoreProductEntity> storeProduct = new ArrayList<>();
+    private Collection<StoreProductEntity> storeProducts = new ArrayList<>();
     
     
   

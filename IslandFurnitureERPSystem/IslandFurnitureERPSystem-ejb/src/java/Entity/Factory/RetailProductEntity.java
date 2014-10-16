@@ -39,11 +39,12 @@ public class RetailProductEntity implements Serializable {
     //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
+
  
         //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
     private Collection<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
-    
+
     public RetailProductEntity() {
     }
 
@@ -112,6 +113,12 @@ public class RetailProductEntity implements Serializable {
         this.factoryRetailProducts = factoryRetailProducts;
     }
 
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+    
+    
+    
     public Collection<StoreRetailProductEntity> getStoreRetailProducts() {
         return storeRetailProducts;
     }

@@ -185,7 +185,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         } else {
             FactoryRetailProductEntity frp = em.find(FactoryRetailProductEntity.class, itemId);
             Collection<ContractEntity> contractList = frp.getContracts();
-            for(ContractEntity c : contractList){
+            for (ContractEntity c : contractList) {
                 SupplierEntity supplier = c.getSupplier();
                 if (supplier.getSupplierId().equals(supplierId)) {
                     contract = c;
@@ -375,7 +375,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     }
 
     //4. Select delivery address (for retail products)
-    //display all the available store
+    //display all the available store for a factory
     @Override
     public List<StoreEntity> viewAvailStore(Long factoryId) throws Exception {
         System.out.println("viewAvailStore():");
@@ -383,12 +383,15 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         List<StoreEntity> storeList = new ArrayList<>();
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
-            List<StoreRetailProductEntity> storeRetailProductList = factory.getStoreRetailProduct();
-            for (Object o : storeRetailProductList) {
-                StoreRetailProductEntity storeRetailProduct = (StoreRetailProductEntity) o;
-                StoreEntity store = storeRetailProduct.getStore();
-                if (!storeList.contains(store)) {
-                    storeList.add(store);
+            Collection<FactoryRetailProductEntity> frpList = factory.getFactoryRetailProducts();
+            for (FactoryRetailProductEntity frp : frpList) {
+                List<StoreRetailProductEntity> srpList = frp.getStoreRetailProducts();
+                for (Object o : srpList) {
+                    StoreRetailProductEntity storeRetailProduct = (StoreRetailProductEntity) o;
+                    StoreEntity store = storeRetailProduct.getStore();
+                    if (!storeList.contains(store)) {
+                        storeList.add(store);
+                    }
                 }
             }
 
@@ -399,18 +402,19 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         return storeList;
     }
 
+    //display all the available store for a factoryRetailProductEntity
     @Override
     public Collection<StoreEntity> viewAvailStoreForRetailProduct(Long factoryId, Long frpId) throws Exception {
         List<StoreEntity> storeList = new ArrayList<>();
         try {
-            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
             FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, frpId);
-            List<StoreRetailProductEntity> storeRetailProductList = factory.getStoreRetailProduct();
+            List<StoreRetailProductEntity> storeRetailProductList = factoryRetailProduct.getStoreRetailProducts();
             for (Object o : storeRetailProductList) {
                 StoreRetailProductEntity storeRetailProduct = (StoreRetailProductEntity) o;
                 if (storeRetailProduct.getRetailProduct().getRetailProductId()
                         .equals(factoryRetailProduct.getRetailProduct().getRetailProductId())) {
                     StoreEntity store = storeRetailProduct.getStore();
+                    System.out.println("Store: "+ store.toString());
                     if (!storeList.contains(store)) {
                         storeList.add(store);
                     }
@@ -1173,12 +1177,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
         gr.setOriginalAmount(deliveryOrder.getAmount());
         gr.setAmount(deliveryOrder.getAmount());
         em.flush();
-        
+
         System.out.println("check 2");
         for (DeliveryOrderEntity delivery : po.getDeliveryOrderList()) {
             System.out.println("CHECK 3 = " + delivery.toString());
             if (!delivery.getStatus().equals("fulfilled")) {
-               System.out.println("CHECK 4 = " + delivery.toString());
+                System.out.println("CHECK 4 = " + delivery.toString());
                 result = "Delivery order [id = " + deliveryOrder.getId()
                         + "] is fullfilled with goods receipt [id = " + gr.getGoodsReceiptId() + " ] ";
                 System.out.println(result);
