@@ -30,6 +30,7 @@ public class FeedbackControlBean {
     private String email;
     private String title;
     private String content;
+    private String name;
     /**
      * Creates a new instance of FeedbackControlBean
      */
@@ -50,7 +51,7 @@ public class FeedbackControlBean {
     
     public String createFeedback() throws Exception{
         
-        fm.createFeedback(title, content, email);
+        fm.createFeedback(title, content, email,name);
         
         return "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true";
     }
@@ -101,6 +102,14 @@ public class FeedbackControlBean {
 
     public void setFilteredFeedback(List<FeedbackEntity> filteredFeedback) {
         this.filteredFeedback = filteredFeedback;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
     
     

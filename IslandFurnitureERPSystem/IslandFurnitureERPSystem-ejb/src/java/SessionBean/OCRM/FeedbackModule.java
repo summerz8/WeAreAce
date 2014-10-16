@@ -27,9 +27,9 @@ public class FeedbackModule implements FeedbackModuleLocal {
     EntityManager em;
     
     @Override
-    public void createFeedback(String title,String content,String email)throws Exception{
+    public void createFeedback(String title,String content,String email,String name)throws Exception{
         
-        FeedbackEntity feedback = new FeedbackEntity(title,content,email);
+        FeedbackEntity feedback = new FeedbackEntity(title,content,email,name);
         
         em.persist(feedback);
         em.flush();

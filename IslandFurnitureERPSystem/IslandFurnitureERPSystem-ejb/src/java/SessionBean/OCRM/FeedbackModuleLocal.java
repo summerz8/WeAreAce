@@ -16,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface FeedbackModuleLocal {
 
-    public void createFeedback(String title, String content, String email) throws Exception;
+    public void createFeedback(String title, String content, String email,String name) throws Exception;
 
     public List<FeedbackEntity> getFeedbackList();
     

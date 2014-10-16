@@ -227,14 +227,16 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
         boolean flag = Boolean.FALSE;
         
         IntegratedSalesForecastEntity isf = em.find(IntegratedSalesForecastEntity.class,integratedSalesForecastId);
-        Long factoryRetailProductId =isf.getFactoryRetailProduct().getFactoryRetailProdctId();               
+        Long factoryRetailProductId =isf.getFactoryRetailProduct().getFactoryRetailProdctId();
+        Calendar targetPeriod = isf.getTargetPeriod();
         
         Query q =em.createQuery("SELECT rppp FROM IntegratedPlannedOrderEntity rppp");
             for(Object o : q.getResultList()){
                 IntegratedPlannedOrderEntity rppp = (IntegratedPlannedOrderEntity) o;
                 if(rppp.getFactoryRetailProductAmount()!=null){
                         Long retailProductId = rppp.getFactoryRetailProductAmount().getFactoryRetailProduct().getFactoryRetailProdctId();
-                        if(retailProductId.equals(factoryRetailProductId)){
+                        Calendar TargetPeriod = rppp.getTargetPeriod();
+                        if(retailProductId.equals(factoryRetailProductId) && TargetPeriod.equals(targetPeriod)){
                             flag = Boolean.TRUE;
                             return flag;
                         }

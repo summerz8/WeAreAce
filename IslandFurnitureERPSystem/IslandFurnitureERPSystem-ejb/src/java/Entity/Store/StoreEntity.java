@@ -48,6 +48,9 @@ public class StoreEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
     
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<StoreItemMappingEntity> storeProductMapping = new ArrayList<>();
+    
     public StoreEntity() {
     }
 
@@ -124,7 +127,21 @@ public class StoreEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public List<StoreItemMappingEntity> getStoreProductMapping() {
+        return storeProductMapping;
+    }
+
+    public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
+        this.storeProductMapping = storeProductMapping;
+    }
      
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

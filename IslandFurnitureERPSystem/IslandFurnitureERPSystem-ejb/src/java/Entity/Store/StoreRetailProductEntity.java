@@ -7,6 +7,7 @@
 package Entity.Store;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.RetailProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,9 @@ public class StoreRetailProductEntity implements Serializable {
     //store retail product entity -- stores entity: M <--> 1
     @ManyToOne
     private StoreEntity store;
+    
+    @ManyToOne
+    private RetailProductEntity retailProduct;
 
     public StoreRetailProductEntity() {
     }
@@ -69,6 +73,14 @@ public class StoreRetailProductEntity implements Serializable {
 
     public void setStore(StoreEntity store) {
         this.store = store;
+    }
+
+    public RetailProductEntity getRetailProduct() {
+        return retailProduct;
+    }
+
+    public void setRetailProduct(RetailProductEntity retailProduct) {
+        this.retailProduct = retailProduct;
     }
     
     

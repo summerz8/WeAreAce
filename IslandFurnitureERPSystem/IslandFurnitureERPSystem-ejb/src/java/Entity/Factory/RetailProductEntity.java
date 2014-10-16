@@ -5,6 +5,7 @@
  */
 package Entity.Factory;
 
+import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +38,10 @@ public class RetailProductEntity implements Serializable {
     //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
+    
+    //reatail product entity -- store retail product entity: 1<--> M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
+    private Collection<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
 
     public RetailProductEntity() {
     }
@@ -95,6 +100,18 @@ public class RetailProductEntity implements Serializable {
 
     public void setFactoryRetailProducts(Collection<FactoryRetailProductEntity> factoryRetailProducts) {
         this.factoryRetailProducts = factoryRetailProducts;
+    }
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public Collection<StoreRetailProductEntity> getStoreRetailProduct() {
+        return storeRetailProduct;
+    }
+
+    public void setStoreRetailProduct(Collection<StoreRetailProductEntity> storeRetailProduct) {
+        this.storeRetailProduct = storeRetailProduct;
     }
     
     

@@ -3,25 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package Entity.Store.OCRM;
+package Entity.Store;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author dan
+ * @author hangsun
  */
 @Entity
-public class OrderEntity implements Serializable {
+public class StoreItemMappingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private Long retailProductId;
+    private Long productid;
+    
+    @ManyToOne
+    private StoreEntity store;
+    
+    public StoreItemMappingEntity(){
+    
+    }
 
     public Long getId() {
         return id;
@@ -31,6 +41,32 @@ public class OrderEntity implements Serializable {
         this.id = id;
     }
 
+    public Long getRetailProductId() {
+        return retailProductId;
+    }
+
+    public Long getProductid() {
+        return productid;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setRetailProductId(Long retailProductId) {
+        this.retailProductId = retailProductId;
+    }
+
+    public void setProductid(Long productid) {
+        this.productid = productid;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -41,10 +77,10 @@ public class OrderEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderEntity)) {
+        if (!(object instanceof StoreItemMappingEntity)) {
             return false;
         }
-        OrderEntity other = (OrderEntity) object;
+        StoreItemMappingEntity other = (StoreItemMappingEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +89,7 @@ public class OrderEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.OrderEntity[ id=" + id + " ]";
+        return "Entity.Store.StoreProductMappingEntity[ id=" + id + " ]";
     }
     
 }
