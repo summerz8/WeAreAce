@@ -3,25 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package Entity.Store.OCRM;
+package Entity.Kitchen;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author dan
+ * @author Yoky
  */
 @Entity
-public class OrderEntity implements Serializable {
+public class DishItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private DishEntity dish;
+    private Integer quantity;
 
     public Long getId() {
         return id;
@@ -29,6 +32,31 @@ public class OrderEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public DishEntity getDish() {
+        return dish;
+    }
+
+    public void setDish(DishEntity dish) {
+        this.dish = dish;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+   
+    public DishItemEntity() {
+    }
+
+    public DishItemEntity(DishEntity dish, Integer quantity) {
+        this.dish = dish;
+        this.quantity = quantity;
     }
 
     @Override
@@ -41,10 +69,10 @@ public class OrderEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderEntity)) {
+        if (!(object instanceof DishItemEntity)) {
             return false;
         }
-        OrderEntity other = (OrderEntity) object;
+        DishItemEntity other = (DishItemEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +81,7 @@ public class OrderEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.OrderEntity[ id=" + id + " ]";
+        return "Entity.Kitchen.DishItemEntity[ id=" + id + " ]";
     }
     
 }

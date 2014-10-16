@@ -52,8 +52,8 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
-    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 2 for factoryProduct, 3 for factoryRetailProduct
-    private double quantity;
+    private Integer stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 2 for factoryProduct, 3 for factoryRetailProduct
+    private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
 
@@ -108,19 +108,19 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
         this.factoryRetailProduct = factoryRetailProduct;
     }
 
-    public int getStockTypeIndicator() {
+    public Integer getStockTypeIndicator() {
         return stockTypeIndicator;
     }
 
-    public void setStockTypeIndicator(int stockTypeIndicator) {
+    public void setStockTypeIndicator(Integer stockTypeIndicator) {
         this.stockTypeIndicator = stockTypeIndicator;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -133,7 +133,7 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
     }
 
     //pre-cond: availability check
-    public void recordInFactoryRawMaterialMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity, Calendar creationDate) {
+    public void recordInFactoryRawMaterialMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, Double quantity, Calendar creationDate) {
         this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
         this.setToBin(factoryToBinStoredProduct.getFactoryBin());
         this.setFactoryRawMaterial(factoryFromBinStoredProduct.getFactoryRawMaterial());
@@ -144,7 +144,7 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
     }
 
     //pre-cond: availability check
-    public void recordInFactoryProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity, Calendar creationDate) {
+    public void recordInFactoryProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, Double quantity, Calendar creationDate) {
         this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
         this.setToBin(factoryToBinStoredProduct.getFactoryBin());
         this.setFactoryProduct(factoryFromBinStoredProduct.getFactoryProduct());
@@ -155,7 +155,7 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
     }
 
     //pre-cond: availability check
-    public void recordInFactoryRetailProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity, Calendar creationDate) {
+    public void recordInFactoryRetailProductMovement(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, Double quantity, Calendar creationDate) {
         this.setFromBin(factoryFromBinStoredProduct.getFactoryBin());
         this.setToBin(factoryToBinStoredProduct.getFactoryBin());
         this.setFactoryRetailProduct(factoryFromBinStoredProduct.getFactoryRetailProduct());
@@ -165,10 +165,10 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
         updateFactoryBinStoredProduct(factoryFromBinStoredProduct, factoryToBinStoredProduct, quantity);
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, Double quantity) {
         try {
-            factoryFromBinStoredProduct.decreaseQuantity(quantity);
-            factoryToBinStoredProduct.increaseQuantity(quantity);
+            factoryFromBinStoredProduct.setAmount(factoryFromBinStoredProduct.getAmount() - quantity);
+            factoryFromBinStoredProduct.setAmount(factoryFromBinStoredProduct.getAmount() + quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredFactoryRawMaterial(): Caught an unexpected exception.");
             ex.printStackTrace();

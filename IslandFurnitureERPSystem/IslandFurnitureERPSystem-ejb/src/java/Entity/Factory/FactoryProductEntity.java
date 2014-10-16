@@ -7,6 +7,7 @@ package Entity.Factory;
 
 
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
+import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,9 +39,11 @@ public class FactoryProductEntity implements Serializable {
     private Double unrestrictedInventory = 0D;
     private Double blockedInventory = 0D;
     private Double returnedInventory = 0D;
+    private String name;
     private String unit;
     private Double minimumInventory = 50D;
     private Boolean deleteFlag;
+    
     //inventory record entity -- factory product entity : M <--> 1
     @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="factoryProduct")
     private List<InventoryRecordEntity> record= new ArrayList<>();
@@ -56,6 +59,10 @@ public class FactoryProductEntity implements Serializable {
     //factory product entity -- product entity    M <--> 1
     @ManyToOne
     private ProductEntity product;
+    
+    //factory product entity -- store product entity: 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryProduct")
+    private List<StoreProductEntity> storeProducts = new ArrayList<>();
 
     public FactoryProductEntity() {
     }
@@ -66,6 +73,7 @@ public class FactoryProductEntity implements Serializable {
         this.unit = unit;
         this.factory = factory;
         this.product = product;
+        name = product.getName();
         this.deleteFlag = false;
     }
 
@@ -126,6 +134,14 @@ public class FactoryProductEntity implements Serializable {
         this.returnedInventory = returnedInventory;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUnit() {
         return unit;
     }
@@ -156,6 +172,14 @@ public class FactoryProductEntity implements Serializable {
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public List<StoreProductEntity> getStoreProducts() {
+        return storeProducts;
+    }
+
+    public void setStoreProducts(List<StoreProductEntity> storeProducts) {
+        this.storeProducts = storeProducts;
     }
 
     

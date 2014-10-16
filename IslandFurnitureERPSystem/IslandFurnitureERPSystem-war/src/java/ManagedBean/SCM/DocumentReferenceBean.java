@@ -30,7 +30,7 @@ public class DocumentReferenceBean implements Serializable {
     @ManagedProperty(value = "#{loginBean.department}")
     private String department;
     @ManagedProperty(value = "#{loginBean.departmentId}")
-    private long factoryId;
+    private Long factoryId;
     private List blockedStocks = new ArrayList();
     private List contracts = new ArrayList();
     private List goodsReceipts = new ArrayList();
@@ -55,11 +55,11 @@ public class DocumentReferenceBean implements Serializable {
         this.department = department;
     }
 
-    public long getFactoryId() {
+    public Long getFactoryId() {
         return factoryId;
     }
 
-    public void setFactoryId(long factoryId) {
+    public void setFactoryId(Long factoryId) {
         this.factoryId = factoryId;
     }
 

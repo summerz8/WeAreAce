@@ -65,10 +65,10 @@
                 <p:layoutUnit position="west" size="1000px">
                     <p:menu>
                         <p:submenu label="Purchase Order Management">
-                            <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="#{displayIntegratedPlannedOrders.displayIntegratedPlannedOrders()}"/>
-                            <p:menuitem value="Manually Generate Purchase Order" action="#{displayItemsForManuallyGeneratedPO.displayAllFactoryItems()}"/>
-                            <p:menuitem value="Generate Goods Receipt" action="#{displayConfirmedPO.displayDestination()}"/>
-                            <p:menuitem value="Manage Purchase Order" action="#{displayUnconfirmedPO.displayDisplayUnconfirmedPurchaseOrder()}"/>
+                            <p:menuitem value="Generate Purchase Order Reference to Planned Order" action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders?faces-redirect=true"/>
+                            <p:menuitem value="Manually Generate Purchase Order" action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO?faces-redirect=true"/>
+                            <p:menuitem value="Generate Goods Receipt" action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayConfirmedPO?faces-redirect=true"/>
+                            <p:menuitem value="Manage Purchase Order" action="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
                 </p:layoutUnit>

@@ -49,9 +49,9 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
-    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 3 for factoryRetailProduct
+    private Integer stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 3 for factoryRetailProduct
     private String status;
-    private double quantity;
+    private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
 
@@ -114,11 +114,11 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         this.status = status;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -132,7 +132,7 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
 
     // assumption: the inbound goods is unrestricted
     // changes need further modification
-    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity, Calendar creationDate) {
+    public void recordInboundMovement(GoodsReceiptEntity goodsRecipt, FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity, Calendar creationDate) {
         this.fromGoodsRecipt = goodsRecipt;
         this.toBin = factoryBinStoredProduct.getFactoryBin();
         this.status = factoryBinStoredProduct.getStatus();
@@ -149,16 +149,16 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
         updateFactoryStock(factoryBinStoredProduct, quantity);
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         try {
-            factoryBinStoredProduct.increaseQuantity(quantity);
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();
         }
     }
 
-    private void updateFactoryStock(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryStock(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         try {
             if (factoryBinStoredProduct.getFactoryRawMaterial() != null) {
                 FactoryRawMaterialEntity factoryRawMaterial = factoryBinStoredProduct.getFactoryRawMaterial();

@@ -24,7 +24,7 @@ public class RawMaterialInventoryMonitoringBean {
     @ManagedProperty(value = "#{loginBean.department}")
     private String department;
     @ManagedProperty(value = "#{loginBean.departmentId}")
-    private long factoryId;
+    private Long factoryId;
     private List weeklyRawMaterialInventoryInFlow;
     private List weeklyRawMaterialInventoryOutFlow;
 
@@ -42,11 +42,11 @@ public class RawMaterialInventoryMonitoringBean {
         this.department = department;
     }
 
-    public long getFactoryId() {
+    public Long getFactoryId() {
         return factoryId;
     }
 
-    public void setFactoryId(long factoryId) {
+    public void setFactoryId(Long factoryId) {
         this.factoryId = factoryId;
     }
 

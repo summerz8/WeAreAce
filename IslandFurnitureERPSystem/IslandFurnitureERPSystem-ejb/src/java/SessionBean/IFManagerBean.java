@@ -12,6 +12,9 @@ import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
 import java.util.Calendar;
 import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,6 +23,7 @@ import javax.persistence.PersistenceContext;
  * @author zhangshiyu
  */
 @Stateless
+@WebService
 public class IFManagerBean implements IFManagerBeanRemote {
 
     @PersistenceContext
@@ -29,6 +33,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public String createUser(String department, Integer userLevel, String lastName,
             String firstName, String position, String gender, long departmentId, Calendar birthday) {
         System.out.println("IFManagerBean: createUser():");
@@ -91,7 +96,9 @@ public class IFManagerBean implements IFManagerBeanRemote {
 //    }
 
     @Override
-    public int checkAccount(String userId, String pwd) {
+    @WebMethod(exclude = true)
+    public int checkAccount(String userId,String pwd) {
+
         UserEntity user;
         int check = 0;
 
@@ -105,10 +112,10 @@ public class IFManagerBean implements IFManagerBeanRemote {
         if (user == null) {
             System.out.println("User Not Found!");
             check = -1;
-        }else if (user.isDeleteFlag()) {
+        } else if (user.isDeleteFlag()) {
             System.out.println("User is Deleted!");
             check = -1;//user not found
-        }else if ((user.getPwd().equals(pwd))) {
+        } else if ((user.getPwd().equals(pwd))) {
             check = 1;
             System.out.println("User Found!");
         } else {
@@ -118,8 +125,49 @@ public class IFManagerBean implements IFManagerBeanRemote {
 
         return check;
     }
+       
+    @WebMethod(operationName = "shopLogin")
+    public int shopLogin(
+           @WebParam(name = "id") String userId,
+            @WebParam(name = "password") String pwd) {
+
+        UserEntity user;
+        int check = 0;
+        String department = userId.substring(0, 1);
+
+        System.out.println("IFManagerBean: shopLogin()");
+        //Query q = em.createQuery("SELECT t FROM UserEntity t WHERE t.userId=:userId");
+        //q.setParameter("userId", userId);
+        System.out.println("login:" + userId);
+        user = em.find(UserEntity.class, userId);
+        //user = (UserEntity)q.getResultList();
+        //if the user exsit and password correct
+        if (user == null) {
+            System.out.println("User Not Found!");
+            check = -1;
+        } else if (user.isDeleteFlag()) {
+            System.out.println("User is Deleted!");
+            check = -1;//user not found
+        } else {
+            if (!department.equals("S")) {
+                check = -2;
+                System.out.println("Only store staff and managers are allowed to login");
+            } else {
+                if (user.getPwd().equals(pwd)) {
+                    check = 1;
+                    System.out.println("User Found!");
+                } else {
+                    System.out.println("User Found but password inccorect!");
+                    check = 0;
+                }
+            }
+        }
+
+        return check;
+    }
 
     @Override
+    @WebMethod(operationName = "getFullNameById")
     public String getFullName(String userId) {
         String fullName = null;
         if (true) {
@@ -130,6 +178,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public String getDepartment(String userId) {
         String department = null;
         if (true) {
@@ -140,6 +189,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public Long getDepartmentId(String userId) {
         Long departmentId = null;
         if (true) {
@@ -150,6 +200,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public int getUserLevel(String userId) {
         int userLevel;
         if (true) {
@@ -160,6 +211,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public void setUpIdNumber() {
         IdNumberEntity id = new IdNumberEntity();
         id.create();

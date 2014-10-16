@@ -6,7 +6,10 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
+import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import SessionBean.MRP.RetailProductPurchasePlanModuleLocal;
+import SessionBean.MRP.SalesForecastModuleLocal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -31,6 +34,8 @@ public class RetailProductPurchasePlan{
     private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanUnconfirmed;
     private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanConfirmed;
     private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanCancelled;
+    private List<IntegratedSalesForecastEntity> factoryRetailProduct = new ArrayList<>();
+    private List<IntegratedSalesForecastEntity> integratedSalesForecastList;
     private Long integratedSalesForecastId;
     private Long id;
     private String department;
@@ -39,11 +44,21 @@ public class RetailProductPurchasePlan{
     
     @EJB
     private RetailProductPurchasePlanModuleLocal RPPP;
+    @EJB
+    SalesForecastModuleLocal sfml;
     
     @PostConstruct
     public void init(){
         id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+        integratedSalesForecastList = sfml.getIntegrateSalesForecastList(id,null, null);
+        while (!integratedSalesForecastList.isEmpty() ) {
+            if (integratedSalesForecastList.get(0).getFactoryProduct() == null && !RPPP.findIntegratedSalesForecast(integratedSalesForecastList.get(0).getId())) {
+                factoryRetailProduct.add(integratedSalesForecastList.get(0));
+            } 
+            integratedSalesForecastList.remove(0);
+        }
+        
         retailProductPurchasePlan = RPPP.getRetailProductPurchasePlan(id,department);
         retialProductPurchasePlanUnconfirmed = RPPP.getRetailProductPurchasePlanUnconfirmed(id,department);
         retialProductPurchasePlanConfirmed = RPPP.getRetailProductPurchasePlanConfirmed(id,department);
@@ -100,6 +115,38 @@ public class RetailProductPurchasePlan{
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public List<IntegratedSalesForecastEntity> getFactoryRetailProduct() {
+        return factoryRetailProduct;
+    }
+
+    public List<IntegratedSalesForecastEntity> getIntegratedSalesForecastList() {
+        return integratedSalesForecastList;
+    }
+
+    public RetailProductPurchasePlanModuleLocal getRPPP() {
+        return RPPP;
+    }
+
+    public SalesForecastModuleLocal getSfml() {
+        return sfml;
+    }
+
+    public void setFactoryRetailProduct(List<IntegratedSalesForecastEntity> factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
+    }
+
+    public void setIntegratedSalesForecastList(List<IntegratedSalesForecastEntity> integratedSalesForecastList) {
+        this.integratedSalesForecastList = integratedSalesForecastList;
+    }
+
+    public void setRPPP(RetailProductPurchasePlanModuleLocal RPPP) {
+        this.RPPP = RPPP;
+    }
+
+    public void setSfml(SalesForecastModuleLocal sfml) {
+        this.sfml = sfml;
     }
     
     

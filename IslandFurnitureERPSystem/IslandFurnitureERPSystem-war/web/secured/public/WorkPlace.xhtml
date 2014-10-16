@@ -95,12 +95,22 @@
                                 <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Store Resource Control" />
                             </p:submenu>
+
+                            <p:submenu label="Kitchen Management">
+                                <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Demand Forecast" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Menu Management" outcome = "/secured/restricted/Store/KM/MenuManagementModule/MenuManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Raw Ingredient Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
+                            </p:submenu>
+
                             <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/viewMember?faces-redirect=true"/>
+                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Voucher" outcome = "/secured/restricted/Store/OCRM/viewVoucher?faces-redirect=true"/>
-                                <p:menuitem value="Feedback" />
+                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                             </p:submenu>
+                            
                             <p:submenu label="Ticket Management">
                                 <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>
                             </p:submenu>

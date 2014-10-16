@@ -29,6 +29,14 @@ import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.DishEntity;
+import Entity.Kitchen.DishItemEntity;
+import Entity.Kitchen.IngredientEntity;
+import Entity.Kitchen.IngredientItemEntity;
+import Entity.Kitchen.IngredientSupplierEntity;
+import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
@@ -100,6 +108,8 @@ public class dataSetUp {
         em.persist(f2);
         em.flush();
 
+        
+        
         //Factory Bin
         //for f1
         FactoryBinEntity fb1_1 = new FactoryBinEntity();
@@ -146,13 +156,14 @@ public class dataSetUp {
                 "Ms", "West Coast Road 20", "250620", "ms.z.summer@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u1);
         em.flush();
-        //FactoryUser(f2)
+        //FactoryUser(f1)
         UserEntity u2 = new FactoryUserEntity("F", "1000002", 3, "Zhang", null,
                 "Yaowen", "Factory SCM Staff", birthday, "Female",
                 "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u2);
         em.flush();
 
+        //FactoryUser(f1)
         UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
                 "Jinqiao", "Factory MRP Staff", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
@@ -167,64 +178,33 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
-        UserEntity u4 = new StoreUserEntity("S", "1000001", 2, "He", null,
+
+    
+        //StoreUser(s1)
+        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
         em.flush();
         
         
-        //StoreProduct      /* Further Modification*/
-        //for s1
-        //s1.factoryProduct
-        StoreProductEntity sp1_1 = new StoreProductEntity(f1, s1);
-
-        em.persist(sp1_1);
-        f1.getStoreProduct().add(sp1_1);
-        s1.getStoreProduct().add(sp1_1);
+        //Retail Product
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", "box", false);
+        em.persist(rp1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(f2, s1);
-        em.persist(sp1_2);
-        f2.getStoreProduct().add(sp1_2);
-        s1.getStoreProduct().add(sp1_2);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", "set", false);
+        em.persist(rp2);
         em.flush();
-        //s2.factoryProduct
-        StoreProductEntity sp2_1 = new StoreProductEntity(f1, s2);
-        em.persist(sp2_1);
-        f1.getStoreProduct().add(sp2_1);
-        s2.getStoreProduct().add(sp2_1);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", "bottle", false);
+        em.persist(rp3);
         em.flush();
-        StoreProductEntity sp2_2 = new StoreProductEntity(f2, s2);
-        em.persist(sp2_2);
-        f2.getStoreProduct().add(sp2_2);
-        s2.getStoreProduct().add(sp2_2);
+        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", "bag", false);
+        em.persist(rp4);
         em.flush();
-
-        //StoreRetailProduct    /* Further Modification*/
-        //for s1
-        //s1.StoreRetailProduct
-        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(f1, s1);
-        em.persist(srp1_1);
-        f1.getStoreRetailProduct().add(srp1_1);
-        s1.getStoreRetailProduct().add(srp1_1);
+        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", "bottle", false);
+        em.persist(rp5);
         em.flush();
-        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(f2, s1);
-        em.persist(srp1_2);
-        f1.getStoreRetailProduct().add(srp1_2);
-        s1.getStoreRetailProduct().add(srp1_2);
-        em.flush();
-        //s2.StoreRetailProduct
-        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(f1, s2);
-        em.persist(srp2_1);
-        f1.getStoreRetailProduct().add(srp2_1);
-        s2.getStoreRetailProduct().add(srp2_1);
-        em.flush();
-        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(f2, s2);
-        em.persist(srp2_2);
-        f2.getStoreRetailProduct().add(srp2_2);
-        s2.getStoreRetailProduct().add(srp2_2);
-        em.flush();
-
+        
         //Raw Material
         RawMaterialEntity rm1 = new RawMaterialEntity("board", "wood", false, "square meter");
         em.persist(rm1);
@@ -264,11 +244,147 @@ public class dataSetUp {
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
         em.persist(p6);
         em.flush();
+        
+
+
+        //Factory Product
+        //for f1
+        FactoryProductEntity fp1_1 = new FactoryProductEntity(p1.getUnit(), f1, p1);
+        em.persist(fp1_1);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_1);
+        p1.getFactoryProducts().add(fp1_1);
+        FactoryProductEntity fp1_2 = new FactoryProductEntity(p2.getUnit(), f1, p2);
+        em.persist(fp1_2);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_2);
+        p2.getFactoryProducts().add(fp1_2);
+        FactoryProductEntity fp1_3 = new FactoryProductEntity(p3.getUnit(), f1, p3);
+        em.persist(fp1_3);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_3);
+        p3.getFactoryProducts().add(fp1_3);
+        FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p4);
+        em.persist(fp1_4);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_4);
+        p4.getFactoryProducts().add(fp1_4);
+        FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
+        em.persist(fp1_5);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_5);
+        p5.getFactoryProducts().add(fp1_5);
+        em.flush();
+        //for f2
+        FactoryProductEntity fp2_1 = new FactoryProductEntity(p1.getUnit(), f2, p1);
+        em.persist(fp2_1);
+        em.flush();
+        f2.getFactoryProducts().add(fp2_1);
+        p1.getFactoryProducts().add(fp2_1);
+        FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
+        em.persist(fp2_2);
+        em.flush();
+        f2.getFactoryProducts().add(fp2_2);
+        p2.getFactoryProducts().add(fp2_2);
+        em.flush();
+
+        //Factory Retail Product
+        //for f1
+        FactoryRetailProductEntity frp1_1 = new FactoryRetailProductEntity(rp1.getUnit(), rp1.getName(), rp1.getDescription(), f1, rp1);
+        em.persist(frp1_1);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_1);
+        rp1.getFactoryRetailProducts().add(frp1_1);
+        FactoryRetailProductEntity frp1_2 = new FactoryRetailProductEntity(rp2.getUnit(), rp2.getName(), rp2.getDescription(), f1, rp2);
+        em.persist(frp1_2);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_2);
+        rp2.getFactoryRetailProducts().add(frp1_2);
+        FactoryRetailProductEntity frp1_3 = new FactoryRetailProductEntity(rp3.getUnit(), rp3.getName(), rp3.getDescription(), f1, rp3);
+        em.persist(frp1_3);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_3);
+        rp3.getFactoryRetailProducts().add(frp1_3);
+        FactoryRetailProductEntity frp1_4 = new FactoryRetailProductEntity(rp4.getUnit(), rp4.getName(), rp4.getDescription(), f1, rp4);
+        em.persist(frp1_4);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_4);
+        rp4.getFactoryRetailProducts().add(frp1_4);
+        FactoryRetailProductEntity frp1_5 = new FactoryRetailProductEntity(rp5.getUnit(), rp5.getName(), rp5.getDescription(), f1, rp5);
+        em.persist(frp1_5);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_5);
+        rp5.getFactoryRetailProducts().add(frp1_5);
+        em.flush();
+        //for f2
+        FactoryRetailProductEntity frp2_1 = new FactoryRetailProductEntity(rp1.getUnit(), rp1.getName(), rp1.getDescription(), f2, rp1);
+        em.persist(frp2_1);
+        em.flush();
+        f2.getFactoryRetailProducts().add(frp1_1);
+        rp1.getFactoryRetailProducts().add(frp1_1);
+        FactoryRetailProductEntity frp2_2 = new FactoryRetailProductEntity(rp2.getUnit(), rp2.getName(), rp2.getDescription(), f2, rp2);
+        em.persist(frp2_2);
+        em.flush();
+        f2.getFactoryRetailProducts().add(frp1_2);
+        rp2.getFactoryRetailProducts().add(frp1_2);
+        em.flush();
+
+        //StoreProduct      /* Further Modification*/
+        //for s1
+        //s1.factoryProduct
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1,Boolean.TRUE);
+
+        em.persist(sp1_1);
+        fp1_1.getStoreProducts().add(sp1_1);
+        s1.getStoreProduct().add(sp1_1);
+        em.flush();
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1,Boolean.FALSE);
+        em.persist(sp1_2);
+        fp2_1.getStoreProducts().add(sp1_2);
+        s1.getStoreProduct().add(sp1_2);
+        em.flush();
+        //s2.factoryProduct
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2,Boolean.TRUE);
+        em.persist(sp2_1);
+        fp1_2.getStoreProducts().add(sp2_1);
+        s2.getStoreProduct().add(sp2_1);
+        em.flush();
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2,Boolean.FALSE);
+        em.persist(sp2_2);
+        fp2_2.getStoreProducts().add(sp2_2);
+        s2.getStoreProduct().add(sp2_2);
+        em.flush();
+
         sp1_1.setProduct(p1);
         sp1_2.setProduct(p2);
         em.persist(sp1_1);
         em.persist(sp1_2);
         em.flush();
+        //StoreRetailProduct    /* Further Modification*/
+        //for s1
+        //s1.StoreRetailProduct
+        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        em.persist(srp1_1);
+        frp1_1.getStoreRetailProducts().add(srp1_1);
+        s1.getStoreRetailProduct().add(srp1_1);
+        em.flush();
+        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        em.persist(srp1_2);
+        frp1_2.getStoreRetailProducts().add(srp1_2);
+        s1.getStoreRetailProduct().add(srp1_2);
+        em.flush();
+        //s2.StoreRetailProduct
+        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        em.persist(srp2_1);
+        frp2_1.getStoreRetailProducts().add(srp2_1);
+        s2.getStoreRetailProduct().add(srp2_1);
+        em.flush();
+        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        em.persist(srp2_2);
+        frp2_2.getStoreRetailProducts().add(srp2_2);
+        s2.getStoreRetailProduct().add(srp2_2);
+        em.flush();
+
         
         //Product.BOM
         //for p1
@@ -348,22 +464,7 @@ public class dataSetUp {
         p5.setBom(bom5);
         em.flush();
 
-        //Retail Product
-        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", "box", false);
-        em.persist(rp1);
-        em.flush();
-        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", "set", false);
-        em.persist(rp2);
-        em.flush();
-        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", "bottle", false);
-        em.persist(rp3);
-        em.flush();
-        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", "bag", false);
-        em.persist(rp4);
-        em.flush();
-        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", "bottle", false);
-        em.persist(rp5);
-        em.flush();
+
 
         //Factory Raw Material
         //for f1
@@ -421,87 +522,7 @@ public class dataSetUp {
         f2.getFactoryRawMaterials().add(frm2_5);
         em.flush();
 
-        //Factory Product
-        //for f1
-        FactoryProductEntity fp1_1 = new FactoryProductEntity(p1.getUnit(), f1, p1);
-        em.persist(fp1_1);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_1);
-        p1.getFactoryProduct().add(fp1_1);
-        FactoryProductEntity fp1_2 = new FactoryProductEntity(p2.getUnit(), f1, p2);
-        em.persist(fp1_2);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_2);
-        p2.getFactoryProduct().add(fp1_2);
-        FactoryProductEntity fp1_3 = new FactoryProductEntity(p3.getUnit(), f1, p3);
-        em.persist(fp1_3);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_3);
-        p3.getFactoryProduct().add(fp1_3);
-        FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p4);
-        em.persist(fp1_4);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_4);
-        p4.getFactoryProduct().add(fp1_4);
-        FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
-        em.persist(fp1_5);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_5);
-        p5.getFactoryProduct().add(fp1_5);
-        em.flush();
-        //for f2
-        FactoryProductEntity fp2_1 = new FactoryProductEntity(p1.getUnit(), f2, p1);
-        em.persist(fp2_1);
-        em.flush();
-        f2.getFactoryProducts().add(fp2_1);
-        p1.getFactoryProduct().add(fp2_1);
-        FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
-        em.persist(fp2_2);
-        em.flush();
-        f2.getFactoryProducts().add(fp2_2);
-        p2.getFactoryProduct().add(fp2_2);
-        em.flush();
 
-        //Factory Retail Product
-        //for f1
-        FactoryRetailProductEntity frp1_1 = new FactoryRetailProductEntity(rp1.getUnit(), rp1.getName(), rp1.getDescription(), f1, rp1);
-        em.persist(frp1_1);
-        em.flush();
-        f1.getFactoryRetailProducts().add(frp1_1);
-        rp1.getFactoryRetailProducts().add(frp1_1);
-        FactoryRetailProductEntity frp1_2 = new FactoryRetailProductEntity(rp2.getUnit(), rp2.getName(), rp2.getDescription(), f1, rp2);
-        em.persist(frp1_2);
-        em.flush();
-        f1.getFactoryRetailProducts().add(frp1_2);
-        rp2.getFactoryRetailProducts().add(frp1_2);
-        FactoryRetailProductEntity frp1_3 = new FactoryRetailProductEntity(rp3.getUnit(), rp3.getName(), rp3.getDescription(), f1, rp3);
-        em.persist(frp1_3);
-        em.flush();
-        f1.getFactoryRetailProducts().add(frp1_3);
-        rp3.getFactoryRetailProducts().add(frp1_3);
-        FactoryRetailProductEntity frp1_4 = new FactoryRetailProductEntity(rp4.getUnit(), rp4.getName(), rp4.getDescription(), f1, rp4);
-        em.persist(frp1_4);
-        em.flush();
-        f1.getFactoryRetailProducts().add(frp1_4);
-        rp4.getFactoryRetailProducts().add(frp1_4);
-        FactoryRetailProductEntity frp1_5 = new FactoryRetailProductEntity(rp5.getUnit(), rp5.getName(), rp5.getDescription(), f1, rp5);
-        em.persist(frp1_5);
-        em.flush();
-        f1.getFactoryRetailProducts().add(frp1_5);
-        rp5.getFactoryRetailProducts().add(frp1_5);
-        em.flush();
-        //for f2
-        FactoryRetailProductEntity frp2_1 = new FactoryRetailProductEntity(rp1.getUnit(), rp1.getName(), rp1.getDescription(), f2, rp1);
-        em.persist(frp2_1);
-        em.flush();
-        f2.getFactoryRetailProducts().add(frp1_1);
-        rp1.getFactoryRetailProducts().add(frp1_1);
-        FactoryRetailProductEntity frp2_2 = new FactoryRetailProductEntity(rp2.getUnit(), rp2.getName(), rp2.getDescription(), f2, rp2);
-        em.persist(frp2_2);
-        em.flush();
-        f2.getFactoryRetailProducts().add(frp1_2);
-        rp2.getFactoryRetailProducts().add(frp1_2);
-        em.flush();
 
         //Factory Bin Stored Product
         //for f1.factoryRawMaterial
@@ -1342,8 +1363,155 @@ public class dataSetUp {
         em.flush();
         rmifu2_1.recordRawMaterialInFactoryUseMovement(fbsp2_1_1, 20.0, com1);
         em.flush();
-        
-        //Membership level set up
+
+        //Kitchen of s1
+        KitchenEntity k1 = new KitchenEntity(s1);
+        em.persist(k1);
+        s1.setKitchen(k1);
+        em.flush();
+
+        //Storage Places for k1
+        StoragePlaceEntity stp1_1 = new StoragePlaceEntity(k1, "Refrigerator 1");
+        em.persist(stp1_1);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_1);
+        em.flush();
+        StoragePlaceEntity stp1_2 = new StoragePlaceEntity(k1, "Refrigerator 2");
+        em.persist(stp1_2);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_2);
+        em.flush();
+        StoragePlaceEntity stp1_3 = new StoragePlaceEntity(k1, "Refrigerator 3");
+        em.persist(stp1_3);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_3);
+        em.flush();
+        StoragePlaceEntity stp1_4 = new StoragePlaceEntity(k1, "Shelf 1");
+        em.persist(stp1_4);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_4);
+        em.flush();
+        StoragePlaceEntity stp1_5 = new StoragePlaceEntity(k1, "Shelf 2");
+        em.persist(stp1_5);
+        em.flush();
+        k1.getStoragePlaces().add(stp1_5);
+        em.flush();
+
+        //IngredientSuppliers for k1
+        IngredientSupplierEntity ks1_1 = new IngredientSupplierEntity("Q.B. Food Trading Pte Ltd", "8 Chin Bee Crescent, Jurong, Singapore 619893", "+65 6261 6410", "+65 6261 6120", "Other Enquiries: +65 6261 6120", k1);
+        em.persist(ks1_1);
+        em.flush();
+        k1.getIngredientSuppliers().add(ks1_1);
+        em.flush();
+        IngredientSupplierEntity ks1_2 = new IngredientSupplierEntity("Fresh Direct Pte Ltd", "Blk 17, Pasir Panjang Wholesale Centre, #01-119/120, Singapore 110017", "+65 6775 4454", "+65 6872 1911", "Sales and Business Development: desmond@freshdirect.com.sg", k1);
+        em.persist(ks1_2);
+        em.flush();
+        k1.getIngredientSuppliers().add(ks1_2);
+        em.flush();
+        IngredientSupplierEntity ks1_3 = new IngredientSupplierEntity("Boba Planet Private Limited", "11 Woodlands Close, #10-19, Woodlands 11, S(737853)", "+65 6458 0490", "+65 6458 4760", "Bubble Tea ingredient supplier", k1);
+        em.persist(ks1_3);
+        em.flush();
+        k1.getIngredientSuppliers().add(ks1_3);
+        em.flush();
+
+        //Ingredients for k1
+        IngredientEntity i1_1 = new IngredientEntity("Lettuce", 5.0, "kg", "bitterness will increase with extended storage", 10.0, k1, ks1_2);
+        em.persist(i1_1);
+        em.flush();
+        ArrayList<StoragePlaceEntity> stps1_1 = new ArrayList<>();
+        stps1_1.add(stp1_1);
+        for (StoragePlaceEntity storagePlace : stps1_1) {
+            i1_1.getStoragePlaces().add(storagePlace);
+            storagePlace.getIngredients().add(i1_1);
+        }
+        i1_1.getKitchen().getIngredients().add(i1_1);
+        i1_1.getSupplier().getIngredients().add(i1_1);
+        em.flush();
+
+        IngredientEntity i1_2 = new IngredientEntity("Chilled Beef", 32.0, "kg", "hunter valley australian grass fed ribeye", 10.0, k1, ks1_1);
+        em.persist(i1_2);
+        em.flush();
+        ArrayList<StoragePlaceEntity> stps1_2 = new ArrayList<>();
+        stps1_2.add(stp1_1);
+        stps1_2.add(stp1_2);
+        for (StoragePlaceEntity storagePlace : stps1_2) {
+            i1_2.getStoragePlaces().add(storagePlace);
+            storagePlace.getIngredients().add(i1_2);
+        }
+        i1_2.getKitchen().getIngredients().add(i1_2);
+        i1_2.getSupplier().getIngredients().add(i1_2);
+        em.flush();
+        IngredientEntity i1_3 = new IngredientEntity("Blueberry Syrup", 15.2, "bottle (5kg)", "Free local delivery for orders more than S$ 150, Delivery surcharge of S$ 15 applicable, for orders below S$ 150", 1.0, k1, ks1_3);
+        em.persist(i1_3);
+        em.flush();
+        ArrayList<StoragePlaceEntity> stps1_3 = new ArrayList<>();
+        stps1_3.add(stp1_1);
+        stps1_3.add(stp1_2);
+        stps1_3.add(stp1_3);
+        for (StoragePlaceEntity storagePlace : stps1_3) {
+            i1_3.getStoragePlaces().add(storagePlace);
+            storagePlace.getIngredients().add(i1_3);
+        }
+        i1_3.getKitchen().getIngredients().add(i1_3);
+        i1_3.getSupplier().getIngredients().add(i1_3);
+        em.flush();
+
+        //Dishes for k1
+        DishEntity d1_1 = new DishEntity("Steak", 10.0, "Beef Steak", 5, k1);
+        em.persist(d1_1);
+        em.flush();
+        d1_1.getKitchen().getDishes().add(d1_1);
+        IngredientItemEntity ii1_1_1 = new IngredientItemEntity(i1_1, 1.0);
+        em.persist(ii1_1_1);
+        em.flush();
+        ii1_1_1.getIngredient().getDishes().add(d1_1);
+        d1_1.getRecipe().add(ii1_1_1);
+        IngredientItemEntity ii1_1_2 = new IngredientItemEntity(i1_2, 2.0);
+        em.persist(ii1_1_2);
+        em.flush();
+        ii1_1_2.getIngredient().getDishes().add(d1_1);
+        d1_1.getRecipe().add(ii1_1_2);
+        em.flush();
+
+        DishEntity d1_2 = new DishEntity("Beef Salad", 12.0, "Beef Salad", 5, k1);
+        em.persist(d1_2);
+        em.flush();
+        d1_2.getKitchen().getDishes().add(d1_2);
+        IngredientItemEntity ii1_2_1 = new IngredientItemEntity(i1_1, 1.0);
+        em.persist(ii1_2_1);
+        em.flush();
+        ii1_2_1.getIngredient().getDishes().add(d1_2);
+        d1_2.getRecipe().add(ii1_2_1);
+        IngredientItemEntity ii1_2_2 = new IngredientItemEntity(i1_2, 2.0);
+        em.persist(ii1_2_2);
+        em.flush();
+        ii1_2_2.getIngredient().getDishes().add(d1_2);
+        d1_2.getRecipe().add(ii1_2_2);
+        em.flush();
+        IngredientItemEntity ii1_2_3 = new IngredientItemEntity(i1_3, 0.5);
+        em.persist(ii1_2_3);
+        em.flush();
+        ii1_2_3.getIngredient().getDishes().add(d1_2);
+        d1_2.getRecipe().add(ii1_2_3);
+        em.flush();
+
+        // Combos for k1
+        ComboEntity c1_1 = new ComboEntity("Beef Set", 40.0, "Beef Set 2px", k1);
+        em.persist(c1_1);
+        c1_1.getKitchen().getCombos().add(c1_1);
+        em.flush();
+        DishItemEntity di1_1_1 = new DishItemEntity(d1_1, 2);
+        em.persist(di1_1_1);
+        em.flush();
+        di1_1_1.getDish().getCombos().add(c1_1);
+        c1_1.getDishes().add(di1_1_1);
+        em.flush();
+        DishItemEntity di1_1_2 = new DishItemEntity(d1_2, 2);
+        em.persist(di1_1_2);
+        em.flush();
+        di1_1_2.getDish().getCombos().add(c1_1);
+        c1_1.getDishes().add(di1_1_2);
+
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
         memlvl0.setPointsToUpgrade(1000D);
@@ -1383,4 +1551,5 @@ public class dataSetUp {
             MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
             "james@gmail.com", Boolean.FALSE);
     }
+
 }

@@ -30,7 +30,7 @@ public class FactoryBinStoredProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long factoryBinStoredProductId;
-    private double amount = 0;
+    private Double amount = 0D;
 
     //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne(cascade = {CascadeType.PERSIST})
@@ -63,11 +63,11 @@ public class FactoryBinStoredProductEntity implements Serializable {
         this.factoryBinStoredProductId = id;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -140,14 +140,14 @@ public class FactoryBinStoredProductEntity implements Serializable {
         this.setStatus(status);
     }
 
-    public void increaseQuantity(double increaseBy) {
-        this.amount += increaseBy;
-    }
-    
-    //pre-cond: amount - decreaseBy >= 0
-    public void decreaseQuantity(double decreaseBy) {
-        this.amount -= decreaseBy;
-    }
+//    public void increaseQuantity(Double increaseBy) {
+//        this.amount += increaseBy;
+//    }
+//    
+//    //pre-cond: amount - decreaseBy >= 0
+//    public void decreaseQuantity(Double decreaseBy) {
+//        this.amount -= decreaseBy;
+//    }
 
     @Override
     public int hashCode() {

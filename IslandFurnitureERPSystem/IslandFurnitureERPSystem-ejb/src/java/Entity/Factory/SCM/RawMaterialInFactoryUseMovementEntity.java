@@ -37,7 +37,7 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
     @ManyToOne
     private FactoryRawMaterialEntity factoryRawMaterial;
 
-    private double quantity;
+    private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
     // We do not relate it to ProductionPlan since RawMaterialInFactoryUseMovementEntity records only the usage of raw material in the reality
@@ -71,11 +71,11 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
 
     
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -88,7 +88,7 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
     }
 
     //pre-cond: availability check
-    public void recordRawMaterialInFactoryUseMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity, Calendar creationDate) {
+    public void recordRawMaterialInFactoryUseMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity, Calendar creationDate) {
         this.setFromBin(factoryBinStoredProduct.getFactoryBin());
         this.setFactoryRawMaterial(factoryBinStoredProduct.getFactoryRawMaterial());
         this.setQuantity(quantity);
@@ -97,11 +97,11 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
         updateFactoryRawMaterial(factoryBinStoredProduct, quantity);
     }
     
-    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.decreaseQuantity(quantity);
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() - quantity);
     }
     
-    private void updateFactoryRawMaterial(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryRawMaterial(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         factoryBinStoredProduct.getFactoryRawMaterial().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryRawMaterial().getUnrestrictedInventory() - quantity);
     }
 

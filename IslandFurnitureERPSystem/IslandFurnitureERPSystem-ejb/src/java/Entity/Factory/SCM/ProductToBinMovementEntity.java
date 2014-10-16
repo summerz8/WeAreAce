@@ -11,13 +11,10 @@ import Entity.Factory.FactoryProductEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.Temporal;
 
 /**
@@ -38,7 +35,7 @@ public class ProductToBinMovementEntity implements Serializable {
     @ManyToOne
     private FactoryProductEntity factoryProduct;
     private String status;  //unrestricted, blocked
-    private double quantity;
+    private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
 
@@ -77,11 +74,11 @@ public class ProductToBinMovementEntity implements Serializable {
         this.status = status;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -94,7 +91,7 @@ public class ProductToBinMovementEntity implements Serializable {
     }
 
     //pre-cond: availability check
-    public void recordProductToBinMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity, Calendar creationDate) {
+    public void recordProductToBinMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity, Calendar creationDate) {
         try {
             this.setFactoryProduct(factoryBinStoredProduct.getFactoryProduct());
             this.setToBin(factoryBinStoredProduct.getFactoryBin());
@@ -109,16 +106,16 @@ public class ProductToBinMovementEntity implements Serializable {
         }
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         try {
-            factoryBinStoredProduct.increaseQuantity(quantity);
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();
         }
     }
 
-    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         if (factoryBinStoredProduct.getStatus().equals("unrestricted")) {
             factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() + quantity);
         } else {

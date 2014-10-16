@@ -56,6 +56,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
             System.out.println("Session Bean view Raw Material With Select Type: " + factoryRawMaterialList.size());
 
+            //check whehter a factory raw material in the list is marked as deletedxs
             for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
                 if (!frm.getIsDeleted()) {
                     frmList.add(frm);
@@ -97,22 +98,22 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         Integer flag = 0;
         Collection<RawMaterialEntity> rmList = new ArrayList<>();
-        FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
-        Collection<FactoryRawMaterialEntity> currentFactoryRawMaterialList = currentFactory.getFactoryRawMaterials();
+        FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+        Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
         try {
             Query q = em.createQuery("Select rm from RawMaterialEntity RM");
             outerLoop:
             for (Object o : q.getResultList()) {
-                RawMaterialEntity rawmaterial = (RawMaterialEntity) o;
-                for (FactoryRawMaterialEntity frm : currentFactoryRawMaterialList) {
-                    FactoryRawMaterialEntity frawmaterial = frm;
-                    if (frawmaterial.getRawMaterial().equals(rawmaterial) && (!frawmaterial.getIsDeleted())) {
+                RawMaterialEntity rm = (RawMaterialEntity) o;
+                for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
+                    FactoryRawMaterialEntity factoryRawMaterial = frm;
+                    if (factoryRawMaterial.getRawMaterial().equals(rm) && (!factoryRawMaterial.getIsDeleted())) {
                         flag = 1;
                         break;
                     }
                 }
                 if (flag == 0) {
-                    rmList.add(rawmaterial);
+                    rmList.add(rm);
                 }
                 flag = 0;
 
@@ -129,16 +130,16 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         System.out.println("viewRetailProductListNotInFactory():");
         Integer flag = 0;
         Collection<RetailProductEntity> rpList = new ArrayList<>();
-        FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
-        Collection<FactoryRetailProductEntity> currentFactoryRetailProductList = currentFactory.getFactoryRetailProducts();
+        FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+        Collection<FactoryRetailProductEntity> factoryRetailProductList = factory.getFactoryRetailProducts();
         try {
             Query q = em.createQuery("Select pd from RetailProductEntity PD");
             outerLoop:
             for (Object o : q.getResultList()) {
                 RetailProductEntity rp = (RetailProductEntity) o;
-                for (FactoryRetailProductEntity frp : currentFactoryRetailProductList) {
-                    FactoryRetailProductEntity fRetailproduct = frp;
-                    if (fRetailproduct.getRetailProduct().equals(rp) && (!fRetailproduct.getIsDeleted())) {
+                for (FactoryRetailProductEntity frp : factoryRetailProductList) {
+                    FactoryRetailProductEntity factoryRetailProduct = frp;
+                    if (factoryRetailProduct.getRetailProduct().equals(rp) && (!factoryRetailProduct.getIsDeleted())) {
                         flag = 1;
                         break;
                     }
@@ -147,7 +148,6 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     rpList.add(rp);
                 }
                 flag = 0;
-
             }
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
@@ -170,17 +170,18 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         String result = null;
         String unit = null;
 
-        if (!removeTime(contractStartDate).before(removeTime(contractEndDate))) {
-            result = "\nContract start date is not before contract end date. "
-                    + "\nPlease enter correct date.\n";
-            return result;
-        }
-
+//        if (!removeTime(contractStartDate).before(removeTime(contractEndDate))) {
+//            result = "\nContract start date is not before contract end date. "
+//                    + "\nPlease enter correct date.\n";
+//            return result;
+//        }
         SupplierEntity supplier = new SupplierEntity();
-        em.persist(supplier);
-
         ContractEntity contract = new ContractEntity();
-        em.persist(contract);
+
+        //create new supplier entity and contract entity
+        supplier.create(name, address, telephone, fax, remark);
+        contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
+
         try {
             //create relationship between contract and factory Raw material 
             if (itemType.equals("RawMaterial")) {
@@ -202,14 +203,11 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
             }
 
-            //create new supplier entity and contract entity
-            supplier.create(name, address, telephone, fax, remark);
-            contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
-
             //create relationship between supplier ad contract 
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
-
+            em.persist(supplier);
+            em.persist(contract);
             em.flush();
 
             result = "Supplier " + supplier.getSupplierName() + " [id = " + supplier.getSupplierId() + " ] created!";
@@ -403,7 +401,12 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                     return result;
                 }
             }
+            //mark the supplier as deleted
             supplier.setIsDeleted(Boolean.TRUE);
+            //mark all the contract related to the supplier to be deleted (all should be expired)
+            for (ContractEntity contract : contractList) {
+                contract.setIsDeleted(Boolean.TRUE);
+            }
 
             result = "Supplier [id = " + supplier.getSupplierId() + ", Name =" + supplierName + "] has been deleted.";
             em.flush();
@@ -554,13 +557,9 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
                 Collection<ContractEntity> contractList = factoryRawMaterial.getContracts();
 
-                Iterator iterator = contractList.iterator();
                 //check whether there is an unexpired contract with the supplier
                 //if at least one is unexpired, the item cannot be deleted
-
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
-                    ContractEntity contract = (ContractEntity) obj;
+                for (ContractEntity contract : contractList) {
 
                     Calendar contractEndDate = contract.getContractEndDate();
                     Calendar today = Calendar.getInstance();
@@ -591,14 +590,10 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemFactoryId);
                 String rpName = factoryRetailProduct.getName();
                 Collection<ContractEntity> contractList = factoryRetailProduct.getContracts();
-                Iterator iterator = contractList.iterator();
 
                 //check whether there is an unexpired contract with the supplier
                 //if at least one is unexpired, the supplier cannot be deleted
-                while (iterator.hasNext()) {
-                    Object obj = iterator.next();
-                    ContractEntity contract = (ContractEntity) obj;
-
+                for (ContractEntity contract : contractList) {
                     Calendar contractEndDate = contract.getContractEndDate();
                     Calendar today = Calendar.getInstance();
 

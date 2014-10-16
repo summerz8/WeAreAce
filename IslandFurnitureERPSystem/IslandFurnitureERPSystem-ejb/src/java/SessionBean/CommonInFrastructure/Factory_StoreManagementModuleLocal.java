@@ -10,7 +10,6 @@ import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Store.StoreEntity;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;

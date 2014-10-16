@@ -3,25 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package Entity.Store.OCRM;
+package Entity.Kitchen;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author dan
+ * @author Yoky
  */
 @Entity
-public class OrderItem implements Serializable {
+public class IngredientItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private IngredientEntity ingredient;
+    private Double quantity;
+    
 
     public Long getId() {
         return id;
@@ -29,6 +33,30 @@ public class OrderItem implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public IngredientEntity getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(IngredientEntity ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public IngredientItemEntity() {
+    }
+
+    public IngredientItemEntity(IngredientEntity ingredient, Double quantity) {
+        this.ingredient = ingredient;
+        this.quantity = quantity;
     }
 
     @Override
@@ -41,10 +69,10 @@ public class OrderItem implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderItem)) {
+        if (!(object instanceof IngredientItemEntity)) {
             return false;
         }
-        OrderItem other = (OrderItem) object;
+        IngredientItemEntity other = (IngredientItemEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +81,7 @@ public class OrderItem implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.OrderItem[ id=" + id + " ]";
+        return "Entity.Kitchen.RecipeItemEntity[ id=" + id + " ]";
     }
     
 }

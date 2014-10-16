@@ -44,7 +44,7 @@ public class FactoryEntity implements Serializable {
     private String country;
     private String address;
     private String contact;
-    private String manager; // managerEntity
+    private String manager; // manager id
     private Boolean deleteFlag;//a flag used to mark as deleted or not
     
     //purchase order entity -- factory entity: M <--> 1 
@@ -71,13 +71,8 @@ public class FactoryEntity implements Serializable {
 //    @ManyToMany(cascade = {CascadeType.PERSIST})
 //    @JoinTable(name = "FACTORY_STORE")
 //    private List<StoreEntity> stores = new ArrayList<>();
-    //factory entity -- store product entity: 1<-->M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
-    private List<StoreProductEntity> storeProduct = new ArrayList<>();
     
-    //factory entity -- store retail product entity: 1<-->M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
-    private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
+    
     
     //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
@@ -131,11 +126,11 @@ public class FactoryEntity implements Serializable {
         this.contact = contact;
     }
 
-    public String getManager() {
+    public String getManagerId() {
         return manager;
     }
 
-    public void setManager(String manager) {
+    public void setManagerId(String manager) {
         this.manager = manager;
     }
 
@@ -190,14 +185,6 @@ public class FactoryEntity implements Serializable {
         this.factoryBins = factoryBins;
     }
 
-    public List<StoreProductEntity> getStoreProduct() {
-        return storeProduct;
-    }
-
-    public void setStoreProduct(List<StoreProductEntity> storeProduct) {
-        this.storeProduct = storeProduct;
-    }
-
     
     public List<PlannedOrderEntity> getPlannedOrder() {
         return plannedOrders;
@@ -223,13 +210,6 @@ public class FactoryEntity implements Serializable {
         this.integratedPlannedOrders = integratedPlannedOrders;
     }
 
-    public List<StoreRetailProductEntity> getStoreRetailProduct() {
-        return storeRetailProduct;
-    }
-
-    public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
-        this.storeRetailProduct = storeRetailProduct;
-    }
     
     @Override
     public String toString() {

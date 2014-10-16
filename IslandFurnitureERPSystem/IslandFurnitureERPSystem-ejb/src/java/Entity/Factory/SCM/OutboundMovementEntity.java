@@ -31,7 +31,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long OutboundMovementId;
+    private Long outboundMovementId;
 
     //factory bin stored product entity -- outbound movements: 1 <--> M (from which bin)
     @ManyToOne
@@ -49,15 +49,15 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
-    private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 2 for factoryProduct, 3 for factoryRetailProduct
-    private double quantity;
+    private Integer stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 2 for factoryProduct, 3 for factoryRetailProduct
+    private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
 
     public OutboundMovementEntity() {
     }
 
-    public OutboundMovementEntity(FactoryBinEntity fromBin, StoreEntity toStore, double quantity, Calendar creationDate) {
+    public OutboundMovementEntity(FactoryBinEntity fromBin, StoreEntity toStore, Double quantity, Calendar creationDate) {
         this.fromBin = fromBin;
         this.toStore = toStore;
         this.quantity = quantity;
@@ -65,11 +65,11 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     }
 
     public Long getOutboundMovementId() {
-        return OutboundMovementId;
+        return outboundMovementId;
     }
 
     public void setOutboundMovementId(Long OutboundMovementId) {
-        this.OutboundMovementId = OutboundMovementId;
+        this.outboundMovementId = OutboundMovementId;
     }
 
     public FactoryBinEntity getFromBin() {
@@ -106,19 +106,19 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
         this.stockTypeIndicator = 3;
     }
 
-    public int getStockTypeIndicator() {
+    public Integer getStockTypeIndicator() {
         return stockTypeIndicator;
     }
 
-    public void setStockTypeIndicator(int stockTypeIndicator) {
+    public void setStockTypeIndicator(Integer stockTypeIndicator) {
         this.stockTypeIndicator = stockTypeIndicator;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -131,7 +131,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     }
 
     //pre-cond: availability check
-    public void recordFactoryProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, double quantity, Calendar creationDate) {
+    public void recordFactoryProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, Double quantity, Calendar creationDate) {
         this.setFromBin(factoryBinStoredProduct.getFactoryBin());
         this.setToStore(toStore);
         this.setFactoryProduct(factoryBinStoredProduct.getFactoryProduct());
@@ -144,7 +144,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     }
 
     //pre-cond: availability check
-    public void recordFactoryRetailProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, double quantity, Calendar creationDate) {
+    public void recordFactoryRetailProductOutboundMovement(FactoryBinStoredProductEntity factoryBinStoredProduct, StoreEntity toStore, Double quantity, Calendar creationDate) {
         this.setFromBin(factoryBinStoredProduct.getFactoryBin());
         this.setToStore(toStore);
         this.setFactoryRetailProduct(factoryBinStoredProduct.getFactoryRetailProduct());
@@ -156,15 +156,14 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
 
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.decreaseQuantity(quantity);
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() - quantity);
     }
-
-    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         factoryBinStoredProduct.getFactoryProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryProduct().getUnrestrictedInventory() - quantity);
     }
 
-    private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         factoryBinStoredProduct.getFactoryRetailProduct().setUnrestrictedInventory(factoryBinStoredProduct.getFactoryRetailProduct().getUnrestrictedInventory() - quantity);
     }
 }

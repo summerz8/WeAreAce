@@ -50,8 +50,8 @@ public class ReturnedItemInboundMovementEntity implements Serializable {
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
-    private int stockTypeIndicator = 0; // default is 0  //to indicate the type of stocks: 2 for factoryProduct, 3 for factoryRetailProduct
-    private double quantity;
+    private Integer stockTypeIndicator = 0; // default is 0  //to indicate the type of stocks: 2 for factoryProduct, 3 for factoryRetailProduct
+    private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
 
@@ -95,19 +95,19 @@ public class ReturnedItemInboundMovementEntity implements Serializable {
         this.factoryRetailProduct = factoryRetailProduct;
     }
 
-    public int getStockTypeIndicator() {
+    public Integer getStockTypeIndicator() {
         return stockTypeIndicator;
     }
 
-    public void setStockTypeIndicator(int stockTypeIndicator) {
+    public void setStockTypeIndicator(Integer stockTypeIndicator) {
         this.stockTypeIndicator = stockTypeIndicator;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -141,15 +141,15 @@ public class ReturnedItemInboundMovementEntity implements Serializable {
         updateFactoryRetailProduct(factoryBinStoredProduct, quantity); // need to matian the total quantity of returned products
     }
 
-    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
-        factoryBinStoredProduct.increaseQuantity(quantity);
+    private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
     }
     
-    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         factoryBinStoredProduct.getFactoryProduct().setReturnedInventory(factoryBinStoredProduct.getFactoryProduct().getReturnedInventory() + quantity);
     }
 
-    private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, double quantity) {
+    private void updateFactoryRetailProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         factoryBinStoredProduct.getFactoryRetailProduct().setReturnedInventory(factoryBinStoredProduct.getFactoryRetailProduct().getReturnedInventory() + quantity);
     }
     
