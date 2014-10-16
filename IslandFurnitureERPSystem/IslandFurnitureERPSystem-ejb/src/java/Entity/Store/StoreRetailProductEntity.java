@@ -7,14 +7,14 @@
 package Entity.Store;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryRetailProductEntity;
+import static Entity.Factory.FactoryRetailProductEntity_.factory;
 import Entity.Factory.RetailProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -31,9 +31,9 @@ public class StoreRetailProductEntity implements Serializable {
     private Long storeRetailProductId;
     private Double quantity;
 
-    //store retail product entity -- factory entity: M <--> 1 
+    //store retail product entity -- factory retail productentity: M <--> 1 
     @ManyToOne
-    private FactoryEntity factory;
+    private FactoryRetailProductEntity factoryRetailProduct;
     
     //store retail product entity -- stores entity: M <--> 1
     @ManyToOne
@@ -47,8 +47,8 @@ public class StoreRetailProductEntity implements Serializable {
     public StoreRetailProductEntity() {
     }
 
-    public StoreRetailProductEntity(FactoryEntity factory, StoreEntity store) {
-        this.factory = factory;
+    public StoreRetailProductEntity(FactoryRetailProductEntity factoryretail, StoreEntity store) {
+        this.factoryRetailProduct = factoryretail;
         this.store = store;
     }
     
@@ -69,13 +69,15 @@ public class StoreRetailProductEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public FactoryEntity getFactory() {
-        return factory;
+    public FactoryRetailProductEntity getFactoryRetailProduct() {
+        return factoryRetailProduct;
     }
 
-    public void setFactory(FactoryEntity factory) {
-        this.factory = factory;
+    public void setFactoryRetailProduct(FactoryRetailProductEntity factoryRetailProduct) {
+        this.factoryRetailProduct = factoryRetailProduct;
     }
+
+    
 
     public StoreEntity getStore() {
         return store;

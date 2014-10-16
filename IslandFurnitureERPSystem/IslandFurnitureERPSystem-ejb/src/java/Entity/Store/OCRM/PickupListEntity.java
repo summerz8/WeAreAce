@@ -7,7 +7,9 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,9 +32,12 @@ public class PickupListEntity implements Serializable {
     private Boolean Picked;
     
     //PickupListEntity <--> TransactionItem 1<-->M
-    @OneToMany
-    private List<TransactionItem> transactoinItems;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
+    private List<TransactionItem> transactoinItems = new ArrayList<>();
     
+    public PickupListEntity(){
+        this.Picked = Boolean.FALSE;
+    }
 
     public Long getPickupListId() {
         return PickupListId;
@@ -40,6 +45,22 @@ public class PickupListEntity implements Serializable {
 
     public void setPickupListId(Long PickupListId) {
         this.PickupListId = PickupListId;
+    }
+
+    public Boolean getPicked() {
+        return Picked;
+    }
+
+    public void setPicked(Boolean Picked) {
+        this.Picked = Picked;
+    }
+
+    public List<TransactionItem> getTransactoinItems() {
+        return transactoinItems;
+    }
+
+    public void setTransactoinItems(List<TransactionItem> transactoinItems) {
+        this.transactoinItems = transactoinItems;
     }
 
     @Override

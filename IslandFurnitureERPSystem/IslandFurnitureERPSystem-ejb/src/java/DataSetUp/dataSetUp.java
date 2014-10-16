@@ -107,6 +107,8 @@ public class dataSetUp {
         em.persist(f2);
         em.flush();
 
+        
+        
         //Factory Bin
         //for f1
         FactoryBinEntity fb1_1 = new FactoryBinEntity();
@@ -182,58 +184,25 @@ public class dataSetUp {
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
         em.flush();
-
-        //StoreProduct      /* Further Modification*/
-        //for s1
-        //s1.factoryProduct
-        StoreProductEntity sp1_1 = new StoreProductEntity(f1, s1);
-
-        em.persist(sp1_1);
-        f1.getStoreProduct().add(sp1_1);
-        s1.getStoreProduct().add(sp1_1);
+        
+        
+        //Retail Product
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", "box", false);
+        em.persist(rp1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(f2, s1);
-        em.persist(sp1_2);
-        f2.getStoreProduct().add(sp1_2);
-        s1.getStoreProduct().add(sp1_2);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", "set", false);
+        em.persist(rp2);
         em.flush();
-        //s2.factoryProduct
-        StoreProductEntity sp2_1 = new StoreProductEntity(f1, s2);
-        em.persist(sp2_1);
-        f1.getStoreProduct().add(sp2_1);
-        s2.getStoreProduct().add(sp2_1);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", "bottle", false);
+        em.persist(rp3);
         em.flush();
-        StoreProductEntity sp2_2 = new StoreProductEntity(f2, s2);
-        em.persist(sp2_2);
-        f2.getStoreProduct().add(sp2_2);
-        s2.getStoreProduct().add(sp2_2);
+        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", "bag", false);
+        em.persist(rp4);
         em.flush();
-
-        //StoreRetailProduct    /* Further Modification*/
-        //for s1
-        //s1.StoreRetailProduct
-        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(f1, s1);
-        em.persist(srp1_1);
-        f1.getStoreRetailProduct().add(srp1_1);
-        s1.getStoreRetailProduct().add(srp1_1);
+        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", "bottle", false);
+        em.persist(rp5);
         em.flush();
-        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(f2, s1);
-        em.persist(srp1_2);
-        f1.getStoreRetailProduct().add(srp1_2);
-        s1.getStoreRetailProduct().add(srp1_2);
-        em.flush();
-        //s2.StoreRetailProduct
-        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(f1, s2);
-        em.persist(srp2_1);
-        f1.getStoreRetailProduct().add(srp2_1);
-        s2.getStoreRetailProduct().add(srp2_1);
-        em.flush();
-        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(f2, s2);
-        em.persist(srp2_2);
-        f2.getStoreRetailProduct().add(srp2_2);
-        s2.getStoreRetailProduct().add(srp2_2);
-        em.flush();
-
+        
         //Raw Material
         RawMaterialEntity rm1 = new RawMaterialEntity("board", "wood", false, "square meter");
         em.persist(rm1);
@@ -273,162 +242,8 @@ public class dataSetUp {
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
         em.persist(p6);
         em.flush();
-        sp1_1.setProduct(p1);
-        sp1_2.setProduct(p2);
-        em.persist(sp1_1);
-        em.persist(sp1_2);
-        em.flush();
+        
 
-        //Product.BOM
-        //for p1
-        BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
-        em.persist(bom1_1);
-        em.flush();
-        BOMEntity bom1_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p1);
-        em.persist(bom1_2);
-        em.flush();
-        BOMEntity bom1_3 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p1);
-        em.persist(bom1_3);
-        em.flush();
-        List bom1 = new ArrayList();
-        bom1.add(bom1_1);
-        bom1.add(bom1_2);
-        bom1.add(bom1_3);
-        p1.setBom(bom1);
-        em.flush();
-        //for p2
-        BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p2);
-        em.persist(bom2_1);
-        em.flush();
-        BOMEntity bom2_2 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p2);
-        em.persist(bom2_2);
-        em.flush();
-        BOMEntity bom2_3 = new BOMEntity(rm2, rm2.getUnit(), 3.0, p2);
-        em.persist(bom2_3);
-        em.flush();
-        List bom2 = new ArrayList();
-        bom2.add(bom2_1);
-        bom2.add(bom2_2);
-        bom2.add(bom2_3);
-        p2.setBom(bom2);
-        em.flush();
-        //for p3
-        BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p3);
-        em.persist(bom3_1);
-        em.flush();
-        BOMEntity bom3_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p3);
-        em.persist(bom3_2);
-        em.flush();
-        BOMEntity bom3_3 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p3);
-        em.persist(bom3_3);
-        em.flush();
-        List bom3 = new ArrayList();
-        bom3.add(bom3_1);
-        bom3.add(bom3_2);
-        bom3.add(bom3_3);
-        p3.setBom(bom3);
-        em.flush();
-        //for p4
-        BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p4);
-        em.persist(bom4_1);
-        em.flush();
-        BOMEntity bom4_2 = new BOMEntity(rm2, rm2.getUnit(), 1.0, p4);
-        em.persist(bom4_2);
-        em.flush();
-        List bom4 = new ArrayList();
-        bom4.add(bom4_1);
-        bom4.add(bom4_2);
-        p4.setBom(bom4);
-        em.flush();
-        //for p5
-        BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p5);
-        em.persist(bom5_1);
-        em.flush();
-        BOMEntity bom5_2 = new BOMEntity(rm2, rm2.getUnit(), 6.0, p5);
-        em.persist(bom5_2);
-        em.flush();
-        BOMEntity bom5_3 = new BOMEntity(rm3, rm3.getUnit(), 3.0, p5);
-        em.persist(bom5_3);
-        em.flush();
-        List bom5 = new ArrayList();
-        bom5.add(bom5_1);
-        bom5.add(bom5_2);
-        bom5.add(bom5_3);
-        p5.setBom(bom5);
-        em.flush();
-
-        //Retail Product
-        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", "box", false);
-        em.persist(rp1);
-        em.flush();
-        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", "set", false);
-        em.persist(rp2);
-        em.flush();
-        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", "bottle", false);
-        em.persist(rp3);
-        em.flush();
-        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", "bag", false);
-        em.persist(rp4);
-        em.flush();
-        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", "bottle", false);
-        em.persist(rp5);
-        em.flush();
-
-        //Factory Raw Material
-        //for f1
-        FactoryRawMaterialEntity frm1_1 = new FactoryRawMaterialEntity(rm1.getUnit(), rm1.getMaterialName(), rm1.getDescription(), false, f1, rm1);
-        em.persist(frm1_1);
-        em.flush();
-        rm1.getFactoryRawMaterials().add(frm1_1);
-        f1.getFactoryRawMaterials().add(frm1_1);
-        FactoryRawMaterialEntity frm1_2 = new FactoryRawMaterialEntity(rm2.getUnit(), rm2.getMaterialName(), rm2.getDescription(), false, f1, rm2);
-        em.persist(frm1_2);
-        em.flush();
-        rm2.getFactoryRawMaterials().add(frm1_2);
-        f1.getFactoryRawMaterials().add(frm1_2);
-        FactoryRawMaterialEntity frm1_3 = new FactoryRawMaterialEntity(rm3.getUnit(), rm3.getMaterialName(), rm3.getDescription(), false, f1, rm3);
-        em.persist(frm1_3);
-        em.flush();
-        rm3.getFactoryRawMaterials().add(frm1_3);
-        f1.getFactoryRawMaterials().add(frm1_3);
-        FactoryRawMaterialEntity frm1_4 = new FactoryRawMaterialEntity(rm4.getUnit(), rm4.getMaterialName(), rm4.getDescription(), false, f1, rm4);
-        em.persist(frm1_4);
-        em.flush();
-        rm4.getFactoryRawMaterials().add(frm1_4);
-        f1.getFactoryRawMaterials().add(frm1_4);
-        FactoryRawMaterialEntity frm1_5 = new FactoryRawMaterialEntity(rm5.getUnit(), rm5.getMaterialName(), rm5.getDescription(), false, f1, rm5);
-        em.persist(frm1_5);
-        em.flush();
-        rm5.getFactoryRawMaterials().add(frm1_5);
-        f1.getFactoryRawMaterials().add(frm1_5);
-        em.flush();
-        //for f2
-        FactoryRawMaterialEntity frm2_1 = new FactoryRawMaterialEntity(rm1.getUnit(), rm1.getMaterialName(), rm1.getDescription(), false, f2, rm1);
-        em.persist(frm2_1);
-        em.flush();
-        rm1.getFactoryRawMaterials().add(frm2_1);
-        f2.getFactoryRawMaterials().add(frm2_1);
-        FactoryRawMaterialEntity frm2_2 = new FactoryRawMaterialEntity(rm2.getUnit(), rm2.getMaterialName(), rm2.getDescription(), false, f2, rm2);
-        em.persist(frm2_2);
-        em.flush();
-        rm2.getFactoryRawMaterials().add(frm2_2);
-        f2.getFactoryRawMaterials().add(frm2_2);
-        FactoryRawMaterialEntity frm2_3 = new FactoryRawMaterialEntity(rm3.getUnit(), rm3.getMaterialName(), rm3.getDescription(), false, f2, rm3);
-        em.persist(frm2_3);
-        em.flush();
-        rm3.getFactoryRawMaterials().add(frm2_3);
-        f2.getFactoryRawMaterials().add(frm2_3);
-        FactoryRawMaterialEntity frm2_4 = new FactoryRawMaterialEntity(rm4.getUnit(), rm4.getMaterialName(), rm4.getDescription(), false, f2, rm4);
-        em.persist(frm2_4);
-        em.flush();
-        rm4.getFactoryRawMaterials().add(frm2_4);
-        f2.getFactoryRawMaterials().add(frm2_4);
-        FactoryRawMaterialEntity frm2_5 = new FactoryRawMaterialEntity(rm5.getUnit(), rm5.getMaterialName(), rm5.getDescription(), false, f2, rm5);
-        em.persist(frm2_5);
-        em.flush();
-        rm5.getFactoryRawMaterials().add(frm2_5);
-        f2.getFactoryRawMaterials().add(frm2_5);
-        em.flush();
 
         //Factory Product
         //for f1
@@ -511,6 +326,201 @@ public class dataSetUp {
         f2.getFactoryRetailProducts().add(frp1_2);
         rp2.getFactoryRetailProducts().add(frp1_2);
         em.flush();
+
+        //StoreProduct      /* Further Modification*/
+        //for s1
+        //s1.factoryProduct
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1,Boolean.TRUE);
+
+        em.persist(sp1_1);
+        fp1_1.getStoreProducts().add(sp1_1);
+        s1.getStoreProduct().add(sp1_1);
+        em.flush();
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1,Boolean.FALSE);
+        em.persist(sp1_2);
+        fp2_1.getStoreProducts().add(sp1_2);
+        s1.getStoreProduct().add(sp1_2);
+        em.flush();
+        //s2.factoryProduct
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2,Boolean.TRUE);
+        em.persist(sp2_1);
+        fp1_2.getStoreProducts().add(sp2_1);
+        s2.getStoreProduct().add(sp2_1);
+        em.flush();
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2,Boolean.FALSE);
+        em.persist(sp2_2);
+        fp2_2.getStoreProducts().add(sp2_2);
+        s2.getStoreProduct().add(sp2_2);
+        em.flush();
+
+        sp1_1.setProduct(p1);
+        sp1_2.setProduct(p2);
+        em.persist(sp1_1);
+        em.persist(sp1_2);
+        em.flush();
+        //StoreRetailProduct    /* Further Modification*/
+        //for s1
+        //s1.StoreRetailProduct
+        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        em.persist(srp1_1);
+        frp1_1.getStoreRetailProducts().add(srp1_1);
+        s1.getStoreRetailProduct().add(srp1_1);
+        em.flush();
+        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        em.persist(srp1_2);
+        frp1_2.getStoreRetailProducts().add(srp1_2);
+        s1.getStoreRetailProduct().add(srp1_2);
+        em.flush();
+        //s2.StoreRetailProduct
+        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        em.persist(srp2_1);
+        frp2_1.getStoreRetailProducts().add(srp2_1);
+        s2.getStoreRetailProduct().add(srp2_1);
+        em.flush();
+        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        em.persist(srp2_2);
+        frp2_2.getStoreRetailProducts().add(srp2_2);
+        s2.getStoreRetailProduct().add(srp2_2);
+        em.flush();
+
+        
+        //Product.BOM
+        //for p1
+        BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
+        em.persist(bom1_1);
+        em.flush();
+        BOMEntity bom1_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p1);
+        em.persist(bom1_2);
+        em.flush();
+        BOMEntity bom1_3 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p1);
+        em.persist(bom1_3);
+        em.flush();
+        List bom1 = new ArrayList();
+        bom1.add(bom1_1);
+        bom1.add(bom1_2);
+        bom1.add(bom1_3);
+        p1.setBom(bom1);
+        em.flush();
+        //for p2
+        BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p2);
+        em.persist(bom2_1);
+        em.flush();
+        BOMEntity bom2_2 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p2);
+        em.persist(bom2_2);
+        em.flush();
+        BOMEntity bom2_3 = new BOMEntity(rm2, rm2.getUnit(), 3.0, p2);
+        em.persist(bom2_3);
+        em.flush();
+        List bom2 = new ArrayList();
+        bom2.add(bom2_1);
+        bom2.add(bom2_2);
+        bom2.add(bom2_3);
+        p2.setBom(bom2);
+        em.flush();
+        //for p3
+        BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p3);
+        em.persist(bom3_1);
+        em.flush();
+        BOMEntity bom3_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p3);
+        em.persist(bom3_2);
+        em.flush();
+        BOMEntity bom3_3 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p3);
+        em.persist(bom3_3);
+        em.flush();
+        List bom3 = new ArrayList();
+        bom3.add(bom3_1);
+        bom3.add(bom3_2);
+        bom3.add(bom3_3);
+        p3.setBom(bom3);
+        em.flush();
+        //for p4
+        BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p4);
+        em.persist(bom4_1);
+        em.flush();
+        BOMEntity bom4_2 = new BOMEntity(rm2, rm2.getUnit(), 1.0, p4);
+        em.persist(bom4_2);
+        em.flush();
+        List bom4 = new ArrayList();
+        bom4.add(bom4_1);
+        bom4.add(bom4_2);
+        p4.setBom(bom4);
+        em.flush();
+        //for p5
+        BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p5);
+        em.persist(bom5_1);
+        em.flush();
+        BOMEntity bom5_2 = new BOMEntity(rm2, rm2.getUnit(), 6.0, p5);
+        em.persist(bom5_2);
+        em.flush();
+        BOMEntity bom5_3 = new BOMEntity(rm3, rm3.getUnit(), 3.0, p5);
+        em.persist(bom5_3);
+        em.flush();
+        List bom5 = new ArrayList();
+        bom5.add(bom5_1);
+        bom5.add(bom5_2);
+        bom5.add(bom5_3);
+        p5.setBom(bom5);
+        em.flush();
+
+
+
+        //Factory Raw Material
+        //for f1
+        FactoryRawMaterialEntity frm1_1 = new FactoryRawMaterialEntity(rm1.getUnit(), rm1.getMaterialName(), rm1.getDescription(), false, f1, rm1);
+        em.persist(frm1_1);
+        em.flush();
+        rm1.getFactoryRawMaterials().add(frm1_1);
+        f1.getFactoryRawMaterials().add(frm1_1);
+        FactoryRawMaterialEntity frm1_2 = new FactoryRawMaterialEntity(rm2.getUnit(), rm2.getMaterialName(), rm2.getDescription(), false, f1, rm2);
+        em.persist(frm1_2);
+        em.flush();
+        rm2.getFactoryRawMaterials().add(frm1_2);
+        f1.getFactoryRawMaterials().add(frm1_2);
+        FactoryRawMaterialEntity frm1_3 = new FactoryRawMaterialEntity(rm3.getUnit(), rm3.getMaterialName(), rm3.getDescription(), false, f1, rm3);
+        em.persist(frm1_3);
+        em.flush();
+        rm3.getFactoryRawMaterials().add(frm1_3);
+        f1.getFactoryRawMaterials().add(frm1_3);
+        FactoryRawMaterialEntity frm1_4 = new FactoryRawMaterialEntity(rm4.getUnit(), rm4.getMaterialName(), rm4.getDescription(), false, f1, rm4);
+        em.persist(frm1_4);
+        em.flush();
+        rm4.getFactoryRawMaterials().add(frm1_4);
+        f1.getFactoryRawMaterials().add(frm1_4);
+        FactoryRawMaterialEntity frm1_5 = new FactoryRawMaterialEntity(rm5.getUnit(), rm5.getMaterialName(), rm5.getDescription(), false, f1, rm5);
+        em.persist(frm1_5);
+        em.flush();
+        rm5.getFactoryRawMaterials().add(frm1_5);
+        f1.getFactoryRawMaterials().add(frm1_5);
+        em.flush();
+        //for f2
+        FactoryRawMaterialEntity frm2_1 = new FactoryRawMaterialEntity(rm1.getUnit(), rm1.getMaterialName(), rm1.getDescription(), false, f2, rm1);
+        em.persist(frm2_1);
+        em.flush();
+        rm1.getFactoryRawMaterials().add(frm2_1);
+        f2.getFactoryRawMaterials().add(frm2_1);
+        FactoryRawMaterialEntity frm2_2 = new FactoryRawMaterialEntity(rm2.getUnit(), rm2.getMaterialName(), rm2.getDescription(), false, f2, rm2);
+        em.persist(frm2_2);
+        em.flush();
+        rm2.getFactoryRawMaterials().add(frm2_2);
+        f2.getFactoryRawMaterials().add(frm2_2);
+        FactoryRawMaterialEntity frm2_3 = new FactoryRawMaterialEntity(rm3.getUnit(), rm3.getMaterialName(), rm3.getDescription(), false, f2, rm3);
+        em.persist(frm2_3);
+        em.flush();
+        rm3.getFactoryRawMaterials().add(frm2_3);
+        f2.getFactoryRawMaterials().add(frm2_3);
+        FactoryRawMaterialEntity frm2_4 = new FactoryRawMaterialEntity(rm4.getUnit(), rm4.getMaterialName(), rm4.getDescription(), false, f2, rm4);
+        em.persist(frm2_4);
+        em.flush();
+        rm4.getFactoryRawMaterials().add(frm2_4);
+        f2.getFactoryRawMaterials().add(frm2_4);
+        FactoryRawMaterialEntity frm2_5 = new FactoryRawMaterialEntity(rm5.getUnit(), rm5.getMaterialName(), rm5.getDescription(), false, f2, rm5);
+        em.persist(frm2_5);
+        em.flush();
+        rm5.getFactoryRawMaterials().add(frm2_5);
+        f2.getFactoryRawMaterials().add(frm2_5);
+        em.flush();
+
+
 
         //Factory Bin Stored Product
         //for f1.factoryRawMaterial
@@ -1525,4 +1535,5 @@ public class dataSetUp {
         em.persist(memlvl5);
         em.flush();
     }
+
 }

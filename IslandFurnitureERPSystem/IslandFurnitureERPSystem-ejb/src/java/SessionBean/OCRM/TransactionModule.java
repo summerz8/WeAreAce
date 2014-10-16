@@ -8,6 +8,7 @@ package SessionBean.OCRM;
 import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
@@ -123,14 +124,49 @@ public class TransactionModule implements TransactionModuleLocal {
         
         transaction.setTendered(tendered);
         transaction.setChange(change);
-        
         em.persist(transaction);
         em.flush();
+        
+
+        createPickupList(transactionId);
+        
         
         return change;
     }
     
-    public void createPickUpList(){
-    
+    public void createPickupList(Long transactionId){
+        
+        TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
+        
+        List<TransactionItem> transactionItemList = transaction.getTransactionItems();
+        PickupListEntity pickupList = new PickupListEntity();    
+        
+        for(TransactionItem transactionItem : transactionItemList){
+            Long UUID = transactionItem.getItemId();
+            
+            StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, UUID);
+            
+            if(mapping.getProductid()!=null){
+               Long storeProductId = mapping.getProductid();
+               StoreProductEntity storeProduct = em.find(StoreProductEntity.class,storeProductId);
+               if(!storeProduct.getSelfPick()){
+                   pickupList.getTransactoinItems().add(transactionItem);
+                   transactionItem.setPickupList(pickupList);
+               }
+            }
+            
+            else{
+                pickupList.getTransactoinItems().add(transactionItem);
+                transactionItem.setPickupList(pickupList);
+            }
+            
+            em.persist(transactionItem);
+            em.flush();
+            
+            em.persist(pickupList);
+            em.flush();
+        }//for
+        
+        
     }
 }
