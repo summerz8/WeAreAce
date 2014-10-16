@@ -6,6 +6,7 @@
 package Entity.Store;
 
 import Entity.Kitchen.KitchenEntity;
+import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,10 @@ public class StoreEntity implements Serializable {
     private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<StoreItemMappingEntity> storeProductMapping = new ArrayList<>();
+    private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<TransactionEntity> transacion = new ArrayList<>();
     
     public StoreEntity() {
     }
@@ -137,11 +141,11 @@ public class StoreEntity implements Serializable {
     }
 
     public List<StoreItemMappingEntity> getStoreProductMapping() {
-        return storeProductMapping;
+        return storeItemMapping;
     }
 
     public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
-        this.storeProductMapping = storeProductMapping;
+        this.storeItemMapping = storeProductMapping;
     }
     
     public KitchenEntity getKitchen() {
@@ -151,7 +155,22 @@ public class StoreEntity implements Serializable {
     public void setKitchen(KitchenEntity kitchen) {
         this.kitchen = kitchen;
     }
-     
+
+    public List<StoreItemMappingEntity> getStoreItemMapping() {
+        return storeItemMapping;
+    }
+
+    public List<TransactionEntity> getTransacion() {
+        return transacion;
+    }
+
+    public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
+        this.storeItemMapping = storeItemMapping;
+    }
+
+    public void setTransacion(List<TransactionEntity> transacion) {
+        this.transacion = transacion;
+    }
     
     
     @Override

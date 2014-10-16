@@ -178,7 +178,6 @@ public class dataSetUp {
     
         //StoreUser(s1)
         UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
-
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);

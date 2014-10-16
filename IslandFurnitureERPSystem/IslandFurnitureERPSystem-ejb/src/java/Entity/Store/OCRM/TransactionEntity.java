@@ -10,6 +10,7 @@ import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,7 +40,7 @@ public class TransactionEntity implements Serializable {
     private Double tendered;
     private Double change;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
     private List<TransactionItem> transactionItems;
     
     @ManyToOne
