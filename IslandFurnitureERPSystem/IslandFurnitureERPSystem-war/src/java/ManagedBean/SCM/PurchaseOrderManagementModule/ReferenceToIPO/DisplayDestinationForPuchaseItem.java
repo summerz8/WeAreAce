@@ -34,13 +34,16 @@ public class DisplayDestinationForPuchaseItem {
     private PurchaseOrderManagementModuleLocal pmb;
     private Long storeId;
     private Long factoryId;
+    private Long frpId;
     private Collection<StoreEntity> storeList;
 
     @PostConstruct
     public void init() {
         try {
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-            storeList = pmb.viewAvailStore(factoryId);
+            frpId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
+
+            storeList = pmb.viewAvailStoreForRetailProduct(factoryId, frpId);
         } catch (Exception ex) {
             Logger.getLogger(DisplayDestinationForPuchaseItem.class.getName()).log(Level.SEVERE, null, ex);
         }

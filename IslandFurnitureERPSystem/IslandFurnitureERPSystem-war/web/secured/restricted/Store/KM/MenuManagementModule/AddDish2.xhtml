@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>KM: Add Dish</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="Kitchen Management">
+                            <p:submenu label="Menu Management">
+                                <p:menuitem value="Add Dish" url="AddDish.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Dish List" url="DishList.xhtml?faces-redirect=true" onclick="dishTable.clearFilters()"/>
+                                <p:menuitem value="Add Combo" url="AddCombo.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Combo List" url="ComboList.xhtml?faces-redirect=true" onclick="comboTable.clearFilters()"/>
+                            </p:submenu>
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+                <h:form>
+                    <p:layoutUnit position="center" resizable="false">
+
+                        <p:panel id="basic" header="New Dish: Recipe" style="margin-bottom" >
+                        </p:panel>
+
+
+                        <h:panelGrid columns="2" cellpadding="5">
+
+                            <p:outputLabel value="Dish ID : " />
+                            <h:outputText value="#{addDishBean2.dish.id}" />
+                            
+                            <p:outputLabel value="Name : " />
+                            <h:outputText value="#{addDishBean2.dish.name}" />
+
+                            <p:outputLabel value="Price : " />
+                            <h:outputText value="#{addDishBean2.dish.price}" />
+
+                            <p:outputLabel value="Remark : " />
+                            <h:outputText value="#{addDishBean2.dish.remark}" />
+
+                            <p:outputLabel value="Recipe Quantity : " />
+                            <h:outputText value="#{addDishBean2.dish.remark}" />
+
+                        </h:panelGrid>
+
+                        <p:dataTable id="recipe" var="ii" value="#{addDishBean2.dish.recipe}" filteredValue="#{addDishBean2.filteredRecipeItems}">
+                            <f:facet name="header">
+                                Recipe
+                            </f:facet>
+
+                            <p:column headerText="Raw Ingreident">
+                                <h:outputText value="#{ii.ingredient.name}" />
+                            </p:column>
+
+                            <p:column headerText="Quantity">
+                                <h:outputText value="#{ii.quantity}" />
+                            </p:column>
+
+                            <p:column headerText="Unit">
+                                <h:outputText value="#{ii.ingredient.unit}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:commandButton value="Add A Recipe Item" onclick="PF('addRecipeItem').show();">
+                        </p:commandButton>
+
+                        <p:commandButton value="Complete" action="DishList.xhtml?faces-redirect=true" oncomplete="dishTable.filter();"/>
+
+
+                        <p:dialog widgetVar="addRecipeItem" header="New Recipe Item" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel value="Raw Ingredient: " />
+                                <p:selectOneMenu value="#{addDishBean2.ingredient}" converter="ingredientConverter" effect="fade" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{addDishBean2.filteredIngredients}" var="i" itemLabel="#{i.name}: #{i.unit}" itemValue="#{i}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Quantity: " />
+                                <h:inputText value="#{addDishBean2.quantity}" />
+
+                            </h:panelGrid>
+
+                            <p:commandButton value="Submit" actionListener="#{addDishBean2.addIngredientItem}" update="recipe" oncomplete="PF('addRecipeItem').hide()">
+                            </p:commandButton>
+                        </p:dialog>
+
+                    </p:layoutUnit>
+
+                </h:form>
+
+            </p:layout>
+        </h:form>
+    </h:body>
+
+</html>
+

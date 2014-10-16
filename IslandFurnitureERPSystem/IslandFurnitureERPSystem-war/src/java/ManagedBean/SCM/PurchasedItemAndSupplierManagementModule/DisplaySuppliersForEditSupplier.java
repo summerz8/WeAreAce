@@ -80,10 +80,8 @@ public class DisplaySuppliersForEditSupplier implements Serializable {
         this.supplierList = supplierList;
     }
 
-    public String displaySuppliers() throws Exception {
-        UserEntity user = pmb.getUser(userId);
-
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForEditSupplier?faces-redirect=true";
-
-    }
+//    public String displaySuppliers() throws Exception {
+//        UserEntity user = pmb.getUser(userId);
+//        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForEditSupplier?faces-redirect=true";
+//    }
 }

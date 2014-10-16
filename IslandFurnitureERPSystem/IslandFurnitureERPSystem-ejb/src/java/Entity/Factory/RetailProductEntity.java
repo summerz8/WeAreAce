@@ -32,16 +32,18 @@ public class RetailProductEntity implements Serializable {
     private String name;
     private String description;
     private Boolean deleteFlag;
+    private Double price;
     private String unit;
     
     
     //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
-    
-    //reatail product entity -- store retail product entity: 1<--> M
+
+ 
+        //retail product entity -- factory retail product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "retailProduct")
-    private Collection<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
+    private Collection<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
 
     public RetailProductEntity() {
     }
@@ -69,6 +71,15 @@ public class RetailProductEntity implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+    
 
     public String getDescription() {
         return description;
@@ -105,17 +116,17 @@ public class RetailProductEntity implements Serializable {
     public Boolean getDeleteFlag() {
         return deleteFlag;
     }
-
-    public Collection<StoreRetailProductEntity> getStoreRetailProduct() {
-        return storeRetailProduct;
-    }
-
-    public void setStoreRetailProduct(Collection<StoreRetailProductEntity> storeRetailProduct) {
-        this.storeRetailProduct = storeRetailProduct;
-    }
     
     
+    
+    public Collection<StoreRetailProductEntity> getStoreRetailProducts() {
+        return storeRetailProducts;
+    }
 
+    public void setStoreRetailProducts(Collection<StoreRetailProductEntity> storeRetailProducts) {
+        this.storeRetailProducts = storeRetailProducts;
+    }   
+    
     @Override
     public int hashCode() {
         int hash = 0;

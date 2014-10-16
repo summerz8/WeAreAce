@@ -36,7 +36,7 @@ public class SupplierEntity implements Serializable {
     private Boolean isDeleted = Boolean.FALSE;
 
     //contract entity -- supplier entity: M<-->1
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier")
     private Collection<ContractEntity> ContractList = new ArrayList<>();
 
     public SupplierEntity() {
@@ -50,8 +50,6 @@ public class SupplierEntity implements Serializable {
         this.remark = remark;
     }
     
-    
-
     public Long getSupplierId() {
         return supplierId;
     }

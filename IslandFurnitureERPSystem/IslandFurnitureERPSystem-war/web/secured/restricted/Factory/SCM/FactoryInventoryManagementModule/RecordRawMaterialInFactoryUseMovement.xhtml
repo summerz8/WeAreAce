@@ -87,28 +87,28 @@
                 <p:layoutUnit position="center" resizable="false">
 
                     <p:panel id="basic" header="Record Raw Material In-Factory Use Movement" style="margin-bottom" >
+
+                        <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
+
+                            <p:outputLabel value="Raw Material ID: " />
+                            <h:inputText value="#{recordRawMaterialInFactoryUseMovement.factoryRawMaterialId}" />
+
+                            <p:outputLabel value="From Storage Bin: " />
+                            <h:inputText value="#{recordRawMaterialInFactoryUseMovement.fromBinId}" />
+
+                            <p:outputLabel value="Quantity: " />
+                            <h:inputText value="#{recordRawMaterialInFactoryUseMovement.quantity}" />
+
+                            <p:outputLabel value="Date: " />
+                            <h:outputText value="#{recordRawMaterialInFactoryUseMovement.inputDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
+
+                            <h:commandButton value="Submit" actionListener="#{recordRawMaterialInFactoryUseMovement.recordRawMaterialInFactoryUseMovement}"/>
+
+                        </h:panelGrid>
+
                     </p:panel>
-
-                    <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
-
-                        <p:outputLabel value="Raw Material ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.factoryRawMaterialId}" />
-
-                        <p:outputLabel value="From Storage Bin: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.fromBinId}" />
-
-                        <p:outputLabel value="Quantity: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
-
-                        <p:outputLabel value="Date: " />
-                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                        </h:outputText>
-
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordRawMaterialInFactoryUseMovement}"/>
-
-                    </h:panelGrid>
-
 
                 </p:layoutUnit>
 

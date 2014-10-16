@@ -5,7 +5,6 @@
  */
 package ManagedBean.SCM.PurchasedItemAndSupplierManagementModule;
 
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import SessionBean.SCM.PurchasedItemAndSupplierManagementModuleLocal;
@@ -15,9 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -35,12 +32,10 @@ public class ItemsForPurchase implements Serializable {
     private Long factoryId;
     private Collection<FactoryRawMaterialEntity> frmList;
     private Collection<FactoryRetailProductEntity> frpList;
-    private String userId;
 
     @PostConstruct
     public void init() {
         factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-        userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
 
         System.out.println("factoryId " + factoryId);
         try {
@@ -87,11 +82,4 @@ public class ItemsForPurchase implements Serializable {
         this.pmb = pmb;
     }
 
-    public void displayAllFactoryItems(ActionEvent event) throws Exception {
-        UserEntity user = pmb.getUser(userId);
-
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/IslandFurnitureERPSystem-war/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForPurchase.xhtml");
-
-
-    }
 }

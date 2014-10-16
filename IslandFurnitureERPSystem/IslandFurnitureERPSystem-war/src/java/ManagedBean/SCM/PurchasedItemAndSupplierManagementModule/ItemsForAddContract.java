@@ -5,7 +5,6 @@
  */
 package ManagedBean.SCM.PurchasedItemAndSupplierManagementModule;
 
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import SessionBean.SCM.PurchasedItemAndSupplierManagementModuleLocal;
@@ -15,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -89,11 +87,9 @@ public class ItemsForAddContract implements Serializable {
         this.pmb = pmb;
     }
 
-    public String displayAllFactoryItems() throws Exception {
-        UserEntity user = pmb.getUser(userId);
-
-        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract?faces-redirect=true";
-
-    }
+//    public String displayAllFactoryItems() throws Exception {
+//        return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract?faces-redirect=true";
+//
+//    }
 
 }

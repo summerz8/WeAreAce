@@ -41,7 +41,7 @@ public class GoodsReceiptEntity implements Serializable {
     private PurchaseOrderEntity purchaseOrder;
     
     //goods receipt entity -- inbound movement enitty: 1 <--> M (from which corresponding goods receipt)
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromGoodsRecipt")
+    @OneToMany(mappedBy = "fromGoodsRecipt")
     private Collection<InboundMovementEntity> inboundMovements = new ArrayList<>();
 
     public GoodsReceiptEntity() {

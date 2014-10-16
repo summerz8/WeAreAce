@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -40,13 +39,14 @@ public class AddContract implements Serializable {
     private Calendar endDate = Calendar.getInstance();
 
     String result = null;
+    private Boolean dateIsValid;
 
     public AddContract() {
     }
 
     @PostConstruct
     public void init() {
-        factoryId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
         selectedSupplier = (SupplierEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSupplier");
     }
@@ -140,6 +140,37 @@ public class AddContract implements Serializable {
         this.result = result;
     }
 
+    public Boolean getDateIsValid() {
+        return dateIsValid;
+    }
+
+    public void setDateIsValid(Boolean dateIsValid) {
+        this.dateIsValid = dateIsValid;
+    }
+
+    public void checkDateIsValid() throws Exception {
+        if (!removeTime(startDate).before(removeTime(endDate))) {
+            //date is valid
+            dateIsValid = false;
+            result = "\nContract start date is not before contract end date. "
+                    + "\nPlease enter correct date.\n";
+        } else {
+            dateIsValid = true;
+            save();
+        }
+
+    }
+
+    public Calendar removeTime(Calendar cal) {
+        System.out.println("removeTime():");
+
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
+
     public void save() throws Exception {
 
         System.out.println("save() ");
@@ -159,7 +190,7 @@ public class AddContract implements Serializable {
                     itemType, itemId,
                     contractPrice, leadTime, lotSize, startDate, endDate);
         }
-        
+
         System.out.println("Result = " + result);
     }
 

@@ -24,12 +24,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "StoreRetailProduct")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class StoreRetailProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeRetailProductId;
+    private Double quantity;
 
     //store retail product entity -- factory entity: M <--> 1 
     @ManyToOne
@@ -39,6 +39,8 @@ public class StoreRetailProductEntity implements Serializable {
     @ManyToOne
     private StoreEntity store;
     
+
+    //store retail product entity -- retail product: M<-->1
     @ManyToOne
     private RetailProductEntity retailProduct;
 
@@ -57,6 +59,14 @@ public class StoreRetailProductEntity implements Serializable {
 
     public void setStoreRetailProductId(Long storeRetailProductId) {
         this.storeRetailProductId = storeRetailProductId;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public FactoryEntity getFactory() {
@@ -83,8 +93,7 @@ public class StoreRetailProductEntity implements Serializable {
         this.retailProduct = retailProduct;
     }
     
-    
-
+   
     @Override
     public int hashCode() {
         int hash = 0;

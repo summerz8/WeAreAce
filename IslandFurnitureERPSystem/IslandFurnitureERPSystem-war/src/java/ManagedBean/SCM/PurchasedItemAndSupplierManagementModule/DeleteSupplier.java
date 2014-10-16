@@ -89,10 +89,9 @@ public class DeleteSupplier {
     public DeleteSupplier() {
     }
 
-    public String displaySuppliers() throws Exception {
-        UserEntity user = pmb.getUser(userId);
-            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForDeleteSupplier?faces-redirect=true";
-    }
+//    public String displaySuppliers() throws Exception {
+//            return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForDeleteSupplier?faces-redirect=true";
+//    }
 
     public void delete() throws Exception {
 
