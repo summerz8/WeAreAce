@@ -95,12 +95,16 @@
                                         <h:outputText value="Store Product Id:  " />
                                         <h:inputText value="#{postSaleService.storeProductId}" style="font-weight: bold"/>
 
+                                        <h:outputText value="Transaction Id: " />
+                                        <h:inputText value="#{postSaleService.transactionId}" style="font-weight: bold"/>
+
+
                                         <h:outputText value="Member Id(optional): " />
                                         <h:inputText value="#{postSaleService.memberId}" style="font-weight: bold"/>
 
                                         <h:outputText value="Description: " />
                                         <p:inputTextarea value="#{postSaleService.description}" rows="10" cols="50"  maxlength="10" counterTemplate="{0} characters remaining." autoResize="false" />
-                                     
+
 
                                         <p:outputLabel for="type" value="Type: " />
                                         <p:selectOneMenu id="type" value="#{postSaleService.type}">
@@ -114,7 +118,7 @@
                                     </p:commandButton> 
                                 </p:outputPanel>
                             </h:panelGrid>
-                            </h:form>
+                        </h:form>
                     </p:panel>
 
 

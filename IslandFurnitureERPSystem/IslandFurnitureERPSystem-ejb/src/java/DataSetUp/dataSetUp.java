@@ -28,6 +28,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
@@ -72,7 +73,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000000L);
+        id.setId_S(1000001L);
         em.persist(id);
         em.flush();
 
@@ -166,7 +167,7 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
-        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
+        UserEntity u4 = new StoreUserEntity("S", "1000001", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
@@ -1345,27 +1346,41 @@ public class dataSetUp {
         //Membership level set up
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
+        memlvl0.setPointsToUpgrade(1000D);
         em.persist(memlvl0);
         em.flush();
         MembershipLevel memlvl1 = new MembershipLevel();
         memlvl1.setDiscount(0.9);
+        memlvl0.setPointsToUpgrade(2000D);
         em.persist(memlvl1);
         em.flush();
         MembershipLevel memlvl2 = new MembershipLevel();
         memlvl2.setDiscount(0.85);
+        memlvl0.setPointsToUpgrade(5000D);
         em.persist(memlvl2);
         em.flush();
         MembershipLevel memlvl3 = new MembershipLevel();
         memlvl3.setDiscount(0.8);
+        memlvl0.setPointsToUpgrade(10000D);
         em.persist(memlvl3);
         em.flush();
         MembershipLevel memlvl4 = new MembershipLevel();
         memlvl4.setDiscount(0.75);
+        memlvl0.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
         em.flush();
         MembershipLevel memlvl5 = new MembershipLevel();
         memlvl5.setDiscount(0.7);
+        memlvl0.setPointsToUpgrade(50000D);
         em.persist(memlvl5);
         em.flush();
+        
+        //Member Set uP
+        Calendar MemberBirthday=Calendar.getInstance();
+        MemberBirthday.set(1990, 9, 1);
+        
+        MemberEntity member = new MemberEntity("123","Lee","","James", 
+            MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
+            "james@gmail.com", Boolean.FALSE);
     }
 }
