@@ -28,6 +28,7 @@ public class DisplayDeliveryDestinationForManuallyGeneratedPO {
     private PurchaseOrderManagementModuleLocal pmb;
     private Long storeId;
     private Long factoryId;
+    private Long frpId; 
     private Collection<StoreEntity> storeList;
     private String itemType;
 
@@ -35,7 +36,9 @@ public class DisplayDeliveryDestinationForManuallyGeneratedPO {
     public void init() {
         try {
             factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-            storeList = pmb.viewAvailStore(factoryId);
+            frpId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("itemId");
+            storeList = pmb.viewAvailStoreForRetailProduct(factoryId, frpId);
+             
         } catch (Exception ex) {
             Logger.getLogger(DisplayDeliveryDestinationForManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
         }

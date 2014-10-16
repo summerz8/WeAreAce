@@ -124,4 +124,6 @@ public interface PurchaseOrderManagementModuleLocal {
 
     //9. Generate Goods Receipt
     public String generateGoodsRecipt(Long purchaseOrderId) throws Exception;
+
+    public Collection<StoreEntity> viewAvailStoreForRetailProduct(Long factoryId, Long frpId) throws Exception;
 }

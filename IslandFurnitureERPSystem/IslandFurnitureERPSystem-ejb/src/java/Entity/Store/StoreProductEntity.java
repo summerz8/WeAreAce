@@ -7,6 +7,7 @@
 package Entity.Store;
 
 import Entity.Factory.FactoryEntity;
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -31,9 +32,9 @@ public class StoreProductEntity  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeProductId;
     
-    //store product entity -- factory entity: M <--> 1 
+    //store product entity -- factory product entity: M <--> 1 
     @ManyToOne
-    private FactoryEntity factory;
+    private FactoryProductEntity factoryProduct;
     
     //store product entity -- stores entity: M <--> 1
     @ManyToOne
@@ -41,14 +42,18 @@ public class StoreProductEntity  implements Serializable {
     
     @ManyToOne
     private ProductEntity product;
+    
+    private Boolean selfPick;
 
     public StoreProductEntity() {
     }
 
-    public StoreProductEntity(FactoryEntity factory, StoreEntity store) {
-        this.factory = factory;
+    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store,Boolean selfPick) {
+        this.factoryProduct = factoryproduct;
         this.store = store;
+        this.selfPick = selfPick;
     }
+    
 
     public Long getStoreProductId() {
         return storeProductId;
@@ -58,13 +63,15 @@ public class StoreProductEntity  implements Serializable {
         this.storeProductId = storeProductId;
     }
 
-    public FactoryEntity getFactory() {
-        return factory;
+    public FactoryProductEntity getFactoryProduct() {
+        return factoryProduct;
     }
 
-    public void setFactory(FactoryEntity factory) {
-        this.factory = factory;
+    public void setFactoryProduct(FactoryProductEntity factoryProduct) {
+        this.factoryProduct = factoryProduct;
     }
+
+    
 
     public StoreEntity getStore() {
         return store;
@@ -82,6 +89,16 @@ public class StoreProductEntity  implements Serializable {
         this.product = product;
     }
 
+    public Boolean getSelfPick() {
+        return selfPick;
+    }
+
+    public void setSelfPick(Boolean selfPick) {
+        this.selfPick = selfPick;
+    }
+
+    
+    
     
     @Override
     public int hashCode() {

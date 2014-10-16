@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -27,22 +26,23 @@ public class AddSupplierBean implements Serializable {
     @EJB
     private PurchasedItemAndSupplierManagementModuleLocal pmb;
 
-    Long factoryId;
-    String itemType;
-    Long itemId;
-    String supplierName;
-    String address;
-    String telephone;
-    String fax;
-    String remark;
-    Double contractPrice;
-    Integer leadTime;
-    Double lotSize;
+    private Long factoryId;
+    private String itemType;
+    private Long itemId;
+    private String supplierName;
+    private String address;
+    private String telephone;
+    private String fax;
+    private String remark;
+    private Double contractPrice;
+    private Integer leadTime;
+    private Double lotSize;
 
-    Calendar startDate = Calendar.getInstance();
-    Calendar endDate = Calendar.getInstance();
+    private Calendar startDate = Calendar.getInstance();
+    private Calendar endDate = Calendar.getInstance();
 
-    String result;
+    private String result;
+    private Boolean dateIsValid;
 
     public AddSupplierBean() {
     }
@@ -162,7 +162,14 @@ public class AddSupplierBean implements Serializable {
         this.result = result;
     }
 
-    
+    public Boolean getDateIsValid() {
+        return dateIsValid;
+    }
+
+    public void setDateIsValid(Boolean dateIsValid) {
+        this.dateIsValid = dateIsValid;
+    }
+
     public String setItemIdAndType(String itemType, Long itemId) {
 
         this.itemType = itemType;
@@ -174,6 +181,19 @@ public class AddSupplierBean implements Serializable {
         return "/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/AddSupplier?faces-redirect=true";
     }
 
+    
+    public void checkDateIsValid() throws Exception{
+        if (!removeTime(startDate).before(removeTime(endDate))) {
+            //date is valid
+            dateIsValid = false;
+            result = "\nContract start date is not before contract end date. "
+                    + "\nPlease enter correct date.\n";
+        }else{
+            dateIsValid = true;
+            save();
+        }
+        
+    }
     public void save() throws Exception {
 
      
@@ -193,6 +213,16 @@ public class AddSupplierBean implements Serializable {
         System.out.println("end + " + endDate.get(Calendar.MONTH) + " " + endDate.get(Calendar.DAY_OF_MONTH));
         
         System.out.println("Result: " + result);
+    }
+    
+    public Calendar removeTime(Calendar cal) {
+        System.out.println("removeTime():");
+
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
     }
 
     public String onFlowProcess(FlowEvent event) {

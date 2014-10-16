@@ -17,6 +17,8 @@ public interface IFManagerBeanLocal {
     //public String createUser(String department, Integer userLevel, String lastName, String firstName, String position, String gender);
 //    public String getUserId(String userId);
     public int checkAccount(String userId, String pwd);
+    
+    public int shopLogin(String userId, String pwd);
 
     public String createUser(String department, Integer userLevel, String lastName, 
             String firstName, String position, String gender, long departmentId);

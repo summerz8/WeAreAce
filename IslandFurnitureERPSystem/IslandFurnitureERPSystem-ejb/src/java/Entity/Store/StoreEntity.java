@@ -5,7 +5,8 @@
  */
 package Entity.Store;
 
-import Entity.Factory.FactoryEntity;
+import Entity.Kitchen.KitchenEntity;
+import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,8 +34,11 @@ public class StoreEntity implements Serializable {
     private String address;
     private String country;
     private String contact;
-    private String manager;
+    private String manager;//manager id
     private Boolean deleteFlag;
+    
+    @OneToOne
+    private KitchenEntity kitchen;
 
 //    //factory entity -- store entity: M <--> M 
 //    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
@@ -47,6 +51,12 @@ public class StoreEntity implements Serializable {
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    private List<TransactionEntity> transacion = new ArrayList<>();
     
     public StoreEntity() {
     }
@@ -124,7 +134,45 @@ public class StoreEntity implements Serializable {
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
-     
+
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public List<StoreItemMappingEntity> getStoreProductMapping() {
+        return storeItemMapping;
+    }
+
+    public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
+        this.storeItemMapping = storeProductMapping;
+    }
+    
+    public KitchenEntity getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(KitchenEntity kitchen) {
+        this.kitchen = kitchen;
+    }
+
+    public List<StoreItemMappingEntity> getStoreItemMapping() {
+        return storeItemMapping;
+    }
+
+    public List<TransactionEntity> getTransacion() {
+        return transacion;
+    }
+
+    public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
+        this.storeItemMapping = storeItemMapping;
+    }
+
+    public void setTransacion(List<TransactionEntity> transacion) {
+        this.transacion = transacion;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

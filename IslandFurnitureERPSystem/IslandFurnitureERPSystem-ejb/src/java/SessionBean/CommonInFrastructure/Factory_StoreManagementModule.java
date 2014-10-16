@@ -29,8 +29,8 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     @PersistenceContext
     private EntityManager em;
 
-    @EJB
-    private RetailProduct_ProductManagementModuleLocal rpmml;
+//    @EJB
+//    private RetailProduct_ProductManagementModuleLocal rpmml;
 
     public Factory_StoreManagementModule() {
     }
@@ -62,7 +62,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         fe.setAddress(address);
         fe.setCountry(country);
         fe.setContact(contact);
-        fe.setManager(manager);
+        fe.setManagerId(manager);
         em.persist(fe);
         em.flush();
 
@@ -85,8 +85,8 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     @Override
     public FactoryEntity getFactory(Long factoryId) {
         System.out.println("Factory_StoreManagementModule: getFactory(): ");
-        FactoryEntity f = em.find(FactoryEntity.class, factoryId);
-        return f;
+        FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
+        return fe;
     }
 //    @Override
 //    public void searchFactory(){}
@@ -146,8 +146,8 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     public Integer addFactoryProduct(Long FactoryId, Long ProductId) {
         Integer status = 0;
         ProductEntity product = em.find(ProductEntity.class, ProductId);
-        FactoryEntity factory = em.find(FactoryEntity.class, FactoryId);
-        if (factory == null) {
+        FactoryEntity fe = em.find(FactoryEntity.class, FactoryId);
+        if (fe == null) {
             return status; // message: factory is not found. 
         } else if (product == null) {
             status = 1;
@@ -155,16 +155,15 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
 
         } else {
 
-            FactoryProductEntity newFP = new FactoryProductEntity();
-            newFP.setFactory(factory);
-            newFP.setDeleteFlag(false);
-            newFP.setProduct(product);
-            newFP.setUnit(product.getUnit());
-            em.persist(newFP);
-            factory.getFactoryProducts().add(newFP);
+            FactoryProductEntity fpe = new FactoryProductEntity();
+            fpe.setFactory(fe);
+            fpe.setDeleteFlag(false);
+            fpe.setProduct(product);
+            fpe.setUnit(product.getUnit());
+            em.persist(fpe);
+            fe.getFactoryProducts().add(fpe);
             em.flush();
             status = 2;
-
         }
 
         return status;
@@ -172,25 +171,23 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
 
     @Override
     public Collection<ProductEntity> viewProductListNotInFactory(Long factoryId) throws Exception {//test works!!
-        System.out.println("viewRawMaterialListNotInFactory():");
+        System.out.println("viewProductListNotInFactory():");
         Integer flag = 0;
         Collection<ProductEntity> pdList = new ArrayList<>();
         FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
         Collection<FactoryProductEntity> currentFactoryProductList = currentFactory.getFactoryProducts();
         try {
             Query q = em.createQuery("Select pd from ProductEntity PD");
-            outerLoop:
             for (Object o : q.getResultList()) {
-                ProductEntity pd = (ProductEntity) o;
+                ProductEntity product = (ProductEntity) o;
                 for (FactoryProductEntity fpe : currentFactoryProductList) {
-                    FactoryProductEntity fproduct = fpe;
-                    if (fproduct.getProduct().equals(pd) && (!fproduct.isDeleteFlag())) {
+                    if (fpe.getProduct().equals(product) && (!fpe.isDeleteFlag())) {
                         flag = 1;
                         break;
                     }
                 }
                 if (flag == 0) {
-                    pdList.add(pd);
+                    pdList.add(product);
                 }
                 flag = 0;
 
@@ -207,20 +204,16 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         Collection<FactoryProductEntity> pdList = new ArrayList<>();
         FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
         if (factory != null) {
-            Collection<FactoryProductEntity> temList = factory.getFactoryProducts();
-            for (FactoryProductEntity pety : temList) {
-                FactoryProductEntity pe = pety;
-
-                if (!pe.isDeleteFlag()) {
-                    pdList.add(pe);
+            Collection<FactoryProductEntity> fpList = factory.getFactoryProducts();
+            for (FactoryProductEntity fp : fpList) {
+                if (!fp.isDeleteFlag()) {
+                    pdList.add(fp);
                 }
             }
             return pdList;
         } else {
             throw new Exception("A Excepction occurs! ");
-
         }
-
     }
 
     @Override

@@ -89,36 +89,36 @@
                 <p:layoutUnit position="center" resizable="false">
 
                     <p:panel id="basic" header="Record Outbound Movement" style="margin-bottom" >
+
+                        <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
+
+                            <p:outputLabel value="Item ID: " />
+                            <h:inputText value="#{recordOutboundMovementBean.itemId}" />
+
+                            <p:outputLabel value="Item Type" />
+                            <p:selectOneRadio value="#{recordOutboundMovementBean.itemTypeIndicator}">
+                                <f:selectItem itemLabel="Factory Product" itemValue="2" />
+                                <f:selectItem itemLabel="Retail Product" itemValue="3" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value="From Storage Bin: " />
+                            <h:inputText value="#{recordOutboundMovementBean.fromBinId}" />
+
+                            <p:outputLabel value="To Store: " />
+                            <h:inputText value="#{recordOutboundMovementBean.toStoreId}" />
+
+                            <p:outputLabel value="Quantity: " />
+                            <h:inputText value="#{recordOutboundMovementBean.quantity}" />
+
+                            <p:outputLabel value="Date: " />
+                            <h:outputText value="#{recordOutboundMovementBean.inputDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
+
+                            <h:commandButton value="Submit" actionListener="#{recordOutboundMovementBean.recordOutboundMovement}"/>
+
+                        </h:panelGrid>
                     </p:panel>
-
-                    <h:panelGrid columns="2" cellpadding="5"  rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
-
-                        <p:outputLabel value="Item ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.itemId}" />
-
-                        <p:outputLabel value="Item Type" />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.itemTypeIndicator}">
-                            <f:selectItem itemLabel="Factory Product" itemValue="2" />
-                            <f:selectItem itemLabel="Retail Product" itemValue="3" />
-                        </p:selectOneRadio>
-
-                        <p:outputLabel value="From Storage Bin: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.fromBinId}" />
-
-                        <p:outputLabel value="To Store: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.toStoreId}" />
-
-                        <p:outputLabel value="Quantity: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.quantity}" />
-
-                        <p:outputLabel value="Date: " />
-                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                        </h:outputText>
-
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.recordOutboundMovement}"/>
-
-                    </h:panelGrid>
 
 
                 </p:layoutUnit>

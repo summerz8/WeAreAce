@@ -12,7 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+<<<<<<< HEAD
 import javax.persistence.OneToOne;
+=======
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 
 /**
  *
@@ -29,6 +32,10 @@ public class TransactionItem implements Serializable {
     private int amount;
     private Double unitPrice;
     private Double totalPrice;
+<<<<<<< HEAD
+=======
+    private String itemName;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     
     //TransactionItem -- TransactionEntity M<-->1
     @ManyToOne
@@ -47,6 +54,71 @@ public class TransactionItem implements Serializable {
         this.TransactionItemId = TransactionItemId;
     }
 
+<<<<<<< HEAD
+=======
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public TransactionEntity getTransaction() {
+        return transaction;
+    }
+
+    public PickupListEntity getPickupList() {
+        return pickupList;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setTransaction(TransactionEntity transaction) {
+        this.transaction = transaction;
+    }
+
+    public void setPickupList(PickupListEntity pickupList) {
+        this.pickupList = pickupList;
+    }
+    
+    
+
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {
         int hash = 0;

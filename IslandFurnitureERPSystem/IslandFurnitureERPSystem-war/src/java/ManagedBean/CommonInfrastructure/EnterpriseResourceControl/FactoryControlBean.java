@@ -59,11 +59,11 @@ public class FactoryControlBean {
     public void onRowEdit(RowEditEvent event) {
         System.out.println("onRowEdit test: ");
         FactoryEntity entity = (FactoryEntity) event.getObject();
-        System.out.println("onRowEdit test: " + String.valueOf(entity.getFactoryId()) + entity.getManager());
-        if (IUMA.getUser(entity.getManager()) == null) {
+        System.out.println("onRowEdit test: " + String.valueOf(entity.getFactoryId()) + entity.getManagerId());
+        if (IUMA.getUser(entity.getManagerId()) == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory edit failed! ", "Manager not found!"));
         } else {
-            FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
+            FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManagerId());
 
             FacesMessage msg = new FacesMessage("Factory Edited", String.valueOf(entity.getFactoryId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);            

@@ -38,6 +38,7 @@ public class ContractEntity implements Serializable {
     private Calendar contractStartDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar contractEndDate;
+    private Boolean isDeleted = false;
 
     //contract entity -- factory retail product entity: M <--> 1
     @ManyToOne
@@ -170,6 +171,15 @@ public class ContractEntity implements Serializable {
         this.lotSize = lotSize;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    
     //create a new contract entity with attributes
     public void create(Double contractPrice, Integer leadTime, String unit, Double lotSize, Calendar contractStartDate, Calendar contractEndDate) {
         this.contractPrice = contractPrice;

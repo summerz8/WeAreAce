@@ -27,6 +27,7 @@ public class FeedbackEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String name;
     private String content;
     private String email;
     
@@ -37,11 +38,12 @@ public class FeedbackEntity implements Serializable {
     public FeedbackEntity() {
     }
 
-    public FeedbackEntity(String title, String content,String email) {
+    public FeedbackEntity(String title, String content,String email,String name) {
         
         this.title = title;
         this.content = content;
         this.email = email;
+        this.name = name;
         
         Calendar time = Calendar.getInstance();
         this.generatedTime = time;
@@ -86,6 +88,14 @@ public class FeedbackEntity implements Serializable {
 
     public void setGeneratedTime(Calendar generatedTime) {
         this.generatedTime = generatedTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     

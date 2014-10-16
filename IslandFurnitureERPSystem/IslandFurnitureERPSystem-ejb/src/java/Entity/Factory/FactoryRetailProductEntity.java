@@ -7,6 +7,7 @@ package Entity.Factory;
 
 import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.SCM.ContractEntity;
+import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,6 +70,11 @@ public class FactoryRetailProductEntity implements Serializable {
     //inventory record entity -- factory product entity : M <--> 1
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
     private List<InventoryRecordEntity> inventoryRecords = new ArrayList<>();
+    
+    
+    //factory retail product entity -- store retail product entity: 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factoryRetailProduct")
+    private List<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
 
     public FactoryRetailProductEntity() {
     }
@@ -203,9 +209,17 @@ public class FactoryRetailProductEntity implements Serializable {
         this.inventoryRecords = inventoryRecords;
     }
 
-    public void create(String name, String description) {
-        setName(name);
-        setDescription(description);
+//    public void create(String name, String description) {
+//        setName(name);
+//        setDescription(description);
+//}
+
+    public List<StoreRetailProductEntity> getStoreRetailProducts() {
+        return storeRetailProducts;
+    }
+
+    public void setStoreRetailProducts(List<StoreRetailProductEntity> storeRetailProducts) {
+        this.storeRetailProducts = storeRetailProducts;
     }
 
     

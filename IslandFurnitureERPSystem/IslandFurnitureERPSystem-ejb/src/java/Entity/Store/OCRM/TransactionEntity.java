@@ -6,13 +6,25 @@
 
 package Entity.Store.OCRM;
 
+<<<<<<< HEAD
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+=======
+import Entity.Store.StoreEntity;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
+import javax.persistence.CascadeType;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
+=======
+import javax.persistence.ManyToOne;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
@@ -27,6 +39,7 @@ public class TransactionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long TransactionId;
     
+<<<<<<< HEAD
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar generateTime;
     
@@ -35,6 +48,23 @@ public class TransactionEntity implements Serializable {
     
     @OneToMany
     private List<TransactionItem> transactionItems;
+=======
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar generateTime;
+    
+    private Long storeStaffId;
+    
+    private Long memberId;
+    private Double totalPrice;
+    private Double tendered;
+    private Double change;
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
+    private List<TransactionItem> transactionItems;
+    
+    @ManyToOne
+    private StoreEntity store;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
       
 
     public Long getTransactionId() {
@@ -45,6 +75,75 @@ public class TransactionEntity implements Serializable {
         this.TransactionId = TransactionId;
     }
 
+<<<<<<< HEAD
+=======
+    public Calendar getGenerateTime() {
+        return generateTime;
+    }
+
+    public Long getStoreStaffId() {
+        return storeStaffId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public Double getTendered() {
+        return tendered;
+    }
+
+    public Double getChange() {
+        return change;
+    }
+
+    public List<TransactionItem> getTransactionItems() {
+        return transactionItems;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setGenerateTime(Calendar generateTime) {
+        this.generateTime = generateTime;
+    }
+
+    public void setStoreStaffId(Long storeStaffId) {
+        this.storeStaffId = storeStaffId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setTendered(Double tendered) {
+        this.tendered = tendered;
+    }
+
+    public void setChange(Double change) {
+        this.change = change;
+    }
+
+    public void setTransactionItems(List<TransactionItem> transactionItems) {
+        this.transactionItems = transactionItems;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+    
+    
+
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {
         int hash = 0;

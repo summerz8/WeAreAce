@@ -16,7 +16,7 @@
     <h:body>
 
         <h:form id="globalNavigation">
-            
+
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
@@ -82,34 +82,34 @@
                             <p:menuitem value="Record Returned Item Inbound Movement" url="RecordReturnedItemInboundMovement.xhtml?faces-redirect=true" />
                         </p:submenu>
                     </p:menu>
-                    
+
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
 
                     <p:panel id="basic" header="Change Stock Status" style="margin-bottom" >
+
+
+                        <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
+
+                            <p:outputLabel value="Factory Bin Stored Product ID: " />
+                            <h:inputText value="#{changeFactoryBinStoredProductStatusBean.factoryBinStoredProductId}" />
+
+                            <p:outputLabel value="To Status: " />
+                            <p:selectOneRadio value="#{changeFactoryBinStoredProductStatusBean.toStatus}">
+                                <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
+                                <f:selectItem itemLabel="Blocked" itemValue="blocked" />
+                                <f:selectItem itemLabel="Returned" itemValue="returned" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value="Date: " />
+                            <h:outputText value="#{changeFactoryBinStoredProductStatusBean.inputDate}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                            </h:outputText>
+
+                            <h:commandButton value="Submit" actionListener="#{changeFactoryBinStoredProductStatusBean.changeFactoryBinStoredProductStatus}"/>
+
+                        </h:panelGrid>
                     </p:panel>
-
-                    <h:panelGrid columns="2" cellpadding="5" rendered="#{displayIntegratedPlannedOrders.user.userLevel!=0}">
-
-                        <p:outputLabel value="Factory Bin Stored Product ID: " />
-                        <h:inputText value="#{factoryInventoryManagementBean.factoryBinStoredProductId}" />
-
-                        <p:outputLabel value="To Status: " />
-                        <p:selectOneRadio value="#{factoryInventoryManagementBean.toStatus}">
-                            <f:selectItem itemLabel="Unrestricted" itemValue="unrestricted" />
-                            <f:selectItem itemLabel="Blocked" itemValue="blocked" />
-                            <f:selectItem itemLabel="Returned" itemValue="returned" />
-                        </p:selectOneRadio>
-                        
-                        <p:outputLabel value="Date: " />
-                        <h:outputText value="#{factoryInventoryManagementBean.inputDate}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                        </h:outputText>
-
-                        <h:commandButton value="Submit" actionListener="#{factoryInventoryManagementBean.changeFactoryBinStoredProductStatus}"/>
-
-                    </h:panelGrid>
-
 
                 </p:layoutUnit>
 

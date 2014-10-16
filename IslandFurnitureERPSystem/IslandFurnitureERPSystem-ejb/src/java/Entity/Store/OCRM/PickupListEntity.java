@@ -7,7 +7,13 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+<<<<<<< HEAD
 import java.util.List;
+=======
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,9 +36,18 @@ public class PickupListEntity implements Serializable {
     private Boolean Picked;
     
     //PickupListEntity <--> TransactionItem 1<-->M
+<<<<<<< HEAD
     @OneToMany
     private List<TransactionItem> transactoinItems;
     
+=======
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
+    private List<TransactionItem> transactoinItems = new ArrayList<>();
+    
+    public PickupListEntity(){
+        this.Picked = Boolean.FALSE;
+    }
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 
     public Long getPickupListId() {
         return PickupListId;
@@ -42,6 +57,25 @@ public class PickupListEntity implements Serializable {
         this.PickupListId = PickupListId;
     }
 
+<<<<<<< HEAD
+=======
+    public Boolean getPicked() {
+        return Picked;
+    }
+
+    public void setPicked(Boolean Picked) {
+        this.Picked = Picked;
+    }
+
+    public List<TransactionItem> getTransactoinItems() {
+        return transactoinItems;
+    }
+
+    public void setTransactoinItems(List<TransactionItem> transactoinItems) {
+        this.transactoinItems = transactoinItems;
+    }
+
+>>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {
         int hash = 0;

@@ -67,10 +67,9 @@ public class DisplayConfirmedPO implements Serializable {
     public DisplayConfirmedPO() {
     }
 
-    public String displayDestination() throws Exception {
-        UserEntity user = pmb.getUser(userId);
-        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayConfirmedPO?faces-redirect=true";
-
-    }
+//    public String displayDestination() throws Exception {
+//        return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayConfirmedPO?faces-redirect=true";
+//
+//    }
 
 }
