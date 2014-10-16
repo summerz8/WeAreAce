@@ -142,7 +142,7 @@ public class ReturnedItemInboundMovementEntity implements Serializable {
     }
 
     private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
-        factoryBinStoredProduct.increaseQuantity(quantity);
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
     }
     
     private void updateFactoryProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {

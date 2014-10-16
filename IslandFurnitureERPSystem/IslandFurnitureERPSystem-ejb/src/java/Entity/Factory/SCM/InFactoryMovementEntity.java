@@ -167,8 +167,8 @@ public class InFactoryMovementEntity /*extends FactoryMovementEntity*/ implement
 
     private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryFromBinStoredProduct, FactoryBinStoredProductEntity factoryToBinStoredProduct, Double quantity) {
         try {
-            factoryFromBinStoredProduct.decreaseQuantity(quantity);
-            factoryToBinStoredProduct.increaseQuantity(quantity);
+            factoryFromBinStoredProduct.setAmount(factoryFromBinStoredProduct.getAmount() - quantity);
+            factoryFromBinStoredProduct.setAmount(factoryFromBinStoredProduct.getAmount() + quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InFactoryMovementEntity: updateFactoryBinStoredFactoryRawMaterial(): Caught an unexpected exception.");
             ex.printStackTrace();

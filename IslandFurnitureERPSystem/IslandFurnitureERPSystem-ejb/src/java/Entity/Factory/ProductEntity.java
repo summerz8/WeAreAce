@@ -43,7 +43,7 @@ public class ProductEntity implements Serializable {
 
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
-    private Collection<FactoryProductEntity> factoryProduct = new ArrayList<>();
+    private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
     
     //product entity -- store product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
@@ -121,12 +121,12 @@ public class ProductEntity implements Serializable {
     }
     
     
-    public Collection<FactoryProductEntity> getFactoryProduct(){
-        return factoryProduct;
+    public Collection<FactoryProductEntity> getFactoryProducts(){
+        return factoryProducts;
     }
     
-    public void setFactoryProduct(Collection<FactoryProductEntity> factoryProduct){
-        this.factoryProduct = factoryProduct;
+    public void setFactoryProducts(Collection<FactoryProductEntity> factoryProducts){
+        this.factoryProducts = factoryProducts;
     }
     
     

@@ -650,7 +650,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct1.setStatus(toStatus);
                 } else {
                     FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
-                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct2.setAmount(factoryBinStoredProduct2.getAmount() + factoryBinStoredProduct1.getAmount());
                     factoryBinStoredProduct1.setAmount(0.0);
                 }
             } else if (factoryBinStoredProduct1.getStockTypeIndicator() == 2) {
@@ -663,7 +663,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct1.setStatus(toStatus);
                 } else {
                     FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
-                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct2.setAmount(factoryBinStoredProduct2.getAmount() + factoryBinStoredProduct1.getAmount());
                     factoryBinStoredProduct1.setAmount(0.0);
                 }
             } else {
@@ -676,7 +676,7 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                     factoryBinStoredProduct1.setStatus(toStatus);
                 } else {
                     FactoryBinStoredProductEntity factoryBinStoredProduct2 = (FactoryBinStoredProductEntity) q2.getSingleResult();
-                    factoryBinStoredProduct2.increaseQuantity(factoryBinStoredProduct1.getAmount());
+                    factoryBinStoredProduct2.setAmount(factoryBinStoredProduct2.getAmount() + factoryBinStoredProduct1.getAmount());
                     factoryBinStoredProduct1.setAmount(0.0);
                 }
             }
