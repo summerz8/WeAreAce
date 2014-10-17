@@ -19,9 +19,39 @@
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
+<<<<<<< HEAD
+                <library>
+                    <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD}</file>
+                </library>
+                <library>
+                    <file>${reference.CustomerWeb.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
+                </library>
+                <library>
+                    <file>${reference.CustomerWeb-1.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
+                </library>
+=======
+>>>>>>> f256c04cc1cf69faddb1a3b80dfd050922664fdf
             </web-module-additional-libraries>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>CustomerWeb</foreign-project>
+                <artifact-type>j2ee_ear_archive</artifact-type>
+                <script>build.xml</script>
+                <target>dist-ear</target>
+                <clean-target>clean-ear</clean-target>
+                <id>dist-ear</id>
+            </reference>
+            <reference>
+                <foreign-project>CustomerWeb-1</foreign-project>
+                <artifact-type>j2ee_ear_archive</artifact-type>
+                <script>build.xml</script>
+                <target>dist-ear</target>
+                <clean-target>clean-ear</clean-target>
+                <id>dist-ear</id>
+            </reference>
             <reference>
                 <foreign-project>IslandFurnitureERPSystem-ejb</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>

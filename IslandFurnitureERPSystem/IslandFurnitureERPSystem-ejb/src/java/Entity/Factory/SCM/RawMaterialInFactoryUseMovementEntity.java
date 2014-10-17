@@ -98,7 +98,7 @@ public class RawMaterialInFactoryUseMovementEntity implements Serializable {
     }
     
     private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
-        factoryBinStoredProduct.decreaseQuantity(quantity);
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() - quantity);
     }
     
     private void updateFactoryRawMaterial(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {

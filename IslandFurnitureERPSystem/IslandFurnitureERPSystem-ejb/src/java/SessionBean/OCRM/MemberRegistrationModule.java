@@ -122,5 +122,38 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         }
         return requiredUserList;
     }
+    
+    @Override
+    public void AddMemberWithPassword(String lastName, String midName,
+            String firstName, Calendar birthday, String gender,
+            String title, String address, String postalCode, String email, String PWD){
+        System.out.println("MemberRegistrationModule: addMember():");
 
+        MemberEntity member;        
+
+        String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
+
+        member = new MemberEntity(PWD, lastName, midName, firstName,
+                birthday, gender, title, address, postalCode,
+                email, Boolean.FALSE); 
+        
+        member.setMemberlvl(em.find(MembershipLevel.class, 1L));
+        em.persist(member);
+        System.out.println("New Member created!");
+        em.flush();
+        
+    }
+
+    @Override
+    public MemberEntity getMember(String email){
+
+        List<MemberEntity> memberList=ListMember();
+        
+        for(MemberEntity m: memberList){
+            if(m.getEmail().equals(email))
+                return m;
+        }
+        return null;
+    
+    }
 }

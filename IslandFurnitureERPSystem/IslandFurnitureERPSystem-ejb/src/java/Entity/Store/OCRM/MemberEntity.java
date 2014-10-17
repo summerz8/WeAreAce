@@ -7,12 +7,15 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -33,9 +36,12 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
+<<<<<<< HEAD
     private TransactionEntity lastTransaction;
     private Long storeId;
 
+=======
+>>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
     private String gender;
@@ -43,9 +49,18 @@ public class MemberEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
+<<<<<<< HEAD
     private String country;
     
+=======
+    private Double currentPoints;
+    private Double totalPoints;
+    private Double PointsToUpgrade;
+>>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
     private Boolean deleteFlag;
+    
+    @OneToMany
+    private List<ItemEntity> shoppingCartList;
 
     @ManyToOne
     private MembershipLevel memberlvl;
@@ -68,6 +83,10 @@ public class MemberEntity implements Serializable {
         this.postalCode = postalCode;
         this.email = email;
         this.deleteFlag = deleteFlag;
+        this.totalPoints = 0D;
+        this.currentPoints = 0D;
+        this.PointsToUpgrade = 1000D;
+        shoppingCartList=new ArrayList<>();
     }
     
     public Long getMemberId() {
@@ -206,6 +225,38 @@ public class MemberEntity implements Serializable {
 
     public void setMemberlvl(MembershipLevel memberlvl) {
         this.memberlvl = memberlvl;
+    }
+
+    public Double getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public void setCurrentPoints(Double currentPoints) {
+        this.currentPoints = currentPoints;
+    }
+
+    public Double getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(Double totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public Double getPointsToUpgrade() {
+        return PointsToUpgrade;
+    }
+
+    public void setPointsToUpgrade(Double PointsToUpgrade) {
+        this.PointsToUpgrade = PointsToUpgrade;
+    }
+
+    public List<ItemEntity> getShoppingCartList() {
+        return shoppingCartList;
+    }
+
+    public void setShoppingCartList(List<ItemEntity> shoppingCartList) {
+        this.shoppingCartList = shoppingCartList;
     }
 
     

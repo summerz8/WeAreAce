@@ -151,7 +151,7 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
 
     private void updateFactoryBinStoredProduct(FactoryBinStoredProductEntity factoryBinStoredProduct, Double quantity) {
         try {
-            factoryBinStoredProduct.increaseQuantity(quantity);
+            factoryBinStoredProduct.setAmount(factoryBinStoredProduct.getAmount() + quantity);
         } catch (Exception ex) {
             System.err.println("Entity.Factory.SCM.InboundMovementEntity: updateFactoryBinStoredProduct(): Caught an unexpected exception in recordInboundMovement()");
             ex.printStackTrace();

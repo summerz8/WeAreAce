@@ -32,6 +32,7 @@ public class PostSaleService {
     private String description;
     private String status;
     private String type;
+    private Long transactionId;
     
     
 
@@ -121,6 +122,14 @@ public class PostSaleService {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
     
     

@@ -44,11 +44,11 @@ public class PlannedOrderEntity implements Serializable {
     private Calendar confirmDate;
     private String status;//unconfirmed, confirmed
     
-    //raw mterial amount entity -- planned order entity : M <-- 1
+    //raw mterial amount entity -- planned order entity : M <-- M
     @OneToMany(cascade = {CascadeType.PERSIST})
     private List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList=null;
     
-    //factory retail product amount entity -- planned order entity: 1 <-- 1
+    //factory retail product amount entity -- planned order entity: 1 <-- M
     @OneToOne(cascade={CascadeType.PERSIST})
     private FactoryRetailProductAmountEntity factoryRetailProductAmount=null;
     
