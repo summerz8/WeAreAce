@@ -1549,6 +1549,7 @@ public class dataSetUp {
         em.flush();
         
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
@@ -1585,6 +1586,8 @@ public class dataSetUp {
         em.persist(ti1);
         em.flush();
 =======
+=======
+>>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
         //Member Set uP
         Calendar MemberBirthday=Calendar.getInstance();
         MemberBirthday.set(1990, 9, 1);
@@ -1592,6 +1595,9 @@ public class dataSetUp {
         MemberEntity member = new MemberEntity("123","Lee","","James", 
             MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
             "james@gmail.com", Boolean.FALSE);
+<<<<<<< HEAD
+>>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
+=======
 >>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
     }
 
