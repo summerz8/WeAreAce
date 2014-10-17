@@ -42,7 +42,8 @@ public class TransactionModule implements TransactionModuleLocal {
     @WebMethod(operationName = "createTransaction")
     public void createNewTransaction(
             @WebParam(name = "staffId") Long staffId,
-            @WebParam(name = "memberId") Long memberId){
+            @WebParam(name = "memberId") Long memberId,
+            @WebParam(name = "location") int location){
         
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
@@ -54,6 +55,7 @@ public class TransactionModule implements TransactionModuleLocal {
         transaction.setStore(store);
         transaction.setStoreStaffId(staffId);
         if (memberId != null) transaction.setMemberId(memberId);
+        transaction.setLocation(location);
         
         em.persist(transaction);
         em.flush();
@@ -74,7 +76,7 @@ public class TransactionModule implements TransactionModuleLocal {
         StoreItemMappingEntity item = em.find(StoreItemMappingEntity.class,itemId);
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
         
-        if(item.getProductid() != null){
+        if(transaction.getLocation() == 1 ){
             StoreProductEntity storeProduct = em.find(StoreProductEntity.class,item.getProductid());
             itemName = storeProduct.getProduct().getName();
         }

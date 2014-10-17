@@ -38,6 +38,7 @@ public class TransactionEntity implements Serializable {
     private Double totalPrice;
     private Double tendered;
     private Double moneyChange;
+    private int location;//1 for furniture 2 for retial product 3 for kitchen
 
     @ManyToOne
     private StoreEntity store;
@@ -119,6 +120,14 @@ public class TransactionEntity implements Serializable {
 
     public void setTransactionItemList(List<TransactionItem> transactionItemList) {
         this.transactionItemList = transactionItemList;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
     }
     
     
