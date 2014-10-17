@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
+
 /**
  *
  * @author dan
@@ -26,7 +28,7 @@ import javax.persistence.Table;
 public class PickupListEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long PickupListId;
     
     private Boolean Picked;
@@ -38,6 +40,7 @@ public class PickupListEntity implements Serializable {
     public PickupListEntity(){
         this.Picked = Boolean.FALSE;
     }
+
 
     public Long getPickupListId() {
         return PickupListId;

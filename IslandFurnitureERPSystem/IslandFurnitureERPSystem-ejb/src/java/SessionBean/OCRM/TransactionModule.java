@@ -1,6 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To moneyChange this license header, choose License Headers in Project Properties.
+ * To moneyChange this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package SessionBean.OCRM;
@@ -18,6 +18,9 @@ import Entity.Store.StoreRetailProductEntity;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -26,6 +29,7 @@ import javax.persistence.PersistenceContext;
  * @author hangsun
  */
 @Stateless
+@WebService
 public class TransactionModule implements TransactionModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
@@ -35,7 +39,11 @@ public class TransactionModule implements TransactionModuleLocal {
     EntityManager em;
     
     @Override
-    public void createNewTransaction(Long staffId,Long memberId){
+    @WebMethod(operationName = "createTransaction")
+    public void createNewTransaction(
+            @WebParam(name = "staffId") Long staffId,
+            @WebParam(name = "memberId") Long memberId,
+            @WebParam(name = "location") int location){
         
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
@@ -47,6 +55,7 @@ public class TransactionModule implements TransactionModuleLocal {
         transaction.setStore(store);
         transaction.setStoreStaffId(staffId);
         if (memberId != null) transaction.setMemberId(memberId);
+        transaction.setLocation(location);
         
         em.persist(transaction);
         em.flush();
@@ -54,14 +63,20 @@ public class TransactionModule implements TransactionModuleLocal {
     }
     
     @Override
-    public void createTransactionItem(Long itemId,int amount,Double unitPrice,Long transactionId){
+    @WebMethod(operationName = "createTranactionItem")
+    public void createTransactionItem(
+            @WebParam(name = "itemId") Long itemId,
+            @WebParam(name = "amount") int amount,
+            @WebParam(name = "unitPrice") Double unitPrice,
+            @WebParam(name = "transactionId") Long transactionId){
+        
         Double totalPrice = unitPrice * amount;
         String itemName;
         
         StoreItemMappingEntity item = em.find(StoreItemMappingEntity.class,itemId);
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
         
-        if(item.getProductid() != null){
+        if(transaction.getLocation() == 1 ){
             StoreProductEntity storeProduct = em.find(StoreProductEntity.class,item.getProductid());
             itemName = storeProduct.getProduct().getName();
         }
@@ -81,7 +96,7 @@ public class TransactionModule implements TransactionModuleLocal {
         em.persist(transactionItem);
         em.flush();
         
-        transaction.getTransactionItems().add(transactionItem);
+        transaction.getTransactionItemList().add(transactionItem);
         em.persist(transaction);
         em.flush();
                
@@ -89,9 +104,12 @@ public class TransactionModule implements TransactionModuleLocal {
     
     //caculate the total price and return 
     @Override
-    public Double caculateTotalPrice(Long transactionId){
+    @WebMethod(operationName = "caculateTotalPrice")
+    public Double caculateTotalPrice(
+            @WebParam(name = "transactionId") Long transactionId){
+        
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
-        List<TransactionItem> transactionItemList = transaction.getTransactionItems();
+        List<TransactionItem> transactionItemList = transaction.getTransactionItemList();
         Double totalPrice = 0D;
         
         for (TransactionItem list : transactionItemList) {
@@ -114,16 +132,20 @@ public class TransactionModule implements TransactionModuleLocal {
         return totalPrice;
         
     }
-    //caculate the change amount and return
+    //caculate the moneyChange amount and return
     @Override
-    public Double caculateChange(Long transactionId,Double tendered){
+    @WebMethod(operationName = "caculateChange")
+    public Double caculateChange(
+            @WebParam(name = "transactionId") Long transactionId,
+            @WebParam(name = "tendered")Double tendered){
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
         
         Double totalPrice = transaction.getTotalPrice();
-        Double change = tendered - totalPrice;
+        Double moneyChange = tendered - totalPrice;
         
         transaction.setTendered(tendered);
-        transaction.setChange(change);
+        transaction.setMoneyChange(moneyChange);
+
         em.persist(transaction);
         em.flush();
         
@@ -131,14 +153,15 @@ public class TransactionModule implements TransactionModuleLocal {
         createPickupList(transactionId);
         
         
-        return change;
+        return moneyChange;
     }
     
+    @WebMethod(exclude = true)
     public void createPickupList(Long transactionId){
         
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
         
-        List<TransactionItem> transactionItemList = transaction.getTransactionItems();
+        List<TransactionItem> transactionItemList = transaction.getTransactionItemList();
         PickupListEntity pickupList = new PickupListEntity();    
         
         for(TransactionItem transactionItem : transactionItemList){
@@ -169,4 +192,5 @@ public class TransactionModule implements TransactionModuleLocal {
         
         
     }
+   
 }

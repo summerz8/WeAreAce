@@ -12,6 +12,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -22,6 +25,7 @@ import util.security.CryptographicHelper;
  * @author dan
  */
 @Stateless
+@WebService
 public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     @PersistenceContext
@@ -35,6 +39,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public void AddMember(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
             String title, String address, String postalCode, String email) {
@@ -73,6 +78,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public void DeleteMember(Long userId) {        
         System.out.println("MemberRegistrationModule: deletMember():" + userId);
         MemberEntity member = em.find(MemberEntity.class, userId);
@@ -83,12 +89,13 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public void ModifyMember(Long userId, String lastName, String midName,
             String firstName, Calendar birthday, String gender,
             String title, String address, String postalCode, String email) {
 
         System.out.println("MemberRegistrationModule: ModifyStaff():" + userId);
-        System.out.println("MemberRegistrationModule: ModifyStaff(): birthday" + birthday.getTime().toString());
+        //System.out.println("MemberRegistrationModule: ModifyStaff(): birthday" + birthday.getTime().toString());
 
         MemberEntity member = em.find(MemberEntity.class, userId);
         member.setAddress(address);
@@ -108,6 +115,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     //don't know how to implement this
     @Override
+    @WebMethod(exclude = true)
     public List<MemberEntity> ListMember() {
         System.out.println("InternalUserAccountModule: ListUser():");
         Query q = em.createQuery("SELECT t FROM MemberEntity t");
@@ -122,5 +130,47 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         }
         return requiredUserList;
     }
+    
 
+    @WebMethod(operationName = "checkMember" )
+    public Boolean checkMember(
+            @WebParam(name = "memberId") Long memberId){
+        MemberEntity member = em.find(MemberEntity.class,memberId);
+        
+        return member != null;
+    }
+
+    @Override
+    public void AddMemberWithPassword(String lastName, String midName,
+            String firstName, Calendar birthday, String gender,
+            String title, String address, String postalCode, String email, String PWD){
+        System.out.println("MemberRegistrationModule: addMember():");
+
+        MemberEntity member;        
+
+        String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
+
+        member = new MemberEntity(PWD, lastName, midName, firstName,
+                birthday, gender, title, address, postalCode,
+                email, Boolean.FALSE); 
+        
+        member.setMemberlvl(em.find(MembershipLevel.class, 1L));
+        em.persist(member);
+        System.out.println("New Member created!");
+        em.flush();
+        
+    }
+
+    @Override
+    public MemberEntity getMember(String email){
+
+        List<MemberEntity> memberList=ListMember();
+        
+        for(MemberEntity m: memberList){
+            if(m.getEmail().equals(email))
+                return m;
+        }
+        return null;
+    
+    }
 }

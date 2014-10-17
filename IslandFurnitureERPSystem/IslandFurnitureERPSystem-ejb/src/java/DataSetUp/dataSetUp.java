@@ -28,6 +28,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
@@ -37,7 +38,11 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.TransactionEntity;
+import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.text.ParseException;
@@ -80,7 +85,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000000L);
+        id.setId_S(1000001L);
         em.persist(id);
         em.flush();
 
@@ -176,6 +181,7 @@ public class dataSetUp {
         StoreEntity s2 = new StoreEntity("1 Raffles Link, 07-01 South Lobby, Singapore 039393", "Singapore", "+65 6889 1000", "", false);
         em.persist(s2);
         em.flush();
+
 
     
         //StoreUser(s1)
@@ -1510,30 +1516,82 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        //MembershipLevel
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
+        memlvl0.setPointsToUpgrade(1000D);
         em.persist(memlvl0);
         em.flush();
         MembershipLevel memlvl1 = new MembershipLevel();
         memlvl1.setDiscount(0.9);
+        memlvl0.setPointsToUpgrade(2000D);
         em.persist(memlvl1);
         em.flush();
         MembershipLevel memlvl2 = new MembershipLevel();
         memlvl2.setDiscount(0.85);
+        memlvl0.setPointsToUpgrade(5000D);
         em.persist(memlvl2);
         em.flush();
         MembershipLevel memlvl3 = new MembershipLevel();
         memlvl3.setDiscount(0.8);
+        memlvl0.setPointsToUpgrade(10000D);
         em.persist(memlvl3);
         em.flush();
         MembershipLevel memlvl4 = new MembershipLevel();
         memlvl4.setDiscount(0.75);
+        memlvl0.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
         em.flush();
         MembershipLevel memlvl5 = new MembershipLevel();
         memlvl5.setDiscount(0.7);
+        memlvl0.setPointsToUpgrade(50000D);
         em.persist(memlvl5);
         em.flush();
+        
+
+        //TransactionEntity
+        TransactionEntity tr = new TransactionEntity();
+        tr.setStore(s1);
+        tr.setTotalPrice(200.0);
+        em.persist(tr);
+        em.flush();
+ 
+        //StoreItemMappingEntity
+        StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
+        sm1.setProductid(sp1_1.getStoreProductId());
+        em.persist(sm1);
+        em.flush();
+        //TransactionItem
+        TransactionItem ti1 = new TransactionItem();
+        ti1.setItemId(sm1.getId());
+        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
+        ti1.setItemName(temp.getProduct().getName());
+        ti1.setAmount(1);
+        ti1.setTransaction(tr);
+        em.persist(ti1);
+        em.flush();
+        
+        List<TransactionItem> items = new ArrayList();
+        items.add(ti1);
+        tr.setTransactionItemList(items);        
+               
+        //pickupList
+        PickupListEntity pl1 = new PickupListEntity();
+        
+        pl1.setTransactoinItems(items);
+        ti1.setPickupList(pl1); 
+        em.persist(pl1);
+        em.persist(ti1);
+        em.flush();
+
+        //Member Set uP
+        Calendar MemberBirthday=Calendar.getInstance();
+        MemberBirthday.set(1990, 9, 1);
+        
+        MemberEntity member = new MemberEntity("123","Lee","","James", 
+            MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
+            "james@gmail.com", Boolean.FALSE);
+
     }
 
 }
