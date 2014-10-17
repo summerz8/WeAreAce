@@ -7,25 +7,17 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import java.util.List;
-=======
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-=======
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
 
 /**
  *
@@ -36,30 +28,19 @@ import javax.persistence.Table;
 public class PickupListEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long PickupListId;
     
     private Boolean Picked;
     
     //PickupListEntity <--> TransactionItem 1<-->M
-<<<<<<< HEAD
-<<<<<<< HEAD
-    @OneToMany
-    private List<TransactionItem> transactoinItems;
-    
-=======
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
     private List<TransactionItem> transactoinItems = new ArrayList<>();
     
     public PickupListEntity(){
         this.Picked = Boolean.FALSE;
     }
-<<<<<<< HEAD
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
+
 
     public Long getPickupListId() {
         return PickupListId;
@@ -69,11 +50,6 @@ public class PickupListEntity implements Serializable {
         this.PickupListId = PickupListId;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     public Boolean getPicked() {
         return Picked;
     }
@@ -90,10 +66,6 @@ public class PickupListEntity implements Serializable {
         this.transactoinItems = transactoinItems;
     }
 
-<<<<<<< HEAD
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {
         int hash = 0;

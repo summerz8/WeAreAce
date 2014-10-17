@@ -37,7 +37,11 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.TransactionEntity;
+import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.text.ParseException;
@@ -1510,6 +1514,7 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        //MembershipLevel
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
         em.persist(memlvl0);
@@ -1533,6 +1538,42 @@ public class dataSetUp {
         MembershipLevel memlvl5 = new MembershipLevel();
         memlvl5.setDiscount(0.7);
         em.persist(memlvl5);
+        em.flush();
+        
+        
+        //TransactionEntity
+        TransactionEntity tr = new TransactionEntity();
+        tr.setStore(s1);
+        tr.setTotalPrice(200.0);
+        em.persist(tr);
+        em.flush();
+ 
+        //StoreItemMappingEntity
+        StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
+        sm1.setProductid(sp1_1.getStoreProductId());
+        em.persist(sm1);
+        em.flush();
+        //TransactionItem
+        TransactionItem ti1 = new TransactionItem();
+        ti1.setItemId(sm1.getId());
+        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
+        ti1.setItemName(temp.getProduct().getName());
+        ti1.setAmount(1);
+        ti1.setTransaction(tr);
+        em.persist(ti1);
+        em.flush();
+        
+        List<TransactionItem> items = new ArrayList();
+        items.add(ti1);
+        tr.setTransactionItems(items);        
+               
+        //pickupList
+        PickupListEntity pl1 = new PickupListEntity();
+        
+        pl1.setTransactoinItems(items);
+        ti1.setPickupList(pl1); 
+        em.persist(pl1);
+        em.persist(ti1);
         em.flush();
     }
 

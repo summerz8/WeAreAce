@@ -12,13 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import javax.persistence.OneToOne;
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
 
 /**
  *
@@ -28,23 +21,16 @@ import javax.persistence.OneToOne;
 public class TransactionItem implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long TransactionItemId;
     
     private Long itemId;//refer to storeproductId or storeRetailProductId
     private int amount;
     private Double unitPrice;
     private Double totalPrice;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     private String itemName;
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-=======
-    private String itemName;
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-    
-    //TransactionItem -- TransactionEntity M<-->1
+
+//    //TransactionItem -- TransactionEntity M<-->1
     @ManyToOne
     private TransactionEntity transaction;
     
@@ -61,11 +47,6 @@ public class TransactionItem implements Serializable {
         this.TransactionItemId = TransactionItemId;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -126,12 +107,6 @@ public class TransactionItem implements Serializable {
         this.pickupList = pickupList;
     }
     
-    
-
-<<<<<<< HEAD
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
-=======
->>>>>>> 2b60006074cc5bb70f5b927ba60bc6b45a59a63b
     @Override
     public int hashCode() {
         int hash = 0;

@@ -33,7 +33,8 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
-    
+    private TransactionEntity lastTransaction;
+    private Long storeId;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
@@ -42,12 +43,14 @@ public class MemberEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
+    private String country;
     
     private Boolean deleteFlag;
 
     @ManyToOne
     private MembershipLevel memberlvl;
 
+    
     public MemberEntity() {
     }
 
@@ -153,6 +156,32 @@ public class MemberEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+    
+    
+
+    public TransactionEntity getLastTransaction() {
+        return lastTransaction;
+    }
+
+    public void setLastTransaction(TransactionEntity lastTransaction) {
+        this.lastTransaction = lastTransaction;
     }
 
     public Boolean isDeleteFlag() {

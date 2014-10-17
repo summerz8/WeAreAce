@@ -123,7 +123,7 @@ public class TransactionModule implements TransactionModuleLocal {
         Double change = tendered - totalPrice;
         
         transaction.setTendered(tendered);
-        transaction.setChange(change);
+        transaction.setMoneyChange(change);
         em.persist(transaction);
         em.flush();
         
