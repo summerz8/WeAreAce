@@ -23,16 +23,11 @@ public class MembershipLevel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<<<<<<< HEAD
+
     private Integer levelId;
-=======
-    private Long level;
+
     private Double pointsToUpgrade;
-<<<<<<< HEAD
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
-=======
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
-       
+
     private String levelName;
     private double discount;
 //
@@ -69,7 +64,7 @@ public class MembershipLevel implements Serializable {
         this.levelName = levelName;
     }
 
-<<<<<<< HEAD
+
 //
 //
     public Integer getLevelId() {
@@ -80,8 +75,7 @@ public class MembershipLevel implements Serializable {
         this.levelId = level;
     }
 
-=======
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
+
     public Double getPointsToUpgrade() {
         return pointsToUpgrade;
     }

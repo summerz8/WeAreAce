@@ -36,15 +36,10 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     private TransactionEntity lastTransaction;
     private Long storeId;
 
-=======
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
-=======
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
     private String gender;
@@ -52,20 +47,14 @@ public class MemberEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     private String country;
     
-=======
+
     private Double currentPoints;
     private Double totalPoints;
     private Double PointsToUpgrade;
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
-=======
-    private Double currentPoints;
-    private Double totalPoints;
-    private Double PointsToUpgrade;
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
+
     private Boolean deleteFlag;
     
     @OneToMany

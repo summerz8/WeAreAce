@@ -7,15 +7,7 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
-<<<<<<< HEAD
-<<<<<<< HEAD
                     <file>${libs.PrimeFace_5.0.classpath}</file>
-=======
-                    <file>${libs.primefaces.classpath}</file>
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
-=======
-                    <file>${libs.primefaces.classpath}</file>
->>>>>>> 09a1a6056116d9ea77200514d0338bf6a8209878
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="100">
