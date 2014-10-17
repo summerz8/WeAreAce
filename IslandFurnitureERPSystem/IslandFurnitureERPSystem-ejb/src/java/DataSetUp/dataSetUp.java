@@ -28,6 +28,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
@@ -37,7 +38,11 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.TransactionEntity;
+import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.text.ParseException;
@@ -80,7 +85,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000000L);
+        id.setId_S(1000001L);
         em.persist(id);
         em.flush();
 
@@ -177,6 +182,7 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
+
     
         //StoreUser(s1)
         UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
@@ -251,39 +257,39 @@ public class dataSetUp {
         em.persist(fp1_1);
         em.flush();
         f1.getFactoryProducts().add(fp1_1);
-        p1.getFactoryProduct().add(fp1_1);
+        p1.getFactoryProducts().add(fp1_1);
         FactoryProductEntity fp1_2 = new FactoryProductEntity(p2.getUnit(), f1, p2);
         em.persist(fp1_2);
         em.flush();
         f1.getFactoryProducts().add(fp1_2);
-        p2.getFactoryProduct().add(fp1_2);
+        p2.getFactoryProducts().add(fp1_2);
         FactoryProductEntity fp1_3 = new FactoryProductEntity(p3.getUnit(), f1, p3);
         em.persist(fp1_3);
         em.flush();
         f1.getFactoryProducts().add(fp1_3);
-        p3.getFactoryProduct().add(fp1_3);
+        p3.getFactoryProducts().add(fp1_3);
         FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p4);
         em.persist(fp1_4);
         em.flush();
         f1.getFactoryProducts().add(fp1_4);
-        p4.getFactoryProduct().add(fp1_4);
+        p4.getFactoryProducts().add(fp1_4);
         FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
         em.persist(fp1_5);
         em.flush();
         f1.getFactoryProducts().add(fp1_5);
-        p5.getFactoryProduct().add(fp1_5);
+        p5.getFactoryProducts().add(fp1_5);
         em.flush();
         //for f2
         FactoryProductEntity fp2_1 = new FactoryProductEntity(p1.getUnit(), f2, p1);
         em.persist(fp2_1);
         em.flush();
         f2.getFactoryProducts().add(fp2_1);
-        p1.getFactoryProduct().add(fp2_1);
+        p1.getFactoryProducts().add(fp2_1);
         FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
         em.persist(fp2_2);
         em.flush();
         f2.getFactoryProducts().add(fp2_2);
-        p2.getFactoryProduct().add(fp2_2);
+        p2.getFactoryProducts().add(fp2_2);
         em.flush();
 
         //Factory Retail Product
@@ -1510,30 +1516,82 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        //MembershipLevel
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
+        memlvl0.setPointsToUpgrade(1000D);
         em.persist(memlvl0);
         em.flush();
         MembershipLevel memlvl1 = new MembershipLevel();
         memlvl1.setDiscount(0.9);
+        memlvl0.setPointsToUpgrade(2000D);
         em.persist(memlvl1);
         em.flush();
         MembershipLevel memlvl2 = new MembershipLevel();
         memlvl2.setDiscount(0.85);
+        memlvl0.setPointsToUpgrade(5000D);
         em.persist(memlvl2);
         em.flush();
         MembershipLevel memlvl3 = new MembershipLevel();
         memlvl3.setDiscount(0.8);
+        memlvl0.setPointsToUpgrade(10000D);
         em.persist(memlvl3);
         em.flush();
         MembershipLevel memlvl4 = new MembershipLevel();
         memlvl4.setDiscount(0.75);
+        memlvl0.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
         em.flush();
         MembershipLevel memlvl5 = new MembershipLevel();
         memlvl5.setDiscount(0.7);
+        memlvl0.setPointsToUpgrade(50000D);
         em.persist(memlvl5);
         em.flush();
+        
+
+        //TransactionEntity
+        TransactionEntity tr = new TransactionEntity();
+        tr.setStore(s1);
+        tr.setTotalPrice(200.0);
+        em.persist(tr);
+        em.flush();
+ 
+        //StoreItemMappingEntity
+        StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
+        sm1.setProductid(sp1_1.getStoreProductId());
+        em.persist(sm1);
+        em.flush();
+        //TransactionItem
+        TransactionItem ti1 = new TransactionItem();
+        ti1.setItemId(sm1.getId());
+        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
+        ti1.setItemName(temp.getProduct().getName());
+        ti1.setAmount(1);
+        ti1.setTransaction(tr);
+        em.persist(ti1);
+        em.flush();
+        
+        List<TransactionItem> items = new ArrayList();
+        items.add(ti1);
+        tr.setTransactionItemList(items);        
+               
+        //pickupList
+        PickupListEntity pl1 = new PickupListEntity();
+        
+        pl1.setTransactoinItems(items);
+        ti1.setPickupList(pl1); 
+        em.persist(pl1);
+        em.persist(ti1);
+        em.flush();
+
+        //Member Set uP
+        Calendar MemberBirthday=Calendar.getInstance();
+        MemberBirthday.set(1990, 9, 1);
+        
+        MemberEntity member = new MemberEntity("123","Lee","","James", 
+            MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
+            "james@gmail.com", Boolean.FALSE);
+
     }
 
 }

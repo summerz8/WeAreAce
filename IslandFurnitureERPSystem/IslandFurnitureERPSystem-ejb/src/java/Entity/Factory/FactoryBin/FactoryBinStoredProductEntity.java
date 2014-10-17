@@ -140,14 +140,14 @@ public class FactoryBinStoredProductEntity implements Serializable {
         this.setStatus(status);
     }
 
-    public void increaseQuantity(Double increaseBy) {
-        this.amount += increaseBy;
-    }
-    
-    //pre-cond: amount - decreaseBy >= 0
-    public void decreaseQuantity(Double decreaseBy) {
-        this.amount -= decreaseBy;
-    }
+//    public void increaseQuantity(Double increaseBy) {
+//        this.amount += increaseBy;
+//    }
+//    
+//    //pre-cond: amount - decreaseBy >= 0
+//    public void decreaseQuantity(Double decreaseBy) {
+//        this.amount -= decreaseBy;
+//    }
 
     @Override
     public int hashCode() {

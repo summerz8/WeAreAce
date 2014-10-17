@@ -24,35 +24,37 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class TransactionEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
+    private Long transactionId;
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar generateTime;
+
+    private Long storeStaffId;
+    private Long memberId;
     private Double totalPrice;
     private Double tendered;
     private Double moneyChange;
-    private Long storeStaffId;
-    private Long memberId;
-    
+
     @ManyToOne
     private StoreEntity store;
-    
+
+    //Transaction -- TransactionItem 1<-->M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
     private List<TransactionItem> transactionItemList;
-    
-    
-    public TransactionEntity(){
-    }
-    
-    public Long getId() {
-        return id;
+
+    public TransactionEntity() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Calendar getGenerateTime() {
@@ -61,6 +63,22 @@ public class TransactionEntity implements Serializable {
 
     public void setGenerateTime(Calendar generateTime) {
         this.generateTime = generateTime;
+    }
+
+    public Long getStoreStaffId() {
+        return storeStaffId;
+    }
+
+    public void setStoreStaffId(Long storeStaffId) {
+        this.storeStaffId = storeStaffId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
     public Double getTotalPrice() {
@@ -102,40 +120,29 @@ public class TransactionEntity implements Serializable {
     public void setTransactionItemList(List<TransactionItem> transactionItemList) {
         this.transactionItemList = transactionItemList;
     }
-
-    public Long getStoreStaffId() {
-        return storeStaffId;
-    }
-
-    public void setStoreStaffId(Long staffId) {
-        this.storeStaffId = staffId;
-    }
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
     
     
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+
+        hash += (transactionId != null ? transactionId.hashCode() : 0);
+
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+
+        // TODO: Warning - this method won't work in the case the transactionId fields are not set
         if (!(object instanceof TransactionEntity)) {
             return false;
         }
         TransactionEntity other = (TransactionEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+
+        if ((this.transactionId == null && other.transactionId != null) || (this.transactionId != null && !this.transactionId.equals(other.transactionId))) {
+
             return false;
         }
         return true;
@@ -143,7 +150,9 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.TransactionEntity[ id=" + id + " ]";
+
+        return "Entity.Store.OCRM.TransactionEntity[ id=" + transactionId + " ]";
+
     }
-    
+
 }

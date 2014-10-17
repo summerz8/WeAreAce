@@ -143,6 +143,7 @@ public class TransactionModule implements TransactionModuleLocal {
         
         transaction.setTendered(tendered);
         transaction.setMoneyChange(moneyChange);
+
         em.persist(transaction);
         em.flush();
         
