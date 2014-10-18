@@ -29,6 +29,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface AnalyticalCRMSessionBeanLocal {
+    
+    public Collection<MemberEntity> getAllMembers() throws Exception;
 
     public Collection<MemberEntity> getMembersByAge(Integer minAge, Integer maxAge) throws Exception;
 
@@ -59,11 +61,10 @@ public interface AnalyticalCRMSessionBeanLocal {
 
     public Float getCLE() throws Exception;
 
-    public Float getCLV() throws Exception;
+    public Float getCLV(Long storeId, Calendar time, Integer location,
+            Boolean isForAllPlace, Double grossProfitMargin, Double aveAcquisitionCost) throws Exception;
 
-    public Float getCAC() throws Exception;
-
-    public Float getVoucherResponseRate() throws Exception;
+    public Float getCACMonthly(Long storeId, Calendar time, Double totalCost) throws Exception;
 
 //    public Collection<MemberEntity> getActiveMembersMonthly(Collection<MemberEntity> memberList, Calendar month, Integer place, Boolean isForAllPlace) throws Exception;
 }

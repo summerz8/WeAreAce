@@ -41,6 +41,23 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
     }
 
     @Override
+    public Collection<MemberEntity> getAllMembers() throws Exception {
+        Collection<MemberEntity> members = new ArrayList();
+
+        try {
+            Collection<MemberEntity> memberList;
+
+            Query q = em.createQuery("SELECT m FROM MemberEntity m");
+            memberList = q.getResultList();
+
+        } catch (Exception e) {
+            System.err.println("AnalyticalCRMSessionBean: getMembersByAge(): Caught an unexpected exception.");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
     public Collection<MemberEntity> getMembersByAge(Integer minAge, Integer maxAge) throws Exception {
         Collection<MemberEntity> members = new ArrayList();
 
@@ -63,7 +80,6 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         return members;
     }
 
-    //@Override
     public Collection<MemberEntity> getMembersByAge(Integer minAge, Integer maxAge, Collection<MemberEntity> memberList) throws Exception {
         Collection<MemberEntity> members = new ArrayList();
 
@@ -131,7 +147,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             memberList = q.getResultList();
 
             for (MemberEntity m : memberList) {
-                if (m.getCountry.equals(country)) {
+                if (m.getCountry().equals(country)) {
                     members.add(m);
                 }
             }
@@ -147,7 +163,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
 
         try {
             for (MemberEntity m : memberList) {
-                if (m.getCountry.equals(country)) {
+                if (m.getCountry().equals(country)) {
                     members.add(m);
                 }
             }
@@ -169,7 +185,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             memberList = q.getResultList();
 
             for (MemberEntity m : memberList) {
-                if (m.getMemberlvl().getLevel().equals(memberLevel)) {
+                if (m.getMemberlvl().getLevelId().equals(memberLevel)) {
                     members.add(m);
                 }
             }
@@ -186,7 +202,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         try {
 
             for (MemberEntity m : memberList) {
-                if (m.getMemberlvl().getLevel().equals(memberLevel)) {
+                if (m.getMemberlvl().getLevelId().equals(memberLevel)) {
                     members.add(m);
                 }
             }
@@ -219,7 +235,9 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         String result;
         try {
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            Collection<MemberEntity> memberList = store.getMembers();
+            Query q = em.createQuery("Select m from MemberEntity where m.storeId=:id");
+            q.setParameter("storeId", storeId);
+            Collection<MemberEntity> memberList = q.getResultList();
             for (MemberEntity m : memberList) {
                 //sendemail function
             }
@@ -423,28 +441,52 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
     }
 
     @Override
-    public Float getCLE() throws Exception {
-        Float cle = null;
+    public Float getCLV(Long storeId, Calendar time, Integer location,
+            Boolean isForAllPlace, Double grossProfitMargin, Double aveAcquisitionCost) throws Exception {
+        Float clv = null;
+        try {
+            Collection<TransactionEntity> transactionList;
+            Collection<MemberEntity> members = new ArrayList();
 
-        return cle;
+            StoreEntity store = em.find(StoreEntity.class, storeId);
+            transactionList = store.getTransacion();
+
+            for (TransactionEntity transaction : transactionList) {
+                if (transaction.getMemberId() != null) {
+                    MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
+                    members.add(m);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("AnalyticalCRMSessionBean: getCLV(): Caught an unexpected exception.");
+            e.printStackTrace();
+        }
+        return clv;
     }
 
     @Override
-    public Float getCLV() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Float getCACMonthly(Long storeId, Calendar time, Double totalCost) throws Exception {
+        Float cac = null;
+        Integer newMemberQuantity = 0;
+
+        Collection<TransactionEntity> transactionList;
+        StoreEntity store = em.find(StoreEntity.class, storeId);
+        transactionList = store.getTransacion();
+
+        for (TransactionEntity transaction : transactionList) {
+            if (transaction.getMemberId() != null) {
+                MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
+
+                //if member is new member
+                if (m.getCreateDate().get(Calendar.MONTH) == time.get(Calendar.MONTH)) {
+                    newMemberQuantity++;
+                }
+            }
+        }
+        cac = totalCost.floatValue() / newMemberQuantity.floatValue();
+        return cac;
     }
 
-    @Override
-    public Float getCAC() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Float getVoucherResponseRate() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-//    @Override
     public Collection<MemberEntity> getActiveMembersMonthly(Collection<TransactionEntity> transactionList, Calendar month, Integer location, Boolean isForAllPlace) throws Exception {
         Collection<MemberEntity> members = new ArrayList();
         try {
@@ -453,9 +495,9 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
                     if (transaction.getGenerateTime().get(Calendar.MONTH) == month.get(Calendar.MONTH)) {
                         MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
 
-                        if (isForAllPlace) {
+                        if (isForAllPlace && !members.contains(m)) {
                             members.add(m);
-                        } else if (transaction.getLocation() == location) {
+                        } else if (transaction.getLocation() == location && !members.contains(m)) {
                             //calculate saperately for retail, funiture and marketplace
                             members.add(m);
                         }
@@ -469,7 +511,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         return members;
     }
 
-    public Collection<MemberEntity> getActiveMembersYearly(Collection<TransactionEntity> transactionList, Calendar year, Integer place, Boolean isForAllPlace) throws Exception {
+    public Collection<MemberEntity> getActiveMembersYearly(Collection<TransactionEntity> transactionList, Calendar year, Integer location, Boolean isForAllPlace) throws Exception {
         Collection<MemberEntity> members = new ArrayList();
         try {
             for (TransactionEntity transaction : transactionList) {
