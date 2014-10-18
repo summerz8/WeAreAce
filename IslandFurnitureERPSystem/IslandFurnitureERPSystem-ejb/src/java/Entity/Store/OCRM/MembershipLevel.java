@@ -23,12 +23,20 @@ public class MembershipLevel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long level;
     private String Name;
     
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
     private Double discount;
+
+
+    private Integer levelId;
+
+    private String levelName;
+
+
 //
 //    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
 //    private Collection<MemberEntity> members;
@@ -54,16 +62,26 @@ public class MembershipLevel implements Serializable {
 //        this.members = members;
 //    }
 //
-//    
-//    
 
-    public Long getLevel() {
-        return level;
+    public String getLevelName() {
+        return levelName;
     }
 
-    public void setLevel(Long level) {
-        this.level = level;
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
+
+
+//
+//
+    public Integer getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(Integer level) {
+        this.levelId = level;
+    }
+
 
     public Double getPointsToUpgrade() {
         return pointsToUpgrade;
@@ -85,18 +103,18 @@ public class MembershipLevel implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (level != null ? level.hashCode() : 0);
+        hash += (levelId != null ? levelId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the level fields are not set
+        // TODO: Warning - this method won't work in the case the levelId fields are not set
         if (!(object instanceof MembershipLevel)) {
             return false;
         }
         MembershipLevel other = (MembershipLevel) object;
-        if ((this.level == null && other.level != null) || (this.level != null && !this.level.equals(other.level))) {
+        if ((this.levelId == null && other.levelId != null) || (this.levelId != null && !this.levelId.equals(other.levelId))) {
             return false;
         }
         return true;
@@ -104,7 +122,7 @@ public class MembershipLevel implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.MembershipLevel[ id=" + level + " ]";
+        return "Entity.Store.OCRM.MembershipLevel[ id=" + levelId + " ]";
     }
     
 }

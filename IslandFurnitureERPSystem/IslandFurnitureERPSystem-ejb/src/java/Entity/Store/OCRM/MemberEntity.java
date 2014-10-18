@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +37,10 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
+    private TransactionEntity lastTransaction;
+    private Long storeId;
+
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
     private String gender;
@@ -43,9 +48,18 @@ public class MemberEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar createDate;
+
+    private String country;
+    
+
     private Double currentPoints;
     private Double totalPoints;
     private Double pointsToUpgrade;
+    private Double PointsToUpgrade;
+
     private Boolean deleteFlag;
     
     @OneToMany
@@ -53,7 +67,11 @@ public class MemberEntity implements Serializable {
 
     @ManyToOne
     private MembershipLevel memberlvl;
+    
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
+    private List<TransactionEntity> transactionList; 
 
+    
     public MemberEntity() {
     }
 
@@ -74,6 +92,9 @@ public class MemberEntity implements Serializable {
         this.totalPoints = 0D;
         this.currentPoints = 0D;
         this.pointsToUpgrade = 1000D;
+        this.PointsToUpgrade = 1000D;       
+        this.createDate = Calendar.getInstance();
+
         shoppingCartList=new ArrayList<>();
     }
     
@@ -165,6 +186,40 @@ public class MemberEntity implements Serializable {
         this.email = email;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public List<TransactionEntity> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<TransactionEntity> transactionList) {
+        this.transactionList = transactionList;
+    }
+    
+    
+
+    public TransactionEntity getLastTransaction() {
+        return lastTransaction;
+    }
+
+    public void setLastTransaction(TransactionEntity lastTransaction) {
+        this.lastTransaction = lastTransaction;
+    }
+
     public Boolean isDeleteFlag() {
         return deleteFlag;
     }
@@ -221,6 +276,15 @@ public class MemberEntity implements Serializable {
         this.shoppingCartList = shoppingCartList;
     }
 
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
+    
+    
     
     @Override
     public int hashCode() {

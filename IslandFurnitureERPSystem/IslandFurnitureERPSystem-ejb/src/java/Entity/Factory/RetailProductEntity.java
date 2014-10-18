@@ -48,11 +48,13 @@ public class RetailProductEntity implements Serializable {
     public RetailProductEntity() {
     }
 
-    public RetailProductEntity(String name, String description, String unit, Boolean deleteFlag) {
+    public RetailProductEntity(String name, String description, Double price, 
+            String unit, Boolean deleteFlag) {
         this.name = name;
         this.description = description;
         this.deleteFlag = deleteFlag;
         this.unit = unit;
+        this.price = price;
     }
 
     

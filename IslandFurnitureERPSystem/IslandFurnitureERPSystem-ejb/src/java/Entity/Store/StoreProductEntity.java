@@ -33,6 +33,13 @@ public class StoreProductEntity  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeProductId;
     
+    private String name;
+    private Double quantity;
+    private String unit;
+    
+    private Boolean selfPick;
+    private Boolean deleteFlag;
+    
     //store product entity -- factory product entity: M <--> 1 
     @ManyToOne
     private FactoryProductEntity factoryProduct;
@@ -46,7 +53,6 @@ public class StoreProductEntity  implements Serializable {
     
     @OneToMany
     private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
-    private Boolean selfPick;
 
     public StoreProductEntity() {
     }
@@ -72,6 +78,38 @@ public class StoreProductEntity  implements Serializable {
 
     public void setFactoryProduct(FactoryProductEntity factoryProduct) {
         this.factoryProduct = factoryProduct;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 
     

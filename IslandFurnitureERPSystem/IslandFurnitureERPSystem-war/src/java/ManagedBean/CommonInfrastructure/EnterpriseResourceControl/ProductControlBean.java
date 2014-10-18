@@ -36,7 +36,8 @@ public class ProductControlBean {
     private String newProductDescription;
     private Double newProductPrice;
     private String newProductUnit;
-    
+    private Double newProductMemberPrice;
+
     private ProductEntity selectedProduct;
 
     /**
@@ -59,10 +60,16 @@ public class ProductControlBean {
         ProductEntity entity = (ProductEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getProductId() + entity.getName());
 
-        RPMM.ModifyProduct(entity.getProductId(), entity.getName(), entity.getDescription(), entity.getPrice(), entity.getUnit());
+        if (entity.getPrice() <= entity.getMemberPrice()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Product cannot be edited!", "Member Price must be smaller than Original Price!"));
+        } else {
+            RPMM.ModifyProduct(entity.getProductId(), entity.getName(), entity.getDescription(),
+                    entity.getPrice(), entity.getMemberPrice(), entity.getUnit());
 
-        FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(entity.getProductId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(entity.getProductId()));
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void onRowCancel(RowEditEvent event) {
@@ -81,24 +88,29 @@ public class ProductControlBean {
 
     public void addProduct() {
         System.out.println("ProductControlBean: addProduct: ");
-        RPMM.AddProduct(newProductName, newProductDescription, newProductPrice, newProductUnit);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product added successfully! ", ""));
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ProductControl.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        if (newProductPrice <= newProductMemberPrice) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Product cannot be created! ", "Member Price must be smaller than Original Price!"));
+        } else {
+            RPMM.AddProduct(newProductName, newProductDescription, newProductPrice, newProductMemberPrice, newProductUnit);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product added successfully! ", ""));
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ProductControl.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-    
-    public void viewProduct(ProductEntity product) throws IOException{
+
+    public void viewProduct(ProductEntity product) throws IOException {
         selectedProduct = product;
-         String path = "/secured/restricted/CommonInfrastructure/EnterpriseResouces/ProductBOMControl.xhtml";
+        String path = "/secured/restricted/CommonInfrastructure/EnterpriseResouces/ProductBOMControl.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedProduct", selectedProduct);
 
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        FacesContext.getCurrentInstance().getExternalContext().redirect(url+path);
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
         System.err.println("go to another page");
-        
+
     }
 
     public List<ProductEntity> getProductList() {
@@ -165,5 +177,12 @@ public class ProductControlBean {
         this.selectedProduct = selectedProduct;
     }
 
-    
+    public Double getNewProductMemberPrice() {
+        return newProductMemberPrice;
+    }
+
+    public void setNewProductMemberPrice(Double newProductMemberPrice) {
+        this.newProductMemberPrice = newProductMemberPrice;
+    }
+
 }

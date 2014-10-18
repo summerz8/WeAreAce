@@ -38,7 +38,11 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.TransactionEntity;
+import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.text.ParseException;
@@ -189,19 +193,19 @@ public class dataSetUp {
         em.flush();
 
         //Retail Product
-        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", "box", false);
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0,"box", false);
         em.persist(rp1);
         em.flush();
-        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", "set", false);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 12.0,"set", false);
         em.persist(rp2);
         em.flush();
-        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", "bottle", false);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 3.0,"bottle", false);
         em.persist(rp3);
         em.flush();
-        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", "bag", false);
+        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", 7.8, "bag", false);
         em.persist(rp4);
         em.flush();
-        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", "bottle", false);
+        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", 4.5, "bottle", false);
         em.persist(rp5);
         em.flush();
 
@@ -226,22 +230,22 @@ public class dataSetUp {
         em.flush();
 
         //Product
-        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, "set", false);
+        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0,"set", false);
         em.persist(p1);
         em.flush();
-        ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, "set", false);
+        ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, 480.0, "set", false);
         em.persist(p2);
         em.flush();
-        ProductEntity p3 = new ProductEntity("Coffee Table", "Coffee table, high gloss black", 199.0, "one", false);
+        ProductEntity p3 = new ProductEntity("Coffee Table", "Coffee table, high gloss black", 199.0, 180.0, "one", false);
         em.persist(p3);
         em.flush();
-        ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, "set", false);
+        ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, 55.0, "set", false);
         em.persist(p4);
         em.flush();
-        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, "one", false);
+        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0 ,"one", false);
         em.persist(p5);
         em.flush();
-        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
+        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0,"package", false);
         em.persist(p6);
         em.flush();
 
@@ -1505,6 +1509,7 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        //MembershipLevel
         MembershipLevel memlvl0 = new MembershipLevel();
         memlvl0.setDiscount(1D);
         memlvl0.setPointsToUpgrade(1000D);
@@ -1531,11 +1536,46 @@ public class dataSetUp {
         em.flush();
         MembershipLevel memlvl4 = new MembershipLevel();
         memlvl4.setName("Diamond");
-        memlvl4.setDiscount(0.75);
+        memlvl4.setDiscount(0.7);
         memlvl4.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
         em.flush();
+        
 
+        //TransactionEntity
+        TransactionEntity tr = new TransactionEntity();
+        tr.setStore(s1);
+        tr.setTotalPrice(200.0);
+        em.persist(tr);
+        em.flush();
+ 
+        //StoreItemMappingEntity
+        StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
+        sm1.setProductid(sp1_1.getStoreProductId());
+        em.persist(sm1);
+        em.flush();
+        //TransactionItem
+        TransactionItem ti1 = new TransactionItem();
+        ti1.setItemId(sm1.getId());
+        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
+        ti1.setItemName(temp.getProduct().getName());
+        ti1.setAmount(1);
+        ti1.setTransaction(tr);
+        em.persist(ti1);
+        em.flush();
+        
+        List<TransactionItem> items = new ArrayList();
+        items.add(ti1);
+        tr.setTransactionItemList(items);        
+               
+        //pickupList
+        PickupListEntity pl1 = new PickupListEntity();
+        
+        pl1.setTransactoinItems(items);
+        ti1.setPickupList(pl1); 
+        em.persist(pl1);
+        em.persist(ti1);
+        em.flush();
 
         //Member Set uP
         Calendar MemberBirthday = Calendar.getInstance();
@@ -1546,6 +1586,7 @@ public class dataSetUp {
                 "james@gmail.com", Boolean.FALSE);
         em.persist(member);
         em.flush();
+
     }
 
 }

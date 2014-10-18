@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 public class TransactionItem implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long TransactionItemId;
     
     private Long itemId;//refer to storeproductId or storeRetailProductId
@@ -29,8 +29,8 @@ public class TransactionItem implements Serializable {
     private Double unitPrice;
     private Double totalPrice;
     private String itemName;
-    
-    //TransactionItem -- TransactionEntity M<-->1
+
+//    //TransactionItem -- TransactionEntity M<-->1
     @ManyToOne
     private TransactionEntity transaction;
     
@@ -107,8 +107,6 @@ public class TransactionItem implements Serializable {
         this.pickupList = pickupList;
     }
     
-    
-
     @Override
     public int hashCode() {
         int hash = 0;

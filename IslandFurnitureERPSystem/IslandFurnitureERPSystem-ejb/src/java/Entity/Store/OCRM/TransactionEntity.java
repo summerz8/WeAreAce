@@ -1,11 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To moneyChange this license header, choose License Headers in Project Properties.
+ * To moneyChange this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store.OCRM;
 
+import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -17,125 +17,147 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
  *
- * @author dan
+ * @author hangsun
  */
 @Entity
 public class TransactionEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long TransactionId;
-    
+    private Long transactionId;
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar generateTime;
     
-    private Long storeStaffId;
-    
-    private Long memberId;
     private Double totalPrice;
     private Double tendered;
-    private Double change;
-    
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
-    private List<TransactionItem> transactionItems;
-    
+    private Double moneyChange;
+    private int location;//1 for furniture 2 for retial product 3 for kitchen
+
     @ManyToOne
     private StoreEntity store;
-      
+    
+    @ManyToOne
+    private MemberEntity member;
+    
+    @OneToOne
+    private StoreUserEntity storeStaff;
 
-    public Long getTransactionId() {
-        return TransactionId;
+    //Transaction -- TransactionItem 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
+    private List<TransactionItem> transactionItemList;
+
+    public TransactionEntity() {
     }
 
-    public void setTransactionId(Long TransactionId) {
-        this.TransactionId = TransactionId;
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Calendar getGenerateTime() {
         return generateTime;
     }
 
-    public Long getStoreStaffId() {
-        return storeStaffId;
+    public void setGenerateTime(Calendar generateTime) {
+        this.generateTime = generateTime;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public MemberEntity getMember() {
+        return member;
+    }
+
+    public void setMember(MemberEntity member) {
+        this.member = member;
+    }
+
+    public StoreUserEntity getStoreStaff() {
+        return storeStaff;
+    }
+
+    public void setStoreStaff(StoreUserEntity storeStaff) {
+        this.storeStaff = storeStaff;
     }
 
     public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public Double getTendered() {
-        return tendered;
-    }
-
-    public Double getChange() {
-        return change;
-    }
-
-    public List<TransactionItem> getTransactionItems() {
-        return transactionItems;
-    }
-
-    public StoreEntity getStore() {
-        return store;
-    }
-
-    public void setGenerateTime(Calendar generateTime) {
-        this.generateTime = generateTime;
-    }
-
-    public void setStoreStaffId(Long storeStaffId) {
-        this.storeStaffId = storeStaffId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Double getTendered() {
+        return tendered;
     }
 
     public void setTendered(Double tendered) {
         this.tendered = tendered;
     }
 
-    public void setChange(Double change) {
-        this.change = change;
+    public Double getMoneyChange() {
+        return moneyChange;
     }
 
-    public void setTransactionItems(List<TransactionItem> transactionItems) {
-        this.transactionItems = transactionItems;
+    public void setMoneyChange(Double moneyChange) {
+        this.moneyChange = moneyChange;
+    }
+
+    public StoreEntity getStore() {
+        return store;
     }
 
     public void setStore(StoreEntity store) {
         this.store = store;
     }
-    
-    
 
+    public List<TransactionItem> getTransactionItemList() {
+        return transactionItemList;
+    }
+
+    public void setTransactionItemList(List<TransactionItem> transactionItemList) {
+        this.transactionItemList = transactionItemList;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (TransactionId != null ? TransactionId.hashCode() : 0);
+
+        hash += (transactionId != null ? transactionId.hashCode() : 0);
+
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the TransactionId fields are not set
+
+        // TODO: Warning - this method won't work in the case the transactionId fields are not set
         if (!(object instanceof TransactionEntity)) {
             return false;
         }
         TransactionEntity other = (TransactionEntity) object;
-        if ((this.TransactionId == null && other.TransactionId != null) || (this.TransactionId != null && !this.TransactionId.equals(other.TransactionId))) {
+
+        if ((this.transactionId == null && other.transactionId != null) || (this.transactionId != null && !this.transactionId.equals(other.transactionId))) {
+
             return false;
         }
         return true;
@@ -143,7 +165,9 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.OrderEntity[ id=" + TransactionId + " ]";
+
+        return "Entity.Store.OCRM.TransactionEntity[ id=" + transactionId + " ]";
+
     }
-    
+
 }

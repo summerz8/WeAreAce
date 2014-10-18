@@ -41,9 +41,11 @@ public class StoreEntity implements Serializable {
     @OneToOne
     private KitchenEntity kitchen;
 
+
 //    //factory entity -- store entity: M <--> M 
 //    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
 //    private List<FactoryEntity> factorys = new ArrayList<>();
+
     //store entity -- store product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     private List<StoreProductEntity> storeProduct = new ArrayList<>();
@@ -101,6 +103,14 @@ public Long getStoreId() {
 
     public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
         this.storeRetailProduct = storeRetailProduct;
+    }
+
+    public List<TransactionEntity> getTransacion() {
+        return transacion;
+    }
+
+    public void setTransacion(List<TransactionEntity> transacion) {
+        this.transacion = transacion;
     }
 
    
@@ -162,16 +172,12 @@ public Long getStoreId() {
         return storeItemMapping;
     }
 
-    public List<TransactionEntity> getTransacion() {
-        return transacion;
-    }
+//    public List<TransactionEntity> getTransacion() {
+//        return transacion;
+//    }
 
     public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
         this.storeItemMapping = storeItemMapping;
-    }
-
-    public void setTransacion(List<TransactionEntity> transacion) {
-        this.transacion = transacion;
     }
 
     public List<Long> getFactoryList() {
@@ -181,6 +187,11 @@ public Long getStoreId() {
     public void setFactoryList(List<Long> factoryList) {
         this.factoryList = factoryList;
     }
+
+//    public void setTransacion(List<TransactionEntity> transacion) {
+//        this.transacion = transacion;
+//    }
+
     
     
     @Override
