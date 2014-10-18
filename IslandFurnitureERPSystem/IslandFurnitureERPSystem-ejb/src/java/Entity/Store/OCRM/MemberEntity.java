@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,10 +48,11 @@ public class MemberEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
-
-    private String country;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
+
+    private String country;
 
     private Double currentPoints;
     private Double totalPoints;
@@ -63,6 +65,9 @@ public class MemberEntity implements Serializable {
 
     @ManyToOne
     private MembershipLevel memberlvl;
+    
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
+    private List<TransactionEntity> transactionList; 
 
     
     public MemberEntity() {
@@ -84,7 +89,8 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.PointsToUpgrade = 1000D;
+        this.PointsToUpgrade = 1000D;       
+        this.createDate = Calendar.getInstance();
         shoppingCartList=new ArrayList<>();
         this.createDate = Calendar.getInstance();
     }
@@ -192,6 +198,14 @@ public class MemberEntity implements Serializable {
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
     }
+
+    public List<TransactionEntity> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<TransactionEntity> transactionList) {
+        this.transactionList = transactionList;
+    }
     
     
 
@@ -266,7 +280,6 @@ public class MemberEntity implements Serializable {
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
-
     
     @Override
     public int hashCode() {

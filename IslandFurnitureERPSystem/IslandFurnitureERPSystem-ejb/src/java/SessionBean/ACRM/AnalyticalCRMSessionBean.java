@@ -452,8 +452,8 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             transactionList = store.getTransacion();
 
             for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMemberId() != null) {
-                    MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
+                if (transaction.getMember().getMemberId()!= null) {
+                    MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
                     members.add(m);
                 }
             }
@@ -474,8 +474,8 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         transactionList = store.getTransacion();
 
         for (TransactionEntity transaction : transactionList) {
-            if (transaction.getMemberId() != null) {
-                MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
+            if (transaction.getMember().getMemberId()!= null) {
+                MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
 
                 //if member is new member
                 if (m.getCreateDate().get(Calendar.MONTH) == time.get(Calendar.MONTH)) {
@@ -491,9 +491,9 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         Collection<MemberEntity> members = new ArrayList();
         try {
             for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMemberId() != null) {
+                if (transaction.getMember().getMemberId() != null) {
                     if (transaction.getGenerateTime().get(Calendar.MONTH) == month.get(Calendar.MONTH)) {
-                        MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
+                        MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
 
                         if (isForAllPlace && !members.contains(m)) {
                             members.add(m);
@@ -515,9 +515,9 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         Collection<MemberEntity> members = new ArrayList();
         try {
             for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMemberId() != null) {
+                if (transaction.getMember().getMemberId() != null) {
                     if (transaction.getGenerateTime().get(Calendar.YEAR) == year.get(Calendar.YEAR)) {
-                        MemberEntity m = em.find(MemberEntity.class, transaction.getMemberId());
+                        MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
 
                         if (isForAllPlace) {
                             members.add(m);
