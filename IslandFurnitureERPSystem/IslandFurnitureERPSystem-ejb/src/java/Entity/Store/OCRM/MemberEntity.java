@@ -58,7 +58,6 @@ public class MemberEntity implements Serializable {
     private Double currentPoints;
     private Double totalPoints;
     private Double pointsToUpgrade;
-    private Double PointsToUpgrade;
 
     private Boolean deleteFlag;
     
@@ -91,8 +90,7 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.pointsToUpgrade = 1000D;
-        this.PointsToUpgrade = 1000D;       
+        this.pointsToUpgrade = 1000D;     
         this.createDate = Calendar.getInstance();
 
         shoppingCartList=new ArrayList<>();
