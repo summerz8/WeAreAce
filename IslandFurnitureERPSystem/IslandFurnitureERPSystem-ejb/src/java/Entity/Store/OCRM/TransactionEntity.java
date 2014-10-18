@@ -5,6 +5,7 @@
  */
 package Entity.Store.OCRM;
 
+import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.StoreEntity;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -32,9 +34,7 @@ public class TransactionEntity implements Serializable {
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar generateTime;
-
-    private String storeStaffId;
-    private Long memberId;
+    
     private Double totalPrice;
     private Double tendered;
     private Double moneyChange;
@@ -42,6 +42,12 @@ public class TransactionEntity implements Serializable {
 
     @ManyToOne
     private StoreEntity store;
+    
+    @ManyToOne
+    private MemberEntity member;
+    
+    @OneToOne
+    private StoreUserEntity storeStaff;
 
     //Transaction -- TransactionItem 1<-->M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
@@ -66,20 +72,20 @@ public class TransactionEntity implements Serializable {
         this.generateTime = generateTime;
     }
 
-    public String getStoreStaffId() {
-        return storeStaffId;
+    public MemberEntity getMember() {
+        return member;
     }
 
-    public void setStoreStaffId(String storeStaffId) {
-        this.storeStaffId = storeStaffId;
+    public void setMember(MemberEntity member) {
+        this.member = member;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public StoreUserEntity getStoreStaff() {
+        return storeStaff;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public void setStoreStaff(StoreUserEntity storeStaff) {
+        this.storeStaff = storeStaff;
     }
 
     public Double getTotalPrice() {

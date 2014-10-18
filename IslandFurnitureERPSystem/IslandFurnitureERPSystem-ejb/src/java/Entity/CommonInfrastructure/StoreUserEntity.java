@@ -6,11 +6,11 @@
 
 package Entity.CommonInfrastructure;
 
+import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +22,9 @@ import javax.persistence.Table;
 public class StoreUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    //private long storeId; //storeId is a long number auto generated
+    
+    @OneToOne
+    private TransactionEntity transaction;
 
     public StoreUserEntity() {
     }
@@ -33,7 +35,7 @@ public class StoreUserEntity extends UserEntity implements Serializable {
             String title, String address, String postalCode, String email, long departmentId, String password, Boolean deleteFlag) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
                 birthday,gender,title, address, postalCode, email, deleteFlag, departmentId, password);
-        //storeId = departmentId;
+
     }
 
     public void editStoreUserEntity(String department, Integer userLevel, String lastName, String midName,
@@ -41,16 +43,18 @@ public class StoreUserEntity extends UserEntity implements Serializable {
             String title, String address, String postalCode, String email, long departmentId, Boolean deleteFlag) {
         super.editUserEntity(department, userLevel, lastName, midName, firstName,
                 position, birthday, gender, title, address, postalCode, email, deleteFlag, departmentId);
-        //storeId = departmentId;
         
     }
-//    public long getStoreId() {
-//        return storeId;
-//    }
-//
-//    public void setStoreId(long storeId) {
-//        this.storeId = storeId;
-//    }
+
+    public TransactionEntity getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(TransactionEntity transaction) {
+        this.transaction = transaction;
+    }
     
+    
+       
     
 }

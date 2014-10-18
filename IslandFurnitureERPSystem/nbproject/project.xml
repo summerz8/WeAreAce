@@ -14,24 +14,11 @@
                 <library>
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
-                </library>
+                </library>   
                 <library>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
-                    <path-in-war>/</path-in-war>
-                </library>
-=======
-=======
->>>>>>> e18bf77db6b3d24adfae54de61f1b3674bf8b20e
                     <file>${reference.CustomerWeb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
-         
-<<<<<<< HEAD
->>>>>>> e18bf77db6b3d24adfae54de61f1b3674bf8b20e
-=======
->>>>>>> e18bf77db6b3d24adfae54de61f1b3674bf8b20e
             </web-module-additional-libraries>
         </data>
 

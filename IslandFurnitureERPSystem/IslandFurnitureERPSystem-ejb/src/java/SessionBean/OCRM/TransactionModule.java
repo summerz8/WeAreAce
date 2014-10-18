@@ -49,16 +49,27 @@ public class TransactionModule implements TransactionModuleLocal {
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
         StoreEntity store = em.find(StoreEntity.class,storeStaff.getDepartmentId());
         
+        
         TransactionEntity transaction = new TransactionEntity();
         
         transaction.setGenerateTime(generatedTime);
         transaction.setStore(store);
-        transaction.setStoreStaffId(staffId);
-        if (memberId != null) transaction.setMemberId(memberId);
+        transaction.setStoreStaff(storeStaff);
+        if (memberId != null){
+            MemberEntity member = em.find(MemberEntity.class,memberId);
+            transaction.setMember(member);
+        }
         transaction.setLocation(location);
         
         em.persist(transaction);
         em.flush();
+        
+        if(memberId != null){
+            MemberEntity member = em.find(MemberEntity.class,memberId);
+            member.getTransactionList().add(transaction);
+            em.persist(member);
+            em.flush();
+        }
     
     }
     
@@ -117,8 +128,8 @@ public class TransactionModule implements TransactionModuleLocal {
             totalPrice += listTotalPrice;
         }
         
-        if(transaction.getMemberId()!=null){
-           MemberEntity member = em.find(MemberEntity.class,transaction.getMemberId());
+        if(transaction.getMember() !=null){
+           MemberEntity member = transaction.getMember();
            MembershipLevel level = member.getMemberlvl();
            Double discount = level.getDiscount();
            totalPrice *= discount;
