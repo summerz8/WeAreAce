@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author dan
+ * @author hangsun
  */
 @Entity
 public class TransactionEntity implements Serializable {
@@ -38,24 +38,32 @@ public class TransactionEntity implements Serializable {
     private Double totalPrice;
     private Double tendered;
     private Double moneyChange;
+    private int location;//1 for furniture 2 for retial product 3 for kitchen
 
-//    //Transaction -- TransactionItem 1<-->M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
-    private List<TransactionItem> transactionItems;
-    
     @ManyToOne
     private StoreEntity store;
-    
+
+    //Transaction -- TransactionItem 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
+    private List<TransactionItem> transactionItemList;
+
     public TransactionEntity() {
     }
-    
-    
+
     public Long getTransactionId() {
         return transactionId;
     }
 
     public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public Calendar getGenerateTime() {
+        return generateTime;
+    }
+
+    public void setGenerateTime(Calendar generateTime) {
+        this.generateTime = generateTime;
     }
 
     public Long getStoreStaffId() {
@@ -98,22 +106,6 @@ public class TransactionEntity implements Serializable {
         this.moneyChange = moneyChange;
     }
 
-    public Calendar getGenerateTime() {
-        return generateTime;
-    }
-
-    public void setGenerateTime(Calendar generateTime) {
-        this.generateTime = generateTime;
-    }
-
-    public List<TransactionItem> getTransactionItems() {
-        return transactionItems;
-    }
-
-    public void setTransactionItems(List<TransactionItem> transactionItems) {
-        this.transactionItems = transactionItems;
-    }
-
     public StoreEntity getStore() {
         return store;
     }
@@ -121,24 +113,45 @@ public class TransactionEntity implements Serializable {
     public void setStore(StoreEntity store) {
         this.store = store;
     }
-    
-    
 
+    public List<TransactionItem> getTransactionItemList() {
+        return transactionItemList;
+    }
+
+    public void setTransactionItemList(List<TransactionItem> transactionItemList) {
+        this.transactionItemList = transactionItemList;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
+
         hash += (transactionId != null ? transactionId.hashCode() : 0);
+
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
+
         // TODO: Warning - this method won't work in the case the transactionId fields are not set
         if (!(object instanceof TransactionEntity)) {
             return false;
         }
         TransactionEntity other = (TransactionEntity) object;
+
         if ((this.transactionId == null && other.transactionId != null) || (this.transactionId != null && !this.transactionId.equals(other.transactionId))) {
+
             return false;
         }
         return true;
@@ -146,7 +159,9 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
+
         return "Entity.Store.OCRM.TransactionEntity[ id=" + transactionId + " ]";
+
     }
 
 }

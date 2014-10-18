@@ -1573,7 +1573,7 @@ public class dataSetUp {
         
         List<TransactionItem> items = new ArrayList();
         items.add(ti1);
-        tr.setTransactionItems(items);        
+        tr.setTransactionItemList(items);        
                
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();
