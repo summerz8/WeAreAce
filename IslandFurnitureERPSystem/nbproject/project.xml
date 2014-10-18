@@ -17,6 +17,12 @@
                 </library>   
                 <library>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                    <file>${reference.CustomerWeb.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
+                </library>
+>>>>>>> b38b881f2f5d8d169e538a52dce3a4086dd347c2
 =======
                     <file>${reference.CustomerWeb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
