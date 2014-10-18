@@ -28,12 +28,12 @@ public interface RetailProduct_ProductManagementModuleLocal {
     public List<RetailProductEntity> ListRetailProduct();
 
     public void ModifyProduct(Long productId, String name, String description, Double price, Double memberPrice, String unit);
-
-    public void AddRetailProduct(String name, String description, Double price, Double memberPrice, String unit);
    
     public void AddProduct(String name, String description, Double price, Double memberPrice, String unit);
 
-    public void ModifyRetailProduct(Long retailProductId, String name, String unit, Double price, Double memberPrice, String description);
+    public void ModifyRetailProduct(Long retailProductId, String name, String unit, Double price, String description);
+
+    public void AddRetailProduct(String name, String description, Double price, String unit);
 
     
     

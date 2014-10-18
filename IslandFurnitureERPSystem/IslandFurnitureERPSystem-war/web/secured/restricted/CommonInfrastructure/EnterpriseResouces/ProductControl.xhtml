@@ -148,6 +148,13 @@
                                         <f:facet name="input"><p:inputText  value="#{product.price}"  style="width:96%"/></f:facet>
                                     </p:cellEditor>                       
                                 </p:column>
+                                
+                                <p:column filterBy="#{product.memberPrice}" headerText="Member Price" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{product.memberPrice}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{product.memberPrice}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>                       
+                                </p:column>
 
                                 <p:column filterBy="#{product.unit}" headerText="Unit" width="15%">
                                     <p:cellEditor>                              

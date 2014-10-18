@@ -79,9 +79,9 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     
     @Override
     public void AddRetailProduct(String name, String description, Double price, 
-            Double memberPrice, String unit) {
+            String unit) {
         System.out.println("RetailProduct_ProductManagementModule: AddRetailProduct(): ");
-        RetailProductEntity pe = new RetailProductEntity(name, description, price, memberPrice, unit, Boolean.FALSE);
+        RetailProductEntity pe = new RetailProductEntity(name, description, price, unit, Boolean.FALSE);
         
         em.persist(pe);
         em.flush();
@@ -100,13 +100,12 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
 
     @Override
     public void ModifyRetailProduct(Long retailProductId, String name, String unit,
-            Double price, Double memberPrice, String description) {
+            Double price, String description) {
         System.out.println("RetailProduct_ProductManagementModule: ModifyRetailProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
         pe.setName(name);
         pe.setDescription(description);
         pe.setUnit(unit);
-        pe.setMemberPrice(memberPrice);
         pe.setPrice(price);
         
         em.persist(pe);
