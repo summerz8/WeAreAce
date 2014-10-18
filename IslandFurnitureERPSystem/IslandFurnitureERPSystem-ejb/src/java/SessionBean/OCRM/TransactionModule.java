@@ -41,7 +41,7 @@ public class TransactionModule implements TransactionModuleLocal {
     @Override
     @WebMethod(operationName = "createTransaction")
     public void createNewTransaction(
-            @WebParam(name = "staffId") Long staffId,
+            @WebParam(name = "staffId") String staffId,
             @WebParam(name = "memberId") Long memberId,
             @WebParam(name = "location") int location){
         

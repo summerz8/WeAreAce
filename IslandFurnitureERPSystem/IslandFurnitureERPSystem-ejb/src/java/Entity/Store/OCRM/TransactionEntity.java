@@ -33,7 +33,7 @@ public class TransactionEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar generateTime;
 
-    private Long storeStaffId;
+    private String storeStaffId;
     private Long memberId;
     private Double totalPrice;
     private Double tendered;
@@ -66,11 +66,11 @@ public class TransactionEntity implements Serializable {
         this.generateTime = generateTime;
     }
 
-    public Long getStoreStaffId() {
+    public String getStoreStaffId() {
         return storeStaffId;
     }
 
-    public void setStoreStaffId(Long storeStaffId) {
+    public void setStoreStaffId(String storeStaffId) {
         this.storeStaffId = storeStaffId;
     }
 
