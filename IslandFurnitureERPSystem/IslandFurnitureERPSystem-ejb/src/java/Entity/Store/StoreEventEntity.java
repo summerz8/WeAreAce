@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author dan
  */
 @Entity
-public class StoreCalendar implements Serializable {
+public class StoreEventEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,10 +41,10 @@ public class StoreCalendar implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StoreCalendar)) {
+        if (!(object instanceof StoreEventEntity)) {
             return false;
         }
-        StoreCalendar other = (StoreCalendar) object;
+        StoreEventEntity other = (StoreEventEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +53,7 @@ public class StoreCalendar implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.StoreCalendar[ id=" + id + " ]";
+        return "Entity.Store.StoreEvent[ id=" + id + " ]";
     }
     
 }

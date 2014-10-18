@@ -33,6 +33,7 @@ public class RetailProductEntity implements Serializable {
     private String description;
     private Boolean deleteFlag;
     private Double price;
+    private Double memberPrice;
     private String unit;
     
     
@@ -48,11 +49,14 @@ public class RetailProductEntity implements Serializable {
     public RetailProductEntity() {
     }
 
-    public RetailProductEntity(String name, String description, String unit, Boolean deleteFlag) {
+    public RetailProductEntity(String name, String description, Double price, Double memberPrice, 
+            String unit, Boolean deleteFlag) {
         this.name = name;
         this.description = description;
         this.deleteFlag = deleteFlag;
         this.unit = unit;
+        this.price = price;
+        this.memberPrice = memberPrice;
     }
 
     
@@ -115,6 +119,14 @@ public class RetailProductEntity implements Serializable {
 
     public Boolean getDeleteFlag() {
         return deleteFlag;
+    }
+
+    public Double getMemberPrice() {
+        return memberPrice;
+    }
+
+    public void setMemberPrice(Double memberPrice) {
+        this.memberPrice = memberPrice;
     }
     
     

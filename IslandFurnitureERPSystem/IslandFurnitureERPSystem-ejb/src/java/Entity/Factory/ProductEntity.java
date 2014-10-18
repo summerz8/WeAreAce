@@ -34,6 +34,7 @@ public class ProductEntity implements Serializable {
     private String name;
     private String description;
     private Double price; // ???
+    private Double memberPrice;
     private String unit;
     private Boolean deleteFlag;
     
@@ -54,13 +55,14 @@ public class ProductEntity implements Serializable {
     public ProductEntity() {
     }
 
-    public ProductEntity(String name, String description, Double price, String unit, Boolean deleteFlag) {
+    public ProductEntity(String name, String description, Double price, Double memberPrice, 
+            String unit, Boolean deleteFlag) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.unit = unit;
         this.deleteFlag = deleteFlag;
-        
+        this.memberPrice = memberPrice;
     }
 
     
@@ -106,6 +108,22 @@ public class ProductEntity implements Serializable {
 
     public List<BOMEntity> getBom() {
         return bom;
+    }
+
+    public Double getMemberPrice() {
+        return memberPrice;
+    }
+
+    public void setMemberPrice(Double memberPrice) {
+        this.memberPrice = memberPrice;
+    }
+
+    public Collection<StoreProductEntity> getStoreProducts() {
+        return storeProducts;
+    }
+
+    public void setStoreProducts(Collection<StoreProductEntity> storeProducts) {
+        this.storeProducts = storeProducts;
     }
 
     public void setBom(List<BOMEntity> bom) {

@@ -37,6 +37,8 @@ public class RetailProductControlBean {
     private String newRetailProductName;
     private String newRetailProductDescription;   
     private String newRetailProductUnit;
+    private Double newRetailProductPrice;
+    private Double newRetailProductMemberPrice;
     /**
      * Creates a new instance of RetailProductControlBean
      */
@@ -57,7 +59,8 @@ public class RetailProductControlBean {
         RetailProductEntity entity = (RetailProductEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getRetailProductId() + entity.getName());
 
-        RPMM.ModifyRetailProduct(entity.getRetailProductId(), entity.getName(), entity.getUnit(), entity.getDescription());
+        RPMM.ModifyRetailProduct(entity.getRetailProductId(), entity.getName(), entity.getUnit(), 
+                entity.getPrice(), entity.getMemberPrice(), entity.getDescription());
 
         FacesMessage msg = new FacesMessage("Retail Product Edited", String.valueOf(entity.getRetailProductId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -79,7 +82,7 @@ public class RetailProductControlBean {
     
     public void addRetailProduct() {
         System.out.println("RetailProductControlBean: addRetailProduct: ");
-        RPMM.AddRetailProduct(newRetailProductName, newRetailProductDescription, newRetailProductUnit);
+        RPMM.AddRetailProduct(newRetailProductName, newRetailProductDescription, newRetailProductPrice, newRetailProductMemberPrice, newRetailProductUnit);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product added successfully! ", ""));
 
         try {
@@ -127,6 +130,14 @@ public class RetailProductControlBean {
 
     public void setNewRetailProductUnit(String newRetailProductUnit) {
         this.newRetailProductUnit = newRetailProductUnit;
+    }
+
+    public Double getNewRetailProductPrice() {
+        return newRetailProductPrice;
+    }
+
+    public void setNewRetailProductPrice(Double newRetailProductPrice) {
+        this.newRetailProductPrice = newRetailProductPrice;
     }
     
     

@@ -27,11 +27,11 @@ import javax.persistence.Temporal;
  * @author dan
  */
 @Entity
-public class RawSalesForecastEntity implements Serializable {
+public class SalesRecordEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rawSalesForecastId;
+    private Long salesRecordId;
     
     @ManyToOne
     private StoreEntity store;
@@ -47,10 +47,10 @@ public class RawSalesForecastEntity implements Serializable {
     @OneToMany(cascade={CascadeType.PERSIST})
     private List<StoreRetailProductAmountEntity> storeRetailProductList = new ArrayList<>();
 
-    public RawSalesForecastEntity() {
+    public SalesRecordEntity() {
     }
 
-    public RawSalesForecastEntity(StoreEntity store, Calendar targetPeriod) {
+    public SalesRecordEntity(StoreEntity store, Calendar targetPeriod) {
         this.store = store;
         this.targetPeriod = targetPeriod;
     }
@@ -96,29 +96,29 @@ public class RawSalesForecastEntity implements Serializable {
     }
     
     
-    public Long getRawSalesForecastId() {
-        return rawSalesForecastId;
+    public Long getSalesRecordId() {
+        return salesRecordId;
     }
 
-    public void setRawSalesForecastId(Long rawSalesForecastId) {
-        this.rawSalesForecastId = rawSalesForecastId;
+    public void setSalesRecordId(Long salesRecordId) {
+        this.salesRecordId = salesRecordId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (rawSalesForecastId != null ? rawSalesForecastId.hashCode() : 0);
+        hash += (salesRecordId != null ? salesRecordId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the rawSalesForecastId fields are not set
-        if (!(object instanceof RawSalesForecastEntity)) {
+        // TODO: Warning - this method won't work in the case the salesRecordId fields are not set
+        if (!(object instanceof SalesRecordEntity)) {
             return false;
         }
-        RawSalesForecastEntity other = (RawSalesForecastEntity) object;
-        if ((this.rawSalesForecastId == null && other.rawSalesForecastId != null) || (this.rawSalesForecastId != null && !this.rawSalesForecastId.equals(other.rawSalesForecastId))) {
+        SalesRecordEntity other = (SalesRecordEntity) object;
+        if ((this.salesRecordId == null && other.salesRecordId != null) || (this.salesRecordId != null && !this.salesRecordId.equals(other.salesRecordId))) {
             return false;
         }
         return true;
@@ -126,7 +126,7 @@ public class RawSalesForecastEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "SessionBean.OCRM.RawSalesForcastEntity[ id=" + rawSalesForecastId + " ]";
+        return "SessionBean.OCRM.SalesRecordEntity[ id=" + salesRecordId + " ]";
     }
     
 }
