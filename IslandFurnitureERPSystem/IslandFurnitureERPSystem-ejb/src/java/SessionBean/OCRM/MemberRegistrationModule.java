@@ -141,6 +141,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public void AddMemberWithPassword(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
             String title, String address, String postalCode, String email, String PWD){
@@ -162,6 +163,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public MemberEntity getMember(String email){
 
         List<MemberEntity> memberList=ListMember();

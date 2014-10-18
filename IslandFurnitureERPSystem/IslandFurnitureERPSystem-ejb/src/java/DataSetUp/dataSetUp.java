@@ -1591,6 +1591,9 @@ public class dataSetUp {
         MemberEntity member = new MemberEntity("123","Lee","","James", 
             MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
             "james@gmail.com", Boolean.FALSE);
+        
+        em.persist(member);
+        em.flush();
 
     }
 
