@@ -59,8 +59,6 @@ public interface AnalyticalCRMSessionBeanLocal {
     public Float getRetentionRateByMemberLevel(Long storeId, Calendar time, Integer location,
             Boolean isForAllPlace, Boolean isMonthly, Integer memberLevel) throws Exception;
 
-    public Float getCLE() throws Exception;
-
     public Float getCLV(Long storeId, Calendar time, Integer location,
             Boolean isForAllPlace, Double grossProfitMargin, Double aveAcquisitionCost) throws Exception;
 

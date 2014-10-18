@@ -49,7 +49,8 @@ public class MemberEntity implements Serializable {
     private String email;
 
     private String country;
-    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar createDate;
 
     private Double currentPoints;
     private Double totalPoints;
@@ -85,6 +86,7 @@ public class MemberEntity implements Serializable {
         this.currentPoints = 0D;
         this.PointsToUpgrade = 1000D;
         shoppingCartList=new ArrayList<>();
+        this.createDate = Calendar.getInstance();
     }
     
     public Long getMemberId() {
@@ -255,6 +257,14 @@ public class MemberEntity implements Serializable {
 
     public void setShoppingCartList(List<ItemEntity> shoppingCartList) {
         this.shoppingCartList = shoppingCartList;
+    }
+
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
     }
 
     
