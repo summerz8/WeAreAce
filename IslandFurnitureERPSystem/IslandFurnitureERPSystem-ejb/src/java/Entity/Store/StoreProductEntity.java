@@ -6,10 +6,10 @@
 
 package Entity.Store;
 
-import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -43,6 +44,8 @@ public class StoreProductEntity  implements Serializable {
     @ManyToOne
     private ProductEntity product;
     
+    @OneToMany
+    private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
     private Boolean selfPick;
 
     public StoreProductEntity() {
@@ -89,6 +92,15 @@ public class StoreProductEntity  implements Serializable {
         this.product = product;
     }
 
+    public Collection<ReturnedItemMovementRecordEntity> getReturnedItemMovementRecords() {
+        return returnedItemMovementRecords;
+    }
+
+    public void setReturnedItemMovementRecords(Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords) {
+        this.returnedItemMovementRecords = returnedItemMovementRecords;
+    }
+
+    
     public Boolean getSelfPick() {
         return selfPick;
     }

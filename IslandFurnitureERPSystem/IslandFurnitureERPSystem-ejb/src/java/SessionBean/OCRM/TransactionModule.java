@@ -9,17 +9,20 @@ import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.SalesRecord;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreRetailProductEntity;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -40,9 +43,7 @@ public class TransactionModule implements TransactionModuleLocal {
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
         StoreEntity store = em.find(StoreEntity.class,storeStaff.getDepartmentId());
-        
-        TransactionEntity transaction = new TransactionEntity();
-        
+        TransactionEntity transaction = new TransactionEntity();       
         transaction.setGenerateTime(generatedTime);
         transaction.setStore(store);
         transaction.setStoreStaffId(staffId);
@@ -96,6 +97,7 @@ public class TransactionModule implements TransactionModuleLocal {
         
         for (TransactionItem list : transactionItemList) {
             Double listTotalPrice = list.getTotalPrice();
+//            upDateSalesRecord(transaction.getGenerateTime(),list.getItemId(),list.getAmount(),list.getTotalPrice());
             totalPrice += listTotalPrice;
         }
         
@@ -169,4 +171,14 @@ public class TransactionModule implements TransactionModuleLocal {
         
         
     }
+//    
+//    public void upDateSalesRecord(Calendar generateTime,Long itemId, int amount, Double totalprice){
+//        List<SalesRecord> salesRecordEntityList=new ArrayList<>();
+//        Query q = em.createQuery("SELECT s FROM SalesRecord s");
+//        salesRecordEntityList= (List<SalesRecord>) q.getResultList();
+//        for(SalesRecord s:salesRecordEntityList){
+//            if(s)
+//        
+//        }
+//    }
 }

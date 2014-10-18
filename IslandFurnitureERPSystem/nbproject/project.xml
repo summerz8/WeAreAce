@@ -16,10 +16,12 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
+                    <file>${reference.SCMTest.j2ee-module-car}</file>
+                </library>
+                <library>
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
-<<<<<<< HEAD
                 <library>
                     <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD}</file>
                 </library>
@@ -31,8 +33,6 @@
                     <file>${reference.CustomerWeb-1.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
-=======
->>>>>>> f256c04cc1cf69faddb1a3b80dfd050922664fdf
             </web-module-additional-libraries>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">

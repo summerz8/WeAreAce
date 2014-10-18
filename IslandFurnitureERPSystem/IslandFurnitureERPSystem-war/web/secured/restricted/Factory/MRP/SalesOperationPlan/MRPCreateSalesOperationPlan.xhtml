@@ -98,8 +98,11 @@
 
                             <h:panelGrid columns="3" cellpadding="5">
                                 <h:outputLabel for="productId" value="Product ID:" style="font-weight:bold" />
-                                <p:inputText id="productId" value="#{salesOperationPlanBean.productId}" />
-                                <p:commandButton value="create"  action="#{salesOperationPlanBean.GETProductId()}" icon="ui-icon-check" />
+                                <p:selectOneMenu id="FactoryProduct" value="#{salesOperationPlanBean.selectedfactory}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{salesOperationPlanBean.displayList}" />
+                                </p:selectOneMenu>
+                                <p:commandButton value="create"  action="#{salesOperationPlanBean.GETProductId()}"  />
                             </h:panelGrid>
 
 

@@ -156,4 +156,20 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         return null;
     
     }
+    
+      @Override
+    public MemberEntity memberLogin(String email, String pwd){
+
+        List<MemberEntity> memberList=ListMember();
+        
+        for(MemberEntity m: memberList){
+            if(m.getEmail().equals(email)){
+                if(m.getPwd().equals(pwd))
+                    return m;
+            }
+                
+        }
+        return null;
+    
+    }
 }

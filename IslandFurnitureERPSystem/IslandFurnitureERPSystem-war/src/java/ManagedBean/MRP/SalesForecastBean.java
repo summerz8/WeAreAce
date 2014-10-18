@@ -6,6 +6,7 @@
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.SalesForecastEntity;
+import Entity.Store.StoreEntity;
 import SessionBean.MRP.SalesForecastModuleLocal;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SalesForecastBean {
     private SalesForecastModuleLocal salesForecastModule;
 
     private List<SalesForecastEntity> salesForecastList;
+    private List<StoreEntity> storeList;
     private Long storeId;
     private Calendar targetPeriod;
     private Long factoryId;
@@ -45,9 +47,9 @@ public class SalesForecastBean {
 
         try {
             if (department.equals("H")) {
-                salesForecastList = salesForecastModule.ListSalesForecast(null, null, null, null);
+                storeList = salesForecastModule.ListStore(null);
             } else {
-                salesForecastList = salesForecastModule.ListSalesForecast(factoryId, null, null, null);
+                storeList = salesForecastModule.ListStore(factoryId);
             }
         } catch (Exception e) {
             System.err.println("Caught an unexpected exception managedbean");
@@ -66,12 +68,25 @@ public class SalesForecastBean {
         return salesForecastList;
     }
 
+    public String getStoreSalesForecast(Long storeid) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeId", storeid);
+
+        return "MRPListStoreForecast?faces-redirect=true";
+
+    }
+
 //    public boolean Department() {
 //        department=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
 //        System.out.println(department);
 //        return department.equals("F");
 //        
 //    }
+    public String ViewSalesForecast(Long salesForecastId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesForecastId", salesForecastId);
+
+        return "MRPViewSalesForecast?faces-redirect=true";
+    }
+
     public String SelectSalesForecast() {
 
         try {
@@ -87,8 +102,7 @@ public class SalesForecastBean {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesForecastList", salesForecastList);
                 return "ViewSelectedSalesForecast?faces-redirect=true";
             }
-        }
-            catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Caught an unexpected exception managedbean");
             e.printStackTrace();
         }
@@ -110,12 +124,6 @@ public class SalesForecastBean {
 
     public void setSalesForecastList(List<SalesForecastEntity> salesForecastList) {
         this.salesForecastList = salesForecastList;
-    }
-
-    public String ViewSalesForecast(Long salesForecastId) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesForecastId", salesForecastId);
-
-        return "MRPViewSalesForecast?faces-redirect=true";
     }
 
     public Long getStoreId() {
@@ -164,6 +172,14 @@ public class SalesForecastBean {
 
     public void setMonth(int month) {
         this.month = month;
+    }
+
+    public List<StoreEntity> getStoreList() {
+        return storeList;
+    }
+
+    public void setStoreList(List<StoreEntity> storeList) {
+        this.storeList = storeList;
     }
 
 }

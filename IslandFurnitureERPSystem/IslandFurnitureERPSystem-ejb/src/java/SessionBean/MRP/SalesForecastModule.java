@@ -12,6 +12,7 @@ import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
+import Entity.Store.StoreEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,7 +41,7 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
         //List sales forecast based on 3 searching criteria: store, product(self-produced or retail product, forecast targetPeriod)
         List<SalesForecastEntity> list = new ArrayList<>();
         List<SalesForecastEntity> templist1;
-        List<SalesForecastEntity> templist = new ArrayList<>();;
+        List<SalesForecastEntity> templist = new ArrayList<>();
         try {
 
             Query query = em.createQuery("SELECT t FROM SalesForecastEntity t");
@@ -52,9 +53,10 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                         System.out.println(s.getId());
                     }
                 }
+            } else {
+                templist = templist1;
             }
-            else templist=templist1;
-            
+
             if (product == null) {
 
                 //search criteria:   search all products for a certain targetPeriod in certain store
@@ -227,15 +229,14 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
                 targetPeriod.set(targetPeriod.get(Calendar.YEAR), targetPeriod.get(Calendar.MONTH), 1, 0, 0, 0);
                 targetPeriod.add(Calendar.MONTH, 2);
 
-                List<SalesForecastEntity> templist=new ArrayList<>();
-         
+                List<SalesForecastEntity> templist = new ArrayList<>();
 
                 IntegratedSalesForecastEntity integratedSalesForecast = new IntegratedSalesForecastEntity();
                 integratedSalesForecast.setAmount(0D);
                 integratedSalesForecast.setTargetPeriod(targetPeriod);
 
                 Query query = em.createQuery("SELECT t FROM SalesForecastEntity t ORDER BY t.targetPeriod DESC");
-                templist = (List<SalesForecastEntity>) query.getResultList();    
+                templist = (List<SalesForecastEntity>) query.getResultList();
                 System.out.println("inegrateSalesForecast: 2");
                 // If it is an integrated sales forecast for self-produced product
                 if (type.equals("factoryProduct")) {
@@ -448,4 +449,37 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
         em.flush();
 
     }
+
+    @Override
+    public List<StoreEntity> ListStore(Long factoryId) {
+        StoreEntity store;
+        if(factoryId!=null){
+        FactoryEntity factory=em.find(FactoryEntity.class, factoryId);
+        List<StoreEntity> storeList = new ArrayList<>();
+        for(Long id: factory.getStoreList()){
+        store=em.find(StoreEntity.class, id);
+        storeList.add(store);
+        }
+        
+        return storeList;
+        }
+        else {
+        List<StoreEntity> storeList = new ArrayList<>();
+        List<FactoryEntity> factoryList;
+         Query query = em.createQuery("SELECT t FROM FactoryEntity t");
+        factoryList = (List<FactoryEntity>) query.getResultList();
+        for(FactoryEntity f: factoryList){    
+        
+        for(Long id: f.getStoreList()){
+        store=em.find(StoreEntity.class, id);
+        storeList.add(store);
+        }
+        
+        }
+        
+        return storeList;
+        }
+        
+    }
+
 }

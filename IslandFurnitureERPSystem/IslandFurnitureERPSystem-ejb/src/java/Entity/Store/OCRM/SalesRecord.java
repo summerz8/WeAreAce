@@ -6,11 +6,15 @@
 
 package Entity.Store.OCRM;
 
+import Entity.Store.StoreEntity;
+import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -22,6 +26,11 @@ public class SalesRecord implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne
+    private StoreEntity store;
+    
+    private List<StoreProductEntity> storeProductList;
 
     public Long getId() {
         return id;

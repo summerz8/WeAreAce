@@ -24,9 +24,11 @@ public class MembershipLevel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long level;
-    private Double pointsToUpgrade;
+    private String Name;
+    
+    private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
-    private double discount;
+    private Double discount;
 //
 //    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
 //    private Collection<MemberEntity> members;
@@ -35,11 +37,11 @@ public class MembershipLevel implements Serializable {
     public MembershipLevel() {
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
@@ -69,6 +71,14 @@ public class MembershipLevel implements Serializable {
 
     public void setPointsToUpgrade(Double pointsToUpgrade) {
         this.pointsToUpgrade = pointsToUpgrade;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     
