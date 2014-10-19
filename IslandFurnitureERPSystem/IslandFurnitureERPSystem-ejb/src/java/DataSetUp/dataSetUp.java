@@ -1572,6 +1572,9 @@ public class dataSetUp {
         memlvl4.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
         em.flush();
+<<<<<<< HEAD
+>>>>>>> 13b072624644a1500b3d6f1c937b2381bab80a06
+=======
 >>>>>>> 13b072624644a1500b3d6f1c937b2381bab80a06
         
 
