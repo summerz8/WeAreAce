@@ -1510,73 +1510,36 @@ public class dataSetUp {
         c1_1.getDishes().add(di1_1_2);
 
         //MembershipLevel
-<<<<<<< HEAD
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
         em.persist(memlvl1);
+        memlvl1.setName("Basic");
         em.flush();
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
         memlvl2.setDiscount(0.9);
         memlvl2.setPointsToUpgrade(2000D);
+        memlvl2.setName("Blue");
         em.persist(memlvl2);
         em.flush();
         MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
         memlvl3.setDiscount(0.85);
-        memlvl3.setPointsToUpgrade(5000D);
+        memlvl3.setPointsToUpgrade(10000D);
+        memlvl3.setName("Sliver");
         em.persist(memlvl3);
         em.flush();
         MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
         memlvl4.setDiscount(0.8);
-        memlvl4.setPointsToUpgrade(10000D);
+        memlvl4.setPointsToUpgrade(30000D);
+        memlvl4.setName("Gold");
         em.persist(memlvl4);
         em.flush();
         MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
         memlvl5.setDiscount(0.75);
-        memlvl5.setPointsToUpgrade(20000D);
+        memlvl5.setPointsToUpgrade(50000D);
+        memlvl5.setName("Diamond");
         em.persist(memlvl5);
-        em.flush();
-        MembershipLevelEntity memlvl6 = new MembershipLevelEntity();
-        memlvl6.setDiscount(0.7);
-        memlvl6.setPointsToUpgrade(50000D);
-        em.persist(memlvl6);
-        em.flush();
-=======
-        MembershipLevel memlvl0 = new MembershipLevel();
-        memlvl0.setDiscount(1D);
-        memlvl0.setPointsToUpgrade(1000D);
-        memlvl0.setName("Basic");
-        em.persist(memlvl0);
-        em.flush();
-        MembershipLevel memlvl1 = new MembershipLevel();
-        memlvl1.setDiscount(0.9);
-        memlvl1.setPointsToUpgrade(2000D);
-        memlvl1.setName("Blue");
-        em.persist(memlvl1);
-        em.flush();
-        MembershipLevel memlvl2 = new MembershipLevel();
-        memlvl2.setName("Sliver");
-        memlvl2.setDiscount(0.85);
-        memlvl2.setPointsToUpgrade(5000D);
-        em.persist(memlvl2);
-        em.flush();
-        MembershipLevel memlvl3 = new MembershipLevel();
-        memlvl3.setName("Gold");
-        memlvl3.setDiscount(0.8);
-        memlvl3.setPointsToUpgrade(10000D);
-        em.persist(memlvl3);
-        em.flush();
-        MembershipLevel memlvl4 = new MembershipLevel();
-        memlvl4.setName("Diamond");
-        memlvl4.setDiscount(0.7);
-        memlvl4.setPointsToUpgrade(20000D);
-        em.persist(memlvl4);
-        em.flush();
-<<<<<<< HEAD
->>>>>>> 13b072624644a1500b3d6f1c937b2381bab80a06
-=======
->>>>>>> 13b072624644a1500b3d6f1c937b2381bab80a06
-        
+        em.flush();       
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();

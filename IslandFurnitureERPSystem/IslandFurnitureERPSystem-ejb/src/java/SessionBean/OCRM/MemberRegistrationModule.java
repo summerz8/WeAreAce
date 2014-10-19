@@ -49,7 +49,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         System.out.println("MemberRegistrationModule: addMember():");
 
         int check = CheckFirstTransaction(transactionId);
-        if (check ==1) {
+        if (check == 1) {
 
             TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
             MemberEntity member;
@@ -196,10 +196,10 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             if (te.getMember() != null) {
                 System.out.println("Transactoin has already been rebated!");
                 return -2; // transaction has already rebated
-            } else if (!(te.getGenerateTime().get(Calendar.YEAR)==today.get(Calendar.YEAR) && 
-                    te.getGenerateTime().get(Calendar.DAY_OF_YEAR)==today.get(Calendar.DAY_OF_YEAR))) {
+            } else if (!(te.getGenerateTime().get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                    && te.getGenerateTime().get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR))) {
                 System.out.println("Transactoin is not created in today!");
-                System.out.println("Today: "+today.getTime().toString());
+                System.out.println("Today: " + today.getTime().toString());
                 System.out.println("Transaction date:" + te.getGenerateTime().getTime().toString());
                 return -3;// transaction is not created in today
             } else {
@@ -207,58 +207,42 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             }
         }
     }
-    
-    public Integer upgradeMember(Double points){
-       MembershipLevelEntity level6 = em.find(MembershipLevelEntity.class, 6);
-       MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5);
-       MembershipLevelEntity level4 = em.find(MembershipLevelEntity.class, 4);
-       MembershipLevelEntity level3 = em.find(MembershipLevelEntity.class, 3);
-       MembershipLevelEntity level2 = em.find(MembershipLevelEntity.class, 2);
-       //MembershipLevelEntity level1 = em.find(MembershipLevelEntity.class, 1);
-       if(level6.getPointsToUpgrade()<=points){
-       return 6;
-       } else if(level5.getPointsToUpgrade()<=points){
-       return 5;
-       } else if(level4.getPointsToUpgrade()<=points){
-       return 4;
-       } else if(level3.getPointsToUpgrade()<=points){
-       return 3;
-       }else if(level2.getPointsToUpgrade()<=points){
-       return 2;
-       }else {
-       return 1;
-       }      
-    }
-    
-      @Override
-    public MemberEntity memberLogin(String email, String pwd){
 
-        List<MemberEntity> memberList=ListMember();
-        
-        for(MemberEntity m: memberList){
-            if(m.getEmail().equals(email)){
-                if(m.getPwd().equals(pwd))
+    public Integer upgradeMember(Double points) {
+        //MembershipLevelEntity level6 = em.find(MembershipLevelEntity.class, 6);
+        MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5);
+        MembershipLevelEntity level4 = em.find(MembershipLevelEntity.class, 4);
+        MembershipLevelEntity level3 = em.find(MembershipLevelEntity.class, 3);
+        MembershipLevelEntity level2 = em.find(MembershipLevelEntity.class, 2);
+        //MembershipLevelEntity level1 = em.find(MembershipLevelEntity.class, 1);
+        if (level5.getPointsToUpgrade() <= points) {
+            return 5;
+        } else if (level4.getPointsToUpgrade() <= points) {
+            return 4;
+        } else if (level3.getPointsToUpgrade() <= points) {
+            return 3;
+        } else if (level2.getPointsToUpgrade() <= points) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public MemberEntity memberLogin(String email, String pwd) {
+
+        List<MemberEntity> memberList = ListMember();
+
+        for (MemberEntity m : memberList) {
+            if (m.getEmail().equals(email)) {
+                if (m.getPwd().equals(pwd)) {
                     return m;
+                }
             }
-                
+
         }
         return null;
-    
-    }
-    
-      @Override
-    public MemberEntity memberLogin(String email, String pwd){
 
-        List<MemberEntity> memberList=ListMember();
-        
-        for(MemberEntity m: memberList){
-            if(m.getEmail().equals(email)){
-                if(m.getPwd().equals(pwd))
-                    return m;
-            }
-                
-        }
-        return null;
-    
     }
+
 }
