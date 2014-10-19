@@ -52,9 +52,10 @@ public class ViewMembers implements Serializable {
     @PostConstruct
     public void init() {
         genders = new HashMap<String, String>();
-        genders.put("female", "female");
-        genders.put("male", "male");
-
+        genders.put("Female", "Female");
+        genders.put("Male", "Male");
+        genders.put("Others", "Others");
+        
         countries = new HashMap<String, String>();
         initialCounties();
 
