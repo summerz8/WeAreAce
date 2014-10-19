@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package SessionBean;
+package util.login;
 
 import java.util.Calendar;
 import javax.ejb.Remote;
@@ -22,8 +22,8 @@ public interface IFManagerBeanRemote {
 
     public void setUpIdNumber();
 
-    public String createUser(String department, Integer userLevel, String lastName, 
-            String firstName, String position, String gender, long departmentId, Calendar birthday);
+//    public String createUser(String department, Integer userLevel, String lastName, 
+//            String firstName, String position, String gender, long departmentId, Calendar birthday);
 
     public String getDepartment(String userId);
 

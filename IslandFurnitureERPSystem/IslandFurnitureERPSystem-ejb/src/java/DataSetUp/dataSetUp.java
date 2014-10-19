@@ -37,7 +37,7 @@ import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
-import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
@@ -1517,35 +1517,35 @@ public class dataSetUp {
         c1_1.getDishes().add(di1_1_2);
 
         //MembershipLevel
-        MembershipLevel memlvl0 = new MembershipLevel();
-        memlvl0.setDiscount(1D);
-        memlvl0.setPointsToUpgrade(1000D);
-        em.persist(memlvl0);
-        em.flush();
-        MembershipLevel memlvl1 = new MembershipLevel();
-        memlvl1.setDiscount(0.9);
-        memlvl0.setPointsToUpgrade(2000D);
+        MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
+        memlvl1.setDiscount(1D);
+        memlvl1.setPointsToUpgrade(0D);
         em.persist(memlvl1);
         em.flush();
-        MembershipLevel memlvl2 = new MembershipLevel();
-        memlvl2.setDiscount(0.85);
-        memlvl0.setPointsToUpgrade(5000D);
+        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
+        memlvl2.setDiscount(0.9);
+        memlvl2.setPointsToUpgrade(2000D);
         em.persist(memlvl2);
         em.flush();
-        MembershipLevel memlvl3 = new MembershipLevel();
-        memlvl3.setDiscount(0.8);
-        memlvl0.setPointsToUpgrade(10000D);
+        MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
+        memlvl3.setDiscount(0.85);
+        memlvl3.setPointsToUpgrade(5000D);
         em.persist(memlvl3);
         em.flush();
-        MembershipLevel memlvl4 = new MembershipLevel();
-        memlvl4.setDiscount(0.75);
-        memlvl0.setPointsToUpgrade(20000D);
+        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
+        memlvl4.setDiscount(0.8);
+        memlvl4.setPointsToUpgrade(10000D);
         em.persist(memlvl4);
         em.flush();
-        MembershipLevel memlvl5 = new MembershipLevel();
-        memlvl5.setDiscount(0.7);
-        memlvl0.setPointsToUpgrade(50000D);
+        MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
+        memlvl5.setDiscount(0.75);
+        memlvl5.setPointsToUpgrade(20000D);
         em.persist(memlvl5);
+        em.flush();
+        MembershipLevelEntity memlvl6 = new MembershipLevelEntity();
+        memlvl6.setDiscount(0.7);
+        memlvl6.setPointsToUpgrade(50000D);
+        em.persist(memlvl6);
         em.flush();
         
 
@@ -1553,6 +1553,7 @@ public class dataSetUp {
         TransactionEntity tr = new TransactionEntity();
         tr.setStore(s1);
         tr.setTotalPrice(200.0);
+        tr.setGenerateTime(Calendar.getInstance());
         em.persist(tr);
         em.flush();
  
