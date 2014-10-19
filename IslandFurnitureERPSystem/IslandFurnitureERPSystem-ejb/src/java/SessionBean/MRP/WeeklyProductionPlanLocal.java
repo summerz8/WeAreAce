@@ -5,6 +5,7 @@
  */
 package SessionBean.MRP;
 
+import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
 import Entity.Factory.ProductEntity;
@@ -31,5 +32,7 @@ public interface WeeklyProductionPlanLocal {
     public String isProduct(Long factoryProductId);
   
     public void Edit(Long id, String field, Object content);
+    
+    public List<FactoryProductEntity> getFactoryProductList(Long factoryId);
 
 }

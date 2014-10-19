@@ -6,10 +6,10 @@
 
 package Entity.Store;
 
-import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,6 +33,13 @@ public class StoreProductEntity  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeProductId;
     
+    private String name;
+    private Double quantity;
+    private String unit;
+    
+    private Boolean selfPick;
+    private Boolean deleteFlag;
+    
     //store product entity -- factory product entity: M <--> 1 
     @ManyToOne
     private FactoryProductEntity factoryProduct;
@@ -43,7 +51,8 @@ public class StoreProductEntity  implements Serializable {
     @ManyToOne
     private ProductEntity product;
     
-    private Boolean selfPick;
+    @OneToMany
+    private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
 
     public StoreProductEntity() {
     }
@@ -71,6 +80,38 @@ public class StoreProductEntity  implements Serializable {
         this.factoryProduct = factoryProduct;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
     
 
     public StoreEntity getStore() {
@@ -89,6 +130,15 @@ public class StoreProductEntity  implements Serializable {
         this.product = product;
     }
 
+    public Collection<ReturnedItemMovementRecordEntity> getReturnedItemMovementRecords() {
+        return returnedItemMovementRecords;
+    }
+
+    public void setReturnedItemMovementRecords(Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords) {
+        this.returnedItemMovementRecords = returnedItemMovementRecords;
+    }
+
+    
     public Boolean getSelfPick() {
         return selfPick;
     }

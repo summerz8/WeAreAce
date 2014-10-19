@@ -10,6 +10,7 @@ import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
+import Entity.Store.StoreEntity;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
@@ -33,5 +34,7 @@ public interface SalesForecastModuleLocal {
     public List<FactoryRetailProductEntity> retailProductListNeedToBeIntegrated(Long FactoryId);
     
     public void GenerateIntegratedSalesForecast(String type,Long factoryProductId,Calendar period);
+    
+    public List<StoreEntity> ListStore(Long factoryId);
     
 }

@@ -66,9 +66,7 @@
     <class>Entity.Store.OCRM.VoucherEntity</class>
     <class>Entity.Store.ReturnedItemMovementRecordEntity</class>
     <class>Entity.Store.StoreBinStoredProductEntity</class>
-    <class>Entity.Store.StoreCalendar</class>
     <class>Entity.Store.StoreEntity</class>
-    <class>Entity.Store.StoreEvent</class>
     <class>Entity.Store.StoreInStoreEntity</class>
     <class>Entity.Store.StoreInboundEntity</class>
     <class>Entity.Store.StoreInventoryMovement</class>
@@ -81,6 +79,8 @@
     <class>Entity.Store.OCRM.StoreTransactionEntity</class>
     <class>Entity.Store.OCRM.TransactionEntity</class>
     <class>Entity.Store.OCRM.testEntity</class>
+    <class>Entity.Store.StoreEventEntity</class>
+    <class>Entity.Store.StoreCalendarEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
