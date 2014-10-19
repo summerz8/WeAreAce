@@ -7,7 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
@@ -97,8 +96,6 @@
                             <br></br>
                             <br></br><br></br>
                             <h:panelGrid columns="2" cellpadding="5" >
-                                <h:outputText value="Store Id:  " />
-                                <p:inputText value="#{salesForecastBean.storeId}" style="font-weight: bold"/>
                                 <h:outputText value="Year:  " />
                                 <p:inputMask value="#{salesForecastBean.year}" style="font-weight: bold" mask="9999"/>                               
                                 <h:outputText value="Month  " />
@@ -108,35 +105,30 @@
 
                             </h:panelGrid>
 
-
                             <br></br><br></br>
 
-                            
-                            <p:dataTable var="store" value="#{salesForecastBean.storeList}">
+                            <p:dataTable var="salesForecast" value="#{listStoreSalesForecast.salesForecastList}">
 
-                            <p:column headerText="Store Id">
-                                <h:outputText value="#{store.storeId}" />
-                            </p:column>
+                                <p:column headerText="Sales Forecast ID">
+                                    <h:outputText value="#{salesForecast.id}" />
+                                </p:column>
 
-                            <p:column headerText="Manager">
-                                <h:outputText value="#{store.manager}" />
-                            </p:column>
+                                <p:column headerText="Target Period">
+                                     <h:outputText value="#{salesForecast.targetPeriod.getTime()}" style="font-weight: bold">
+                                                <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                            </h:outputText>
+                                </p:column>
 
-                            <p:column headerText="Contact">
-                                <h:outputText value="#{store.contact}"  />
-                            </p:column>
+                                <p:column headerText="Status">
+                                    <h:outputText value="#{salesForecast.status}" />
+                                </p:column>
 
-                            <p:column headerText="Address" >
-                                <h:outputText value="#{store.address}" />
-                            </p:column>
-                            
-                            <p:column headerText="View its Sales Forecast" >
-                                <p:commandButton  value="Sales Forecast " style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{salesForecastBean.getStoreSalesForecast(store.storeId)}" >
-                                </p:commandButton>
-                            </p:column>
+                                <p:column headerText="Product List" >
+                                    <p:commandButton  value="Product List " style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{listStoreSalesForecast.ViewSalesForecast(salesForecast.id)}" >
+                                    </p:commandButton>
+                                </p:column>
 
-
-                        </p:dataTable> 
+                            </p:dataTable> 
                         </h:form>
                     </p:panel>
                 </p:layoutUnit>

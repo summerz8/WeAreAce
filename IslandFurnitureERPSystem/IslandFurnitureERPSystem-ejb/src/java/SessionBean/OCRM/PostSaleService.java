@@ -37,7 +37,6 @@ public class PostSaleService implements PostSaleServiceLocal {
         ReturnedItemMovementRecordEntity newRecord=new ReturnedItemMovementRecordEntity();
         newRecord.setType(type);
         newRecord.setStatus("Processing");
-        System.out.println("5555555");
 //        Calendar createdTime=Calendar.getInstance();
 //        newRecord.setCreatedDate(createdTime);
         newRecord.setDescription(description);

@@ -112,8 +112,6 @@ public class dataSetUp {
         em.persist(f2);
         em.flush();
 
-        
-        
         //Factory Bin
         //for f1
         FactoryBinEntity fb1_1 = new FactoryBinEntity();
@@ -182,16 +180,18 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
+        f1.getStoreList().add(s1.getStoreId());
+        f1.getStoreList().add(s2.getStoreId());
+        s1.getFactoryList().add(f1.getFactoryId());
+        em.flush();
 
-    
         //StoreUser(s1)
         UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
         em.flush();
-        
-        
+
         //Retail Product
         RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0,"box", false);
         em.persist(rp1);
@@ -208,7 +208,7 @@ public class dataSetUp {
         RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", 4.5, "bottle", false);
         em.persist(rp5);
         em.flush();
-        
+
         //Raw Material
         RawMaterialEntity rm1 = new RawMaterialEntity("board", "wood", false, "square meter");
         em.persist(rm1);
@@ -248,8 +248,6 @@ public class dataSetUp {
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0,"package", false);
         em.persist(p6);
         em.flush();
-        
-
 
         //Factory Product
         //for f1
@@ -336,24 +334,24 @@ public class dataSetUp {
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.factoryProduct
-        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1,Boolean.TRUE);
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE);
 
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
         s1.getStoreProduct().add(sp1_1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1,Boolean.FALSE);
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE);
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
         s1.getStoreProduct().add(sp1_2);
         em.flush();
         //s2.factoryProduct
-        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2,Boolean.TRUE);
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE);
         em.persist(sp2_1);
         fp1_2.getStoreProducts().add(sp2_1);
         s2.getStoreProduct().add(sp2_1);
         em.flush();
-        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2,Boolean.FALSE);
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE);
         em.persist(sp2_2);
         fp2_2.getStoreProducts().add(sp2_2);
         s2.getStoreProduct().add(sp2_2);
@@ -389,7 +387,6 @@ public class dataSetUp {
         s2.getStoreRetailProduct().add(srp2_2);
         em.flush();
 
-        
         //Product.BOM
         //for p1
         BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
@@ -468,8 +465,6 @@ public class dataSetUp {
         p5.setBom(bom5);
         em.flush();
 
-
-
         //Factory Raw Material
         //for f1
         FactoryRawMaterialEntity frm1_1 = new FactoryRawMaterialEntity(rm1.getUnit(), rm1.getMaterialName(), rm1.getDescription(), false, f1, rm1);
@@ -525,8 +520,6 @@ public class dataSetUp {
         rm5.getFactoryRawMaterials().add(frm2_5);
         f2.getFactoryRawMaterials().add(frm2_5);
         em.flush();
-
-
 
         //Factory Bin Stored Product
         //for f1.factoryRawMaterial
@@ -1517,6 +1510,7 @@ public class dataSetUp {
         c1_1.getDishes().add(di1_1_2);
 
         //MembershipLevel
+<<<<<<< HEAD
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
@@ -1547,6 +1541,38 @@ public class dataSetUp {
         memlvl6.setPointsToUpgrade(50000D);
         em.persist(memlvl6);
         em.flush();
+=======
+        MembershipLevel memlvl0 = new MembershipLevel();
+        memlvl0.setDiscount(1D);
+        memlvl0.setPointsToUpgrade(1000D);
+        memlvl0.setName("Basic");
+        em.persist(memlvl0);
+        em.flush();
+        MembershipLevel memlvl1 = new MembershipLevel();
+        memlvl1.setDiscount(0.9);
+        memlvl1.setPointsToUpgrade(2000D);
+        memlvl1.setName("Blue");
+        em.persist(memlvl1);
+        em.flush();
+        MembershipLevel memlvl2 = new MembershipLevel();
+        memlvl2.setName("Sliver");
+        memlvl2.setDiscount(0.85);
+        memlvl2.setPointsToUpgrade(5000D);
+        em.persist(memlvl2);
+        em.flush();
+        MembershipLevel memlvl3 = new MembershipLevel();
+        memlvl3.setName("Gold");
+        memlvl3.setDiscount(0.8);
+        memlvl3.setPointsToUpgrade(10000D);
+        em.persist(memlvl3);
+        em.flush();
+        MembershipLevel memlvl4 = new MembershipLevel();
+        memlvl4.setName("Diamond");
+        memlvl4.setDiscount(0.7);
+        memlvl4.setPointsToUpgrade(20000D);
+        em.persist(memlvl4);
+        em.flush();
+>>>>>>> 13b072624644a1500b3d6f1c937b2381bab80a06
         
 
         //TransactionEntity
@@ -1586,13 +1612,12 @@ public class dataSetUp {
         em.flush();
 
         //Member Set uP
-        Calendar MemberBirthday=Calendar.getInstance();
+        Calendar MemberBirthday = Calendar.getInstance();
         MemberBirthday.set(1990, 9, 1);
-        
-        MemberEntity member = new MemberEntity("123","Lee","","James", 
-            MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
-            "james@gmail.com", Boolean.FALSE);
-        
+
+        MemberEntity member = new MemberEntity("123", "Lee", "", "James",
+                MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "james@gmail.com", Boolean.FALSE);
         em.persist(member);
         em.flush();
 
