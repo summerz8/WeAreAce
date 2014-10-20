@@ -30,12 +30,16 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.ComboItemEntity;
+import Entity.Kitchen.DailySalesEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientEntity;
+import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
@@ -50,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -186,6 +191,14 @@ public class dataSetUp {
         em.flush();
 
         //StoreUser(s1)
+        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(us1_1);
+        em.flush();
+
+        
+        //StoreUser(s1)
         UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
@@ -193,13 +206,13 @@ public class dataSetUp {
         em.flush();
 
         //Retail Product
-        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0,"box", false);
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0, "box", false);
         em.persist(rp1);
         em.flush();
-        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 12.0,"set", false);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 12.0, "set", false);
         em.persist(rp2);
         em.flush();
-        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 3.0,"bottle", false);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 3.0, "bottle", false);
         em.persist(rp3);
         em.flush();
         RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", 7.8, "bag", false);
@@ -230,7 +243,7 @@ public class dataSetUp {
         em.flush();
 
         //Product
-        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0,"set", false);
+        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0, "set", false);
         em.persist(p1);
         em.flush();
         ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, 480.0, "set", false);
@@ -242,10 +255,10 @@ public class dataSetUp {
         ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, 55.0, "set", false);
         em.persist(p4);
         em.flush();
-        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0 ,"one", false);
+        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0, "one", false);
         em.persist(p5);
         em.flush();
-        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0,"package", false);
+        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
         em.persist(p6);
         em.flush();
 
@@ -1509,6 +1522,111 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        // MenuItemForecast for k1
+        Calendar td_mif1_1 = Calendar.getInstance();
+        td_mif1_1.set(2014, Calendar.OCTOBER, 17);
+        MenuItemForecastEntity mif1_1 = new MenuItemForecastEntity(td_mif1_1, k1);
+        em.persist(mif1_1);
+        em.flush();
+        k1.getMenuItemForecasts().add(mif1_1);
+        DishItemEntity dfi1_1_1 = new DishItemEntity(d1_1, 101);
+        em.persist(dfi1_1_1);
+        em.flush();
+        mif1_1.getDishForecastItems().add(dfi1_1_1);
+        dfi1_1_1.getDish().getForecasts().add(mif1_1);
+        em.flush();
+        DishItemEntity dfi1_1_2 = new DishItemEntity(d1_2, 201);
+        em.persist(dfi1_1_2);
+        em.flush();
+        mif1_1.getDishForecastItems().add(dfi1_1_2);
+        dfi1_1_2.getDish().getForecasts().add(mif1_1);
+        em.flush();
+        ComboItemEntity cfi1_1_1 = new ComboItemEntity(c1_1, 151);
+        em.persist(cfi1_1_1);
+        em.flush();
+        mif1_1.getComboForecastItems().add(cfi1_1_1);
+        cfi1_1_1.getCombo().getForecasts().add(mif1_1);
+        em.flush();
+        Calendar td_mif1_2 = Calendar.getInstance();
+        td_mif1_2.set(2014, Calendar.OCTOBER, 18);
+        MenuItemForecastEntity mif1_2 = new MenuItemForecastEntity(td_mif1_2, k1);
+        em.persist(mif1_2);
+        em.flush();
+        k1.getMenuItemForecasts().add(mif1_2);
+        DishItemEntity dfi1_2_1 = new DishItemEntity(d1_1, 112);
+        em.persist(dfi1_2_1);
+        em.flush();
+        mif1_2.getDishForecastItems().add(dfi1_2_1);
+        dfi1_2_1.getDish().getForecasts().add(mif1_2);
+        em.flush();
+        DishItemEntity dfi1_2_2 = new DishItemEntity(d1_2, 202);
+        em.persist(dfi1_2_2);
+        em.flush();
+        mif1_2.getDishForecastItems().add(dfi1_2_2);
+        dfi1_2_2.getDish().getForecasts().add(mif1_2);
+        em.flush();
+        ComboItemEntity cfi1_2_1 = new ComboItemEntity(c1_1, 152);
+        em.persist(cfi1_2_1);
+        em.flush();
+        mif1_2.getComboForecastItems().add(cfi1_2_1);
+        cfi1_2_1.getCombo().getForecasts().add(mif1_2);
+        em.flush();
+        Calendar td_mif1_3 = Calendar.getInstance();
+        td_mif1_3.set(2014, Calendar.OCTOBER, 19);
+        MenuItemForecastEntity mif1_3 = new MenuItemForecastEntity(td_mif1_3, k1);
+        em.persist(mif1_3);
+        IngredientForecastEntity ingf = new IngredientForecastEntity(mif1_3);
+        em.persist(ingf);
+        mif1_3.setIngredientForecast(ingf);
+        em.flush();
+        k1.getMenuItemForecasts().add(mif1_3);
+        DishItemEntity dfi1_3_1 = new DishItemEntity(d1_1, 112);
+        em.persist(dfi1_3_1);
+        em.flush();
+        mif1_3.getDishForecastItems().add(dfi1_3_1);
+        dfi1_3_1.getDish().getForecasts().add(mif1_3);
+        em.flush();
+        DishItemEntity dfi1_3_2 = new DishItemEntity(d1_2, 203);
+        em.persist(dfi1_3_2);
+        em.flush();
+        mif1_3.getDishForecastItems().add(dfi1_3_2);
+        dfi1_3_2.getDish().getForecasts().add(mif1_3);
+        em.flush();
+        ComboItemEntity cfi1_3_1 = new ComboItemEntity(c1_1, 153);
+        em.persist(cfi1_3_1);
+        em.flush();
+        mif1_3.getComboForecastItems().add(cfi1_3_1);
+        cfi1_3_1.getCombo().getForecasts().add(mif1_3);
+        em.flush();
+
+        //DailySales for k1
+        Random rd = new Random();
+        for (int i = -10; i < 0; i++) {
+            DailySalesEntity ds = new DailySalesEntity(k1);
+            em.persist(ds);
+            em.flush();
+            k1.getDailySales().add(ds);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, i);
+            ds.setSalesDate(cal);
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(di);
+                em.flush();
+                ds.getDishes().add(di);
+                d.getDailySales().add(ds);
+                em.flush();
+            }
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(ci);
+                em.flush();
+                ds.getCombos().add(ci);
+                c.getDailySales().add(ds);
+                em.flush();
+            }
+        }
+
         //MembershipLevel
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);
@@ -1539,7 +1657,7 @@ public class dataSetUp {
         memlvl5.setPointsToUpgrade(50000D);
         memlvl5.setLevelName("Diamond");
         em.persist(memlvl5);
-        em.flush();       
+        em.flush();
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
@@ -1548,7 +1666,7 @@ public class dataSetUp {
         tr.setGenerateTime(Calendar.getInstance());
         em.persist(tr);
         em.flush();
- 
+
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductid(sp1_1.getStoreProductId());
@@ -1563,16 +1681,16 @@ public class dataSetUp {
         ti1.setTransaction(tr);
         em.persist(ti1);
         em.flush();
-        
+
         List<TransactionItem> items = new ArrayList();
         items.add(ti1);
-        tr.setTransactionItemList(items);        
-               
+        tr.setTransactionItemList(items);
+
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();
-        
+
         pl1.setTransactoinItems(items);
-        ti1.setPickupList(pl1); 
+        ti1.setPickupList(pl1);
         em.persist(pl1);
         em.persist(ti1);
         em.flush();
