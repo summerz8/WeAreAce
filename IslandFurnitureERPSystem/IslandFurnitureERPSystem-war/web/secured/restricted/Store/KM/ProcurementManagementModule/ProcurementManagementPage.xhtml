@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>KM: Add Raw Ingredient</title>
+        <title>KM: Daily Demand Forecast</title>
     </h:head>
 
     <h:body>
@@ -34,7 +34,6 @@
                                  actionListener="#{idleBean.logoutListener}" />
 
             </p:confirmDialog>
-
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -56,7 +55,7 @@
                     </p:button> 
 
                     <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
-                    </p:button>  
+                    </p:button> 
 
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
@@ -66,67 +65,32 @@
 
                 </p:layoutUnit>
 
+
+
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
                         <p:submenu label="Kitchen Management">
-                            <p:submenu label="Raw Ingredient Management">
-                                <p:menuitem value="Raw Ingredient Issue" url="IngredientIssue.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Add Raw Ingredient" url="AddIngredient.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Raw Ingredient List" url="IngredientList.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Storage Place List" url="StoragePlaceList.xhtml?faces-redirect=true" />
+                            <p:submenu label="Percurement Management">
+                                <p:menuitem value="Raw Ingredient Purchase Order ＆ Receipt" url="IngredientPurchaseOrder.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
+
+
                 </p:layoutUnit>
+                <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
+                    <p:panel id="basic" header =" " style="height:800px;" >
 
-
-                <p:layoutUnit position="center" resizable="false">
-
-                    <p:panel id="basic" header="New Raw Ingredient" style="margin-bottom" >
                     </p:panel>
-
-                    <h:form>
-                        <h:panelGrid columns="2" cellpadding="5">
-
-                            <p:outputLabel value="Name: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.name}" />
-
-                            <p:outputLabel value="Price: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.price}" />
-
-                            <p:outputLabel value="Unit: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.unit}" />
-
-                            <p:outputLabel value="Remark: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.remark}" />
-
-                            <p:outputLabel value="Lot Size: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.lotSize}" />
-
-                            <p:outputLabel value="Storage Place: " />
-                            <p:selectCheckboxMenu value="#{rawIngredientsManagementBean.selectedStoragePlaces}" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
-                                <f:selectItems value="#{rawIngredientsManagementBean.filteredStoragePlaces}" var="sp" itemLabel="#{sp.location}" itemValue="#{sp}" />
-                            </p:selectCheckboxMenu>
-
-                            <p:outputLabel value="Supplier: " />
-                            <p:selectOneMenu value="#{rawIngredientsManagementBean.supplier}" converter="ingredientSupplierConverter">
-                                <f:selectItems value="#{rawIngredientsManagementBean.filteredSuppliers}" var="s" itemLabel="#{s.name}" itemValue="#{s}" />
-                            </p:selectOneMenu>
-
-                        </h:panelGrid>
-
-                        <p:commandButton value="Submit" actionListener="#{rawIngredientsManagementBean.addIngredient}"/>
-
-                    </h:form>
-
                 </p:layoutUnit>
-
-
 
             </p:layout>
         </h:form>
     </h:body>
 
 </html>
+
 

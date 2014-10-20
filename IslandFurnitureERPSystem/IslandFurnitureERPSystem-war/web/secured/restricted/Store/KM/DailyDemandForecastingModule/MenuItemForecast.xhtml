@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>KM: Menu Item Forecast</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="Kitchen Management">
+                            <p:submenu label="Daily Demad Forecast">
+                                <p:menuitem value="Menu Item Forecast" url="MenuItemForecast.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Raw Ingredient Forecast" url="IngredientForecast.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center" resizable="false">
+
+                    <p:panel id="basic" header="Menu Item Forecast" style="margin-bottom" >
+
+                        <h:form id="menuItemForecastList">
+
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel value="Menu Item Forecast ID: " style="font-weight:bold" />
+                                <h:outputText value="#{menuItemForecastBean.selectedMif.id}" />
+                                <p:outputLabel value="Target Date: " style="font-weight:bold" />
+                                <h:outputText value="#{menuItemForecastBean.selectedMif.targetDate.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                </h:outputText>
+                                <p:outputLabel value="Creation Time: " style="font-weight:bold" />
+                                <h:outputText value="#{menuItemForecastBean.selectedMif.creationTime.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
+                                </h:outputText>
+                                <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
+                                <p:commandButton rendered="#{menuItemForecastBean.selectedMif.ingredientForecast == null}" value="Generate Raw Ingredient Forecast" actionListener="#{menuItemForecastBean.generateIngredientForecast}" action="IngredientForecast.xhtml?faces-redirect=true" />
+                                <p:commandButton rendered="#{menuItemForecastBean.selectedMif.ingredientForecast != null}" value="View Raw Ingredient Forecast" action="IngredientForecast.xhtml?faces-redirect=true" actionListener="#{menuItemForecastBean.viewIngredientForecast}" />         
+                            </h:panelGrid>
+                            <p:separator/>
+
+
+
+                            <p:dataTable id="DishForecastList" widgetVar="DishForecastTable" value="#{menuItemForecastBean.selectedMif.dishForecastItems}" 
+                                         var="di" filteredValue="#{menuItemForecastBean.filteredDishItems}" editable="true">
+
+                                <f:facet name="header">
+                                    <h:outputText value="Dish Forecasts" />
+                                    <div align="right">
+                                        <p:outputPanel>
+                                            <h:outputText value="Search Dish: " />
+                                            <p:inputText id="globalFilter" onkeyup="PF('DishForecastTable').filter()" placeholder="Enter Keyword" />
+                                        </p:outputPanel>
+                                    </div>
+                                </f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{menuItemForecastBean.onRowEditDish}" update=":formMain"/>
+                                <p:ajax event="rowEditCancel" listener="#{menuItemForecastBean.onRowCancel}" update="DishForecastList"/>
+
+                                <p:ajax event="rowToggle" listener="#{menuItemForecastBean.onRowToggleDish}" />  
+
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+
+                                <p:column headerText=" Dish ID" filterBy="#{di.dish.id}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{di.dish.id}"/>
+                                </p:column>
+
+                                <p:column headerText="Name" filterBy="#{di.dish.name}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{di.dish.name}"/>
+                                </p:column>
+
+                                <p:column headerText="Forecast Quantity (Daily)" filterBy="#{di.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{di.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{di.quantity}"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Edit" width="8%" rendered="#{menuItemForecastBean.selectedMif.ingredientForecast eq null}">
+                                    <p:rowEditor/>
+                                </p:column>
+
+                                <p:rowExpansion>
+                                    <p:panel>
+                                        <p:lineChart value="#{menuItemForecastBean.selectedModel}" style="height:400px;" />
+                                    </p:panel>
+                                </p:rowExpansion>
+
+                            </p:dataTable>
+
+                            <p:dataTable id="ComboForecastList" widgetVar="ComboForecastTable" value="#{menuItemForecastBean.selectedMif.comboForecastItems}" 
+                                         var="ci" filteredValue="#{menuItemForecastBean.filteredComboItems}" editable="true">
+
+                                <f:facet name="header">
+                                    Combo Forecasts
+                                    <div align="right">
+                                        <p:outputPanel>
+                                            <h:outputText value="Search Combo: " />
+                                            <p:inputText id="globalFilter" onkeyup="PF('ComboForecastTable').filter()" placeholder="Enter Keyword" />
+                                        </p:outputPanel>
+                                    </div>
+                                </f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{menuItemForecastBean.onRowEditCombo}" update=":formMain"/>
+                                <p:ajax event="rowEditCancel" listener="#{menuItemForecastBean.onRowCancel}" update="ComboForecastList"/>
+
+                                <p:ajax event="rowToggle" listener="#{menuItemForecastBean.onRowToggleCombo}" />  
+
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+
+                                <p:column headerText="Combo ID" filterBy="#{ci.combo.id}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{ci.combo.id}"/>
+                                </p:column>
+
+                                <p:column headerText="Name" filterBy="#{ci.combo.name}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{ci.combo.name}"/>
+                                </p:column>
+
+                                <p:column headerText="Forecast Quantity (Daily)" filterBy="#{ci.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{ci.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{ci.quantity}"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Edit" width="8%" rendered="#{menuItemForecastBean.selectedMif.ingredientForecast eq null}">
+                                    <p:rowEditor/>
+                                </p:column>
+
+                                <p:rowExpansion>
+                                    <p:panel>
+                                        <p:dataTable rendered="false" />
+                                        <p:lineChart value="#{menuItemForecastBean.selectedModel}" style="height:400px;" />
+                                    </p:panel>
+                                </p:rowExpansion>
+
+                            </p:dataTable>
+
+                        </h:form>
+
+                    </p:panel>
+                </p:layoutUnit>
+                <p:dialog header="Message" widgetVar="message" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="messageDetail" style="text-align:center;">
+                        #{menuItemForecastBean.message}
+                    </p:outputPanel>
+                    <div align="center">
+                        <p:commandButton value="Change Target Date" onclick="PF('message').hide()" oncomplete="PF('selectTargetDate').show()" >
+                        </p:commandButton>
+                    </div>
+                </p:dialog>
+            </p:layout>
+        </h:form>
+
+        <h:form>
+            <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
+                      showEffect="fade" hideEffect="fade" resizable="true" 
+                      draggable="true" closable="true" visible="true">
+
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="Select Target Date: " />
+                    <p:calendar value="#{menuItemForecastBean.selectedTargetDate}"/>
+                </h:panelGrid>
+                <div align="center">
+                    <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{menuItemForecastBean.findRequiredMenuItemForecast}" update=":formMain" >
+                    </p:commandButton>
+                </div>
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+
+</html>
+
