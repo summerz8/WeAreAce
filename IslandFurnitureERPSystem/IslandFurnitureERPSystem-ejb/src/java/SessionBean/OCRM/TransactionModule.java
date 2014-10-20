@@ -9,14 +9,12 @@ import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
-import Entity.Store.OCRM.SalesRecord;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreRetailProductEntity;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -25,7 +23,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *

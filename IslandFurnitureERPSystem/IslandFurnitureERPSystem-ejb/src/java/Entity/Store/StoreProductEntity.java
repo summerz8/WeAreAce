@@ -10,6 +10,7 @@ import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -51,7 +52,8 @@ public class StoreProductEntity  implements Serializable {
     @ManyToOne
     private ProductEntity product;
     
-    @OneToMany
+    //store product entity -- returnedItemMovementRecordEntity 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
     private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
 
     public StoreProductEntity() {

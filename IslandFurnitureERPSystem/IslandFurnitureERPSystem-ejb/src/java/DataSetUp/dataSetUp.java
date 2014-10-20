@@ -338,23 +338,23 @@ public class dataSetUp {
 
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
-        s1.getStoreProduct().add(sp1_1);
+        s1.getStoreProducts().add(sp1_1);
         em.flush();
         StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE);
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
-        s1.getStoreProduct().add(sp1_2);
+        s1.getStoreProducts().add(sp1_2);
         em.flush();
         //s2.factoryProduct
         StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE);
         em.persist(sp2_1);
         fp1_2.getStoreProducts().add(sp2_1);
-        s2.getStoreProduct().add(sp2_1);
+        s2.getStoreProducts().add(sp2_1);
         em.flush();
         StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE);
         em.persist(sp2_2);
         fp2_2.getStoreProducts().add(sp2_2);
-        s2.getStoreProduct().add(sp2_2);
+        s2.getStoreProducts().add(sp2_2);
         em.flush();
 
         sp1_1.setProduct(p1);
@@ -368,23 +368,23 @@ public class dataSetUp {
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
-        s1.getStoreRetailProduct().add(srp1_1);
+        s1.getStoreRetailProducts().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
-        s1.getStoreRetailProduct().add(srp1_2);
+        s1.getStoreRetailProducts().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
-        s2.getStoreRetailProduct().add(srp2_1);
+        s2.getStoreRetailProducts().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
-        s2.getStoreRetailProduct().add(srp2_2);
+        s2.getStoreRetailProducts().add(srp2_2);
         em.flush();
 
         //Product.BOM
@@ -1514,30 +1514,30 @@ public class dataSetUp {
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
         em.persist(memlvl1);
-        memlvl1.setName("Basic");
+        memlvl1.setLevelName("Basic");
         em.flush();
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
         memlvl2.setDiscount(0.9);
         memlvl2.setPointsToUpgrade(2000D);
-        memlvl2.setName("Blue");
+        memlvl2.setLevelName("Blue");
         em.persist(memlvl2);
         em.flush();
         MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
         memlvl3.setDiscount(0.85);
         memlvl3.setPointsToUpgrade(10000D);
-        memlvl3.setName("Sliver");
+        memlvl3.setLevelName("Sliver");
         em.persist(memlvl3);
         em.flush();
         MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
         memlvl4.setDiscount(0.8);
         memlvl4.setPointsToUpgrade(30000D);
-        memlvl4.setName("Gold");
+        memlvl4.setLevelName("Gold");
         em.persist(memlvl4);
         em.flush();
         MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
         memlvl5.setDiscount(0.75);
         memlvl5.setPointsToUpgrade(50000D);
-        memlvl5.setName("Diamond");
+        memlvl5.setLevelName("Diamond");
         em.persist(memlvl5);
         em.flush();       
 
