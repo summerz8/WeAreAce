@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -56,6 +57,9 @@ public class KitchenEntity implements Serializable {
     @OneToMany(mappedBy = "kitchen")
     @XmlTransient
     private List<IngredientSupplierEntity> ingredientSuppliers = new ArrayList<>();
+    @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
+    private List<DailySalesEntity> dailySales = new ArrayList<>();
 
     public KitchenEntity() {
         this.deleted = false;
@@ -144,6 +148,14 @@ public class KitchenEntity implements Serializable {
 
     public void setIngredientSuppliers(List<IngredientSupplierEntity> ingredientSuppliers) {
         this.ingredientSuppliers = ingredientSuppliers;
+    }
+
+    public List<DailySalesEntity> getDailySales() {
+        return dailySales;
+    }
+
+    public void setDailySales(List<DailySalesEntity> dailySales) {
+        this.dailySales = dailySales;
     }
 
     

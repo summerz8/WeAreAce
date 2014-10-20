@@ -30,14 +30,18 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.ComboItemEntity;
+import Entity.Kitchen.DailySalesEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientEntity;
+import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
-import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItemEntity;
@@ -50,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -112,8 +117,6 @@ public class dataSetUp {
         em.persist(f2);
         em.flush();
 
-        
-        
         //Factory Bin
         //for f1
         FactoryBinEntity fb1_1 = new FactoryBinEntity();
@@ -182,33 +185,43 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
+        f1.getStoreList().add(s1.getStoreId());
+        f1.getStoreList().add(s2.getStoreId());
+        s1.getFactoryList().add(f1.getFactoryId());
+        em.flush();
 
-    
+        //StoreUser(s1)
+        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(us1_1);
+        em.flush();
+
+        
         //StoreUser(s1)
         UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
         em.flush();
-        
-        
+
         //Retail Product
-        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", "box", false);
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0, "box", false);
         em.persist(rp1);
         em.flush();
-        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", "set", false);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 12.0, "set", false);
         em.persist(rp2);
         em.flush();
-        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", "bottle", false);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 3.0, "bottle", false);
         em.persist(rp3);
         em.flush();
-        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", "bag", false);
+        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", 7.8, "bag", false);
         em.persist(rp4);
         em.flush();
-        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", "bottle", false);
+        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", 4.5, "bottle", false);
         em.persist(rp5);
         em.flush();
-        
+
         //Raw Material
         RawMaterialEntity rm1 = new RawMaterialEntity("board", "wood", false, "square meter");
         em.persist(rm1);
@@ -230,26 +243,24 @@ public class dataSetUp {
         em.flush();
 
         //Product
-        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, "set", false);
+        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0, "set", false);
         em.persist(p1);
         em.flush();
-        ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, "set", false);
+        ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, 480.0, "set", false);
         em.persist(p2);
         em.flush();
-        ProductEntity p3 = new ProductEntity("Coffee Table", "Coffee table, high gloss black", 199.0, "one", false);
+        ProductEntity p3 = new ProductEntity("Coffee Table", "Coffee table, high gloss black", 199.0, 180.0, "one", false);
         em.persist(p3);
         em.flush();
-        ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, "set", false);
+        ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, 55.0, "set", false);
         em.persist(p4);
         em.flush();
-        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, "one", false);
+        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0, "one", false);
         em.persist(p5);
         em.flush();
-        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, "package", false);
+        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
         em.persist(p6);
         em.flush();
-        
-
 
         //Factory Product
         //for f1
@@ -336,27 +347,27 @@ public class dataSetUp {
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.factoryProduct
-        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1,Boolean.TRUE);
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE);
 
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
-        s1.getStoreProduct().add(sp1_1);
+        s1.getStoreProducts().add(sp1_1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1,Boolean.FALSE);
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE);
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
-        s1.getStoreProduct().add(sp1_2);
+        s1.getStoreProducts().add(sp1_2);
         em.flush();
         //s2.factoryProduct
-        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2,Boolean.TRUE);
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE);
         em.persist(sp2_1);
         fp1_2.getStoreProducts().add(sp2_1);
-        s2.getStoreProduct().add(sp2_1);
+        s2.getStoreProducts().add(sp2_1);
         em.flush();
-        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2,Boolean.FALSE);
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE);
         em.persist(sp2_2);
         fp2_2.getStoreProducts().add(sp2_2);
-        s2.getStoreProduct().add(sp2_2);
+        s2.getStoreProducts().add(sp2_2);
         em.flush();
 
         sp1_1.setProduct(p1);
@@ -370,26 +381,25 @@ public class dataSetUp {
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
-        s1.getStoreRetailProduct().add(srp1_1);
+        s1.getStoreRetailProducts().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
-        s1.getStoreRetailProduct().add(srp1_2);
+        s1.getStoreRetailProducts().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
-        s2.getStoreRetailProduct().add(srp2_1);
+        s2.getStoreRetailProducts().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
-        s2.getStoreRetailProduct().add(srp2_2);
+        s2.getStoreRetailProducts().add(srp2_2);
         em.flush();
 
-        
         //Product.BOM
         //for p1
         BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
@@ -468,8 +478,6 @@ public class dataSetUp {
         p5.setBOM(bom5);
         em.flush();
 
-
-
         //Factory Raw Material
         //for f1
         FactoryRawMaterialEntity frm1_1 = new FactoryRawMaterialEntity(rm1.getUnit(), rm1.getMaterialName(), rm1.getDescription(), false, f1, rm1);
@@ -525,8 +533,6 @@ public class dataSetUp {
         rm5.getFactoryRawMaterials().add(frm2_5);
         f2.getFactoryRawMaterials().add(frm2_5);
         em.flush();
-
-
 
         //Factory Bin Stored Product
         //for f1.factoryRawMaterial
@@ -1516,46 +1522,151 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        // MenuItemForecast for k1
+        Calendar td_mif1_1 = Calendar.getInstance();
+        td_mif1_1.set(2014, Calendar.OCTOBER, 17);
+        MenuItemForecastEntity mif1_1 = new MenuItemForecastEntity(td_mif1_1, k1);
+        em.persist(mif1_1);
+        em.flush();
+        k1.getMenuItemForecasts().add(mif1_1);
+        DishItemEntity dfi1_1_1 = new DishItemEntity(d1_1, 101);
+        em.persist(dfi1_1_1);
+        em.flush();
+        mif1_1.getDishForecastItems().add(dfi1_1_1);
+        dfi1_1_1.getDish().getForecasts().add(mif1_1);
+        em.flush();
+        DishItemEntity dfi1_1_2 = new DishItemEntity(d1_2, 201);
+        em.persist(dfi1_1_2);
+        em.flush();
+        mif1_1.getDishForecastItems().add(dfi1_1_2);
+        dfi1_1_2.getDish().getForecasts().add(mif1_1);
+        em.flush();
+        ComboItemEntity cfi1_1_1 = new ComboItemEntity(c1_1, 151);
+        em.persist(cfi1_1_1);
+        em.flush();
+        mif1_1.getComboForecastItems().add(cfi1_1_1);
+        cfi1_1_1.getCombo().getForecasts().add(mif1_1);
+        em.flush();
+        Calendar td_mif1_2 = Calendar.getInstance();
+        td_mif1_2.set(2014, Calendar.OCTOBER, 18);
+        MenuItemForecastEntity mif1_2 = new MenuItemForecastEntity(td_mif1_2, k1);
+        em.persist(mif1_2);
+        em.flush();
+        k1.getMenuItemForecasts().add(mif1_2);
+        DishItemEntity dfi1_2_1 = new DishItemEntity(d1_1, 112);
+        em.persist(dfi1_2_1);
+        em.flush();
+        mif1_2.getDishForecastItems().add(dfi1_2_1);
+        dfi1_2_1.getDish().getForecasts().add(mif1_2);
+        em.flush();
+        DishItemEntity dfi1_2_2 = new DishItemEntity(d1_2, 202);
+        em.persist(dfi1_2_2);
+        em.flush();
+        mif1_2.getDishForecastItems().add(dfi1_2_2);
+        dfi1_2_2.getDish().getForecasts().add(mif1_2);
+        em.flush();
+        ComboItemEntity cfi1_2_1 = new ComboItemEntity(c1_1, 152);
+        em.persist(cfi1_2_1);
+        em.flush();
+        mif1_2.getComboForecastItems().add(cfi1_2_1);
+        cfi1_2_1.getCombo().getForecasts().add(mif1_2);
+        em.flush();
+        Calendar td_mif1_3 = Calendar.getInstance();
+        td_mif1_3.set(2014, Calendar.OCTOBER, 19);
+        MenuItemForecastEntity mif1_3 = new MenuItemForecastEntity(td_mif1_3, k1);
+        em.persist(mif1_3);
+        IngredientForecastEntity ingf = new IngredientForecastEntity(mif1_3);
+        em.persist(ingf);
+        mif1_3.setIngredientForecast(ingf);
+        em.flush();
+        k1.getMenuItemForecasts().add(mif1_3);
+        DishItemEntity dfi1_3_1 = new DishItemEntity(d1_1, 112);
+        em.persist(dfi1_3_1);
+        em.flush();
+        mif1_3.getDishForecastItems().add(dfi1_3_1);
+        dfi1_3_1.getDish().getForecasts().add(mif1_3);
+        em.flush();
+        DishItemEntity dfi1_3_2 = new DishItemEntity(d1_2, 203);
+        em.persist(dfi1_3_2);
+        em.flush();
+        mif1_3.getDishForecastItems().add(dfi1_3_2);
+        dfi1_3_2.getDish().getForecasts().add(mif1_3);
+        em.flush();
+        ComboItemEntity cfi1_3_1 = new ComboItemEntity(c1_1, 153);
+        em.persist(cfi1_3_1);
+        em.flush();
+        mif1_3.getComboForecastItems().add(cfi1_3_1);
+        cfi1_3_1.getCombo().getForecasts().add(mif1_3);
+        em.flush();
+
+        //DailySales for k1
+        Random rd = new Random();
+        for (int i = -10; i < 0; i++) {
+            DailySalesEntity ds = new DailySalesEntity(k1);
+            em.persist(ds);
+            em.flush();
+            k1.getDailySales().add(ds);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, i);
+            ds.setSalesDate(cal);
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(di);
+                em.flush();
+                ds.getDishes().add(di);
+                d.getDailySales().add(ds);
+                em.flush();
+            }
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(ci);
+                em.flush();
+                ds.getCombos().add(ci);
+                c.getDailySales().add(ds);
+                em.flush();
+            }
+        }
+
         //MembershipLevel
-        MembershipLevel memlvl0 = new MembershipLevel();
-        memlvl0.setDiscount(1D);
-        memlvl0.setPointsToUpgrade(1000D);
-        em.persist(memlvl0);
-        em.flush();
-        MembershipLevel memlvl1 = new MembershipLevel();
-        memlvl1.setDiscount(0.9);
-        memlvl0.setPointsToUpgrade(2000D);
+        MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
+        memlvl1.setDiscount(1D);
+        memlvl1.setPointsToUpgrade(0D);
         em.persist(memlvl1);
+        memlvl1.setLevelName("Basic");
         em.flush();
-        MembershipLevel memlvl2 = new MembershipLevel();
-        memlvl2.setDiscount(0.85);
-        memlvl0.setPointsToUpgrade(5000D);
+        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
+        memlvl2.setDiscount(0.9);
+        memlvl2.setPointsToUpgrade(2000D);
+        memlvl2.setLevelName("Blue");
         em.persist(memlvl2);
         em.flush();
-        MembershipLevel memlvl3 = new MembershipLevel();
-        memlvl3.setDiscount(0.8);
-        memlvl0.setPointsToUpgrade(10000D);
+        MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
+        memlvl3.setDiscount(0.85);
+        memlvl3.setPointsToUpgrade(10000D);
+        memlvl3.setLevelName("Sliver");
         em.persist(memlvl3);
         em.flush();
-        MembershipLevel memlvl4 = new MembershipLevel();
-        memlvl4.setDiscount(0.75);
-        memlvl0.setPointsToUpgrade(20000D);
+        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
+        memlvl4.setDiscount(0.8);
+        memlvl4.setPointsToUpgrade(30000D);
+        memlvl4.setLevelName("Gold");
         em.persist(memlvl4);
         em.flush();
-        MembershipLevel memlvl5 = new MembershipLevel();
-        memlvl5.setDiscount(0.7);
-        memlvl0.setPointsToUpgrade(50000D);
+        MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
+        memlvl5.setDiscount(0.75);
+        memlvl5.setPointsToUpgrade(50000D);
+        memlvl5.setLevelName("Diamond");
         em.persist(memlvl5);
         em.flush();
-        
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
         tr.setStore(s1);
         tr.setTotalPrice(200.0);
+        tr.setGenerateTime(Calendar.getInstance());
         em.persist(tr);
         em.flush();
- 
+
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductid(sp1_1.getStoreProductId());
@@ -1578,28 +1689,30 @@ public class dataSetUp {
         ti1.setTransaction(tr);
         em.persist(ti1);
         em.flush();
+
         
         List<TransactionItemEntity> items = new ArrayList();
         items.add(ti1);
-        tr.setTransactionItemList(items);        
-               
+        tr.setTransactionItemList(items);
+        em.persist(tr);
+        em.flush();
+
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();
-        
+
         pl1.setTransactoinItems(items);
-        ti1.setPickupList(pl1); 
+        ti1.setPickupList(pl1);
         em.persist(pl1);
         em.persist(ti1);
         em.flush();
 
         //Member Set uP
-        Calendar MemberBirthday=Calendar.getInstance();
+        Calendar MemberBirthday = Calendar.getInstance();
         MemberBirthday.set(1990, 9, 1);
-        
-        MemberEntity member = new MemberEntity("123","Lee","","James", 
-            MemberBirthday,"Male","Mr", "5 Kent Ridge Drive","412342", 
-            "james@gmail.com", Boolean.FALSE);
-        
+
+        MemberEntity member = new MemberEntity("123", "Lee", "", "James",
+                MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "james@gmail.com", Boolean.FALSE);
         em.persist(member);
         em.flush();
 

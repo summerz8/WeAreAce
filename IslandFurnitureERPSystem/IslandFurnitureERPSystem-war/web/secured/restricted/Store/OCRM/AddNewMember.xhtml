@@ -91,7 +91,7 @@
                                 <h:outputLabel for="title" value="Title: *" />
                                 <h:selectOneMenu value="#{memberControl.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
                                     <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                    <f:selectItems value="#{attr.titles}" var="color"/>
                                 </h:selectOneMenu>
 
 
@@ -130,6 +130,9 @@
 
                                 <h:outputLabel for="postal" value="Postal Code:" />
                                 <p:inputText value="#{memberControl.postal}" label="text" />
+                                
+                                <h:outputLabel for="transaction" value="Transaction ID:" />
+                                <p:inputText value="#{memberControl.transactionId}" label="text" />
 
 
                                 <p:commandButton actionListener="#{memberControl.addMember}" value="Save"/>                                                            

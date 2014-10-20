@@ -8,11 +8,13 @@ package ManagedBean.MRP;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.MRP.SalesOperationPlanEntity;
 import SessionBean.MRP.SalesOperationPlanLocal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -38,6 +40,8 @@ public class SalesOperationPlanBean {
     private Integer workingDay = 0;
     private Double PlannedEndInventory = 0D;
     private Long factoryId;
+    private String SelectedFactoryProduct;
+    private List<SelectItem> displayList;
 
     public SalesOperationPlanBean() {
     }
@@ -48,25 +52,27 @@ public class SalesOperationPlanBean {
         department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
         System.out.println(department);
         if (department.equals("H")) {
-            System.out.println("hhhhh");
             factoryProductList = salesOperationPlanLocal.getAllFacotryProduct(null);
         } else {
             factoryProductList = salesOperationPlanLocal.getAllFacotryProduct(factoryId);
         }
-
+        displayList=new ArrayList<>();
+        for (FactoryProductEntity f : factoryProductList) {
+            String t = f.getFactoryProductId() + " " + f.getName();
+            displayList.add(new SelectItem(f.getFactoryProductId(), t));
+        }
+        
     }
 
     public String findSalesOperationPlanList(Long id) {
         productId = id;
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("salesproductId", productId);
         salesOperationPlanList = salesOperationPlanLocal.ListSalesOperationPlan(id, null, null);
-        if (salesOperationPlanList.isEmpty()) {
-            System.out.println("4");
-        }
         return "MRPViewSalesOperationPlan?faces-redirect=true";
     }
 
     public String GETProductId() {
+        productId=Long.valueOf(SelectedFactoryProduct);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", productId);
         boolean bo = salesOperationPlanLocal.IsThereForecast(productId);
         if (bo == false) {
@@ -147,5 +153,31 @@ public class SalesOperationPlanBean {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    public Long getFactoryId() {
+        return factoryId;
+    }
+
+    public void setFactoryId(Long factoryId) {
+        this.factoryId = factoryId;
+    }
+
+    public String getSelectedfactory() {
+        return SelectedFactoryProduct;
+    }
+
+    public void setSelectedfactory(String Selectedfactory) {
+        this.SelectedFactoryProduct = Selectedfactory;
+    }
+
+    public List<SelectItem> getDisplayList() {
+        return displayList;
+    }
+
+    public void setDisplayList(List<SelectItem> displayList) {
+        this.displayList = displayList;
+    }
+    
+    
 
 }

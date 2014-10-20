@@ -5,12 +5,8 @@
  */
 package util.login;
 
-import Entity.CommonInfrastructure.FactoryUserEntity;
-import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
-import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
-import java.util.Calendar;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -32,55 +28,55 @@ public class IFManagerBean implements IFManagerBeanRemote {
     public IFManagerBean() {
     }
 
-    @Override
-    @WebMethod(exclude = true)
-    public String createUser(String department, Integer userLevel, String lastName,
-            String firstName, String position, String gender, long departmentId, Calendar birthday) {
-        System.out.println("IFManagerBean: createUser():");
-        String msg = new String();
-        try {
-            Integer idNumber = 0;
-            UserEntity user;
-            IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
-
-            switch (department.charAt(0)) {
-                case 'H':
-                    idNumber = (int) idNum.getId_H() + 1;
-                    idNum.setId_H((long) idNumber);
-
-                    user = new HQUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
-                    em.persist(user);
-                    msg = user.getUserId() + " " + user.getPwd();
-                    break;
-
-                case 'F':
-                    idNumber = (int) idNum.getId_F() + 1;
-                    idNum.setId_H((long) idNumber);
-                    user = new FactoryUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
-                    em.persist(user);
-                    msg = user.getUserId() + " " + user.getPwd();
-                    break;
-                case 'S':
-                    idNumber = (int) idNum.getId_S() + 1;
-                    idNum.setId_H((long) idNumber);
-                    user = new StoreUserEntity(department, idNumber.toString(), userLevel,
-                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
-                    em.persist(user);
-                    msg = user.getUserId() + " " + user.getPwd();
-                    break;
-            }
-            em.flush();
-
-            System.out.println("User created!");
-            return msg;
-
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        return "createUser() failed!";
-    }
+//    @Override
+//    @WebMethod(exclude = true)
+//    public String createUser(String department, Integer userLevel, String lastName,
+//            String firstName, String position, String gender, long departmentId, Calendar birthday) {
+//        System.out.println("IFManagerBean: createUser():");
+//        String msg = new String();
+//        try {
+//            Integer idNumber = 0;
+//            UserEntity user;
+//            IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
+//
+//            switch (department.charAt(0)) {
+//                case 'H':
+//                    idNumber = (int) idNum.getId_H() + 1;
+//                    idNum.setId_H((long) idNumber);
+//
+//                    user = new HQUserEntity(department, idNumber.toString(), userLevel,
+//                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
+//                    em.persist(user);
+//                    msg = user.getUserId() + " " + user.getPwd();
+//                    break;
+//
+//                case 'F':
+//                    idNumber = (int) idNum.getId_F() + 1;
+//                    idNum.setId_H((long) idNumber);
+//                    user = new FactoryUserEntity(department, idNumber.toString(), userLevel,
+//                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
+//                    em.persist(user);
+//                    msg = user.getUserId() + " " + user.getPwd();
+//                    break;
+//                case 'S':
+//                    idNumber = (int) idNum.getId_S() + 1;
+//                    idNum.setId_H((long) idNumber);
+//                    user = new StoreUserEntity(department, idNumber.toString(), userLevel,
+//                            lastName, null, firstName, position, birthday, gender, null, null, null, null, departmentId, "123", false);
+//                    em.persist(user);
+//                    msg = user.getUserId() + " " + user.getPwd();
+//                    break;
+//            }
+//            em.flush();
+//
+//            System.out.println("User created!");
+//            return msg;
+//
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//        return "createUser() failed!";
+//    }
 //
 //    @Override
 //    public String getUserId(String userId) {

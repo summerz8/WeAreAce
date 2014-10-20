@@ -7,10 +7,13 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,42 +22,46 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "memberlevel")
-public class MembershipLevel implements Serializable {
+public class MembershipLevelEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer levelId;
-
-    private Double pointsToUpgrade;
-
+    
     private String levelName;
-    private double discount;
-//
-//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
-//    private Collection<MemberEntity> members;
+    
+    private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
+       
+    private Double discount;
+
 
     
-    public MembershipLevel() {
+
+
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "memberlvl")
+    private List<MemberEntity> members;
+
+    
+    public MembershipLevelEntity() {
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
-//
-//    public Collection<MemberEntity> getMembers() {
-//        return members;
-//    }
-//
-//    public void setMembers(Collection<MemberEntity> members) {
-//        this.members = members;
-//    }
-//
+    public List<MemberEntity> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<MemberEntity> members) {
+        this.members = members;
+    }
+
 
     public String getLevelName() {
         return levelName;
@@ -95,10 +102,10 @@ public class MembershipLevel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the levelId fields are not set
-        if (!(object instanceof MembershipLevel)) {
+        if (!(object instanceof MembershipLevelEntity)) {
             return false;
         }
-        MembershipLevel other = (MembershipLevel) object;
+        MembershipLevelEntity other = (MembershipLevelEntity) object;
         if ((this.levelId == null && other.levelId != null) || (this.levelId != null && !this.levelId.equals(other.levelId))) {
             return false;
         }

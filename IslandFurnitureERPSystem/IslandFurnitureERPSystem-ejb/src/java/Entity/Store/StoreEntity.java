@@ -40,28 +40,33 @@ public class StoreEntity implements Serializable {
     private String contact;
     private String manager;//manager id
     private Boolean deleteFlag;
-    
+    private List<Long> factoryList;
+
     @OneToOne
     private KitchenEntity kitchen;
-  
+
+//    //factory entity -- store entity: M <--> M 
+//    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
+//    private List<FactoryEntity> factorys = new ArrayList<>();
     //store entity -- store product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
-    private List<StoreProductEntity> storeProduct = new ArrayList<>();
+    private List<StoreProductEntity> storeProducts = new ArrayList<>();
     
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
-    private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
+    private List<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
-    private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
+    private List<StoreItemMappingEntity> storeItemMappings = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
-    private List<TransactionEntity> transacion = new ArrayList<>();
+    private List<TransactionEntity> transacions = new ArrayList<>();
     
+
     public StoreEntity() {
     }
 
@@ -71,8 +76,10 @@ public class StoreEntity implements Serializable {
         this.contact = contact;
         this.manager = manager;
         this.deleteFlag = deleteFlag;
+        factoryList = new ArrayList<>();
+
     }
-      
+
     public Long getStoreId() {
         return storeId;
     }
@@ -88,32 +95,6 @@ public class StoreEntity implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public List<StoreProductEntity> getStoreProduct() {
-        return storeProduct;
-    }
-
-    public void setStoreProduct(List<StoreProductEntity> storeProduct) {
-        this.storeProduct = storeProduct;
-    }
-
-    public List<StoreRetailProductEntity> getStoreRetailProduct() {
-        return storeRetailProduct;
-    }
-
-    public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
-        this.storeRetailProduct = storeRetailProduct;
-    }
-
-    public List<TransactionEntity> getTransacion() {
-        return transacion;
-    }
-
-    public void setTransacion(List<TransactionEntity> transacion) {
-        this.transacion = transacion;
-    }
-
-   
 
     public String getCountry() {
         return country;
@@ -147,19 +128,14 @@ public class StoreEntity implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
-
-    public Boolean getDeleteFlag() {
-        return deleteFlag;
+    public List<Long> getFactoryList() {
+        return factoryList;
     }
 
-    public List<StoreItemMappingEntity> getStoreProductMapping() {
-        return storeItemMapping;
+    public void setFactoryList(List<Long> factoryList) {
+        this.factoryList = factoryList;
     }
 
-    public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
-        this.storeItemMapping = storeProductMapping;
-    }
-    
     public KitchenEntity getKitchen() {
         return kitchen;
     }
@@ -168,22 +144,38 @@ public class StoreEntity implements Serializable {
         this.kitchen = kitchen;
     }
 
-    public List<StoreItemMappingEntity> getStoreItemMapping() {
-        return storeItemMapping;
+    public List<StoreProductEntity> getStoreProducts() {
+        return storeProducts;
     }
 
-//    public List<TransactionEntity> getTransacion() {
-//        return transacion;
-//    }
-
-    public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
-        this.storeItemMapping = storeItemMapping;
+    public void setStoreProducts(List<StoreProductEntity> storeProducts) {
+        this.storeProducts = storeProducts;
     }
 
-//    public void setTransacion(List<TransactionEntity> transacion) {
-//        this.transacion = transacion;
-//    }
-    
+    public List<StoreRetailProductEntity> getStoreRetailProducts() {
+        return storeRetailProducts;
+    }
+
+    public void setStoreRetailProducts(List<StoreRetailProductEntity> storeRetailProducts) {
+        this.storeRetailProducts = storeRetailProducts;
+    }
+
+    public List<StoreItemMappingEntity> getStoreItemMappings() {
+        return storeItemMappings;
+    }
+
+    public void setStoreItemMappings(List<StoreItemMappingEntity> storeItemMappings) {
+        this.storeItemMappings = storeItemMappings;
+    }
+
+    public List<TransactionEntity> getTransacions() {
+        return transacions;
+    }
+
+    public void setTransacions(List<TransactionEntity> transacions) {
+        this.transacions = transacions;
+    }
+
     
     @Override
     public int hashCode() {

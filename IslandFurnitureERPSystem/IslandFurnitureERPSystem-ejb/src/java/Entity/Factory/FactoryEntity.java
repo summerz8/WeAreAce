@@ -10,8 +10,6 @@ import Entity.Factory.FactoryBin.FactoryBinEntity;
 import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
-import Entity.Store.StoreProductEntity;
-import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +48,7 @@ public class FactoryEntity implements Serializable {
     private String contact;
     private String manager; // manager id
     private Boolean deleteFlag;//a flag used to mark as deleted or not
+    private List<Long> storeList;
     
     //purchase order entity -- factory entity: M <--> 1 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
@@ -102,6 +101,7 @@ public class FactoryEntity implements Serializable {
         this.contact = contact;
         this.manager = manager;
         this.deleteFlag = deleteFlag;
+        storeList=new ArrayList<>();
     }
 
     
@@ -219,6 +219,22 @@ public class FactoryEntity implements Serializable {
 
     public void setIntegratedPlannedOrders(List<IntegratedPlannedOrderEntity> integratedPlannedOrders) {
         this.integratedPlannedOrders = integratedPlannedOrders;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+
+    public List<Long> getStoreList() {
+        return storeList;
+    }
+
+    public void setStoreList(List<Long> storeList) {
+        this.storeList = storeList;
     }
 
     

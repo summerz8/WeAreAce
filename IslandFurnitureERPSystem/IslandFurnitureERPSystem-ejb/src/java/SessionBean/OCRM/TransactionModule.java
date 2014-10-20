@@ -7,7 +7,7 @@ package SessionBean.OCRM;
 
 import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItemEntity;
@@ -46,9 +46,9 @@ public class TransactionModule implements TransactionModuleLocal {
 
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
-        StoreEntity store = em.find(StoreEntity.class, storeStaff.getDepartmentId());
 
-        TransactionEntity transaction = new TransactionEntity();
+        StoreEntity store = em.find(StoreEntity.class,storeStaff.getDepartmentId());
+        TransactionEntity transaction = new TransactionEntity();       
 
         transaction.setGenerateTime(generatedTime);
         transaction.setStore(store);
@@ -145,8 +145,10 @@ public class TransactionModule implements TransactionModuleLocal {
 
         for (TransactionItemEntity list : transactionItemList) {
             Double listTotalPrice = list.getTotalPrice();
+//            upDateSalesRecord(transaction.getGenerateTime(),list.getItemId(),list.getAmount(),list.getTotalPrice());
             totalPrice += listTotalPrice;
         }
+
 
 //        if(transaction.getMember() !=null){
 //           MemberEntity member = transaction.getMember();
@@ -154,6 +156,7 @@ public class TransactionModule implements TransactionModuleLocal {
 //           Double discount = level.getDiscount();
 //           totalPrice *= discount;
 //        }
+
         transaction.setTotalPrice(totalPrice);
 
         em.persist(transaction);
@@ -248,4 +251,18 @@ public class TransactionModule implements TransactionModuleLocal {
         }
 
     }
+
+
+//    
+//    public void upDateSalesRecord(Calendar generateTime,Long itemId, int amount, Double totalprice){
+//        List<SalesRecord> salesRecordEntityList=new ArrayList<>();
+//        Query q = em.createQuery("SELECT s FROM SalesRecord s");
+//        salesRecordEntityList= (List<SalesRecord>) q.getResultList();
+//        for(SalesRecord s:salesRecordEntityList){
+//            if(s)
+//        
+//        }
+//    }
+
+
 }

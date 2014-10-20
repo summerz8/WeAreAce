@@ -30,9 +30,9 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void AddProduct(String name, String description, Double price, String unit) {
+    public void AddProduct(String name, String description, Double price, Double memberPrice, String unit) {
         System.out.println("RetailProduct_ProductManagementModule: AddProduct(): ");
-        ProductEntity pe = new ProductEntity(name, description, price, unit,Boolean.FALSE);
+        ProductEntity pe = new ProductEntity(name, description, price, memberPrice,  unit,Boolean.FALSE);
         em.persist(pe);
         em.flush();
     }
@@ -50,7 +50,7 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
 
     @Override
     public void ModifyProduct(Long productId, String name, String description,
-            Double price, String unit) {
+            Double price, Double memberPrice, String unit) {
         System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): "+productId + name);
         ProductEntity pe = em.find(ProductEntity.class, productId);
         pe.setName(name);
@@ -78,9 +78,10 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     //public void SearchProduct(){}
     
     @Override
-    public void AddRetailProduct(String name, String description, String unit) {
+    public void AddRetailProduct(String name, String description, Double price, 
+            String unit) {
         System.out.println("RetailProduct_ProductManagementModule: AddRetailProduct(): ");
-        RetailProductEntity pe = new RetailProductEntity(name, description, unit, Boolean.FALSE);
+        RetailProductEntity pe = new RetailProductEntity(name, description, price, unit, Boolean.FALSE);
         
         em.persist(pe);
         em.flush();
@@ -98,12 +99,14 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     }
 
     @Override
-    public void ModifyRetailProduct(Long retailProductId, String name, String unit,String description) {
+    public void ModifyRetailProduct(Long retailProductId, String name, String unit,
+            Double price, String description) {
         System.out.println("RetailProduct_ProductManagementModule: ModifyRetailProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
         pe.setName(name);
         pe.setDescription(description);
         pe.setUnit(unit);
+        pe.setPrice(price);
         
         em.persist(pe);
         em.flush();

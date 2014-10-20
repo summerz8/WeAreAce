@@ -95,7 +95,7 @@
                             <p:commandButton  value="View Integrated Sales Forecast" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="MRPViewIntegratedSalesForecast?faces-redirect=true" >
                             </p:commandButton>
                             <br></br>
-                            <br></br>
+                            <br></br><br></br>
                             <h:panelGrid columns="2" cellpadding="5" >
                                 <h:outputText value="Store Id:  " />
                                 <p:inputText value="#{salesForecastBean.storeId}" style="font-weight: bold"/>
@@ -104,42 +104,39 @@
                                 <h:outputText value="Month  " />
                                 <p:inputMask value="#{salesForecastBean.month}" style="font-weight: bold" mask="99"/>
 
-                                <p:commandButton action="#{salesForecastBean.SelectSalesForecast()}" value="View Product List" />                                                 
+                                <p:commandButton action="#{salesForecastBean.SelectSalesForecast()}" value="Search" />                                                 
 
                             </h:panelGrid>
 
 
                             <br></br><br></br>
-                            <p:dataScroller value="#{salesForecastBean.salesForecastList}" var="salesForecast" chunkSize="10">
-                                <f:facet name="header">
-                                    Recent Sales Forecast
-                                </f:facet>
 
-                                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                            
+                            <p:dataTable var="store" value="#{salesForecastBean.storeList}">
 
-                                    <p:outputPanel>
-                                        <h:panelGrid columns="2" cellpadding="5" >
-                                            <h:outputText value="Id:  " />
-                                            <h:outputText value="#{salesForecast.id}" style="font-weight: bold"/>
+                            <p:column headerText="Store Id">
+                                <h:outputText value="#{store.storeId}" />
+                            </p:column>
 
-                                            <h:outputText value="Store ID:  " />
-                                            <h:outputText value="#{salesForecast.store.storeId}" style="font-weight: bold"/>
+                            <p:column headerText="Manager">
+                                <h:outputText value="#{store.manager}" />
+                            </p:column>
 
-                                            <h:outputText value="Address:  " />
-                                            <h:outputText value="#{salesForecast.store.address}" style="font-weight: bold"/>
+                            <p:column headerText="Contact">
+                                <h:outputText value="#{store.contact}"  />
+                            </p:column>
 
-                                            <h:outputText value="Target Sale Month:  " />
-                                            <h:outputText value="#{salesForecast.targetPeriod.getTime()}" style="font-weight: bold">
-                                                <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
-                                            </h:outputText>
+                            <p:column headerText="Address" >
+                                <h:outputText value="#{store.address}" />
+                            </p:column>
+                            
+                            <p:column headerText="View its Sales Forecast" >
+                                <p:commandButton  value="Sales Forecast " style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{salesForecastBean.getStoreSalesForecast(store.storeId)}" >
+                                </p:commandButton>
+                            </p:column>
 
-                                            <p:commandButton action="#{salesForecastBean.ViewSalesForecast(salesForecast.id)}" value="View Product List" />                                                 
 
-                                        </h:panelGrid>
-
-                                    </p:outputPanel>
-                                </h:panelGrid>
-                            </p:dataScroller>
+                        </p:dataTable> 
                         </h:form>
                     </p:panel>
                 </p:layoutUnit>

@@ -26,6 +26,7 @@ public class ReturnedItemMovementRecordEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ManyToOne
     private StoreProductEntity storeProduct;   
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createdDate=Calendar.getInstance();  
@@ -33,8 +34,8 @@ public class ReturnedItemMovementRecordEntity implements Serializable {
     @ManyToOne
     private StoreStorageBinEntity storedStorageBin;
     private Long memberId;
-    private String Type;
-    private String Status;
+    private String type;
+    private String status;
     
     public Long getId() {
         return id;
@@ -86,19 +87,19 @@ public class ReturnedItemMovementRecordEntity implements Serializable {
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String Type) {
-        this.Type = Type;
+        this.type = Type;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String Status) {
-        this.Status = Status;
+        this.status = Status;
     }
 
     

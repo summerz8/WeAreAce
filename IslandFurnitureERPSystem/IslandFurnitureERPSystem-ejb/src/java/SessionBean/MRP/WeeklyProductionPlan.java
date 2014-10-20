@@ -33,10 +33,10 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId) {
         try {
             System.out.println("generateWeeklyProductionPlan:()  1");
-            ProductionPlanEntity productionPlan=em.find(ProductionPlanEntity.class, productionPlanId);
-            Calendar period=productionPlan.getTargetPeriod();
-            List<WeeklyProductionPlanEntity> weeklyProductionPlanList=new ArrayList<WeeklyProductionPlanEntity>();
-            
+            ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+            Calendar period = productionPlan.getTargetPeriod();
+            List<WeeklyProductionPlanEntity> weeklyProductionPlanList = new ArrayList<WeeklyProductionPlanEntity>();
+
             Calendar cal1 = Calendar.getInstance();
             cal1.set(period.get(Calendar.YEAR), period.get(Calendar.MONTH), 1, 0, 0, 0);
             Calendar cal2 = Calendar.getInstance();
@@ -48,8 +48,8 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     ++daysInMonth;
                 }
                 cal1.add(Calendar.DAY_OF_MONTH, 1);
-                
-               System.out.println("generateWeeklyProductionPlan:()  3");
+
+                System.out.println("generateWeeklyProductionPlan:()  3");
             } while (cal1.getTimeInMillis() < cal2.getTimeInMillis());
 
             Calendar cal3 = Calendar.getInstance();
@@ -92,7 +92,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
                     weeklyProductionPlan.setProductionMonth(period);
                     weeklyProductionPlan.setProductionPlan(productionPlan);
-                    weeklyProductionPlan.setWeek(a+1);
+                    weeklyProductionPlan.setWeek(a + 1);
                     weeklyProductionPlan.setWeeklyDemand(weeklyDemand);
                     weeklyProductionPlan.setWorkingDayInMonth(daysInMonth);
                     weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
@@ -104,7 +104,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
                     weeklyProductionPlan.setProductionMonth(period);
                     weeklyProductionPlan.setProductionPlan(productionPlan);
-                    weeklyProductionPlan.setWeek(a+1);
+                    weeklyProductionPlan.setWeek(a + 1);
                     weeklyProductionPlan.setWeeklyDemand(weeklyDemand);
                     weeklyProductionPlan.setWorkingDayInMonth(daysInMonth);
                     weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
@@ -116,7 +116,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
                     weeklyProductionPlan.setProductionMonth(period);
                     weeklyProductionPlan.setProductionPlan(productionPlan);
-                    weeklyProductionPlan.setWeek(a+1);
+                    weeklyProductionPlan.setWeek(a + 1);
                     weeklyProductionPlan.setWeeklyDemand(weeklyDemand);
                     weeklyProductionPlan.setWorkingDayInMonth(daysInMonth);
                     weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
@@ -138,7 +138,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
                     weeklyProductionPlan.setProductionMonth(period);
                     weeklyProductionPlan.setProductionPlan(productionPlan);
-                    weeklyProductionPlan.setWeek(a+1);
+                    weeklyProductionPlan.setWeek(a + 1);
                     weeklyProductionPlan.setWeeklyDemand(weeklyDemand);
                     weeklyProductionPlan.setWorkingDayInMonth(daysInMonth);
                     weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
@@ -150,7 +150,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
                     weeklyProductionPlan.setProductionMonth(period);
                     weeklyProductionPlan.setProductionPlan(productionPlan);
-                    weeklyProductionPlan.setWeek(a+1);
+                    weeklyProductionPlan.setWeek(a + 1);
                     weeklyProductionPlan.setWeeklyDemand(weeklyDemand);
                     weeklyProductionPlan.setWorkingDayInMonth(daysInMonth);
                     weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
@@ -172,7 +172,7 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
                     WeeklyProductionPlanEntity weeklyProductionPlan = new WeeklyProductionPlanEntity();
                     weeklyProductionPlan.setProductionMonth(period);
                     weeklyProductionPlan.setProductionPlan(productionPlan);
-                    weeklyProductionPlan.setWeek(a+1);
+                    weeklyProductionPlan.setWeek(a + 1);
                     weeklyProductionPlan.setWeeklyDemand(weeklyDemand);
                     weeklyProductionPlan.setWorkingDayInMonth(daysInMonth);
                     weeklyProductionPlan.setWorkingDayInWeek(workingDayInWeek);
@@ -212,54 +212,71 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
 
     @Override
     public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId) {
-        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class,productionPlanId);
-        Query q = em.createQuery("SELECT pp FROM WeeklyProductionPlanEntity pp" );  
-        List<WeeklyProductionPlanEntity> tempList= (List<WeeklyProductionPlanEntity>) q.getResultList();
+        ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+        Query q = em.createQuery("SELECT pp FROM WeeklyProductionPlanEntity pp");
+        List<WeeklyProductionPlanEntity> tempList = (List<WeeklyProductionPlanEntity>) q.getResultList();
         List<WeeklyProductionPlanEntity> weeklyProductionPlanList = new ArrayList<>();
-        while(!tempList.isEmpty()){
-        if(tempList.get(0).getProductionPlan().getProductionPlanId().equals(productionPlanId))
-            weeklyProductionPlanList.add(tempList.get(0));
+        while (!tempList.isEmpty()) {
+            if (tempList.get(0).getProductionPlan().getProductionPlanId().equals(productionPlanId)) {
+                weeklyProductionPlanList.add(tempList.get(0));
+            }
             tempList.remove(0);
         }
-        
+
         return weeklyProductionPlanList;
 
     }
 
-    
-    
     @Override
-    public ProductEntity getProduct(Long factoryProductId){
-        
-        FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
-        
-        return factoryProduct.getProduct(); 
+    public ProductEntity getProduct(Long factoryProductId) {
+
+        FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
+
+        return factoryProduct.getProduct();
     }
-    
+
     @Override
-    public String isProduct(Long factoryProductId){
+    public String isProduct(Long factoryProductId) {
 //        try{
-        
-        FactoryProductEntity factoryProduct=em.find(FactoryProductEntity.class, factoryProductId);
-        if(factoryProduct!=null){
-        System.out.println("return yes");
-        return "yes";      }
-        else return "no";
+
+        FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
+        if (factoryProduct != null) {
+            System.out.println("return yes");
+            return "yes";
+        } else {
+            return "no";
+        }
 //        }catch (Exception ex){
 //            System.out.println("return no");
 //        return "no";
 //        }
     }
-    
-    
+
     @Override
-    public void Edit(Long id,String field,Object content){
-        WeeklyProductionPlanEntity weeklyProductionPlan = em.find(WeeklyProductionPlanEntity.class,id);
-        switch(field){
+    public void Edit(Long id, String field, Object content) {
+        WeeklyProductionPlanEntity weeklyProductionPlan = em.find(WeeklyProductionPlanEntity.class, id);
+        switch (field) {
             case "demand":
                 Double demand = (Double) content;
                 weeklyProductionPlan.setWeeklyDemand(demand);
         }
         em.flush();
     }
+
+    @Override
+    public List<FactoryProductEntity> getFactoryProductList(Long factoryId) {
+        List<FactoryProductEntity> factoryProductList=new ArrayList<>();
+        
+        Query q = em.createQuery("SELECT pp FROM FactoryProductEntity pp");
+        List<FactoryProductEntity> tempList = (List<FactoryProductEntity>) q.getResultList();
+        for(FactoryProductEntity p: tempList){
+            if(p.getFactory().getFactoryId().equals(factoryId)){
+                System.out.println("aaaa");
+                factoryProductList.add(p);
+            }
+        }
+        
+        return factoryProductList;
+    }
+
 }

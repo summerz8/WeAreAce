@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Kitchen;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +23,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class IngredientPurchaseOrderEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +33,18 @@ public class IngredientPurchaseOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime = Calendar.getInstance();
     private Double total;
-    private String status;  // unconfirmed, confirmed, cancelled, accomplished
-    @OneToOne(mappedBy="purchaseOrder")
-    private IngredientForecastEntity forecast;
+    private Double acturalTotal;
+    private String status = "Unconfirmed";  // Unconfirmed, Confirmed, Cancelled, Received
     @OneToOne
-    private IngredientReceiptEntity receipt;
+    private IngredientForecastEntity forecast;
+    @OneToOne(mappedBy = "purchaseOrder")
+    private IngredientReceiptEntity receipt = null;
 
-    
     public IngredientPurchaseOrderEntity() {
-        receipt = null;
+    }
+
+    public IngredientPurchaseOrderEntity(IngredientForecastEntity forecast) {
+        this.forecast = forecast;
     }
 
     public Long getId() {
@@ -61,7 +63,6 @@ public class IngredientPurchaseOrderEntity implements Serializable {
         this.purchaseItems = purchaseItems;
     }
 
-
     public Calendar getCreationTime() {
         return creationTime;
     }
@@ -76,6 +77,14 @@ public class IngredientPurchaseOrderEntity implements Serializable {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Double getActuralTotal() {
+        return acturalTotal;
+    }
+
+    public void setActuralTotal(Double acturalTotal) {
+        this.acturalTotal = acturalTotal;
     }
 
     public String getStatus() {
@@ -126,5 +135,5 @@ public class IngredientPurchaseOrderEntity implements Serializable {
     public String toString() {
         return "Entity.Kitchen.RawIngredientPurchaseOrderEntity[ id=" + id + " ]";
     }
-    
+
 }
