@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package SessionBean;
+package util.login;
 
 import java.util.Calendar;
 import javax.ejb.Remote;

@@ -15,12 +15,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class IngredientEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,6 +40,7 @@ public class IngredientEntity implements Serializable {
     private Double lotSize;
     private boolean deleted;
     @ManyToMany
+    @XmlTransient
     private List<DishEntity> dishes;
     @ManyToMany
     private List<IngredientForecastEntity> forecasts = new ArrayList<>();

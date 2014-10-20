@@ -19,6 +19,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,6 +29,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "member")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class MemberEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,7 +41,6 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
-    private TransactionEntity lastTransaction;
     private Long storeId;
 
 
@@ -68,6 +71,7 @@ public class MemberEntity implements Serializable {
     private MembershipLevel memberlvl;
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
+    @XmlTransient
     private List<TransactionEntity> transactionList; 
 
     
@@ -207,16 +211,6 @@ public class MemberEntity implements Serializable {
         this.transactionList = transactionList;
     }
     
-    
-
-    public TransactionEntity getLastTransaction() {
-        return lastTransaction;
-    }
-
-    public void setLastTransaction(TransactionEntity lastTransaction) {
-        this.lastTransaction = lastTransaction;
-    }
-
     public Boolean isDeleteFlag() {
         return deleteFlag;
     }

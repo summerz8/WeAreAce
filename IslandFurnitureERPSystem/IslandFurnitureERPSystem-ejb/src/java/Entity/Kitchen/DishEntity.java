@@ -17,12 +17,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class DishEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,6 +43,7 @@ public class DishEntity implements Serializable {
     private String remark;
     private boolean deleted;
     @ManyToMany
+    @XmlTransient
     private List<ComboEntity> combos = new ArrayList<>();
     @ManyToOne
     private KitchenEntity kitchen;

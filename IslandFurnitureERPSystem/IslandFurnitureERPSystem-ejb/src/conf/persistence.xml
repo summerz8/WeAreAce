@@ -62,7 +62,6 @@
     <class>Entity.Store.OCRM.MembershipLevel</class>
     <class>Entity.Store.OCRM.PickupListEntity</class>
     <class>Entity.Store.OCRM.SalesRecord</class>
-    <class>Entity.Store.OCRM.TransactionItem</class>
     <class>Entity.Store.OCRM.VoucherEntity</class>
     <class>Entity.Store.ReturnedItemMovementRecordEntity</class>
     <class>Entity.Store.StoreBinStoredProductEntity</class>
@@ -81,6 +80,7 @@
     <class>Entity.Store.OCRM.StoreTransactionEntity</class>
     <class>Entity.Store.OCRM.TransactionEntity</class>
     <class>Entity.Store.OCRM.testEntity</class>
+    <class>Entity.Store.OCRM.TransactionItemEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

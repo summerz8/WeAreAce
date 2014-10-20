@@ -18,6 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Store")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,16 +46,20 @@ public class StoreEntity implements Serializable {
   
     //store entity -- store product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    @XmlTransient
     private List<StoreProductEntity> storeProduct = new ArrayList<>();
     
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    @XmlTransient
     private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    @XmlTransient
     private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
+    @XmlTransient
     private List<TransactionEntity> transacion = new ArrayList<>();
     
     public StoreEntity() {
