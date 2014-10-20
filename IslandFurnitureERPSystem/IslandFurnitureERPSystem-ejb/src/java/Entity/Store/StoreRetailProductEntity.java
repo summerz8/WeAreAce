@@ -8,7 +8,6 @@ package Entity.Store;
 
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRetailProductEntity;
-import static Entity.Factory.FactoryRetailProductEntity_.factory;
 import Entity.Factory.RetailProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;

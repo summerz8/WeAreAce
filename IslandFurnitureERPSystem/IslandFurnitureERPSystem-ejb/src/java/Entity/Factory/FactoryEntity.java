@@ -23,6 +23,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +34,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Factory")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class FactoryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,22 +52,27 @@ public class FactoryEntity implements Serializable {
     
     //purchase order entity -- factory entity: M <--> 1 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @XmlTransient
     private Collection<PurchaseOrderEntity> purchaseOrders = new ArrayList<>();
 
     //factory entity -- factory raw material entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @XmlTransient
     private Collection<FactoryRawMaterialEntity> factoryRawMaterials = new ArrayList<>();
 
     //factory entity -- factory product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @XmlTransient
     private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
 
     //factory entity -- factory retail product entity: 1 <--> M 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @XmlTransient
     private Collection<FactoryRetailProductEntity> factoryRetailProducts = new ArrayList<>();
 
     //facotry entity -- factory bin entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @XmlTransient
     private Collection<FactoryBinEntity> factoryBins = new ArrayList<>();
 //    
 //    //factory entity -- store entity: M <--> M 
@@ -75,10 +84,12 @@ public class FactoryEntity implements Serializable {
     
     //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
+    @XmlTransient
     private List<PlannedOrderEntity> plannedOrders = new ArrayList<>();
     
     //facotry entity -- integrated planned order entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy="factory")
+    @XmlTransient
     private List<IntegratedPlannedOrderEntity> integratedPlannedOrders = new ArrayList<>();
     
     public FactoryEntity() {

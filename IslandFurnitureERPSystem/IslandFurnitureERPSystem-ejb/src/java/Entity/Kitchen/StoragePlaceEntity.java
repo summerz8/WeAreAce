@@ -16,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -24,6 +27,7 @@ import javax.persistence.UniqueConstraint;
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"KITCHEN_ID", "LOCATION"}))
 public class StoragePlaceEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -36,6 +40,7 @@ public class StoragePlaceEntity implements Serializable {
     @ManyToOne
     private KitchenEntity kitchen;
     @ManyToMany
+    @XmlTransient
     private List<IngredientEntity> ingredients = new ArrayList<>();
 
     public StoragePlaceEntity() {

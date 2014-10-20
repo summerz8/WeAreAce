@@ -44,7 +44,7 @@ import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
-import Entity.Store.OCRM.TransactionItem;
+import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
@@ -415,7 +415,7 @@ public class dataSetUp {
         bom1.add(bom1_1);
         bom1.add(bom1_2);
         bom1.add(bom1_3);
-        p1.setBom(bom1);
+        p1.setBOM(bom1);
         em.flush();
         //for p2
         BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p2);
@@ -431,7 +431,7 @@ public class dataSetUp {
         bom2.add(bom2_1);
         bom2.add(bom2_2);
         bom2.add(bom2_3);
-        p2.setBom(bom2);
+        p2.setBOM(bom2);
         em.flush();
         //for p3
         BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p3);
@@ -447,7 +447,7 @@ public class dataSetUp {
         bom3.add(bom3_1);
         bom3.add(bom3_2);
         bom3.add(bom3_3);
-        p3.setBom(bom3);
+        p3.setBOM(bom3);
         em.flush();
         //for p4
         BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p4);
@@ -459,7 +459,7 @@ public class dataSetUp {
         List bom4 = new ArrayList();
         bom4.add(bom4_1);
         bom4.add(bom4_2);
-        p4.setBom(bom4);
+        p4.setBOM(bom4);
         em.flush();
         //for p5
         BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p5);
@@ -475,7 +475,7 @@ public class dataSetUp {
         bom5.add(bom5_1);
         bom5.add(bom5_2);
         bom5.add(bom5_3);
-        p5.setBom(bom5);
+        p5.setBOM(bom5);
         em.flush();
 
         //Factory Raw Material
@@ -1670,10 +1670,18 @@ public class dataSetUp {
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductid(sp1_1.getStoreProductId());
+        sm1.setStore(s1);
         em.persist(sm1);
         em.flush();
+        
+        StoreItemMappingEntity sm2 = new StoreItemMappingEntity();
+        sm2.setProductid(sp1_2.getStoreProductId());
+        sm2.setStore(s1);
+        em.persist(sm2);
+        em.flush();
+        
         //TransactionItem
-        TransactionItem ti1 = new TransactionItem();
+        TransactionItemEntity ti1 = new TransactionItemEntity();
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
@@ -1682,9 +1690,12 @@ public class dataSetUp {
         em.persist(ti1);
         em.flush();
 
-        List<TransactionItem> items = new ArrayList();
+        
+        List<TransactionItemEntity> items = new ArrayList();
         items.add(ti1);
         tr.setTransactionItemList(items);
+        em.persist(tr);
+        em.flush();
 
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();
