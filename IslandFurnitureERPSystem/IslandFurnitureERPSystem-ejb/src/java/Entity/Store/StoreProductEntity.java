@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store;
 
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
+import Entity.Store.OCRM.ProductSalesForecastEntity;
+import Entity.Store.OCRM.SalesRecordEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,42 +31,50 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "StoreProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class StoreProductEntity  implements Serializable {
+public class StoreProductEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeProductId;
-    
+
     private String name;
     private Double quantity;
     private String unit;
-    
+
     private Boolean selfPick;
     private Boolean deleteFlag;
-    
+
     //store product entity -- factory product entity: M <--> 1 
     @ManyToOne
     private FactoryProductEntity factoryProduct;
-    
+
     //store product entity -- stores entity: M <--> 1
     @ManyToOne
     private StoreEntity store;
-    
+
     @ManyToOne
     private ProductEntity product;
-    
+
     @OneToMany
     private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
+    private List<SalesRecordEntity> salesRecordList;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
+    private List<ProductSalesForecastEntity> productSalesForecastList;
 
     public StoreProductEntity() {
     }
 
-    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store,Boolean selfPick) {
+    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick) {
         this.factoryProduct = factoryproduct;
         this.store = store;
         this.selfPick = selfPick;
+        salesRecordList = new ArrayList<>();
+        productSalesForecastList= new ArrayList<>();
     }
-    
 
     public Long getStoreProductId() {
         return storeProductId;
@@ -112,8 +124,6 @@ public class StoreProductEntity  implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
-    
-
     public StoreEntity getStore() {
         return store;
     }
@@ -138,7 +148,6 @@ public class StoreProductEntity  implements Serializable {
         this.returnedItemMovementRecords = returnedItemMovementRecords;
     }
 
-    
     public Boolean getSelfPick() {
         return selfPick;
     }
@@ -147,9 +156,22 @@ public class StoreProductEntity  implements Serializable {
         this.selfPick = selfPick;
     }
 
-    
-    
-    
+    public List<SalesRecordEntity> getSalesRecordList() {
+        return salesRecordList;
+    }
+
+    public void setSalesRecordList(List<SalesRecordEntity> salesRecordList) {
+        this.salesRecordList = salesRecordList;
+    }
+
+    public List<ProductSalesForecastEntity> getProductSalesForecastList() {
+        return productSalesForecastList;
+    }
+
+    public void setProductSalesForecastList(List<ProductSalesForecastEntity> productSalesForecastList) {
+        this.productSalesForecastList = productSalesForecastList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -170,10 +192,9 @@ public class StoreProductEntity  implements Serializable {
         return true;
     }
 
-    
     @Override
     public String toString() {
         return "Entity.Store.StoreProductEntity[ id=" + storeProductId + " ]";
     }
-    
+
 }

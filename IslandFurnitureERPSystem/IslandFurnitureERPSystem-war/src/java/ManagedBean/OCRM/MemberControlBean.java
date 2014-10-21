@@ -103,27 +103,7 @@ public class MemberControlBean {
             Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-//    public void changePassword(ActionEvent event) {
-//        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
-//        System.out.println("UserInfoManageBean: change password");
-//        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-//        System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
-//        if (cryptographicHelper.doMD5Hashing(inputOldPass).equals(password)) {
-//            //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
-//            IUMA.changePass(newPass, userId);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Password changed successfully!", ""));
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Wrong Password, please enter again!", ""));
-//        }
-//
-//        inputOldPass = null;
-//        password = IUMA.getUser(userId).getPwd();
-//
-//    }
-    
+
     public String BirString(Calendar bir) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         if (bir != null) {

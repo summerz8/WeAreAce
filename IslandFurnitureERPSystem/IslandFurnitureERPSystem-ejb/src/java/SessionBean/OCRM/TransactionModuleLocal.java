@@ -16,7 +16,7 @@ public interface TransactionModuleLocal {
 
     public void createNewTransaction(String staffId, Long memberId,int location);
 
-    public void createTransactionItem(Long itemId, int amount, Double unitPrice, Long transactionId);
+    public void createTransactionItem(Long itemId, Double amount, Double unitPrice, Long transactionId);
 
     public Double caculateChange(Long transactionId, Double tendered);
 

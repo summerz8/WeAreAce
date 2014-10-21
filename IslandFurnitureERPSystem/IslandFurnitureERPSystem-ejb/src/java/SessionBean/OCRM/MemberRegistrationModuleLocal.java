@@ -6,7 +6,6 @@
 
 package SessionBean.OCRM;
 
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import java.util.Calendar;
 import java.util.List;

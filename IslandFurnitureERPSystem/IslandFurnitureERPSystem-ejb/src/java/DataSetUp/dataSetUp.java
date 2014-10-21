@@ -39,6 +39,8 @@ import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.ProductSalesForecastEntity;
+import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
@@ -183,6 +185,7 @@ public class dataSetUp {
         f1.getStoreList().add(s1.getStoreId());
         f1.getStoreList().add(s2.getStoreId());
         s1.getFactoryList().add(f1.getFactoryId());
+        s1.getFactoryList().add(f2.getFactoryId());
         em.flush();
 
         //StoreUser(s1)
@@ -193,13 +196,13 @@ public class dataSetUp {
         em.flush();
 
         //Retail Product
-        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0,"box", false);
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0, "box", false);
         em.persist(rp1);
         em.flush();
-        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 12.0,"set", false);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 12.0, "set", false);
         em.persist(rp2);
         em.flush();
-        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 3.0,"bottle", false);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 3.0, "bottle", false);
         em.persist(rp3);
         em.flush();
         RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", 7.8, "bag", false);
@@ -230,7 +233,7 @@ public class dataSetUp {
         em.flush();
 
         //Product
-        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0,"set", false);
+        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0, "set", false);
         em.persist(p1);
         em.flush();
         ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, 480.0, "set", false);
@@ -242,10 +245,10 @@ public class dataSetUp {
         ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, 55.0, "set", false);
         em.persist(p4);
         em.flush();
-        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0 ,"one", false);
+        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0, "one", false);
         em.persist(p5);
         em.flush();
-        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0,"package", false);
+        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
         em.persist(p6);
         em.flush();
 
@@ -366,22 +369,26 @@ public class dataSetUp {
         //for s1
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        srp2_2.setRetailProduct(rp4);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProduct().add(srp2_2);
@@ -1540,7 +1547,6 @@ public class dataSetUp {
         memlvl4.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
         em.flush();
-        
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
@@ -1548,7 +1554,7 @@ public class dataSetUp {
         tr.setTotalPrice(200.0);
         em.persist(tr);
         em.flush();
- 
+
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductid(sp1_1.getStoreProductId());
@@ -1559,20 +1565,20 @@ public class dataSetUp {
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
-        ti1.setAmount(1);
+        ti1.setAmount(1D);
         ti1.setTransaction(tr);
         em.persist(ti1);
         em.flush();
-        
+
         List<TransactionItem> items = new ArrayList();
         items.add(ti1);
-        tr.setTransactionItemList(items);        
-               
+        tr.setTransactionItemList(items);
+
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();
-        
+
         pl1.setTransactoinItems(items);
-        ti1.setPickupList(pl1); 
+        ti1.setPickupList(pl1);
         em.persist(pl1);
         em.persist(ti1);
         em.flush();
@@ -1585,6 +1591,68 @@ public class dataSetUp {
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
         em.persist(member);
+        em.flush();
+
+        //Sales Record Set Up
+        SalesRecordEntity sre1 = new SalesRecordEntity();
+        sre1.setStore(s1);
+        sre1.setStoreProduct(sp1_1);
+        Calendar caltemp1 = Calendar.getInstance();
+        sre1.setPeriod(caltemp1);
+        sre1.setAmount(1000D);
+        sre1.setRevenue(50000D);
+        em.persist(sre1);
+        em.flush();
+
+        SalesRecordEntity sre2 = new SalesRecordEntity();
+        sre2.setStore(s1);
+        sre2.setStoreProduct(sp1_1);
+        Calendar caltemp2 = Calendar.getInstance();
+        caltemp2.add(Calendar.MONTH, 1);
+        sre2.setPeriod(caltemp2);
+        sre2.setAmount(1500D);
+        sre2.setRevenue(75000D);
+        em.persist(sre2);
+        em.flush();
+
+        SalesRecordEntity sre3 = new SalesRecordEntity();
+        sre3.setStore(s1);
+        sre3.setStoreProduct(sp1_1);
+        Calendar caltemp3 = Calendar.getInstance();
+        caltemp3.add(Calendar.YEAR, -1);
+        caltemp3.add(Calendar.MONTH, 2);
+        sre3.setPeriod(caltemp3);
+        sre3.setAmount(1500D);
+        sre3.setRevenue(75000D);
+        em.persist(sre3);
+        em.flush();
+
+        sp1_1.getSalesRecordList().add(sre1);
+        sp1_1.getSalesRecordList().add(sre2);
+        sp1_1.getSalesRecordList().add(sre3);
+        em.persist(sp1_1);
+        em.flush();
+
+        //Product Sales Forecast Set up
+        ProductSalesForecastEntity psfe1 = new ProductSalesForecastEntity();
+        psfe1.setAmount(1600D);
+        psfe1.setPeriod(caltemp3);
+        psfe1.setStore(s1);
+        psfe1.setStoreProduct(sp1_1);
+        em.persist(psfe1);
+        em.flush();
+
+        ProductSalesForecastEntity psfe2 = new ProductSalesForecastEntity();
+        psfe2.setAmount(1500D);
+        psfe2.setPeriod(caltemp2);
+        psfe2.setStore(s1);
+        psfe2.setStoreProduct(sp1_1);
+        em.persist(psfe2);
+        em.flush();
+
+        sp1_1.getProductSalesForecastList().add(psfe1);
+        sp1_1.getProductSalesForecastList().add(psfe2);
+        em.persist(sp1_1);
         em.flush();
 
     }

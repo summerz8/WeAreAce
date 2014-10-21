@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="OCRM Management">
+                            <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
+                            <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                            <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                        </p:submenu>
+                    </p:menu>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" resizable="false">                   
+
+                    <p:panel id="basic" header="Sales Forecast/Record Management" style="margin-bottom" >
+                        <h:form> 
+                            <br></br>
+                            <br></br>
+
+
+                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+
+                                <p:outputPanel>
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <h:outputLabel for="Product" value="Store Product:      " style="font-weight:bold" />
+                                        <p:selectOneMenu id="Product" value="#{OCRMSalesForecastBean.selectedStoreProduct}">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItems value="#{OCRMSalesForecastBean.storeProductDisplayList}" />
+                                        </p:selectOneMenu>
+                                        <p:commandButton value="Create"  action="#{OCRMSalesForecastBean.CreateStoreProductSalesForecast()}"  />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <h:outputLabel for="RetailProduct" value="Store Retail Product:         " style="font-weight:bold" />
+                                        <p:selectOneMenu id="RetailProduct" value="#{OCRMSalesForecastBean.selectedStoreRetailProduct}">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItems value="#{OCRMSalesForecastBean.storeRetailProductDisplayList}" />
+                                        </p:selectOneMenu>
+                                        <p:commandButton value="Create"  action="#{OCRMSalesForecastBean.CreateStoreRetailProductSalesForecast()}"  />
+                                    </h:panelGrid>
+
+
+
+                                    <p:dataTable var="StoreProduct" value="#{OCRMSalesForecastBean.storeProductList}">
+
+                                        <p:column headerText="Store Product Id">
+                                            <h:outputText value="#{StoreProduct.storeProductId}" />
+                                        </p:column>
+
+                                        <p:column headerText="Store Product Name">
+                                            <h:outputText value="#{StoreProduct.name}" />
+                                        </p:column>
+
+                                        <p:column headerText="Status">
+                                            <h:outputText value="#{OCRMSalesForecastBean.CheckStoreProduct(StoreProduct.storeProductId)}" />
+                                        </p:column>
+
+
+                                        <p:column headerText="View Forecast List">
+                                            <p:commandButton value="View"  action="#{OCRMSalesForecastBean.ViewStoreProductSalesForecast(StoreProduct.storeProductId)}"  />
+                                        </p:column>
+
+                                        <p:column headerText="View Sales Record List">
+                                            <p:commandButton value="View"  action="#{OCRMSalesForecastBean.ViewStoreProductSalesRecord(StoreProduct.storeProductId)}"  />
+                                        </p:column>
+                                    </p:dataTable> 
+
+                                    <p:dataTable var="StoreRetailProduct" value="#{OCRMSalesForecastBean.storeRetailProductList}">
+
+                                        <p:column headerText="Retail Product Id">
+                                            <h:outputText value="#{StoreRetailProduct.storeRetailProductId}" />
+                                        </p:column>
+
+                                        <p:column headerText="Retail Product Name">
+                                            <h:outputText value="#{StoreRetailProduct.name}" />
+                                        </p:column>
+
+
+                                        <p:column headerText="Status">
+                                            <h:outputText value="#{OCRMSalesForecastBean.CheckStoreRetailProduct(StoreRetailProduct.storeRetailProductId)}" />
+                                        </p:column>
+
+                                        <p:column headerText="View Sales Forecast List">
+                                            <p:commandButton value="View"  action="#{OCRMSalesForecastBean.ViewStoreRetailProductSalesForecast(StoreRetailProduct.storeRetailProductId)}"  />
+                                        </p:column>
+
+                                        <p:column headerText="View Sales Record List">
+                                            <p:commandButton value="View"  action="#{OCRMSalesForecastBean.ViewStoreRetailProductSalesRecord(StoreRetailProduct.storeRetailProductId)}"  />
+                                        </p:column>
+                                    </p:dataTable> 
+
+                                </p:outputPanel>
+
+                                <p:commandButton value="Create Sales Forecast"  action="#{OCRMSalesForecastBean.createSalesForeacast}"  />
+
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:form>
+    </h:body>
+
+</html>
+
+
+
