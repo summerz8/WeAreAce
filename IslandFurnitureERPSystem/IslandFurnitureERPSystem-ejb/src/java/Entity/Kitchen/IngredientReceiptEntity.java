@@ -27,12 +27,16 @@ public class IngredientReceiptEntity implements Serializable {
     private Long id;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime = Calendar.getInstance();
-    @OneToOne(mappedBy = "receipt")
+    @OneToOne
     private IngredientPurchaseOrderEntity purchaseOrder;
     
 
     
     public IngredientReceiptEntity() {
+    }
+
+    public IngredientReceiptEntity(IngredientPurchaseOrderEntity purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
     public Long getId() {

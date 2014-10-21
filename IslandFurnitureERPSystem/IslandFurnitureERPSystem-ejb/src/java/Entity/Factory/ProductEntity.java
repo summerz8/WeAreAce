@@ -18,6 +18,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ProductEntity")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class ProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,16 +42,20 @@ public class ProductEntity implements Serializable {
     private String unit;
     private Boolean deleteFlag;
     
-    //product entity -- bom entity: 1 <--> M
+    //product entity -- BOM entity: 1 <--> M
+//    @XmlElement
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy="product")
-    public List<BOMEntity> bom;
+    @XmlTransient
+    public List<BOMEntity> BOM;
 
     //product entity -- factory product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
+    @XmlTransient
     private Collection<FactoryProductEntity> factoryProducts = new ArrayList<>();
     
     //product entity -- store product entity: 1<--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
+    @XmlTransient
     private Collection<StoreProductEntity> storeProducts = new ArrayList<>();
     
     
@@ -106,10 +114,16 @@ public class ProductEntity implements Serializable {
         this.unit = unit;
     }
 
-    public List<BOMEntity> getBom() {
-        return bom;
+    @XmlTransient
+    public List<BOMEntity> getBOM() {
+        return BOM;
     }
 
+
+    public void setBOM(List<BOMEntity> BOM) {
+        this.BOM = BOM;
+    }
+    
     public Double getMemberPrice() {
         return memberPrice;
     }
@@ -124,10 +138,6 @@ public class ProductEntity implements Serializable {
 
     public void setStoreProducts(Collection<StoreProductEntity> storeProducts) {
         this.storeProducts = storeProducts;
-    }
-
-    public void setBom(List<BOMEntity> bom) {
-        this.bom = bom;
     }
 
     public Boolean isDeleteFlag() {
@@ -146,8 +156,7 @@ public class ProductEntity implements Serializable {
     public void setFactoryProducts(Collection<FactoryProductEntity> factoryProducts){
         this.factoryProducts = factoryProducts;
     }
-    
-    
+  
     @Override
     public int hashCode() {
         int hash = 0;

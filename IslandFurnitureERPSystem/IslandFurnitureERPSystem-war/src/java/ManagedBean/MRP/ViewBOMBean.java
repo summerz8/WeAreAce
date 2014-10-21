@@ -39,7 +39,7 @@ public class ViewBOMBean {
     public void getBOM(){
           factoryProductId=(Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryProductId");
              product=WPP.getProduct(factoryProductId);
-          bom=product.getBom();
+          bom=product.getBOM();
           
           
     }

@@ -33,9 +33,9 @@ public class PickupListEntity implements Serializable {
     
     private Boolean Picked;
     
-    //PickupListEntity <--> TransactionItem 1<-->M
+    //PickupListEntity <--> TransactionItemEntity 1<-->M
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
-    private List<TransactionItem> transactoinItems = new ArrayList<>();
+    private List<TransactionItemEntity> transactoinItems = new ArrayList<>();
     
     public PickupListEntity(){
         this.Picked = Boolean.FALSE;
@@ -58,11 +58,11 @@ public class PickupListEntity implements Serializable {
         this.Picked = Picked;
     }
 
-    public List<TransactionItem> getTransactoinItems() {
+    public List<TransactionItemEntity> getTransactoinItems() {
         return transactoinItems;
     }
 
-    public void setTransactoinItems(List<TransactionItem> transactoinItems) {
+    public void setTransactoinItems(List<TransactionItemEntity> transactoinItems) {
         this.transactoinItems = transactoinItems;
     }
 

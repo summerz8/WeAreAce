@@ -20,8 +20,10 @@ public interface MemberRegistrationModuleLocal {
     
     public MemberEntity getMember(String Email);
 
-    public void AddMember(String lastName, String midName, String firstName, Calendar birthday, String gender, String title, String address, String postalCode, String email);
-
+    public int AddMember(String lastName, String midName,
+            String firstName, Calendar birthday, String gender,
+            String title, String address, String postalCode, String email, Long transactionId);
+    
     public void DeleteMember(Long userId);
 
     public void ModifyMember(Long userId, String lastName, String midName, String firstName, Calendar birthday, String gender, String title, String address, String postalCode, String email);
