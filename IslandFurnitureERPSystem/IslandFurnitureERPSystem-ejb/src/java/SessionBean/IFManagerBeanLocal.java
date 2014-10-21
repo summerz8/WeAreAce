@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package util.login;
+package SessionBean;
 
 import javax.ejb.Local;
 

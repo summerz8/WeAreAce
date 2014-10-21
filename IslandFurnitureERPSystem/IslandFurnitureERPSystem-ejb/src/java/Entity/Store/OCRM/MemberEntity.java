@@ -19,9 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +26,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "member")
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class MemberEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,6 +37,7 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
+    private TransactionEntity lastTransaction;
     private Long storeId;
 
 
@@ -68,10 +65,9 @@ public class MemberEntity implements Serializable {
     private List<ItemEntity> shoppingCartList;
 
     @ManyToOne
-    private MembershipLevelEntity memberlvl;
+    private MembershipLevel memberlvl;
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
-    @XmlTransient
     private List<TransactionEntity> transactionList; 
 
     
@@ -212,6 +208,16 @@ public class MemberEntity implements Serializable {
         this.transactionList = transactionList;
     }
     
+    
+
+    public TransactionEntity getLastTransaction() {
+        return lastTransaction;
+    }
+
+    public void setLastTransaction(TransactionEntity lastTransaction) {
+        this.lastTransaction = lastTransaction;
+    }
+
     public Boolean isDeleteFlag() {
         return deleteFlag;
     }
@@ -220,19 +226,19 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 //
-//    public MembershipLevelEntity getMemberlvl() {
+//    public MembershipLevel getMemberlvl() {
 //        return memberlvl;
 //    }
 //
-//    public void setMemberlvl(MembershipLevelEntity memberlvl) {
+//    public void setMemberlvl(MembershipLevel memberlvl) {
 //        this.memberlvl = memberlvl;
 //    }
 
-    public MembershipLevelEntity getMemberlvl() {
+    public MembershipLevel getMemberlvl() {
         return memberlvl;
     }
 
-    public void setMemberlvl(MembershipLevelEntity memberlvl) {
+    public void setMemberlvl(MembershipLevel memberlvl) {
         this.memberlvl = memberlvl;
     }
 

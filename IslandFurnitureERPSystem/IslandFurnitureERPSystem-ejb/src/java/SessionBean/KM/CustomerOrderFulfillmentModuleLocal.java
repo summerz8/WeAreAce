@@ -6,7 +6,7 @@
 
 package SessionBean.KM;
 
-import Entity.Kitchen.KitchenOrderEntity;
+import Entity.Kitchen.KitchenEntity;
 import javax.ejb.Local;
 
 /**
@@ -15,14 +15,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface CustomerOrderFulfillmentModuleLocal {
-
-    KitchenOrderEntity createOrder(Long kitchenId);
     
-    Long addDishItem(Long orderId, Long dishId, Integer quantity);
     
-    Long addComboItem(Long orderId, Long comboId, Integer quantity);
-    
-    Long confirmOrder(Long orderId);
-    
-    Long cancelOrder(Long orderId);
 }

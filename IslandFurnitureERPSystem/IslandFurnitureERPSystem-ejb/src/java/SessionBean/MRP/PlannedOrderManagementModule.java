@@ -40,7 +40,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     public List<BOMEntity> CheckBOM(Long ProductID) {
         Long productID = ProductID;
         ProductEntity product = em.find(ProductEntity.class, productID);
-        return product.getBOM();
+        return product.getBom();
     }
 
     //Click the CreatePlannedOrder button when viewing production plan list
@@ -49,7 +49,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         try {
             FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductID);
             List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = new ArrayList<FactoryRawMaterialAmountEntity>();
-            List<BOMEntity> bom = factoryProduct.getProduct().getBOM();
+            List<BOMEntity> bom = factoryProduct.getProduct().getBom();
             FactoryRawMaterialAmountEntity temp = new FactoryRawMaterialAmountEntity();
             int size = bom.size();
             Long factoryId = factoryProduct.getFactory().getFactoryId();
@@ -315,7 +315,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             Calendar targetPeriod = productionPlan.getTargetPeriod();
             Calendar generatedDate = Calendar.getInstance();           
             
-            List<BOMEntity> BOM = product.getBOM();
+            List<BOMEntity> BOM = product.getBom();
             List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = new ArrayList();        
             
             for(BOMEntity bom : BOM){

@@ -23,7 +23,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -57,9 +56,7 @@ public class StoreProductEntity implements Serializable {
     @ManyToOne
     private ProductEntity product;
 
-    //store product entity -- returnedItemMovementRecordEntity 1<-->M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
-
+    @OneToMany
     private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")

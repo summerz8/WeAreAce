@@ -30,23 +30,19 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
-import Entity.Kitchen.ComboItemEntity;
-import Entity.Kitchen.DailySalesEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientEntity;
-import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
-import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
-import Entity.Store.OCRM.MembershipLevelEntity;
+import Entity.Store.OCRM.MembershipLevel;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.TransactionEntity;
-import Entity.Store.OCRM.TransactionItemEntity;
+import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
@@ -56,7 +52,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -92,7 +87,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000002L);
+        id.setId_S(1000001L);
         em.persist(id);
         em.flush();
 
@@ -194,15 +189,7 @@ public class dataSetUp {
         em.flush();
 
         //StoreUser(s1)
-        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
-                "Yaowen", "Store Manager", birthday, "Female",
-                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
-        em.persist(us1_1);
-        em.flush();
-
-        
-        //StoreUser(s1)
-        UserEntity u4 = new StoreUserEntity("S", "1000002", 2, "He", null,
+        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
@@ -354,23 +341,23 @@ public class dataSetUp {
 
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
-        s1.getStoreProducts().add(sp1_1);
+        s1.getStoreProduct().add(sp1_1);
         em.flush();
         StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE);
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
-        s1.getStoreProducts().add(sp1_2);
+        s1.getStoreProduct().add(sp1_2);
         em.flush();
         //s2.factoryProduct
         StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE);
         em.persist(sp2_1);
         fp1_2.getStoreProducts().add(sp2_1);
-        s2.getStoreProducts().add(sp2_1);
+        s2.getStoreProduct().add(sp2_1);
         em.flush();
         StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE);
         em.persist(sp2_2);
         fp2_2.getStoreProducts().add(sp2_2);
-        s2.getStoreProducts().add(sp2_2);
+        s2.getStoreProduct().add(sp2_2);
         em.flush();
 
         sp1_1.setProduct(p1);
@@ -385,26 +372,26 @@ public class dataSetUp {
         srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
-        s1.getStoreRetailProducts().add(srp1_1);
+        s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
         srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
-        s1.getStoreRetailProducts().add(srp1_2);
+        s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
         srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
-        s2.getStoreRetailProducts().add(srp2_1);
+        s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
         srp2_2.setRetailProduct(rp4);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
-        s2.getStoreRetailProducts().add(srp2_2);
+        s2.getStoreRetailProduct().add(srp2_2);
         em.flush();
 
         //Product.BOM
@@ -422,7 +409,7 @@ public class dataSetUp {
         bom1.add(bom1_1);
         bom1.add(bom1_2);
         bom1.add(bom1_3);
-        p1.setBOM(bom1);
+        p1.setBom(bom1);
         em.flush();
         //for p2
         BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p2);
@@ -438,7 +425,7 @@ public class dataSetUp {
         bom2.add(bom2_1);
         bom2.add(bom2_2);
         bom2.add(bom2_3);
-        p2.setBOM(bom2);
+        p2.setBom(bom2);
         em.flush();
         //for p3
         BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p3);
@@ -454,7 +441,7 @@ public class dataSetUp {
         bom3.add(bom3_1);
         bom3.add(bom3_2);
         bom3.add(bom3_3);
-        p3.setBOM(bom3);
+        p3.setBom(bom3);
         em.flush();
         //for p4
         BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p4);
@@ -466,7 +453,7 @@ public class dataSetUp {
         List bom4 = new ArrayList();
         bom4.add(bom4_1);
         bom4.add(bom4_2);
-        p4.setBOM(bom4);
+        p4.setBom(bom4);
         em.flush();
         //for p5
         BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p5);
@@ -482,7 +469,7 @@ public class dataSetUp {
         bom5.add(bom5_1);
         bom5.add(bom5_2);
         bom5.add(bom5_3);
-        p5.setBOM(bom5);
+        p5.setBom(bom5);
         em.flush();
 
         //Factory Raw Material
@@ -1529,167 +1516,52 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
-        // MenuItemForecast for k1
-        Calendar td_mif1_1 = Calendar.getInstance();
-        td_mif1_1.set(2014, Calendar.OCTOBER, 17);
-        MenuItemForecastEntity mif1_1 = new MenuItemForecastEntity(td_mif1_1, k1);
-        em.persist(mif1_1);
-        em.flush();
-        k1.getMenuItemForecasts().add(mif1_1);
-        DishItemEntity dfi1_1_1 = new DishItemEntity(d1_1, 101);
-        em.persist(dfi1_1_1);
-        em.flush();
-        mif1_1.getDishForecastItems().add(dfi1_1_1);
-        dfi1_1_1.getDish().getForecasts().add(mif1_1);
-        em.flush();
-        DishItemEntity dfi1_1_2 = new DishItemEntity(d1_2, 201);
-        em.persist(dfi1_1_2);
-        em.flush();
-        mif1_1.getDishForecastItems().add(dfi1_1_2);
-        dfi1_1_2.getDish().getForecasts().add(mif1_1);
-        em.flush();
-        ComboItemEntity cfi1_1_1 = new ComboItemEntity(c1_1, 151);
-        em.persist(cfi1_1_1);
-        em.flush();
-        mif1_1.getComboForecastItems().add(cfi1_1_1);
-        cfi1_1_1.getCombo().getForecasts().add(mif1_1);
-        em.flush();
-        Calendar td_mif1_2 = Calendar.getInstance();
-        td_mif1_2.set(2014, Calendar.OCTOBER, 18);
-        MenuItemForecastEntity mif1_2 = new MenuItemForecastEntity(td_mif1_2, k1);
-        em.persist(mif1_2);
-        em.flush();
-        k1.getMenuItemForecasts().add(mif1_2);
-        DishItemEntity dfi1_2_1 = new DishItemEntity(d1_1, 112);
-        em.persist(dfi1_2_1);
-        em.flush();
-        mif1_2.getDishForecastItems().add(dfi1_2_1);
-        dfi1_2_1.getDish().getForecasts().add(mif1_2);
-        em.flush();
-        DishItemEntity dfi1_2_2 = new DishItemEntity(d1_2, 202);
-        em.persist(dfi1_2_2);
-        em.flush();
-        mif1_2.getDishForecastItems().add(dfi1_2_2);
-        dfi1_2_2.getDish().getForecasts().add(mif1_2);
-        em.flush();
-        ComboItemEntity cfi1_2_1 = new ComboItemEntity(c1_1, 152);
-        em.persist(cfi1_2_1);
-        em.flush();
-        mif1_2.getComboForecastItems().add(cfi1_2_1);
-        cfi1_2_1.getCombo().getForecasts().add(mif1_2);
-        em.flush();
-        Calendar td_mif1_3 = Calendar.getInstance();
-        td_mif1_3.set(2014, Calendar.OCTOBER, 19);
-        MenuItemForecastEntity mif1_3 = new MenuItemForecastEntity(td_mif1_3, k1);
-        em.persist(mif1_3);
-        IngredientForecastEntity ingf = new IngredientForecastEntity(mif1_3);
-        em.persist(ingf);
-        mif1_3.setIngredientForecast(ingf);
-        em.flush();
-        k1.getMenuItemForecasts().add(mif1_3);
-        DishItemEntity dfi1_3_1 = new DishItemEntity(d1_1, 112);
-        em.persist(dfi1_3_1);
-        em.flush();
-        mif1_3.getDishForecastItems().add(dfi1_3_1);
-        dfi1_3_1.getDish().getForecasts().add(mif1_3);
-        em.flush();
-        DishItemEntity dfi1_3_2 = new DishItemEntity(d1_2, 203);
-        em.persist(dfi1_3_2);
-        em.flush();
-        mif1_3.getDishForecastItems().add(dfi1_3_2);
-        dfi1_3_2.getDish().getForecasts().add(mif1_3);
-        em.flush();
-        ComboItemEntity cfi1_3_1 = new ComboItemEntity(c1_1, 153);
-        em.persist(cfi1_3_1);
-        em.flush();
-        mif1_3.getComboForecastItems().add(cfi1_3_1);
-        cfi1_3_1.getCombo().getForecasts().add(mif1_3);
-        em.flush();
-
-        //DailySales for k1
-        Random rd = new Random();
-        for (int i = -10; i < 0; i++) {
-            DailySalesEntity ds = new DailySalesEntity(k1);
-            em.persist(ds);
-            em.flush();
-            k1.getDailySales().add(ds);
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_MONTH, i);
-            ds.setSalesDate(cal);
-            for (DishEntity d : k1.getDishes()) {
-                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
-                em.persist(di);
-                em.flush();
-                ds.getDishes().add(di);
-                d.getDailySales().add(ds);
-                em.flush();
-            }
-            for (ComboEntity c : k1.getCombos()) {
-                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
-                em.persist(ci);
-                em.flush();
-                ds.getCombos().add(ci);
-                c.getDailySales().add(ds);
-                em.flush();
-            }
-        }
-
         //MembershipLevel
-        MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
-        memlvl1.setDiscount(1D);
-        memlvl1.setPointsToUpgrade(0D);
-        em.persist(memlvl1);
-        memlvl1.setLevelName("Basic");
+        MembershipLevel memlvl0 = new MembershipLevel();
+        memlvl0.setDiscount(1D);
+        memlvl0.setPointsToUpgrade(1000D);
+        memlvl0.setName("Basic");
+        em.persist(memlvl0);
         em.flush();
-        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
-        memlvl2.setDiscount(0.9);
-        memlvl2.setPointsToUpgrade(2000D);
-        memlvl2.setLevelName("Blue");
+        MembershipLevel memlvl1 = new MembershipLevel();
+        memlvl1.setDiscount(0.9);
+        memlvl1.setPointsToUpgrade(2000D);
+        memlvl1.setName("Blue");
+        em.persist(memlvl1);
+        em.flush();
+        MembershipLevel memlvl2 = new MembershipLevel();
+        memlvl2.setName("Sliver");
+        memlvl2.setDiscount(0.85);
+        memlvl2.setPointsToUpgrade(5000D);
         em.persist(memlvl2);
         em.flush();
-        MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
-        memlvl3.setDiscount(0.85);
+        MembershipLevel memlvl3 = new MembershipLevel();
+        memlvl3.setName("Gold");
+        memlvl3.setDiscount(0.8);
         memlvl3.setPointsToUpgrade(10000D);
-        memlvl3.setLevelName("Sliver");
         em.persist(memlvl3);
         em.flush();
-        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
-        memlvl4.setDiscount(0.8);
-        memlvl4.setPointsToUpgrade(30000D);
-        memlvl4.setLevelName("Gold");
+        MembershipLevel memlvl4 = new MembershipLevel();
+        memlvl4.setName("Diamond");
+        memlvl4.setDiscount(0.7);
+        memlvl4.setPointsToUpgrade(20000D);
         em.persist(memlvl4);
-        em.flush();
-
-        MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
-        memlvl5.setDiscount(0.75);
-        memlvl5.setPointsToUpgrade(50000D);
-        memlvl5.setLevelName("Diamond");
-        em.persist(memlvl5);
         em.flush();
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
         tr.setStore(s1);
         tr.setTotalPrice(200.0);
-        tr.setGenerateTime(Calendar.getInstance());
         em.persist(tr);
         em.flush();
 
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductid(sp1_1.getStoreProductId());
-        sm1.setStore(s1);
         em.persist(sm1);
         em.flush();
-        
-        StoreItemMappingEntity sm2 = new StoreItemMappingEntity();
-        sm2.setProductid(sp1_2.getStoreProductId());
-        sm2.setStore(s1);
-        em.persist(sm2);
-        em.flush();
-        
         //TransactionItem
-        TransactionItemEntity ti1 = new TransactionItemEntity();
+        TransactionItem ti1 = new TransactionItem();
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
@@ -1698,13 +1570,9 @@ public class dataSetUp {
         em.persist(ti1);
         em.flush();
 
-
-        
-        List<TransactionItemEntity> items = new ArrayList();
+        List<TransactionItem> items = new ArrayList();
         items.add(ti1);
         tr.setTransactionItemList(items);
-        em.persist(tr);
-        em.flush();
 
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();

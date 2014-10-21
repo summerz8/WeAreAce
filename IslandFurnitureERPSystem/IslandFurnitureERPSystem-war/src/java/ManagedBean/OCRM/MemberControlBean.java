@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.MemberEntity;
@@ -30,7 +31,6 @@ import org.primefaces.event.RowEditEvent;
 @Named(value = "memberControl")
 @ViewScoped
 public class MemberControlBean {
-
     @EJB
     private MemberRegistrationModuleLocal MRMM;
 
@@ -51,14 +51,12 @@ public class MemberControlBean {
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
-    private Long transactionId;
-
     /**
      * Creates a new instance of MemberControlBean
      */
     public MemberControlBean() {
     }
-
+    
     @PostConstruct
     public void init() {
         System.out.println("MemberControlBean: init:");
@@ -73,8 +71,8 @@ public class MemberControlBean {
         MemberEntity entity = (MemberEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getMemberId());
 
-        MRMM.ModifyMember(entity.getMemberId(), entity.getLastName(), entity.getMidName(),
-                entity.getFirstName(), entity.getBirthday(), entity.getGender(), entity.getTitle(),
+        MRMM.ModifyMember(entity.getMemberId(), entity.getLastName(), entity.getMidName(), 
+                entity.getFirstName(), entity.getBirthday(), entity.getGender(), entity.getTitle(), 
                 entity.getAddress(), entity.getPostalCode(), entity.getEmail());
         FacesMessage msg = new FacesMessage("Member Edited", String.valueOf(entity.getMemberId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -96,46 +94,16 @@ public class MemberControlBean {
 
     public void addMember() {
         System.out.println("MemberControlBean: addMember: ");
-
-        int result = MRMM.AddMember(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, transactionId);
-        if (result == 1) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Member added successfully! ", ""));
-
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("viewMember.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (result == -1) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Transaction does not exist! ", ""));
-        } else if (result == -2) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Transactoin has already been rebated! ", ""));
-        } else if (result == -3) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Transactoin is not created in today! ", ""));
+        
+        MRMM.AddMember(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Member added successfully! ", ""));       
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("viewMember.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
-
-//    public void changePassword(ActionEvent event) {
-//        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
-//        System.out.println("UserInfoManageBean: change password");
-//        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-//        System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
-//        if (cryptographicHelper.doMD5Hashing(inputOldPass).equals(password)) {
-//            //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
-//            IUMA.changePass(newPass, userId);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Password changed successfully!", ""));
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//                    "Wrong Password, please enter again!", ""));
-//        }
-//
-//        inputOldPass = null;
-//        password = IUMA.getUser(userId).getPwd();
-//
-//    }
     public String BirString(Calendar bir) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         if (bir != null) {
@@ -146,7 +114,6 @@ public class MemberControlBean {
         System.out.println("UserControlBean: birstring:" + birString);
         return birString;
     }
-
     public MemberRegistrationModuleLocal getMRMM() {
         return MRMM;
     }
@@ -266,13 +233,7 @@ public class MemberControlBean {
     public void setBirString(String birString) {
         this.birString = birString;
     }
-
-    public Long getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
+    
+    
+    
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManagedBean.KM.ProcurementManagementModule;
+package ManagedBean.KM.RawIngredientsManagementModule;
 
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;

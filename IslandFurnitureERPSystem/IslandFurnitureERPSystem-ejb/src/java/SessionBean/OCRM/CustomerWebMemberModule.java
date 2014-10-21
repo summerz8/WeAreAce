@@ -6,7 +6,7 @@
 package SessionBean.OCRM;
 
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.MembershipLevelEntity;
+import Entity.Store.OCRM.MembershipLevel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -69,7 +69,7 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
         member = new MemberEntity(PWD, lastName, midName, firstName,
                 birthday, gender, title, address, postalCode,
                 email, Boolean.FALSE); 
-        member.setMemberlvl(em.find(MembershipLevelEntity.class, 0L));
+        member.setMemberlvl(em.find(MembershipLevel.class, 0L));
         em.persist(member);
         System.out.println("New Member created!");
         em.flush();
@@ -153,7 +153,7 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
                 birthday, gender, title, address, postalCode,
                 email, Boolean.FALSE); 
         
-        member.setMemberlvl(em.find(MembershipLevelEntity.class, 1L));
+        member.setMemberlvl(em.find(MembershipLevel.class, 1L));
         em.persist(member);
         System.out.println("New Member created!");
         em.flush();

@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
  * @author dan
  */
 @Entity
-public class TransactionItemEntity implements Serializable {
+public class TransactionItem implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,10 +117,10 @@ public class TransactionItemEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the TransactionItemId fields are not set
-        if (!(object instanceof TransactionItemEntity)) {
+        if (!(object instanceof TransactionItem)) {
             return false;
         }
-        TransactionItemEntity other = (TransactionItemEntity) object;
+        TransactionItem other = (TransactionItem) object;
         if ((this.TransactionItemId == null && other.TransactionItemId != null) || (this.TransactionItemId != null && !this.TransactionItemId.equals(other.TransactionItemId))) {
             return false;
         }
@@ -129,7 +129,7 @@ public class TransactionItemEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.TransactionItemEntity[ id=" + TransactionItemId + " ]";
+        return "Entity.Store.OCRM.OrderItem[ id=" + TransactionItemId + " ]";
     }
     
 }

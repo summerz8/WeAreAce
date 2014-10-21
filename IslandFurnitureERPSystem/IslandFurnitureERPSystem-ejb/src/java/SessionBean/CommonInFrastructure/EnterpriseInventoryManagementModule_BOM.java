@@ -54,14 +54,14 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
           }
           else{
              Boolean hasDeleteBefore = false;
-             List<BOMEntity> bomList = product.getBOM();
+             List<BOMEntity> bomList = product.getBom();
              List<BOMEntity> deleteCheckList = new ArrayList<BOMEntity> ();
 //             for(BOMEntity bome: bomList){
 //                 
 //                 
 //             if(!Objects.equals(bome.getRawMaterial().getMaterialId(), rawMaterialId) ){
              
-            //for delete Item that was previously add in the BOM
+            //for delete Item that was previously add in the bom
              for(BOMEntity be: bomList){
                  if(be.getIsDeleted()){
                      if(be.getRawMaterial().getMaterialId() == rawMaterialId){
@@ -81,7 +81,7 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
              productBOM.setUnit(rawMaterial.getUnit());
              productBOM.setIsDeleted(false);
              em.persist(productBOM);
-             product.getBOM().add(productBOM);
+             product.getBom().add(productBOM);
              rawMaterial.getBomList().add(productBOM);
              em.flush();
              System.out.println("SessionBean: Add BOM: successfully!!");
@@ -129,7 +129,7 @@ public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInvent
           ProductEntity product= em.find(ProductEntity.class, productId);
           System.out.println("SessionBean: getAllBOM: product Id:" + product.getProductId());
           
-          List<BOMEntity> temp = product.getBOM();
+          List<BOMEntity> temp = product.getBom();
           System.out.println("SessionBean: getAllBOM: SIZE(); " + temp.size());
           
           
