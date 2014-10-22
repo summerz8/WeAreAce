@@ -25,7 +25,6 @@ public class MembershipLevelEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long level;
-    private String Name;
     
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
@@ -90,15 +89,6 @@ public class MembershipLevelEntity implements Serializable {
     public void setPointsToUpgrade(Double pointsToUpgrade) {
         this.pointsToUpgrade = pointsToUpgrade;
     }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
     
     @Override
     public int hashCode() {
