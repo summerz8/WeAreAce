@@ -114,6 +114,12 @@
                                     <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                                 </h:selectOneMenu>
 
+                                <h:outputLabel for="nationality" value="Nationality: *" />
+                                <h:selectOneMenu value="#{memberControl.nationality}" style="width:100%" required="true" requiredMessage="Please select gender">
+                                    <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{attr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                </h:selectOneMenu>
+                                
                                 <h:outputLabel for="birthday" value="Birthday:*" />
                                 <p:calendar id="birthday" value="#{memberControl.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
 

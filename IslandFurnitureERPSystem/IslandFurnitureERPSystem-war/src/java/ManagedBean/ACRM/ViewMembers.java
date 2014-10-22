@@ -11,31 +11,55 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author summer
  */
 @Named(value = "viewMembers")
-@ViewScoped
+@RequestScoped
 public class ViewMembers implements Serializable {
 
     @EJB
     private AnalyticalCRMSessionBeanLocal acrm;
 
+    private Collection<MemberEntity> currentMembers;
+
     private Collection<MemberEntity> allMembers;
     private Collection<MemberEntity> membersByAge;
     private Collection<MemberEntity> membersByGender;
-    private Collection<MemberEntity> membersByNationality;
+    private Collection<MemberEntity> membersByCountry;
     private Collection<MemberEntity> membersByMemberLevel;
+
+    private Collection<MemberEntity> membersByAG;
+    private Collection<MemberEntity> membersByAC;
+    private Collection<MemberEntity> membersByAM;
+    private Collection<MemberEntity> membersByGC;
+    private Collection<MemberEntity> membersByGM;
+    private Collection<MemberEntity> membersByCM;
+
+    private Collection<MemberEntity> membersByAGC;
+    private Collection<MemberEntity> membersByAGM;
+    private Collection<MemberEntity> membersByACM;
+    private Collection<MemberEntity> membersByGCM;
+
+    private Collection<MemberEntity> membersByAGCM;
+
+    private Collection<MemberEntity> filteredMembers;
 
     private Integer memberAmount;
 
-    private Integer segFactor = 0;
+    private Boolean checkGender;
+    private Boolean checkAge = false;
+    private Boolean checkCountry = false;
+    private Boolean checkMemberlvl = false;
 
     private Integer maxAge = 0;
     private Integer minAge = 0;
@@ -44,7 +68,7 @@ public class ViewMembers implements Serializable {
     private String gender = null;
 
     private Map<String, String> countries;
-    private String nationality = null;
+    private String country = null;
 
     private Map<Integer, String> memberLevels;
     private Integer memberLevel = 0;
@@ -55,20 +79,70 @@ public class ViewMembers implements Serializable {
         genders.put("Female", "Female");
         genders.put("Male", "Male");
         genders.put("Others", "Others");
-        
+
         countries = new HashMap<String, String>();
         initialCounties();
 
-        memberLevels = new HashMap<Integer, String>();
+        memberLevels = new HashMap<>();
         memberLevels.put(1, "1 Basic");
         memberLevels.put(2, "2 Blue");
         memberLevels.put(3, "3 Silver");
         memberLevels.put(4, "4 Gold");
         memberLevels.put(5, "5 Diamond");
 
+        try {
+            getValuesOnSession();
+            initSetting();
+
+            System.out.println("ViewMembersBean: memberAmount: " + memberAmount);
+        } catch (Exception ex) {
+            Logger.getLogger(ViewMembers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public ViewMembers() {
+    }
+
+    public Collection<MemberEntity> getCurrentMembers() {
+        if (!checkGender && !checkAge && !checkCountry && !checkMemberlvl) {
+            currentMembers = allMembers;
+        } else if (checkGender && !checkAge && !checkCountry && !checkMemberlvl) {
+            currentMembers = membersByGender;
+        } else if (!checkGender && checkAge && !checkCountry && !checkMemberlvl) {
+            currentMembers = membersByAge;
+        } else if (!checkGender && !checkAge && checkCountry && !checkMemberlvl) {
+            currentMembers = membersByCountry;
+        } else if (!checkGender && !checkAge && !checkCountry && checkMemberlvl) {
+            currentMembers = membersByMemberLevel;
+        } else if (checkGender && checkAge && !checkCountry && !checkMemberlvl) {
+            currentMembers = membersByAG;
+        } else if (!checkGender && checkAge && checkCountry && !checkMemberlvl) {
+            currentMembers = membersByAC;
+        } else if (!checkGender && checkAge && !checkCountry && checkMemberlvl) {
+            currentMembers = membersByAM;
+        } else if (checkGender && !checkAge && checkCountry && !checkMemberlvl) {
+            currentMembers = membersByGC;
+        } else if (checkGender && !checkAge && !checkCountry && checkMemberlvl) {
+            currentMembers = membersByGM;
+        } else if (!checkGender && !checkAge && checkCountry && checkMemberlvl) {
+            currentMembers = membersByCM;
+        } else if (checkGender && checkAge && checkCountry && !checkMemberlvl) {
+            currentMembers = membersByAGC;
+        } else if (checkGender && checkAge && !checkCountry && checkMemberlvl) {
+            currentMembers = membersByAGM;
+        } else if (!checkGender && checkAge && checkCountry && checkMemberlvl) {
+            currentMembers = membersByACM;
+        } else if (checkGender && !checkAge && checkCountry && checkMemberlvl) {
+            currentMembers = membersByGCM;
+        } else {
+            currentMembers = membersByAGCM;
+        }
+        return currentMembers;
+    }
+
+    public void setCurrentMembers(Collection<MemberEntity> currentMembers) {
+        this.currentMembers = currentMembers;
     }
 
     public Collection<MemberEntity> getAllMembers() {
@@ -95,12 +169,12 @@ public class ViewMembers implements Serializable {
         this.membersByGender = membersByGender;
     }
 
-    public Collection<MemberEntity> getMembersByNationality() {
-        return membersByNationality;
+    public Collection<MemberEntity> getMembersByCountry() {
+        return membersByCountry;
     }
 
-    public void setMembersByNationality(Collection<MemberEntity> membersByNationality) {
-        this.membersByNationality = membersByNationality;
+    public void setMembersByCountry(Collection<MemberEntity> membersByCountry) {
+        this.membersByCountry = membersByCountry;
     }
 
     public Collection<MemberEntity> getMembersByMemberLevel() {
@@ -112,6 +186,7 @@ public class ViewMembers implements Serializable {
     }
 
     public Integer getMemberAmount() {
+        memberAmount = filteredMembers.size();
         return memberAmount;
     }
 
@@ -119,12 +194,47 @@ public class ViewMembers implements Serializable {
         this.memberAmount = memberAmount;
     }
 
-    public Integer getSegFactor() {
-        return segFactor;
+    public Boolean getCheckGender() {
+        System.out.println("getCheckGender: ===> checkGender = " + this.checkGender.toString());
+        return checkGender;
     }
 
-    public void setSegFactor(Integer segFactor) {
-        this.segFactor = segFactor;
+    public void setCheckGender(Boolean checkGender) {
+        System.out.println("ViewMembersBean: setCheckGender: before");
+        this.checkGender = checkGender;
+        System.out.println("View MembersBean: setCheckGender: After ---> checkGender = " + this.checkGender.toString());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("checkGender", this.checkGender);
+
+    }
+
+    public Boolean getCheckAge() {
+        return checkAge;
+    }
+
+    public void setCheckAge(Boolean checkAge) {
+        this.checkAge = checkAge;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("checkAge", this.checkAge);
+
+    }
+
+    public Boolean getCheckCountry() {
+        return checkCountry;
+    }
+
+    public void setCheckCountry(Boolean checkCountry) {
+        this.checkCountry = checkCountry;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("checkCountry", this.checkCountry);
+
+    }
+
+    public Boolean getCheckMemberlvl() {
+        return checkMemberlvl;
+    }
+
+    public void setCheckMemberlvl(Boolean checkMemberlvl) {
+        this.checkMemberlvl = checkMemberlvl;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("checkMemberlvl", this.checkMemberlvl);
+
     }
 
     public Integer getMaxAge() {
@@ -133,6 +243,7 @@ public class ViewMembers implements Serializable {
 
     public void setMaxAge(Integer maxAge) {
         this.maxAge = maxAge;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("maxAge", this.maxAge);
     }
 
     public Integer getMinAge() {
@@ -141,6 +252,7 @@ public class ViewMembers implements Serializable {
 
     public void setMinAge(Integer minAge) {
         this.minAge = minAge;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("minAge", this.minAge);
     }
 
     public String getGender() {
@@ -149,14 +261,17 @@ public class ViewMembers implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("gender", this.gender);
+
     }
 
-    public String getNationality() {
-        return nationality;
+    public String getCountry() {
+        return country;
     }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
+    public void setCountry(String country) {
+        this.country = country;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", this.country);
     }
 
     public Integer getMemberLevel() {
@@ -165,6 +280,7 @@ public class ViewMembers implements Serializable {
 
     public void setMemberLevel(Integer memberLevel) {
         this.memberLevel = memberLevel;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("memberLevel", this.memberLevel);
     }
 
     public Map<String, String> getGenders() {
@@ -181,6 +297,110 @@ public class ViewMembers implements Serializable {
 
     public void setCountries(Map<String, String> countries) {
         this.countries = countries;
+    }
+
+    public Map<Integer, String> getMemberLevels() {
+        return memberLevels;
+    }
+
+    public void setMemberLevels(Map<Integer, String> memberLevels) {
+        this.memberLevels = memberLevels;
+    }
+
+    public Collection<MemberEntity> getMembersByAG() {
+        return membersByAG;
+    }
+
+    public void setMembersByAG(Collection<MemberEntity> membersByAG) {
+        this.membersByAG = membersByAG;
+    }
+
+    public Collection<MemberEntity> getMembersByAC() {
+        return membersByAC;
+    }
+
+    public void setMembersByAC(Collection<MemberEntity> membersByAC) {
+        this.membersByAC = membersByAC;
+    }
+
+    public Collection<MemberEntity> getMembersByAM() {
+        return membersByAM;
+    }
+
+    public void setMembersByAM(Collection<MemberEntity> membersByAM) {
+        this.membersByAM = membersByAM;
+    }
+
+    public Collection<MemberEntity> getMembersByGC() {
+        return membersByGC;
+    }
+
+    public void setMembersByGC(Collection<MemberEntity> membersByGC) {
+        this.membersByGC = membersByGC;
+    }
+
+    public Collection<MemberEntity> getMembersByGM() {
+        return membersByGM;
+    }
+
+    public void setMembersByGM(Collection<MemberEntity> membersByGM) {
+        this.membersByGM = membersByGM;
+    }
+
+    public Collection<MemberEntity> getMembersByCM() {
+        return membersByCM;
+    }
+
+    public void setMembersByCM(Collection<MemberEntity> membersByCM) {
+        this.membersByCM = membersByCM;
+    }
+
+    public Collection<MemberEntity> getMembersByAGC() {
+        return membersByAGC;
+    }
+
+    public void setMembersByAGC(Collection<MemberEntity> membersByAGC) {
+        this.membersByAGC = membersByAGC;
+    }
+
+    public Collection<MemberEntity> getMembersByAGM() {
+        return membersByAGM;
+    }
+
+    public void setMembersByAGM(Collection<MemberEntity> membersByAGM) {
+        this.membersByAGM = membersByAGM;
+    }
+
+    public Collection<MemberEntity> getMembersByACM() {
+        return membersByACM;
+    }
+
+    public void setMembersByACM(Collection<MemberEntity> membersByACM) {
+        this.membersByACM = membersByACM;
+    }
+
+    public Collection<MemberEntity> getMembersByGCM() {
+        return membersByGCM;
+    }
+
+    public void setMembersByGCM(Collection<MemberEntity> membersByGCM) {
+        this.membersByGCM = membersByGCM;
+    }
+
+    public Collection<MemberEntity> getMembersByAGCM() {
+        return membersByAGCM;
+    }
+
+    public void setMembersByAGCM(Collection<MemberEntity> membersByAGCM) {
+        this.membersByAGCM = membersByAGCM;
+    }
+
+    public Collection<MemberEntity> getFilteredMembers() {
+        return filteredMembers;
+    }
+
+    public void setFilteredMembers(Collection<MemberEntity> filteredMembers) {
+        this.filteredMembers = filteredMembers;
     }
 
     public void initialCounties() {
@@ -379,6 +599,95 @@ public class ViewMembers implements Serializable {
         countries.put("Yemen", "Yemen");
         countries.put("Zambia", "Zambia");
         countries.put("Zimbabwe", "Zimbabwe");
+    }
+
+    private void initSetting() throws Exception {
+        if (!checkGender && !checkAge && !checkCountry && !checkMemberlvl) {
+            System.out.println("ViewMembersBean: allMembers = acrm.getAllMembers();");
+            allMembers = acrm.getAllMembers();
+            filteredMembers = acrm.getAllMembers();
+            System.out.println("ViewMembersBean: " + allMembers.toString());
+        } else if (checkGender && !checkAge && !checkCountry && !checkMemberlvl) {
+            membersByGender = acrm.getMembersByGender(gender);
+            filteredMembers = acrm.getMembersByGender(gender);
+        } else if (!checkGender && checkAge && !checkCountry && !checkMemberlvl) {
+            membersByAge = acrm.getMembersByAge(minAge, maxAge);
+            filteredMembers = acrm.getMembersByAge(minAge, maxAge);
+        } else if (!checkGender && !checkAge && checkCountry && !checkMemberlvl) {
+            membersByCountry = acrm.getMembersByNationality(country);
+            filteredMembers = acrm.getMembersByNationality(country);
+        } else if (!checkGender && !checkAge && !checkCountry && checkMemberlvl) {
+            membersByMemberLevel = acrm.getMembersByMemberLevel(memberLevel);
+            filteredMembers = acrm.getMembersByNationality(country);
+        } else if (checkGender && checkAge && !checkCountry && !checkMemberlvl) {
+            membersByAG = acrm.getMembersByAG(minAge, maxAge, gender);
+            filteredMembers = acrm.getMembersByAG(minAge, maxAge, gender);
+        } else if (!checkGender && checkAge && checkCountry && !checkMemberlvl) {
+            membersByAC = acrm.getMembersByAC(minAge, maxAge, country);
+            filteredMembers = acrm.getMembersByAC(minAge, maxAge, country);
+        } else if (!checkGender && checkAge && !checkCountry && checkMemberlvl) {
+            membersByAM = acrm.getMembersByAM(minAge, maxAge, memberLevel);
+            filteredMembers = acrm.getMembersByAM(minAge, maxAge, memberLevel);
+        } else if (checkGender && !checkAge && checkCountry && !checkMemberlvl) {
+            membersByGC = acrm.getMembersByGC(gender, country);
+            filteredMembers = acrm.getMembersByGC(gender, country);
+        } else if (checkGender && !checkAge && !checkCountry && checkMemberlvl) {
+            membersByGM = acrm.getMembersByGM(gender, memberLevel);
+            filteredMembers = acrm.getMembersByGM(gender, memberLevel);
+        } else if (!checkGender && !checkAge && checkCountry && checkMemberlvl) {
+            membersByCM = acrm.getMembersByCM(country, memberLevel);
+            filteredMembers = acrm.getMembersByCM(country, memberLevel);
+        } else if (checkGender && checkAge && checkCountry && !checkMemberlvl) {
+            membersByAGC = acrm.getMembersByAGC(minAge, maxAge, gender, country);
+            filteredMembers = acrm.getMembersByAGC(minAge, maxAge, gender, country);
+        } else if (checkGender && checkAge && !checkCountry && checkMemberlvl) {
+            membersByAGM = acrm.getMembersByAGM(minAge, maxAge, gender, memberLevel);
+            filteredMembers = acrm.getMembersByAGM(minAge, maxAge, gender, memberLevel);
+        } else if (!checkGender && checkAge && checkCountry && checkMemberlvl) {
+            membersByACM = acrm.getMembersByACM(minAge, maxAge, country, memberLevel);
+            filteredMembers = acrm.getMembersByACM(minAge, maxAge, country, memberLevel);
+        } else if (checkGender && !checkAge && checkCountry && checkMemberlvl) {
+            membersByGCM = acrm.getMembersByGCM(gender, country, memberLevel);
+            filteredMembers = acrm.getMembersByGCM(gender, country, memberLevel);
+        } else {
+            membersByAGCM = acrm.getMembersByAGCM(minAge, maxAge, gender, country, memberLevel);
+            filteredMembers = acrm.getMembersByAGCM(minAge, maxAge, gender, country, memberLevel);
+        }
+    }
+
+    private void getValuesOnSession() {
+        // get boolean values for checking criteria
+        checkGender = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("checkGender");
+        if (checkGender == null) {
+            checkGender = false;
+            System.out.println("ViewMembersBean: init() : checkGender = null ==> set to false");
+        }
+
+        checkAge = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("checkAge");
+        if (checkAge == null) {
+            checkAge = false;
+            System.out.println("ViewMembersBean: init() : checkAge = null ==> set to false");
+        }
+
+        checkCountry = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("checkCountry");
+        if (checkCountry == null) {
+            checkCountry = false;
+            System.out.println("ViewMembersBean: init() : checkCountry = null ==> set to false");
+        }
+
+        checkMemberlvl = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("checkMemberlvl");
+        if (checkMemberlvl == null) {
+            checkMemberlvl = false;
+            System.out.println("ViewMembersBean: init() : checkMemberlvl = null ==> set to false");
+        }
+
+        //get preset attribute value
+        minAge = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("minAge");
+        maxAge = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("maxAge");
+        gender = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("gender");
+        country = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
+        memberLevel = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberLevel");
+
     }
 
 }

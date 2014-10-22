@@ -29,7 +29,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface AnalyticalCRMSessionBeanLocal {
-    
+
     public Collection<MemberEntity> getAllMembers() throws Exception;
 
     public Collection<MemberEntity> getMembersByAge(Integer minAge, Integer maxAge) throws Exception;
@@ -39,6 +39,28 @@ public interface AnalyticalCRMSessionBeanLocal {
     public Collection<MemberEntity> getMembersByNationality(String country) throws Exception;
 
     public Collection<MemberEntity> getMembersByMemberLevel(Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByAG(Integer minAge, Integer maxAge, String gender) throws Exception;
+
+    public Collection<MemberEntity> getMembersByAC(Integer minAge, Integer maxAge, String country) throws Exception;
+
+    public Collection<MemberEntity> getMembersByAM(Integer minAge, Integer maxAge, Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByGC(String gender, String country) throws Exception;
+
+    public Collection<MemberEntity> getMembersByGM(String gender, Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByCM(String country, Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByAGC(Integer minAge, Integer maxAge, String gender, String country) throws Exception;
+
+    public Collection<MemberEntity> getMembersByAGM(Integer minAge, Integer maxAge, String gender, Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByACM(Integer minAge, Integer maxAge, String country, Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByGCM(String gender, String country, Integer memberLevel) throws Exception;
+
+    public Collection<MemberEntity> getMembersByAGCM(Integer minAge, Integer maxAge, String gender,String country, Integer memberLevel) throws Exception;
 
     public String sendEmailsToSegmentCustomers(Collection<Long> memberIdList) throws Exception;
 

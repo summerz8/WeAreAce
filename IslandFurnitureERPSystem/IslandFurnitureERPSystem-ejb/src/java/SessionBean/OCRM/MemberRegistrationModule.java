@@ -43,11 +43,43 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     @Override
     @WebMethod(exclude = true)
     public int AddMember(String lastName, String midName,
-            String firstName, Calendar birthday, String gender,
+            String firstName, Calendar birthday, String nationality, String gender,
             String title, String address, String postalCode, String email, Long transactionId) {
         //departmentID refers to the respective Factory, Store or HQ id
         System.out.println("MemberRegistrationModule: addMember():");
+        if(transactionId<0){
+            MemberEntity member;
 
+            String PWD;
+            String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < 8; i++) {
+                int number = random.nextInt(base.length());
+                sb.append(base.charAt(number));
+            }
+
+            PWD = sb.toString();
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("IMPORTANT!!!: password before hashing: " + PWD + " Please remember this!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+
+            String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
+
+            member = new MemberEntity(hashedpwd, lastName, midName, firstName,
+                    birthday, gender, title, address, postalCode,
+                    email, Boolean.FALSE);
+            member.setCountry(nationality);
+            em.persist(member);
+            System.out.println("New Member without transaction created!");
+            em.flush();
+            return 1;
+        }
+        
         int check = CheckFirstTransaction(transactionId);
         if (check == 1) {
 
@@ -78,6 +110,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
                     birthday, gender, title, address, postalCode,
                     email, Boolean.FALSE);
             member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(transaction.getTotalPrice())));
+            member.setCountry(nationality);
             em.persist(member);
             System.out.println("New Member created!");
             em.flush();
@@ -208,23 +241,23 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         }
     }
 
-    public Integer upgradeMember(Double points) {
+    public Long upgradeMember(Double points) {
         //MembershipLevelEntity level6 = em.find(MembershipLevelEntity.class, 6);
-        MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5);
-        MembershipLevelEntity level4 = em.find(MembershipLevelEntity.class, 4);
-        MembershipLevelEntity level3 = em.find(MembershipLevelEntity.class, 3);
-        MembershipLevelEntity level2 = em.find(MembershipLevelEntity.class, 2);
+        MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5L);
+        MembershipLevelEntity level4 = em.find(MembershipLevelEntity.class, 4L);
+        MembershipLevelEntity level3 = em.find(MembershipLevelEntity.class, 3L);
+        MembershipLevelEntity level2 = em.find(MembershipLevelEntity.class, 2L);
         //MembershipLevelEntity level1 = em.find(MembershipLevelEntity.class, 1);
         if (level5.getPointsToUpgrade() <= points) {
-            return 5;
+            return 5L;
         } else if (level4.getPointsToUpgrade() <= points) {
-            return 4;
+            return 4L;
         } else if (level3.getPointsToUpgrade() <= points) {
-            return 3;
+            return 3L;
         } else if (level2.getPointsToUpgrade() <= points) {
-            return 2;
+            return 2L;
         } else {
-            return 1;
+            return 1L;
         }
     }
 

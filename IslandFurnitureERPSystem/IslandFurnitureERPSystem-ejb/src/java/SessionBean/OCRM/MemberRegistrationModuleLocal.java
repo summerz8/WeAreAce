@@ -22,7 +22,7 @@ public interface MemberRegistrationModuleLocal {
     public MemberEntity getMember(String Email);
 
     public int AddMember(String lastName, String midName,
-            String firstName, Calendar birthday, String gender,
+            String firstName, Calendar birthday, String nationality, String gender,
             String title, String address, String postalCode, String email, Long transactionId);
     
     public void DeleteMember(Long userId);

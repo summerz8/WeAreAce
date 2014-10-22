@@ -45,13 +45,14 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         Collection<MemberEntity> members = new ArrayList();
 
         try {
-            Collection<MemberEntity> memberList;
+            System.out.println("AnalyticalCRMSessionBean: getAllMembers()");
 
             Query q = em.createQuery("SELECT m FROM MemberEntity m");
-            memberList = q.getResultList();
+            members = q.getResultList();
+            System.out.println("AllMembers: " + members.toString());
 
         } catch (Exception e) {
-            System.err.println("AnalyticalCRMSessionBean: getMembersByAge(): Caught an unexpected exception.");
+            System.err.println("AnalyticalCRMSessionBean: getAllMembers(): Caught an unexpected exception.");
             e.printStackTrace();
         }
         return members;
@@ -62,6 +63,8 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         Collection<MemberEntity> members = new ArrayList();
 
         try {
+            System.out.println("AnalyticalCRMSessionBean: getMembersByAge()");
+
             Collection<MemberEntity> memberList;
 
             Query q = em.createQuery("SELECT m FROM MemberEntity m");
@@ -109,10 +112,13 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             memberList = q.getResultList();
 
             for (MemberEntity m : memberList) {
+                                    System.out.println("AnalyticalCRMSessionBean: getMembersByGender(): gender = " + gender);
+
                 if (m.getGender().equals(gender)) {
                     members.add(m);
                 }
             }
+            System.out.println("AnalyticalCRMSessionBean: getMembersByGender(): members ==> " + members.toString());
         } catch (Exception e) {
             System.err.println("AnalyticalCRMSessionBean: getMembersByGender(): Caught an unexpected exception.");
             e.printStackTrace();
@@ -208,6 +214,163 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             }
         } catch (Exception e) {
             System.err.println("AnalyticalCRMSessionBean: getMembersByMemberLevel(): Caught an unexpected exception.");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByAG(Integer minAge, Integer maxAge, String gender) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByAge(minAge, maxAge, members);
+            members = getMembersByGender(gender, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByAC(Integer minAge, Integer maxAge, String country) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByAge(minAge, maxAge, members);
+            members = getMembersByNationality(country, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByAM(Integer minAge, Integer maxAge, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByAge(minAge, maxAge, members);
+            members = getMembersByMemberLevel(memberLevel, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByGC(String gender, String country) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByGender(gender, members);
+            members = getMembersByNationality(country, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByGM(String gender, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByGender(gender, members);
+            members = getMembersByMemberLevel(memberLevel, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByCM(String country, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByNationality(country, members);
+            members = getMembersByMemberLevel(memberLevel, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByAGC(Integer minAge, Integer maxAge, String gender, String country) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByAge(minAge, maxAge, members);
+            members = getMembersByGender(gender, members);
+            members = getMembersByNationality(country, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByAGM(Integer minAge, Integer maxAge, String gender, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByACM(Integer minAge, Integer maxAge, String country, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByAge(minAge, maxAge, members);
+            members = getMembersByNationality(country, members);
+            members = getMembersByMemberLevel(memberLevel, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByGCM(String gender, String country, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByGender(gender, members);
+            members = getMembersByNationality(country, members);
+            members = getMembersByMemberLevel(memberLevel, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    @Override
+    public Collection<MemberEntity> getMembersByAGCM(Integer minAge, Integer maxAge, String gender, String country, Integer memberLevel) throws Exception {
+        Collection<MemberEntity> members = new ArrayList<>();
+        try {
+            members = getAllMembers();
+            members = getMembersByAge(minAge, maxAge, members);
+            members = getMembersByGender(gender, members);
+            members = getMembersByNationality(country, members);
+            members = getMembersByMemberLevel(memberLevel, members);
+        } catch (Exception e) {
+            System.err.print("Caught an unexpected error!");
             e.printStackTrace();
         }
         return members;
@@ -452,7 +615,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             transactionList = store.getTransacion();
 
             for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMember().getMemberId()!= null) {
+                if (transaction.getMember().getMemberId() != null) {
                     MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
                     members.add(m);
                 }
@@ -474,7 +637,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         transactionList = store.getTransacion();
 
         for (TransactionEntity transaction : transactionList) {
-            if (transaction.getMember().getMemberId()!= null) {
+            if (transaction.getMember().getMemberId() != null) {
                 MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
 
                 //if member is new member
@@ -535,4 +698,5 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
         return members;
 
     }
+
 }

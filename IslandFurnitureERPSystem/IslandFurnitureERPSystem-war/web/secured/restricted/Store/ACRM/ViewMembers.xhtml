@@ -62,7 +62,7 @@
 
 
 
-                <p:layoutUnit position="west" size="1000px">
+                <p:layoutUnit position="west" size="10segDetail00px">
 
                     <p:menu>
                         <p:submenu label="Anaytical Customer Relationship Management Page">
@@ -77,105 +77,127 @@
                 <p:layoutUnit position="center" resizable="false">
                     <p:panel id="basic" header ="" style="height:800px;" >
 
-                        <h:outputText value="Total Number of Members: #{viewMembers.memberAmount}" style="font-family: fantasy; font-style: italic"  />
+                        <h:outputText value="Total Number of Members: #{viewMembers.memberAmount}" 
+                                      style="font-family:serif  ; font-style: italic; font-size: 150%"  />
 
-                        <h:outputLabel for="segmentation" value="View Members Segmeted By: "/>
-                        <p:splitButton id="segmentation" value="Age" action="#{viewMembers.setSegFactor(1)}" oncomplete="PF('segDialog').show()" update=":formMain:segDetail" >
-                            <p:menuitem value="Gender" action="#{viewMembers.setSegFactor(2)}"  oncomplete="PF('segDialog').show()" update=":formMain:segDetail" />
-                            <p:menuitem value="Nationality" action="#{viewMembers.setSegFactor(3)}" oncomplete="PF('segDialog').show()" update=":formMain:segDetail" />
-                            <p:menuitem value="MemberLevel" action="#{viewMembers.setSegFactor(4)}" oncomplete="PF('segDialog').show()" update=":formMain:segDetail" />
-                        </p:splitButton>
+                        <br></br>
+                        <br></br>
 
+                        <h:outputText value="Segmented By: "/>
+                        <h:outputLabel for="checkGender" value="Gender: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkGender}" />
+                        <h:outputLabel for="checkAge" value="Age: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkAge}" />
+                        <h:outputLabel for="checkCountry" value="Nationality: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkCountry}" />
+                        <h:outputLabel for="checkMemberlvl" value="Member Level: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkMemberlvl}" style="padding-right: 2em"/>
+
+                        <p:commandButton value="Submit" icon="ui-icon-check" update="segDetail" 
+                                         oncomplete="PF('segDialog').show()" />
 
                         <h:panelGrid columns="2" cellpadding="6">
-                            <p:dataTable var="member" value="#{viewMembers.allMembers}" 
-                                 scrollable="true" scrollHeight="100%" widgetVar="suppliersTable" 
-                                 emptyMessage="No suppliers found with given criteria" 
-                                 filteredValue="#{documentReferenceBean.filteredSuppliers}">
- 
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText value="Search All Fields: " />
-                                <p:inputText id="globalFilter" onkeyup="PF('suppliersTable').filter()" placeholder="Enter keyword" />
-                                            
-                            </p:outputPanel>
-                        </f:facet>
-                        
-                        
-                        <p:column headerText="Supplier ID" filterBy="#{s.supplierId}" filterMatchMode="contains" filterStyle="display:none">
-                            #{s.supplierId}
-                        </p:column>
+                            <p:dataTable var="m" value="#{viewMembers.allMembers}" 
+                                         scrollable="true" scrollHeight="100%" widgetVar="membersTable" 
+                                         emptyMessage="No member found with given criteria" 
+                                         filteredValue="#{viewMembers.filteredMembers}" scrollWidth="100%" >
 
-                        <p:column headerText="Name" filterBy="#{s.supplierName}" filterMatchMode="contains" filterStyle="display:none">
-                            #{s.supplierName}
-                        </p:column>
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search All Fields: " />
+                                        <p:inputText id="globalFilter" onkeyup="PF('membersTable').filter()" placeholder="Enter keyword" />
 
-                        
-                        <p:column headerText="Address" filterBy="#{s.supplierAddress}" filterMatchMode="contains" filterStyle="display:none">
-                            #{s.supplierAddress}
-                        </p:column>
-
-                        <p:column headerText="Contact" filterBy="#{s.supplierContact}" filterMatchMode="contains" filterStyle="display:none">
-                            #{s.supplierContact}
-                        </p:column>
-
-                        <p:column headerText="Fax" filterBy="#{s.supplierFax}" filterMatchMode="contains" filterStyle="display:none">
-                            #{s.supplierFax}
-                        </p:column>
-
-                        <p:column headerText="Remark" filterBy="#{s.remark}" filterMatchMode="contains" filterStyle="display:none">
-                            #{s.remark}
-                        </p:column>
-
-                    </p:dataTable>                
+                                    </p:outputPanel>
+                                </f:facet>
 
 
+                                <p:column headerText="Member ID" filterBy="#{m.memberId}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.memberId}
+                                </p:column>
+
+                                <p:column headerText="Register Date" filterBy="#{m.createDate}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{m.createDate.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Title" filterBy="#{m.title}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.title}
+                                </p:column>
+
+                                <p:column headerText="Name" filterBy="#{m.firstName}#{m.midName}#{m.lastName}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.firstName} #{m.midName} #{m.lastName}
+                                </p:column>
 
 
+                                <p:column headerText="Birthday" filterBy="#{m.birthday}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{m.birthday.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Gender" filterBy="#{m.gender}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.gender}
+                                </p:column>
+                                <p:column headerText="Nationality" filterBy="#{m.country}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.country}
+                                </p:column>
+                                <p:column headerText="Member Level" filterBy="#{m.memberlvl}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.memberlvl.levelId} #{m.memberlvl.name} 
+                                </p:column>
+
+                                <p:column headerText="Registered Store" filterBy="#{m.storeId}" filterMatchMode="contains">
+                                    #{m.storeId}
+                                </p:column>
+
+                            </p:dataTable>                
                         </h:panelGrid>
+                        <p:commandButton  action="ViewMembers.xhtml"  value="Send Message to This group of Members" />
+                        <p:commandButton  action="ViewMembers.xhtml"  value="Send Message to All Members" style="float: right"/>
 
 
                     </p:panel>
+
 
                     <p:dialog header="Input Segmentation Info" widgetVar="segDialog" position="center"
                               showEffect="fade" hideEffect="fade" resizable="true" 
                               draggable="true" closable="true" width="300">
                         <p:outputPanel id="segDetail" style="text-align:center;">
-                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{viewMembers.segFactor == 1}">
-                                <h:outputText value="Maximum Age: " />
-                                <h:inputText id="maxAge" value="#{viewMembers.maxAge}"/>
 
-                                <h:outputText value="Minimum Age: " />
-                                <h:inputText id="minAge" value="#{viewMembers.minAge}" />
+                            <p:panelGrid  columns="2" columnClasses="label,value" 
+                                          rendered="#{!(viewMembers.checkAge||viewMembers.checkCountry
+                                                      ||viewMembers.checkGender||viewMembers.checkMemberlvl)} ">
+                                <h:outputText value="Continue by click the button." />
+
                             </p:panelGrid>
 
-                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{viewMembers.segFactor == 2}">
-                                <p:outputLabel for="gender" value="Gender: " />
-                                <p:selectOneMenu id="gender" value="#{viewMembers.gender}" style="width:150px">
+                            <p:panelGrid  columns="2" columnClasses="label,value" >
+                                <h:outputText value="Maximum Age: " rendered="#{viewMembers.checkAge}"/>
+                                <h:inputText id="maxAge" value="#{viewMembers.maxAge}" rendered="#{viewMembers.checkAge}"/>
+
+                                <h:outputText value="Minimum Age: " rendered="#{viewMembers.checkAge}"/>
+                                <h:inputText id="minAge" value="#{viewMembers.minAge}" rendered="#{viewMembers.checkAge}"/>
+
+                                <p:outputLabel for="gender" value="Gender: " rendered="#{viewMembers.checkGender}"/>
+                                <p:selectOneMenu id="gender" value="#{viewMembers.gender}" style="width:150px" rendered="#{viewMembers.checkGender}">
                                     <f:selectItem itemLabel="Select Gender" itemValue="" noSelectionOption="false" />
                                     <f:selectItems value="#{viewMembers.genders}" />
                                 </p:selectOneMenu>
 
-                            </p:panelGrid>
-
-                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{viewMembers.segFactor == 3}">
-                                <p:outputLabel for="nationality" value="Nationality: " />
-                                <p:selectOneMenu id="nationality" value="#{viewMembers.nationality}" style="width:150px">
+                                <p:outputLabel for="nationality" value="Nationality: " rendered="#{viewMembers.checkCountry}"/>
+                                <p:selectOneMenu id="nationality" value="#{viewMembers.country}" style="width:150px" rendered="#{viewMembers.checkCountry}">
                                     <f:selectItem itemLabel="Select Nationality" itemValue="" noSelectionOption="false" />
                                     <f:selectItems value="#{viewMembers.countries}" />
                                 </p:selectOneMenu>
-                            </p:panelGrid>
 
-                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{viewMembers.segFactor == 4}">
-                                <p:outputLabel for="memberLevel" value="Member Level: " />
-                                <p:selectOneMenu id="memberLevel" value="#{viewMembers.memberLevel}" style="width:150px">
+                                <p:outputLabel for="memberLevel" value="Member Level: " rendered="#{viewMembers.checkMemberlvl}"/>
+                                <p:selectOneMenu id="memberLevel" value="#{viewMembers.memberLevel}" style="width:150px" rendered="#{viewMembers.checkMemberlvl}">
                                     <f:selectItem itemLabel="Select Member Level" itemValue="" noSelectionOption="false" />
                                     <f:selectItems value="#{viewMembers.memberLevels}" />
                                 </p:selectOneMenu>
                             </p:panelGrid>
 
-                            <p:commandButton update="messages" action="ViewMembers/faces-redirect=true" value="Confrim"/>
-                            </p:panelGrid>
+                            <p:commandButton update="messages" action="ViewMembers?faces-redirect=true" value="Confrim" />
                         </p:outputPanel>
                     </p:dialog>
                 </p:layoutUnit>
