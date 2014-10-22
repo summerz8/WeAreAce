@@ -150,7 +150,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
         ProductSalesForecastEntity productSalesForecast = new ProductSalesForecastEntity();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, 2);
-     setTargetPeriodtSalesForecast.setPeriod(cal);
+        productSalesForecast.setTargetPeriod(cal);
         if (productType.equals("StoreProduct")) {
             StoreProductEntity temp = em.find(StoreProductEntity.class, productId);
             productSalesForecast.setStoreProduct(temp);
@@ -184,8 +184,8 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
     @Override
     public ProductSalesForecastEntity confirmProductSalesForecast(Calendar period, Double NewAmount, Long storeId, String productType, Long productId) {
         ProductSalesForecastEntity productSalesForecast = new ProductSalesForecastEntity();
-        productSalesForecast.setsetTargetPeriodwAmount);
-        productSalesForecast.setPeriod(period);
+        productSalesForecast.setAmount(NewAmount);
+        productSalesForecast.setTargetPeriod(period);
         productSalesForecast.setStore(em.find(StoreEntity.class, storeId));
         if (productType.equals("StoreProduct")) {
             StoreProductEntity product = em.find(StoreProductEntity.class, productId);

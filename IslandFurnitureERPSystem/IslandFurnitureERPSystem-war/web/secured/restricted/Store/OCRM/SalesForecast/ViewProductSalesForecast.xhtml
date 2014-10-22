@@ -98,7 +98,7 @@
                                 <p:dataTable var="salesForecast" value="#{viewProductSalesForecastBean.productSalesForecastList}">
 
                                     <p:column headerText="Record Period">
-                                        <h:outputText value="#{salesForecast.period.getTime()}" >
+                                        <h:outputText value="#{salesForecast.targetPeriod.getTime()}" >
                                             <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                         </h:outputText>
 

@@ -217,7 +217,7 @@ public class TransactionModule implements TransactionModuleLocal {
                     SalesRecordEntity newSalesRecord = new SalesRecordEntity();
                     newSalesRecord.setStore(storeRetailProduct.getStore());
                     newSalesRecord.setStoreRetailProduct(storeRetailProduct);
-                    newsetRecordPeriodrd.setPeriod(generateTime);
+                    newSalesRecord.setRecordPeriod(generateTime);
                     newSalesRecord.setAmount(amount);
                     newSalesRecord.setRevenue(revenue);
                     
@@ -236,7 +236,7 @@ public class TransactionModule implements TransactionModuleLocal {
                     SalesRecordEntity newSalesRecord = new SalesRecordEntity();
                     newSalesRecord.setStore(storeProduct.getStore());
                     newSalesRecord.setStoreProduct(storeProduct);
-           setRecordPeriodnewSalesRecord.setPeriod(generateTime);
+                    newSalesRecord.setRecordPeriod(generateTime);
                     newSalesRecord.setAmount(amount);
                     newSalesRecord.setRevenue(revenue);
                     
