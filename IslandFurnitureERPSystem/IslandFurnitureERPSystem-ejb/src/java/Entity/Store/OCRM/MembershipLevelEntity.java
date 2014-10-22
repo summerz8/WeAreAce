@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
@@ -20,27 +19,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "memberlevel")
 public class MembershipLevelEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long level;
-    
-    private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
-       
-    private Double discount;
-
-
     private Integer levelId;
 
-    private String levelName;
+    private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
 
+    private Double discount;
+
+    private String levelName;
 
 //
 //    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
 //    private Collection<MemberEntity> members;
-
-    
     public MembershipLevelEntity() {
     }
 
@@ -61,7 +54,6 @@ public class MembershipLevelEntity implements Serializable {
 //        this.members = members;
 //    }
 //
-
     public String getLevelName() {
         return levelName;
     }
@@ -69,7 +61,6 @@ public class MembershipLevelEntity implements Serializable {
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
-
 
 //
 //
@@ -81,7 +72,6 @@ public class MembershipLevelEntity implements Serializable {
         this.levelId = level;
     }
 
-
     public Double getPointsToUpgrade() {
         return pointsToUpgrade;
     }
@@ -89,7 +79,7 @@ public class MembershipLevelEntity implements Serializable {
     public void setPointsToUpgrade(Double pointsToUpgrade) {
         this.pointsToUpgrade = pointsToUpgrade;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -114,5 +104,5 @@ public class MembershipLevelEntity implements Serializable {
     public String toString() {
         return "Entity.Store.OCRM.MembershipLevel[ id=" + levelId + " ]";
     }
-    
+
 }
