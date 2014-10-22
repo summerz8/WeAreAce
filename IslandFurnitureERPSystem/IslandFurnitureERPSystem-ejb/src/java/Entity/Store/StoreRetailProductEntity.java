@@ -34,7 +34,7 @@ public class StoreRetailProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeRetailProductId;
     private Double quantity;
-    private String Name;
+    private String name;
 
     //store retail product entity -- factory retail productentity: M <--> 1 
     @ManyToOne
@@ -113,11 +113,11 @@ public class StoreRetailProductEntity implements Serializable {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String Name) {
-        this.Name = Name;
+        this.name = Name;
     }
 
     public List<ProductSalesForecastEntity> getProductSalesForecastList() {

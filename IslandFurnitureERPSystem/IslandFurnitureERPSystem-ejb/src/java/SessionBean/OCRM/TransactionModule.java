@@ -209,15 +209,15 @@ public class TransactionModule implements TransactionModuleLocal {
                 StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, productId);
                 storeRetailProduct.setQuantity(storeRetailProduct.getQuantity() - amount);
                 SalesRecordEntity salesRecord = storeRetailProduct.getSalesRecordList().get(storeRetailProduct.getSalesRecordList().size() - 1);
-                if (salesRecord.getPeriod().get(Calendar.MONTH) == generateTime.get(Calendar.MONTH)
-                        && salesRecord.getPeriod().get(Calendar.YEAR) == generateTime.get(Calendar.YEAR)) {
+                if (salesRecord.getRecordPeriod().get(Calendar.MONTH) == generateTime.get(Calendar.MONTH)
+                        && salesRecord.getRecordPeriod().get(Calendar.YEAR) == generateTime.get(Calendar.YEAR)) {
                     salesRecord.setAmount(salesRecord.getAmount() + amount);
                     salesRecord.setAmount(salesRecord.getRevenue() + revenue);
                 } else {
                     SalesRecordEntity newSalesRecord = new SalesRecordEntity();
                     newSalesRecord.setStore(storeRetailProduct.getStore());
                     newSalesRecord.setStoreRetailProduct(storeRetailProduct);
-                    newSalesRecord.setPeriod(generateTime);
+                    newsetRecordPeriodrd.setPeriod(generateTime);
                     newSalesRecord.setAmount(amount);
                     newSalesRecord.setRevenue(revenue);
                     
@@ -228,15 +228,15 @@ public class TransactionModule implements TransactionModuleLocal {
                 StoreProductEntity storeProduct = em.find(StoreProductEntity.class, productId);
                 storeProduct.setQuantity(storeProduct.getQuantity() - amount);
                 SalesRecordEntity salesRecord = storeProduct.getSalesRecordList().get(storeProduct.getSalesRecordList().size() - 1);
-                if (salesRecord.getPeriod().get(Calendar.MONTH) == generateTime.get(Calendar.MONTH)
-                        && salesRecord.getPeriod().get(Calendar.YEAR) == generateTime.get(Calendar.YEAR)) {
+                if (salesRecord.getRecordPeriod().get(Calendar.MONTH) == generateTime.get(Calendar.MONTH)
+                        && salesRecord.getRecordPeriod().get(Calendar.YEAR) == generateTime.get(Calendar.YEAR)) {
                     salesRecord.setAmount(salesRecord.getAmount() + amount);
                     salesRecord.setAmount(salesRecord.getRevenue() + revenue);
                 } else {
                     SalesRecordEntity newSalesRecord = new SalesRecordEntity();
                     newSalesRecord.setStore(storeProduct.getStore());
                     newSalesRecord.setStoreProduct(storeProduct);
-                    newSalesRecord.setPeriod(generateTime);
+           setRecordPeriodnewSalesRecord.setPeriod(generateTime);
                     newSalesRecord.setAmount(amount);
                     newSalesRecord.setRevenue(revenue);
                     

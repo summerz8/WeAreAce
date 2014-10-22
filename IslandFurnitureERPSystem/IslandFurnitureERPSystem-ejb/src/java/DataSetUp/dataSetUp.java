@@ -1599,7 +1599,7 @@ public class dataSetUp {
         sre1.setStoreProduct(sp1_1);
         Calendar caltemp1 = Calendar.getInstance();
         caltemp1.add(Calendar.MONTH, 1);
-        sre1.setPeriod(caltemp1);
+        sre1.setRecordPeriod(caltemp1);
         sre1.setAmount(1000D);
         sre1.setRevenue(50000D);
         em.persist(sre1);
@@ -1609,7 +1609,7 @@ public class dataSetUp {
         sre2.setStore(s1);
         sre2.setStoreProduct(sp1_1);
         Calendar caltemp2 = Calendar.getInstance();
-        sre2.setPeriod(caltemp2);
+        sre2.setRecordPeriod(caltemp2);
         sre2.setAmount(1500D);
         sre2.setRevenue(75000D);
         em.persist(sre2);
@@ -1621,7 +1621,7 @@ public class dataSetUp {
         Calendar caltemp3 = Calendar.getInstance();
         caltemp3.add(Calendar.YEAR, -1);
         caltemp3.add(Calendar.MONTH, 2);
-        sre3.setPeriod(caltemp3);
+        sre3.setRecordPeriod(caltemp3);
         sre3.setAmount(1500D);
         sre3.setRevenue(75000D);
         em.persist(sre3);
