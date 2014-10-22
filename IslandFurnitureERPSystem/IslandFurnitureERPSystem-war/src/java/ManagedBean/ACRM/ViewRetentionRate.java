@@ -29,13 +29,13 @@ public class ViewRetentionRate {
     @PostConstruct
     public void init(){
         try {
-            Double getRetentionRate(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly) 
-            
-            storeId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-
-            monthlyRR = acrm.getRetentionRate(storeId, time, Integer.SIZE, Boolean.FALSE, Boolean.TRUE);
-            yearlyRR = acrm.getRetentionRate(storeId, time, Integer.SIZE, Boolean.FALSE, Boolean.FALSE);
+//            Double getRetentionRate(Long storeId, Calendar time, Integer location,
+//            Boolean isForAllPlace, Boolean isMonthly) 
+//            
+//            storeId = (Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+//
+//            monthlyRR = acrm.getRetentionRate(storeId, time, , Boolean.FALSE, Boolean.TRUE);
+//            yearlyRR = acrm.getRetentionRate(storeId, time, Integer.SIZE, Boolean.FALSE, Boolean.FALSE);
         } catch (Exception ex) {
             Logger.getLogger(ViewRetentionRate.class.getName()).log(Level.SEVERE, null, ex);
         }
