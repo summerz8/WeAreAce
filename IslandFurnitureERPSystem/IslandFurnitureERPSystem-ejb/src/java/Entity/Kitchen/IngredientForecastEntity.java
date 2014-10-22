@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Entity.Kitchen;
 
 import java.io.Serializable;
@@ -13,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -24,7 +24,6 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class IngredientForecastEntity implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,21 +32,16 @@ public class IngredientForecastEntity implements Serializable {
     private List<IngredientItemEntity> forecastItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime = Calendar.getInstance();
-    @OneToOne
-    @JoinColumn(unique = true, nullable = false)
+    @OneToOne(mappedBy="ingredientForecast")
     private MenuItemForecastEntity menuItemForecast;
-    @OneToOne(mappedBy = "forecast")
-    private IngredientPurchaseOrderEntity purchaseOrder = null;
-    @OneToOne(mappedBy = "forecast")
-    private IngredientIssueEntity issue = null;
+    @OneToOne
+    private IngredientPurchaseOrderEntity purchaseOrder;
 
+    
     public IngredientForecastEntity() {
+        purchaseOrder = null;
     }
-
-    public IngredientForecastEntity(MenuItemForecastEntity menuItemForecast) {
-        this.menuItemForecast = menuItemForecast;
-    }
-
+ 
     public Long getId() {
         return id;
     }
@@ -63,6 +57,8 @@ public class IngredientForecastEntity implements Serializable {
     public void setForecastItems(List<IngredientItemEntity> forecastItems) {
         this.forecastItems = forecastItems;
     }
+
+
 
     public Calendar getCreationTime() {
         return creationTime;
@@ -86,14 +82,6 @@ public class IngredientForecastEntity implements Serializable {
 
     public void setPurchaseOrder(IngredientPurchaseOrderEntity purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
-    }
-
-    public IngredientIssueEntity getIssue() {
-        return issue;
-    }
-
-    public void setIssue(IngredientIssueEntity issue) {
-        this.issue = issue;
     }
 
     @Override
@@ -120,5 +108,5 @@ public class IngredientForecastEntity implements Serializable {
     public String toString() {
         return "Entity.Kitchen.RawIngredientForecastEntity[ id=" + id + " ]";
     }
-
+    
 }

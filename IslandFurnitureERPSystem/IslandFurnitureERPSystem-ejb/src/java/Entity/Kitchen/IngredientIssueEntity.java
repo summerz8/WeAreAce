@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -32,19 +31,7 @@ public class IngredientIssueEntity implements Serializable {
     private List<IngredientItemEntity> issueItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime = Calendar.getInstance();
-    private boolean confirmed;
-    @OneToOne
-    private IngredientForecastEntity forecast;
 
-    public IngredientIssueEntity() {
-        this.confirmed = false;
-    }
-
-    public IngredientIssueEntity(IngredientForecastEntity forecast) {
-        this.forecast = forecast;
-        this.confirmed = false;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -69,22 +56,8 @@ public class IngredientIssueEntity implements Serializable {
         this.creationTime = creationTime;
     }
 
-    public boolean isConfirmed() {
-        return confirmed;
+    public IngredientIssueEntity() {
     }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
-    public IngredientForecastEntity getForecast() {
-        return forecast;
-    }
-
-    public void setForecast(IngredientForecastEntity forecast) {
-        this.forecast = forecast;
-    }
-
 
     @Override
     public int hashCode() {

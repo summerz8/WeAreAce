@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
+<<<<<<< HEAD
+    <service name="IFManagerBean">
+      <implementation-class>SessionBean.IFManagerBean</implementation-class>
+    </service>
+    <service name="MemberRegistrationModule">
+      <implementation-class>SessionBean.OCRM.MemberRegistrationModule</implementation-class>
+    </service>
+    <service name="TransactionModule">
+      <implementation-class>SessionBean.OCRM.TransactionModule</implementation-class>
+    </service>
+=======
     <service name="TransactionModule">
       <implementation-class>SessionBean.OCRM.TransactionModule</implementation-class>
     </service>
@@ -10,6 +21,7 @@
     <service name="IFManagerBean">
       <implementation-class>util.login.IFManagerBean</implementation-class>
     </service>
+>>>>>>> 13dd27d96cbedce65d8546e940620238d2bb0afa
   </services>
   <clients/>
 </jax-ws>

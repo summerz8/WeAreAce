@@ -5,7 +5,7 @@
  */
 package ManagedBean.CommonInfrastructure;
 
-import util.login.IFManagerBeanRemote;
+import SessionBean.IFManagerBeanRemote;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.ejb.EJB;

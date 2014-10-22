@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/IFManagerBeanService/IFManagerBean?wsdl" uri="xml-resources/web-service-references/IFManagerBean/wsdl/localhost_8080/IFManagerBeanService/IFManagerBean.wsdl"/>
-    <system systemId="http://localhost:8080/IFManagerBeanService/IFManagerBean?xsd=1" uri="xml-resources/web-service-references/IFManagerBean/wsdl/localhost_8080/IFManagerBeanService/IFManagerBean.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl" uri="xml-resources/web-service-references/MemberRegistrationModule/wsdl/localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl"/>
-    <system systemId="http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?xsd=1" uri="xml-resources/web-service-references/MemberRegistrationModule/wsdl/localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/TransactionModuleService/TransactionModule?wsdl" uri="xml-resources/web-service-references/TransactionModule/wsdl/localhost_8080/TransactionModuleService/TransactionModule.wsdl"/>
-    <system systemId="http://localhost:8080/TransactionModuleService/TransactionModule?xsd=1" uri="xml-resources/web-service-references/TransactionModule/wsdl/localhost_8080/TransactionModuleService/TransactionModule.xsd_1.xsd"/>
-</catalog>

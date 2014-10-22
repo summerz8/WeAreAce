@@ -6,11 +6,9 @@
 package ManagedBean.KM.Support;
 
 import Entity.Kitchen.IngredientEntity;
-import Entity.Kitchen.KitchenEntity;
 import SessionBean.KM.KitchenSupportLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -28,32 +26,10 @@ public class IngredientConverter implements Converter {
 
     KitchenSupportLocal s = lookupKitchenSupportLocal();
 
-    private KitchenEntity kitchen;
-
-    public IngredientConverter() {
-    }
-
-    public KitchenEntity getKitchen() {
-        return kitchen;
-    }
-
-    public void setKitchen(KitchenEntity kitchen) {
-        this.kitchen = kitchen;
-    }
-    @PostConstruct
-    public void init() {
-        try {
-            kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
-        } catch (Exception ex) {
-            System.err.println("ManagedBean.KM.Support.IngredientConverter: init(): Failed. Caught an unexpected exception.");
-            ex.printStackTrace();
-        }
-    }
-    
     @Override
     public IngredientEntity getAsObject(FacesContext context, UIComponent conponent, String name) {
         try {
-            return s.findIngredient(kitchen.getId(), name);
+            return s.findIngredient(name);
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.Support.IngredientConverter: getAsObject(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();

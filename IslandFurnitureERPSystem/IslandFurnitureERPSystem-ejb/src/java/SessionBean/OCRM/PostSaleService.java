@@ -21,7 +21,7 @@ import javax.persistence.Query;
 @Stateless
 public class PostSaleService implements PostSaleServiceLocal {
 
-     @PersistenceContext
+    @PersistenceContext
     private EntityManager em;
      
     

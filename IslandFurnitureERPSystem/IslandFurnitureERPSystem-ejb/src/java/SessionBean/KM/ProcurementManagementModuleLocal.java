@@ -6,10 +6,7 @@
 
 package SessionBean.KM;
 
-import Entity.Kitchen.IngredientItemEntity;
-import Entity.Kitchen.IngredientPurchaseOrderEntity;
-import java.util.Date;
-import java.util.List;
+import Entity.Kitchen.KitchenEntity;
 import javax.ejb.Local;
 
 /**
@@ -18,18 +15,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface ProcurementManagementModuleLocal {
-
-    IngredientPurchaseOrderEntity generateIngredientPurchaseOrder(Long ingredientForecastId);
-
-    Long generateIngredientReceipt(Long ingredientPurchaseOrderId);
-
-    Long confirmIngredientPurchaseOrder(Long ingredientPurchaseOrderId, Double acturalTotal);
-
-    Long cancelIngredientPurchaseOrder(Long ingredientPurchaseOrderId);
-
-    Long editPurchaseItem(Long purchaseItemId, Double quantity);
-
-    List<IngredientItemEntity> getPurchaseItems(Long purchaseOrderId);
     
-    IngredientPurchaseOrderEntity findIngredientPurchaseOrder(Long kitchenId, Date targetDate);
+    
 }

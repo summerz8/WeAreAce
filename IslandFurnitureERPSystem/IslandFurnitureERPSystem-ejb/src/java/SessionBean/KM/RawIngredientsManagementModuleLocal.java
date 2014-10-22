@@ -6,12 +6,8 @@
 package SessionBean.KM;
 
 import Entity.Kitchen.IngredientEntity;
-import Entity.Kitchen.IngredientForecastEntity;
-import Entity.Kitchen.IngredientIssueEntity;
-import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.StoragePlaceEntity;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -46,15 +42,4 @@ public interface RawIngredientsManagementModuleLocal {
 
     List<StoragePlaceEntity> getStoragePlaces(Long kitchenId);
 
-    IngredientIssueEntity generateIngredientIssue(Long ingredientForecastId);
-
-    Long confirmIngredientIssue(Long ingredientIssueId);
-
-    IngredientForecastEntity findIngredientForecast(Long kitchenId, Date targetDate);
-    
-    IngredientIssueEntity findIngredientIssue(Long kitchenId, Date targetDate);
-    
-    List<IngredientItemEntity> getIngredientIssueItems(Long ingredientIssueId);
-    
-    Long editIngredientIssueItem(Long ingredientForecastItemId, Double quantity);
 }

@@ -8,6 +8,7 @@ package Entity.Kitchen;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,45 +17,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 
 /**
  *
  * @author Yoky
  */
 @Entity
-@XmlAccessorType(value = XmlAccessType.FIELD)
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"KITCHEN_ID", "NAME"}))
 public class DishEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
     private Double price;
     @ManyToMany
-    @JoinTable(inverseJoinColumns = @JoinColumn(name = "RecipeItem_ID") )
+    @JoinTable(inverseJoinColumns = @JoinColumn(name = "IngredientItem_ID"))
     private List<IngredientItemEntity> recipe = new ArrayList<>();
     private Integer recipeQuantity;
     private String remark;
     private boolean deleted;
     @ManyToMany
-    @XmlTransient
     private List<ComboEntity> combos = new ArrayList<>();
     @ManyToOne
     private KitchenEntity kitchen;
     @ManyToMany
     private List<MenuItemForecastEntity> forecasts = new ArrayList<>();
-    @ManyToMany
-    private List<DailySalesEntity> dailySales = new ArrayList<>();
-    
+
     public DishEntity() {
         deleted = false;
     }
@@ -146,14 +136,6 @@ public class DishEntity implements Serializable {
 
     public void setForecasts(List<MenuItemForecastEntity> forecasts) {
         this.forecasts = forecasts;
-    }
-
-    public List<DailySalesEntity> getDailySales() {
-        return dailySales;
-    }
-
-    public void setDailySales(List<DailySalesEntity> dailySales) {
-        this.dailySales = dailySales;
     }
 
 

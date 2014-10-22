@@ -42,7 +42,6 @@ public class MemberControlBean {
     private String LastName;
     private String Title;
     private String Gender;
-    private String Nationality;
     private String Email;
     private String Address;
     private String Postal;
@@ -52,7 +51,7 @@ public class MemberControlBean {
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
-    private Long transactionId = -1L;
+    private Long transactionId;
 
     /**
      * Creates a new instance of MemberControlBean
@@ -98,7 +97,7 @@ public class MemberControlBean {
     public void addMember() {
         System.out.println("MemberControlBean: addMember: ");
 
-        int result = MRMM.AddMember(LastName, MidName, FirstName, birthday, Nationality, Gender, Title, Address, Postal, Email, transactionId);
+        int result = MRMM.AddMember(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, transactionId);
         if (result == 1) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Member added successfully! ", ""));
 
@@ -116,6 +115,7 @@ public class MemberControlBean {
         }
 
     }
+
 
 //    public void changePassword(ActionEvent event) {
 //        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
@@ -273,14 +273,6 @@ public class MemberControlBean {
 
     public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
-    }
-
-    public String getNationality() {
-        return Nationality;
-    }
-
-    public void setNationality(String Nationality) {
-        this.Nationality = Nationality;
     }
 
 }

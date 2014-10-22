@@ -5,12 +5,11 @@
  */
 package Entity.Kitchen;
 
-import Entity.CommonInfrastructure.UserEntity;
-import Entity.Store.OCRM.MemberEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,28 +31,17 @@ public class KitchenOrderEntity implements Serializable {
     private Long id;
     @OneToMany
     private List<DishItemEntity> dishes = new ArrayList<>();
-    @OneToMany
+    @OneToMany(targetEntity = ComboEntity.class)
     private List<ComboItemEntity> combos = new ArrayList<>();
-    private Double total = 0.0;
-    private Double received = 0.0;
-    private Double due = 0.0;
+    private Double total;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime = Calendar.getInstance();
-    private String status;  //Unconfirmed, Confirmed, Fulfilled, Cancelled
+    private Calendar creationTime;
+    private String status;  //unconfirmed, confirmed, fulfilled
     @ManyToOne
     private KitchenEntity kitchen;
-    @ManyToOne  // not included in member yet
-    private MemberEntity member = null;
-//    @ManyToOne
-//    private UserEntity operator;
+    // private MemberEntity member???
 
     public KitchenOrderEntity() {
-        this.status = "Unconfirmed";
-    }
-
-    public KitchenOrderEntity(KitchenEntity kitchen) {
-        this.kitchen = kitchen;
-        this.status = "Unconfirmed";
     }
 
     public Long getId() {
@@ -88,22 +76,6 @@ public class KitchenOrderEntity implements Serializable {
         this.total = total;
     }
 
-    public Double getReceived() {
-        return received;
-    }
-
-    public void setReceived(Double received) {
-        this.received = received;
-    }
-
-    public Double getDue() {
-        return due;
-    }
-
-    public void setDue(Double due) {
-        this.due = due;
-    }
-
     public Calendar getCreationTime() {
         return creationTime;
     }
@@ -126,14 +98,6 @@ public class KitchenOrderEntity implements Serializable {
 
     public void setKitchen(KitchenEntity kitchen) {
         this.kitchen = kitchen;
-    }
-
-    public MemberEntity getMember() {
-        return member;
-    }
-
-    public void setMember(MemberEntity member) {
-        this.member = member;
     }
 
     @Override

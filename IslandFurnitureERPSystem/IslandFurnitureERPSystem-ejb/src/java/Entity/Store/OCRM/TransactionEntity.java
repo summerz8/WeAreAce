@@ -19,21 +19,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author hangsun
  */
 @Entity
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long transactionId;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -53,10 +49,9 @@ public class TransactionEntity implements Serializable {
     @OneToOne
     private StoreUserEntity storeStaff;
 
-    //Transaction -- TransactionItemEntity 1<-->M
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "transaction")
-    @XmlTransient
-    private List<TransactionItemEntity> transactionItemList;
+    //Transaction -- TransactionItem 1<-->M
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
+    private List<TransactionItem> transactionItemList;
 
     public TransactionEntity() {
     }
@@ -125,11 +120,11 @@ public class TransactionEntity implements Serializable {
         this.store = store;
     }
 
-    public List<TransactionItemEntity> getTransactionItemList() {
+    public List<TransactionItem> getTransactionItemList() {
         return transactionItemList;
     }
 
-    public void setTransactionItemList(List<TransactionItemEntity> transactionItemList) {
+    public void setTransactionItemList(List<TransactionItem> transactionItemList) {
         this.transactionItemList = transactionItemList;
     }
 
