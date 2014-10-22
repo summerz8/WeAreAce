@@ -77,7 +77,14 @@
                 <p:layoutUnit position="center" resizable="false">
                     <p:panel id="basic" header =" " style="height:800px;" >
                         <h:panelGrid columns="2" cellpadding="6">
+                            <p:dataTable rendered="false" />
 
+                            <p:chart type="bar" model="#{viewVLC.barModel}" style="height:300px" />
+                    </p:panel>
+
+
+                    <p:panel id="basic" header =" " style="height:400px;" >
+                        <p:chart type="bar" model="#{viewCLV.barModel}" style="height:300px" />
 
                         </h:panelGrid>
                     </p:panel>

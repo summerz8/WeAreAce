@@ -17,9 +17,9 @@ import org.primefaces.model.chart.ChartSeries;
  *
  * @author summer
  */
-@Named(value = "vewRetentionRate")
+@Named(value = "viewCLV")
 @ViewScoped
-public class VewRetentionRate {
+public class ViewCLV {
 
     private BarChartModel barModel;
 
@@ -60,7 +60,7 @@ public class VewRetentionRate {
         barModel.setLegendPosition("ne");
 
         Axis xAxis = barModel.getAxis(AxisType.X);
-        xAxis.setLabel("Gender");
+        xAxis.setLabel("Year");
 
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("Births");
@@ -68,7 +68,15 @@ public class VewRetentionRate {
         yAxis.setMax(200);
     }
 
-    public VewRetentionRate() {
+    public BarChartModel getBarModel() {
+        return barModel;
+    }
+
+    public void setBarModel(BarChartModel barModel) {
+        this.barModel = barModel;
+    }
+
+    public ViewCLV() {
     }
 
 }

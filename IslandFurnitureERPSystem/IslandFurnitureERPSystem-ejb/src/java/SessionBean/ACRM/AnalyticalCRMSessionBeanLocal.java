@@ -66,20 +66,20 @@ public interface AnalyticalCRMSessionBeanLocal {
 
     public String sendEmailsToAll(Long storeId) throws Exception;
 
-    public Float getRetentionRate(Long storeId, Calendar time, Integer location,
+    public Double getRetentionRate(Long storeId, Calendar time, Integer location,
             Boolean isForAllPlace, Boolean isMonthly) throws Exception;
 
-    public Float getRetentionRateByAge(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, Integer minAge, Integer maxAge) throws Exception;
-
-    public Float getRetentionRateByGender(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, String gender) throws Exception;
-
-    public Float getRetentionRateByNationality(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, String country) throws Exception;
-
-    public Float getRetentionRateByMemberLevel(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, Integer memberLevel) throws Exception;
+//    public Float getRetentionRateByAge(Long storeId, Calendar time, Integer location,
+//            Boolean isForAllPlace, Boolean isMonthly, Integer minAge, Integer maxAge) throws Exception;
+//
+//    public Float getRetentionRateByGender(Long storeId, Calendar time, Integer location,
+//            Boolean isForAllPlace, Boolean isMonthly, String gender) throws Exception;
+//
+//    public Float getRetentionRateByNationality(Long storeId, Calendar time, Integer location,
+//            Boolean isForAllPlace, Boolean isMonthly, String country) throws Exception;
+//
+//    public Float getRetentionRateByMemberLevel(Long storeId, Calendar time, Integer location,
+//            Boolean isForAllPlace, Boolean isMonthly, Integer memberLevel) throws Exception;
 
     public Float getCLV(Long storeId, Calendar time, Integer location,
             Boolean isForAllPlace, Double grossProfitMargin, Double aveAcquisitionCost) throws Exception;
