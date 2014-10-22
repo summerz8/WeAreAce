@@ -72,14 +72,14 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
             Query q = em.createQuery("SELECT po FROM StoreProductEntity po");
             for (StoreProductEntity s : (List<StoreProductEntity>) q.getResultList()) {
                 if (s.getStoreProductId().equals(productId)) {
-                    return s.getSalesRecordList();
+                    return SortSalesRecordList(s.getSalesRecordList());
                 }
             }
         } else {
             Query q = em.createQuery("SELECT po FROM StoreRetailProductEntity po");
             for (StoreRetailProductEntity s : (List<StoreRetailProductEntity>) q.getResultList()) {
                 if (s.getStoreRetailProductId().equals(productId)) {
-                    return s.getSalesRecordList();
+                    return SortSalesRecordList(s.getSalesRecordList());
                 }
             }
 
@@ -94,14 +94,14 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
             Query q = em.createQuery("SELECT po FROM StoreProductEntity po");
             for (StoreProductEntity s : (List<StoreProductEntity>) q.getResultList()) {
                 if (s.getStoreProductId().equals(productId)) {
-                    return s.getProductSalesForecastList();
+                    return SortProductSalesForecastList(s.getProductSalesForecastList());
                 }
             }
         } else {
             Query q = em.createQuery("SELECT po FROM StoreRetailProductEntity po");
             for (StoreRetailProductEntity s : (List<StoreRetailProductEntity>) q.getResultList()) {
                 if (s.getStoreRetailProductId().equals(productId)) {
-                    return s.getProductSalesForecastList();
+                    return SortProductSalesForecastList(s.getProductSalesForecastList());
                 }
             }
 
@@ -326,6 +326,26 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
 
         return em.find(SalesForecastEntity.class, salesForecastId);
 
+    }
+
+    @Override
+    public List<ProductSalesForecastEntity> SortProductSalesForecastList(List<ProductSalesForecastEntity> object) {
+        List<ProductSalesForecastEntity> sorted = new ArrayList<>();
+        int size = object.size();
+        for (int a = 0; a < size; a++) {
+            sorted.add(object.get(size-a-1));
+        }
+        return sorted;
+    }
+    
+    @Override
+    public List<SalesRecordEntity> SortSalesRecordList(List<SalesRecordEntity> object) {
+        List<SalesRecordEntity> sorted = new ArrayList<>();
+        int size = object.size();
+        for (int a = 0; a < size; a++) {
+            sorted.add(object.get(size-a-1));
+        }
+        return sorted;
     }
 
 }

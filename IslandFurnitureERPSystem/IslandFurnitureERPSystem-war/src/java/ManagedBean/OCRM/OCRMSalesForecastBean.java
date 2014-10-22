@@ -27,7 +27,7 @@ public class OCRMSalesForecastBean {
 
     @EJB
     OCRMSalesForecastModuleLocal sfml;
-    
+
     private String department;
     private Long storeId;
     private Long storeProductId;
@@ -39,7 +39,7 @@ public class OCRMSalesForecastBean {
     private List<StoreRetailProductEntity> storeRetailProductList;
     private String selectedStoreRetailProduct;
     private List<SelectItem> storeRetailProductDisplayList;
-    
+
     private Boolean createSalesForecast;
 
     public OCRMSalesForecastBean() {
@@ -105,41 +105,55 @@ public class OCRMSalesForecastBean {
 
         return "ViewProductSalesForecast?faces-redirect=true";
     }
-    
-    public String CreateStoreProductSalesForecast() {
-        Long productId = Long.valueOf(selectedStoreProduct);
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreProduct");
 
-        return "CreateProductSalesForecast?faces-redirect=true";
+    public String CreateStoreProductSalesForecast() {
+        if (department.equals("H")) {
+            return "NoRightToProcess?faces-redirect=true";
+        } else {
+            Long productId = Long.valueOf(selectedStoreProduct);
+
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreProduct");
+
+            return "CreateProductSalesForecast?faces-redirect=true";
+        }
     }
 
     public String CreateStoreRetailProductSalesForecast() {
-        Long productId = Long.valueOf(selectedStoreRetailProduct);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreRetailProduct");
+        if (department.equals("H")) {
+            return "NoRightToProcess?faces-redirect=true";
+        } else {
+            Long productId = Long.valueOf(selectedStoreRetailProduct);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreRetailProduct");
 
-        return "CreateProductSalesForecast?faces-redirect=true";
+            return "CreateProductSalesForecast?faces-redirect=true";
+        }
     }
-    
-    public String createSalesForeacast(){
-        createSalesForecast=sfml.checkAvailability(storeId);
-        if(createSalesForecast==true)
-        return "CreateSalesForecast?faces-redirect=true";
-        else return "CantCreateSalesForecast?faces-redirect=true";
+
+    public String createSalesForeacast() {
+        if (department.equals("H")) {
+            return "NoRightToProcess?faces-redirect=true";
+        } else {
+            createSalesForecast = sfml.checkAvailability(storeId);
+            if (createSalesForecast == true) {
+                return "CreateSalesForecast?faces-redirect=true";
+            } else {
+                return "CantCreateSalesForecast?faces-redirect=true";
+            }
+        }
     }
-    
-    public String CheckStoreProduct(Long productId){
-    
+
+    public String CheckStoreProduct(Long productId) {
+
         return sfml.checkStoreProduct(productId);
-    
+
     }
-    
-    public String CheckStoreRetailProduct(Long productId){
-    
+
+    public String CheckStoreRetailProduct(Long productId) {
+
         return sfml.checkStoreRetailProduct(productId);
-    
+
     }
 
     public OCRMSalesForecastModuleLocal getSfml() {

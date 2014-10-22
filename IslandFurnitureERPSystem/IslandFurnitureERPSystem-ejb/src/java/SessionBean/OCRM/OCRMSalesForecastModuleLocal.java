@@ -32,14 +32,19 @@ public interface OCRMSalesForecastModuleLocal {
     public String checkStoreProduct(Long productId);
 
     public String checkStoreRetailProduct(Long productId);
-    
+
     public ProductSalesForecastEntity createProductSalesForecast(Long productId, String productType);
-    
-    public ProductSalesForecastEntity confirmProductSalesForecast(Calendar period, Double NewAmount, Long storeId,String productType, Long productId);
+
+    public ProductSalesForecastEntity confirmProductSalesForecast(Calendar period, Double NewAmount, Long storeId, String productType, Long productId);
 
     public Boolean checkAvailability(Long storeId);
-    
+
     public List<SalesForecastEntity> createForecast(Long storeId);
-    
+
     public SalesForecastEntity getSalesForecast(Long salesForecastId);
+
+    public List<ProductSalesForecastEntity> SortProductSalesForecastList(List<ProductSalesForecastEntity> object);
+
+    public List<SalesRecordEntity> SortSalesRecordList(List<SalesRecordEntity> object);
+
 }
