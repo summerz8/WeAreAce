@@ -15,9 +15,12 @@
                     <file>${reference.IslandFurnitureERPSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
+<<<<<<< HEAD
                 <library>
                     <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD}</file>
                 </library>
+=======
+>>>>>>> 63fde053cd38d02657bb4d6686ad4ea722306954
             </web-module-additional-libraries>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">

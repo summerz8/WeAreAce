@@ -18,6 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Store")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,24 +45,27 @@ public class StoreEntity implements Serializable {
     @OneToOne
     private KitchenEntity kitchen;
 
-
 //    //factory entity -- store entity: M <--> M 
 //    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
 //    private List<FactoryEntity> factorys = new ArrayList<>();
-
     //store entity -- store product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<StoreProductEntity> storeProduct = new ArrayList<>();
-
+    @XmlTransient
+    private List<StoreProductEntity> storeProducts = new ArrayList<>();
+    
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
-
+    @XmlTransient
+    private List<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
+    
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
-
+    @XmlTransient
+    private List<StoreItemMappingEntity> storeItemMappings = new ArrayList<>();
+    
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<TransactionEntity> transacion = new ArrayList<>();
+    @XmlTransient
+    private List<TransactionEntity> transacions = new ArrayList<>();
+    
 
     public StoreEntity() {
     }
@@ -69,11 +76,11 @@ public class StoreEntity implements Serializable {
         this.contact = contact;
         this.manager = manager;
         this.deleteFlag = deleteFlag;
-        factoryList=new ArrayList<>();
+        factoryList = new ArrayList<>();
 
-}
+    }
 
-public Long getStoreId() {
+    public Long getStoreId() {
         return storeId;
     }
 
@@ -88,32 +95,6 @@ public Long getStoreId() {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public List<StoreProductEntity> getStoreProduct() {
-        return storeProduct;
-    }
-
-    public void setStoreProduct(List<StoreProductEntity> storeProduct) {
-        this.storeProduct = storeProduct;
-    }
-
-    public List<StoreRetailProductEntity> getStoreRetailProduct() {
-        return storeRetailProduct;
-    }
-
-    public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
-        this.storeRetailProduct = storeRetailProduct;
-    }
-
-    public List<TransactionEntity> getTransacion() {
-        return transacion;
-    }
-
-    public void setTransacion(List<TransactionEntity> transacion) {
-        this.transacion = transacion;
-    }
-
-   
 
     public String getCountry() {
         return country;
@@ -147,39 +128,6 @@ public Long getStoreId() {
         this.deleteFlag = deleteFlag;
     }
 
-
-    public Boolean getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public List<StoreItemMappingEntity> getStoreProductMapping() {
-        return storeItemMapping;
-    }
-
-    public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
-        this.storeItemMapping = storeProductMapping;
-    }
-    
-    public KitchenEntity getKitchen() {
-        return kitchen;
-    }
-
-    public void setKitchen(KitchenEntity kitchen) {
-        this.kitchen = kitchen;
-    }
-
-    public List<StoreItemMappingEntity> getStoreItemMapping() {
-        return storeItemMapping;
-    }
-
-//    public List<TransactionEntity> getTransacion() {
-//        return transacion;
-//    }
-
-    public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
-        this.storeItemMapping = storeItemMapping;
-    }
-
     public List<Long> getFactoryList() {
         return factoryList;
     }
@@ -188,21 +136,56 @@ public Long getStoreId() {
         this.factoryList = factoryList;
     }
 
-//    public void setTransacion(List<TransactionEntity> transacion) {
-//        this.transacion = transacion;
-//    }
+    public KitchenEntity getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(KitchenEntity kitchen) {
+        this.kitchen = kitchen;
+    }
+
+    public List<StoreProductEntity> getStoreProducts() {
+        return storeProducts;
+    }
+
+    public void setStoreProducts(List<StoreProductEntity> storeProducts) {
+        this.storeProducts = storeProducts;
+    }
+
+    public List<StoreRetailProductEntity> getStoreRetailProducts() {
+        return storeRetailProducts;
+    }
+
+    public void setStoreRetailProducts(List<StoreRetailProductEntity> storeRetailProducts) {
+        this.storeRetailProducts = storeRetailProducts;
+    }
+
+    public List<StoreItemMappingEntity> getStoreItemMappings() {
+        return storeItemMappings;
+    }
+
+    public void setStoreItemMappings(List<StoreItemMappingEntity> storeItemMappings) {
+        this.storeItemMappings = storeItemMappings;
+    }
+
+    public List<TransactionEntity> getTransacions() {
+        return transacions;
+    }
+
+    public void setTransacions(List<TransactionEntity> transacions) {
+        this.transacions = transacions;
+    }
 
     
-    
     @Override
-        public int hashCode() {
+    public int hashCode() {
         int hash = 0;
         hash += (storeId != null ? storeId.hashCode() : 0);
         return hash;
     }
 
     @Override
-        public boolean equals(Object object) {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the storeId fields are not set
         if (!(object instanceof StoreEntity)) {
             return false;
@@ -215,7 +198,7 @@ public Long getStoreId() {
     }
 
     @Override
-        public String toString() {
+    public String toString() {
         return "Entity.Store.StoreEntity[ id=" + storeId + " ]";
     }
 

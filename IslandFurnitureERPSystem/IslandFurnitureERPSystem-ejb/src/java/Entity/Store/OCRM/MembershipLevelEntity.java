@@ -7,10 +7,13 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,23 +26,21 @@ public class MembershipLevelEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long level;
-    private String Name;
+    private Integer levelId;
+    
+    private String levelName;
     
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
     private Double discount;
 
 
-    private Integer levelId;
-
-    private String levelName;
+    
 
 
-//
-//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
-//    private Collection<MemberEntity> members;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "memberlvl")
+    private List<MemberEntity> members;
 
     
     public MembershipLevelEntity() {
@@ -53,15 +54,14 @@ public class MembershipLevelEntity implements Serializable {
         this.discount = discount;
     }
 
-//
-//    public Collection<MemberEntity> getMembers() {
-//        return members;
-//    }
-//
-//    public void setMembers(Collection<MemberEntity> members) {
-//        this.members = members;
-//    }
-//
+    public List<MemberEntity> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<MemberEntity> members) {
+        this.members = members;
+    }
+
 
     public String getLevelName() {
         return levelName;
@@ -89,14 +89,6 @@ public class MembershipLevelEntity implements Serializable {
 
     public void setPointsToUpgrade(Double pointsToUpgrade) {
         this.pointsToUpgrade = pointsToUpgrade;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String Name) {
-        this.Name = Name;
     }
 
     
