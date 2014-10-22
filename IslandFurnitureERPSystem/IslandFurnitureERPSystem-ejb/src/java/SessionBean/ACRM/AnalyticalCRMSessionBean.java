@@ -423,7 +423,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             Collection<MemberEntity> currentPeriodActiveCustomers;
 
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransacion();
+            transactionList = store.getTransactions();
 
             if (isMonthly) {
                 Calendar lastMonth = time;
@@ -458,7 +458,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             Collection<MemberEntity> currentPeriodActiveCustomers;
 
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransacion();
+            transactionList = store.getTransactions();
 
             if (isMonthly) {
                 Calendar lastMonth = time;
@@ -497,7 +497,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             Collection<MemberEntity> currentPeriodActiveCustomers;
 
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransacion();
+            transactionList = store.getTransactions();
 
             if (isMonthly) {
                 Calendar lastMonth = time;
@@ -536,7 +536,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             Collection<MemberEntity> currentPeriodActiveCustomers;
 
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransacion();
+            transactionList = store.getTransactions();
 
             if (isMonthly) {
                 Calendar lastMonth = time;
@@ -574,7 +574,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             Collection<MemberEntity> currentPeriodActiveCustomers;
 
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransacion();
+            transactionList = store.getTransactions();
 
             if (isMonthly) {
                 Calendar lastMonth = time;
@@ -612,7 +612,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             Collection<MemberEntity> members = new ArrayList();
 
             StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransacion();
+            transactionList = store.getTransactions();
 
             for (TransactionEntity transaction : transactionList) {
                 if (transaction.getMember().getMemberId() != null) {
@@ -634,7 +634,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
 
         Collection<TransactionEntity> transactionList;
         StoreEntity store = em.find(StoreEntity.class, storeId);
-        transactionList = store.getTransacion();
+        transactionList = store.getTransactions();
 
         for (TransactionEntity transaction : transactionList) {
             if (transaction.getMember().getMemberId() != null) {

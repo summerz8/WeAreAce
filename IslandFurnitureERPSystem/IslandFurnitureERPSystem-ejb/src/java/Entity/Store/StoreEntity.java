@@ -64,7 +64,7 @@ public class StoreEntity implements Serializable {
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
-    private List<TransactionEntity> transacions = new ArrayList<>();
+    private List<TransactionEntity> transactions = new ArrayList<>();
     
 
     public StoreEntity() {
@@ -168,12 +168,12 @@ public class StoreEntity implements Serializable {
         this.storeItemMappings = storeItemMappings;
     }
 
-    public List<TransactionEntity> getTransacions() {
-        return transacions;
+    public List<TransactionEntity> getTransactions() {
+        return transactions;
     }
 
-    public void setTransacions(List<TransactionEntity> transacions) {
-        this.transacions = transacions;
+    public void setTransactions(List<TransactionEntity> transactions) {
+        this.transactions = transactions;
     }
 
     
