@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -58,7 +59,10 @@ public class StoreEntity implements Serializable {
     private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<TransactionEntity> transacion = new ArrayList<>();
+
+    @XmlTransient
+    private List<TransactionEntity> transactions = new ArrayList<>();
+ 
 
     public StoreEntity() {
     }
@@ -104,16 +108,6 @@ public Long getStoreId() {
     public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
         this.storeRetailProduct = storeRetailProduct;
     }
-
-    public List<TransactionEntity> getTransacion() {
-        return transacion;
-    }
-
-    public void setTransacion(List<TransactionEntity> transacion) {
-        this.transacion = transacion;
-    }
-
-   
 
     public String getCountry() {
         return country;
@@ -191,6 +185,14 @@ public Long getStoreId() {
 //    public void setTransacion(List<TransactionEntity> transacion) {
 //        this.transacion = transacion;
 //    }
+
+    public List<TransactionEntity> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionEntity> transactions) {
+        this.transactions = transactions;
+    }
 
     
     

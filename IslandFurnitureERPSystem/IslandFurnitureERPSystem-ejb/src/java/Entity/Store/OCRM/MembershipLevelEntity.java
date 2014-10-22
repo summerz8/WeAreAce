@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "memberlevel")
-public class MembershipLevel implements Serializable {
+public class MembershipLevelEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +42,7 @@ public class MembershipLevel implements Serializable {
 //    private Collection<MemberEntity> members;
 
     
-    public MembershipLevel() {
+    public MembershipLevelEntity() {
     }
 
     public Double getDiscount() {
@@ -110,10 +110,10 @@ public class MembershipLevel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the levelId fields are not set
-        if (!(object instanceof MembershipLevel)) {
+        if (!(object instanceof MembershipLevelEntity)) {
             return false;
         }
-        MembershipLevel other = (MembershipLevel) object;
+        MembershipLevelEntity other = (MembershipLevelEntity) object;
         if ((this.levelId == null && other.levelId != null) || (this.levelId != null && !this.levelId.equals(other.levelId))) {
             return false;
         }

@@ -7,7 +7,7 @@ package SessionBean.OCRM;
 
 import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.MembershipLevel;
+import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.TransactionEntity;
@@ -129,7 +129,7 @@ public class TransactionModule implements TransactionModuleLocal {
 
         if (transaction.getMember() != null) {
             MemberEntity member = transaction.getMember();
-            MembershipLevel level = member.getMemberlvl();
+            MembershipLevelEntity level = member.getMemberlvl();
             Double discount = level.getDiscount();
             totalPrice *= discount;
         }

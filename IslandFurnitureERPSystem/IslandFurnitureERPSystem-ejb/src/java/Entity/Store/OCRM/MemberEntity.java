@@ -53,7 +53,6 @@ public class MemberEntity implements Serializable {
     private Calendar createDate;
 
     private String country;
-    
 
     private Double currentPoints;
     private Double totalPoints;
@@ -65,7 +64,7 @@ public class MemberEntity implements Serializable {
     private List<ItemEntity> shoppingCartList;
 
     @ManyToOne
-    private MembershipLevel memberlvl;
+    private MembershipLevelEntity memberlvl;
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
     private List<TransactionEntity> transactionList; 
@@ -94,6 +93,7 @@ public class MemberEntity implements Serializable {
         this.createDate = Calendar.getInstance();
 
         shoppingCartList=new ArrayList<>();
+        this.createDate = Calendar.getInstance();
     }
     
     public Long getMemberId() {
@@ -226,19 +226,19 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 //
-//    public MembershipLevel getMemberlvl() {
+//    public MembershipLevelEntity getMemberlvl() {
 //        return memberlvl;
 //    }
 //
-//    public void setMemberlvl(MembershipLevel memberlvl) {
+//    public void setMemberlvl(MembershipLevelEntity memberlvl) {
 //        this.memberlvl = memberlvl;
 //    }
 
-    public MembershipLevel getMemberlvl() {
+    public MembershipLevelEntity getMemberlvl() {
         return memberlvl;
     }
 
-    public void setMemberlvl(MembershipLevel memberlvl) {
+    public void setMemberlvl(MembershipLevelEntity memberlvl) {
         this.memberlvl = memberlvl;
     }
 
@@ -281,8 +281,6 @@ public class MemberEntity implements Serializable {
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
-    
-    
     
     @Override
     public int hashCode() {

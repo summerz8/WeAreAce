@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>                     
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit position="west" size="10segDetail00px">
+
+                    <p:menu>
+                        <p:submenu label="Anaytical Customer Relationship Management Page">
+                            <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
+                            <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
+                            <p:menuitem value="View Customer Aquisation Cost" update="messages" action = "ViewCAC?faces-redirect=true"/>
+                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?face-redirect=true"/> 
+                        </p:submenu>
+                    </p:menu>
+
+                </p:layoutUnit>
+                <p:layoutUnit position="center" resizable="false">
+                    <p:panel id="basic" header ="" style="height:800px;" >
+
+                        <h:outputText value="Total Number of Members: #{viewMembers.memberAmount}" 
+                                      style="font-family:serif  ; font-style: italic; font-size: 150%"  />
+
+                        <br></br>
+                        <br></br>
+
+                        <h:outputText value="Segmented By: "/>
+                        <h:outputLabel for="checkGender" value="Gender: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkGender}" />
+                        <h:outputLabel for="checkAge" value="Age: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkAge}" />
+                        <h:outputLabel for="checkCountry" value="Nationality: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkCountry}" />
+                        <h:outputLabel for="checkMemberlvl" value="Member Level: " style="padding-left: 2em"/>
+                        <p:selectBooleanCheckbox value="#{viewMembers.checkMemberlvl}" style="padding-right: 2em"/>
+
+                        <p:commandButton value="Submit" icon="ui-icon-check" update="segDetail" 
+                                         oncomplete="PF('segDialog').show()" />
+
+                        <h:panelGrid columns="2" cellpadding="6">
+                            <p:dataTable var="m" value="#{viewMembers.allMembers}" 
+                                         scrollable="true" scrollHeight="100%" widgetVar="membersTable" 
+                                         emptyMessage="No member found with given criteria" 
+                                         filteredValue="#{viewMembers.filteredMembers}" scrollWidth="100%" >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search All Fields: " />
+                                        <p:inputText id="globalFilter" onkeyup="PF('membersTable').filter()" placeholder="Enter keyword" />
+
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:column headerText="Member ID" filterBy="#{m.memberId}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.memberId}
+                                </p:column>
+
+                                <p:column headerText="Register Date" filterBy="#{m.createDate}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{m.createDate.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Title" filterBy="#{m.title}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.title}
+                                </p:column>
+
+                                <p:column headerText="Name" filterBy="#{m.firstName}#{m.midName}#{m.lastName}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.firstName} #{m.midName} #{m.lastName}
+                                </p:column>
+
+
+                                <p:column headerText="Birthday" filterBy="#{m.birthday}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{m.birthday.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Gender" filterBy="#{m.gender}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.gender}
+                                </p:column>
+                                <p:column headerText="Nationality" filterBy="#{m.country}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.country}
+                                </p:column>
+                                <p:column headerText="Member Level" filterBy="#{m.memberlvl}" filterMatchMode="contains" filterStyle="display:none">
+                                    #{m.memberlvl.levelId} #{m.memberlvl.name} 
+                                </p:column>
+
+                                <p:column headerText="Registered Store" filterBy="#{m.storeId}" filterMatchMode="contains">
+                                    #{m.storeId}
+                                </p:column>
+
+                            </p:dataTable>                
+                        </h:panelGrid>
+                        <p:commandButton  action="ViewMembers.xhtml"  value="Send Message to This group of Members" />
+                        <p:commandButton  action="ViewMembers.xhtml"  value="Send Message to All Members" style="float: right"/>
+
+
+                    </p:panel>
+
+
+                    <p:dialog header="Input Segmentation Info" widgetVar="segDialog" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true" width="300">
+                        <p:outputPanel id="segDetail" style="text-align:center;">
+
+                            <p:panelGrid  columns="2" columnClasses="label,value" 
+                                          rendered="#{!(viewMembers.checkAge||viewMembers.checkCountry
+                                                      ||viewMembers.checkGender||viewMembers.checkMemberlvl)} ">
+                                <h:outputText value="Continue by click the button." />
+
+                            </p:panelGrid>
+
+                            <p:panelGrid  columns="2" columnClasses="label,value" >
+                                <h:outputText value="Maximum Age: " rendered="#{viewMembers.checkAge}"/>
+                                <h:inputText id="maxAge" value="#{viewMembers.maxAge}" rendered="#{viewMembers.checkAge}"/>
+
+                                <h:outputText value="Minimum Age: " rendered="#{viewMembers.checkAge}"/>
+                                <h:inputText id="minAge" value="#{viewMembers.minAge}" rendered="#{viewMembers.checkAge}"/>
+
+                                <p:outputLabel for="gender" value="Gender: " rendered="#{viewMembers.checkGender}"/>
+                                <p:selectOneMenu id="gender" value="#{viewMembers.gender}" style="width:150px" rendered="#{viewMembers.checkGender}">
+                                    <f:selectItem itemLabel="Select Gender" itemValue="" noSelectionOption="false" />
+                                    <f:selectItems value="#{viewMembers.genders}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="nationality" value="Nationality: " rendered="#{viewMembers.checkCountry}"/>
+                                <p:selectOneMenu id="nationality" value="#{viewMembers.country}" style="width:150px" rendered="#{viewMembers.checkCountry}">
+                                    <f:selectItem itemLabel="Select Nationality" itemValue="" noSelectionOption="false" />
+                                    <f:selectItems value="#{viewMembers.countries}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="memberLevel" value="Member Level: " rendered="#{viewMembers.checkMemberlvl}"/>
+                                <p:selectOneMenu id="memberLevel" value="#{viewMembers.memberLevel}" style="width:150px" rendered="#{viewMembers.checkMemberlvl}">
+                                    <f:selectItem itemLabel="Select Member Level" itemValue="" noSelectionOption="false" />
+                                    <f:selectItems value="#{viewMembers.memberLevels}" />
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+
+                            <p:commandButton update="messages" action="ViewMembers?faces-redirect=true" value="Confrim" />
+                        </p:outputPanel>
+                    </p:dialog>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+    </h:body>
+
+</html>
