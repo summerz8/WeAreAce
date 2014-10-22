@@ -1636,7 +1636,7 @@ public class dataSetUp {
         //Product Sales Forecast Set up
         ProductSalesForecastEntity psfe1 = new ProductSalesForecastEntity();
         psfe1.setAmount(1600D);
-        psfe1.setPeriod(caltemp3);
+        psfe1.setTargetPeriod(caltemp3);
         psfe1.setStore(s1);
         psfe1.setStoreProduct(sp1_1);
         em.persist(psfe1);
@@ -1644,7 +1644,7 @@ public class dataSetUp {
 
         ProductSalesForecastEntity psfe2 = new ProductSalesForecastEntity();
         psfe2.setAmount(1500D);
-        psfe2.setPeriod(caltemp2);
+        psfe2.setTargetPeriod(caltemp2);
         psfe2.setStore(s1);
         psfe2.setStoreProduct(sp1_1);
         em.persist(psfe2);
