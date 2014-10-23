@@ -60,14 +60,14 @@ public interface AnalyticalCRMSessionBeanLocal {
 
     public Collection<MemberEntity> getMembersByGCM(String gender, String country, Integer memberLevel) throws Exception;
 
-    public Collection<MemberEntity> getMembersByAGCM(Integer minAge, Integer maxAge, String gender,String country, Integer memberLevel) throws Exception;
+    public Collection<MemberEntity> getMembersByAGCM(Integer minAge, Integer maxAge, String gender, String country, Integer memberLevel) throws Exception;
 
     public String sendEmailsToSegmentCustomers(Collection<Long> memberIdList) throws Exception;
 
     public String sendEmailsToAll(Long storeId) throws Exception;
 
     public Double getRetentionRate(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly) throws Exception;
+            Boolean isForAllPlace, Boolean isMonthly, Boolean isYearly) throws Exception;
 
 //    public Float getRetentionRateByAge(Long storeId, Calendar time, Integer location,
 //            Boolean isForAllPlace, Boolean isMonthly, Integer minAge, Integer maxAge) throws Exception;
@@ -80,11 +80,14 @@ public interface AnalyticalCRMSessionBeanLocal {
 //
 //    public Float getRetentionRateByMemberLevel(Long storeId, Calendar time, Integer location,
 //            Boolean isForAllPlace, Boolean isMonthly, Integer memberLevel) throws Exception;
+    public Collection<Double> getCLV(Long storeId, Calendar time, 
+            Double grossProfitMargin, Double aveAcquisitionCost, Integer location,
+            Boolean isForAllPlace, Boolean isFemale, Boolean isMale, Boolean isOthers,
+            Boolean checkMemberlvl, Integer memberlvl) throws Exception;
 
-    public Float getCLV(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Double grossProfitMargin, Double aveAcquisitionCost) throws Exception;
+//    public Float getCACMonthly(Long storeId, Calendar time, Double totalCost) throws Exception;
 
-    public Float getCACMonthly(Long storeId, Calendar time, Double totalCost) throws Exception;
+//    public Collection<MemberEntity> getActiveMembersMonthly(Long storeId, Calendar month, Integer place, Boolean isForAllPlace) throws Exception;
 
-//    public Collection<MemberEntity> getActiveMembersMonthly(Collection<MemberEntity> memberList, Calendar month, Integer place, Boolean isForAllPlace) throws Exception;
+    public Collection<MemberEntity> getActiveMembers(Long storeId, Calendar startDate, Calendar endDate, Integer place, Boolean isForAllPlace) throws Exception;
 }

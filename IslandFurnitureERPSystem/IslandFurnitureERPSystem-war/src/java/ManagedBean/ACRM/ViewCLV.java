@@ -5,7 +5,14 @@
  */
 package ManagedBean.ACRM;
 
+import SessionBean.ACRM.AnalyticalCRMSessionBeanLocal;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.model.chart.Axis;
@@ -21,34 +28,154 @@ import org.primefaces.model.chart.ChartSeries;
 @ViewScoped
 public class ViewCLV {
 
+    @EJB
+    private AnalyticalCRMSessionBeanLocal acrm;
+
+    private Long storeId;
+    private Calendar time = Calendar.getInstance();
+    private Double grossProfitMargin;
+    private Double aveAcquisitionCost;
+
     private BarChartModel barModel;
 
-    @PostConstruct
-    public void init() {
-        createBarModel();
+    private Collection<Double> femaleFurniture;
+    private Collection<Double> femaleRetail;
+    private Collection<Double> femaleKitchen;
+    private Collection<Double> femaleAllPlace;
+
+    private Collection<Double> maleFurniture;
+    private Collection<Double> maleRetail;
+    private Collection<Double> maleKitchen;
+    private Collection<Double> maleAllPlace;
+
+    private Collection<Double> othersFurniture;
+    private Collection<Double> othersRetail;
+    private Collection<Double> othersKitchen;
+    private Collection<Double> othersAllPlace;
+
+    private Double aveFemaleFurniture;
+    private Double aveFemaleRetail;
+    private Double aveFemaleKitchen;
+    private Double aveFemaleAllPlace;
+
+    private Double aveMaleFurniture;
+    private Double aveMaleRetail;
+    private Double aveMaleKitchen;
+    private Double aveMaleAllPlace;
+
+    private Double aveOthersFurniture;
+    private Double aveOthersRetail;
+    private Double aveOthersKitchen;
+    private Double aveOthersAllPlace;
+
+    public String getChart() {
+        try {
+            storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            getAllData();
+            getAveValues();
+
+            createBarModel();
+        } catch (Exception ex) {
+            Logger.getLogger(ViewCLV.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "ViewCLVChart?faces-redirect=true";
+    }
+
+    public void getAllData() throws Exception {
+//        
+//        Long storeId, Calendar time, 
+//            Double grossProfitMargin, Double aveAcquisitionCost, Integer location,
+//            Boolean isForAllPlace, Boolean isFemale, Boolean isMale, Boolean isOthers,
+//            Boolean checkMemberlvl, Integer memberlvl
+
+        femaleFurniture = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                1, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0);
+        femaleRetail = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                2, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0);
+        femaleKitchen = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                3, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0);
+        femaleAllPlace = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                0, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0);
+
+        maleFurniture = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                1, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, 0);
+        maleRetail = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                2, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, 0);
+        maleKitchen = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                3, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, 0);
+        maleAllPlace = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                0, Boolean.TRUE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, 0);
+
+        othersFurniture = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                1, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, 0);
+        othersRetail = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                2, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, 0);
+        othersKitchen = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                3, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, 0);
+        othersAllPlace = acrm.getCLV(storeId, time, grossProfitMargin, aveAcquisitionCost,
+                0, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, 0);
+    }
+
+    public void getAveValues() {
+        aveFemaleFurniture = getAveValue(femaleFurniture);
+        aveFemaleRetail = getAveValue(femaleRetail);
+        aveFemaleKitchen = getAveValue(femaleKitchen);
+        aveFemaleAllPlace = getAveValue(femaleAllPlace);
+
+        aveMaleFurniture = getAveValue(maleFurniture);
+        aveMaleRetail = getAveValue(maleRetail);
+        aveMaleKitchen = getAveValue(maleKitchen);
+        aveMaleAllPlace = getAveValue(maleAllPlace);
+
+        aveOthersFurniture = getAveValue(othersFurniture);
+        aveOthersRetail = getAveValue(othersRetail);
+        aveOthersKitchen = getAveValue(othersKitchen);
+        aveOthersAllPlace = getAveValue(othersAllPlace);
+    }
+
+    public Double getAveValue(Collection<Double> clvList) {
+        Double aveValue = null;
+        Double totalCLV = null;
+        Integer size = clvList.size();
+        for (Double clv : clvList) {
+            totalCLV += clv;
+        }
+        if (size == 0) {
+            aveValue = 100.1;
+        } else {
+            aveValue = totalCLV / size;
+        }
+        return aveValue;
+
     }
 
     private BarChartModel initBarModel() {
         BarChartModel model = new BarChartModel();
 
-        ChartSeries boys = new ChartSeries();
-        boys.setLabel("Boys");
-        boys.set("2004", 120);
-        boys.set("2005", 100);
-        boys.set("2006", 44);
-        boys.set("2007", 150);
-        boys.set("2008", 25);
+        ChartSeries female = new ChartSeries();
+        female.setLabel("Female");
+        female.set("Furniture Marketplace", aveFemaleFurniture);
+        female.set("Retail Product Marketplace", aveFemaleRetail);
+        female.set("Kitchen", aveFemaleKitchen);
+        female.set("All", aveFemaleAllPlace);
 
-        ChartSeries girls = new ChartSeries();
-        girls.setLabel("Girls");
-        girls.set("2004", 52);
-        girls.set("2005", 60);
-        girls.set("2006", 110);
-        girls.set("2007", 135);
-        girls.set("2008", 120);
+        ChartSeries male = new ChartSeries();
+        male.setLabel("Male");
+        male.set("Furniture Marketplace", aveMaleFurniture);
+        male.set("Retail Product Marketplace", aveMaleRetail);
+        male.set("Kitchen", aveMaleKitchen);
+        male.set("All", aveMaleAllPlace);
 
-        model.addSeries(boys);
-        model.addSeries(girls);
+        ChartSeries others = new ChartSeries();
+        others.setLabel("Others");
+        others.set("Furniture Marketplace", aveOthersFurniture);
+        others.set("Retail Product Marketplace", aveOthersRetail);
+        others.set("Kitchen", aveOthersKitchen);
+        others.set("All", aveOthersAllPlace);
+
+        model.addSeries(female);
+        model.addSeries(male);
+        model.addSeries(others);
 
         return model;
     }
@@ -56,19 +183,23 @@ public class ViewCLV {
     private void createBarModel() {
         barModel = initBarModel();
 
-        barModel.setTitle("Bar Chart");
+        barModel.setTitle("Customer Lifespan Value (For different Marketplaces)");
         barModel.setLegendPosition("ne");
 
         Axis xAxis = barModel.getAxis(AxisType.X);
-        xAxis.setLabel("Year");
+        xAxis.setLabel("Places");
 
         Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Births");
+        yAxis.setLabel("CLV");
         yAxis.setMin(0);
         yAxis.setMax(200);
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("barModel", barModel);
+
     }
 
     public BarChartModel getBarModel() {
+        barModel = (BarChartModel) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("barModel");
         return barModel;
     }
 
@@ -77,6 +208,238 @@ public class ViewCLV {
     }
 
     public ViewCLV() {
+    }
+
+    public AnalyticalCRMSessionBeanLocal getAcrm() {
+        return acrm;
+    }
+
+    public void setAcrm(AnalyticalCRMSessionBeanLocal acrm) {
+        this.acrm = acrm;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public Calendar getTime() {
+        return time;
+    }
+
+    public void setTime(Calendar time) {
+        this.time = time;
+    }
+
+    public Double getGrossProfitMargin() {
+        return grossProfitMargin;
+    }
+
+    public void setGrossProfitMargin(Double grossProfitMargin) {
+        this.grossProfitMargin = grossProfitMargin;
+    }
+
+    public Double getAveAcquisitionCost() {
+        return aveAcquisitionCost;
+    }
+
+    public void setAveAcquisitionCost(Double aveAcquisitionCost) {
+        this.aveAcquisitionCost = aveAcquisitionCost;
+    }
+
+    public Collection<Double> getFemaleFurniture() {
+        return femaleFurniture;
+    }
+
+    public void setFemaleFurniture(Collection<Double> femaleFurniture) {
+        this.femaleFurniture = femaleFurniture;
+    }
+
+    public Collection<Double> getFemaleRetail() {
+        return femaleRetail;
+    }
+
+    public void setFemaleRetail(Collection<Double> femaleRetail) {
+        this.femaleRetail = femaleRetail;
+    }
+
+    public Collection<Double> getFemaleKitchen() {
+        return femaleKitchen;
+    }
+
+    public void setFemaleKitchen(Collection<Double> femaleKitchen) {
+        this.femaleKitchen = femaleKitchen;
+    }
+
+    public Collection<Double> getFemaleAllPlace() {
+        return femaleAllPlace;
+    }
+
+    public void setFemaleAllPlace(Collection<Double> femaleAllPlace) {
+        this.femaleAllPlace = femaleAllPlace;
+    }
+
+    public Collection<Double> getMaleFurniture() {
+        return maleFurniture;
+    }
+
+    public void setMaleFurniture(Collection<Double> maleFurniture) {
+        this.maleFurniture = maleFurniture;
+    }
+
+    public Collection<Double> getMaleRetail() {
+        return maleRetail;
+    }
+
+    public void setMaleRetail(Collection<Double> maleRetail) {
+        this.maleRetail = maleRetail;
+    }
+
+    public Collection<Double> getMaleKitchen() {
+        return maleKitchen;
+    }
+
+    public void setMaleKitchen(Collection<Double> maleKitchen) {
+        this.maleKitchen = maleKitchen;
+    }
+
+    public Collection<Double> getMaleAllPlace() {
+        return maleAllPlace;
+    }
+
+    public void setMaleAllPlace(Collection<Double> maleAllPlace) {
+        this.maleAllPlace = maleAllPlace;
+    }
+
+    public Collection<Double> getOthersFurniture() {
+        return othersFurniture;
+    }
+
+    public void setOthersFurniture(Collection<Double> othersFurniture) {
+        this.othersFurniture = othersFurniture;
+    }
+
+    public Collection<Double> getOthersRetail() {
+        return othersRetail;
+    }
+
+    public void setOthersRetail(Collection<Double> othersRetail) {
+        this.othersRetail = othersRetail;
+    }
+
+    public Collection<Double> getOthersKitchen() {
+        return othersKitchen;
+    }
+
+    public void setOthersKitchen(Collection<Double> othersKitchen) {
+        this.othersKitchen = othersKitchen;
+    }
+
+    public Collection<Double> getOthersAllPlace() {
+        return othersAllPlace;
+    }
+
+    public void setOthersAllPlace(Collection<Double> othersAllPlace) {
+        this.othersAllPlace = othersAllPlace;
+    }
+
+    public Double getAveFemaleFurniture() {
+        return aveFemaleFurniture;
+    }
+
+    public void setAveFemaleFurniture(Double aveFemaleFurniture) {
+        this.aveFemaleFurniture = aveFemaleFurniture;
+    }
+
+    public Double getAveFemaleRetail() {
+        return aveFemaleRetail;
+    }
+
+    public void setAveFemaleRetail(Double aveFemaleRetail) {
+        this.aveFemaleRetail = aveFemaleRetail;
+    }
+
+    public Double getAveFemaleKitchen() {
+        return aveFemaleKitchen;
+    }
+
+    public void setAveFemaleKitchen(Double aveFemaleKitchen) {
+        this.aveFemaleKitchen = aveFemaleKitchen;
+    }
+
+    public Double getAveFemaleAllPlace() {
+        return aveFemaleAllPlace;
+    }
+
+    public void setAveFemaleAllPlace(Double aveFemaleAllPlace) {
+        this.aveFemaleAllPlace = aveFemaleAllPlace;
+    }
+
+    public Double getAveMaleFurniture() {
+        return aveMaleFurniture;
+    }
+
+    public void setAveMaleFurniture(Double aveMaleFurniture) {
+        this.aveMaleFurniture = aveMaleFurniture;
+    }
+
+    public Double getAveMaleRetail() {
+        return aveMaleRetail;
+    }
+
+    public void setAveMaleRetail(Double aveMaleRetail) {
+        this.aveMaleRetail = aveMaleRetail;
+    }
+
+    public Double getAveMaleKitchen() {
+        return aveMaleKitchen;
+    }
+
+    public void setAveMaleKitchen(Double aveMaleKitchen) {
+        this.aveMaleKitchen = aveMaleKitchen;
+    }
+
+    public Double getAveMaleAllPlace() {
+        return aveMaleAllPlace;
+    }
+
+    public void setAveMaleAllPlace(Double aveMaleAllPlace) {
+        this.aveMaleAllPlace = aveMaleAllPlace;
+    }
+
+    public Double getAveOthersFurniture() {
+        return aveOthersFurniture;
+    }
+
+    public void setAveOthersFurniture(Double aveOthersFurniture) {
+        this.aveOthersFurniture = aveOthersFurniture;
+    }
+
+    public Double getAveOthersRetail() {
+        return aveOthersRetail;
+    }
+
+    public void setAveOthersRetail(Double aveOthersRetail) {
+        this.aveOthersRetail = aveOthersRetail;
+    }
+
+    public Double getAveOthersKitchen() {
+        return aveOthersKitchen;
+    }
+
+    public void setAveOthersKitchen(Double aveOthersKitchen) {
+        this.aveOthersKitchen = aveOthersKitchen;
+    }
+
+    public Double getAveOthersAllPlace() {
+        return aveOthersAllPlace;
+    }
+
+    public void setAveOthersAllPlace(Double aveOthersAllPlace) {
+        this.aveOthersAllPlace = aveOthersAllPlace;
     }
 
 }
