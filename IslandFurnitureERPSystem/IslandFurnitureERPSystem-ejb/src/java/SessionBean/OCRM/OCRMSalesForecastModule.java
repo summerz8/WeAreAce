@@ -165,12 +165,12 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
             }
             return productSalesForecast;
         } else {
-            StoreRetailProductEntity temp = em.find(StoreRetailProductEntity.class, productId);
-            productSalesForecast.setStoreRetailProduct(temp);
-            productSalesForecast.setStore(temp.getStore());
+            StoreRetailProductEntity temp2 = em.find(StoreRetailProductEntity.class, productId);
+            productSalesForecast.setStoreRetailProduct(temp2);
+            productSalesForecast.setStore(temp2.getStore());
             productSalesForecast.setAmount(0D);
 
-            List<ProductSalesForecastEntity> productSalesForecastList = temp.getProductSalesForecastList();
+            List<ProductSalesForecastEntity> productSalesForecastList = temp2.getProductSalesForecastList();
             for (ProductSalesForecastEntity p : productSalesForecastList) {
                 if ((p.getTargetPeriod().get(Calendar.YEAR) == cal.get(Calendar.YEAR)) && (p.getTargetPeriod().get(Calendar.MONTH) == cal.get(Calendar.MONTH))) {
                     productSalesForecast.setAmount(p.getAmount());
@@ -340,12 +340,12 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
     
     @Override
     public List<SalesRecordEntity> SortSalesRecordList(List<SalesRecordEntity> object) {
-        List<SalesRecordEntity> sorted = new ArrayList<>();
+        List<SalesRecordEntity> sorted2 = new ArrayList<>();
         int size = object.size();
         for (int a = 0; a < size; a++) {
-            sorted.add(object.get(size-a-1));
+            sorted2.add(object.get(size-a-1));
         }
-        return sorted;
+        return sorted2;
     }
 
 }

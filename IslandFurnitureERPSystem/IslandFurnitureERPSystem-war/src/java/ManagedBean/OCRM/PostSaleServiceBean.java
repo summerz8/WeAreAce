@@ -20,7 +20,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "postSaleService")
 @ViewScoped
-public class PostSaleService {
+public class PostSaleServiceBean {
 
     @EJB
     private PostSaleServiceLocal pssl;
@@ -36,7 +36,7 @@ public class PostSaleService {
     
     
 
-    public PostSaleService() {
+    public PostSaleServiceBean() {
     }
 
     @PostConstruct
