@@ -83,12 +83,36 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="#{recipeBean.selectedDish.name}: Recipe" style="margin-bottom" >
+                    <p:panel id="basic" header="Dish List" style="margin-bottom" >
 
 
                         <h:form id="formRecipe">
+                            
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                                <p:outputLabel value="Dish ID : " style="font-weight:bold" />
+                                <h:outputText value="#{recipeBean.selectedDish.id}" />
+
+                                <p:outputLabel value="Name : " style="font-weight:bold" />
+                                <h:outputText value="#{recipeBean.selectedDish.name}" />
+
+                                <p:outputLabel value="Price : " style="font-weight:bold" />
+                                <h:outputText value="#{recipeBean.selectedDish.price}" />
+
+                                <p:outputLabel value="Remark : " style="font-weight:bold" />
+                                <h:outputText value="#{recipeBean.selectedDish.remark}" />
+
+                                <p:outputLabel value="Recipe Quantity : " style="font-weight:bold" />
+                                <h:outputText value="#{recipeBean.selectedDish.recipeQuantity}" />
+
+                            </h:panelGrid>
+                            
                             <p:dataTable id="recipe" var="i" value="#{recipeBean.selectedDish.recipe}" filteredValue="#{recipeBean.filteredRecipeItems}" editable="true" >
 
+                                <f:facet name="header">
+                                    Recipe
+                                </f:facet>
+                                
                                 <p:ajax event="rowEdit" listener="#{recipeBean.onRowEdit}" update="recipe"/>
                                 <p:ajax event="rowEditCancel" listener="#{recipeBean.onRowCancel}" update="recipe"/>
 
@@ -99,7 +123,7 @@
                                 <p:column headerText="Quantity">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{i.quantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{i.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{i.quantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
@@ -136,7 +160,7 @@
 
                                 </h:panelGrid>
 
-                                <p:commandButton value="Submit" actionListener="#{recipeBean.addIngredientItem}" update="recipe" oncomplete="PF('addRecipeItem').hide()">
+                                <p:commandButton value="Submit" actionListener="#{recipeBean.addIngredientItem}" update="recipe" >
                                 </p:commandButton>
                             </p:dialog>
                         </h:form>

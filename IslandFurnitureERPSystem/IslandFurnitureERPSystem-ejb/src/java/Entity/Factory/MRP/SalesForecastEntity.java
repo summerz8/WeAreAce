@@ -6,7 +6,6 @@
 
 package Entity.Factory.MRP;
 
-import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Store.StoreEntity;
@@ -54,9 +53,6 @@ public class SalesForecastEntity implements Serializable {
     
     private Double tempProductAmount;
     private Double tempRetailAmount;
-    
-    @ManyToOne
-    private FactoryEntity factory;
      
     public SalesForecastEntity(){
     }
@@ -136,14 +132,6 @@ public class SalesForecastEntity implements Serializable {
 
     public void setTempRetailAmount(Double tempRetailAmount) {
         this.tempRetailAmount = tempRetailAmount;
-    }
-
-    public FactoryEntity getFactory() {
-        return factory;
-    }
-
-    public void setFactory(FactoryEntity factory) {
-        this.factory = factory;
     }
     
     

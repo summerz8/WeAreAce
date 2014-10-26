@@ -30,17 +30,19 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.ComboItemEntity;
+import Entity.Kitchen.DailySalesEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientEntity;
+import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
-import Entity.Store.OCRM.ProductSalesForecastEntity;
-import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
@@ -52,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -185,7 +188,13 @@ public class dataSetUp {
         f1.getStoreList().add(s1.getStoreId());
         f1.getStoreList().add(s2.getStoreId());
         s1.getFactoryList().add(f1.getFactoryId());
-        s1.getFactoryList().add(f2.getFactoryId());
+        em.flush();
+
+        //StoreUser(s1)
+        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(us1_1);
         em.flush();
 
         //StoreUser(s1)
@@ -369,26 +378,22 @@ public class dataSetUp {
         //for s1
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
-        srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
-        srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
-        srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
-        srp2_2.setRetailProduct(rp4);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProduct().add(srp2_2);
@@ -1516,47 +1521,175 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        // MenuItemForecast for k1
+        Random rd = new Random();
+        for (int i = 0; i < 3; i++) {
+            Calendar curr = Calendar.getInstance();
+            curr.add(Calendar.DAY_OF_MONTH, i);
+            MenuItemForecastEntity mif = new MenuItemForecastEntity(curr, k1);
+            em.persist(mif);
+            em.flush();
+            k1.getMenuItemForecasts().add(mif);
+
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity dfi1 = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(dfi1);
+                em.flush();
+                mif.getDishForecastItems().add(dfi1);
+                dfi1.getDish().getForecasts().add(mif);
+                em.flush();
+            }
+
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity cfi1 = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(cfi1);
+                em.flush();
+                mif.getComboForecastItems().add(cfi1);
+                cfi1.getCombo().getForecasts().add(mif);
+                em.flush();
+            }
+
+        }
+//        Calendar td_mif1_1 = Calendar.getInstance();
+//        td_mif1_1.set(2014, Calendar.OCTOBER, 20);
+//        MenuItemForecastEntity mif1_1 = new MenuItemForecastEntity(td_mif1_1, k1);
+//        em.persist(mif1_1);
+//        em.flush();
+//        k1.getMenuItemForecasts().add(mif1_1);
+//        DishItemEntity dfi1_1_1 = new DishItemEntity(d1_1, 101);
+//        em.persist(dfi1_1_1);
+//        em.flush();
+//        mif1_1.getDishForecastItems().add(dfi1_1_1);
+//        dfi1_1_1.getDish().getForecasts().add(mif1_1);
+//        em.flush();
+//        DishItemEntity dfi1_1_2 = new DishItemEntity(d1_2, 201);
+//        em.persist(dfi1_1_2);
+//        em.flush();
+//        mif1_1.getDishForecastItems().add(dfi1_1_2);
+//        dfi1_1_2.getDish().getForecasts().add(mif1_1);
+//        em.flush();
+//        ComboItemEntity cfi1_1_1 = new ComboItemEntity(c1_1, 151);
+//        em.persist(cfi1_1_1);
+//        em.flush();
+//        mif1_1.getComboForecastItems().add(cfi1_1_1);
+//        cfi1_1_1.getCombo().getForecasts().add(mif1_1);
+//        em.flush();
+//        Calendar td_mif1_2 = Calendar.getInstance();
+//        td_mif1_2.set(2014, Calendar.OCTOBER, 21);
+//        MenuItemForecastEntity mif1_2 = new MenuItemForecastEntity(td_mif1_2, k1);
+//        em.persist(mif1_2);
+//        em.flush();
+//        k1.getMenuItemForecasts().add(mif1_2);
+//        DishItemEntity dfi1_2_1 = new DishItemEntity(d1_1, 112);
+//        em.persist(dfi1_2_1);
+//        em.flush();
+//        mif1_2.getDishForecastItems().add(dfi1_2_1);
+//        dfi1_2_1.getDish().getForecasts().add(mif1_2);
+//        em.flush();
+//        DishItemEntity dfi1_2_2 = new DishItemEntity(d1_2, 202);
+//        em.persist(dfi1_2_2);
+//        em.flush();
+//        mif1_2.getDishForecastItems().add(dfi1_2_2);
+//        dfi1_2_2.getDish().getForecasts().add(mif1_2);
+//        em.flush();
+//        ComboItemEntity cfi1_2_1 = new ComboItemEntity(c1_1, 152);
+//        em.persist(cfi1_2_1);
+//        em.flush();
+//        mif1_2.getComboForecastItems().add(cfi1_2_1);
+//        cfi1_2_1.getCombo().getForecasts().add(mif1_2);
+//        em.flush();
+//        Calendar td_mif1_3 = Calendar.getInstance();
+//        td_mif1_3.set(2014, Calendar.OCTOBER, 22);
+//        MenuItemForecastEntity mif1_3 = new MenuItemForecastEntity(td_mif1_3, k1);
+//        em.persist(mif1_3);
+//        IngredientForecastEntity ingf = new IngredientForecastEntity(mif1_3);
+//        em.persist(ingf);
+//        mif1_3.setIngredientForecast(ingf);
+//        em.flush();
+//        k1.getMenuItemForecasts().add(mif1_3);
+//        DishItemEntity dfi1_3_1 = new DishItemEntity(d1_1, 112);
+//        em.persist(dfi1_3_1);
+//        em.flush();
+//        mif1_3.getDishForecastItems().add(dfi1_3_1);
+//        dfi1_3_1.getDish().getForecasts().add(mif1_3);
+//        em.flush();
+//        DishItemEntity dfi1_3_2 = new DishItemEntity(d1_2, 203);
+//        em.persist(dfi1_3_2);
+//        em.flush();
+//        mif1_3.getDishForecastItems().add(dfi1_3_2);
+//        dfi1_3_2.getDish().getForecasts().add(mif1_3);
+//        em.flush();
+//        ComboItemEntity cfi1_3_1 = new ComboItemEntity(c1_1, 153);
+//        em.persist(cfi1_3_1);
+//        em.flush();
+//        mif1_3.getComboForecastItems().add(cfi1_3_1);
+//        cfi1_3_1.getCombo().getForecasts().add(mif1_3);
+//        em.flush();
+
+        //DailySales for k1
+        for (int i = -10; i < 0; i++) {
+            DailySalesEntity ds = new DailySalesEntity(k1);
+            em.persist(ds);
+            em.flush();
+            k1.getDailySales().add(ds);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, i);
+            ds.setSalesDate(cal);
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(di);
+                em.flush();
+                ds.getDishes().add(di);
+                d.getDailySales().add(ds);
+                em.flush();
+            }
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(ci);
+                em.flush();
+                ds.getCombos().add(ci);
+                c.getDailySales().add(ds);
+                em.flush();
+            }
+        }
+
         //MembershipLevel
-        MembershipLevelEntity memlvl0 = new MembershipLevelEntity();
-        memlvl0.setDiscount(1D);
-        memlvl0.setPointsToUpgrade(1000D);
-        memlvl0.setLevelName("Basic");
-        memlvl0.setCle(3);
-        em.persist(memlvl0);
-        em.flush();
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
-        memlvl1.setDiscount(0.9);
-        memlvl1.setPointsToUpgrade(2000D);
-        memlvl1.setLevelName("Blue");
-        memlvl1.setCle(12);
+        memlvl1.setDiscount(1D);
+        memlvl1.setPointsToUpgrade(0D);
         em.persist(memlvl1);
+        memlvl1.setName("Basic");
         em.flush();
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
-        memlvl2.setLevelName("Sliver");
-        memlvl2.setDiscount(0.85);
-        memlvl2.setPointsToUpgrade(5000D);
-        memlvl2.setCle(36);
+        memlvl2.setDiscount(0.9);
+        memlvl2.setPointsToUpgrade(2000D);
+        memlvl2.setName("Blue");
         em.persist(memlvl2);
         em.flush();
         MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
-        memlvl3.setLevelName("Gold");
-        memlvl3.setDiscount(0.8);
+        memlvl3.setDiscount(0.85);
         memlvl3.setPointsToUpgrade(10000D);
-        memlvl3.setCle(60);
+        memlvl3.setName("Sliver");
         em.persist(memlvl3);
         em.flush();
         MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
-        memlvl4.setLevelName("Diamond");
-        memlvl4.setDiscount(0.7);
-        memlvl4.setPointsToUpgrade(20000D);
-        memlvl4.setCle(120);
+        memlvl4.setDiscount(0.8);
+        memlvl4.setPointsToUpgrade(30000D);
+        memlvl4.setName("Gold");
         em.persist(memlvl4);
+        em.flush();
+        MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
+        memlvl5.setDiscount(0.75);
+        memlvl5.setPointsToUpgrade(50000D);
+        memlvl5.setName("Diamond");
+        em.persist(memlvl5);
         em.flush();
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
         tr.setStore(s1);
         tr.setTotalPrice(200.0);
+        tr.setGenerateTime(Calendar.getInstance());
         em.persist(tr);
         em.flush();
 
@@ -1570,7 +1703,7 @@ public class dataSetUp {
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
-        ti1.setAmount(1D);
+        ti1.setAmount(1);
         ti1.setTransaction(tr);
         em.persist(ti1);
         em.flush();
@@ -1596,68 +1729,6 @@ public class dataSetUp {
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
         em.persist(member);
-        em.flush();
-
-        //Sales Record Set Up
-        SalesRecordEntity sre1 = new SalesRecordEntity();
-        sre1.setStore(s1);
-        sre1.setStoreProduct(sp1_1);
-        Calendar caltemp1 = Calendar.getInstance();
-        caltemp1.add(Calendar.MONTH, 1);
-        sre1.setRecordPeriod(caltemp1);
-        sre1.setAmount(1000D);
-        sre1.setRevenue(50000D);
-        em.persist(sre1);
-        em.flush();
-
-        SalesRecordEntity sre2 = new SalesRecordEntity();
-        sre2.setStore(s1);
-        sre2.setStoreProduct(sp1_1);
-        Calendar caltemp2 = Calendar.getInstance();
-        sre2.setRecordPeriod(caltemp2);
-        sre2.setAmount(1500D);
-        sre2.setRevenue(75000D);
-        em.persist(sre2);
-        em.flush();
-
-        SalesRecordEntity sre3 = new SalesRecordEntity();
-        sre3.setStore(s1);
-        sre3.setStoreProduct(sp1_1);
-        Calendar caltemp3 = Calendar.getInstance();
-        caltemp3.add(Calendar.YEAR, -1);
-        caltemp3.add(Calendar.MONTH, 2);
-        sre3.setRecordPeriod(caltemp3);
-        sre3.setAmount(1500D);
-        sre3.setRevenue(75000D);
-        em.persist(sre3);
-        em.flush();
-
-        sp1_1.getSalesRecordList().add(sre3);
-        sp1_1.getSalesRecordList().add(sre2);
-        sp1_1.getSalesRecordList().add(sre1);
-        em.persist(sp1_1);
-        em.flush();
-
-        //Product Sales Forecast Set up
-        ProductSalesForecastEntity psfe1 = new ProductSalesForecastEntity();
-        psfe1.setAmount(1600D);
-        psfe1.setTargetPeriod(caltemp3);
-        psfe1.setStore(s1);
-        psfe1.setStoreProduct(sp1_1);
-        em.persist(psfe1);
-        em.flush();
-
-        ProductSalesForecastEntity psfe2 = new ProductSalesForecastEntity();
-        psfe2.setAmount(1500D);
-        psfe2.setTargetPeriod(caltemp2);
-        psfe2.setStore(s1);
-        psfe2.setStoreProduct(sp1_1);
-        em.persist(psfe2);
-        em.flush();
-
-        sp1_1.getProductSalesForecastList().add(psfe1);
-        sp1_1.getProductSalesForecastList().add(psfe2);
-        em.persist(sp1_1);
         em.flush();
 
     }

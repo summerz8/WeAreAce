@@ -53,6 +53,7 @@ public class MemberEntity implements Serializable {
     private Calendar createDate;
 
     private String country;
+    
 
     private Double currentPoints;
     private Double totalPoints;
@@ -93,7 +94,6 @@ public class MemberEntity implements Serializable {
         this.createDate = Calendar.getInstance();
 
         shoppingCartList=new ArrayList<>();
-        this.createDate = Calendar.getInstance();
     }
     
     public Long getMemberId() {
@@ -281,6 +281,8 @@ public class MemberEntity implements Serializable {
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
+    
+    
     
     @Override
     public int hashCode() {

@@ -28,7 +28,7 @@ public class KitchenEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(mappedBy = "kitchen")
-    private StoreEntity store;  //not in store yet
+    private StoreEntity store;
     private boolean deleted;
     @OneToMany(mappedBy = "kitchen")
     private List<DishEntity> dishes = new ArrayList<>();
@@ -44,6 +44,8 @@ public class KitchenEntity implements Serializable {
     private List<StoragePlaceEntity> storagePlaces = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
     private List<IngredientSupplierEntity> ingredientSuppliers = new ArrayList<>();
+    @OneToMany(mappedBy = "kitchen")
+    private List<DailySalesEntity> dailySales = new ArrayList<>();
 
     public KitchenEntity() {
         this.deleted = false;
@@ -132,6 +134,14 @@ public class KitchenEntity implements Serializable {
 
     public void setIngredientSuppliers(List<IngredientSupplierEntity> ingredientSuppliers) {
         this.ingredientSuppliers = ingredientSuppliers;
+    }
+
+    public List<DailySalesEntity> getDailySales() {
+        return dailySales;
+    }
+
+    public void setDailySales(List<DailySalesEntity> dailySales) {
+        this.dailySales = dailySales;
     }
 
     

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="TransactionModule">
-      <implementation-class>SessionBean.OCRM.TransactionModule</implementation-class>
-    </service>
     <service name="MemberRegistrationModule">
       <implementation-class>SessionBean.OCRM.MemberRegistrationModule</implementation-class>
     </service>
+    <service name="TransactionModule">
+      <implementation-class>SessionBean.OCRM.TransactionModule</implementation-class>
+    </service>
     <service name="IFManagerBean">
-      <implementation-class>SessionBean.IFManagerBean</implementation-class>
+      <implementation-class>util.login.IFManagerBean</implementation-class>
     </service>
   </services>
   <clients/>
