@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -29,12 +30,12 @@ public class DailyOrdersBean implements Serializable {
 
     @EJB
     private CustomerOrderFulfillmentModuleLocal cof;
-    
+
     private KitchenEntity kitchen;
     private KitchenOrderEntity selectedOdr;
     private List<KitchenOrderEntity> orders;
     private Date selectedDate;
-//    private String message;
+    private String message;
     private Calendar cal;
 
     public DailyOrdersBean() {
@@ -72,13 +73,13 @@ public class DailyOrdersBean implements Serializable {
         this.selectedDate = selectedDate;
     }
 
-//    public String getMessage() {
-//        return message;
-//    }
-//
-//    public void setMessage(String message) {
-//        this.message = message;
-//    }
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public Calendar getCal() {
         return cal;
@@ -87,7 +88,7 @@ public class DailyOrdersBean implements Serializable {
     public void setCal(Calendar cal) {
         this.cal = cal;
     }
-    
+
     @PostConstruct
     public void init() {
         try {
@@ -98,10 +99,25 @@ public class DailyOrdersBean implements Serializable {
             ex.printStackTrace();
         }
     }
-    
+
     public void findRequiredDailyOrders(ActionEvent event) {
         try {
-            orders = cof.getDailyOrders(kitchen.getId(), selectedDate);
+            if (selectedDate == null) {
+                message = "Please Select A Date";
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('message').show();");
+            } else {
+                orders = cof.getDailyOrders(kitchen.getId(), selectedDate);
+                if (orders.isEmpty()) {
+                    message = "The Daily Orders for the selected date is not available";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else if (orders == null) {
+                    message = "Unexpected Error Occurred";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                }
+            }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.CustomerOrderFulfillmentModule.DailyOrdersBean: findRequiredIngredientForecast(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();

@@ -126,19 +126,25 @@ public class IngredientIssueBean implements Serializable {
 
     public void findRequiredIngredientIssue(ActionEvent event) {
         try {
-            selectedII = rim.findIngredientIssue(kitchen.getId(), selectedTargetDate);
-            if (selectedII == null) {
-                IngredientForecastEntity selectedIF = rim.findIngredientForecast(kitchen.getId(), selectedTargetDate);
-                if (selectedIF == null) {
-                    message = "The Raw Ingredient Forecast referred to for the selected date is not generated yet";
-                    RequestContext context = RequestContext.getCurrentInstance();
-                    context.execute("PF('message').show();");
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('message').show();");
+            } else {
+                selectedII = rim.findIngredientIssue(kitchen.getId(), selectedTargetDate);
+                if (selectedII == null) {
+                    IngredientForecastEntity selectedIF = rim.findIngredientForecast(kitchen.getId(), selectedTargetDate);
+                    if (selectedIF == null) {
+                        message = "The Raw Ingredient Forecast referred to for the selected date is not generated yet";
+                        RequestContext context = RequestContext.getCurrentInstance();
+                        context.execute("PF('message').show();");
+                    } else {
+                        selectedII = rim.generateIngredientIssue(selectedIF.getId());
+                        filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
+                    }
                 } else {
-                    selectedII = rim.generateIngredientIssue(selectedIF.getId());
                     filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
                 }
-            } else {
-                filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");

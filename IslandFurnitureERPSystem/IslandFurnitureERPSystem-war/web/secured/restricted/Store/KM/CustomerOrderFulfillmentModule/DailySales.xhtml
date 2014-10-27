@@ -91,9 +91,10 @@
                                 <h:outputText value="#{dailySalesBean.selectedDS.salesDate.time}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
                                 </h:outputText>
-                                <p:outputLabel value="Total Sales: " style="font-weight:bold" />
+                                <p:outputLabel value="Total Sales ($): " style="font-weight:bold" />
                                 <h:outputText value="#{dailySalesBean.selectedDS.sales}" />
                             </h:panelGrid>
+                            <p:commandButton value="Change Date" onclick="PF('selectDate').show()"/>
                             
                             <p:dataTable id="dishSales" widgetVar="dishSales" value="#{dailySalesBean.selectedDS.dishes}" 
                                          var="di" filteredValue="#{dailySalesBean.filteredDishItems}">
@@ -116,7 +117,7 @@
                                     <h:outputText value="#{di.dish.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Daily Sales" filterBy="#{di.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Daily Sales Quantity" filterBy="#{di.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{di.quantity}"/>
                                 </p:column>
 
@@ -143,7 +144,7 @@
                                     <h:outputText value="#{ci.combo.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Daily Sales" filterBy="#{ci.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Daily Sales Quantity" filterBy="#{ci.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ci.quantity}"/>
                                 </p:column>
 
@@ -159,7 +160,7 @@
                         #{dailySalesBean.message}
                     </p:outputPanel>
                     <div align="center">
-                        <p:commandButton value="Change Target Date" onclick="PF('message').hide()" oncomplete="PF('selectTargetDate').show()" >
+                        <p:commandButton value="Change Date" onclick="PF('message').hide()" oncomplete="PF('selectDate').show()" >
                         </p:commandButton>
                     </div>
                 </p:dialog>
@@ -168,15 +169,15 @@
         </h:form>
 
         <h:form>
-            <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
+            <p:dialog widgetVar="selectDate" header="Select Target Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
-                      draggable="true" closable="false" >
+                      draggable="true" closable="false" visible="true" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Target Date: " />
                     <p:calendar value="#{dailySalesBean.selectedDate}" maxdate="#{dailySalesBean.cal.time}"/>
                 </h:panelGrid>
                 <div align="center">
-                    <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{dailySalesBean.findRequiredDailyOrders}" update=":formMain" >
+                    <p:commandButton value="Submit" oncomplete="PF('selectDate').hide()" actionListener="#{dailySalesBean.findRequiredDailyOrders}" update=":formMain" >
                     </p:commandButton>
                 </div>
             </p:dialog>

@@ -29,6 +29,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean(name = "dailySalesBean")
 @ViewScoped
 public class DailySalesBean implements Serializable {
+
     @EJB
     private CustomerOrderFulfillmentModuleLocal cof;
 
@@ -39,7 +40,7 @@ public class DailySalesBean implements Serializable {
     private Date selectedDate;
     private String message;
     private Calendar cal;
-    
+
     public DailySalesBean() {
     }
 
@@ -98,9 +99,7 @@ public class DailySalesBean implements Serializable {
     public void setCal(Calendar cal) {
         this.cal = cal;
     }
-    
-    
-    
+
     @PostConstruct
     public void init() {
         try {
@@ -111,17 +110,23 @@ public class DailySalesBean implements Serializable {
             ex.printStackTrace();
         }
     }
-    
+
     public void findRequiredDailyOrders(ActionEvent event) {
         try {
-            selectedDS = cof.findDailySales(kitchen.getId(), selectedDate);
-            if (selectedDS == null) {
-                message = "The Daily Sales for the selected date is not generated yet";
+            if (selectedDate == null) {
+                message = "Please Select A Date";
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('message').show();");
             } else {
-                filteredDishItems = cof.findDailySalesDishItems(selectedDS.getId());
-                filteredComboItems = cof.findDailySalesComboItems(selectedDS.getId());
+                selectedDS = cof.findDailySales(kitchen.getId(), selectedDate);
+                if (selectedDS == null) {
+                    message = "The Daily Sales for the selected date is not available";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else {
+                    filteredDishItems = cof.findDailySalesDishItems(selectedDS.getId());
+                    filteredComboItems = cof.findDailySalesComboItems(selectedDS.getId());
+                }
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.CustomerOrderFulfillmentModule.DailySalesBean: findRequiredDailyOrders(): Failed. Caught an unexpected exception.");

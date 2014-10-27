@@ -86,7 +86,7 @@
                     <p:panel id="basic" header="Daily Orders" style="margin-bottom" >
 
                         <h:form>
-
+                            <p:commandButton value="Change Date" onclick="PF('selectDate').show()"/>
                             <p:dataTable id="dailyOrders" widgetVar="dailyOrders" value="#{dailyOrdersBean.orders}"  var="o" >
 
                                 <p:column headerText="Order ID">
@@ -156,17 +156,17 @@
                         <p:column headerText="Dish ID">
                             <h:outputText value="#{d.dish.id}"/>
                         </p:column>
-                        
+
                         <p:column headerText="Name">
                             <h:outputText value="#{d.dish.name}"/>
                         </p:column>
-                        
+
                         <p:column headerText="Quantity">
                             <h:outputText value="#{d.quantity}"/>
                         </p:column>
 
                     </p:dataTable>
-                    
+
                     <p:dataTable id="combos" widgetVar="combos" value="#{dailyOrdersBean.selectedOdr.combos}"  var="c" rendered="#{dailyOrdersBean.selectedOdr.combos.size ne 0}" >
                         <f:facet name="header">
                             Combos
@@ -175,24 +175,24 @@
                         <p:column headerText="Combo ID">
                             <h:outputText value="#{c.combo.id}"/>
                         </p:column>
-                        
+
                         <p:column headerText="Name">
                             <h:outputText value="#{c.combo.name}"/>
                         </p:column>
-                        
+
                         <p:column headerText="Quantity">
                             <h:outputText value="#{c.quantity}"/>
                         </p:column>
 
                     </p:dataTable>
                 </p:dialog>
-                
+
                 <p:dialog header="Message" widgetVar="message" showEffect="fade" hideEffect="fade" resizable="false">
                     <p:outputPanel id="messageDetail" style="text-align:center;">
-                        #{dailySalesBean.message}
+                        #{dailyOrdersBean.message}
                     </p:outputPanel>
                     <div align="center">
-                        <p:commandButton value="Change Target Date" onclick="PF('message').hide()" oncomplete="PF('selectTargetDate').show()" >
+                        <p:commandButton value="Change Date" onclick="PF('message').hide()" oncomplete="PF('selectDate').show()" >
                         </p:commandButton>
                     </div>
                 </p:dialog>
@@ -201,15 +201,15 @@
         </h:form>
 
         <h:form>
-            <p:dialog widgetVar="selectedDate" header="Select Date" position="center"
+            <p:dialog widgetVar="selectDate" header="Select Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
                       draggable="true" closable="false" visible="true" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Date: " />
-                    <p:calendar value="#{dailyOrdersBean.selectedDate}" maxdate="#{dailyOrdersBean.cal.time}"/>
+                    <p:calendar value="#{dailyOrdersBean.selectedDate}" maxdate="#{dailyOrdersBean.cal.time}" />
                 </h:panelGrid>
                 <div align="center">
-                    <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{dailyOrdersBean.findRequiredDailyOrders}" update=":formMain" >
+                    <p:commandButton value="Submit" oncomplete="PF('selectDate').hide()" actionListener="#{dailyOrdersBean.findRequiredDailyOrders}" update=":formMain" >
                     </p:commandButton>
                 </div>
             </p:dialog>

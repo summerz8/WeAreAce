@@ -186,17 +186,22 @@ public class MenuItemForecastBean implements Serializable {
 
     public void findRequiredMenuItemForecast(ActionEvent event) {
         try {
-            selectedMif = ddf.findMenuItemForecast(kitchen.getId(), selectedTargetDate);
-            if (selectedMif == null) {
-                message = "The Menu Item Forecast for the selected target date is not generated yet";
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('message').show();");
             } else {
+                selectedMif = ddf.findMenuItemForecast(kitchen.getId(), selectedTargetDate);
+                if (selectedMif == null) {
+                    message = "The Menu Item Forecast for the selected target date is not generated yet";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else {
 //                createModels();
-                filteredDishItems = ddf.getDishForecastItems(selectedMif.getId());
-                filteredComboItems = ddf.getComboForecastItems(selectedMif.getId());
+                    filteredDishItems = ddf.getDishForecastItems(selectedMif.getId());
+                    filteredComboItems = ddf.getComboForecastItems(selectedMif.getId());
+                }
             }
-
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();

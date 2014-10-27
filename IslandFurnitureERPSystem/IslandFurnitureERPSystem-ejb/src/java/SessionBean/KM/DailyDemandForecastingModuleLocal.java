@@ -49,6 +49,4 @@ public interface DailyDemandForecastingModuleLocal {
     LinkedHashMap<Calendar, Integer> getWeeklyDishSales(Long kitchenId, Long dishId);
     
     LinkedHashMap<Calendar, Integer> getWeeklyComboSales(Long kitchenId, Long comboId);
-
-    MenuItemForecastEntity generateMenuItemForecast(Long kitchenId, Date targetDate);
 }

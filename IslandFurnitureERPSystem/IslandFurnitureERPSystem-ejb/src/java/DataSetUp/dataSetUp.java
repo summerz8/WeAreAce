@@ -1523,7 +1523,7 @@ public class dataSetUp {
 
         // MenuItemForecast for k1
         Random rd = new Random();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             Calendar curr = Calendar.getInstance();
             curr.add(Calendar.DAY_OF_MONTH, i);
             MenuItemForecastEntity mif = new MenuItemForecastEntity(curr, k1);
@@ -1550,81 +1550,6 @@ public class dataSetUp {
             }
 
         }
-//        Calendar td_mif1_1 = Calendar.getInstance();
-//        td_mif1_1.set(2014, Calendar.OCTOBER, 20);
-//        MenuItemForecastEntity mif1_1 = new MenuItemForecastEntity(td_mif1_1, k1);
-//        em.persist(mif1_1);
-//        em.flush();
-//        k1.getMenuItemForecasts().add(mif1_1);
-//        DishItemEntity dfi1_1_1 = new DishItemEntity(d1_1, 101);
-//        em.persist(dfi1_1_1);
-//        em.flush();
-//        mif1_1.getDishForecastItems().add(dfi1_1_1);
-//        dfi1_1_1.getDish().getForecasts().add(mif1_1);
-//        em.flush();
-//        DishItemEntity dfi1_1_2 = new DishItemEntity(d1_2, 201);
-//        em.persist(dfi1_1_2);
-//        em.flush();
-//        mif1_1.getDishForecastItems().add(dfi1_1_2);
-//        dfi1_1_2.getDish().getForecasts().add(mif1_1);
-//        em.flush();
-//        ComboItemEntity cfi1_1_1 = new ComboItemEntity(c1_1, 151);
-//        em.persist(cfi1_1_1);
-//        em.flush();
-//        mif1_1.getComboForecastItems().add(cfi1_1_1);
-//        cfi1_1_1.getCombo().getForecasts().add(mif1_1);
-//        em.flush();
-//        Calendar td_mif1_2 = Calendar.getInstance();
-//        td_mif1_2.set(2014, Calendar.OCTOBER, 21);
-//        MenuItemForecastEntity mif1_2 = new MenuItemForecastEntity(td_mif1_2, k1);
-//        em.persist(mif1_2);
-//        em.flush();
-//        k1.getMenuItemForecasts().add(mif1_2);
-//        DishItemEntity dfi1_2_1 = new DishItemEntity(d1_1, 112);
-//        em.persist(dfi1_2_1);
-//        em.flush();
-//        mif1_2.getDishForecastItems().add(dfi1_2_1);
-//        dfi1_2_1.getDish().getForecasts().add(mif1_2);
-//        em.flush();
-//        DishItemEntity dfi1_2_2 = new DishItemEntity(d1_2, 202);
-//        em.persist(dfi1_2_2);
-//        em.flush();
-//        mif1_2.getDishForecastItems().add(dfi1_2_2);
-//        dfi1_2_2.getDish().getForecasts().add(mif1_2);
-//        em.flush();
-//        ComboItemEntity cfi1_2_1 = new ComboItemEntity(c1_1, 152);
-//        em.persist(cfi1_2_1);
-//        em.flush();
-//        mif1_2.getComboForecastItems().add(cfi1_2_1);
-//        cfi1_2_1.getCombo().getForecasts().add(mif1_2);
-//        em.flush();
-//        Calendar td_mif1_3 = Calendar.getInstance();
-//        td_mif1_3.set(2014, Calendar.OCTOBER, 22);
-//        MenuItemForecastEntity mif1_3 = new MenuItemForecastEntity(td_mif1_3, k1);
-//        em.persist(mif1_3);
-//        IngredientForecastEntity ingf = new IngredientForecastEntity(mif1_3);
-//        em.persist(ingf);
-//        mif1_3.setIngredientForecast(ingf);
-//        em.flush();
-//        k1.getMenuItemForecasts().add(mif1_3);
-//        DishItemEntity dfi1_3_1 = new DishItemEntity(d1_1, 112);
-//        em.persist(dfi1_3_1);
-//        em.flush();
-//        mif1_3.getDishForecastItems().add(dfi1_3_1);
-//        dfi1_3_1.getDish().getForecasts().add(mif1_3);
-//        em.flush();
-//        DishItemEntity dfi1_3_2 = new DishItemEntity(d1_2, 203);
-//        em.persist(dfi1_3_2);
-//        em.flush();
-//        mif1_3.getDishForecastItems().add(dfi1_3_2);
-//        dfi1_3_2.getDish().getForecasts().add(mif1_3);
-//        em.flush();
-//        ComboItemEntity cfi1_3_1 = new ComboItemEntity(c1_1, 153);
-//        em.persist(cfi1_3_1);
-//        em.flush();
-//        mif1_3.getComboForecastItems().add(cfi1_3_1);
-//        cfi1_3_1.getCombo().getForecasts().add(mif1_3);
-//        em.flush();
 
         //DailySales for k1
         for (int i = -10; i < 0; i++) {
@@ -1635,10 +1560,12 @@ public class dataSetUp {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, i);
             ds.setSalesDate(cal);
+            Double sales = 0.0;
             for (DishEntity d : k1.getDishes()) {
                 DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
                 em.persist(di);
                 em.flush();
+                sales += di.getDish().getPrice() * di.getQuantity();
                 ds.getDishes().add(di);
                 d.getDailySales().add(ds);
                 em.flush();
@@ -1647,10 +1574,12 @@ public class dataSetUp {
                 ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
                 em.persist(ci);
                 em.flush();
+                sales += ci.getCombo().getPrice() * ci.getQuantity();
                 ds.getCombos().add(ci);
                 c.getDailySales().add(ds);
                 em.flush();
             }
+            ds.setSales(sales);
         }
 
         //MembershipLevel

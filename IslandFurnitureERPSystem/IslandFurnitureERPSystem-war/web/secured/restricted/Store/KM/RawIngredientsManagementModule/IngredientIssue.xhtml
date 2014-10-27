@@ -113,7 +113,7 @@
                                     </div>
                                 </f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{ingredientIssueBean.onRowEdit}" update=":formMain"/>
+                                <p:ajax event="rowEdit" listener="#{ingredientIssueBean.onRowEdit}" update="ingredientIssue"/>
                                 <p:ajax event="rowEditCancel" listener="#{ingredientIssueBean.onRowCancel}" update="ingredientIssue"/>
 
                                 <p:column headerText="Raw Ingredient ID" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">

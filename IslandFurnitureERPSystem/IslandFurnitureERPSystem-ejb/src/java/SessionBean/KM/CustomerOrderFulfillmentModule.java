@@ -17,7 +17,10 @@ import Entity.Kitchen.KitchenOrderEntity;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -27,7 +30,9 @@ import javax.persistence.Query;
  *
  * @author Yoky
  */
-@Stateful
+//@Stateful
+@Stateless
+@WebService
 public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentModuleLocal {
 
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
@@ -37,7 +42,8 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    public KitchenOrderEntity createOrder(Long kitchenId) {
+    @WebMethod(operationName = "createOrder")
+    public KitchenOrderEntity createOrder(@WebParam(name = "kitchenId") Long kitchenId) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
             KitchenOrderEntity order = new KitchenOrderEntity(kitchen);
@@ -53,7 +59,11 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    public Long addDishItem(Long orderId, Long dishId, Integer quantity) {
+    @WebMethod(operationName = "addDishItem")
+    public Long addDishItem(
+            @WebParam(name = "orderId") Long orderId,
+            @WebParam(name = "dishId") Long dishId,
+            @WebParam(name = "quantity") Integer quantity) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             DishEntity dish = em.find(DishEntity.class, dishId);
@@ -70,7 +80,10 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    public Long deleteDishItem(Long orderId, Long dishItemId) {
+    @WebMethod(operationName = "deleteDishItem")
+    public Long deleteDishItem(
+            @WebParam(name = "orderId") Long orderId, 
+            @WebParam(name = "dishItemId") Long dishItemId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             DishItemEntity dishItem = em.find(DishItemEntity.class, dishItemId);
@@ -83,9 +96,12 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
             return -1L;
         }
     }
-    
+
     @Override
-    public Long deleteComboItem(Long orderId, Long comboItemId) {
+    @WebMethod(operationName = "deleteComboItem")
+    public Long deleteComboItem(
+            @WebParam(name = "orderId")Long orderId, 
+            @WebParam(name = "comboItemId")Long comboItemId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             ComboItemEntity comboItem = em.find(ComboItemEntity.class, comboItemId);
@@ -98,9 +114,13 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
             return -1L;
         }
     }
-    
+
     @Override
-    public Long addComboItem(Long orderId, Long comboId, Integer quantity) {
+    @WebMethod(operationName = "addComboItem")
+    public Long addComboItem(
+            @WebParam(name = "orderId")Long orderId, 
+            @WebParam(name = "comboId")Long comboId, 
+            @WebParam(name = "quantity")Integer quantity) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             ComboEntity combo = em.find(ComboEntity.class, comboId);
@@ -117,25 +137,26 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    public Long confirmOrder(Long orderId) {
+    @WebMethod(operationName = "confirmOrder")
+    public Long confirmOrder(@WebParam(name = "orderId")Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             order.setStatus("Confirmed");
-            
+
             Calendar cal = Calendar.getInstance();
             DailySalesEntity dailySales = findDailySales(order.getKitchen().getId(), cal.getTime());
             if (dailySales == null) {
                 dailySales = createDailySales(order.getKitchen());
             }
-            
+
             for (DishItemEntity di : order.getDishes()) {
-                order.setTotal(order.getTotal()+ di.getDish().getPrice() * di.getQuantity());
+                order.setTotal(order.getTotal() + di.getDish().getPrice() * di.getQuantity());
                 DetailedDishItemEntity ddi = new DetailedDishItemEntity(di.getDish(), di.getQuantity());
                 em.persist(ddi);
                 em.flush();
                 order.getDetailedDishItems().add(ddi);
                 order.setTotalDishItemQuantity(order.getTotalDishItemQuantity() + 1);
-                
+
                 for (DishItemEntity sdi : dailySales.getDishes()) {
                     if (sdi.getDish().equals(di.getDish())) {
                         Integer quantity = sdi.getQuantity() + di.getQuantity();
@@ -143,10 +164,10 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
                         break;
                     }
                 }
-                
+
             }
             for (ComboItemEntity ci : order.getCombos()) {
-                order.setTotal(order.getTotal()+ ci.getCombo().getPrice() * ci.getQuantity());
+                order.setTotal(order.getTotal() + ci.getCombo().getPrice() * ci.getQuantity());
                 for (DishItemEntity di : ci.getCombo().getDishes()) {
                     boolean found = false;
                     for (DetailedDishItemEntity ddi : order.getDetailedDishItems()) {
@@ -164,7 +185,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
                         order.setTotalDishItemQuantity(order.getTotalDishItemQuantity() + 1);
                     }
                 }
-                
+
                 for (ComboItemEntity sci : dailySales.getCombos()) {
                     if (sci.getCombo().equals(ci.getCombo())) {
                         Integer quantity = sci.getQuantity() + ci.getQuantity();
@@ -215,7 +236,8 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    public Long cancelOrder(Long orderId) {
+    @WebMethod(operationName = "cancelOrder")
+    public Long cancelOrder(@WebParam(name = "orderId")Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             if (!order.getStatus().equals("Unconfirmed")) {
@@ -276,7 +298,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
             DetailedDishItemEntity ddi = em.find(DetailedDishItemEntity.class, detailedDishItemId);
             ddi.setFulfilled(true);
             order.setFulfilledDishItemQuantity(order.getFulfilledDishItemQuantity() + 1);
-            if(order.getFulfilledDishItemQuantity().equals(order.getTotalDishItemQuantity())) {
+            if (order.getFulfilledDishItemQuantity().equals(order.getTotalDishItemQuantity())) {
                 order.setStatus("Fulfilled");
             }
             return ddi.getId();
@@ -339,7 +361,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     public List<DishItemEntity> findDailySalesDishItems(Long dailySalesId) {
         return em.find(DailySalesEntity.class, dailySalesId).getDishes();
     }
-    
+
     @Override
     public List<ComboItemEntity> findDailySalesComboItems(Long dailySalesId) {
         return em.find(DailySalesEntity.class, dailySalesId).getCombos();
@@ -350,5 +372,4 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
         return em.find(DishEntity.class, dishId).getRecipe();
     }
 
-    
 }

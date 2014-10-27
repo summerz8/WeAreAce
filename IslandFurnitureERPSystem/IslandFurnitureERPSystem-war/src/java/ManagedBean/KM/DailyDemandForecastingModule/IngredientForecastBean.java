@@ -139,7 +139,7 @@ public class IngredientForecastBean implements Serializable {
             if (ii.getQuantity() < 0) {
                 FacesMessage msg = new FacesMessage("Edition Faild", "Quantity cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                
+
             } else {
                 Long iiId = ddf.editIngredientForecastItem(ii.getId(), ii.getQuantity());
                 if (iiId == -1L) {
@@ -167,13 +167,19 @@ public class IngredientForecastBean implements Serializable {
 
     public void findRequiredIngredientForecast(ActionEvent event) {
         try {
-            selectedIF = ddf.findIngredientForecast(kitchen.getId(), selectedTargetDate);
-            if (selectedIF == null) {
-                message = "The Raw Ingredient Forecast for the selected target date is not generated yet";
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('message').show();");
             } else {
-                filteredIfItems = ddf.getIngredientForecastItems(selectedIF.getId());
+                selectedIF = ddf.findIngredientForecast(kitchen.getId(), selectedTargetDate);
+                if (selectedIF == null) {
+                    message = "The Raw Ingredient Forecast for the selected target date is not generated yet";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else {
+                    filteredIfItems = ddf.getIngredientForecastItems(selectedIF.getId());
+                }
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");

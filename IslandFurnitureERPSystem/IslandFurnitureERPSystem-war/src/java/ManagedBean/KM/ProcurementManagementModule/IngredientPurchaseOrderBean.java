@@ -194,15 +194,21 @@ public class IngredientPurchaseOrderBean implements Serializable {
 
     public void findRequiredIngredientPurchaseOrder(ActionEvent event) {
         try {
-            selectedIPO = pm.findIngredientPurchaseOrder(kitchen.getId(), selectedTargetDate);
-            if (selectedIPO == null) {
-                message = "The Raw Ingredient Purchase Order for the selected target date is not generated yet";
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('message').show();");
             } else {
-                filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-                total = selectedIPO.getTotal();
-                actualTotal = selectedIPO.getActuralTotal();
+                selectedIPO = pm.findIngredientPurchaseOrder(kitchen.getId(), selectedTargetDate);
+                if (selectedIPO == null) {
+                    message = "The Raw Ingredient Purchase Order for the selected target date is not generated yet";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else {
+                    filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
+                    total = selectedIPO.getTotal();
+                    actualTotal = selectedIPO.getActuralTotal();
+                }
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");

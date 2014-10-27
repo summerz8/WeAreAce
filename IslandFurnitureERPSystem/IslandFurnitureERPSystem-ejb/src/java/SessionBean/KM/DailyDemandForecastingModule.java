@@ -158,8 +158,17 @@ public class DailyDemandForecastingModule implements DailyDemandForecastingModul
             System.out.println("SessionBean.KM.DailyDemandForecastingModule: findMenuItemForecast(): Successful. Required Menu Item Forecast " + mif.getId() + " is found.");
             return mif;
         } catch (NoResultException nex) {
-            System.out.println("SessionBean.KM.DailyDemandForecastingModule: findMenuItemForecast(): Faild. Required Menu Item Forecast is not found.");
-            return null;
+//            System.out.println("SessionBean.KM.DailyDemandForecastingModule: findMenuItemForecast(): Required Menu Item Forecast is not found. ");
+            Calendar targetDateCal = Calendar.getInstance();
+            targetDateCal.setTime(targetDate);
+            Calendar referredDate = Calendar.getInstance();
+            referredDate.add(Calendar.DAY_OF_MONTH, -1);
+            if(!targetDateCal.after(referredDate)) {
+                System.out.println("SessionBean.KM.DailyDemandForecastingModule: generateMenuItemForecast(): Faild. The Target Date is not after the Daily Sales of yesterday");
+                return null;
+            } 
+            MenuItemForecastEntity mif = generateMenuItemForecast(kitchenId, targetDate);
+            return mif;
         } catch (Exception ex) {
             System.err.println("SessionBean.KM.DailyDemandForecastingModule: findMenuItemForecast(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
@@ -255,12 +264,46 @@ public class DailyDemandForecastingModule implements DailyDemandForecastingModul
             ex.printStackTrace();
             return null;
         }
-        
-        
     }
 
-    @Override
-    public MenuItemForecastEntity generateMenuItemForecast(Long kitchenId, Date targetDate) {
-        return null;
+    private MenuItemForecastEntity generateMenuItemForecast(Long kitchenId, Date targetDate) {
+        try {
+            KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
+            Calendar targetDateCal = Calendar.getInstance();
+            targetDateCal.setTime(targetDate);
+            Calendar referredDate = Calendar.getInstance();
+            referredDate.add(Calendar.DAY_OF_MONTH, -1);
+            Query q = em.createQuery("SELECT ds FROM DailySalesEntity ds WHERE ds.kitchen = :kitchen AND ds.salesDate = :referredDate");
+            q.setParameter("kitchen", kitchen);
+            q.setParameter("referredDate", referredDate);
+            DailySalesEntity ds = (DailySalesEntity) q.getSingleResult();
+            MenuItemForecastEntity mif = new MenuItemForecastEntity(targetDateCal, kitchen);
+            em.persist(mif);
+            kitchen.getMenuItemForecasts().add(mif);
+            em.flush();
+            for(DishItemEntity di : ds.getDishes()) {
+                DishItemEntity diMIF = new DishItemEntity(di.getDish(), di.getQuantity());
+                em.persist(diMIF);
+                mif.getDishForecastItems().add(diMIF);
+                di.getDish().getForecasts().add(mif);
+                em.flush();
+            }
+            for(ComboItemEntity ci : ds.getCombos()) {
+                ComboItemEntity ciMIF = new ComboItemEntity(ci.getCombo(), ci.getQuantity());
+                em.persist(ciMIF);
+                mif.getComboForecastItems().add(ciMIF);
+                ci.getCombo().getForecasts().add(mif);
+                em.flush();
+            }
+            return mif;            
+        } catch (NoResultException nex) {
+            System.out.println("SessionBean.KM.DailyDemandForecastingModule: generateMenuItemForecast(): Faild. Required Daily Sales is not found.");
+            return null;
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.DailyDemandForecastingModule: generateMenuItemForecast(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
+
 }
