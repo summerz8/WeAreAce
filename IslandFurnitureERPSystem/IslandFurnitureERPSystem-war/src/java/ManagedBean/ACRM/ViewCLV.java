@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -131,17 +130,33 @@ public class ViewCLV {
         aveOthersRetail = getAveValue(othersRetail);
         aveOthersKitchen = getAveValue(othersKitchen);
         aveOthersAllPlace = getAveValue(othersAllPlace);
+        
+        System.out.println("aveFemaleFurniture: " + aveFemaleFurniture);
+        System.out.println("aveFemaleRetail: " + aveFemaleRetail);
+        System.out.println("aveFemaleKitchen: " + aveFemaleKitchen);
+        System.out.println("aveFemaleAllPlace: " + aveFemaleAllPlace);
+        
+        System.out.println("aveMaleFurniture: " + aveMaleFurniture);
+        System.out.println("aveMaleRetail: " + aveMaleRetail);
+        System.out.println("aveMaleKitchen: " + aveMaleKitchen);
+        System.out.println("aveMaleAllPlace: " + aveMaleAllPlace);
+        
+        System.out.println("aveOthersFurniture: " + aveOthersFurniture);
+        System.out.println("aveOthersRetail: " + aveOthersRetail);
+        System.out.println("aveOthersRetail: " + aveOthersRetail);
+        System.out.println("aveOthersRetail: " + aveOthersRetail);
+        
     }
 
     public Double getAveValue(Collection<Double> clvList) {
         Double aveValue = null;
-        Double totalCLV = null;
+        Double totalCLV = 0.0;
         Integer size = clvList.size();
         for (Double clv : clvList) {
             totalCLV += clv;
         }
         if (size == 0) {
-            aveValue = 100.1;
+            aveValue = 0.0;
         } else {
             aveValue = totalCLV / size;
         }
@@ -192,7 +207,7 @@ public class ViewCLV {
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("CLV");
         yAxis.setMin(0);
-        yAxis.setMax(200);
+        yAxis.setMax(8000);
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("barModel", barModel);
 

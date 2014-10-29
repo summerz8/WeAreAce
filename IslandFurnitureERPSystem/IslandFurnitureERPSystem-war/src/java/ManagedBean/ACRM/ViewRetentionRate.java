@@ -7,6 +7,7 @@ package ManagedBean.ACRM;
 
 import SessionBean.ACRM.AnalyticalCRMSessionBeanLocal;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -26,7 +27,7 @@ public class ViewRetentionRate {
     @EJB
     private AnalyticalCRMSessionBeanLocal acrm;
 
-    private Calendar time = Calendar.getInstance();
+    private Calendar time;
     private Long storeId;
     private Double monthlyRRR;
     private Double monthlyKRR;
@@ -47,7 +48,12 @@ public class ViewRetentionRate {
     @PostConstruct
     public void init() {
         try {
+            time = Calendar.getInstance(Locale.ENGLISH);
+            System.out.println("ManagedBean: Time = " + time.getTime().toString());
             storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            
+            System.out.println("Managed Bean: viewRetentionRate: ");            
+            System.out.println("StoreId: " + storeId);
 
             monthlyFRR = acrm.getRetentionRate(storeId, time, 1, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE);
             monthlyRRR = acrm.getRetentionRate(storeId, time, 2, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE);

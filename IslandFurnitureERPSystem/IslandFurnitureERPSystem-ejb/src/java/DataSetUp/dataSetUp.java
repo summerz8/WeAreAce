@@ -1595,6 +1595,7 @@ public class dataSetUp {
         MemberEntity member = new MemberEntity("123", "Lee", "", "James",
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
+        member.setMemberlvl(memlvl0);
         em.persist(member);
         em.flush();
 
@@ -1658,6 +1659,237 @@ public class dataSetUp {
         sp1_1.getProductSalesForecastList().add(psfe1);
         sp1_1.getProductSalesForecastList().add(psfe2);
         em.persist(sp1_1);
+        em.flush();
+
+        //***************************************************************************************************
+        //*********************************Data setup for ACRM -- Shiyu**************************************
+        //***************************************************************************************************
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Member Setup @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //===============================Member 2=====================================
+        Calendar MemberBirthday2 = Calendar.getInstance();
+        MemberBirthday2.set(1985, 9, 1);
+
+        MemberEntity member2 = new MemberEntity("123", "Hotchner", "", "Arron",
+                MemberBirthday2, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "arronH@gmail.com", Boolean.FALSE, "Singapore", memlvl1);
+        em.persist(member2);
+        em.flush();
+
+        //===============================Member 3=====================================
+        Calendar MemberBirthday3 = Calendar.getInstance();
+        MemberBirthday3.set(1985, 9, 1);
+
+        MemberEntity member3 = new MemberEntity("123", "Morgen", "", "Derek",
+                MemberBirthday3, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "derek@gmail.com", Boolean.FALSE, "Singapore", memlvl2);
+        em.persist(member3);
+        em.flush();
+
+        //===============================Member 4=====================================
+        Calendar MemberBirthday4 = Calendar.getInstance();
+        MemberBirthday4.set(1975, 9, 1);
+
+        MemberEntity member4 = new MemberEntity("123", "Prentiss", "", "Emily",
+                MemberBirthday4, "Female", "Miss", "5 Kent Ridge Drive", "412342",
+                "emily@gmail.com", Boolean.FALSE, "China", memlvl1);
+        em.persist(member4);
+        em.flush();
+
+        //===============================Member 5=====================================
+        Calendar MemberBirthday5 = Calendar.getInstance();
+        MemberBirthday5.set(1975, 9, 1);
+
+        MemberEntity member5 = new MemberEntity("123", "Jareau", "", "Jennifer",
+                MemberBirthday5, "Female", "Ms", "5 Kent Ridge Drive", "412342",
+                "jennifer@gmail.com", Boolean.FALSE, "China", memlvl2);
+        em.persist(member5);
+        em.flush();
+
+        //===============================Member 6=====================================
+        Calendar MemberBirthday6 = Calendar.getInstance();
+        MemberBirthday6.set(1965, 9, 1);
+
+        MemberEntity member6 = new MemberEntity("123", "Rossi", "", "David",
+                MemberBirthday6, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "david@gmail.com", Boolean.FALSE, "United States", memlvl1);
+        em.persist(member6);
+        em.flush();
+
+        //===============================Member 7=====================================
+        Calendar MemberBirthday7 = Calendar.getInstance();
+        MemberBirthday7.set(1965, 9, 1);
+
+        MemberEntity member7 = new MemberEntity("123", "Reid", "", "Spencer",
+                MemberBirthday7, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "spencer@gmail.com", Boolean.FALSE, "United States", memlvl2);
+        em.persist(member7);
+        em.flush();
+
+        //===============================Member 8=====================================
+        Calendar MemberBirthday8 = Calendar.getInstance();
+        MemberBirthday8.set(1955, 9, 1);
+
+        MemberEntity member8 = new MemberEntity("123", "Penelope", "", "Garcia",
+                MemberBirthday8, "Female", "Miss", "5 Kent Ridge Drive", "412342",
+                "garcia@gmail.com", Boolean.FALSE, "South Korea", memlvl1);
+        em.persist(member8);
+        em.flush();
+
+        //===============================Member 9=====================================
+        Calendar MemberBirthday9 = Calendar.getInstance();
+        MemberBirthday9.set(1955, 9, 1);
+
+        MemberEntity member9 = new MemberEntity("123", "Gubler", "Gray", "Mattew",
+                MemberBirthday9, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "mattew@gmail.com", Boolean.FALSE, "South Korea", memlvl3);
+        em.persist(member9);
+        em.flush();
+
+        //===============================Member 10=====================================
+        Calendar MemberBirthday10 = Calendar.getInstance();
+        MemberBirthday10.set(1993, 6, 11);
+
+        MemberEntity member10 = new MemberEntity("123", "Zhang", "", "Shiyu",
+                MemberBirthday10, "Female", "Mr", "5 Kent Ridge Drive", "412342",
+                "ms.z.summer@gmail.com", Boolean.FALSE, "China", memlvl3);
+        em.persist(member10);
+        em.flush();
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Transaction Setup @@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //===============================Transaction 2================================
+        Calendar TranDate2 = Calendar.getInstance();
+        TranDate2.set(2014, 9, 1);
+
+        TransactionEntity tr2 = new TransactionEntity(TranDate2, 300.2, 1, s1, member2);
+        em.persist(tr2);
+
+        s1.getTransactions().add(tr2);
+        member2.getTransactionList().add(tr2);
+        member2.setLastTransaction(tr2);
+        em.flush();
+
+        //===============================Transaction 3================================
+        Calendar TranDate3 = Calendar.getInstance();
+        TranDate3.set(2014, 5, 1);
+
+        TransactionEntity tr3 = new TransactionEntity(TranDate3, 249.9, 1, s1, member2);
+        em.persist(tr3);
+
+        s1.getTransactions().add(tr3);
+        member2.getTransactionList().add(tr3);
+        member2.setLastTransaction(tr3);
+        em.flush();
+
+        //===============================Transaction 4================================
+        Calendar TranDate4 = Calendar.getInstance();
+        TranDate4.set(2014, 7, 1);
+
+        TransactionEntity tr4 = new TransactionEntity(TranDate4, 109.9, 1, s2, member3);
+        em.persist(tr4);
+        
+        s2.getTransactions().add(tr4);
+        member3.getTransactionList().add(tr4);
+        member3.setLastTransaction(tr4);
+        em.flush();
+
+        //===============================Transaction 5================================
+        Calendar TranDate5 = Calendar.getInstance();
+        TranDate5.set(2013, 12, 1);
+
+        TransactionEntity tr5 = new TransactionEntity(TranDate5, 143.8, 1, s2, member3);
+        em.persist(tr5);
+        
+        s2.getTransactions().add(tr5);
+        member3.getTransactionList().add(tr5);
+        member3.setLastTransaction(tr5);
+        em.flush();
+
+        //===============================Transaction 6================================
+        Calendar TranDate6 = Calendar.getInstance();
+        TranDate6.set(2014, 5, 1);
+
+        TransactionEntity tr6 = new TransactionEntity(TranDate6, 69.2, 2, s1, member4);
+        em.persist(tr6);
+        
+        s1.getTransactions().add(tr6);
+        member4.getTransactionList().add(tr6);
+        member4.setLastTransaction(tr6);
+        em.flush();
+
+        //===============================Transaction 7================================
+        Calendar TranDate7 = Calendar.getInstance();
+        TranDate7.set(2014, 6, 1);
+
+        TransactionEntity tr7 = new TransactionEntity(TranDate7, 230.2, 2, s1, member4);
+        em.persist(tr7);
+        
+        s1.getTransactions().add(tr7);
+        member4.getTransactionList().add(tr7);
+        member4.setLastTransaction(tr7);
+        em.flush();
+
+        //===============================Transaction 8================================
+        Calendar TranDate8 = Calendar.getInstance();
+        TranDate8.set(2014, 7, 1);
+
+        TransactionEntity tr8 = new TransactionEntity(TranDate8, 100.2, 2, s1, member5);
+        em.persist(tr8);
+        
+        s1.getTransactions().add(tr8);
+        member5.getTransactionList().add(tr8);
+        member5.setLastTransaction(tr8);
+        em.flush();
+
+        //===============================Transaction 9================================
+        Calendar TranDate9 = Calendar.getInstance();
+        TranDate9.set(2014, 4, 1);
+
+        TransactionEntity tr9 = new TransactionEntity(TranDate9, 99.8, 2, s1, member5);
+        em.persist(tr9);
+        
+        s1.getTransactions().add(tr9);
+        member5.getTransactionList().add(tr9);
+        member5.setLastTransaction(tr9);
+        em.flush();
+
+        //===============================Transaction 10================================
+        Calendar TranDate10 = Calendar.getInstance();
+        TranDate10.set(2014, 8, 1);
+
+        TransactionEntity tr10 = new TransactionEntity(TranDate10, 50.7, 3, s1, member6);
+        em.persist(tr10);
+        
+        s1.getTransactions().add(tr10);
+        member6.getTransactionList().add(tr10);
+        member6.setLastTransaction(tr10);
+        em.flush();
+        
+        //===============================Transaction 11================================
+        Calendar TranDate11 = Calendar.getInstance();
+        TranDate11.set(2014, 10, 1);
+
+        TransactionEntity tr11 = new TransactionEntity(TranDate11,98.7, 3, s1, member5);
+        em.persist(tr11);
+        
+        s1.getTransactions().add(tr11);
+        member5.getTransactionList().add(tr11);
+        member5.setLastTransaction(tr11);
+        em.flush();
+        
+        //===============================Transaction 12================================
+        Calendar TranDate12 = Calendar.getInstance();
+        TranDate12.set(2014, 10, 12);
+
+        TransactionEntity tr12 = new TransactionEntity(TranDate12, 75.7, 3, s1, member8);
+        em.persist(tr12);
+        
+        s1.getTransactions().add(tr12);
+        member8.getTransactionList().add(tr12);
+        member8.setLastTransaction(tr12);
         em.flush();
 
     }

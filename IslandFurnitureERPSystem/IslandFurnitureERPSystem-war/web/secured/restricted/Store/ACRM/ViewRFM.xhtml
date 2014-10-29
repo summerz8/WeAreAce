@@ -68,8 +68,9 @@
                         <p:submenu label="Anaytical Customer Relationship Management Page">
                             <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
                             <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
-                            <p:menuitem value="View Customer Aquisation Cost" update="messages" action = "ViewCAC?faces-redirect=true"/>
-                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?face-redirect=true"/> 
+                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
+                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
+
                         </p:submenu>
                     </p:menu>
 
@@ -77,8 +78,26 @@
                 <p:layoutUnit position="center" resizable="false">
                     <p:panel id="basic" header =" " style="height:800px;" >
                         <h:panelGrid columns="2" cellpadding="6">
+                            <p:dataTable var="rfm" value="#{viewRFMBean.RFMList}" style="margin-bottom:40px">
+                                <f:facet name="header">
+                                    Customer RFM Values
+                                </f:facet>
+                                <p:column headerText="Member Id" sortBy="#{rfm.member.memberId}">
+                                    <h:outputText value="#{rfm.member.memberId}" />
+                                </p:column>
 
+                                <p:column headerText="Recency (days)" sortBy="#{rfm.recency}">
+                                    <h:outputText value="#{rfm.recency}" />
+                                </p:column>
 
+                                <p:column headerText="Frequency(Within a year)" sortBy="#{rfm.frequency}">
+                                    <h:outputText value="#{rfm.frequency}" />
+                                </p:column>
+
+                                <p:column headerText="Monetary (Total)" sortBy="#{rfm.monetary}">
+                                    <h:outputText value="#{rfm.monetary}" />
+                                </p:column>
+                            </p:dataTable>
                         </h:panelGrid>
                     </p:panel>
                 </p:layoutUnit>

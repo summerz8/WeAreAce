@@ -69,38 +69,39 @@
                             <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
                             <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
                             <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
+                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
                         </p:submenu>
                     </p:menu>
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
                     <p:panel id="basic" header =" " style="height:400px;" >
-                        <p:panelGrid  columns="4" columnClasses="label,value,value,value"  style="height:300px; width: 600px">
+                        <p:panelGrid  columns="4" columnClasses="label,value,value,value"  style="height:300px; width: 900px">
                             <f:facet name="header">
                                 <h:outputText value="Customer Retention Rate " />
                             </f:facet>
 
-                            <h:outputText value="Location" />
-                            <h:outputText value="Monthly" />
-                            <h:outputText value="Quarterly" />
-                            <h:outputText value="Yearly" />
+                            <h:outputText value="Location" style="font-weight: bold"/>
+                            <h:outputText value="Monthly" style="font-weight: bold"/>
+                            <h:outputText value="Quarterly" style="font-weight: bold"/>
+                            <h:outputText value="Yearly" style="font-weight: bold"/>
 
-                            <h:outputText value="Furniture Marketplace" />
+                            <h:outputText value="Furniture Marketplace" style="font-weight: bold"/>
                             <h:outputText value="#{viewRetentionRate.monthlyFRR}" />
                             <h:outputText value="#{viewRetentionRate.quarterlyFRR}" />
                             <h:outputText value="#{viewRetentionRate.yearlyFRR}" />
 
-                            <h:outputText value="Retail Product Marketplace" />
+                            <h:outputText value="Retail Product Marketplace" style="font-weight: bold"/>
                             <h:outputText value="#{viewRetentionRate.monthlyRRR}" />
                             <h:outputText value="#{viewRetentionRate.quarterlyRRR}" />
                             <h:outputText value="#{viewRetentionRate.yearlyRRR}" />
-                            
-                            <h:outputText value="Kitchen" />
+
+                            <h:outputText value="Kitchen" style="font-weight: bold"/>
                             <h:outputText value="#{viewRetentionRate.monthlyKRR}" />
                             <h:outputText value="#{viewRetentionRate.quarterlyKRR}" />
                             <h:outputText value="#{viewRetentionRate.yearlyKRR}" />
 
-                            <h:outputText value="All Place" />
+                            <h:outputText value="All Place" style="font-weight: bold"/>
                             <h:outputText value="#{viewRetentionRate.monthlyRRForAll}" />
                             <h:outputText value="#{viewRetentionRate.quarterlyRRForAll}" />
                             <h:outputText value="#{viewRetentionRate.yearlyRRForAll}" />
