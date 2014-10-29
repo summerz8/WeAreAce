@@ -117,9 +117,9 @@
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{factoryControl.deleteFactory(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{factoryControl.setSelectedDeleteFactoryId(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
 
-                                    </p:commandButton>                                   
+                                    </p:commandButton>   
                                 </p:column>
 
                                 <p:column filterBy="#{factory.factoryId}" headerText="Factory Id" width="10%">
@@ -155,7 +155,22 @@
 
 
                             </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this factory ? 
+                                    <p:commandButton  title = "Confirm"  actionListener="#{factoryControl.deleteFactory(factoryControl.selectedDeleteFactoryId)}" value = "Confirm"  update = ":formMain"  >
 
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+                            
                             <p:commandButton value="Add Factory" action="AddNewFactory"></p:commandButton>
                         </p:panel>
 

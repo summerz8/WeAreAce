@@ -497,6 +497,33 @@ public class dataSetUp {
         bom5.add(bom5_3);
         p5.setBom(bom5);
         em.flush();
+        
+        //set raw material to bom relationship
+        rm1.getBomList().add(bom1_3);
+        rm1.getBomList().add(bom2_1);
+        rm1.getBomList().add(bom3_1);
+        rm1.getBomList().add(bom5_1);
+        em.persist(rm1);
+        em.flush();
+        
+        rm2.getBomList().add(bom1_2);
+        rm2.getBomList().add(bom2_3);
+        rm2.getBomList().add(bom3_2);
+        rm2.getBomList().add(bom4_2);
+        rm2.getBomList().add(bom5_2);
+        em.persist(rm2);
+        em.flush();
+        
+        rm3.getBomList().add(bom2_2);
+        rm3.getBomList().add(bom3_3);
+        rm3.getBomList().add(bom4_1);
+        rm3.getBomList().add(bom5_3);
+        em.persist(rm3);
+        em.flush();
+        
+        rm4.getBomList().add(bom1_1);
+        em.persist(rm4);
+        em.flush();
 
         //Factory Raw Material
         //for f1

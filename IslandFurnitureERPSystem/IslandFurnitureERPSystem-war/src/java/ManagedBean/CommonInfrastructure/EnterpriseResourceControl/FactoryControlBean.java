@@ -40,6 +40,8 @@ public class FactoryControlBean {
     private String newFactoryAddress;
     private String newFactoryContact;
     private String newFactoryManager;
+    
+    private Long selectedDeleteFactoryId;
 
     /**
      * Creates a new instance of FactoryStoreControlBean
@@ -75,7 +77,7 @@ public class FactoryControlBean {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void deleteFactory(long id) {
+    public void deleteFactory(Long id) {
         System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));
         if (IUMA.ListFactoryUser(id).isEmpty()) {
             FSMM.DeleteFactory(id);
@@ -157,4 +159,13 @@ public class FactoryControlBean {
         this.newFactoryManager = newFactoryManager;
     }
 
+    public Long getSelectedDeleteFactoryId() {
+        return selectedDeleteFactoryId;
+    }
+
+    public void setSelectedDeleteFactoryId(Long selectedDeleteFactoryId) {
+        this.selectedDeleteFactoryId = selectedDeleteFactoryId;
+    }
+
+    
 }

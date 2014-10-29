@@ -116,7 +116,7 @@
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update="storetable" actionListener="#{storeControl.deleteStore(store.storeId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update="storetable" oncomplete="PF('frmDialog').show()" actionListener="#{storeControl.setSelectedDeleteStoreId(store.storeId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
@@ -153,6 +153,21 @@
 
 
                             </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this store ? 
+                                    <p:commandButton  title = "Confirm"  actionListener="#{storeControl.deleteStore(storeControl.selectedDeleteStoreId)}" value = "Confirm"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
                             
                             <p:commandButton value="Add Store" action="AddNewStore"></p:commandButton>
                         </p:panel>

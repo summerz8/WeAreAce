@@ -102,7 +102,7 @@
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{retailControl.deleteRetailProduct(retail.retailProductId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{retailControl.setSelectedDeleteRetailId(retail.retailProductId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
@@ -143,6 +143,21 @@
                                 </p:column>
 
                             </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this user ? 
+                                    <p:commandButton  title = "Confirm"  value = "Confirm" actionListener="#{retailControl.deleteRetailProduct(retailControl.selectedDeleteRetailId)}"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
 
                             <p:button value="Add Product" outcome="AddNewRetailProduct"></p:button>
                         </p:panel>

@@ -40,6 +40,8 @@ public class StoreControlBean {
     private String newStoreAddress;
     private String newStoreContact;
     private String newStoreManager;
+    
+    private Long selectedDeleteStoreId;
 
     /**
      * Creates a new instance of StoreControl
@@ -75,7 +77,7 @@ public class StoreControlBean {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void deleteStore(long id) {
+    public void deleteStore(Long id) {
         System.out.println("StoreControlBean: deleteStore: " + String.valueOf(id));
         if (IUMA.ListStoreUser(id).isEmpty()) {
             FSMM.DeleteStore(id);
@@ -158,4 +160,13 @@ public class StoreControlBean {
         this.newStoreManager = newStoreManager;
     }
 
+    public Long getSelectedDeleteStoreId() {
+        return selectedDeleteStoreId;
+    }
+
+    public void setSelectedDeleteStoreId(Long selectedDeleteStoreId) {
+        this.selectedDeleteStoreId = selectedDeleteStoreId;
+    }
+
+    
 }

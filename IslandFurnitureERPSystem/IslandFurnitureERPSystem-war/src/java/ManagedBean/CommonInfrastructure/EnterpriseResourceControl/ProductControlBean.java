@@ -39,6 +39,7 @@ public class ProductControlBean {
     private Double newProductMemberPrice;
 
     private ProductEntity selectedProduct;
+    private Long selectedDeleteProductId;
 
     /**
      * Creates a new instance of ProductControlBean
@@ -77,13 +78,17 @@ public class ProductControlBean {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void deleteProduct(long id) {
+    public void deleteProduct(Long id) {
         System.out.println("ProductControlBean: deleteProduct: " + String.valueOf(id));
-        RPMM.DeleteProduct(id);
+        if(RPMM.DeleteProduct(id)){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
 
         productList = RPMM.ListProduct();
         filteredProduct = productList;
+        }else{
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Product cannot be deleted! ", "Factory product or store product still exists!"));
+        }
     }
 
     public void addProduct() {
@@ -185,4 +190,13 @@ public class ProductControlBean {
         this.newProductMemberPrice = newProductMemberPrice;
     }
 
+    public Long getSelectedDeleteProductId() {
+        return selectedDeleteProductId;
+    }
+
+    public void setSelectedDeleteProductId(Long selectedDeleteProductId) {
+        this.selectedDeleteProductId = selectedDeleteProductId;
+    }
+
+    
 }
