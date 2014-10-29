@@ -481,7 +481,7 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     public String addContract(Long factoryId, Long supplierId, String itemType, Long itemId,
             Double contractPrice, Integer leadTime, Double lotSize,
             Calendar contractStartDate, Calendar contractEndDate)
-            throws Exception {        
+            throws Exception {
         System.out.println("addContract():");
         String result = null;
         String unit = null;

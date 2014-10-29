@@ -40,16 +40,16 @@ public class SalesRecordEntity implements Serializable {
     //Sales record -- store retail product M <--> 1
     @ManyToOne
     private StoreRetailProductEntity storeRetailProduct;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar period;
+    private Calendar recordPeriod;
     private Double amount;  //sold amount for this product in this month
     private Double revenue; //earned revenue for this product in this month
     
     public SalesRecordEntity() {
         amount=0D;
         revenue=0D;
-        period=Calendar.getInstance();
+        recordPeriod=Calendar.getInstance();
     }
 
     public Long getSalesRecordId() {
@@ -83,13 +83,13 @@ public class SalesRecordEntity implements Serializable {
     public void setStoreRetailProduct(StoreRetailProductEntity storeRetailProduct) {
         this.storeRetailProduct = storeRetailProduct;
     }
-
-    public Calendar getPeriod() {
-        return period;
+    
+    public Calendar getRecordPeriod() {
+        return recordPeriod;
     }
 
-    public void setPeriod(Calendar period) {
-        this.period = period;
+    public void setRecordPeriod(Calendar recordPeriod) {
+        this.recordPeriod = recordPeriod;
     }
 
     public Double getAmount() {

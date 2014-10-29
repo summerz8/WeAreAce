@@ -6,7 +6,13 @@
 
 package SessionBean.KM;
 
-import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.ComboItemEntity;
+import Entity.Kitchen.DailySalesEntity;
+import Entity.Kitchen.DishItemEntity;
+import Entity.Kitchen.IngredientItemEntity;
+import Entity.Kitchen.KitchenOrderEntity;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,6 +21,36 @@ import javax.ejb.Local;
  */
 @Local
 public interface CustomerOrderFulfillmentModuleLocal {
+
+    public KitchenOrderEntity createOrder(Long kitchenId);
     
+    public Long addDishItem(Long orderId, Long dishId, Integer quantity);
     
+    public Long addComboItem(Long orderId, Long comboId, Integer quantity);
+    
+    public Long confirmOrder(Long orderId);
+    
+    public Long cancelOrder(Long orderId);
+
+    public Long serveOrder(Long orderId);
+
+    public List<KitchenOrderEntity> getCurrentDateUnfulfilledOrder(Long kitchenId);
+
+    public List<KitchenOrderEntity> getDailyOrders(Long kitchenId, Date selectedDate);
+    
+    public DailySalesEntity findDailySales(Long kitchenId, Date selectedDate);
+    
+    public List<KitchenOrderEntity> getCurrentDateUnservedOrder(Long kitchenId);
+    
+    public Long fulfillDishItem(Long orderId, Long detailedDishItemId);
+    
+    public Long deleteDishItem(Long orderId, Long dishItemId);
+    
+    public Long deleteComboItem(Long orderId, Long comboItemId);
+
+    public List<DishItemEntity> findDailySalesDishItems(Long dailySalesId);
+    
+    public List<ComboItemEntity> findDailySalesComboItems(Long dailySalesId);
+
+    public List<IngredientItemEntity> findRecipe(Long dishId);
 }

@@ -29,7 +29,7 @@ public class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -54,6 +54,14 @@ public class TransactionEntity implements Serializable {
     private List<TransactionItem> transactionItemList;
 
     public TransactionEntity() {
+    }
+
+    public TransactionEntity(Calendar generateTime, Double totalPrice, int location, StoreEntity store, MemberEntity member) {
+        this.generateTime = generateTime;
+        this.totalPrice = totalPrice;
+        this.location = location;
+        this.store = store;
+        this.member = member;
     }
 
     public Long getTransactionId() {

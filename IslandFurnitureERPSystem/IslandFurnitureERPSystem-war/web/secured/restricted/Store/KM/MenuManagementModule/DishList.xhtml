@@ -105,21 +105,21 @@
                                 <p:column headerText="Name" filterBy="#{d.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.name}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{d.name}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{d.name}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
                                 <p:column headerText="Price" filterBy="#{d.price}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.price}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{d.price}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{d.price}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
                                 <p:column headerText="Recipe Quantity" filterBy="#{d.recipeQuantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.recipeQuantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{d.recipeQuantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{d.recipeQuantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 

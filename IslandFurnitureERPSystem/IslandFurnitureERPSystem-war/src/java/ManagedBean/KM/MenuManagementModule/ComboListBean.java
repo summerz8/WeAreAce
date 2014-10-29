@@ -71,17 +71,22 @@ public class ComboListBean implements Serializable {
         }
         filteredCombos = mm.getCombos(kitchen.getId());
     }
-    
+
     public void onRowEdit(RowEditEvent event) {
         ComboEntity combo = (ComboEntity) event.getObject();
         try {
-            Long comboId = mm.editCombo(combo.getId(), combo.getName(), combo.getPrice(), combo.getRemark());
-            if (comboId == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            if (combo.getPrice() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Price cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Combo " + combo.getName() + " is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Long comboId = mm.editCombo(combo.getId(), combo.getName(), combo.getPrice(), combo.getRemark());
+                if (comboId == -1L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "Combo " + combo.getName() + " is Edited");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");

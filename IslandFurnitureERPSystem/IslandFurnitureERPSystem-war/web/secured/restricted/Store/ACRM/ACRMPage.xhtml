@@ -68,19 +68,15 @@
                         <p:submenu label="Anaytical Customer Relationship Management Page">
                             <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
                             <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
-                            <p:menuitem value="View Customer Aquisation Cost" update="messages" action = "ViewCAC?faces-redirect=true"/>
-                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?face-redirect=true"/> 
+                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
+                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
+
                         </p:submenu>
                     </p:menu>
 
                 </p:layoutUnit>
                 <p:layoutUnit position="center" resizable="false">
-                    <p:panel id="basic" header =" " style="height:800px;" >
-                        <h:panelGrid columns="2" cellpadding="6">
-
-
-                        </h:panelGrid>
-                    </p:panel>
+                   
                 </p:layoutUnit>
             </p:layout>
         </h:form>

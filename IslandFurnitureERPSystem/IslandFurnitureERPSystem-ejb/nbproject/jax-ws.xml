@@ -7,8 +7,11 @@
     <service name="TransactionModule">
       <implementation-class>SessionBean.OCRM.TransactionModule</implementation-class>
     </service>
+    <service name="CustomerOrderFulfillmentModule">
+      <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
+    </service>
     <service name="IFManagerBean">
-      <implementation-class>SessionBean.IFManagerBean</implementation-class>
+      <implementation-class>util.login.IFManagerBean</implementation-class>
     </service>
   </services>
   <clients/>

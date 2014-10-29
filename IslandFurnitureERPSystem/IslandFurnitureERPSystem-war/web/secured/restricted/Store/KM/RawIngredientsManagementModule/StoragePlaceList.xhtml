@@ -71,10 +71,9 @@
                     <p:menu>
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Raw Ingredient Management">
+                                <p:menuitem value="Raw Ingredient Issue" url="IngredientIssue.xhtml?faces-redirect=true" />
                                 <p:menuitem value="Add Raw Ingredient" url="AddIngredient.xhtml?faces-redirect=true" />
                                 <p:menuitem value="Raw Ingredient List" url="IngredientList.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
                                 <p:menuitem value="Storage Place List" url="StoragePlaceList.xhtml?faces-redirect=true" />
                             </p:submenu>
                         </p:submenu>
@@ -106,7 +105,7 @@
                             <p:column headerText="Location" filterBy="#{sp.location}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{sp.location}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{sp.location}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{sp.location}" required="true" /></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
@@ -143,7 +142,7 @@
                             <h:inputText value="#{storagePlaceBean.location}" />
 
 
-                        <p:commandButton value="Submit" actionListener="#{storagePlaceBean.addStoragePlace}" update="storagePlaceList" oncomplete="PF('dlg1').hide()">
+                        <p:commandButton value="Submit" actionListener="#{storagePlaceBean.addStoragePlace}" update="storagePlaceList" >
                         </p:commandButton>
                     </p:dialog>
                 </p:layoutUnit>

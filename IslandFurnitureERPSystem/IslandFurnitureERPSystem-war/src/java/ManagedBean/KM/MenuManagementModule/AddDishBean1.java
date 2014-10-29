@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -97,14 +98,37 @@ public class AddDishBean1 implements Serializable {
     }
 
     public void addDish(ActionEvent event) {
-        dish = mm.addDish(kitchen.getId(), name, price, remark, recipeQuantity);
-        if (dish == null) {
+        try {
+            if (price < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Price cannot be negative");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                if (recipeQuantity < 0) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Recipe Quantity cannot be negative");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    dish = mm.addDish(kitchen.getId(), name, price, remark, recipeQuantity);
+                    if (dish == null) {
+                        FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+                        FacesContext.getCurrentInstance().addMessage(null, msg);
+                    } else {
+                        FacesMessage msg = new FacesMessage("Successful", "New Dish " + dish.getName() + " is Added");
+                        FacesContext.getCurrentInstance().addMessage(null, msg);
+                        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("newDish", dish);
+                        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                        context.redirect("/IslandFurnitureERPSystem-war/secured/restricted/Store/KM/MenuManagementModule/AddDish2.xhtml?faces-redirect=true");
+                    }
+                }
+            }
+            name = "";
+            price = null;
+            remark = "";
+            recipeQuantity = null;
+        } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("Successful", "New Dish " + dish.getName() + " is Added");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("newDish", dish);
+            System.err.println("ManagedBean.KM.MenuManagementModule.AddDishBean1: addDish(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
         }
     }
 

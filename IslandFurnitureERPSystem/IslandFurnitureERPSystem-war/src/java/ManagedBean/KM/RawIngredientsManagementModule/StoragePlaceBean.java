@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -26,7 +27,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean(name = "storagePlaceBean")
 @ViewScoped
 public class StoragePlaceBean implements Serializable {
-    
+
     @EJB
     private RawIngredientsManagementModuleLocal rim;
 
@@ -34,7 +35,7 @@ public class StoragePlaceBean implements Serializable {
     private String location;
     private StoragePlaceEntity selectedStoragePlace;
     private List<StoragePlaceEntity> filteredStoragePlaces;
-    
+
     public StoragePlaceBean() {
     }
 
@@ -69,26 +70,34 @@ public class StoragePlaceBean implements Serializable {
     public void setFilteredStoragePlaces(List<StoragePlaceEntity> filteredStoragePlaces) {
         this.filteredStoragePlaces = filteredStoragePlaces;
     }
-    
+
     @PostConstruct
     public void init() {
         try {
             kitchen = kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
         } catch (Exception ex) {
-            System.err.println("ManagedBean.KM..RawIngredientsManagementModule.storagePlaceBean: init(): Failed. Caught an unexpected exception.");
+            System.err.println("ManagedBean.KM.RawIngredientsManagementModule.storagePlaceBean: init(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
         filteredStoragePlaces = rim.getStoragePlaces(kitchen.getId());
     }
 
     public void addStoragePlace(ActionEvent event) {
-        Long storagePlaceId = rim.addStoragePlace(kitchen.getId(), location);
-        if (storagePlaceId == -1L) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Failed", "An unexpected exception occurred"));
+        if (location.equals("")) {
+            FacesMessage msg = new FacesMessage("Faild", "Invalid Location");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "New storage place " + storagePlaceId + " is added"));
+            Long storagePlaceId = rim.addStoragePlace(kitchen.getId(), location);
+            if (storagePlaceId == -1L) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Failed", "An unexpected exception occurred"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "New storage place " + storagePlaceId + " is added"));
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dlg1').hide()");
+            }
+            filteredStoragePlaces = rim.getStoragePlaces(kitchen.getId());
         }
-        filteredStoragePlaces = rim.getStoragePlaces(kitchen.getId());
+        location = "";
     }
 
     public void onRowEdit(RowEditEvent event) {
@@ -105,7 +114,7 @@ public class StoragePlaceBean implements Serializable {
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            System.err.println("ManagedBean.KM..RawIngredientsManagementModule.storagePlaceBean: onRowEdit(): Failed. Caught an unexpected exception.");
+            System.err.println("ManagedBean.KM.RawIngredientsManagementModule.storagePlaceBean: onRowEdit(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
         filteredStoragePlaces = rim.getStoragePlaces(kitchen.getId());
@@ -127,16 +136,14 @@ public class StoragePlaceBean implements Serializable {
                 FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Storage Placeˆ Deleted");
+                FacesMessage msg = new FacesMessage("Successful", "Storage Place Deleted");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         } catch (Exception ex) {
-            System.err.println("ManagedBean.KM..RawIngredientsManagementModule.storagePlaceBean: deleteStoragePlace(): Failed. Caught an unexpected exception.");
+            System.err.println("ManagedBean.KM.RawIngredientsManagementModule.storagePlaceBean: deleteStoragePlace(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
         filteredStoragePlaces = rim.getStoragePlaces(kitchen.getId());
     }
 
-    
-    
 }

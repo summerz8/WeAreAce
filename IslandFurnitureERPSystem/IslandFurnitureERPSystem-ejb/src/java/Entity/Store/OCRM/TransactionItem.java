@@ -25,7 +25,7 @@ public class TransactionItem implements Serializable {
     private Long TransactionItemId;
     
     private Long itemId;//refer to storeproductId or storeRetailProductId
-    private Double amount;
+    private int amount;
     private Double unitPrice;
     private Double totalPrice;
     private String itemName;
@@ -55,7 +55,7 @@ public class TransactionItem implements Serializable {
         return itemId;
     }
 
-    public Double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
@@ -83,7 +83,7 @@ public class TransactionItem implements Serializable {
         this.itemId = itemId;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 

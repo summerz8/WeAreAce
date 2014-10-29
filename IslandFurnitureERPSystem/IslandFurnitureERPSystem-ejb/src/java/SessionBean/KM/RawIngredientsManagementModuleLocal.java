@@ -6,8 +6,12 @@
 package SessionBean.KM;
 
 import Entity.Kitchen.IngredientEntity;
+import Entity.Kitchen.IngredientForecastEntity;
+import Entity.Kitchen.IngredientIssueEntity;
+import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,28 +22,33 @@ import javax.ejb.Local;
 @Local
 public interface RawIngredientsManagementModuleLocal {
 
-    Long addIngredient(Long kitchenId, String name, Double price, String unit, String remark, Double lotSize, List<Long> storagePlaceIds, Long supplierId);
+    public Long addIngredient(Long kitchenId, String name, Double price, String unit, String remark, Double lotSize, List<Long> storagePlaceIds, Long supplierId);
 
-    Long deleteIngredient(Long ingredientId);
+    public Long deleteIngredient(Long ingredientId);
 
-    Long editIngredient(Long ingredientId, String name, Double price, String unit, String remark, Double lotSize, List<Long> storagePlaces, Long supplierId);
+    public Long editIngredient(Long ingredientId, String name, Double price, String unit, String remark, Double lotSize, List<Long> storagePlaces, Long supplierId);
 
-    List<IngredientEntity> getIngredients(Long kitchenId);
+    public List<IngredientEntity> getIngredients(Long kitchenId);
 
-    Long addSupplier(Long kitchenId, String name, String address, String contact, String fax, String remark);
+    public Long addStoragePlace(Long kitchenId, String location);
 
-    Long editSupplier(Long ingredientSupplierId, String name, String address, String contact, String fax, String remark);
+    public Long editStoragePlace(Long storagePlaceId, String location);
 
-    Long deleteSupplier(Long ingredientSupplierId);
+    public Long deleteStoragePlace(Long storagePlaceId);
 
-    List<IngredientSupplierEntity> getSuppliers(Long kitchenId);
+    public List<StoragePlaceEntity> getStoragePlaces(Long kitchenId);
 
-    Long addStoragePlace(Long kitchenId, String location);
+    public IngredientIssueEntity generateIngredientIssue(Long ingredientForecastId);
 
-    Long editStoragePlace(Long storagePlaceId, String location);
+    public Long confirmIngredientIssue(Long ingredientIssueId);
 
-    Long deleteStoragePlace(Long storagePlaceId);
+    public IngredientForecastEntity findIngredientForecast(Long kitchenId, Date targetDate);
 
-    List<StoragePlaceEntity> getStoragePlaces(Long kitchenId);
+    public IngredientIssueEntity findIngredientIssue(Long kitchenId, Date targetDate);
 
+    public List<IngredientItemEntity> getIngredientIssueItems(Long ingredientIssueId);
+
+    public Long editIngredientIssueItem(Long ingredientForecastItemId, Double quantity);
+
+    public List<IngredientSupplierEntity> getSuppliers(Long kitchenId);
 }

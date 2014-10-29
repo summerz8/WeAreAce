@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -94,13 +95,18 @@ public class DishItemsBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         DishItemEntity di = (DishItemEntity) event.getObject();
         try {
-            Long diId = mm.editDishItem(di.getId(), di.getQuantity());
-            if (diId == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            if (di.getQuantity() < 0) {
+                FacesMessage msg = new FacesMessage("Faild", "Quantity cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Dish Item " + diId + " is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Long diId = mm.editDishItem(di.getId(), di.getQuantity());
+                if (diId == -1L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "Dish Item " + diId + " is Edited");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
@@ -128,20 +134,31 @@ public class DishItemsBean implements Serializable {
         }
         filteredDishItems = mm.getDishItems(selectedCombo.getId());
     }
-    
+
     public void addDishItem(ActionEvent event) {
-        Long dishItemId = mm.addDishItem(selectedCombo.getId(), dish.getId(), quantity);
-        if (dishItemId == -1L) {
-            FacesMessage msg = new FacesMessage("Faild", "The Dish " + dish.getName() + " is already in the Combo");
+        if (quantity == null) {
+            FacesMessage msg = new FacesMessage("Faild", "Invalid Quantity Input");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else if (dishItemId == -2L) {
-            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+        } else if (quantity < 0) {
+            FacesMessage msg = new FacesMessage("Faild", "Quantity cannot be negative");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage("Successful", "New Dish Item " + dishItemId + " is added");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Long dishItemId = mm.addDishItem(selectedCombo.getId(), dish.getId(), quantity);
+            if (dishItemId == -1L) {
+                FacesMessage msg = new FacesMessage("Faild", "The Dish " + dish.getName() + " is already in the Combo");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else if (dishItemId == -2L) {
+                FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage("Successful", "New Dish Item " + dishItemId + " is added");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dlg1').hide()");
+            }
+            filteredDishItems = mm.getDishItems(selectedCombo.getId());
         }
-        filteredDishItems = mm.getDishItems(selectedCombo.getId());
+        quantity = null;
     }
 
 }

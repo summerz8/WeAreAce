@@ -10,12 +10,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>KM: Add Storage Place</title>
+        <title>KM: Current Date Unserved Orders</title>
     </h:head>
 
     <h:body>
 
-        <h:form id="globalNavigation">
+        <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
@@ -70,12 +70,11 @@
 
                     <p:menu>
                         <p:submenu label="Kitchen Management">
-                            <p:submenu label="Raw Ingredient Management">
-                                <p:menuitem value="Add Raw Ingredient" url="AddIngredient.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Raw Ingredient List" url="IngredientList.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Storage Place List" url="StoragePlaceList.xhtml?faces-redirect=true" />
+                            <p:submenu label="Customer Order Fulfillment">
+                                <p:menuitem value="Unfulfilled Orders" url="CurrentDateUnfulfilledOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Unserved Orders" url="CurrentDateUnservedOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View Daily Orders" url="DailyOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View Daily Sales" url="DailySales.xhtml?faces-redirect=true"/>
                             </p:submenu>
                         </p:submenu>
                     </p:menu>
@@ -84,39 +83,55 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="New Storage Place" style="margin-bottom" >
+                    <p:panel id="basic" header="Current Date Unserved Orders" style="margin-bottom" >
+
+                        <p:dataTable id="unservedOrders" widgetVar="unservedOrders" value="#{currentDateUnservedOrdersBean.orders}" 
+                                     var="o" filteredValue="#{currentDateUnservedOrdersBean.filteredOrders}" >
+
+                            <div align="right">
+                                <p:outputPanel>
+                                    <h:outputText value="Search: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('unservedOrders').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
+                            </div>
+
+                            <p:column headerText="Order ID" filterBy="#{o.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{di.dish.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Time" sortBy="#{o.creationTime.time}" filterBy="#{o.creationTime.time}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{o.creationTime.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Dishes" >
+                                <p:dataTable id="detailedDishItemList" widgetVar="detailedDishItemList" value="#{o.detailedDishItems}" 
+                                             var="ddi" filteredValue="#{currentDateUnservedOrdersBean.filteredOrders}" >
+
+                                    <p:column headerText="Dish" filterBy="#{ddi.dish.name}" filterMatchMode="contains" filterStyle="display:none">
+                                        <h:outputText value="#{ddi.dish.name}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Quantity" filterBy="#{ddi.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                        <h:outputText value="#{ddi.quantity}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+
+                            <p:column headerText="Serve">
+                                <p:commandButton value="Serve" actionListener="#{currentDateUnservedOrdersBean.serveOrder(o.id)}" update=":formMain" >
+                                </p:commandButton> 
+                            </p:column>
+
+                        </p:dataTable>
+
                     </p:panel>
-
-                    <h:form>
-                        <h:panelGrid columns="2" cellpadding="5">
-
-                            <p:outputLabel value="Name: " />
-                            <h:inputText value="#{ingredientSupplierBean.name}" />
-
-                            <p:outputLabel value="Addrss: " />
-                            <h:inputText value="#{ingredientSupplierBean.address}" />
-
-                            <p:outputLabel value="Contact: " />
-                            <h:inputText value="#{ingredientSupplierBean.contact}" />
-
-                            <p:outputLabel value="Fax: " />
-                            <h:inputText value="#{ingredientSupplierBean.fax}" />
-                            
-                            <p:outputLabel value="Remark: " />
-                            <h:inputText value="#{ingredientSupplierBean.remark}" />
-
-                        </h:panelGrid>
-
-                        <p:commandButton value="Submit" actionListener="#{ingredientSupplierBean.addSupplier}" />
-
-                    </h:form>
-
                 </p:layoutUnit>
-
-
 
             </p:layout>
         </h:form>
+
     </h:body>
 
 </html>

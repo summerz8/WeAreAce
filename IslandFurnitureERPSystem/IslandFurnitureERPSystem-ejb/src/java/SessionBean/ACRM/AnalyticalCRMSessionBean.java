@@ -16,12 +16,14 @@
  */
 package SessionBean.ACRM;
 
+import Entity.Store.ACRM.RFMEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.StoreEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -112,7 +114,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             memberList = q.getResultList();
 
             for (MemberEntity m : memberList) {
-                                    System.out.println("AnalyticalCRMSessionBean: getMembersByGender(): gender = " + gender);
+                System.out.println("AnalyticalCRMSessionBean: getMembersByGender(): gender = " + gender);
 
                 if (m.getGender().equals(gender)) {
                     members.add(m);
@@ -153,7 +155,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             memberList = q.getResultList();
 
             for (MemberEntity m : memberList) {
-                if (m.getCountry().equals(country)) {
+                if (m.getCountry() != null && m.getCountry().equals(country)) {
                     members.add(m);
                 }
             }
@@ -414,32 +416,77 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
     }
 
     @Override
-    public Float getRetentionRate(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly) throws Exception {
-        Float rr = null;
+    public Double getRetentionRate(Long storeId, Calendar time, Integer location,
+            Boolean isForAllPlace, Boolean isMonthly, Boolean isYearly) throws Exception {
+        Double rr = null;
+        time = Calendar.getInstance();
+        System.out.println("SessionBean: getRetentionRate():");
+
         try {
-            Collection<TransactionEntity> transactionList = new ArrayList();
             Collection<MemberEntity> lastPeriodActiveCustomers;
             Collection<MemberEntity> currentPeriodActiveCustomers;
-
-            StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransactions();
-
             if (isMonthly) {
-                Calendar lastMonth = time;
+                System.out.println("isMonthly: ");
+
+                Calendar lastMonth = Calendar.getInstance();
+                lastMonth.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
                 lastMonth.add(Calendar.MONTH, -1);
-                lastPeriodActiveCustomers = getActiveMembersMonthly(transactionList, lastMonth, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersMonthly(transactionList, time, location, isForAllPlace);
-            } else {//isYearly
-                Calendar lastYear = time;
+
+                Calendar lastMonth2 = Calendar.getInstance();
+                lastMonth2.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
+                lastMonth2.add(Calendar.MONTH, -2);
+
+                lastPeriodActiveCustomers = getActiveMembers(storeId, lastMonth2, lastMonth, location, isForAllPlace);
+                currentPeriodActiveCustomers = getActiveMembers(storeId, lastMonth, time, location, isForAllPlace);
+
+            } else if (isYearly) {//isQuarterly
+                System.out.println("isYearly: ");
+
+                Calendar lastYear = Calendar.getInstance();
+                lastYear.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
                 lastYear.add(Calendar.YEAR, -1);
-                lastPeriodActiveCustomers = getActiveMembersYearly(transactionList, lastYear, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersYearly(transactionList, time, location, isForAllPlace);
+
+                Calendar lastYear2 = Calendar.getInstance();
+                lastYear2.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
+                lastYear2.add(Calendar.YEAR, -2);
+
+                lastPeriodActiveCustomers = getActiveMembers(storeId, lastYear2, lastYear, location, isForAllPlace);
+                currentPeriodActiveCustomers = getActiveMembers(storeId, lastYear, time, location, isForAllPlace);
+
+            } else {
+                System.out.println("isQuaterly: ");
+
+                Calendar lastQuarter = Calendar.getInstance();
+                lastQuarter.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
+                lastQuarter.add(Calendar.MONTH, -3);
+
+                Calendar lastQuarter2 = Calendar.getInstance();
+                lastQuarter2.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
+                lastQuarter2.add(Calendar.MONTH, -6);
+
+                lastPeriodActiveCustomers = getActiveMembers(storeId, lastQuarter2, lastQuarter, location, isForAllPlace);
+                currentPeriodActiveCustomers = getActiveMembers(storeId, lastQuarter, time, location, isForAllPlace);
+
             }
+            System.out.println("lastPeriodActiveCustomers: " + lastPeriodActiveCustomers.toString());
+            System.out.println("currentPeriodActiveCustomers: " + currentPeriodActiveCustomers.toString());
             Integer oldQuantity = lastPeriodActiveCustomers.size();
             Integer currentQuantity = currentPeriodActiveCustomers.size();
 
-            rr = (oldQuantity.floatValue()) / (currentQuantity.floatValue());
+            System.out.println("oldQuantity: " + oldQuantity.toString());
+            System.out.println("currentQuantity: " + currentQuantity.toString());
+
+            rr = (currentQuantity) * 1.0 / (oldQuantity);
+
+            if (currentQuantity == 0) {
+                rr = 0.0;
+            }
+            if (oldQuantity == 0) {
+                rr = -1.0;
+            }
+
+            System.out.println("Retention Rate: " + rr.toString());
+            System.out.println(".............Leaving AnalyticalCRMSessionBean:getRetentionRate()............");
 
         } catch (Exception e) {
             System.err.println("AnalyticalCRMSessionBean: getRetentionRate(): Caught an unexpected exception.");
@@ -449,254 +496,239 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
     }
 
     @Override
-    public Float getRetentionRateByAge(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, Integer minAge, Integer maxAge) throws Exception {
-        Float rr = null;
+    public Collection<RFMEntity> getAllMembersRFM() {
+        System.out.println("AnalyticalCRMSessionBean: getAllMembersRFM()");
+
+        Collection<RFMEntity> RFMList = new ArrayList();
+        Collection<MemberEntity> members;
         try {
-            Collection<TransactionEntity> transactionList = new ArrayList();
-            Collection<MemberEntity> lastPeriodActiveCustomers;
-            Collection<MemberEntity> currentPeriodActiveCustomers;
+            members = getAllMembers();
+            System.out.println("AnalyticalCRMSessionBean: getAllMembersRFM():  members = getAllMembers();");
 
-            StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransactions();
-
-            if (isMonthly) {
-                Calendar lastMonth = time;
-                lastMonth.add(Calendar.MONTH, -1);
-                lastPeriodActiveCustomers = getActiveMembersMonthly(transactionList, lastMonth, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersMonthly(transactionList, time, location, isForAllPlace);
-            } else {//isYearly
-                Calendar lastYear = time;
-                lastYear.add(Calendar.YEAR, -1);
-                lastPeriodActiveCustomers = getActiveMembersYearly(transactionList, lastYear, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersYearly(transactionList, time, location, isForAllPlace);
+            for (MemberEntity m : members) {
+                RFMEntity rfm = getMemberRFM(m.getMemberId());
+                RFMList.add(rfm);
             }
 
-            lastPeriodActiveCustomers = getMembersByAge(minAge, maxAge, lastPeriodActiveCustomers);
-            currentPeriodActiveCustomers = getMembersByAge(minAge, maxAge, currentPeriodActiveCustomers);
-
-            Integer oldQuantity = lastPeriodActiveCustomers.size();
-            Integer currentQuantity = currentPeriodActiveCustomers.size();
-
-            rr = (oldQuantity.floatValue()) / (currentQuantity.floatValue());
-
         } catch (Exception e) {
-            System.err.println("AnalyticalCRMSessionBean: getRetentionRate(): Caught an unexpected exception.");
+            System.out.println("Caught an unexpected exception!");
+            e.printStackTrace();
+
+        }
+        System.out.println("Retunr RFMList");
+        return RFMList;
+    }
+
+    public RFMEntity getMemberRFM(Long memberId) {
+        System.out.println("AnalyticalCRMSessionBean: getMemberRFM()");
+        RFMEntity rfm = null;
+        MemberEntity member;
+        Integer recency = 0;
+        Integer frequency = 0;
+        Double monetary = null;
+        try {
+            member = em.find(MemberEntity.class, memberId);
+            System.out.println("AnalyticalCRMSessionBean: getMemberRFM(): get member");
+
+            recency = getRecency(memberId);
+            System.out.println("AnalyticalCRMSessionBean: getMemberRFM(): Recency =  " + recency);
+
+            frequency = getFrequency(memberId);
+            System.out.println("AnalyticalCRMSessionBean: getMemberRFM(): frequency =  " + frequency);
+
+            monetary = getMonetary(memberId);
+            System.out.println("AnalyticalCRMSessionBean: getMemberRFM(): monetary =  " + monetary);
+
+            if (member.getRfm() == null) {
+                rfm = new RFMEntity(recency, frequency, monetary, member);
+                member.setRfm(rfm);
+            } else {
+                rfm = member.getRfm();
+                rfm.setRecency(recency);
+                rfm.setFrequency(frequency);
+                rfm.setMonetary(monetary);
+
+                member.setRfm(rfm);
+            }
+        } catch (Exception e) {
+            System.out.println("Caught an unexpected exception!");
             e.printStackTrace();
         }
-        return rr;
+        System.out.println("return rfm");
+        return rfm;
     }
 
     @Override
-    public Float getRetentionRateByGender(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, String gender) throws Exception {
-        Float rr = null;
+    public Integer getRecency(Long memberId) {
+        MemberEntity member;
+        Integer recency = 0;
+
         try {
-            Collection<TransactionEntity> transactionList = new ArrayList();
-            Collection<MemberEntity> lastPeriodActiveCustomers;
-            Collection<MemberEntity> currentPeriodActiveCustomers;
-
-            StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransactions();
-
-            if (isMonthly) {
-                Calendar lastMonth = time;
-                lastMonth.add(Calendar.MONTH, -1);
-                lastPeriodActiveCustomers = getActiveMembersMonthly(transactionList, lastMonth, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersMonthly(transactionList, time, location, isForAllPlace);
-            } else {//isYearly
-                Calendar lastYear = time;
-                lastYear.add(Calendar.YEAR, -1);
-                lastPeriodActiveCustomers = getActiveMembersYearly(transactionList, lastYear, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersYearly(transactionList, time, location, isForAllPlace);
+            member = em.find(MemberEntity.class, memberId);
+            Calendar today = Calendar.getInstance();
+            if (member.getLastTransaction() != null) {
+                recency = daysBetween(today.getTime(), member.getLastTransaction().getGenerateTime().getTime());
             }
-
-            lastPeriodActiveCustomers = getMembersByGender(gender, lastPeriodActiveCustomers);
-            currentPeriodActiveCustomers = getMembersByGender(gender, currentPeriodActiveCustomers);
-
-            Integer oldQuantity = lastPeriodActiveCustomers.size();
-            Integer currentQuantity = currentPeriodActiveCustomers.size();
-
-            rr = (oldQuantity.floatValue()) / (currentQuantity.floatValue());
-
         } catch (Exception e) {
-            System.err.println("AnalyticalCRMSessionBean: getRetentionRate(): Caught an unexpected exception.");
+            System.out.println("Caught an unexpected exception!");
             e.printStackTrace();
         }
-        return rr;
+        return recency;
     }
 
     @Override
-    public Float getRetentionRateByNationality(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, String country) throws Exception {
-        Float rr = null;
+    public Integer getFrequency(Long memberId) {
+        MemberEntity member;
+        Integer frequency = 0;
         try {
-            Collection<TransactionEntity> transactionList = new ArrayList();
-            Collection<MemberEntity> lastPeriodActiveCustomers;
-            Collection<MemberEntity> currentPeriodActiveCustomers;
-
-            StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransactions();
-
-            if (isMonthly) {
-                Calendar lastMonth = time;
-                lastMonth.add(Calendar.MONTH, -1);
-                lastPeriodActiveCustomers = getActiveMembersMonthly(transactionList, lastMonth, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersMonthly(transactionList, time, location, isForAllPlace);
-            } else {//isYearly
-                Calendar lastYear = time;
-                lastYear.add(Calendar.YEAR, -1);
-                lastPeriodActiveCustomers = getActiveMembersYearly(transactionList, lastYear, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersYearly(transactionList, time, location, isForAllPlace);
+            member = em.find(MemberEntity.class, memberId);
+            Calendar today = Calendar.getInstance();
+            for (TransactionEntity t : member.getTransactionList()) {
+                Integer daysBetween = daysBetween(today.getTime(), t.getGenerateTime().getTime());
+                if (daysBetween < 366) {
+                    frequency++;
+                }
             }
-
-            lastPeriodActiveCustomers = getMembersByNationality(country, lastPeriodActiveCustomers);
-            currentPeriodActiveCustomers = getMembersByNationality(country, currentPeriodActiveCustomers);
-
-            Integer oldQuantity = lastPeriodActiveCustomers.size();
-            Integer currentQuantity = currentPeriodActiveCustomers.size();
-            rr = (oldQuantity.floatValue()) / (currentQuantity.floatValue());
-
         } catch (Exception e) {
-            System.err.println("AnalyticalCRMSessionBean: getRetentionRate(): Caught an unexpected exception.");
+            System.out.println("Caught an unexpected exception!");
             e.printStackTrace();
         }
-        return rr;
+        return frequency;
     }
 
     @Override
-    public Float getRetentionRateByMemberLevel(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Boolean isMonthly, Integer memberLevel) throws Exception {
-        Float rr = null;
+    public Double getMonetary(Long memberId) {
+        MemberEntity member;
+        Double monetary = 0.0;
         try {
-            Collection<TransactionEntity> transactionList = new ArrayList();
-            Collection<MemberEntity> lastPeriodActiveCustomers;
-            Collection<MemberEntity> currentPeriodActiveCustomers;
-
-            StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransactions();
-
-            if (isMonthly) {
-                Calendar lastMonth = time;
-                lastMonth.add(Calendar.MONTH, -1);
-                lastPeriodActiveCustomers = getActiveMembersMonthly(transactionList, lastMonth, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersMonthly(transactionList, time, location, isForAllPlace);
-            } else {//isYearly
-                Calendar lastYear = time;
-                lastYear.add(Calendar.YEAR, -1);
-                lastPeriodActiveCustomers = getActiveMembersYearly(transactionList, lastYear, location, isForAllPlace);
-                currentPeriodActiveCustomers = getActiveMembersYearly(transactionList, time, location, isForAllPlace);
+            member = em.find(MemberEntity.class, memberId);
+            for (TransactionEntity t : member.getTransactionList()) {
+                monetary = t.getTotalPrice();
             }
-
-            lastPeriodActiveCustomers = getMembersByMemberLevel(memberLevel, lastPeriodActiveCustomers);
-            currentPeriodActiveCustomers = getMembersByMemberLevel(memberLevel, currentPeriodActiveCustomers);
-
-            Integer oldQuantity = lastPeriodActiveCustomers.size();
-            Integer currentQuantity = currentPeriodActiveCustomers.size();
-
-            rr = (oldQuantity.floatValue()) / (currentQuantity.floatValue());
-
         } catch (Exception e) {
-            System.err.println("AnalyticalCRMSessionBean: getRetentionRate(): Caught an unexpected exception.");
+            System.out.println("Caught an unexpected exception!");
             e.printStackTrace();
         }
-        return rr;
+        return monetary;
     }
 
     @Override
-    public Float getCLV(Long storeId, Calendar time, Integer location,
-            Boolean isForAllPlace, Double grossProfitMargin, Double aveAcquisitionCost) throws Exception {
-        Float clv = null;
+    public Collection<Double> getCLV(Long storeId, Calendar time,
+            Double grossProfitMargin, Double aveAcquisitionCost, Integer location,
+            Boolean isForAllPlace, Boolean isFemale, Boolean isMale, Boolean isOthers,
+            Boolean checkMemberlvl, Integer memberlvl) throws Exception {
+        System.out.println("AnalyticalCRMSessionBean: getCLV: ");
+        Collection<Double> clvList = new ArrayList();
         try {
-            Collection<TransactionEntity> transactionList;
-            Collection<MemberEntity> members = new ArrayList();
+            Double clv;
+            Double totalExp = 0.0;
+            Integer totalVisit = 0;
+            Integer visitThisMonth = 0;
+            Double aveExp = 0.0;
+            Integer cle = 0; //Customer life expectancy
+            Collection<MemberEntity> members = getAllMembers();
 
-            StoreEntity store = em.find(StoreEntity.class, storeId);
-            transactionList = store.getTransactions();
+            if (checkMemberlvl) {
+                members = getMembersByMemberLevel(memberlvl, members);
+            }
 
-            for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMember().getMemberId() != null) {
-                    MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
-                    members.add(m);
+            for (MemberEntity m : members) {
+                //check for customer by gender 
+                if ((isFemale && m.getGender().equals("Female"))
+                        || (isMale && m.getGender().equals("Male"))
+                        || (isOthers && m.getGender().equals("Others"))) {
+                    cle = m.getMemberlvl().getCle();
+                    System.out.println("CLE: " + cle);
+                    for (TransactionEntity t : m.getTransactionList()) {
+                        //check for furniture, retail , kitchen separetely
+                        if ((!isForAllPlace && t.getLocation() == location) || isForAllPlace) {
+                            totalExp = totalExp + t.getTotalPrice();
+                            totalVisit++;
+                            if (t.getGenerateTime().get(Calendar.MONTH) == time.get(Calendar.MONTH)) {
+                                visitThisMonth++;
+                            }
+                        }
+                    }
+                    if (totalVisit == 0 || totalExp == 0.0) {
+                        aveExp = 0.0;
+                        clv = 1000.0;
+                    } else {
+                        aveExp = totalExp / totalVisit;
+                        System.out.println("AveExp: " + aveExp);
+                        System.out.println("visitThisMonth: " + visitThisMonth);
+                        System.out.println("grossProfitMargin: " + grossProfitMargin);
+                        clv = cle * aveExp * visitThisMonth * grossProfitMargin - aveAcquisitionCost;
+
+                        if (clv < 0) {
+                            clv = 0.0;
+                        }
+                    }
+                    System.err.println("CLV: " + clv);
+                    clvList.add(clv);
                 }
             }
         } catch (Exception e) {
             System.err.println("AnalyticalCRMSessionBean: getCLV(): Caught an unexpected exception.");
             e.printStackTrace();
         }
-        return clv;
+        return clvList;
     }
 
     @Override
-    public Float getCACMonthly(Long storeId, Calendar time, Double totalCost) throws Exception {
-        Float cac = null;
-        Integer newMemberQuantity = 0;
-
-        Collection<TransactionEntity> transactionList;
-        StoreEntity store = em.find(StoreEntity.class, storeId);
-        transactionList = store.getTransactions();
-
-        for (TransactionEntity transaction : transactionList) {
-            if (transaction.getMember().getMemberId() != null) {
-                MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
-
-                //if member is new member
-                if (m.getCreateDate().get(Calendar.MONTH) == time.get(Calendar.MONTH)) {
-                    newMemberQuantity++;
-                }
-            }
-        }
-        cac = totalCost.floatValue() / newMemberQuantity.floatValue();
-        return cac;
-    }
-
-    public Collection<MemberEntity> getActiveMembersMonthly(Collection<TransactionEntity> transactionList, Calendar month, Integer location, Boolean isForAllPlace) throws Exception {
+    public Collection<MemberEntity> getActiveMembers(Long storeId, Calendar startDate, Calendar endDate, Integer location, Boolean isForAllPlace) throws Exception {
         Collection<MemberEntity> members = new ArrayList();
         try {
-            for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMember().getMemberId() != null) {
-                    if (transaction.getGenerateTime().get(Calendar.MONTH) == month.get(Calendar.MONTH)) {
-                        MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
+            System.out.println("Sessionbean: getActiveMembers()");
+            Collection<TransactionEntity> transactionList;
+            StoreEntity store = em.find(StoreEntity.class, storeId);
+            transactionList = store.getTransactions();
 
-                        if (isForAllPlace && !members.contains(m)) {
-                            members.add(m);
-                        } else if (transaction.getLocation() == location && !members.contains(m)) {
-                            //calculate saperately for retail, funiture and marketplace
-                            members.add(m);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("AnalyticalCRMSessionBean: getActiveMembersMonthly(): Caught an unexpected exception.");
-            e.printStackTrace();
-        }
-        return members;
-    }
-
-    public Collection<MemberEntity> getActiveMembersYearly(Collection<TransactionEntity> transactionList, Calendar year, Integer location, Boolean isForAllPlace) throws Exception {
-        Collection<MemberEntity> members = new ArrayList();
-        try {
+            System.out.println("Transactions: " + transactionList.toString());
             for (TransactionEntity transaction : transactionList) {
-                if (transaction.getMember().getMemberId() != null) {
-                    if (transaction.getGenerateTime().get(Calendar.YEAR) == year.get(Calendar.YEAR)) {
+                System.out.println("For Each transaction: Transaction = " + transaction.toString());
+                if (transaction.getMember() != null) {
+//                    System.out.println("Not Null Check: ");
+//
+//                    System.out.println("Transaction Date: " + transaction.getGenerateTime().getTime().toString());
+//                    System.out.println("Start Date: " + startDate.getTime().toString());
+//                    System.out.println("End Date: " + endDate.getTime().toString());
+
+                    if (removeTime(transaction.getGenerateTime()).after(startDate)
+                            && removeTime(transaction.getGenerateTime()).before(endDate)) {
+                        System.out.println("Date Check: ");
                         MemberEntity m = em.find(MemberEntity.class, transaction.getMember().getMemberId());
+                        System.out.println("Member: MemberId = " + m.getMemberId());
 
                         if (isForAllPlace) {
                             members.add(m);
                         } else if (transaction.getLocation() == location) {
+                            System.out.println("Location is : " + location);
                             //calculate saperately for retail, funiture and marketplace
                             members.add(m);
                         }
                     }
                 }
             }
+
+            System.out.println("Members: " + members.toString());
         } catch (Exception e) {
             System.err.println("AnalyticalCRMSessionBean: getActiveMembersMonthly(): Caught an unexpected exception.");
             e.printStackTrace();
         }
         return members;
 
+    }
+
+    public Calendar removeTime(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
+
+    public int daysBetween(Date d1, Date d2) {
+        return (int) ((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 }

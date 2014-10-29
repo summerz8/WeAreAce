@@ -56,7 +56,7 @@ public class ViewMembers implements Serializable {
 
     private Integer memberAmount;
 
-    private Boolean checkGender;
+    private Boolean checkGender = false;
     private Boolean checkAge = false;
     private Boolean checkCountry = false;
     private Boolean checkMemberlvl = false;

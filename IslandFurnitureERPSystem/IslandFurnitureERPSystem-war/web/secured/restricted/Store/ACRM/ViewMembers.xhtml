@@ -68,8 +68,8 @@
                         <p:submenu label="Anaytical Customer Relationship Management Page">
                             <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
                             <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
-                            <p:menuitem value="View Customer Aquisation Cost" update="messages" action = "ViewCAC?faces-redirect=true"/>
-                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?face-redirect=true"/> 
+                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
+                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
                         </p:submenu>
                     </p:menu>
 
@@ -143,11 +143,13 @@
                                     #{m.country}
                                 </p:column>
                                 <p:column headerText="Member Level" filterBy="#{m.memberlvl}" filterMatchMode="contains" filterStyle="display:none">
-                                    #{m.memberlvl.levelId} #{m.memberlvl.name} 
+                                    #{m.memberlvl.levelId} #{m.memberlvl.levelName} 
                                 </p:column>
 
-                                <p:column headerText="Registered Store" filterBy="#{m.storeId}" filterMatchMode="contains">
-                                    #{m.storeId}
+                                <p:column headerText="Last Purchase Date" filterBy="#{m.lastTransaction.generateTime.time}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{m.lastTransaction.generateTime.time}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                    </h:outputText>
                                 </p:column>
 
                             </p:dataTable>                
