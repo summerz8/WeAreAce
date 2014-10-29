@@ -36,9 +36,9 @@
                                      actionListener="#{idleBean.logoutListener}" />
 
                 </p:confirmDialog> 
-                
+
                 <p:poll interval="70" listener="#{idleBean.logoutListener}"/>
-                
+
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
@@ -62,6 +62,10 @@
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
                         <h:outputLabel value = "Welcome Back " style="font-size: 24px">
                             <h:outputText  value ="#{loginBean.userRole} #{loginBean.fullName}" rendered="#{loginBean.flag}" />
                         </h:outputLabel>
@@ -109,6 +113,10 @@
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                                 <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
                                 <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
 
@@ -118,7 +126,12 @@
                                 <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
                                 <p:menuitem value="View Members" update="messages" action="/secured/restricted/Store/ACRM/ViewMembers?faces-redirect=true"/>
                                 <p:menuitem value="View Member Retention Rate" update="messages" action = "/secured/restricted/Store/ACRM/ViewCRR?faces-redirect=true"/>
+<<<<<<< HEAD
                                 <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/> 
+=======
+                                <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/>
+                                <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
+>>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
                             </p:submenu>
 
                             <p:submenu label="Ticket Management" rendered="#{workPlaceManageBean.isValidTicket()}">
