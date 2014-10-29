@@ -81,8 +81,8 @@ public class AccessControlFilter implements Filter {
         } else if (userLevel == 7 && url.contains("/ticket/")) {
             chain.doFilter(request, response);
         } else {
-
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don not have access right!");
+            String contextPath = req.getServletContext().getContextPath();
+            resp.sendRedirect(contextPath + "/ErrorPage.xhtml");
 
         }
     }
