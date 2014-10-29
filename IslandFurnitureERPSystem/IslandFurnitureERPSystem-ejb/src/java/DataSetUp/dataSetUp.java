@@ -47,7 +47,7 @@ import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.SetEntity;
 import Entity.Store.OCRM.TransactionEntity;
-import Entity.Store.OCRM.TransactionItem;
+import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
@@ -1604,119 +1604,65 @@ public class dataSetUp {
         }
 
         //MembershipLevel
-        MembershipLevelEntity memlvl0 = new MembershipLevelEntity();
-        memlvl0.setDiscount(1D);
-        memlvl0.setPointsToUpgrade(1000D);
-        memlvl0.setLevelName("Basic");
-        memlvl0.setCle(3);
-        em.persist(memlvl0);
-        em.flush();
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
         memlvl1.setLevelName("Basic");
+        memlvl1.setCle(3);
         memlvl1.setExpressCheckout(Boolean.FALSE);
         memlvl1.setFreeDelivery(Boolean.FALSE);
-        memlvl1.setInviteOnlyEvent(false);
+        memlvl1.setInviteOnlyEvent(Boolean.FALSE);
         memlvl1.setFreeParking(Boolean.FALSE);
         em.persist(memlvl1);        
         em.flush();
+        
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
         memlvl2.setDiscount(0.9);
         memlvl2.setPointsToUpgrade(2000D);
         memlvl2.setLevelName("Blue");
+        memlvl2.setCle(12);
         memlvl2.setExpressCheckout(Boolean.FALSE);
         memlvl2.setFreeDelivery(Boolean.FALSE);
-        memlvl2.setInviteOnlyEvent(true);
+        memlvl2.setInviteOnlyEvent(Boolean.TRUE);
         memlvl2.setFreeParking(Boolean.FALSE);
-=======
-        memlvl1.setDiscount(0.9);
-        memlvl1.setPointsToUpgrade(2000D);
-        memlvl1.setLevelName("Blue");
-        memlvl1.setCle(12);
-        em.persist(memlvl1);
-        em.flush();
-        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
-=======
-        memlvl1.setDiscount(0.9);
-        memlvl1.setPointsToUpgrade(2000D);
-        memlvl1.setLevelName("Blue");
-        memlvl1.setCle(12);
-        em.persist(memlvl1);
-        em.flush();
-        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-        memlvl1.setDiscount(0.9);
-        memlvl1.setPointsToUpgrade(2000D);
-        memlvl1.setLevelName("Blue");
-        memlvl1.setCle(12);
-        em.persist(memlvl1);
-        em.flush();
-        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-        memlvl2.setLevelName("Sliver");
-        memlvl2.setDiscount(0.85);
-        memlvl2.setPointsToUpgrade(5000D);
-        memlvl2.setCle(36);
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
         em.persist(memlvl2);
         em.flush();
+        
         MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
-        memlvl3.setLevelName("Gold");
-        memlvl3.setDiscount(0.8);
+        memlvl3.setDiscount(0.85);
         memlvl3.setPointsToUpgrade(10000D);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         memlvl3.setLevelName("Sliver");
+        memlvl3.setCle(36);
         memlvl3.setExpressCheckout(Boolean.FALSE);
         memlvl3.setFreeDelivery(Boolean.FALSE);
-        memlvl3.setInviteOnlyEvent(true);
+        memlvl3.setInviteOnlyEvent(Boolean.TRUE);
         memlvl3.setFreeParking(Boolean.FALSE);
         em.persist(memlvl3);
         em.flush();
+        
         MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
         memlvl4.setDiscount(0.8);
         memlvl4.setPointsToUpgrade(30000D);
         memlvl4.setLevelName("Gold");
+        memlvl4.setCle(60);
         memlvl4.setExpressCheckout(Boolean.FALSE);
         memlvl4.setFreeDelivery(Boolean.FALSE);
-        memlvl4.setInviteOnlyEvent(true);
+        memlvl4.setInviteOnlyEvent(Boolean.TRUE);
         memlvl4.setFreeParking(Boolean.TRUE);
         em.persist(memlvl4);
         em.flush();
+        
         MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
         memlvl5.setDiscount(0.75);
         memlvl5.setPointsToUpgrade(50000D);
+        memlvl5.setCle(120);
         memlvl5.setLevelName("Diamond");
         memlvl5.setExpressCheckout(Boolean.TRUE);
         memlvl5.setFreeDelivery(Boolean.TRUE);
-        memlvl5.setInviteOnlyEvent(true);
+        memlvl5.setInviteOnlyEvent(Boolean.TRUE);
         memlvl5.setFreeParking(Boolean.TRUE);
         em.persist(memlvl5);
         em.flush();
-=======
-        memlvl3.setCle(60);
-        em.persist(memlvl3);
-        em.flush();
-        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
-        memlvl4.setLevelName("Diamond");
-        memlvl4.setDiscount(0.7);
-        memlvl4.setPointsToUpgrade(20000D);
-        memlvl4.setCle(120);
-        em.persist(memlvl4);
-        em.flush();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 
         //TransactionEntity
         TransactionEntity tr1 = new TransactionEntity();
@@ -1731,37 +1677,10 @@ public class dataSetUp {
         tr2.setTotalPrice(180.0);
         tr2.setGenerateTime(Calendar.getInstance());
         em.persist(tr2);
-=======
-        memlvl3.setCle(60);
-        em.persist(memlvl3);
         em.flush();
-        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
-        memlvl4.setLevelName("Diamond");
-        memlvl4.setDiscount(0.7);
-        memlvl4.setPointsToUpgrade(20000D);
-        memlvl4.setCle(120);
-        em.persist(memlvl4);
-        em.flush();
-=======
-        memlvl3.setCle(60);
-        em.persist(memlvl3);
-        em.flush();
-        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
-        memlvl4.setLevelName("Diamond");
-        memlvl4.setDiscount(0.7);
-        memlvl4.setPointsToUpgrade(20000D);
-        memlvl4.setCle(120);
-        em.persist(memlvl4);
-        em.flush();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-
-        //TransactionEntity
-        TransactionEntity tr = new TransactionEntity();
-        tr.setStore(s1);
-        tr.setTotalPrice(200.0);
-        em.persist(tr);
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-        em.flush();
+        
+        s1.getTransactions().add(tr1);
+        s1.getTransactions().add(tr2);
 
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
@@ -1769,7 +1688,7 @@ public class dataSetUp {
         em.persist(sm1);
         em.flush();
         //TransactionItem
-        TransactionItem ti1 = new TransactionItem();
+        TransactionItemEntity ti1 = new TransactionItemEntity();
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
@@ -1778,17 +1697,12 @@ public class dataSetUp {
         em.persist(ti1);
         em.flush();
 
-        List<TransactionItem> items = new ArrayList();
+        List<TransactionItemEntity> items = new ArrayList();
         items.add(ti1);
-<<<<<<< HEAD
         tr1.setTransactionItemList(items);
         em.persist(tr1);
         em.flush();
-=======
-        tr.setTransactionItemList(items);
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
+
 
         TransactionItemEntity ti2 = new TransactionItemEntity();
         ti2.setItemId(sm1.getId());
@@ -1798,10 +1712,6 @@ public class dataSetUp {
         ti2.setTransaction(tr2);
         em.persist(ti2);
         em.flush();
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 
         
         List<TransactionItemEntity> items2 = new ArrayList();
@@ -2074,18 +1984,6 @@ public class dataSetUp {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Transaction Setup @@@@@@@@@@@@@@@@@@@@@@@@@@
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //===============================Transaction 2================================
-        Calendar TranDate2 = Calendar.getInstance();
-        TranDate2.set(2014, 9, 1);
-
-        TransactionEntity tr2 = new TransactionEntity(TranDate2, 300.2, 1, s1, member2);
-        em.persist(tr2);
-
-        s1.getTransactions().add(tr2);
-        member2.getTransactionList().add(tr2);
-        member2.setLastTransaction(tr2);
-        em.flush();
-
         //===============================Transaction 3================================
         Calendar TranDate3 = Calendar.getInstance();
         TranDate3.set(2014, 5, 1);
@@ -2204,6 +2102,18 @@ public class dataSetUp {
         s1.getTransactions().add(tr12);
         member8.getTransactionList().add(tr12);
         member8.setLastTransaction(tr12);
+        em.flush();
+
+        //===============================Transaction 13================================
+        Calendar TranDate2 = Calendar.getInstance();
+        TranDate2.set(2014, 9, 1);
+
+        TransactionEntity tr13 = new TransactionEntity(TranDate2, 300.2, 1, s1, member2);
+        em.persist(tr13);
+
+        s1.getTransactions().add(tr13);
+        member2.getTransactionList().add(tr13);
+        member2.setLastTransaction(tr13);
         em.flush();
 
     }

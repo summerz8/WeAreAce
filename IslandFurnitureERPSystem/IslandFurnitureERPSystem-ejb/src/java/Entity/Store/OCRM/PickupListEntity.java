@@ -38,23 +38,11 @@ public class PickupListEntity implements Serializable {
     private Boolean Picked;
     private Boolean Distributed;
     
-    //PickupListEntity <--> TransactionItem 1<-->M
+    //PickupListEntity <--> TransactionItemEntity 1<-->M
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     @XmlTransient
     private List<TransactionItemEntity> transactoinItems = new ArrayList<>();
-=======
-    private List<TransactionItem> transactoinItems = new ArrayList<>();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-    private List<TransactionItem> transactoinItems = new ArrayList<>();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-    private List<TransactionItem> transactoinItems = new ArrayList<>();
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-    
+
     public PickupListEntity(){
         this.Picked = Boolean.FALSE;
         this.Distributed = Boolean.FALSE;
@@ -77,9 +65,6 @@ public class PickupListEntity implements Serializable {
         this.Picked = Picked;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     public Boolean isDistributed() {
         return Distributed;
     }
@@ -90,19 +75,10 @@ public class PickupListEntity implements Serializable {
 
     
     public List<TransactionItemEntity> getTransactoinItems() {
-=======
-    public List<TransactionItem> getTransactoinItems() {
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-    public List<TransactionItem> getTransactoinItems() {
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-    public List<TransactionItem> getTransactoinItems() {
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
         return transactoinItems;
     }
 
-    public void setTransactoinItems(List<TransactionItem> transactoinItems) {
+    public void setTransactoinItems(List<TransactionItemEntity> transactoinItems) {
         this.transactoinItems = transactoinItems;
     }
 

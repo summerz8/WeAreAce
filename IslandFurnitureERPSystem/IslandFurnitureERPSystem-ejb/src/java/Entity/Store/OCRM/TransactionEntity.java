@@ -49,9 +49,9 @@ public class TransactionEntity implements Serializable {
     @OneToOne
     private StoreUserEntity storeStaff;
 
-    //Transaction -- TransactionItem 1<-->M
+    //Transaction -- TransactionItemEntity 1<-->M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
-    private List<TransactionItem> transactionItemList;
+    private List<TransactionItemEntity> transactionItemList;
 
     public TransactionEntity() {
     }
@@ -128,11 +128,11 @@ public class TransactionEntity implements Serializable {
         this.store = store;
     }
 
-    public List<TransactionItem> getTransactionItemList() {
+    public List<TransactionItemEntity> getTransactionItemList() {
         return transactionItemList;
     }
 
-    public void setTransactionItemList(List<TransactionItem> transactionItemList) {
+    public void setTransactionItemList(List<TransactionItemEntity> transactionItemList) {
         this.transactionItemList = transactionItemList;
     }
 

@@ -4,9 +4,9 @@
     <Scope Scope="Project">
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml" x="150" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/CheckBOM/NoSuchProduct.xhtml" x="1650" y="1500" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders.xhtml" x="1150" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast.xhtml" x="1150" y="1050" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayItemsForManuallyGeneratedPO.xhtml" x="1150" y="1350" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayAvailIntegratedPlannedOrders.xhtml" x="1150" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrder.xhtml" x="2400" y="150" zoom="true"/>
         <Node id="template/workplaceTemplate.xhtml" x="400" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/EditSupplier.xhtml" x="650" y="2100" zoom="true"/>
@@ -18,13 +18,14 @@
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPRequestDenied.xhtml" x="650" y="750" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlanConfirm.xhtml" x="2400" y="750" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordReturnedItemInboundMovement.xhtml" x="2900" y="300" zoom="true"/>
-        <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPNewSalesOperationPlan.xhtml" x="1900" y="750" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/AddNewUser.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPNewSalesOperationPlan.xhtml" x="1900" y="750" zoom="true"/>
         <Node id="secured/public/ChangePassword.xhtml" x="900" y="1350" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/ticket/receiveTicketList.xhtml" x="1900" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesForecast/MRPViewIntegratedSalesForecast.xhtml" x="2150" y="900" zoom="true"/>
         <Node id="index.xhtml" x="400" y="150" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplaySuppliersForIPO.xhtml" x="3650" y="150" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForDeleteItem.xhtml" x="900" y="1050" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/ChangeFactoryBinStoredProductStatus.xhtml" x="150" y="1950" zoom="true"/>
         <Node id="secured/public/viewSendMessageDetail.xhtml" x="400" y="300" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPEditSalesOperationPlan.xhtml" x="1400" y="600" zoom="true"/>
@@ -34,24 +35,24 @@
         <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/Contract.xhtml" x="400" y="1950" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO.xhtml" x="1650" y="300" zoom="true"/>
         <Node id="secured/public/viewReceiveMessage.xhtml" x="1150" y="1200" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder.xhtml" x="650" y="450" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/AddNewStore.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/PlannedOrder.xhtml" x="650" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanConfirmed.xhtml" x="150" y="1200" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml" x="3150" y="150" zoom="true"/>
         <Node id="secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage.xhtml" x="1400" y="150" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForAddContract.xhtml" x="1650" y="1200" zoom="true"/>
         <Node id="secured/restricted/Factory/FactoryProductControl.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplaySuppliersForAddContract.xhtml" x="1650" y="1200" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInFactoryMovement.xhtml" x="1150" y="300" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayManuallyGeneratedPO.xhtml" x="1400" y="1350" zoom="true"/>
-        <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesForecastNotExist.xhtml" x="2400" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesForecastNotExist.xhtml" x="2400" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/ProductionPlan.xhtml" x="2900" y="750" zoom="true"/>
         <Node id="secured/restricted/Factory/AddRPToFactoryRP.xhtml" x="3400" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed.xhtml" x="400" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayUnconfirmedPO.xhtml" x="2650" y="750" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayDeliveryDestinationForRetailProduct.xhtml" x="900" y="1800" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage.xhtml" x="650" y="1500" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement.xhtml" x="2900" y="600" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplayDeliveryDestinationForRetailProduct.xhtml" x="900" y="1800" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayDeliveryDestination.xhtml" x="1900" y="1200" zoom="true"/>
         <Node id="WorkPlace.xhtml" x="150" y="150" zoom="true"/>
         <Node id="loginPage.xhtml" x="1150" y="150" zoom="true"/>
@@ -63,16 +64,17 @@
         <Node id="secured/restricted/Factory/MRP/ProductionPlan/MRPWeeklyProductionPlanView.xhtml" x="150" y="1500" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan.xhtml" x="2150" y="450" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/ProductBOMControl.xhtml" x="2150" y="600" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier.xhtml" x="2400" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/ReturnedStock.xhtml" x="650" y="1050" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/Supplier.xhtml" x="2400" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPViewNewSalesOperationPlan.xhtml" x="1150" y="1500" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan.xhtml" x="650" y="600" zoom="true"/>
         <Node id="secured/public/readMessageDetail.xhtml" x="900" y="1200" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddItem.xhtml" x="900" y="1950" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/DisplaySuppliersForManuallyGeneratedPO.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/GoodsReceipt.xhtml" x="900" y="300" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/DisplayItemsForAddContract.xhtml" x="1400" y="1200" zoom="true"/>
-        <Node id="secured/public/viewSendMessage.xhtml" x="1150" y="900" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/EditDeliveryOrderList.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="secured/public/viewSendMessage.xhtml" x="1150" y="900" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordRawMaterialInFactoryUseMovement.xhtml" x="650" y="1350" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/RetailProductControl.xhtml" x="650" y="300" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/CheckBOM/SearchBOM.xhtml" x="150" y="1800" zoom="true"/>
@@ -80,11 +82,11 @@
         <Node id="secured/restricted/Factory/AddRMToFactoryRM.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/AddSupplier.xhtml" x="3400" y="150" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/DocumentReferenceModule/BlockedStock.xhtml" x="150" y="1650" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement2.xhtml" x="3150" y="600" zoom="true"/>
         <Node id="secured/restricted/Store/KM/RawIngredientsManagementModule/IngredientList.xhtml" x="1400" y="1050" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordInboundMovement2.xhtml" x="3150" y="600" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderCancelled.xhtml" x="1900" y="300" zoom="true"/>
-        <Node id="secured/public/readTicketDetail.xhtml" x="650" y="1800" zoom="true"/>
         <Node id="secured/public/WorkPlace.xhtml" x="1650" y="750" zoom="true"/>
+        <Node id="secured/public/readTicketDetail.xhtml" x="650" y="1800" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/RawMaterialControl.xhtml" x="2150" y="1050" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/AddNewRawMaterial.xhtml" x="2150" y="1200" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/WeeklyRawMaterialOutFlow.xhtml" x="1150" y="1650" zoom="true"/>
@@ -93,20 +95,20 @@
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/AddNewRetailProduct.xhtml" x="650" y="1950" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GetManuallyGeneratedPO.xhtml" x="1150" y="750" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed.xhtml" x="2400" y="1050" zoom="true"/>
-        <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO.xhtml" x="1900" y="1350" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/RecordProductToBinMovement.xhtml" x="2650" y="900" zoom="true"/>
+        <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayDeliveryOrdersForSelectedPO.xhtml" x="1900" y="1350" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderConfirmed.xhtml" x="400" y="2100" zoom="true"/>
         <Node id="secured/public/UserInfoPage.xhtml" x="900" y="1650" zoom="true"/>
-        <Node id="secured/restricted/Factory/AddProductToFactoryProduct.xhtml" x="1650" y="900" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/AddContract.xhtml" x="2650" y="300" zoom="true"/>
+        <Node id="secured/restricted/Factory/AddProductToFactoryProduct.xhtml" x="1650" y="900" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/AddNewProduct.xhtml" x="900" y="750" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanConfirmed.xhtml" x="3650" y="300" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPCreateSalesOperationPlan.xhtml" x="1400" y="450" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/UserAccountControl.xhtml" x="1650" y="1350" zoom="true"/>
         <Node id="secured/restricted/Store/KM/RawIngredientsManagementModule/AddIngredient.xhtml" x="400" y="900" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/GoodsReceipt/DisplayConfirmedPO.xhtml" x="3400" y="300" zoom="true"/>
-        <Node id="secured/restricted/Factory/MRP/SalesForecast/MRPViewSalesForecast.xhtml" x="400" y="1650" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="secured/restricted/Factory/MRP/SalesForecast/MRPViewSalesForecast.xhtml" x="400" y="1650" zoom="true"/>
         <Node id="secured/restricted/Factory/FactoryRawMaterialControl.xhtml" x="2400" y="900" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPNewSalesOperationPlanConfirmed.xhtml" x="1900" y="450" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesForecast/MRPIntegrateSalesForecast.xhtml" x="2900" y="450" zoom="true"/>
@@ -122,10 +124,10 @@
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/AddNewFactory.xhtml" x="900" y="1500" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayPlannedDeliveryAmountAndDate.xhtml" x="3900" y="150" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesForecast/MRPListSalesForecast.xhtml" x="1900" y="150" zoom="true"/>
-        <Node id="secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanFalse.xhtml" x="400" y="1350" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPViewSalesOperationPlan.xhtml" x="1650" y="600" zoom="true"/>
-        <Node id="secured/restricted/Factory/MRP/PlannedOrder/MRPViewRawMaterial.xhtml" x="400" y="1500" zoom="true"/>
+        <Node id="secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanFalse.xhtml" x="400" y="1350" zoom="true"/>
         <Node id="secured/restricted/Factory/MRP/SalesOperationPlan/MRPOperationPlanExist.xhtml" x="2150" y="150" zoom="true"/>
+        <Node id="secured/restricted/Factory/MRP/PlannedOrder/MRPViewRawMaterial.xhtml" x="400" y="1500" zoom="true"/>
         <Node id="secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml" x="2900" y="150" zoom="true"/>
         <Node id="secured/public/ListRaisedTicket.xhtml" x="400" y="750" zoom="true"/>
         <Node id="secured/restricted/CommonInfrastructure/EnterpriseResouces/FactoryControl.xhtml" x="400" y="1200" zoom="true"/>

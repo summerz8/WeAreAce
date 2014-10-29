@@ -11,7 +11,7 @@ import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.SalesRecord;
 import Entity.Store.OCRM.TransactionEntity;
-import Entity.Store.OCRM.TransactionItem;
+import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreItemMappingEntity;
@@ -98,7 +98,7 @@ public class TransactionModule implements TransactionModuleLocal {
             itemName = storeRetailProduct.getRetailProduct().getName();
         }
         
-        TransactionItem transactionItem = new TransactionItem();
+        TransactionItemEntity transactionItem = new TransactionItemEntity();
         transactionItem.setAmount(amount);
         transactionItem.setItemId(itemId);
         transactionItem.setItemName(itemName);
@@ -122,10 +122,10 @@ public class TransactionModule implements TransactionModuleLocal {
             @WebParam(name = "transactionId") Long transactionId){
         
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
-        List<TransactionItem> transactionItemList = transaction.getTransactionItemList();
+        List<TransactionItemEntity> transactionItemList = transaction.getTransactionItemList();
         Double totalPrice = 0D;
         
-        for (TransactionItem list : transactionItemList) {
+        for (TransactionItemEntity list : transactionItemList) {
             Double listTotalPrice = list.getTotalPrice();
 //            upDateSalesRecord(transaction.getGenerateTime(),list.getItemId(),list.getAmount(),list.getTotalPrice());
             totalPrice += listTotalPrice;
@@ -175,10 +175,10 @@ public class TransactionModule implements TransactionModuleLocal {
         
         TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
         
-        List<TransactionItem> transactionItemList = transaction.getTransactionItemList();
+        List<TransactionItemEntity> transactionItemList = transaction.getTransactionItemList();
         PickupListEntity pickupList = new PickupListEntity();    
         
-        for(TransactionItem transactionItem : transactionItemList){
+        for(TransactionItemEntity transactionItem : transactionItemList){
             Long UUID = transactionItem.getItemId();
             
             StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, UUID);

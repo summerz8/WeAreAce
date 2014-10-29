@@ -24,29 +24,16 @@ public class MembershipLevelEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer levelId;
-
+    private String levelName;
+    
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
     private Double discount;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     private Boolean inviteOnlyEvent;
     private Boolean freeParking;
     private Boolean expressCheckout;
     private Boolean freeDelivery;
-    
-=======
-    private String levelName;
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-    private String levelName;
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
-    private String levelName;
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-
 
     //Customer life expectancy: 3 for basic(1), 12 for blue(2), 36 for silver(3), 60 for gold(4), 120 for diamond(5)
     private Integer cle;
@@ -110,9 +97,6 @@ public class MembershipLevelEntity implements Serializable {
         this.pointsToUpgrade = pointsToUpgrade;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     public Boolean isInviteOnlyEvent() {
         return inviteOnlyEvent;
     }
@@ -147,13 +131,6 @@ public class MembershipLevelEntity implements Serializable {
     
     
 
-    
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
-=======
->>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
     @Override
     public int hashCode() {
         int hash = 0;
