@@ -1614,6 +1614,7 @@ public class dataSetUp {
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
         memlvl1.setLevelName("Basic");
@@ -1648,11 +1649,23 @@ public class dataSetUp {
         em.flush();
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
+=======
+        memlvl1.setDiscount(0.9);
+        memlvl1.setPointsToUpgrade(2000D);
+        memlvl1.setLevelName("Blue");
+        memlvl1.setCle(12);
+        em.persist(memlvl1);
+        em.flush();
+        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
         memlvl2.setLevelName("Sliver");
         memlvl2.setDiscount(0.85);
         memlvl2.setPointsToUpgrade(5000D);
         memlvl2.setCle(36);
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
+=======
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 =======
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
@@ -1662,6 +1675,7 @@ public class dataSetUp {
         memlvl3.setLevelName("Gold");
         memlvl3.setDiscount(0.8);
         memlvl3.setPointsToUpgrade(10000D);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         memlvl3.setLevelName("Sliver");
@@ -1728,6 +1742,18 @@ public class dataSetUp {
         memlvl4.setCle(120);
         em.persist(memlvl4);
         em.flush();
+=======
+        memlvl3.setCle(60);
+        em.persist(memlvl3);
+        em.flush();
+        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
+        memlvl4.setLevelName("Diamond");
+        memlvl4.setDiscount(0.7);
+        memlvl4.setPointsToUpgrade(20000D);
+        memlvl4.setCle(120);
+        em.persist(memlvl4);
+        em.flush();
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 
         //TransactionEntity
         TransactionEntity tr = new TransactionEntity();
@@ -1761,6 +1787,7 @@ public class dataSetUp {
 =======
         tr.setTransactionItemList(items);
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 
         TransactionItemEntity ti2 = new TransactionItemEntity();
@@ -1771,6 +1798,8 @@ public class dataSetUp {
         ti2.setTransaction(tr2);
         em.persist(ti2);
         em.flush();
+=======
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 =======
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 

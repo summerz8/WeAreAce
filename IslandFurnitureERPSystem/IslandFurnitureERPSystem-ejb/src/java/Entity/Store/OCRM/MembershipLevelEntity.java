@@ -31,11 +31,15 @@ public class MembershipLevelEntity implements Serializable {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     private Boolean inviteOnlyEvent;
     private Boolean freeParking;
     private Boolean expressCheckout;
     private Boolean freeDelivery;
     
+=======
+    private String levelName;
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 =======
     private String levelName;
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
@@ -108,6 +112,7 @@ public class MembershipLevelEntity implements Serializable {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Boolean isInviteOnlyEvent() {
         return inviteOnlyEvent;
     }
@@ -143,6 +148,8 @@ public class MembershipLevelEntity implements Serializable {
     
 
     
+=======
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 =======
 >>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 =======
