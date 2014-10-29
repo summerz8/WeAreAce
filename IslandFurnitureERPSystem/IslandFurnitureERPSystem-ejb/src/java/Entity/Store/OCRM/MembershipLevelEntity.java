@@ -34,7 +34,10 @@ public class MembershipLevelEntity implements Serializable {
        
     private Double discount;
 
-
+    private Boolean inviteOnlyEvent;
+    private Boolean freeParking;
+    private Boolean expressCheckout;
+    private Boolean freeDelivery;
     
 
 
@@ -45,6 +48,7 @@ public class MembershipLevelEntity implements Serializable {
     
     public MembershipLevelEntity() {
     }
+   
 
     public Double getDiscount() {
         return discount;
@@ -90,6 +94,40 @@ public class MembershipLevelEntity implements Serializable {
     public void setPointsToUpgrade(Double pointsToUpgrade) {
         this.pointsToUpgrade = pointsToUpgrade;
     }
+
+    public Boolean isInviteOnlyEvent() {
+        return inviteOnlyEvent;
+    }
+
+    public void setInviteOnlyEvent(Boolean inviteOnlyEvent) {
+        this.inviteOnlyEvent = inviteOnlyEvent;
+    }
+
+    public Boolean isFreeParking() {
+        return freeParking;
+    }
+
+    public void setFreeParking(Boolean freeParking) {
+        this.freeParking = freeParking;
+    }
+
+    public Boolean isExpressCheckout() {
+        return expressCheckout;
+    }
+
+    public void setExpressCheckout(Boolean expressCheckout) {
+        this.expressCheckout = expressCheckout;
+    }
+
+    public Boolean isFreeDelivery() {
+        return freeDelivery;
+    }
+
+    public void setFreeDelivery(Boolean freeDelivery) {
+        this.freeDelivery = freeDelivery;
+    }
+    
+    
 
     
     @Override

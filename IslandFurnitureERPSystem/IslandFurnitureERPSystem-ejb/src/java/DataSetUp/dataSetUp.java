@@ -1631,40 +1631,67 @@ public class dataSetUp {
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
-        em.persist(memlvl1);
         memlvl1.setLevelName("Basic");
+        memlvl1.setExpressCheckout(Boolean.FALSE);
+        memlvl1.setFreeDelivery(Boolean.FALSE);
+        memlvl1.setInviteOnlyEvent(false);
+        memlvl1.setFreeParking(Boolean.FALSE);
+        em.persist(memlvl1);        
         em.flush();
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
         memlvl2.setDiscount(0.9);
         memlvl2.setPointsToUpgrade(2000D);
         memlvl2.setLevelName("Blue");
+        memlvl2.setExpressCheckout(Boolean.FALSE);
+        memlvl2.setFreeDelivery(Boolean.FALSE);
+        memlvl2.setInviteOnlyEvent(true);
+        memlvl2.setFreeParking(Boolean.FALSE);
         em.persist(memlvl2);
         em.flush();
         MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
         memlvl3.setDiscount(0.85);
         memlvl3.setPointsToUpgrade(10000D);
         memlvl3.setLevelName("Sliver");
+        memlvl3.setExpressCheckout(Boolean.FALSE);
+        memlvl3.setFreeDelivery(Boolean.FALSE);
+        memlvl3.setInviteOnlyEvent(true);
+        memlvl3.setFreeParking(Boolean.FALSE);
         em.persist(memlvl3);
         em.flush();
         MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
         memlvl4.setDiscount(0.8);
         memlvl4.setPointsToUpgrade(30000D);
         memlvl4.setLevelName("Gold");
+        memlvl4.setExpressCheckout(Boolean.FALSE);
+        memlvl4.setFreeDelivery(Boolean.FALSE);
+        memlvl4.setInviteOnlyEvent(true);
+        memlvl4.setFreeParking(Boolean.TRUE);
         em.persist(memlvl4);
         em.flush();
         MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
         memlvl5.setDiscount(0.75);
         memlvl5.setPointsToUpgrade(50000D);
         memlvl5.setLevelName("Diamond");
+        memlvl5.setExpressCheckout(Boolean.TRUE);
+        memlvl5.setFreeDelivery(Boolean.TRUE);
+        memlvl5.setInviteOnlyEvent(true);
+        memlvl5.setFreeParking(Boolean.TRUE);
         em.persist(memlvl5);
         em.flush();
 
         //TransactionEntity
-        TransactionEntity tr = new TransactionEntity();
-        tr.setStore(s1);
-        tr.setTotalPrice(200.0);
-        tr.setGenerateTime(Calendar.getInstance());
-        em.persist(tr);
+        TransactionEntity tr1 = new TransactionEntity();
+        tr1.setStore(s1);
+        tr1.setTotalPrice(200.0);
+        tr1.setGenerateTime(Calendar.getInstance());
+        em.persist(tr1);
+        em.flush();
+        
+        TransactionEntity tr2 = new TransactionEntity();
+        tr2.setStore(s1);
+        tr2.setTotalPrice(180.0);
+        tr2.setGenerateTime(Calendar.getInstance());
+        em.persist(tr2);
         em.flush();
 
         //StoreItemMappingEntity
@@ -1686,17 +1713,33 @@ public class dataSetUp {
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
         ti1.setAmount(1);
-        ti1.setTransaction(tr);
+        ti1.setTransaction(tr1);
         em.persist(ti1);
         em.flush();
 
         
         List<TransactionItemEntity> items = new ArrayList();
         items.add(ti1);
-        tr.setTransactionItemList(items);
-        em.persist(tr);
+        tr1.setTransactionItemList(items);
+        em.persist(tr1);
         em.flush();
 
+        TransactionItemEntity ti2 = new TransactionItemEntity();
+        ti2.setItemId(sm1.getId());
+        StoreProductEntity temp2 = em.find(StoreProductEntity.class, sm1.getProductid());
+        ti2.setItemName(temp2.getProduct().getName());
+        ti2.setAmount(1);
+        ti2.setTransaction(tr2);
+        em.persist(ti2);
+        em.flush();
+
+        
+        List<TransactionItemEntity> items2 = new ArrayList();
+        items2.add(ti2);
+        tr2.setTransactionItemList(items2);
+        em.persist(tr2);
+        em.flush();
+        
         //pickupList
         PickupListEntity pl1 = new PickupListEntity();
 
@@ -1704,6 +1747,14 @@ public class dataSetUp {
         ti1.setPickupList(pl1);
         em.persist(pl1);
         em.persist(ti1);
+        em.flush();
+        
+        PickupListEntity pl2 = new PickupListEntity();
+
+        pl2.setTransactoinItems(items2);
+        ti2.setPickupList(pl2);
+        em.persist(pl2);
+        em.persist(ti2);
         em.flush();
 
         //Member Set uP

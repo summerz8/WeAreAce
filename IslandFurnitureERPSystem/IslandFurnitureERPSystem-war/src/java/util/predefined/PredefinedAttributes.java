@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManagedBean.CommonInfrastructure;
+package util.predefined;
 
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

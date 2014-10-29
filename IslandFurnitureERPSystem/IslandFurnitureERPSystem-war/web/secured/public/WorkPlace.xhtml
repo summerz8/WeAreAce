@@ -35,7 +35,10 @@
                                      oncomplete="idleDialog.hide()"
                                      actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>   
+                </p:confirmDialog> 
+                
+                <p:poll interval="70" listener="#{idleBean.logoutListener}"/>
+                
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
@@ -61,8 +64,8 @@
 
 
 
-                        <h:outputLabel value = "Welcome Back " >
-                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+                        <h:outputLabel value = "Welcome Back " style="font-size: 24px">
+                            <h:outputText  value ="#{loginBean.userRole} #{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
                         </h:outputLabel>
 
@@ -108,6 +111,7 @@
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                                <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
                             </p:submenu>
 
                             <p:submenu label="Ticket Management">

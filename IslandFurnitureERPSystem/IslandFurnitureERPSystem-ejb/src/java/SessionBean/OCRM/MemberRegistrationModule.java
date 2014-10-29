@@ -244,4 +244,17 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     }
 
+    @Override
+    public List<MembershipLevelEntity> getMembership() {
+        System.out.println("getMembership():");
+        Query q = em.createQuery("SELECT m FROM MembershipLevelEntity m");
+        List requiredUserList = new ArrayList();
+        for (Object o : q.getResultList()) {
+            MembershipLevelEntity u = (MembershipLevelEntity) o;
+            requiredUserList.add(u);
+            System.out.println(u.toString());
+        }
+        return requiredUserList;
+    }
+
 }
