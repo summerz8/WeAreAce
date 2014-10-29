@@ -10,15 +10,110 @@
 <message name="checkMemberResponse">
 <part name="parameters" element="tns:checkMemberResponse"/>
 </message>
+<message name="CheckFirstTransaction">
+<part name="parameters" element="tns:CheckFirstTransaction"/>
+</message>
+<message name="CheckFirstTransactionResponse">
+<part name="parameters" element="tns:CheckFirstTransactionResponse"/>
+</message>
+<message name="upgradeMember">
+<part name="parameters" element="tns:upgradeMember"/>
+</message>
+<message name="upgradeMemberResponse">
+<part name="parameters" element="tns:upgradeMemberResponse"/>
+</message>
+<message name="memberLogin">
+<part name="parameters" element="tns:memberLogin"/>
+</message>
+<message name="memberLoginResponse">
+<part name="parameters" element="tns:memberLoginResponse"/>
+</message>
+<message name="getMemberCardIdById">
+<part name="parameters" element="tns:getMemberCardIdById"/>
+</message>
+<message name="getMemberCardIdByIdResponse">
+<part name="parameters" element="tns:getMemberCardIdByIdResponse"/>
+</message>
+<message name="getMemberIdByCardId">
+<part name="parameters" element="tns:getMemberIdByCardId"/>
+</message>
+<message name="getMemberIdByCardIdResponse">
+<part name="parameters" element="tns:getMemberIdByCardIdResponse"/>
+</message>
 <portType name="MemberRegistrationModule">
 <operation name="checkMember">
 <input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/checkMemberRequest" message="tns:checkMember"/>
 <output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/checkMemberResponse" message="tns:checkMemberResponse"/>
 </operation>
+<operation name="CheckFirstTransaction">
+<input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/CheckFirstTransactionRequest" message="tns:CheckFirstTransaction"/>
+<output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/CheckFirstTransactionResponse" message="tns:CheckFirstTransactionResponse"/>
+</operation>
+<operation name="upgradeMember">
+<input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/upgradeMemberRequest" message="tns:upgradeMember"/>
+<output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/upgradeMemberResponse" message="tns:upgradeMemberResponse"/>
+</operation>
+<operation name="memberLogin">
+<input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/memberLoginRequest" message="tns:memberLogin"/>
+<output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/memberLoginResponse" message="tns:memberLoginResponse"/>
+</operation>
+<operation name="getMemberCardIdById">
+<input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/getMemberCardIdByIdRequest" message="tns:getMemberCardIdById"/>
+<output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/getMemberCardIdByIdResponse" message="tns:getMemberCardIdByIdResponse"/>
+</operation>
+<operation name="getMemberIdByCardId">
+<input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/getMemberIdByCardIdRequest" message="tns:getMemberIdByCardId"/>
+<output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/getMemberIdByCardIdResponse" message="tns:getMemberIdByCardIdResponse"/>
+</operation>
 </portType>
 <binding name="MemberRegistrationModulePortBinding" type="tns:MemberRegistrationModule">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
 <operation name="checkMember">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CheckFirstTransaction">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="upgradeMember">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="memberLogin">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getMemberCardIdById">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getMemberIdByCardId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

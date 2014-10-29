@@ -40,6 +40,7 @@ public class TransactionEntity implements Serializable {
     private Calendar generateTime;
     
     private Double totalPrice;
+    private Double totalMemberPrice;
     private Double tendered;
     private Double moneyChange;
     private int location;//1 for furniture 2 for retial product 3 for kitchen
@@ -50,14 +51,22 @@ public class TransactionEntity implements Serializable {
     @ManyToOne
     private MemberEntity member;
     
-    @OneToOne
+    @ManyToOne
     private StoreUserEntity storeStaff;
-
+    
     //Transaction -- TransactionItemEntity 1<-->M
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "transaction")
     @XmlTransient
     private List<TransactionItemEntity> transactionItemList;
 
+    public Double getTotalMemberPrice() {
+        return totalMemberPrice;
+    }
+
+    public void setTotalMemberPrice(Double totalMemberPrice) {
+        this.totalMemberPrice = totalMemberPrice;
+    }
+    
     public TransactionEntity() {
     }
 

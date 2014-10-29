@@ -12,20 +12,20 @@ import Entity.Factory.ProductEntity;
 import Entity.Store.StoreEntity;
 import java.util.Collection;
 import java.util.List;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author dan
  */
-@Local
-public interface Factory_StoreManagementModuleLocal {
+@Remote
+public interface Factory_StoreManagementModuleRemote {
     //public void searchStore();
     //public void searchFactory();
 
     public void AddFactory(String country, String address, String contact, String manager);
 
-    public void DeleteFactory(long factoryId)throws Exception;
+    public void DeleteFactory(long factoryId) throws Exception;
 
     public void ModifyFactory(long factoryId, String country, String address, String contact, String manager) throws Exception;
 

@@ -6,7 +6,9 @@
 package util.login;
 
 import Entity.CommonInfrastructure.IdNumberEntity;
+import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
+import Entity.Store.StoreEntity;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -164,7 +166,8 @@ public class IFManagerBean implements IFManagerBeanRemote {
 
     @Override
     @WebMethod(operationName = "getFullNameById")
-    public String getFullName(String userId) {
+    public String getFullName(
+            @WebParam(name = "id") String userId) {
         String fullName = null;
         if (true) {
             UserEntity user = em.find(UserEntity.class, userId);
@@ -172,7 +175,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
         }
         return fullName;
     }
-
+    
     @Override
     @WebMethod(exclude = true)
     public String getDepartment(String userId) {

@@ -46,15 +46,19 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
+        jPanelMain = new javax.swing.JPanel();
         jButtonNewTransactionFurniture = new javax.swing.JButton();
         javax.swing.JButton jButtonLogout = new javax.swing.JButton();
         javax.swing.JButton jButtonNewTransactionRetailProduct = new javax.swing.JButton();
         jLabelName = new javax.swing.JLabel();
         javax.swing.JButton jButtonMember = new javax.swing.JButton();
         jLabelMemberId = new javax.swing.JLabel();
+        jLabelLogo = new javax.swing.JLabel();
+        jPanelTitle = new javax.swing.JPanel();
+        jLabelTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(644, 474));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -64,94 +68,144 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel3.setText("Island Furniture Point of Sales System");
-        jLabel3.setToolTipText("");
+        jPanelMain.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButtonNewTransactionFurniture.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jButtonNewTransactionFurniture.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonNewTransactionFurniture.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jButtonNewTransactionFurniture.setText("Create New Transaction for Furniture");
+        jButtonNewTransactionFurniture.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonNewTransactionFurniture.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNewTransactionFurnitureActionPerformed(evt);
             }
         });
 
-        jButtonLogout.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLogout.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jButtonLogout.setText("Logout");
+        jButtonLogout.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLogoutActionPerformed(evt);
             }
         });
 
-        jButtonNewTransactionRetailProduct.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jButtonNewTransactionRetailProduct.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonNewTransactionRetailProduct.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jButtonNewTransactionRetailProduct.setText("Create New Transaction for Retail Product");
+        jButtonNewTransactionRetailProduct.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonNewTransactionRetailProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNewTransactionRetailProductActionPerformed(evt);
             }
         });
 
-        jLabelName.setFont(new java.awt.Font("Lucida Handwriting", 3, 18)); // NOI18N
+        jLabelName.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jLabelName.setText("jLabelStaffName");
         jLabelName.setToolTipText("");
 
-        jButtonMember.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jButtonMember.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonMember.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jButtonMember.setText("Member Check");
+        jButtonMember.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonMember.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMemberActionPerformed(evt);
             }
         });
 
-        jLabelMemberId.setFont(new java.awt.Font("Lucida Handwriting", 3, 18)); // NOI18N
+        jLabelMemberId.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelMemberId.setText("Member ID");
         jLabelMemberId.setToolTipText("");
+
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/singapore-logo0.1.jpg"))); // NOI18N
+
+        javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
+        jPanelMain.setLayout(jPanelMainLayout);
+        jPanelMainLayout.setHorizontalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMainLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addComponent(jButtonMember, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMainLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelLogo))
+        );
+        jPanelMainLayout.setVerticalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMainLayout.createSequentialGroup()
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelLogo)
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 45, Short.MAX_VALUE)
+                .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonMember, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+
+        jPanelTitle.setBackground(new java.awt.Color(255, 51, 51));
+        jPanelTitle.setPreferredSize(new java.awt.Dimension(647, 119));
+
+        jLabelTitle.setFont(new java.awt.Font("New Peninim MT", 3, 48)); // NOI18N
+        jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitle.setText("     Island Furniture POS");
+        jLabelTitle.setToolTipText("");
+        jLabelTitle.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout jPanelTitleLayout = new javax.swing.GroupLayout(jPanelTitle);
+        jPanelTitle.setLayout(jPanelTitleLayout);
+        jPanelTitleLayout.setHorizontalGroup(
+            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 647, Short.MAX_VALUE)
+            .addGroup(jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelTitleLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanelTitleLayout.setVerticalGroup(
+            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 119, Short.MAX_VALUE)
+            .addGroup(jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelTitleLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButtonMember, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonLogout))
-                            .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(92, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabelName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelMemberId)
-                .addGap(78, 78, 78))
+            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelName)
-                    .addComponent(jLabelMemberId))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(jButtonNewTransactionFurniture)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonMember)
-                    .addComponent(jButtonLogout))
-                .addGap(78, 78, 78))
+                .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -198,7 +252,7 @@ public class MainMenu extends javax.swing.JFrame {
         if(storeStaffId != null)
         {
             String name = getFullNameById(storeStaffId);
-            jLabelName.setText("Login as " + name);
+            jLabelName.setText("Have a nice day! " + name);
         }
         else
         {
@@ -206,7 +260,10 @@ public class MainMenu extends javax.swing.JFrame {
         }
         
         if(memberId != null){
-            jLabelMemberId.setText("Member ID:" + memberId);
+            jLabelMemberId.setText("Member ID: " + memberId);
+        }
+        else{
+             jLabelMemberId.setText("Member Not Found!");
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -258,9 +315,12 @@ public class MainMenu extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonNewTransactionFurniture;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelMemberId;
     private javax.swing.JLabel jLabelName;
+    private javax.swing.JLabel jLabelTitle;
+    private javax.swing.JPanel jPanelMain;
+    private javax.swing.JPanel jPanelTitle;
     // End of variables declaration//GEN-END:variables
 
     private static String getFullNameById(java.lang.String arg0) {

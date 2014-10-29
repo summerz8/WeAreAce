@@ -18,7 +18,7 @@ public interface TransactionModuleLocal {
 
     public void createTransactionItem(Long itemId, int amount, Long transactionId);
 
-    public Double caculateChange(Long transactionId, Double tendered);
+    public void caculateChange(Long transactionId, Double moneyChange);
 
     public Double caculateTotalPrice(Long transactionId);
     

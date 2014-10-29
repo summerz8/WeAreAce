@@ -41,6 +41,7 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import Entity.Store.OCRM.MemberCardIdMappingEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
@@ -379,22 +380,26 @@ public class dataSetUp {
         //for s1
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProducts().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProducts().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProducts().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        srp2_2.setRetailProduct(rp3);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProducts().add(srp2_2);
@@ -1669,21 +1674,33 @@ public class dataSetUp {
 
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
-        sm1.setProductid(sp1_1.getStoreProductId());
+        sm1.setProductId(sp1_1.getStoreProductId());
         sm1.setStore(s1);
         em.persist(sm1);
         em.flush();
         
         StoreItemMappingEntity sm2 = new StoreItemMappingEntity();
-        sm2.setProductid(sp1_2.getStoreProductId());
+        sm2.setProductId(sp1_2.getStoreProductId());
         sm2.setStore(s1);
         em.persist(sm2);
+        em.flush();
+        
+        StoreItemMappingEntity sm3 = new StoreItemMappingEntity();
+        sm3.setRetailProductId(srp1_1.getStoreRetailProductId());
+        sm3.setStore(s1);
+        em.persist(sm3);
+        em.flush();
+        
+        StoreItemMappingEntity sm4 = new StoreItemMappingEntity();
+        sm4.setRetailProductId(srp1_2.getStoreRetailProductId());
+        sm4.setStore(s1);
+        em.persist(sm4);
         em.flush();
         
         //TransactionItem
         TransactionItemEntity ti1 = new TransactionItemEntity();
         ti1.setItemId(sm1.getId());
-        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
+        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductId());
         ti1.setItemName(temp.getProduct().getName());
         ti1.setAmount(1);
         ti1.setTransaction(tr);
@@ -1705,7 +1722,7 @@ public class dataSetUp {
         em.persist(pl1);
         em.persist(ti1);
         em.flush();
-
+       
         //Member Set uP
         Calendar MemberBirthday = Calendar.getInstance();
         MemberBirthday.set(1990, 9, 1);
@@ -1713,8 +1730,20 @@ public class dataSetUp {
         MemberEntity member = new MemberEntity("123", "Lee", "", "James",
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
+        member.setTotalPoints(50000D);
+        member.setCurrentPoints(20000D);
         em.persist(member);
         em.flush();
+        
+        //MemberCard Set up
+        MemberCardIdMappingEntity cardIdMapping = new MemberCardIdMappingEntity("722EA75D9000");
+        cardIdMapping.setMember(member);
+        em.persist(cardIdMapping);
+        em.flush();      
+        member.setCardIdMapping(cardIdMapping);
+        em.persist(member);
+        em.flush();
+
 
     }
 

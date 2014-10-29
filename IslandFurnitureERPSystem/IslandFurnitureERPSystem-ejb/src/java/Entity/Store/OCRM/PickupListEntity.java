@@ -16,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 
@@ -25,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name ="PickupList")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class PickupListEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,7 +38,8 @@ public class PickupListEntity implements Serializable {
     private Boolean Picked;
     
     //PickupListEntity <--> TransactionItemEntity 1<-->M
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "pickupList")
+    @XmlTransient
     private List<TransactionItemEntity> transactoinItems = new ArrayList<>();
     
     public PickupListEntity(){

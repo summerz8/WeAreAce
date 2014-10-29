@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -73,7 +74,10 @@ public class MemberEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
     @XmlTransient
     private List<TransactionEntity> transactionList; 
-
+    
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @XmlTransient
+    private MemberCardIdMappingEntity cardIdMapping;
     
     public MemberEntity() {
     }
@@ -227,6 +231,16 @@ public class MemberEntity implements Serializable {
 //    public void setMemberlvl(MembershipLevelEntity memberlvl) {
 //        this.memberlvl = memberlvl;
 //    }
+
+    public MemberCardIdMappingEntity getCardIdMapping() {
+        return cardIdMapping;
+    }
+
+    public void setCardIdMapping(MemberCardIdMappingEntity cardIdMapping) {
+        this.cardIdMapping = cardIdMapping;
+    }
+    
+    
 
     public MembershipLevelEntity getMemberlvl() {
         return memberlvl;

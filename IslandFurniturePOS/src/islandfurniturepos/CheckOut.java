@@ -19,18 +19,20 @@ import sessionbean.ocrm.TransactionItemEntity;
 public class CheckOut extends javax.swing.JFrame {
 
     private Long transactionId = null;
-    private String storeStaffId = null; 
+    private String storeStaffId = null;
+    private Double totalPrice = null;
     private List<TransactionItemEntity> transactionItemList = null;
+
     /**
      * Creates new form CheckOut
      */
     public CheckOut() {
         initComponents();
     }
-    
-    public CheckOut(String storeStaffId,Long transactionId){
+
+    public CheckOut(String storeStaffId, Long transactionId) {
         this();
-        
+
         this.storeStaffId = storeStaffId;
         this.transactionId = transactionId;
     }
@@ -45,13 +47,17 @@ public class CheckOut extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabelTotalPrice = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextFieldTendered = new javax.swing.JTextField();
+        jPanelTitle = new javax.swing.JPanel();
+        jLabelTitle = new javax.swing.JLabel();
+        jPanelMain = new javax.swing.JPanel();
+        jLabelTotal = new javax.swing.JLabel();
+        jLabelTendered = new javax.swing.JLabel();
         jButtonCheckOut = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jLabelTotalPrice = new javax.swing.JLabel();
+        jLabelLogo = new javax.swing.JLabel();
+        jButtonCancel = new javax.swing.JButton();
+        jFormattedTextFieldTendered = new javax.swing.JFormattedTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jTableItemList = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,105 +67,159 @@ public class CheckOut extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel3.setText("Island Furniture Point of Sales System");
-        jLabel3.setToolTipText("");
+        jPanelTitle.setBackground(new java.awt.Color(255, 51, 51));
+        jPanelTitle.setPreferredSize(new java.awt.Dimension(899, 119));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel1.setText("Total Price :");
+        jLabelTitle.setFont(new java.awt.Font("New Peninim MT", 3, 48)); // NOI18N
+        jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitle.setText("                   Island Furniture POS");
+        jLabelTitle.setToolTipText("");
+        jLabelTitle.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabelTotalPrice.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        javax.swing.GroupLayout jPanelTitleLayout = new javax.swing.GroupLayout(jPanelTitle);
+        jPanelTitle.setLayout(jPanelTitleLayout);
+        jPanelTitleLayout.setHorizontalGroup(
+            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTitleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelTitleLayout.setVerticalGroup(
+            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTitleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel4.setText("Tendered :");
+        jPanelMain.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextFieldTendered.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jTextFieldTendered.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldTenderedActionPerformed(evt);
-            }
-        });
+        jLabelTotal.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelTotal.setText("Total Price :($)");
 
-        jButtonCheckOut.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabelTendered.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelTendered.setText("Tendered :($)");
+
+        jButtonCheckOut.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonCheckOut.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jButtonCheckOut.setText("Check Out");
+        jButtonCheckOut.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonCheckOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCheckOutActionPerformed(evt);
             }
         });
 
+        jLabelTotalPrice.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelTotalPrice.setText("Total Price");
+
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/singapore-logo0.1.jpg"))); // NOI18N
+
+        jButtonCancel.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonCancel.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jButtonCancel.setText("Cancel");
+        jButtonCancel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextFieldTendered.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jFormattedTextFieldTendered.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+
+        javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
+        jPanelMain.setLayout(jPanelMainLayout);
+        jPanelMainLayout.setHorizontalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMainLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabelLogo))
+            .addGroup(jPanelMainLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jFormattedTextFieldTendered)
+                    .addComponent(jLabelTendered, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(jLabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(jLabelTotalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        jPanelMainLayout.setVerticalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMainLayout.createSequentialGroup()
+                .addComponent(jLabelLogo)
+                .addGap(26, 26, 26)
+                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelTendered, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jFormattedTextFieldTendered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        jTableItemList.setFont(new java.awt.Font("Times", 3, 12)); // NOI18N
         jTableItemList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Item ID", "Item Name", "Unit Price", "Amount", "Total Price"
             }
-        ));
-        jScrollPane2.setViewportView(jTableItemList);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableItemList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabelTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 4, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldTendered, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel3)
+                .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldTendered, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(jPanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldTenderedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTenderedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldTenderedActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        Double totalPrice = caculateTotalPrice(transactionId);
+        totalPrice = caculateTotalPrice(transactionId);
         jLabelTotalPrice.setText(Double.toString(totalPrice));
         transactionItemList = getTransactionItemList(transactionId);
         loadTable();
@@ -167,19 +227,33 @@ public class CheckOut extends javax.swing.JFrame {
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
         // TODO add your handling code here:
-        Double tendered = Double.parseDouble(jTextFieldTendered.getText());
-        Double moneyChange = caculateChange(transactionId,tendered);
-        
-        jTextFieldTendered.setText("");
-        
+        Double tendered = Double.parseDouble(jFormattedTextFieldTendered.getText());
+        if (tendered < totalPrice) {
+            JOptionPane.showMessageDialog(this, "Tendered is smaller than total!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Double moneyChange = caculateChange(transactionId, tendered);
+
+            jFormattedTextFieldTendered.setText("");
+
+            this.setVisible(false);
+            this.dispose();
+            Change change = new Change(storeStaffId, moneyChange);
+            change.setVisible(true);
+            change.setExtendedState(JFrame.NORMAL);
+        }
+
+
+    }//GEN-LAST:event_jButtonCheckOutActionPerformed
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        // TODO add your handling code here:
+        deleteUnfinishedTransaction(transactionId);
         this.setVisible(false);
         this.dispose();
-        Change change = new Change(storeStaffId,moneyChange);
-        change.setVisible(true);
-        change.setExtendedState(JFrame.NORMAL);
-        
-        
-    }//GEN-LAST:event_jButtonCheckOutActionPerformed
+        MainMenu mainMenu = new MainMenu(storeStaffId);
+        mainMenu.setVisible(true);
+        mainMenu.setExtendedState(JFrame.NORMAL);
+    }//GEN-LAST:event_jButtonCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -218,14 +292,18 @@ public class CheckOut extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCheckOut;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JFormattedTextField jFormattedTextFieldTendered;
+    private javax.swing.JLabel jLabelLogo;
+    private javax.swing.JLabel jLabelTendered;
+    private javax.swing.JLabel jLabelTitle;
+    private javax.swing.JLabel jLabelTotal;
     private javax.swing.JLabel jLabelTotalPrice;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel jPanelMain;
+    private javax.swing.JPanel jPanelTitle;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableItemList;
-    private javax.swing.JTextField jTextFieldTendered;
     // End of variables declaration//GEN-END:variables
 
     private static Double caculateTotalPrice(java.lang.Long transactionId) {
@@ -239,31 +317,31 @@ public class CheckOut extends javax.swing.JFrame {
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         return port.caculateChange(transactionId, tendered);
     }
-    
-        private void loadTable() {
+
+    private void loadTable() {
         try {
             transactionItemList = getTransactionItemList(transactionId);
-                
-            if(transactionItemList != null && transactionItemList.size() > 0){
-                Object[][] data = new Object[transactionItemList.size()][5];  
-                
-                for(int i=0;i<transactionItemList.size();i++){
+
+            if (transactionItemList != null && transactionItemList.size() > 0) {
+                Object[][] data = new Object[transactionItemList.size()][5];
+
+                for (int i = 0; i < transactionItemList.size(); i++) {
                     TransactionItemEntity transactionItem = transactionItemList.get(i);
                     data[i][0] = transactionItem.getItemId();
                     data[i][1] = transactionItem.getItemName();
                     data[i][2] = transactionItem.getUnitPrice();
                     data[i][3] = transactionItem.getAmount();
-                    data[i][4] = transactionItem.getTotalPrice();      
+                    data[i][4] = transactionItem.getTotalPrice();
                 }
-                
+
                 Object[] columnNames = new Object[5];
-                
+
                 columnNames[0] = "Item ID";
                 columnNames[1] = "Item Name";
                 columnNames[2] = "Unit Price";
                 columnNames[3] = "Amount";
                 columnNames[4] = "Total Price";
-                
+
                 TableModel tableModel = new DefaultTableModel(data, columnNames);
                 jTableItemList.setModel(tableModel);
             }
@@ -277,5 +355,11 @@ public class CheckOut extends javax.swing.JFrame {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         return port.getTransactionItemList(arg0);
+    }
+
+    private static void deleteUnfinishedTransaction(java.lang.Long arg0) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        port.deleteUnfinishedTransaction(arg0);
     }
 }

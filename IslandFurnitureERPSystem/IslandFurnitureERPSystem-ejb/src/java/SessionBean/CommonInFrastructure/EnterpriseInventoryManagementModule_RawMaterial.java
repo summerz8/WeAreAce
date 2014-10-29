@@ -17,7 +17,7 @@ import javax.persistence.Query;
  * @author dan zy
  */
 @Stateful
-public class EnterpriseInventoryManagementModule_RawMaterial implements EnterpriseInventoryManagementModule_RawMaterialLocal {
+public class EnterpriseInventoryManagementModule_RawMaterial implements EnterpriseInventoryManagementModule_RawMaterialLocal, EnterpriseInventoryManagementModule_RawMaterialRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -28,14 +28,19 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
     }
 
     @Override
-    public void addRawMaterial(String name, String description, String unit) {
+    public void addRawMaterial(String name, String description, String unit) throws Exception {
         System.out.println("EnterpriseInventoryManagementModule_RawMaterial: add Raw Material()");
-        RawMaterialEntity rawMaterial = new RawMaterialEntity();
-        rawMaterial.setMaterialName(name);
-        rawMaterial.setDescription(description);
-        rawMaterial.setUnit(unit);
-        em.persist(rawMaterial);
-        em.flush();
+        if (name.equals("")) {
+           System.out.println("Name cannot be empty!");
+           throw new Exception("Name cannot be empty!");
+        } else {
+            RawMaterialEntity rawMaterial = new RawMaterialEntity();
+            rawMaterial.setMaterialName(name);
+            rawMaterial.setDescription(description);
+            rawMaterial.setUnit(unit);
+            em.persist(rawMaterial);
+            em.flush();
+        }
     }
 
     @Override

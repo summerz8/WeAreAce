@@ -8,14 +8,14 @@ package SessionBean.CommonInFrastructure;
 
 import Entity.Factory.RawMaterialEntity;
 import java.util.ArrayList;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author dan zy
  */
-@Local
-public interface EnterpriseInventoryManagementModule_RawMaterialLocal {
+@Remote
+public interface EnterpriseInventoryManagementModule_RawMaterialRemote {
 
     public ArrayList<RawMaterialEntity> listRawMaterial();
 
