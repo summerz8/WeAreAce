@@ -30,12 +30,15 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
+import Entity.Kitchen.ComboItemEntity;
+import Entity.Kitchen.DailySalesEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
@@ -52,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -185,7 +189,13 @@ public class dataSetUp {
         f1.getStoreList().add(s1.getStoreId());
         f1.getStoreList().add(s2.getStoreId());
         s1.getFactoryList().add(f1.getFactoryId());
-        s1.getFactoryList().add(f2.getFactoryId());
+        em.flush();
+
+        //StoreUser(s1)
+        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
+        em.persist(us1_1);
         em.flush();
 
         //StoreUser(s1)
@@ -369,26 +379,22 @@ public class dataSetUp {
         //for s1
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
-        srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
-        srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
-        srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
-        srp2_2.setRetailProduct(rp4);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProduct().add(srp2_2);
@@ -1516,6 +1522,67 @@ public class dataSetUp {
         di1_1_2.getDish().getCombos().add(c1_1);
         c1_1.getDishes().add(di1_1_2);
 
+        // MenuItemForecast for k1
+        Random rd = new Random();
+        for (int i = 0; i < 1; i++) {
+            Calendar curr = Calendar.getInstance();
+            curr.add(Calendar.DAY_OF_MONTH, i);
+            MenuItemForecastEntity mif = new MenuItemForecastEntity(curr, k1);
+            em.persist(mif);
+            em.flush();
+            k1.getMenuItemForecasts().add(mif);
+
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity dfi1 = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(dfi1);
+                em.flush();
+                mif.getDishForecastItems().add(dfi1);
+                dfi1.getDish().getForecasts().add(mif);
+                em.flush();
+            }
+
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity cfi1 = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(cfi1);
+                em.flush();
+                mif.getComboForecastItems().add(cfi1);
+                cfi1.getCombo().getForecasts().add(mif);
+                em.flush();
+            }
+
+        }
+
+        //DailySales for k1
+        for (int i = -10; i < 0; i++) {
+            DailySalesEntity ds = new DailySalesEntity(k1);
+            em.persist(ds);
+            em.flush();
+            k1.getDailySales().add(ds);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, i);
+            ds.setSalesDate(cal);
+            Double sales = 0.0;
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(di);
+                em.flush();
+                sales += di.getDish().getPrice() * di.getQuantity();
+                ds.getDishes().add(di);
+                d.getDailySales().add(ds);
+                em.flush();
+            }
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(ci);
+                em.flush();
+                sales += ci.getCombo().getPrice() * ci.getQuantity();
+                ds.getCombos().add(ci);
+                c.getDailySales().add(ds);
+                em.flush();
+            }
+            ds.setSales(sales);
+        }
+
         //MembershipLevel
         MembershipLevelEntity memlvl0 = new MembershipLevelEntity();
         memlvl0.setDiscount(1D);
@@ -1570,7 +1637,7 @@ public class dataSetUp {
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
-        ti1.setAmount(1D);
+        ti1.setAmount(1);
         ti1.setTransaction(tr);
         em.persist(ti1);
         em.flush();
@@ -1595,7 +1662,7 @@ public class dataSetUp {
         MemberEntity member = new MemberEntity("123", "Lee", "", "James",
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
-        member.setMemberlvl(memlvl0);
+        member.setMemberlvl(memlvl1);
         em.persist(member);
         em.flush();
 

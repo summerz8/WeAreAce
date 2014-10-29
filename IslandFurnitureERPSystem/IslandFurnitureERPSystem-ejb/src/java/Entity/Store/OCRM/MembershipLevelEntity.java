@@ -26,16 +26,16 @@ public class MembershipLevelEntity implements Serializable {
     private Integer levelId;
 
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
-
+       
     private Double discount;
 
     private String levelName;
 
-    
+
     //Customer life expectancy: 3 for basic(1), 12 for blue(2), 36 for silver(3), 60 for gold(4), 120 for diamond(5)
     private Integer cle;
-    
-    
+
+
 //
 //    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
 //    private Collection<MemberEntity> members;
@@ -59,6 +59,7 @@ public class MembershipLevelEntity implements Serializable {
 //        this.members = members;
 //    }
 //
+
     public String getLevelName() {
         return levelName;
     }
@@ -116,5 +117,5 @@ public class MembershipLevelEntity implements Serializable {
     public String toString() {
         return "Entity.Store.OCRM.MembershipLevel[ id=" + levelId + " ]";
     }
-
+    
 }

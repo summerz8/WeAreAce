@@ -88,7 +88,20 @@
 
                             <br></br>
                             <br></br>
-
+                            <!--                            <h:panelGrid columns="2" cellpadding="5" >
+                                                            <h:outputText value="Store Id:  " />
+                                                            <p:inputText value="#{salesForecastBean.storeId}" style="font-weight: bold"/>
+                                                            <h:outputText value="Year:  " />
+                                                            <p:inputMask value="#{salesForecastBean.year}" style="font-weight: bold" mask="9999"/>                               
+                                                            <h:outputText value="Month  " />
+                                                            <p:inputMask value="#{salesForecastBean.month}" style="font-weight: bold" mask="99"/>
+                            
+                                                            <p:commandButton action="#{salesForecastBean.SelectSalesForecast()}" value="View Product List" />                                                 
+                            
+                                                        </h:panelGrid>-->
+                            <!--
+                            
+                                                        <br></br><br></br>-->
                             <p:dataScroller value="#{postSaleService.recordList}" var="record" chunkSize="10">
                                 <f:facet name="header">
                                     Recent RMA Records

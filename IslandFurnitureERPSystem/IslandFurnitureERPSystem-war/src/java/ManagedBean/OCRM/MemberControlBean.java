@@ -116,7 +116,6 @@ public class MemberControlBean {
 
     }
 
-
 //    public void changePassword(ActionEvent event) {
 //        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
 //        System.out.println("UserInfoManageBean: change password");

@@ -92,13 +92,13 @@
                             <br></br>
                             <br></br>
 
-                            <p:panel id="basic" header="Sales Record: #{viewProductSalesForecastBean.productType} #{viewProductSalesForecastBean.productId}" style="margin-bottom" >
+                            <p:panel id="basic" header="Product Sales Forecast #{viewProductSalesForecastBean.productType} #{viewProductSalesForecastBean.productId}" style="margin-bottom" >
 
 
                                 <p:dataTable var="salesForecast" value="#{viewProductSalesForecastBean.productSalesForecastList}">
 
                                     <p:column headerText="Record Period">
-                                        <h:outputText value="#{salesForecast.targetPeriod.getTime()}" >
+                                        <h:outputText value="#{salesForecast.period.getTime()}" >
                                             <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>
                                         </h:outputText>
 
@@ -106,7 +106,13 @@
 
                                     <p:column headerText="Sales Amount">
                                         <h:outputText value="#{salesForecast.amount}" />
-                                    </p:column>     
+                                    </p:column>  
+                                    
+                                    
+                                    <p:column headerText="Edit">
+                                        <p:commandButton  value="Edit" action="#{viewProductSalesForecastBean.edit(salesForecast)}"  style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" rendered="#{viewProductSalesForecastBean.editable(salesForecast)}" />
+                                       
+                                    </p:column>  
 
                                 </p:dataTable> 
                             </p:panel>

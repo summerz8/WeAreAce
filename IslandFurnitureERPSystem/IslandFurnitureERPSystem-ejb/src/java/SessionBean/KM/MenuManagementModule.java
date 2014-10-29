@@ -245,6 +245,7 @@ public class MenuManagementModule implements MenuManagementModuleLocal {
             DishEntity dish = em.find(DishEntity.class, dishId);
             IngredientItemEntity ii = em.find(IngredientItemEntity.class, ingredientItemId);
             dish.getRecipe().remove(ii);
+            ii.getIngredient().getDishes().remove(dish);
             em.flush();
             System.out.println("SessionBean.KM.MenuManagementModule: deleteRecipeItem(): Succeessful. Recipe Item " + ingredientItemId + " is deleted.");
             return dish.getId();
@@ -263,6 +264,7 @@ public class MenuManagementModule implements MenuManagementModuleLocal {
             ComboEntity combo = em.find(ComboEntity.class, comboId);
             DishItemEntity di = em.find(DishItemEntity.class, dishItemId);
             combo.getDishes().remove(di);
+            di.getDish().getCombos().remove(combo);
             em.flush();
             System.out.println("SessionBean.KM.MenuManagementModule: deleteDishItem(): Succeessful. Dish Item " + dishItemId + " is deleted.");
             return combo.getId();
@@ -297,6 +299,5 @@ public class MenuManagementModule implements MenuManagementModuleLocal {
     public List<IngredientEntity> getIngredients(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredients();
     }
-    
     
 }

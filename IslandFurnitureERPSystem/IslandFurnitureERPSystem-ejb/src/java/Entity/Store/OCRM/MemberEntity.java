@@ -55,6 +55,7 @@ public class MemberEntity implements Serializable {
     private Calendar createDate;
 
     private String country;
+    
 
     private Double currentPoints;
     private Double totalPoints;
@@ -98,7 +99,6 @@ public class MemberEntity implements Serializable {
         this.createDate = Calendar.getInstance();
 
         shoppingCartList=new ArrayList<>();
-        this.createDate = Calendar.getInstance();
     }
     
     //for ACRM data setup
@@ -320,6 +320,8 @@ public class MemberEntity implements Serializable {
     public void setRfm(RFMEntity rfm) {
         this.rfm = rfm;
     }
+    
+    
     
     @Override
     public int hashCode() {

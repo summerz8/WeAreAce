@@ -87,8 +87,29 @@
 
 
                         <h:form id="formDishItems">
+                            
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                            <p:outputLabel value="Combo ID : " style="font-weight:bold" />
+                            <h:outputText value="#{dishItemsBean.selectedCombo.id}" />
+                            
+                            <p:outputLabel value="Name : " style="font-weight:bold" />
+                            <h:outputText value="#{dishItemsBean.selectedCombo.name}" />
+
+                            <p:outputLabel value="Price : " style="font-weight:bold" />
+                            <h:outputText value="#{dishItemsBean.selectedCombo.price}" />
+
+                            <p:outputLabel value="Remark : " style="font-weight:bold" />
+                            <h:outputText value="#{dishItemsBean.selectedCombo.remark}" />
+
+                        </h:panelGrid>
+                            
                             <p:dataTable id="dishItems" var="di" value="#{dishItemsBean.selectedCombo.dishes}" 
                                          filteredValue="#{dishItemsBean.filteredDishItems}" editable="true">
+                                
+                                <f:facet name="header">
+                                    Dishes
+                                </f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{dishItemsBean.onRowEdit}" update="dishItems"/>
                                 <p:ajax event="rowEditCancel" listener="#{dishItemsBean.onRowCancel}" update="dishItems"/>
@@ -100,7 +121,7 @@
                                 <p:column headerText="Quantity">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{di.quantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{di.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{di.quantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 

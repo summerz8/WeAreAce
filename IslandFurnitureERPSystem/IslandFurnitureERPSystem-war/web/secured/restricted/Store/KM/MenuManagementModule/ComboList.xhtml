@@ -105,14 +105,14 @@
                                 <p:column headerText="Name" filterBy="#{c.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.name}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{c.name}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{c.name}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
                                 <p:column headerText="Price" filterBy="#{c.price}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.price}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{c.price}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{c.price}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 

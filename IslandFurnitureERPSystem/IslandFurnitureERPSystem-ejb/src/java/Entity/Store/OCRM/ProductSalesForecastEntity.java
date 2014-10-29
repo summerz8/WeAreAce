@@ -43,6 +43,7 @@ public class ProductSalesForecastEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetPeriod;
     private Double amount;  //amount planned to be sold in the target month
+    private String status;
     
     
     public Long getId() {
@@ -91,6 +92,14 @@ public class ProductSalesForecastEntity implements Serializable {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     

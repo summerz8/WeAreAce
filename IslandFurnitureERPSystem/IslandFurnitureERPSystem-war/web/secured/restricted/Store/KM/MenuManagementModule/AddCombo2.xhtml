@@ -85,44 +85,45 @@
                     <p:layoutUnit position="center" resizable="false">
 
                         <p:panel id="basic" header="New Combo: Dishes" style="margin-bottom" >
+
+
+
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                                <p:outputLabel value="Combo ID : " style="font-weight:bold" />
+                                <h:outputText value="#{addComboBean2.combo.id}" />
+
+                                <p:outputLabel value="Name : " style="font-weight:bold" />
+                                <h:outputText value="#{addComboBean2.combo.name}" />
+
+                                <p:outputLabel value="Price : " style="font-weight:bold" />
+                                <h:outputText value="#{addComboBean2.combo.price}" />
+
+                                <p:outputLabel value="Remark : " style="font-weight:bold" />
+                                <h:outputText value="#{addComboBean2.combo.remark}" />
+
+                            </h:panelGrid>
+
+                            <p:dataTable id="dishItems" var="di" value="#{addComboBean2.combo.dishes}" filteredValue="#{addComboBean2.filteredDishItems}">
+                                <f:facet name="header">
+                                    Dishes
+                                </f:facet>
+
+                                <p:column headerText="Dish">
+                                    <h:outputText value="#{di.dish.name}" />
+                                </p:column>
+
+                                <p:column headerText="Quantity">
+                                    <h:outputText value="#{di.quantity}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <p:commandButton value="Add A Dish Item" onclick="PF('dlg1').show();">
+                            </p:commandButton>
+
+                            <p:button value="Complete" outcome="ComboList.xhtml?faces-redirect=true"/>
                         </p:panel>
-
-
-                        <h:panelGrid columns="2" cellpadding="5">
-
-                            <p:outputLabel value="Combo ID : " />
-                            <h:outputText value="#{addComboBean2.combo.id}" />
-                            
-                            <p:outputLabel value="Name : " />
-                            <h:outputText value="#{addComboBean2.combo.name}" />
-
-                            <p:outputLabel value="Price : " />
-                            <h:outputText value="#{addComboBean2.combo.price}" />
-
-                            <p:outputLabel value="Remark : " />
-                            <h:outputText value="#{addComboBean2.combo.remark}" />
-
-                        </h:panelGrid>
-
-                        <p:dataTable id="dishItems" var="di" value="#{addComboBean2.combo.dishes}" filteredValue="#{addComboBean2.filteredDishItems}">
-                            <f:facet name="header">
-                                Dishes
-                            </f:facet>
-
-                            <p:column headerText="Dish">
-                                <h:outputText value="#{di.dish.name}" />
-                            </p:column>
-
-                            <p:column headerText="Quantity">
-                                <h:outputText value="#{di.quantity}" />
-                            </p:column>
-
-                        </p:dataTable>
-
-                        <p:commandButton value="Add A Dish Item" onclick="PF('dlg1').show();">
-                        </p:commandButton>
-                        
-                        <p:button value="Complete" outcome="ComboList.xhtml?faces-redirect=true"/>
 
                         <p:dialog widgetVar="dlg1" header="New Dish Item" position="center"
                                   showEffect="fade" hideEffect="fade" resizable="true" 
@@ -138,7 +139,7 @@
 
                             </h:panelGrid>
 
-                            <p:commandButton value="Submit" actionListener="#{addComboBean2.addDishItem}" update="dishItems" oncomplete="PF('dlg1').hide()">
+                            <p:commandButton value="Submit" actionListener="#{addComboBean2.addDishItem}" update="dishItems" >
                             </p:commandButton>
                         </p:dialog>
 

@@ -40,7 +40,7 @@ public class SalesRecordEntity implements Serializable {
     //Sales record -- store retail product M <--> 1
     @ManyToOne
     private StoreRetailProductEntity storeRetailProduct;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar recordPeriod;
     private Double amount;  //sold amount for this product in this month
@@ -83,7 +83,7 @@ public class SalesRecordEntity implements Serializable {
     public void setStoreRetailProduct(StoreRetailProductEntity storeRetailProduct) {
         this.storeRetailProduct = storeRetailProduct;
     }
-
+    
     public Calendar getRecordPeriod() {
         return recordPeriod;
     }

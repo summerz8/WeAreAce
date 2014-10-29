@@ -19,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -111,17 +112,28 @@ public class AddDishBean2 implements Serializable {
     }
 
     public void addIngredientItem(ActionEvent event) {
-        ingredientItemId = mm.addIngredientItem(dish.getId(), ingredient.getId(), quantity);
-        if (ingredientItemId == -1L) {
-            FacesMessage msg = new FacesMessage("Faild", "The raw ingredient " + ingredient.getName() + " is already in the recipe");
+        if (quantity == null) {
+            FacesMessage msg = new FacesMessage("Faild", "Invalid Quantity Input");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else if (ingredientItemId == -2L) {
-            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+        } else if (quantity < 0) {
+            FacesMessage msg = new FacesMessage("Faild", "Quantity cannot be negative");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage("Successful", "New Ingredient Item " + ingredientItemId + " is added");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            ingredientItemId = mm.addIngredientItem(dish.getId(), ingredient.getId(), quantity);
+            if (ingredientItemId == -1L) {
+                FacesMessage msg = new FacesMessage("Faild", "The raw ingredient " + ingredient.getName() + " is already in the recipe");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else if (ingredientItemId == -2L) {
+                FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage("Successful", "New Ingredient Item " + ingredientItemId + " is added");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('addRecipeItem').hide()");
+            }
+            filteredRecipeItems = mm.getRecipeItems(dish.getId());
         }
-        filteredRecipeItems = mm.getRecipeItems(dish.getId());
+        quantity = null;
     }
 }

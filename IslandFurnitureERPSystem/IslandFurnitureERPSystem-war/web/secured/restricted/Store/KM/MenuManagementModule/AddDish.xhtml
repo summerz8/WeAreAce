@@ -89,21 +89,21 @@
                     <h:form>
                         <h:panelGrid columns="2" cellpadding="5">
 
-                            <p:outputLabel value="Name: " />
-                            <h:inputText value="#{addDishBean1.name}" />
+                            <p:outputLabel value="Name: "  />
+                            <h:inputText value="#{addDishBean1.name}" required="true" />
 
                             <p:outputLabel value="Price: " />
-                            <h:inputText value="#{addDishBean1.price}" />
+                            <h:inputText value="#{addDishBean1.price}" required="true" />
 
                             <p:outputLabel value="Remark: " />
                             <h:inputText value="#{addDishBean1.remark}" />
 
                             <p:outputLabel value="Recipe Quantity: " />
-                            <h:inputText value="#{addDishBean1.recipeQuantity}" />
+                            <h:inputText value="#{addDishBean1.recipeQuantity}" required="true" />
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Next" action="/secured/restricted/Store/KM/MenuManagementModule/AddDish2?faces-redirect=true" actionListener="#{addDishBean1.addDish}">
+                        <p:commandButton value="Next" actionListener="#{addDishBean1.addDish}">
                         </p:commandButton>
 
                     </h:form>

@@ -9,13 +9,14 @@ import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
-import Entity.Store.OCRM.SalesRecordEntity;
+import Entity.Store.OCRM.SalesRecord;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreRetailProductEntity;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -36,64 +37,67 @@ public class TransactionModule implements TransactionModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
     @PersistenceContext
     EntityManager em;
-
+    
     @Override
     @WebMethod(operationName = "createTransaction")
     public void createNewTransaction(
             @WebParam(name = "staffId") String staffId,
             @WebParam(name = "memberId") Long memberId,
-            @WebParam(name = "location") int location) {
-
+            @WebParam(name = "location") int location){
+        
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
-        StoreEntity store = em.find(StoreEntity.class, storeStaff.getDepartmentId());
-        TransactionEntity transaction = new TransactionEntity();
+        StoreEntity store = em.find(StoreEntity.class,storeStaff.getDepartmentId());
+        TransactionEntity transaction = new TransactionEntity();       
+
 
         transaction.setGenerateTime(generatedTime);
         transaction.setStore(store);
         transaction.setStoreStaff(storeStaff);
-        if (memberId != null) {
-            MemberEntity member = em.find(MemberEntity.class, memberId);
+        if (memberId != null){
+            MemberEntity member = em.find(MemberEntity.class,memberId);
             transaction.setMember(member);
         }
         transaction.setLocation(location);
-
+        
         em.persist(transaction);
         em.flush();
-
-        if (memberId != null) {
-            MemberEntity member = em.find(MemberEntity.class, memberId);
+        
+        if(memberId != null){
+            MemberEntity member = em.find(MemberEntity.class,memberId);
             member.getTransactionList().add(transaction);
             em.persist(member);
             em.flush();
         }
-
+    
     }
-
+    
     @Override
     @WebMethod(operationName = "createTranactionItem")
     public void createTransactionItem(
             @WebParam(name = "itemId") Long itemId,
-            @WebParam(name = "amount") Double amount,
+            @WebParam(name = "amount") int amount,
             @WebParam(name = "unitPrice") Double unitPrice,
-            @WebParam(name = "transactionId") Long transactionId) {
-
+            @WebParam(name = "transactionId") Long transactionId){
+        
         Double totalPrice = unitPrice * amount;
         String itemName;
-
-        StoreItemMappingEntity item = em.find(StoreItemMappingEntity.class, itemId);
-        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
-
-        if (transaction.getLocation() == 1) {
-            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductid());
+        
+        StoreItemMappingEntity item = em.find(StoreItemMappingEntity.class,itemId);
+        TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
+        
+        if(transaction.getLocation() == 1 ){
+            StoreProductEntity storeProduct = em.find(StoreProductEntity.class,item.getProductid());
             itemName = storeProduct.getProduct().getName();
-        } else {
-            StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, item.getRetailProductId());
+        }
+        else{
+            StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class,item.getRetailProductId());
             itemName = storeRetailProduct.getRetailProduct().getName();
         }
-
+        
         TransactionItem transactionItem = new TransactionItem();
         transactionItem.setAmount(amount);
         transactionItem.setItemId(itemId);
@@ -101,150 +105,117 @@ public class TransactionModule implements TransactionModuleLocal {
         transactionItem.setTotalPrice(totalPrice);
         transactionItem.setUnitPrice(unitPrice);
         transactionItem.setTransaction(transaction);
-
+         
         em.persist(transactionItem);
         em.flush();
-
+        
         transaction.getTransactionItemList().add(transactionItem);
         em.persist(transaction);
         em.flush();
-
+               
     }
-
+    
     //caculate the total price and return 
     @Override
     @WebMethod(operationName = "caculateTotalPrice")
     public Double caculateTotalPrice(
-            @WebParam(name = "transactionId") Long transactionId) {
-
-        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
+            @WebParam(name = "transactionId") Long transactionId){
+        
+        TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
         List<TransactionItem> transactionItemList = transaction.getTransactionItemList();
         Double totalPrice = 0D;
-
+        
         for (TransactionItem list : transactionItemList) {
             Double listTotalPrice = list.getTotalPrice();
-            upDateSalesRecord(transaction.getGenerateTime(), list.getItemId(), list.getAmount(), list.getTotalPrice());
+//            upDateSalesRecord(transaction.getGenerateTime(),list.getItemId(),list.getAmount(),list.getTotalPrice());
             totalPrice += listTotalPrice;
         }
-
-        if (transaction.getMember() != null) {
-            MemberEntity member = transaction.getMember();
-            MembershipLevelEntity level = member.getMemberlvl();
-            Double discount = level.getDiscount();
-            totalPrice *= discount;
+        
+        if(transaction.getMember() !=null){
+           MemberEntity member = transaction.getMember();
+           MembershipLevelEntity level = member.getMemberlvl();
+           Double discount = level.getDiscount();
+           totalPrice *= discount;
         }
-
+               
         transaction.setTotalPrice(totalPrice);
-
+       
         em.persist(transaction);
         em.flush();
-
+        
         return totalPrice;
-
+        
     }
-
     //caculate the moneyChange amount and return
     @Override
     @WebMethod(operationName = "caculateChange")
     public Double caculateChange(
             @WebParam(name = "transactionId") Long transactionId,
-            @WebParam(name = "tendered") Double tendered) {
-        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
-
+            @WebParam(name = "tendered")Double tendered){
+        TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
+        
         Double totalPrice = transaction.getTotalPrice();
         Double moneyChange = tendered - totalPrice;
-
+        
         transaction.setTendered(tendered);
         transaction.setMoneyChange(moneyChange);
 
         em.persist(transaction);
         em.flush();
+        
 
         createPickupList(transactionId);
-
+        
+        
         return moneyChange;
     }
-
+    
     @WebMethod(exclude = true)
-    public void createPickupList(Long transactionId) {
-
-        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
-
+    public void createPickupList(Long transactionId){
+        
+        TransactionEntity transaction = em.find(TransactionEntity.class,transactionId);
+        
         List<TransactionItem> transactionItemList = transaction.getTransactionItemList();
-        PickupListEntity pickupList = new PickupListEntity();
-
-        for (TransactionItem transactionItem : transactionItemList) {
+        PickupListEntity pickupList = new PickupListEntity();    
+        
+        for(TransactionItem transactionItem : transactionItemList){
             Long UUID = transactionItem.getItemId();
-
+            
             StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, UUID);
-
-            if (mapping.getProductid() != null) {
-                Long storeProductId = mapping.getProductid();
-                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
-                if (!storeProduct.getSelfPick()) {
-                    pickupList.getTransactoinItems().add(transactionItem);
-                    transactionItem.setPickupList(pickupList);
-                }
-            } else {
+            
+            if(mapping.getProductid()!=null){
+               Long storeProductId = mapping.getProductid();
+               StoreProductEntity storeProduct = em.find(StoreProductEntity.class,storeProductId);
+               if(!storeProduct.getSelfPick()){
+                   pickupList.getTransactoinItems().add(transactionItem);
+                   transactionItem.setPickupList(pickupList);
+               }
+            }
+            
+            else{
                 pickupList.getTransactoinItems().add(transactionItem);
                 transactionItem.setPickupList(pickupList);
             }
-
+            
             em.persist(transactionItem);
             em.flush();
-
+            
             em.persist(pickupList);
             em.flush();
         }//for
-
+        
+        
     }
 
-    public void upDateSalesRecord(Calendar generateTime, Long itemId, Double amount, Double revenue) {
-        Long productId;
-
-        Query q = em.createQuery("SELECT t FROM StoreItemMappingEntity t");
-        for (StoreItemMappingEntity s : (List<StoreItemMappingEntity>) q) {
-            if (s.getProductid() == null) {
-                productId = s.getRetailProductId();
-                StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, productId);
-                storeRetailProduct.setQuantity(storeRetailProduct.getQuantity() - amount);
-                SalesRecordEntity salesRecord = storeRetailProduct.getSalesRecordList().get(storeRetailProduct.getSalesRecordList().size() - 1);
-                if (salesRecord.getRecordPeriod().get(Calendar.MONTH) == generateTime.get(Calendar.MONTH)
-                        && salesRecord.getRecordPeriod().get(Calendar.YEAR) == generateTime.get(Calendar.YEAR)) {
-                    salesRecord.setAmount(salesRecord.getAmount() + amount);
-                    salesRecord.setAmount(salesRecord.getRevenue() + revenue);
-                } else {
-                    SalesRecordEntity newSalesRecord = new SalesRecordEntity();
-                    newSalesRecord.setStore(storeRetailProduct.getStore());
-                    newSalesRecord.setStoreRetailProduct(storeRetailProduct);
-                    newSalesRecord.setRecordPeriod(generateTime);
-                    newSalesRecord.setAmount(amount);
-                    newSalesRecord.setRevenue(revenue);
-                    
-                }
-            
-        }else {
-                productId = s.getProductid();
-                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, productId);
-                storeProduct.setQuantity(storeProduct.getQuantity() - amount);
-                SalesRecordEntity salesRecord = storeProduct.getSalesRecordList().get(storeProduct.getSalesRecordList().size() - 1);
-                if (salesRecord.getRecordPeriod().get(Calendar.MONTH) == generateTime.get(Calendar.MONTH)
-                        && salesRecord.getRecordPeriod().get(Calendar.YEAR) == generateTime.get(Calendar.YEAR)) {
-                    salesRecord.setAmount(salesRecord.getAmount() + amount);
-                    salesRecord.setAmount(salesRecord.getRevenue() + revenue);
-                } else {
-                    SalesRecordEntity newSalesRecord = new SalesRecordEntity();
-                    newSalesRecord.setStore(storeProduct.getStore());
-                    newSalesRecord.setStoreProduct(storeProduct);
-                    newSalesRecord.setRecordPeriod(generateTime);
-                    newSalesRecord.setAmount(amount);
-                    newSalesRecord.setRevenue(revenue);
-                    
-                }
-            }
-
-    }
-
-}
+//    
+//    public void upDateSalesRecord(Calendar generateTime,Long itemId, int amount, Double totalprice){
+//        List<SalesRecord> salesRecordEntityList=new ArrayList<>();
+//        Query q = em.createQuery("SELECT s FROM SalesRecord s");
+//        salesRecordEntityList= (List<SalesRecord>) q.getResultList();
+//        for(SalesRecord s:salesRecordEntityList){
+//            if(s)
+//        
+//        }
+//    }
 
 }

@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -76,7 +77,7 @@ public class AddComboBean1 implements Serializable {
     public void setCombo(ComboEntity combo) {
         this.combo = combo;
     }
-    
+
     @PostConstruct
     public void init() {
         try {
@@ -86,16 +87,31 @@ public class AddComboBean1 implements Serializable {
             ex.printStackTrace();
         }
     }
-    
+
     public void addCombo(ActionEvent event) {
-        combo = mm.addCombo(kitchen.getId(), name, price, remark);
-        if (combo == null) {
-            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("Successful", "New Combo " + combo.getName() + " is Added");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("newCombo", combo);
+        try {
+            if (price < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Price cannot be negative");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                combo = mm.addCombo(kitchen.getId(), name, price, remark);
+                if (combo == null) {
+                    FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "New Combo " + combo.getName() + " is Added");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("newCombo", combo);
+                    ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                    context.redirect("/IslandFurnitureERPSystem-war/secured/restricted/Store/KM/MenuManagementModule/AddCombo2.xhtml?faces-redirect=true");
+                }
+            }
+            name = "";
+            price = null;
+            remark = "";
+        } catch (Exception ex) {
+            System.err.println("ManagedBean.KM.MenuManagementModule.AddComboBean1: addCombo(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
         }
     }
 }
