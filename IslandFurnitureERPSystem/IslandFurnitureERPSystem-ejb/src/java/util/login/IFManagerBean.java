@@ -242,9 +242,15 @@ public class IFManagerBean implements IFManagerBeanRemote {
     }
      
     @Override
-    public String getUserEmail(String userId){
-        UserEntity ue = em.find(UserEntity.class, userId);
-        System.out.println("getUserEmail: "+userId);
-        return ue.getEmail();
+    public Integer validateUser(String userId, String inputEmail){
+        UserEntity ue;
+        ue = em.find(UserEntity.class, userId);
+        if(ue == null || ue.isDeleteFlag()){
+            return -1;
+        }else if(!inputEmail.equals(ue.getEmail())){
+            return 0;
+        }else{
+            return 1;
+        }
     }
 }

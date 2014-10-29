@@ -29,6 +29,13 @@
                             <p:inputMask required="true" label = "User ID: " requiredMessage ="User ID is required." id = "userId"
                                          value="#{passwordReset.userId}" mask="a9999999"/> 
                             <br />
+                            <div class="ui-grid-col-4">                                
+                                <p:outputLabel for="pwd" style="font-weight: bold" value="Password :"/>
+                            </div>
+                            <p:inputText id = "pwd" required="true" label = "Email:" requiredMessage ="Password is required." 
+                                         value="#{passwordReset.email}"/>
+
+                            <br /> 
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                             <p:commandButton id="btn" value="Send email" actionListener="#{passwordReset.sendEmail}" update="messages"/>
 

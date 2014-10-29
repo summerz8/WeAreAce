@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.CommonInfrastructure;
 
 import javax.ejb.EJB;
@@ -25,27 +24,30 @@ public class PasswordResetBean {
 
     @EJB
     private IFManagerBeanRemote IFMB;
-    
+
     private String email;
     private String userId;
-    
+
     /**
      * Creates a new instance of PasswordResetBean
      */
     public PasswordResetBean() {
     }
-    
-    public void sendEmail(ActionEvent event){
-        email = IFMB.getUserEmail(userId);
-        if(email!=null){
+
+    public void sendEmail(ActionEvent event) {
+        Integer result = IFMB.validateUser(userId, email);
+        if (result == 1) {
             SendMailSSL se = new SendMailSSL();
-            if(se.sendMessage(email)){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+            if (se.sendMessage(email)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Password-Reset Email Send Successfully!", ""));
             }
-        }else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                        "Fail!", ""));
+        } else if (result == -1) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Fail!", "User doesn't exist!"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Fail!", ""));
         }
     }
 
@@ -72,6 +74,5 @@ public class PasswordResetBean {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    
-    
+
 }

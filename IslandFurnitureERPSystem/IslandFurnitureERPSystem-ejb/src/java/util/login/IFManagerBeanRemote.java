@@ -34,5 +34,5 @@ public interface IFManagerBeanRemote {
     
     public String getUserRole(String userId);
     
-    public String getUserEmail(String userId);
+    public Integer validateUser(String userId, String inputEmail);
 }
