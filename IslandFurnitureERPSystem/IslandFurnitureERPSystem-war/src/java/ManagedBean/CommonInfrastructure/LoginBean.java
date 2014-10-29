@@ -142,7 +142,7 @@ public class LoginBean implements Serializable {
         System.out.println("LoginBean: checkLogin:()");
 
         String checkUserId = String.valueOf(userId);
-        String checkPwd = String.valueOf(cryptographicHelper.doMD5Hashing(pwd));
+        String checkPwd = String.valueOf(cryptographicHelper.doMD5Hashing(pwd+userId));
 
         try {
             int check = IFMB.checkAccount(checkUserId, checkPwd);

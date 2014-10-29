@@ -13,11 +13,28 @@
     <h:body>
         <h:form>
             <p:growl id="messages" showDetail="true"/>
-            
+
             <div class="ui-grid ui-grid-responsive" align="center"> 
-                <h1>
-                    Sorry! You do not have access right!                 
-                </h1>
+                <h:panelGrid columns="2" cellpadding="20%"></h:panelGrid>
+                <p:panel id="basic" header="Welcome to Island Furniture Internal Portal"  style="margin-bottom:20px;width:500px; height:250px;text-align:center" >
+                    <div class="component-spacing-top"/> 
+                    <div class="ui-grid ui-grid-responsive" align="center">   
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                                <p:outputLabel style="font-weight: bold" value="Sorry! You do not have access right!"/>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </p:panel>
+                <h:panelGrid columns="2" cellpadding="25"></h:panelGrid>
+                <p:graphicImage value="resources/images/singapore-logo.jpg" style = "margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                <h:panelGrid columns="2" cellpadding="6"></h:panelGrid>
+                <h6>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="text-align: center;"/>
+                </h6>
             </div>
         </h:form>
         <br />

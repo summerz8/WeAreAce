@@ -14,7 +14,7 @@
     <h:body>
         <h:form>
             <p:growl id="messages" showDetail="true"/>
-            
+
             <div class="ui-grid ui-grid-responsive" align="center"> 
                 <h:panelGrid columns="2" cellpadding="20%"></h:panelGrid>
                 <p:panel id="basic" header="Reset your password"  style="margin-bottom:20px;width:500px; height:250px;text-align:center" >
@@ -38,17 +38,18 @@
                             <br /> 
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
                             <p:commandButton id="btn" value="Send email" actionListener="#{passwordReset.sendEmail}" update="messages"/>
-
+                            <p:button id="btn_forget" value="Go Back To Login Page" outcome="loginPage.xhtml"/>
                             <div class="component-spacing-top"/>
                         </div>
                     </div>
-                        <h:panelGrid columns="2" cellpadding="25"></h:panelGrid>
-                        <p:graphicImage value="resources/images/singapore-logo.jpg" style = "margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
-                        <h:panelGrid columns="2" cellpadding="6"></h:panelGrid>
-                        <h6>
-                        <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="text-align: center;"/>
-                        </h6>
+
                 </p:panel>
+                <h:panelGrid columns="2" cellpadding="25"></h:panelGrid>
+                <p:graphicImage value="resources/images/singapore-logo.jpg" style = "margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                <h:panelGrid columns="2" cellpadding="6"></h:panelGrid>
+                <h6>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="text-align: center;"/>
+                </h6>
             </div>
         </h:form>
         <br />

@@ -115,6 +115,8 @@ public class IFManagerBean implements IFManagerBeanRemote {
             System.out.println("User Found!");
         } else {
             System.out.println("User Found but password inccorect!");
+            System.out.println("database password: " + user.getPwd());
+            System.out.println("input password: " + pwd);
             check = 0;
         }
 

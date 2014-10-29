@@ -66,15 +66,15 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-
-        String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
-
+       
+        String hashedpwd;
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
 
         switch (department.charAt(0)) {
             case 'H':
                 idNumber = (int) idNum.getId_H() + 1;
                 idNum.setId_H((long) idNumber);
+                hashedpwd = cryptographicHelper.doMD5Hashing(PWD+"H"+idNumber.toString());
                 HQuser = new HQUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, 1L, hashedpwd, false);
@@ -84,6 +84,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             case 'F':
                 idNumber = (int) idNum.getId_F() + 1;
                 idNum.setId_F((long) idNumber);
+                hashedpwd = cryptographicHelper.doMD5Hashing(PWD+"F"+idNumber.toString());
                 Fuser = new FactoryUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, departmentId, hashedpwd, false);
@@ -93,6 +94,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             case 'S':
                 idNumber = (int) idNum.getId_S() + 1;
                 idNum.setId_S((long) idNumber);
+                hashedpwd = cryptographicHelper.doMD5Hashing(PWD+"S"+idNumber.toString());
                 Suser = new StoreUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, departmentId, hashedpwd, false);
@@ -248,7 +250,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         System.out.println("InternalUserAccountModule: change password: ");
         System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
         UserEntity user = em.find(UserEntity.class, userId);
-        user.setPwd(cryptographicHelper.doMD5Hashing(newPass));
+        user.setPwd(newPass);
         em.persist(user);
         em.flush();
 
@@ -270,7 +272,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
         UserEntity user = em.find(UserEntity.class, userId);
         if (user != null) {
-            user.setPwd(cryptographicHelper.doMD5Hashing(newPass));
+            user.setPwd(cryptographicHelper.doMD5Hashing(newPass+userId));
             em.persist(user);
             em.flush();
             return newPass;
