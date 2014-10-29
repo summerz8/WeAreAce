@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -10,12 +10,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>KM: Daily Demand Forecast</title>
+        <title>Island Furniture ERP System</title>
     </h:head>
 
     <h:body>
 
-        <h:form id="globalNavigation">
+        <h:form id="formMain">
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
@@ -38,10 +38,7 @@
                 <p:messages id="messagesStatus" redisplay="false" />
 
                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
-
-
-                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>                          
                     <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
                     </p:commandButton>
 
@@ -60,9 +57,7 @@
                     <h:outputLabel value = "Welcome Back " >
                         <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
-                    </h:outputLabel>
-
-
+                    </h:outputLabel>                     
                 </p:layoutUnit>
 
 
@@ -70,35 +65,21 @@
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
-<<<<<<< HEAD:IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/secured/restricted/Store/ACRM/ACRMPage.xhtml
                         <p:submenu label="Anaytical Customer Relationship Management Page">
                             <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
                             <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
                             <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
                             <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
-                            
-=======
-                        <p:submenu label="Kitchen Management">
-                            <p:submenu label="Daily Demad Forecast">
-                                <p:menuitem value="Menu Item Forecast" url="MenuItemForecast.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Raw Ingredient Forecast" url="IngredientForecast.xhtml?faces-redirect=true"/>
-                            </p:submenu>
->>>>>>> a2e303bdb351f18ba8d56b313cb20646fa1905be:IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/secured/restricted/Store/KM/DailyDemandForecastingModule/DailyDemandForecastPage.xhtml
+
                         </p:submenu>
                     </p:menu>
 
-
                 </p:layoutUnit>
-                <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
-                    <p:panel id="basic" header =" " style="height:800px;" >
-
-                    </p:panel>
+                <p:layoutUnit position="center" resizable="false">
+                   
                 </p:layoutUnit>
-
             </p:layout>
         </h:form>
     </h:body>
 
 </html>
-
-

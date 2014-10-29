@@ -6,6 +6,7 @@
 
 package Entity.Store.OCRM;
 
+import Entity.Store.ACRM.RFMEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -69,6 +71,9 @@ public class MemberEntity implements Serializable {
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
     private List<TransactionEntity> transactionList; 
+    
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private RFMEntity rfm = null;
 
     
     public MemberEntity() {
@@ -94,6 +99,32 @@ public class MemberEntity implements Serializable {
         this.createDate = Calendar.getInstance();
 
         shoppingCartList=new ArrayList<>();
+    }
+    
+    //for ACRM data setup
+    public MemberEntity(String pwd, String lastName, String midName, String firstName, 
+            Calendar birthday, String gender, String title, String address, String postalCode, 
+            String email, Boolean deleteFlag, String country, MembershipLevelEntity mlvl) {
+        this.pwd = pwd;
+        this.lastName = lastName;
+        this.midName = midName;
+        this.firstName = firstName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.title = title;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.email = email;
+        this.deleteFlag = deleteFlag;
+        this.totalPoints = 0D;
+        this.currentPoints = 0D;
+        this.pointsToUpgrade = 1000D;     
+        this.createDate = Calendar.getInstance();
+        this.country = country;
+        this.memberlvl = mlvl;
+
+        shoppingCartList=new ArrayList<>();
+        this.createDate = Calendar.getInstance();
     }
     
     public Long getMemberId() {
@@ -280,6 +311,14 @@ public class MemberEntity implements Serializable {
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
+    }
+
+    public RFMEntity getRfm() {
+        return rfm;
+    }
+
+    public void setRfm(RFMEntity rfm) {
+        this.rfm = rfm;
     }
     
     

@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "findKitchenBean")
 @ViewScoped
-public class FindKitchenBean implements Serializable {
+public class KitchenSupport implements Serializable {
     
     @EJB
     private KitchenSupportLocal s;
@@ -28,7 +28,7 @@ public class FindKitchenBean implements Serializable {
     private Long storeId;
     private KitchenEntity kitchen;
     
-    public FindKitchenBean() {
+    public KitchenSupport() {
     }
 
     public Long getStoreId() {

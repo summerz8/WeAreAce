@@ -58,7 +58,7 @@ public class StoreEntity implements Serializable {
     private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    private List<TransactionEntity> transacion = new ArrayList<>();
+    private List<TransactionEntity> transactions = new ArrayList<>();
 
     public StoreEntity() {
     }
@@ -105,12 +105,12 @@ public Long getStoreId() {
         this.storeRetailProduct = storeRetailProduct;
     }
 
-    public List<TransactionEntity> getTransacion() {
-        return transacion;
+    public List<TransactionEntity> getTransactions() {
+        return transactions;
     }
 
-    public void setTransacion(List<TransactionEntity> transacion) {
-        this.transacion = transacion;
+    public void setTransactions(List<TransactionEntity> transactions) {
+        this.transactions = transactions;
     }
 
    
@@ -173,7 +173,7 @@ public Long getStoreId() {
     }
 
 //    public List<TransactionEntity> getTransacion() {
-//        return transacion;
+//        return transactions;
 //    }
 
     public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
@@ -188,8 +188,8 @@ public Long getStoreId() {
         this.factoryList = factoryList;
     }
 
-//    public void setTransacion(List<TransactionEntity> transacion) {
-//        this.transacion = transacion;
+//    public void setTransacion(List<TransactionEntity> transactions) {
+//        this.transactions = transactions;
 //    }
 
     

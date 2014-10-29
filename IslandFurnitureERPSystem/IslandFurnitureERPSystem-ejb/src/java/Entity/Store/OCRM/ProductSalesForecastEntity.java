@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store.OCRM;
 
 import Entity.Store.StoreEntity;
@@ -20,44 +19,39 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author dan
+ * @author apple
  */
 @Entity
-public class SalesRecordEntity implements Serializable {
+public class ProductSalesForecastEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long salesRecordId;
-    
-       //Sales record -- store M-->1
+    private Long id;
+
+    //product sales forecast -- store M --> 1
     @ManyToOne
     private StoreEntity store;
     
-    //Sales record -- store product M <--> 1
+    //product sales forecast -- store product M <--> 1
     @ManyToOne
     private StoreProductEntity storeProduct;
 
-    //Sales record -- store retail product M <--> 1
+    //product sales forecast  -- store retail product M <--> 1
     @ManyToOne
     private StoreRetailProductEntity storeRetailProduct;
-
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar recordPeriod;
-    private Double amount;  //sold amount for this product in this month
-    private Double revenue; //earned revenue for this product in this month
     
-    public SalesRecordEntity() {
-        amount=0D;
-        revenue=0D;
-        recordPeriod=Calendar.getInstance();
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar targetPeriod;
+    private Double amount;  //amount planned to be sold in the target month
+    private String status;
+    
+    
+    public Long getId() {
+        return id;
     }
 
-    public Long getSalesRecordId() {
-        return salesRecordId;
-    }
-
-    public void setSalesRecordId(Long salesRecordId) {
-        this.salesRecordId = salesRecordId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public StoreEntity getStore() {
@@ -83,13 +77,13 @@ public class SalesRecordEntity implements Serializable {
     public void setStoreRetailProduct(StoreRetailProductEntity storeRetailProduct) {
         this.storeRetailProduct = storeRetailProduct;
     }
-    
-    public Calendar getRecordPeriod() {
-        return recordPeriod;
+
+    public Calendar getTargetPeriod() {
+        return targetPeriod;
     }
 
-    public void setRecordPeriod(Calendar recordPeriod) {
-        this.recordPeriod = recordPeriod;
+    public void setTargetPeriod(Calendar targetPeriod) {
+        this.targetPeriod = targetPeriod;
     }
 
     public Double getAmount() {
@@ -100,30 +94,31 @@ public class SalesRecordEntity implements Serializable {
         this.amount = amount;
     }
 
-    public Double getRevenue() {
-        return revenue;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRevenue(Double revenue) {
-        this.revenue = revenue;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
+    
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (salesRecordId != null ? salesRecordId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the salesRecordId fields are not set
-        if (!(object instanceof SalesRecordEntity)) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ProductSalesForecastEntity)) {
             return false;
         }
-        SalesRecordEntity other = (SalesRecordEntity) object;
-        if ((this.salesRecordId == null && other.salesRecordId != null) || (this.salesRecordId != null && !this.salesRecordId.equals(other.salesRecordId))) {
+        ProductSalesForecastEntity other = (ProductSalesForecastEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -131,7 +126,7 @@ public class SalesRecordEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "SessionBean.OCRM.SalesRecordEntity[ id=" + salesRecordId + " ]";
+        return "Entity.Store.OCRM.ProductSalesForecast[ id=" + id + " ]";
     }
     
 }
