@@ -99,22 +99,6 @@ public class EnterpriseInventoryManagementModule_RawMaterialTest {
         assertEquals("Raw Material is not found.",result);
        
     }
-
-    public class EnterpriseInventoryManagementModule_RawMaterialRemoteImpl implements EnterpriseInventoryManagementModule_RawMaterialRemote {
-
-        public ArrayList<RawMaterialEntity> listRawMaterial() {
-            return null;
-        }
-
-        public void deleteRawMaterial(Long rawMaterialId) throws Exception {
-        }
-
-        public void addRawMaterial(String name, String description, String unit) {
-        }
-
-        public void modifyRawMaterial(Long rawMaterialId, String name, String description, String unit) throws Exception {
-        }
-    }
     
     private EnterpriseInventoryManagementModule_RawMaterialRemote lookupRemote() {
         try {

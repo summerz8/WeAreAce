@@ -19,7 +19,7 @@ public interface EnterpriseInventoryManagementModule_RawMaterialRemote {
 
     public ArrayList<RawMaterialEntity> listRawMaterial();
 
-    public void deleteRawMaterial(Long rawMaterialId) throws Exception;
+    public int deleteRawMaterial(Long rawMaterialId) throws Exception;
 
     
     public void addRawMaterial(String name, String description, String unit) throws Exception;
