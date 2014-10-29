@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -18,19 +19,18 @@ import javax.persistence.OneToOne;
  * @author apple
  */
 @Entity
-public class ItemEntity implements Serializable {
+public class ShoppingCartItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String picture;
-    private String productName;
-    private String avalibility;
-    private String description;
+    private Integer quantity;
     private Double price;
+    private Long storeId;
     
-    @OneToOne
-    private ProductEntity product;
+    @ManyToOne
+    private CustomerWebItemEntity customerWebItem;
+
 
     public Long getId() {
         return id;
@@ -38,38 +38,6 @@ public class ItemEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getAvalibility() {
-        return avalibility;
-    }
-
-    public void setAvalibility(String avalibility) {
-        this.avalibility = avalibility;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Double getPrice() {
@@ -80,15 +48,7 @@ public class ItemEntity implements Serializable {
         this.price = price;
     }
 
-    public ProductEntity getProduct() {
-        return product;
-    }
 
-    public void setProduct(ProductEntity product) {
-        this.product = product;
-    }
-
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,10 +59,10 @@ public class ItemEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemEntity)) {
+        if (!(object instanceof ShoppingCartItemEntity)) {
             return false;
         }
-        ItemEntity other = (ItemEntity) object;
+        ShoppingCartItemEntity other = (ShoppingCartItemEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -111,7 +71,7 @@ public class ItemEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.DisplayUnitEntity[ id=" + id + " ]";
+        return "Entity.Store.OCRM.ShoppingCartItem[ id=" + id + " ]";
     }
     
 }

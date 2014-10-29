@@ -40,10 +40,12 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import Entity.Store.OCRM.CustomerWebItemEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
+import Entity.Store.OCRM.SetEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
@@ -189,6 +191,8 @@ public class dataSetUp {
         f1.getStoreList().add(s1.getStoreId());
         f1.getStoreList().add(s2.getStoreId());
         s1.getFactoryList().add(f1.getFactoryId());
+        s1.getFactoryList().add(f2.getFactoryId());
+
         em.flush();
 
         //StoreUser(s1)
@@ -260,6 +264,18 @@ public class dataSetUp {
         em.flush();
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
         em.persist(p6);
+        em.flush();
+
+        ProductEntity p7 = new ProductEntity("Bed", "Wooden bed, Queen Size, light yellow", 600.0, 580.0, "one", false);
+        em.persist(p7);
+        em.flush();
+
+        ProductEntity p8 = new ProductEntity("Bedside", "Wooden bedside, 2 drawers, light yellow", 200.0, 180.0, "one", false);
+        em.persist(p8);
+        em.flush();
+
+        ProductEntity p9 = new ProductEntity("Closet", "Wooden closet, 200mm X 170mm,  light yellow", 500.0, 480.0, "one", false);
+        em.persist(p9);
         em.flush();
 
         //Factory Product
@@ -379,22 +395,26 @@ public class dataSetUp {
         //for s1
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        srp2_2.setRetailProduct(rp4);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProduct().add(srp2_2);
@@ -1712,6 +1732,7 @@ public class dataSetUp {
         psfe1.setTargetPeriod(caltemp3);
         psfe1.setStore(s1);
         psfe1.setStoreProduct(sp1_1);
+        psfe1.setStatus("Confirmed");
         em.persist(psfe1);
         em.flush();
 
@@ -1720,12 +1741,86 @@ public class dataSetUp {
         psfe2.setTargetPeriod(caltemp2);
         psfe2.setStore(s1);
         psfe2.setStoreProduct(sp1_1);
+        psfe2.setStatus("Confirmed");
         em.persist(psfe2);
         em.flush();
 
         sp1_1.getProductSalesForecastList().add(psfe1);
         sp1_1.getProductSalesForecastList().add(psfe2);
+
         em.persist(sp1_1);
+        em.flush();
+
+        //Set Up  CustomerWebItemEntity
+        CustomerWebItemEntity item = new CustomerWebItemEntity();
+        item.setDescription(p7.getDescription());
+        item.setProductName("Bed");
+        item.setPrice(p7.getPrice());
+        item.setMemberPrice(p7.getMemberPrice());
+        item.setPicture("bed_set4.png");
+        item.setAvailability("Avalible");
+        item.setType("Bed");
+        item.setProduct(p7);
+        em.persist(item);
+        em.flush();
+
+        CustomerWebItemEntity item1 = new CustomerWebItemEntity();
+        item1.setDescription("this is a good Bedside");
+        item1.setProductName("Bedside");
+        item1.setPrice(200D);
+        item1.setMemberPrice(180D);
+        item1.setPicture("bedside_set4.png");
+        item1.setAvailability("Avalible");
+        item1.setType("Desk");
+        item1.setProduct(p8);
+        em.persist(item1);
+        em.flush();
+
+        CustomerWebItemEntity item2 = new CustomerWebItemEntity();
+        item2.setDescription("this is a good Bedside");
+        item2.setProductName("Bedside");
+        item2.setPrice(200D);
+        item2.setMemberPrice(180D);
+        item2.setPicture("bedside2_set4.png");
+        item2.setAvailability("Avalible");
+        item2.setType("Desk");
+        item2.setProduct(p8);
+        em.persist(item2);
+        em.flush();
+
+        CustomerWebItemEntity item3 = new CustomerWebItemEntity();
+        item3.setDescription("this is a good closet");
+        item3.setProductName("Closet");
+        item3.setPrice(200D);
+        item3.setMemberPrice(180D);
+        item3.setPicture("closet_set4.png");
+        item3.setAvailability("Avalible");
+        item3.setType("Closet");
+        item3.setProduct(p9);
+        em.persist(item3);
+        em.flush();
+
+        CustomerWebItemEntity item4 = new CustomerWebItemEntity();
+        item4.setDescription("best toy ever");
+        item4.setProductName("Captain America");
+        item4.setPrice(200D);
+        item4.setMemberPrice(180D);
+        item4.setPicture("CaptainAmerica.jpg");
+        item4.setAvailability("Avalible");
+        item4.setType("Others");
+        item4.setProduct(p9);
+        em.persist(item4);
+        em.flush();
+
+        SetEntity set1 = new SetEntity();
+        set1.setDescription("This set uses brown as its theme. Simple design, no extra decoration makes people feel comfortable and relaxed. It uses high quality wooden material and environment friendly oil paint.");
+        set1.setPicture("set4.png");
+        set1.setName("Modern Set 4");
+        set1.getUnitList().add(item);
+        set1.getUnitList().add(item1);
+        set1.getUnitList().add(item2);
+        set1.getUnitList().add(item3);
+        em.persist(set1);
         em.flush();
 
         //***************************************************************************************************
@@ -1857,7 +1952,7 @@ public class dataSetUp {
 
         TransactionEntity tr4 = new TransactionEntity(TranDate4, 109.9, 1, s2, member3);
         em.persist(tr4);
-        
+
         s2.getTransactions().add(tr4);
         member3.getTransactionList().add(tr4);
         member3.setLastTransaction(tr4);
@@ -1869,7 +1964,7 @@ public class dataSetUp {
 
         TransactionEntity tr5 = new TransactionEntity(TranDate5, 143.8, 1, s2, member3);
         em.persist(tr5);
-        
+
         s2.getTransactions().add(tr5);
         member3.getTransactionList().add(tr5);
         member3.setLastTransaction(tr5);
@@ -1881,7 +1976,7 @@ public class dataSetUp {
 
         TransactionEntity tr6 = new TransactionEntity(TranDate6, 69.2, 2, s1, member4);
         em.persist(tr6);
-        
+
         s1.getTransactions().add(tr6);
         member4.getTransactionList().add(tr6);
         member4.setLastTransaction(tr6);
@@ -1893,7 +1988,7 @@ public class dataSetUp {
 
         TransactionEntity tr7 = new TransactionEntity(TranDate7, 230.2, 2, s1, member4);
         em.persist(tr7);
-        
+
         s1.getTransactions().add(tr7);
         member4.getTransactionList().add(tr7);
         member4.setLastTransaction(tr7);
@@ -1905,7 +2000,7 @@ public class dataSetUp {
 
         TransactionEntity tr8 = new TransactionEntity(TranDate8, 100.2, 2, s1, member5);
         em.persist(tr8);
-        
+
         s1.getTransactions().add(tr8);
         member5.getTransactionList().add(tr8);
         member5.setLastTransaction(tr8);
@@ -1917,7 +2012,7 @@ public class dataSetUp {
 
         TransactionEntity tr9 = new TransactionEntity(TranDate9, 99.8, 2, s1, member5);
         em.persist(tr9);
-        
+
         s1.getTransactions().add(tr9);
         member5.getTransactionList().add(tr9);
         member5.setLastTransaction(tr9);
@@ -1929,31 +2024,31 @@ public class dataSetUp {
 
         TransactionEntity tr10 = new TransactionEntity(TranDate10, 50.7, 3, s1, member6);
         em.persist(tr10);
-        
+
         s1.getTransactions().add(tr10);
         member6.getTransactionList().add(tr10);
         member6.setLastTransaction(tr10);
         em.flush();
-        
+
         //===============================Transaction 11================================
         Calendar TranDate11 = Calendar.getInstance();
         TranDate11.set(2014, 10, 1);
 
-        TransactionEntity tr11 = new TransactionEntity(TranDate11,98.7, 3, s1, member5);
+        TransactionEntity tr11 = new TransactionEntity(TranDate11, 98.7, 3, s1, member5);
         em.persist(tr11);
-        
+
         s1.getTransactions().add(tr11);
         member5.getTransactionList().add(tr11);
         member5.setLastTransaction(tr11);
         em.flush();
-        
+
         //===============================Transaction 12================================
         Calendar TranDate12 = Calendar.getInstance();
         TranDate12.set(2014, 10, 12);
 
         TransactionEntity tr12 = new TransactionEntity(TranDate12, 75.7, 3, s1, member8);
         em.persist(tr12);
-        
+
         s1.getTransactions().add(tr12);
         member8.getTransactionList().add(tr12);
         member8.setLastTransaction(tr12);

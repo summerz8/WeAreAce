@@ -6,6 +6,7 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,12 +24,17 @@ public class SetEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String setName;
+    private String name;
     private String description;
     @OneToMany
-    private List<ItemEntity> unitList; 
+    private List<CustomerWebItemEntity> unitList; 
     private String picture;
     
+    
+    public SetEntity(){
+        unitList=new ArrayList<>();
+    }
+       
     public Long getId() {
         return id;
     }
@@ -37,12 +43,12 @@ public class SetEntity implements Serializable {
         this.id = id;
     }
 
-    public String getSetName() {
-        return setName;
+    public String getName() {
+        return name;
     }
 
-    public void setSetName(String setName) {
-        this.setName = setName;
+    public void setName(String setName) {
+        this.name = setName;
     }
 
     public String getDescription() {
@@ -53,11 +59,11 @@ public class SetEntity implements Serializable {
         this.description = description;
     }
 
-    public List<ItemEntity> getUnitList() {
+    public List<CustomerWebItemEntity> getUnitList() {
         return unitList;
     }
 
-    public void setUnitList(List<ItemEntity> unitList) {
+    public void setUnitList(List<CustomerWebItemEntity> unitList) {
         this.unitList = unitList;
     }
 

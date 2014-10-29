@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author dan
  */
-@Named(value = "attr")
+@Named(value = "predefinedAttr")
 @SessionScoped
 public class PredefinedAttributes implements Serializable {
 
