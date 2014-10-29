@@ -61,6 +61,11 @@ public class WorkPlaceManageBean {
         else return false;
     }
     
+     public Boolean isValidFactorySCMOnly(){
+        if(currentUserLevel==1||currentUserLevel==3) return true;
+        else return false;
+    }
+    
     public Boolean isValidStoreManager(){
         if(currentUserLevel==0||currentUserLevel==2) return true;
         else return false;

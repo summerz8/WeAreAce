@@ -47,7 +47,7 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" immediate="true">
                         </p:commandButton>
 
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
@@ -62,14 +62,6 @@
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
-=======
-
->>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
                         <h:outputLabel value = "Welcome Back " style="font-size: 24px">
                             <h:outputText  value ="#{loginBean.userRole} #{loginBean.fullName}" rendered="#{loginBean.flag}" />
                         </h:outputLabel>
@@ -91,10 +83,10 @@
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                             </p:submenu>
                             <p:submenu label="Supply Chain Management" rendered="#{workPlaceManageBean.isValidSCM()}">
-                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true" />
-                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml?faces-redirect=true" />
-                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml?faces-redirect=true" />
-                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
+                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
+                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
+                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
                                 <p:menuitem value ="Document Reference" outcome ="/secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml?faces-redirect=true" />
                             </p:submenu>
 
@@ -117,14 +109,6 @@
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                                 <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
-=======
-
->>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
                                 <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
 
@@ -134,17 +118,8 @@
                                 <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
                                 <p:menuitem value="View Members" update="messages" action="/secured/restricted/Store/ACRM/ViewMembers?faces-redirect=true"/>
                                 <p:menuitem value="View Member Retention Rate" update="messages" action = "/secured/restricted/Store/ACRM/ViewCRR?faces-redirect=true"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/> 
-=======
                                 <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/>
-                                <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
->>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
-=======
-                                <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/>
-                                <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
->>>>>>> 7c044da064eb104d7352477cf3f85df07039655f
+                                <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "/secured/restricted/Store/ACRM/ViewRFM?faces-redirect=true"/> 
                             </p:submenu>
 
                             <p:submenu label="Ticket Management" rendered="#{workPlaceManageBean.isValidTicket()}">
