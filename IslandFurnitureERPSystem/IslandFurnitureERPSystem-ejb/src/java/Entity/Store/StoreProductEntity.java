@@ -23,6 +23,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +34,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "StoreProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,12 +61,15 @@ public class StoreProductEntity implements Serializable {
     private ProductEntity product;
 
     @OneToMany
+    @XmlTransient
     private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
+    @XmlTransient
     private List<SalesRecordEntity> salesRecordList;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
+    @XmlTransient
     private List<ProductSalesForecastEntity> productSalesForecastList;
 
     public StoreProductEntity() {

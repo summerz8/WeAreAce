@@ -6,7 +6,9 @@
 package util.login;
 
 import Entity.CommonInfrastructure.IdNumberEntity;
+import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
+import Entity.Store.StoreEntity;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -165,15 +167,15 @@ public class IFManagerBean implements IFManagerBeanRemote {
 
     @Override
     @WebMethod(operationName = "getFullNameById")
-    public String getFullName(@WebParam(name = "userId") String userId) {
-        String fullName = null;
-        if (true) {
-            UserEntity user = em.find(UserEntity.class, userId);
-            fullName = user.getFirstName() + " " + user.getLastName() + " ";
-        }
+    public String getFullName(
+            @WebParam(name = "userId") String userId) {
+       
+        UserEntity user = em.find(UserEntity.class, userId);
+        String fullName = user.getFirstName() + " " + user.getLastName() + " ";
+        
         return fullName;
     }
-
+    
     @Override
     @WebMethod(exclude = true)
     public String getDepartment(String userId) {

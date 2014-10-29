@@ -48,9 +48,7 @@ public class PlannedOrderEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST})
     private List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList=null;
     
-    //factory retail product amount entity -- planned order entity: 1 <-- M
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private FactoryRetailProductAmountEntity factoryRetailProductAmount=null;
+  
     
     //planned order entity -- production plan entity 1 <--> 1
     @OneToOne(cascade = {CascadeType.PERSIST})
@@ -126,14 +124,6 @@ public class PlannedOrderEntity implements Serializable {
 
     public void setFactoryRawMaterialAmountList(List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList) {
         this.factoryRawMaterialAmountList = factoryRawMaterialAmountList;
-    }
-
-    public FactoryRetailProductAmountEntity getFactoryRetailProductAmount() {
-        return factoryRetailProductAmount;
-    }
-
-    public void setFactoryRetailProductAmount(FactoryRetailProductAmountEntity factoryRetailProductAmount) {
-        this.factoryRetailProductAmount = factoryRetailProductAmount;
     }
 
     public ProductionPlanEntity getProductionPlan() {

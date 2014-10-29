@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://OCRM.SessionBean/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://OCRM.SessionBean/">
+
+<xs:element name="addNewPointsForMember" type="tns:addNewPointsForMember"/>
+
+<xs:element name="addNewPointsForMemberResponse" type="tns:addNewPointsForMemberResponse"/>
+
+<xs:element name="checkMember" type="tns:checkMember"/>
+
+<xs:element name="checkMemberResponse" type="tns:checkMemberResponse"/>
+
+<xs:element name="getMemberCardIdById" type="tns:getMemberCardIdById"/>
+
+<xs:element name="getMemberCardIdByIdResponse" type="tns:getMemberCardIdByIdResponse"/>
+
+<xs:element name="getMemberIdByCardId" type="tns:getMemberIdByCardId"/>
+
+<xs:element name="getMemberIdByCardIdResponse" type="tns:getMemberIdByCardIdResponse"/>
+
+<xs:element name="redemption" type="tns:redemption"/>
+
+<xs:element name="redemptionResponse" type="tns:redemptionResponse"/>
+
+<xs:complexType name="checkMember">
+<xs:sequence>
+<xs:element name="memberId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="checkMemberResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberIdByCardId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberIdByCardIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberCardIdById">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberCardIdByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addNewPointsForMember">
+<xs:sequence>
+<xs:element name="arg0" type="xs:double" minOccurs="0"/>
+<xs:element name="arg1" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addNewPointsForMemberResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="redemption">
+<xs:sequence>
+<xs:element name="arg0" type="xs:double" minOccurs="0"/>
+<xs:element name="arg1" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="redemptionResponse">
+<xs:sequence/>
+</xs:complexType>
+</xs:schema>

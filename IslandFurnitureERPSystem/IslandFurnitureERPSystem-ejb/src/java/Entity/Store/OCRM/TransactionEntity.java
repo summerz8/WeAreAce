@@ -19,12 +19,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author hangsun
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,6 +40,7 @@ public class TransactionEntity implements Serializable {
     private Calendar generateTime;
     
     private Double totalPrice;
+    private Double totalMemberPrice;
     private Double tendered;
     private Double moneyChange;
     private int location;//1 for furniture 2 for retial product 3 for kitchen
@@ -46,13 +51,22 @@ public class TransactionEntity implements Serializable {
     @ManyToOne
     private MemberEntity member;
     
-    @OneToOne
+    @ManyToOne
     private StoreUserEntity storeStaff;
-
+    
     //Transaction -- TransactionItemEntity 1<-->M
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "transaction")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "transaction")
+    @XmlTransient
     private List<TransactionItemEntity> transactionItemList;
 
+    public Double getTotalMemberPrice() {
+        return totalMemberPrice;
+    }
+
+    public void setTotalMemberPrice(Double totalMemberPrice) {
+        this.totalMemberPrice = totalMemberPrice;
+    }
+    
     public TransactionEntity() {
     }
 

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://OCRM.SessionBean/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://OCRM.SessionBean/">
+
+<xs:element name="CheckFirstTransaction" type="tns:CheckFirstTransaction"/>
+
+<xs:element name="CheckFirstTransactionResponse" type="tns:CheckFirstTransactionResponse"/>
+
+<xs:element name="checkMember" type="tns:checkMember"/>
+
+<xs:element name="checkMemberResponse" type="tns:checkMemberResponse"/>
+
+<xs:element name="getMemberCardIdById" type="tns:getMemberCardIdById"/>
+
+<xs:element name="getMemberCardIdByIdResponse" type="tns:getMemberCardIdByIdResponse"/>
+
+<xs:element name="getMemberIdByCardId" type="tns:getMemberIdByCardId"/>
+
+<xs:element name="getMemberIdByCardIdResponse" type="tns:getMemberIdByCardIdResponse"/>
+
+<xs:element name="memberLogin" type="tns:memberLogin"/>
+
+<xs:element name="memberLoginResponse" type="tns:memberLoginResponse"/>
+
+<xs:element name="upgradeMember" type="tns:upgradeMember"/>
+
+<xs:element name="upgradeMemberResponse" type="tns:upgradeMemberResponse"/>
+
+<xs:complexType name="checkMember">
+<xs:sequence>
+<xs:element name="memberId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="checkMemberResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="memberLogin">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="memberLoginResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:memberEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="memberEntity">
+<xs:sequence>
+<xs:element name="memberId" type="xs:long" minOccurs="0"/>
+<xs:element name="pwd" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="midName" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="storeId" type="xs:long" minOccurs="0"/>
+<xs:element name="birthday" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="gender" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="createDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="country" type="xs:string" minOccurs="0"/>
+<xs:element name="currentPoints" type="xs:double" minOccurs="0"/>
+<xs:element name="totalPoints" type="xs:double" minOccurs="0"/>
+<xs:element name="pointsToUpgrade" type="xs:double" minOccurs="0"/>
+<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
+<xs:element name="shoppingCartList" type="tns:itemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="memberlvl" type="tns:membershipLevelEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="itemEntity">
+<xs:sequence>
+<xs:element name="avalibility" type="xs:string" minOccurs="0"/>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="picture" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:double" minOccurs="0"/>
+<xs:element name="product" type="tns:productEntity" minOccurs="0"/>
+<xs:element name="productName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="productEntity">
+<xs:sequence>
+<xs:element name="productId" type="xs:long" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:double" minOccurs="0"/>
+<xs:element name="memberPrice" type="xs:double" minOccurs="0"/>
+<xs:element name="unit" type="xs:string" minOccurs="0"/>
+<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="membershipLevelEntity">
+<xs:sequence>
+<xs:element name="discount" type="xs:double" minOccurs="0"/>
+<xs:element name="levelId" type="xs:int" minOccurs="0"/>
+<xs:element name="levelName" type="xs:string" minOccurs="0"/>
+<xs:element name="members" type="tns:memberEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="pointsToUpgrade" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberIdByCardId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberIdByCardIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="upgradeMember">
+<xs:sequence>
+<xs:element name="arg0" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="upgradeMemberResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberCardIdById">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMemberCardIdByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CheckFirstTransaction">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CheckFirstTransactionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

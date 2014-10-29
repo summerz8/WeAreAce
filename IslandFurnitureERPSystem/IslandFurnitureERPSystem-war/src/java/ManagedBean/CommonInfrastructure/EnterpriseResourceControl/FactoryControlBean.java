@@ -65,8 +65,9 @@ public class FactoryControlBean {
         if (IUMA.getUser(entity.getManagerId()) == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory edit failed! ", "Manager not found!"));
         } else {
+            try{
             FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManagerId());
-
+            }catch(Exception ex){}
             FacesMessage msg = new FacesMessage("Factory Edited", String.valueOf(entity.getFactoryId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);            
         }
@@ -80,7 +81,7 @@ public class FactoryControlBean {
     public void deleteFactory(Long id) {
         System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));
         if (IUMA.ListFactoryUser(id).isEmpty()) {
-            FSMM.DeleteFactory(id);
+            try{FSMM.DeleteFactory(id);}catch(Exception ex){}
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
         } else {

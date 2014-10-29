@@ -5,6 +5,7 @@
  */
 package SessionBean.OCRM;
 
+import Entity.Store.OCRM.MemberCardIdMappingEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.TransactionEntity;
@@ -186,6 +187,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     }
 
+    @WebMethod(exclude = true)
     public int CheckFirstTransaction(Long transactionId) {
         TransactionEntity te = em.find(TransactionEntity.class, transactionId);
         if (te == null) {
@@ -208,20 +210,21 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         }
     }
 
-    public Integer upgradeMember(Double points) {
+    @WebMethod(exclude = true)
+    public Integer upgradeMember(Double totalPoints) {
         //MembershipLevelEntity level6 = em.find(MembershipLevelEntity.class, 6);
         MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5);
         MembershipLevelEntity level4 = em.find(MembershipLevelEntity.class, 4);
         MembershipLevelEntity level3 = em.find(MembershipLevelEntity.class, 3);
         MembershipLevelEntity level2 = em.find(MembershipLevelEntity.class, 2);
         //MembershipLevelEntity level1 = em.find(MembershipLevelEntity.class, 1);
-        if (level5.getPointsToUpgrade() <= points) {
+        if (level5.getPointsToUpgrade() <= totalPoints) {
             return 5;
-        } else if (level4.getPointsToUpgrade() <= points) {
+        } else if (level4.getPointsToUpgrade() <= totalPoints) {
             return 4;
-        } else if (level3.getPointsToUpgrade() <= points) {
+        } else if (level3.getPointsToUpgrade() <= totalPoints) {
             return 3;
-        } else if (level2.getPointsToUpgrade() <= points) {
+        } else if (level2.getPointsToUpgrade() <= totalPoints) {
             return 2;
         } else {
             return 1;
@@ -229,6 +232,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public MemberEntity memberLogin(String email, String pwd) {
 
         List<MemberEntity> memberList = ListMember();
@@ -245,7 +249,52 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     }
 
+
+    @WebMethod(operationName = "getMemberCardIdById")
+    public String getMemberCardIdById(Long id) {
+        MemberEntity member = em.find(MemberEntity.class, id);
+
+        if (member != null) {
+            return member.getCardIdMapping().getCardId();
+        } else {
+            return null;
+        }
+    }
+
+    @WebMethod(operationName = "getMemberIdByCardId")
+    public Long getMemberIdByCardId(String cardId) {
+        MemberCardIdMappingEntity cardIdMapping = em.find(MemberCardIdMappingEntity.class, cardId);
+
+        if (cardIdMapping != null) {
+            return cardIdMapping.getMember().getMemberId();
+        } else {
+            return null;
+        }
+    }
+    
+    @WebMethod(operationName = "addNewPointsForMember")
+    public void addNewPointsForMember(Double points,Long memberId){
+        MemberEntity member = em.find(MemberEntity.class,memberId);
+        member.setTotalPoints(member.getTotalPoints() + points);
+        member.setCurrentPoints(member.getCurrentPoints() + points);
+        
+        em.persist(member);
+        em.flush();
+        member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(member.getTotalPoints())));
+        em.persist(member);
+        em.flush();
+    }
+    
+    @WebMethod(operationName = "redemption")
+    public void redemption(Double points,Long memberId){
+        MemberEntity member = em.find(MemberEntity.class,memberId);
+        member.setCurrentPoints(member.getCurrentPoints() - points);
+        em.persist(member);
+        em.flush();
+    }
+    
     @Override
+    @WebMethod(exclude = true)
     public List<MembershipLevelEntity> getMembership() {
         System.out.println("getMembership():");
         Query q = em.createQuery("SELECT m FROM MembershipLevelEntity m");
@@ -256,6 +305,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             System.out.println(u.toString());
         }
         return requiredUserList;
+
     }
 
 }

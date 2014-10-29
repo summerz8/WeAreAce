@@ -22,7 +22,7 @@ public interface EnterpriseInventoryManagementModule_RawMaterialLocal {
     public int deleteRawMaterial(Long rawMaterialId) throws Exception;
 
     
-    public void addRawMaterial(String name, String description, String unit);
+    public void addRawMaterial(String name, String description, String unit) throws Exception;
 
     public void modifyRawMaterial(Long rawMaterialId, String name, String description, String unit) throws Exception;
        

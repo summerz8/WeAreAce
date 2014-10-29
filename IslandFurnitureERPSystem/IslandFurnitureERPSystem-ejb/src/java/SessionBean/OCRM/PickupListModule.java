@@ -67,13 +67,13 @@ public class PickupListModule implements PickupListModuleLocal {
                 String productName = " ";
                 String productAmount = " ";
                 String productLocation = "Location";
-                if (sime.getProductid() == null) {
+                if (sime.getProductId() == null) {
                     StoreRetailProductEntity sre = em.find(StoreRetailProductEntity.class, sime.getRetailProductId());
                     productType = "Retail";
                     productId = sre.getStoreRetailProductId().toString();
                     productName = sre.getRetailProduct().getName();
                 } else if (sime.getRetailProductId() == null) {
-                    StoreProductEntity sre = em.find(StoreProductEntity.class, sime.getProductid());
+                    StoreProductEntity sre = em.find(StoreProductEntity.class, sime.getProductId());
                     productType = "Finished Goods";
                     productId = sre.getStoreProductId().toString();
                     productName = sre.getProduct().getName();

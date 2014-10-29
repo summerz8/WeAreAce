@@ -39,7 +39,8 @@ public class PickupListEntity implements Serializable {
     private Boolean Distributed;
     
     //PickupListEntity <--> TransactionItemEntity 1<-->M
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "pickupList")
     @XmlTransient
     private List<TransactionItemEntity> transactoinItems = new ArrayList<>();
 

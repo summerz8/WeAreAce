@@ -7,6 +7,7 @@
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,16 +30,34 @@ public class TransactionItemEntity implements Serializable {
     private Double unitPrice;
     private Double totalPrice;
     private String itemName;
+    private Double unitMemberPrice;
+    private Double totalMemberPrice;
+    
 
 //    //TransactionItem -- TransactionEntity M<-->1
     @ManyToOne
     private TransactionEntity transaction;
     
     //TransactionItem -- PickupListEntity M<-->1
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private PickupListEntity pickupList;
-    
 
+    public Double getUnitMemberPrice() {
+        return unitMemberPrice;
+    }
+
+    public void setUnitMemberPrice(Double unitMemberPrice) {
+        this.unitMemberPrice = unitMemberPrice;
+    }
+
+    public Double getTotalMemberPrice() {
+        return totalMemberPrice;
+    }
+
+    public void setTotalMemberPrice(Double totalMemberPrice) {
+        this.totalMemberPrice = totalMemberPrice;
+    }
+    
     public Long getTransactionItemId() {
         return TransactionItemId;
     }

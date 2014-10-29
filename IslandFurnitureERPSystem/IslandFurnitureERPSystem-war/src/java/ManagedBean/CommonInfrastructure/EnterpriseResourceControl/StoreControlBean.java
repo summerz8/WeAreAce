@@ -65,8 +65,10 @@ public class StoreControlBean {
         if (IUMA.getUser(entity.getManager()) == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store edit failed! ", "Manager not found!"));
         } else {
-            FSMM.ModifyStore(entity.getStoreId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
-
+            try {
+                FSMM.ModifyStore(entity.getStoreId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
+            } catch (Exception ex) {
+            }
             FacesMessage msg = new FacesMessage("Store Edited", String.valueOf(entity.getStoreId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -80,7 +82,7 @@ public class StoreControlBean {
     public void deleteStore(Long id) {
         System.out.println("StoreControlBean: deleteStore: " + String.valueOf(id));
         if (IUMA.ListStoreUser(id).isEmpty()) {
-            FSMM.DeleteStore(id);
+            try{FSMM.DeleteStore(id);}catch(Exception ex){}
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
         } else {
@@ -91,7 +93,7 @@ public class StoreControlBean {
                 System.out.println("Store associated user: " + u.getUserId());
             }
         }
-               
+
         storeList = FSMM.ListStore();
         filterdStore = storeList;
     }
@@ -101,14 +103,14 @@ public class StoreControlBean {
 //        if (IUMA.getUser(newStoreManager) == null) {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store added failed! ", "Manager not found!"));
 //        } else {
-            FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
+        FSMM.AddStore(newStoreCountry, newStoreAddress, newStoreContact, newStoreManager);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Store added successfully! ", ""));
 
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("StoreControl.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("StoreControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //}
     }
 

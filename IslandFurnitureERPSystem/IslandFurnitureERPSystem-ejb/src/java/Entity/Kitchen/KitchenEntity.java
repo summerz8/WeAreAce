@@ -15,12 +15,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class KitchenEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,20 +35,28 @@ public class KitchenEntity implements Serializable {
     private StoreEntity store;
     private boolean deleted;
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<DishEntity> dishes = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<ComboEntity> combos = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<IngredientEntity> ingredients = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<KitchenOrderEntity> orders = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<MenuItemForecastEntity> menuItemForecasts = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<StoragePlaceEntity> storagePlaces = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<IngredientSupplierEntity> ingredientSuppliers = new ArrayList<>();
     @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
     private List<DailySalesEntity> dailySales = new ArrayList<>();
 
     public KitchenEntity() {

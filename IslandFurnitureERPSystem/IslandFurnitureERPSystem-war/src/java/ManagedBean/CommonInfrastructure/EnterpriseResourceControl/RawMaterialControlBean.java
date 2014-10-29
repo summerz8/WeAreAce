@@ -89,7 +89,7 @@ public class RawMaterialControlBean {
     
     public void addRawMaterial() {
         System.out.println("RawMaterialControlBean: addRawMaterial: ");
-        EIMR.addRawMaterial(newRawMaterialName, newRawMaterialDescription, newRawMaterialUnit);
+        try{EIMR.addRawMaterial(newRawMaterialName, newRawMaterialDescription, newRawMaterialUnit);}catch(Exception ex){}
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product added successfully! ", ""));
 
         try {
