@@ -93,7 +93,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000001L);
+        id.setId_S(1000002L);
         em.persist(id);
         em.flush();
 
@@ -203,7 +203,7 @@ public class dataSetUp {
         em.flush();
 
         //StoreUser(s1)
-        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
+        UserEntity u4 = new StoreUserEntity("S", "1000002", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
@@ -1741,7 +1741,7 @@ public class dataSetUp {
         Calendar MemberBirthday = Calendar.getInstance();
         MemberBirthday.set(1990, 9, 1);
 
-        MemberEntity member = new MemberEntity("123", "Lee", "", "James",
+        MemberEntity member = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Lee", "", "James",
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
         member.setMemberlvl(memlvl1);
@@ -1895,7 +1895,7 @@ public class dataSetUp {
         Calendar MemberBirthday2 = Calendar.getInstance();
         MemberBirthday2.set(1985, 9, 1);
 
-        MemberEntity member2 = new MemberEntity("123", "Hotchner", "", "Arron",
+        MemberEntity member2 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Hotchner", "", "Arron",
                 MemberBirthday2, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "arronH@gmail.com", Boolean.FALSE, "Singapore", memlvl1);
         em.persist(member2);
@@ -1905,7 +1905,7 @@ public class dataSetUp {
         Calendar MemberBirthday3 = Calendar.getInstance();
         MemberBirthday3.set(1985, 9, 1);
 
-        MemberEntity member3 = new MemberEntity("123", "Morgen", "", "Derek",
+        MemberEntity member3 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Morgen", "", "Derek",
                 MemberBirthday3, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "derek@gmail.com", Boolean.FALSE, "Singapore", memlvl2);
         em.persist(member3);
@@ -1915,7 +1915,7 @@ public class dataSetUp {
         Calendar MemberBirthday4 = Calendar.getInstance();
         MemberBirthday4.set(1975, 9, 1);
 
-        MemberEntity member4 = new MemberEntity("123", "Prentiss", "", "Emily",
+        MemberEntity member4 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Prentiss", "", "Emily",
                 MemberBirthday4, "Female", "Miss", "5 Kent Ridge Drive", "412342",
                 "emily@gmail.com", Boolean.FALSE, "China", memlvl1);
         em.persist(member4);
@@ -1925,7 +1925,7 @@ public class dataSetUp {
         Calendar MemberBirthday5 = Calendar.getInstance();
         MemberBirthday5.set(1975, 9, 1);
 
-        MemberEntity member5 = new MemberEntity("123", "Jareau", "", "Jennifer",
+        MemberEntity member5 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Jareau", "", "Jennifer",
                 MemberBirthday5, "Female", "Ms", "5 Kent Ridge Drive", "412342",
                 "jennifer@gmail.com", Boolean.FALSE, "China", memlvl2);
         em.persist(member5);
@@ -1935,7 +1935,7 @@ public class dataSetUp {
         Calendar MemberBirthday6 = Calendar.getInstance();
         MemberBirthday6.set(1965, 9, 1);
 
-        MemberEntity member6 = new MemberEntity("123", "Rossi", "", "David",
+        MemberEntity member6 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Rossi", "", "David",
                 MemberBirthday6, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "david@gmail.com", Boolean.FALSE, "United States", memlvl1);
         em.persist(member6);
@@ -1945,7 +1945,7 @@ public class dataSetUp {
         Calendar MemberBirthday7 = Calendar.getInstance();
         MemberBirthday7.set(1965, 9, 1);
 
-        MemberEntity member7 = new MemberEntity("123", "Reid", "", "Spencer",
+        MemberEntity member7 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Reid", "", "Spencer",
                 MemberBirthday7, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "spencer@gmail.com", Boolean.FALSE, "United States", memlvl2);
         em.persist(member7);
@@ -1955,7 +1955,7 @@ public class dataSetUp {
         Calendar MemberBirthday8 = Calendar.getInstance();
         MemberBirthday8.set(1955, 9, 1);
 
-        MemberEntity member8 = new MemberEntity("123", "Penelope", "", "Garcia",
+        MemberEntity member8 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Penelope", "", "Garcia",
                 MemberBirthday8, "Female", "Miss", "5 Kent Ridge Drive", "412342",
                 "garcia@gmail.com", Boolean.FALSE, "South Korea", memlvl1);
         em.persist(member8);
@@ -1965,7 +1965,7 @@ public class dataSetUp {
         Calendar MemberBirthday9 = Calendar.getInstance();
         MemberBirthday9.set(1955, 9, 1);
 
-        MemberEntity member9 = new MemberEntity("123", "Gubler", "Gray", "Mattew",
+        MemberEntity member9 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Gubler", "Gray", "Mattew",
                 MemberBirthday9, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "mattew@gmail.com", Boolean.FALSE, "South Korea", memlvl3);
         em.persist(member9);
@@ -1975,7 +1975,7 @@ public class dataSetUp {
         Calendar MemberBirthday10 = Calendar.getInstance();
         MemberBirthday10.set(1993, 6, 11);
 
-        MemberEntity member10 = new MemberEntity("123", "Zhang", "", "Shiyu",
+        MemberEntity member10 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Zhang", "", "Shiyu",
                 MemberBirthday10, "Female", "Mr", "5 Kent Ridge Drive", "412342",
                 "ms.z.summer@gmail.com", Boolean.FALSE, "China", memlvl3);
         em.persist(member10);

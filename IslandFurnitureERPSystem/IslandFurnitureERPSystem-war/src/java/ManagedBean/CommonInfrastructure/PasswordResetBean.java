@@ -5,6 +5,7 @@
  */
 package ManagedBean.CommonInfrastructure;
 
+import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -24,6 +25,8 @@ public class PasswordResetBean {
 
     @EJB
     private IFManagerBeanRemote IFMB;
+    @EJB
+    private InternalUserAccountManagementModuleLocal IUAM;
 
     private String email;
     private String userId;
@@ -37,14 +40,21 @@ public class PasswordResetBean {
     public void sendEmail(ActionEvent event) {
         Integer result = IFMB.validateUser(userId, email);
         if (result == 1) {
-            SendMailSSL se = new SendMailSSL();
-            if (se.sendMessage(email)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Password-Reset Email Send Successfully!", ""));
+            String newPass = IUAM.resetPass(userId);
+            if (!newPass.equals("error")) {
+                SendMailSSL se = new SendMailSSL();
+
+                if (se.sendPasswordResetMessage(email, newPass)) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Password-Reset Email Send Successfully!", ""));
+                }
             }
         } else if (result == -1) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Fail!", "User doesn't exist!"));
+        } else if (result == 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Fail!", "Email doen't match!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Fail!", ""));

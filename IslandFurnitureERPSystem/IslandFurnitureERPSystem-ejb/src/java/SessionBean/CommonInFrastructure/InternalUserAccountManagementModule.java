@@ -196,7 +196,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         }
         return requiredUserList;
     }
-    
+
     @Override
     public List<UserEntity> ListStoreUser(Long id) {
         System.out.println("InternalUserAccountModule: ListUser(): for store " + id);
@@ -254,4 +254,26 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
 
     }
 
+    @Override
+    public String resetPass(String userId) {
+        System.out.println("InternalUserAccountModule: change password: ");
+        String newPass;
+        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 8; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+
+        newPass = sb.toString();
+        System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
+        UserEntity user = em.find(UserEntity.class, userId);
+        if (user != null) {
+            user.setPwd(cryptographicHelper.doMD5Hashing(newPass));
+            em.persist(user);
+            em.flush();
+            return newPass;
+        } else return "error";
+    }
 }
