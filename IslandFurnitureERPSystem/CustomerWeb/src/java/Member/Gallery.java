@@ -5,9 +5,11 @@ package Member;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.util.ArrayList;
+import Entity.Store.OCRM.SetEntity;
+import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -19,52 +21,35 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class Gallery {
 
-    private List<String> pictureList;
-    private String test;
-    private Integer number=0;
+    @EJB
+    private CustomerWebModuleLocal cwml;
+
+    
+    private List<SetEntity> setList;
     public Gallery() {
     }
 
     @PostConstruct
-    public void create() {
-
-        pictureList = new ArrayList();
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-        pictureList.add("set2.png");
-
-        test = "test";
-
+    public void init() {
+        setList=cwml.getSetList();
     }
 
-    public List<String> getPictureList() {
-        return pictureList;
+    public CustomerWebModuleLocal getCwml() {
+        return cwml;
     }
 
-    public void setPictureList(List<String> pictureList) {
-        this.pictureList = pictureList;
+    public void setCwml(CustomerWebModuleLocal cwml) {
+        this.cwml = cwml;
     }
 
-    public String getTest() {
-        return test;
+    public List<SetEntity> getSetList() {
+        return setList;
     }
 
-    public void setTest(String test) {
-        this.test = test;
+    public void setSetList(List<SetEntity> setList) {
+        this.setList = setList;
     }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
+    
+    
     
 }

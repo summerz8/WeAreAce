@@ -61,7 +61,7 @@ public class MemberEntity implements Serializable {
     private Boolean deleteFlag;
     
     @OneToMany
-    private List<ItemEntity> shoppingCartList;
+    private List<ShoppingCartItemEntity> shoppingCartList;
 
     @ManyToOne
     private MembershipLevelEntity memberlvl;
@@ -266,11 +266,11 @@ public class MemberEntity implements Serializable {
         this.pointsToUpgrade = PointsToUpgrade;
     }
 
-    public List<ItemEntity> getShoppingCartList() {
+    public List<ShoppingCartItemEntity> getShoppingCartList() {
         return shoppingCartList;
     }
 
-    public void setShoppingCartList(List<ItemEntity> shoppingCartList) {
+    public void setShoppingCartList(List<ShoppingCartItemEntity> shoppingCartList) {
         this.shoppingCartList = shoppingCartList;
     }
 

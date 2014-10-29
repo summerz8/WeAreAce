@@ -61,7 +61,7 @@
 
 
 
-                        <h:outputLabel value = "Welcome Back " >
+                        <h:outputLabel value = "Welcome Back HQ Manager " >
                             <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
                         </h:outputLabel>
@@ -109,6 +109,7 @@
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                                 <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
 
                             </p:submenu>
 
@@ -128,17 +129,81 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
-                        <!--                        <p:panel id="basic" header =" " style="height:800px;" >-->
-                        <!--                            <p:panelGrid columns="2" style="width: 100%!important">
-                                                        <p:column>
-                                                            <p:graphicImage width="250px"  height="250px" value="../resources/images/homepage1.jpg"/>
-                                                        </p:column>
-                                                        <p:column>
-                                                            <p:graphicImage width="250px"  height="250px" value="../resources/images/homepage2.jpg"/>
-                                                        </p:column>
-                                                    </p:panelGrid>-->
+                        <div style="margin: auto;height:600px">
+                            <h:form>
+                                <p:growl id="msgs" showDetail="true" />
 
 
+                                <p:dashboard id="board" model="#{workPlaceBean.model}">
+
+                                    <p:panel id="message" header="Message" style="width: 300px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >
+                                            <h:outputText value="New messages:" />
+                                            <h:outputText value="2" style="color: red;font-size: 16px"/>
+                                            <h:outputText value="Messages to be processed:" />
+                                            <h:outputText value="10" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="ticket" header="Ticket" style="width: 300px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >
+                                            <h:outputText value="New Tickets:" />
+                                            <h:outputText value="3" style="color: red;font-size: 16px"/>
+                                            <h:outputText value="Tickets to be processed:" />
+                                            <h:outputText value="5" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="kitchen" header="Kitchen" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                          
+                                            <h:outputLabel for="kitchenStore" value="Store:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="kitchenStore" value="#{workPlaceBean.selectedStore}">
+                                                <f:selectItem itemLabel="All Stores" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Revenue" />
+                                            <h:outputText value="$121,041.3" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="product" header="Furniture Product" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                 
+                                            <h:outputLabel for="store" value="Store:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="store" value="#{workPlaceBean.selectedStore1}">
+                                                <f:selectItem itemLabel="All Stores" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Revenue" />
+                                            <h:outputText value="$51,294,041.3" style="color: red;font-size: 16px" />
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="retailproduct" header="Retail Product" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                          
+                                            <h:outputLabel for="retail" value="Store:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="retail" value="#{workPlaceBean.selectedStore2}">
+                                                <f:selectItem itemLabel="All Stores" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Revenue" />
+                                            <h:outputText value="$314,041.3" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="calendar" header="Calendar" style="width: 300px; height:150px">
+                                        <p:calendar id="inline" value="#{workPlaceBean.date}" mode="inline" />
+                                    </p:panel>
+
+
+
+                                </p:dashboard>
+
+                                <div style="clear:both" />
+                            </h:form>
+                        </div>
 
                     </p:layoutUnit>
 

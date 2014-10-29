@@ -6,6 +6,7 @@
  */
 package Entity.Factory;
 
+import Entity.Store.OCRM.CustomerWebItemEntity;
 import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -50,8 +52,6 @@ public class ProductEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "product")
     private Collection<StoreProductEntity> storeProducts = new ArrayList<>();
     
-    
-  
     public ProductEntity() {
     }
 
@@ -146,6 +146,7 @@ public class ProductEntity implements Serializable {
     public void setFactoryProducts(Collection<FactoryProductEntity> factoryProducts){
         this.factoryProducts = factoryProducts;
     }
+
     
     
     @Override

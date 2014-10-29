@@ -50,7 +50,7 @@ public class SignUp {
         MRMM.AddMemberWithPassword(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, password);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", FirstName);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", Email);
-        return "/Memberpage?faces-redirect=true";
+        return "/secured/Memberpage?faces-redirect=true";
     }
 
     public String getFirstName() {

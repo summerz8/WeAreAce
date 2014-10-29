@@ -6,10 +6,8 @@
 package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.ProductSalesForecastEntity;
-import Entity.Store.OCRM.SalesRecordEntity;
-import Entity.Store.StoreProductEntity;
-import Entity.Store.StoreRetailProductEntity;
 import SessionBean.OCRM.OCRMSalesForecastModuleLocal;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -31,6 +29,7 @@ public class ViewProductSalesForecastBean {
     private Long productId;
     private String productType;
     private List<ProductSalesForecastEntity> productSalesForecastList;
+    private String department;
 
     public ViewProductSalesForecastBean() {
     }
@@ -41,6 +40,27 @@ public class ViewProductSalesForecastBean {
         productType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productType");
 
         productSalesForecastList = sfml.listProductSalesForecast(productId, productType);
+    }
+
+    public boolean editable(ProductSalesForecastEntity productSalesForecast) {
+        Calendar targetPeriod = Calendar.getInstance();
+        targetPeriod.add(Calendar.MONTH, 2);
+        return productSalesForecast.getStatus().equals("Unconfirmed") && productSalesForecast.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH);
+    }
+
+    public String edit(ProductSalesForecastEntity productSalesForecast) {
+        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+
+        if (department.equals("H")) {
+            return "NoRightToProcess?faces-redirect=true";
+        } else {
+            Long productSalesForecastId = productSalesForecast.getId();
+
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productSalesForecastId", productSalesForecastId);
+            return "EditProductSalesForecast?faces-redirect=true";
+
+        }
+
     }
 
     public OCRMSalesForecastModuleLocal getSfml() {
@@ -75,5 +95,12 @@ public class ViewProductSalesForecastBean {
         this.productSalesForecastList = productSalesForecastList;
     }
 
-    
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
 }

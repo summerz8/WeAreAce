@@ -47,4 +47,10 @@ public interface OCRMSalesForecastModuleLocal {
 
     public List<SalesRecordEntity> SortSalesRecordList(List<SalesRecordEntity> object);
 
-}
+    public Boolean CheckExistence(Long productId, String productType);
+
+    public ProductSalesForecastEntity getProductSalesForecast(Long productSalesForecastId);
+
+    public void editProductSalesForecast(Long productSalesForecastId, Double NewAmount) ;
+
+    }

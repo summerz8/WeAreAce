@@ -117,7 +117,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
             ProductSalesForecastEntity productSalesForecast = storeProduct.getProductSalesForecastList().get(storeProduct.getProductSalesForecastList().size() - 1);
             Calendar targetPeriod = Calendar.getInstance();
             targetPeriod.add(Calendar.MONTH, 2);
-            if (productSalesForecast.getPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH)) {
+            if (productSalesForecast.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH)) {
                 return "Forecasted";
             } else {
                 return "Unforecasted";
@@ -135,7 +135,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
             ProductSalesForecastEntity productSalesForecast = storeRetailProduct.getProductSalesForecastList().get(storeRetailProduct.getProductSalesForecastList().size() - 1);
             Calendar targetPeriod = Calendar.getInstance();
             targetPeriod.add(Calendar.MONTH, 2);
-            if (productSalesForecast.getPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH)) {
+            if (productSalesForecast.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH)) {
                 return "Forecasted";
             } else {
                 return "Unforecasted";
@@ -150,7 +150,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
         ProductSalesForecastEntity productSalesForecast = new ProductSalesForecastEntity();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, 2);
-        productSalesForecast.setPeriod(cal);
+        productSalesForecast.setTargetPeriod(cal);
         if (productType.equals("StoreProduct")) {
             StoreProductEntity temp = em.find(StoreProductEntity.class, productId);
             productSalesForecast.setStoreProduct(temp);
@@ -159,7 +159,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
 
             List<ProductSalesForecastEntity> productSalesForecastList = temp.getProductSalesForecastList();
             for (ProductSalesForecastEntity p : productSalesForecastList) {
-                if (((p.getPeriod().get(Calendar.YEAR) + 1) == cal.get(Calendar.YEAR)) && (p.getPeriod().get(Calendar.MONTH) == cal.get(Calendar.MONTH))) {
+                if (((p.getTargetPeriod().get(Calendar.YEAR) + 1) == cal.get(Calendar.YEAR)) && (p.getTargetPeriod().get(Calendar.MONTH) == cal.get(Calendar.MONTH))) {
                     productSalesForecast.setAmount(p.getAmount());
                 }
             }
@@ -172,7 +172,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
 
             List<ProductSalesForecastEntity> productSalesForecastList = temp.getProductSalesForecastList();
             for (ProductSalesForecastEntity p : productSalesForecastList) {
-                if ((p.getPeriod().get(Calendar.YEAR) == cal.get(Calendar.YEAR)) && (p.getPeriod().get(Calendar.MONTH) == cal.get(Calendar.MONTH))) {
+                if ((p.getTargetPeriod().get(Calendar.YEAR) == cal.get(Calendar.YEAR)) && (p.getTargetPeriod().get(Calendar.MONTH) == cal.get(Calendar.MONTH))) {
                     productSalesForecast.setAmount(p.getAmount());
                 }
             }
@@ -185,8 +185,9 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
     public ProductSalesForecastEntity confirmProductSalesForecast(Calendar period, Double NewAmount, Long storeId, String productType, Long productId) {
         ProductSalesForecastEntity productSalesForecast = new ProductSalesForecastEntity();
         productSalesForecast.setAmount(NewAmount);
-        productSalesForecast.setPeriod(period);
+        productSalesForecast.setTargetPeriod(period);
         productSalesForecast.setStore(em.find(StoreEntity.class, storeId));
+        productSalesForecast.setStatus("Unconfirmed");
         if (productType.equals("StoreProduct")) {
             StoreProductEntity product = em.find(StoreProductEntity.class, productId);
             productSalesForecast.setStoreProduct(product);
@@ -220,7 +221,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
                     avalibility = false;
                 } else {
                     productSalesForecast = s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1);
-                    if ((productSalesForecast.getPeriod().get(Calendar.YEAR) != targetPeriod.get(Calendar.YEAR)) || (productSalesForecast.getPeriod().get(Calendar.MONTH) != targetPeriod.get(Calendar.MONTH))) {
+                    if ((productSalesForecast.getTargetPeriod().get(Calendar.YEAR) != targetPeriod.get(Calendar.YEAR)) || (productSalesForecast.getTargetPeriod().get(Calendar.MONTH) != targetPeriod.get(Calendar.MONTH))) {
                         avalibility = false;
                         return avalibility;
                     }
@@ -237,7 +238,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
                     avalibility = false;
                 } else {
                     productSalesForecast = sr.getProductSalesForecastList().get(sr.getProductSalesForecastList().size() - 1);
-                    if ((productSalesForecast.getPeriod().get(Calendar.YEAR) != targetPeriod.get(Calendar.YEAR)) || (productSalesForecast.getPeriod().get(Calendar.MONTH) != targetPeriod.get(Calendar.MONTH))) {
+                    if ((productSalesForecast.getTargetPeriod().get(Calendar.YEAR) != targetPeriod.get(Calendar.YEAR)) || (productSalesForecast.getTargetPeriod().get(Calendar.MONTH) != targetPeriod.get(Calendar.MONTH))) {
                         avalibility = false;
                         return avalibility;
                     }
@@ -285,6 +286,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
                     fpam.setAmount(s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1).getAmount());
                     fpam.setFactoryProduct(s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1).getStoreProduct().getFactoryProduct());
                     fpam.setUnit(s.getProduct().getUnit());
+                    s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1).setStatus("Confirmed");
                     em.persist(fpam);
                     System.out.println("storeProduct added: " + s.getStoreProductId() + " " + s.getFactoryProduct().getFactoryProductId());
                     salesForecast.getFactoryProductList().add(fpam);
@@ -301,6 +303,7 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
                     frpam.setAmount(sr.getProductSalesForecastList().get(sr.getProductSalesForecastList().size() - 1).getAmount());
                     frpam.setFactoryRetailProduct(sr.getProductSalesForecastList().get(sr.getProductSalesForecastList().size() - 1).getStoreRetailProduct().getFactoryRetailProduct());
                     frpam.setUnit(sr.getRetailProduct().getUnit());
+                    sr.getProductSalesForecastList().get(sr.getProductSalesForecastList().size() - 1).setStatus("Confirmed");
                     System.out.println("storeRetailProduct added: " + sr.getStoreRetailProductId() + " " + sr.getFactoryRetailProduct().getFactoryRetailProdctId());
 
                     em.persist(frpam);
@@ -333,19 +336,58 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
         List<ProductSalesForecastEntity> sorted = new ArrayList<>();
         int size = object.size();
         for (int a = 0; a < size; a++) {
-            sorted.add(object.get(size-a-1));
+            sorted.add(object.get(size - a - 1));
         }
         return sorted;
     }
-    
+
     @Override
     public List<SalesRecordEntity> SortSalesRecordList(List<SalesRecordEntity> object) {
         List<SalesRecordEntity> sorted = new ArrayList<>();
         int size = object.size();
         for (int a = 0; a < size; a++) {
-            sorted.add(object.get(size-a-1));
+            sorted.add(object.get(size - a - 1));
         }
         return sorted;
+    }
+
+    @Override
+    public Boolean CheckExistence(Long productId, String productType) {
+        Calendar targetPeriod = Calendar.getInstance();
+        targetPeriod.add(Calendar.MONTH, 2);
+
+        if (productType.equals("StoreProduct")) {
+            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, productId);
+            if (storeProduct.getProductSalesForecastList().isEmpty()) {
+                return true;
+            } else {
+                ProductSalesForecastEntity productSalesForecast = storeProduct.getProductSalesForecastList().get(storeProduct.getProductSalesForecastList().size() - 1);
+                return !(productSalesForecast.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH));
+            }
+        } else {
+            StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, productId);
+            if (storeRetailProduct.getProductSalesForecastList().isEmpty()) {
+                return true;
+            } else {
+                ProductSalesForecastEntity productSalesForecast = storeRetailProduct.getProductSalesForecastList().get(storeRetailProduct.getProductSalesForecastList().size() - 1);
+                return !(productSalesForecast.getTargetPeriod().get(Calendar.YEAR) == targetPeriod.get(Calendar.YEAR) && productSalesForecast.getTargetPeriod().get(Calendar.MONTH) == targetPeriod.get(Calendar.MONTH));
+            }
+        }
+
+    }
+
+    @Override
+    public ProductSalesForecastEntity getProductSalesForecast(Long productSalesForecastId) {
+
+        return em.find(ProductSalesForecastEntity.class, productSalesForecastId);
+    }
+
+    @Override
+    public void editProductSalesForecast(Long productSalesForecastId, Double NewAmount) {
+        ProductSalesForecastEntity forecast = em.find(ProductSalesForecastEntity.class, productSalesForecastId);
+        forecast.setAmount(NewAmount);
+        em.persist(forecast);
+        em.flush();
     }
 
 }

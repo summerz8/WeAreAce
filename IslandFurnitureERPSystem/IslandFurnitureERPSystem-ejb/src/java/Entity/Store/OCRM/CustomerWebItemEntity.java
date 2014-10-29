@@ -18,20 +18,26 @@ import javax.persistence.OneToOne;
  * @author apple
  */
 @Entity
-public class ShoppingCartItem implements Serializable {
+public class CustomerWebItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String picture;
     private String productName;
-    private String avalibility;
+    private String availability;
     private String description;
     private Double price;
+    private Double memberPrice;
+    private String type;
     
     @OneToOne
     private ProductEntity product;
+    
 
+    public CustomerWebItemEntity(){    
+    }
+    
     public Long getId() {
         return id;
     }
@@ -56,12 +62,12 @@ public class ShoppingCartItem implements Serializable {
         this.productName = productName;
     }
 
-    public String getAvalibility() {
-        return avalibility;
+    public String getAvailability() {
+        return availability;
     }
 
-    public void setAvalibility(String avalibility) {
-        this.avalibility = avalibility;
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     public String getDescription() {
@@ -88,7 +94,23 @@ public class ShoppingCartItem implements Serializable {
         this.product = product;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Double getMemberPrice() {
+        return memberPrice;
+    }
+
+    public void setMemberPrice(Double memberPrice) {
+        this.memberPrice = memberPrice;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,10 +121,10 @@ public class ShoppingCartItem implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShoppingCartItem)) {
+        if (!(object instanceof CustomerWebItemEntity)) {
             return false;
         }
-        ShoppingCartItem other = (ShoppingCartItem) object;
+        CustomerWebItemEntity other = (CustomerWebItemEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -111,7 +133,7 @@ public class ShoppingCartItem implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.ShoppingCartItem[ id=" + id + " ]";
+        return "Entity.Store.OCRM.DisplayUnitEntity[ id=" + id + " ]";
     }
     
 }

@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author dan
  */
-@Named(value = "attr")
+@Named(value = "predefinedAttr")
 @SessionScoped
 public class PredefinedAttributes implements Serializable {
 

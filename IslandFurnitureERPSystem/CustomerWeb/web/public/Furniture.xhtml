@@ -55,16 +55,16 @@
                
 
                 <div style="width: 1000px; text-align:center; margin:auto; border: none">
-                    <p:dataScroller value="#{gallery.pictureList}" var="picture" chunkSize="10" style=" border: 5px">                     
-                        <div class="col-md-3" style = "margin:auto; border:5px;">
-                            <div class="thumbnail" style = " margin-right:  auto; border: none;">
-                                <img alt="300x200" src="../resources/images/#{picture}" />
-                                <div class="caption" style="border: none;">
+                    <p:dataScroller value="#{furnitureBean.itemList}" var="item" chunkSize="10" style=" border: 5px">                     
+                        <div class="col-md-3" style = "margin:auto;vertical-align:bottom">
+                            <div class="thumbnail" style = " margin-right:auto; border:none;vertical-align: text-bottom">
+                                <img alt="300x200" src="../resources/images/#{item.picture}" style="width: 130px; height: 130px;vertical-align: bottom" />
+                                <div class="caption" style="vertical-align: bottom">
                                     <h3 >
-                                        Sparking Sky
+                                       #{item.productName}
                                     </h3>
                                     <p>
-                                        Description....	
+                                        #{item.description}
                                     </p>
                                     <p>
                                         <a class="btn" href="#">Components</a>

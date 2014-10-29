@@ -37,10 +37,12 @@ import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import Entity.Store.OCRM.CustomerWebItemEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
+import Entity.Store.OCRM.SetEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
@@ -250,6 +252,18 @@ public class dataSetUp {
         em.flush();
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
         em.persist(p6);
+        em.flush();
+
+        ProductEntity p7 = new ProductEntity("Bed", "Wooden bed, Queen Size, light yellow", 600.0, 580.0, "one", false);
+        em.persist(p7);
+        em.flush();
+
+        ProductEntity p8 = new ProductEntity("Bedside", "Wooden bedside, 2 drawers, light yellow", 200.0, 180.0, "one", false);
+        em.persist(p8);
+        em.flush();
+
+        ProductEntity p9 = new ProductEntity("Closet", "Wooden closet, 200mm X 170mm,  light yellow", 500.0, 480.0, "one", false);
+        em.persist(p9);
         em.flush();
 
         //Factory Product
@@ -1636,25 +1650,99 @@ public class dataSetUp {
         //Product Sales Forecast Set up
         ProductSalesForecastEntity psfe1 = new ProductSalesForecastEntity();
         psfe1.setAmount(1600D);
-        psfe1.setPeriod(caltemp3);
+        psfe1.setTargetPeriod(caltemp3);
         psfe1.setStore(s1);
         psfe1.setStoreProduct(sp1_1);
+        psfe1.setStatus("Confirmed");
         em.persist(psfe1);
         em.flush();
 
         ProductSalesForecastEntity psfe2 = new ProductSalesForecastEntity();
         psfe2.setAmount(1500D);
-        psfe2.setPeriod(caltemp2);
+        psfe2.setTargetPeriod(caltemp2);
         psfe2.setStore(s1);
         psfe2.setStoreProduct(sp1_1);
+        psfe2.setStatus("Confirmed");
         em.persist(psfe2);
         em.flush();
 
         sp1_1.getProductSalesForecastList().add(psfe1);
         sp1_1.getProductSalesForecastList().add(psfe2);
+
         em.persist(sp1_1);
         em.flush();
 
+        //Set Up  CustomerWebItemEntity
+        CustomerWebItemEntity item = new CustomerWebItemEntity();
+        item.setDescription(p7.getDescription());
+        item.setProductName("Bed");
+        item.setPrice(p7.getPrice());
+        item.setMemberPrice(p7.getMemberPrice());
+        item.setPicture("bed_set4.png");
+        item.setAvailability("Avalible");
+        item.setType("Bed");
+        item.setProduct(p7);
+        em.persist(item);
+        em.flush();
+
+        CustomerWebItemEntity item1 = new CustomerWebItemEntity();
+        item1.setDescription("this is a good Bedside");
+        item1.setProductName("Bedside");
+        item1.setPrice(200D);
+        item1.setMemberPrice(180D);
+        item1.setPicture("bedside_set4.png");
+        item1.setAvailability("Avalible");
+        item1.setType("Desk");
+        item1.setProduct(p8);
+        em.persist(item1);
+        em.flush();
+
+        CustomerWebItemEntity item2 = new CustomerWebItemEntity();
+        item2.setDescription("this is a good Bedside");
+        item2.setProductName("Bedside");
+        item2.setPrice(200D);
+        item2.setMemberPrice(180D);
+        item2.setPicture("bedside2_set4.png");
+        item2.setAvailability("Avalible");
+        item2.setType("Desk");
+        item2.setProduct(p8);
+        em.persist(item2);
+        em.flush();
+
+        CustomerWebItemEntity item3 = new CustomerWebItemEntity();
+        item3.setDescription("this is a good closet");
+        item3.setProductName("Closet");
+        item3.setPrice(200D);
+        item3.setMemberPrice(180D);
+        item3.setPicture("closet_set4.png");
+        item3.setAvailability("Avalible");
+        item3.setType("Closet");
+        item3.setProduct(p9);
+        em.persist(item3);
+        em.flush();
+        
+        CustomerWebItemEntity item4 = new CustomerWebItemEntity();
+        item4.setDescription("best toy ever");
+        item4.setProductName("Captain America");
+        item4.setPrice(200D);
+        item4.setMemberPrice(180D);
+        item4.setPicture("CaptainAmerica.jpg");
+        item4.setAvailability("Avalible");
+        item4.setType("Others");
+        item4.setProduct(p9);
+        em.persist(item4);
+        em.flush();
+
+        SetEntity set1 = new SetEntity();
+        set1.setDescription("This set uses brown as its theme. Simple design, no extra decoration makes people feel comfortable and relaxed. It uses high quality wooden material and environment friendly oil paint.");
+        set1.setPicture("set4.png");
+        set1.setName("Modern Set 4");
+        set1.getUnitList().add(item);
+        set1.getUnitList().add(item1);
+        set1.getUnitList().add(item2);
+        set1.getUnitList().add(item3);
+        em.persist(set1);
+        em.flush();
     }
 
 }

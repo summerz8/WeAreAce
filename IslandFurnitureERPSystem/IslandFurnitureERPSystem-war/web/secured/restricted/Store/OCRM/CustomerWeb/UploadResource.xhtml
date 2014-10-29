@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="uploadResource" enctype="multipart/form-data">            
+            <p:panel id="panel" header="Add Photo" style="width:500px;">
+                <p:growl id="allMessage" autoUpdate="true"/>
+                <h:panelGrid id="panelGridAddPhoto" style="width:480px;"/>
+
+                <p:row>
+
+                    <p:column width="250px">
+                        <h:outputText value="Promotion ID: "/>
+                    </p:column>
+
+                    <p:column width="250px">
+                        <h:outputText value="#{fileUploadController.promotionId}" />
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+                    <br/><br/>
+                    <p:column width="250px">
+                        <h:outputText value="Upload Image: "/>
+                    </p:column>
+
+
+                    <p:column>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    </p:column>
+
+                    <p:column width="250px">
+                        <p:fileUpload value="Upload" 
+                                      fileUploadListener="#{createItem.handleProductItemImageUpload}"/>
+                    </p:column>
+
+
+                </p:row>
+
+                <p:row>
+                    <br/>
+                    <p:column width="250px">
+                        <h:outputText value="Description: "/>
+                    </p:column>
+                    <br/> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+                    <p:column width="250px">
+                        <p:inputTextarea rows="5" cols="30" counter="counter" maxlength="100"       
+                                         counterTemplate="{0} characters remaining." autoResize="false" value="#{fileUploadController.description}"/>  
+                        <h:outputText id="counter" /> 
+                    </p:column>
+
+                    <p:column width="250px">
+                        <p:commandButton value="Submit" ajax="true"  
+                                         />
+                    </p:column>
+
+                </p:row>
+            </p:panel>
+        </h:form>  
+    </h:body>
+</html>
+

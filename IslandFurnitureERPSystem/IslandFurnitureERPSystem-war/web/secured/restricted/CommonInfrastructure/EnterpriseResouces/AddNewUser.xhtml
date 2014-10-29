@@ -99,7 +99,7 @@
                                 <h:outputLabel for="title" value="Title: *" />
                                 <h:selectOneMenu value="#{newUser.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
                                     <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                    <f:selectItems value="#{predefinedAttr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                                 </h:selectOneMenu>
 
 
@@ -123,7 +123,7 @@
                                     <p:ajax listener="#{newUser.onDepartmentChange}" update="departmentid"/>
                                     <p:ajax listener="#{newUser.onDepartmentChange}" update="userlvl"/>
                                     <f:selectItem itemLabel="Select Department" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.departments}" var="department" itemLabel="#{departments}" itemValue="#{departments}"/>            
+                                    <f:selectItems value="#{predefinedAttr.departments}" var="department" itemLabel="#{departments}" itemValue="#{departments}"/>            
                                 </p:selectOneMenu>
 
 
@@ -148,7 +148,7 @@
                                 <h:outputLabel for="gender" value="Gender: *" />
                                 <h:selectOneMenu value="#{newUser.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
                                     <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                    <f:selectItems value="#{predefinedAttr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                                 </h:selectOneMenu>
 
                                 <h:outputLabel for="birthday" value="Birthday:*" />

@@ -49,9 +49,9 @@ public class CreateStoreProductSalesForecastBean {
 
     public String Confirm() {
         if (productType.equals("StoreProduct")) {
-            productSalesForecast = sfml.confirmProductSalesForecast(productSalesForecast.getPeriod(), productSalesForecast.getAmount(), productSalesForecast.getStore().getStoreId(), productType, productSalesForecast.getStoreProduct().getStoreProductId());
+            productSalesForecast = sfml.confirmProductSalesForecast(productSalesForecast.getTargetPeriod(), productSalesForecast.getAmount(), productSalesForecast.getStore().getStoreId(), productType, productSalesForecast.getStoreProduct().getStoreProductId());
         } else {
-            productSalesForecast = sfml.confirmProductSalesForecast(productSalesForecast.getPeriod(), productSalesForecast.getAmount(), productSalesForecast.getStore().getStoreId(), productType, productSalesForecast.getStoreRetailProduct().getStoreRetailProductId());
+            productSalesForecast = sfml.confirmProductSalesForecast(productSalesForecast.getTargetPeriod(), productSalesForecast.getAmount(), productSalesForecast.getStore().getStoreId(), productType, productSalesForecast.getStoreRetailProduct().getStoreRetailProductId());
         }
 
         return "SalesForecastIndex?face-redirect=true";

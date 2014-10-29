@@ -66,21 +66,20 @@
 
 
                 <div style="width: 800px; text-align:center; margin:auto; border: none;"  >
-                    <p:dataScroller value="#{gallery.pictureList}" var="picture" chunkSize="10"  style="border: none; " >
+                    <p:dataScroller value="#{gallery.setList}" var="set" chunkSize="10"  style="border: none; " >
                         <f:facet name="header">
                             Home Gallery
                         </f:facet>
 
                         <h:panelGrid columns="2"  columnClasses="logo,detail" style="left: 200px;border: none;">
-                            <a href="../public/set1.xhtml"> <img alt="300x200" src="../resources/images/#{picture}"  style = "text-align: left; margin-bottom:50px;width:500px; height:300px"/></a>
+                            <a href="../public/set.xhtml"> <img alt="300x200" src="../resources/images/#{set.picture}"  style = "text-align: left; margin-bottom:50px;width:500px; height:300px"/></a>
 
                             <p:outputPanel>
                                 <h:panelGrid columns="1" cellpadding="5" style="border: none;">
 
-                                    <h:outputText value="Tang and Sofa" style="font-weight: bold"/>
+                                    <h:outputText value="#{set.name}" />
 
-
-                                    <h:outputText value="ksdjf al jfalajfaj lkakjlafjlksajflsjafka flsaflkasjglkajlfajlflskajfl" />
+                                    <h:outputText value="#{set.description}" />
 
                                 </h:panelGrid>
                             </p:outputPanel>    

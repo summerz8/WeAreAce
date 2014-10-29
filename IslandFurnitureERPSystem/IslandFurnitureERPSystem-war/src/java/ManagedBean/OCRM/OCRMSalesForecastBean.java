@@ -111,11 +111,14 @@ public class OCRMSalesForecastBean {
             return "NoRightToProcess?faces-redirect=true";
         } else {
             Long productId = Long.valueOf(selectedStoreProduct);
+            if (sfml.CheckExistence(productId, "StoreProduct") == true) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreProduct");
+                return "CreateProductSalesForecast?faces-redirect=true";
+            } else {
+                return "CantCreateProductSalesForecast?faces-redirect=true";
+            }
 
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreProduct");
-
-            return "CreateProductSalesForecast?faces-redirect=true";
         }
     }
 
@@ -124,10 +127,14 @@ public class OCRMSalesForecastBean {
             return "NoRightToProcess?faces-redirect=true";
         } else {
             Long productId = Long.valueOf(selectedStoreRetailProduct);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreRetailProduct");
+            if (sfml.CheckExistence(productId, "StoreRetailProduct") == true) {
 
-            return "CreateProductSalesForecast?faces-redirect=true";
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ProductId", productId);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productType", "StoreRetailProduct");
+                return "CreateProductSalesForecast?faces-redirect=true";
+            } else {
+                return "CantCreateProductSalesForecast?faces-redirect=true";
+            }
         }
     }
 

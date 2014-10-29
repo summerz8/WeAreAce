@@ -57,65 +57,53 @@
 
                 <div style="width: 1000px; text-align:center; margin:auto; border: none;"  >
                     <p:galleria value="#{gallery.pictureList}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
-                        <img src="../resources/images/#{image}" alt="Image Description for #{image}" title="#{image}"/>
+                        <img src="../resources/images/#{image}" alt="Best sell of this week!" title="Modern Set 4"/>
                     </p:galleria>
                 </div>
 
                 <!--<p:panel id="basic" header="Set 1" style="border: none; position: absolute; right:200px; top:145px; width: 500px;margin: auto;margin-bottom" >-->
                 <div style="border: none; position: absolute; right:200px; top:145px; width: 500px;margin: auto;margin-bottom" >   
-                    <p:dataTable var="picture" value="#{gallery.pictureList}" > 
+                    <p:dataTable var="item" value="#{furnitureBean.itemList}" > 
                         <p:column headerText="Product Id" style="border: none;">
-                            <h:outputText value="#{picture}"  />
+                            <h:outputText value="#{item.id}"  />
                         </p:column>
 
                         <p:column headerText="Product Name" style="border: none;">
-                            <h:outputText value="#{picture}" />
+                            <h:outputText value="#{item.productName}" />
                         </p:column>
 
                         <p:column headerText="Price" style="border: none;" >
-                            <h:outputText value="#{picture}" />
+                            <h:outputText value="#{item.price}" />
                         </p:column>
 
                         <p:column headerText="Add to my shopping cart" style="border: none;">
-                            <p:commandButton value="Add" style="background-color: mediumseagreen; color: black; width: 60px; height: 30px; margin-left: 20px;background:  white" />
+                            <p:commandButton value="Add" style="color: white; width: 60px; height: 30px; margin-left: 20px;background: #c9302c" />
                         </p:column>
 
                     </p:dataTable>
                     <br></br><br></br>
-                    <p:commandButton value="Add"   onmouseover="this.style.backgroundColor = 'mediumseagreen'" onmouseout="this.style.backgroundColor = '#419641'" style=" background: green; font-size: 30px;color: black; border:none; width: 150px; height: 80px; margin-left: 20px" />
+                    <p:commandButton value="Add to Shopping Cart"   onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 300px; height: 40px; margin-left: 20px" />
 
                 </div>
                 <!--</p:panel>-->
                 <br></br><br></br><br></br><br></br>
-                <div class="col-md-12 column" style="bottom: 50px; bottom: 50px; width: 500px; left:100px">
+                <div class="col-md-12 column" style="bottom: 50px; bottom: 50px; width: 500px; left:130px">
                     <dl>
                         <dt>
-                            #{gallery.test}
+                           Modern Set 4
                         </dt>
                         <dd>
-                            A description list is perfect for defining terms.
+                            This set uses brown as its theme.  Simple design, no extra decoration makes people feel comfortable and relaxed.  It uses high quality wooden material and environment friendly oil paint.
                         </dd>
                         <dt>
-                            Euismod
+                            Component
                         </dt>
                         <dd>
-                            Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
+                            Bed 1900mmx1500mm   x1.
+                            Beside 50mmx45mm    x2.
+                            Closet 1800mmx500mm x1.
                         </dd>
-                        <dd>
-                            Donec id elit non mi porta gravida at eget metus.
-                        </dd>
-                        <dt>
-                            Malesuada porta
-                        </dt>
-                        <dd>
-                            Etiam porta sem malesuada magna mollis euismod.
-                        </dd>
-                        <dt>
-                            Felis euismod semper eget lacinia
-                        </dt>
-                        <dd>
-                            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                        </dd>
+                        
                     </dl>
                 </div>
             </h:form>
