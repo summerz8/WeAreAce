@@ -22,35 +22,35 @@ import javax.ejb.Local;
 @Local
 public interface CustomerOrderFulfillmentModuleLocal {
 
-    KitchenOrderEntity createOrder(Long kitchenId);
+    public KitchenOrderEntity createOrder(Long kitchenId);
     
-    Long addDishItem(Long orderId, Long dishId, Integer quantity);
+    public Long addDishItem(Long orderId, Long dishId, Integer quantity);
     
-    Long addComboItem(Long orderId, Long comboId, Integer quantity);
+    public Long addComboItem(Long orderId, Long comboId, Integer quantity);
     
-    Long confirmOrder(Long orderId);
+    public Long confirmOrder(Long orderId);
     
-    Long cancelOrder(Long orderId);
+    public Long cancelOrder(Long orderId);
 
-    Long serveOrder(Long orderId);
+    public Long serveOrder(Long orderId);
 
-    List<KitchenOrderEntity> getCurrentDateUnfulfilledOrder(Long kitchenId);
+    public List<KitchenOrderEntity> getCurrentDateUnfulfilledOrder(Long kitchenId);
 
-    List<KitchenOrderEntity> getDailyOrders(Long kitchenId, Date selectedDate);
+    public List<KitchenOrderEntity> getDailyOrders(Long kitchenId, Date selectedDate);
     
-    DailySalesEntity findDailySales(Long kitchenId, Date selectedDate);
+    public DailySalesEntity findDailySales(Long kitchenId, Date selectedDate);
     
-    List<KitchenOrderEntity> getCurrentDateUnservedOrder(Long kitchenId);
+    public List<KitchenOrderEntity> getCurrentDateUnservedOrder(Long kitchenId);
     
-    Long fulfillDishItem(Long orderId, Long detailedDishItemId);
+    public Long fulfillDishItem(Long orderId, Long detailedDishItemId);
     
-    Long deleteDishItem(Long orderId, Long dishItemId);
+    public Long deleteDishItem(Long orderId, Long dishItemId);
     
-    Long deleteComboItem(Long orderId, Long comboItemId);
+    public Long deleteComboItem(Long orderId, Long comboItemId);
 
-    List<DishItemEntity> findDailySalesDishItems(Long dailySalesId);
+    public List<DishItemEntity> findDailySalesDishItems(Long dailySalesId);
     
-    List<ComboItemEntity> findDailySalesComboItems(Long dailySalesId);
+    public List<ComboItemEntity> findDailySalesComboItems(Long dailySalesId);
 
-    List<IngredientItemEntity> findRecipe(Long dishId);
+    public List<IngredientItemEntity> findRecipe(Long dishId);
 }

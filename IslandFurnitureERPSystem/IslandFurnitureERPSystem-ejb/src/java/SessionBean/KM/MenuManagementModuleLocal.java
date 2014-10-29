@@ -21,37 +21,37 @@ import javax.ejb.Local;
 @Local
 public interface MenuManagementModuleLocal {
 
-    DishEntity addDish(Long kitchenId, String name, Double price, String remark, Integer recipeQuantity);
+    public DishEntity addDish(Long kitchenId, String name, Double price, String remark, Integer recipeQuantity);
 
-    ComboEntity addCombo(Long kitchenId, String name, Double price, String remark);
+    public ComboEntity addCombo(Long kitchenId, String name, Double price, String remark);
 
-    Long deleteDish(Long dishId);
+    public Long deleteDish(Long dishId);
 
-    Long deleteCombo(Long comboId);
+    public Long deleteCombo(Long comboId);
 
-    Long editDish(Long dishId, String name, Double price, String remark, Integer recipeQuantity);
-    
-    Long editCombo(Long comboId, String name, Double price, String remark);
+    public Long editDish(Long dishId, String name, Double price, String remark, Integer recipeQuantity);
 
-    Long addIngredientItem(Long dishId, Long ingredientId, Double quantity);
+    public Long editCombo(Long comboId, String name, Double price, String remark);
 
-    Long addDishItem(Long comboId, Long dishId, Integer quantity);
+    public Long addIngredientItem(Long dishId, Long ingredientId, Double quantity);
 
-    Long editRecipe(Long ingredientItemId, Double quantity);
-    
-    Long editDishItem(Long dishItemId, Integer quantity);
-    
-    Long deleteRecipeItem(Long dishId, Long ingredientItemId);
-    
-    Long deleteDishItem(Long comboId, Long dishItemId);
+    public Long addDishItem(Long comboId, Long dishId, Integer quantity);
 
-    List<IngredientItemEntity> getRecipeItems(Long dishId);
-    
-    List<DishItemEntity> getDishItems(Long comboId);
-    
-    List<DishEntity> getDishes(Long kitchenId);
-    
-    List<ComboEntity> getCombos(Long kitchenId);
+    public Long editRecipe(Long ingredientItemId, Double quantity);
 
-    List<IngredientEntity> getIngredients(Long kitchenId);
+    public Long editDishItem(Long dishItemId, Integer quantity);
+
+    public Long deleteRecipeItem(Long dishId, Long ingredientItemId);
+
+    public Long deleteDishItem(Long comboId, Long dishItemId);
+
+    public List<IngredientItemEntity> getRecipeItems(Long dishId);
+
+    public List<DishItemEntity> getDishItems(Long comboId);
+
+    public List<DishEntity> getDishes(Long kitchenId);
+
+    public List<ComboEntity> getCombos(Long kitchenId);
+
+    public List<IngredientEntity> getIngredients(Long kitchenId);
 }

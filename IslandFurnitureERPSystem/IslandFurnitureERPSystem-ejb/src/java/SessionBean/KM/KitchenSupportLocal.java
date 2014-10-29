@@ -22,16 +22,16 @@ public interface KitchenSupportLocal {
 
 //    KitchenEntity findKitchen(String id);
 
-    DishEntity findDish(Long kitchenId, String id);
+    public DishEntity findDish(Long kitchenId, String id);
 
-    IngredientEntity findIngredient(Long kitchenId, String id);
+    public IngredientEntity findIngredient(Long kitchenId, String id);
 
-    IngredientSupplierEntity findIngredientSupplier(Long kitchenId, String id);
+    public IngredientSupplierEntity findIngredientSupplier(Long kitchenId, String id);
 
-    StoragePlaceEntity findStoragePlace(Long kitchenId, String id);
+    public StoragePlaceEntity findStoragePlace(Long kitchenId, String id);
 
-    ComboEntity findCombo(Long kitchenId, String name);
+    public ComboEntity findCombo(Long kitchenId, String name);
     
-    KitchenEntity findKitchenByStoreId(Long storeId);
+    public KitchenEntity findKitchenByStoreId(Long storeId);
     
 }
