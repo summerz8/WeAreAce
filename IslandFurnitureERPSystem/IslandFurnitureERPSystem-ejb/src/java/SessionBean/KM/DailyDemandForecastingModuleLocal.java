@@ -24,29 +24,29 @@ import javax.ejb.Local;
 @Local
 public interface DailyDemandForecastingModuleLocal {
 
-    IngredientForecastEntity generateIngredientForecast(Long menuItemForecastId);
+    public IngredientForecastEntity generateIngredientForecast(Long menuItemForecastId);
 
-    List<DishItemEntity> getDishForecastItems(Long menuItemForecastId);
+    public List<DishItemEntity> getDishForecastItems(Long menuItemForecastId);
 
-    List<ComboItemEntity> getComboForecastItems(Long menuItemForecastId);
+    public List<ComboItemEntity> getComboForecastItems(Long menuItemForecastId);
 
-    Long editDishForecastItem(Long dishItemId, Integer quantity);
+    public Long editDishForecastItem(Long dishItemId, Integer quantity);
 
-    Long editComboForecastItem(Long comboItemId, Integer quantity);
+    public Long editComboForecastItem(Long comboItemId, Integer quantity);
 
-    List<IngredientItemEntity> getIngredientForecastItems(Long ingredientForecastId);
+    public List<IngredientItemEntity> getIngredientForecastItems(Long ingredientForecastId);
 
-    Long editIngredientForecastItem(Long ingredientForecastItemId, Double quantity);
+    public Long editIngredientForecastItem(Long ingredientForecastItemId, Double quantity);
 
-    MenuItemForecastEntity findMenuItemForecast(Long kitchenId, Date targetDate);
+    public MenuItemForecastEntity findMenuItemForecast(Long kitchenId, Date targetDate);
 
-    IngredientForecastEntity findIngredientForecast(Long kitchenId, Date targetDate);
+    public IngredientForecastEntity findIngredientForecast(Long kitchenId, Date targetDate);
 
-    DishItemEntity getDishItem(Long dishItemId);
+    public DishItemEntity getDishItem(Long dishItemId);
 
-    ComboItemEntity getComboItem(Long comboItemId);
+    public ComboItemEntity getComboItem(Long comboItemId);
 
-    LinkedHashMap<Calendar, Integer> getWeeklyDishSales(Long kitchenId, Long dishId);
+    public LinkedHashMap<Calendar, Integer> getWeeklyDishSales(Long kitchenId, Long dishId);
     
-    LinkedHashMap<Calendar, Integer> getWeeklyComboSales(Long kitchenId, Long comboId);
+    public LinkedHashMap<Calendar, Integer> getWeeklyComboSales(Long kitchenId, Long comboId);
 }
