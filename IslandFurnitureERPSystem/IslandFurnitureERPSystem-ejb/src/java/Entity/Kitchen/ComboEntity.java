@@ -16,20 +16,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
 
 /**
  *
  * @author Yoky
  */
-
 @Entity
-@XmlAccessorType(value = XmlAccessType.FIELD)
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"KITCHEN_ID", "NAME"}))
 public class ComboEntity implements Serializable {
 
@@ -46,18 +40,11 @@ public class ComboEntity implements Serializable {
     private String remark;
     private boolean deleted;
     @ManyToOne
-    @XmlTransient
     private KitchenEntity kitchen;
     @ManyToMany
     private List<MenuItemForecastEntity> forecasts = new ArrayList<>();
-
-    
-    @ManyToMany(mappedBy = "combos")
-    private List<DishEntity> dishList = new ArrayList<>();
-
     @ManyToMany
     private List<DailySalesEntity> dailySales = new ArrayList<>();
-
 
     public ComboEntity() {
         deleted = false;
@@ -135,17 +122,6 @@ public class ComboEntity implements Serializable {
         this.forecasts = forecasts;
     }
 
-
-    public List<DishEntity> getDishList() {
-        return dishList;
-    }
-
-    public void setDishList(List<DishEntity> dishList) {
-        this.dishList = dishList;
-    }
-    
-    
-
     public List<DailySalesEntity> getDailySales() {
         return dailySales;
     }
@@ -153,7 +129,6 @@ public class ComboEntity implements Serializable {
     public void setDailySales(List<DailySalesEntity> dailySales) {
         this.dailySales = dailySales;
     }
-
 
     @Override
     public int hashCode() {

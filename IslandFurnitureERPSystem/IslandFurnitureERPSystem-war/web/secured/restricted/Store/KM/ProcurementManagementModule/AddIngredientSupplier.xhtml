@@ -89,7 +89,7 @@
                         <h:panelGrid columns="2" cellpadding="5">
 
                             <p:outputLabel value="Name: " />
-                            <h:inputText value="#{ingredientSupplierBean.name}" />
+                            <h:inputText value="#{ingredientSupplierBean.name}" required="true" />
 
                             <p:outputLabel value="Addrss: " />
                             <h:inputText value="#{ingredientSupplierBean.address}" />
@@ -105,7 +105,7 @@
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Submit" actionListener="#{ingredientSupplierBean.addSupplier}"/>
+                        <p:commandButton value="Submit" actionListener="#{ingredientSupplierBean.addSupplier}" action="IngredientSupplierList.xhtml?faces-redirect=true"/>
 
                     </h:form>
 

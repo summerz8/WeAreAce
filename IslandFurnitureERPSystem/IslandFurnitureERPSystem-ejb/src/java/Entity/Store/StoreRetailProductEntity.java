@@ -3,18 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store;
 
-import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Store.OCRM.ProductSalesForecastEntity;
+import Entity.Store.OCRM.SalesRecordEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,24 +28,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "StoreRetailProduct")
 public class StoreRetailProductEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeRetailProductId;
     private Double quantity;
+    private String Name;
 
     //store retail product entity -- factory retail productentity: M <--> 1 
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
-    
+
     //store retail product entity -- stores entity: M <--> 1
     @ManyToOne
     private StoreEntity store;
-    
 
     //store retail product entity -- retail product: M<-->1
     @ManyToOne
     private RetailProductEntity retailProduct;
+
+    @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="storeRetailProduct")
+    private List<SalesRecordEntity> salesRecordList;
+    
+    @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="storeRetailProduct")
+    private List<ProductSalesForecastEntity> productSalesForecastList;
 
     public StoreRetailProductEntity() {
     }
@@ -49,9 +60,10 @@ public class StoreRetailProductEntity implements Serializable {
     public StoreRetailProductEntity(FactoryRetailProductEntity factoryretail, StoreEntity store) {
         this.factoryRetailProduct = factoryretail;
         this.store = store;
+        salesRecordList=new ArrayList<>();
+        productSalesForecastList=new ArrayList<>();
     }
-    
-    
+
     public Long getStoreRetailProductId() {
         return storeRetailProductId;
     }
@@ -76,8 +88,6 @@ public class StoreRetailProductEntity implements Serializable {
         this.factoryRetailProduct = factoryRetailProduct;
     }
 
-    
-
     public StoreEntity getStore() {
         return store;
     }
@@ -93,8 +103,32 @@ public class StoreRetailProductEntity implements Serializable {
     public void setRetailProduct(RetailProductEntity retailProduct) {
         this.retailProduct = retailProduct;
     }
+
+    public List<SalesRecordEntity> getSalesRecordList() {
+        return salesRecordList;
+    }
+
+    public void setSalesRecordList(List<SalesRecordEntity> salesRecordList) {
+        this.salesRecordList = salesRecordList;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public List<ProductSalesForecastEntity> getProductSalesForecastList() {
+        return productSalesForecastList;
+    }
+
+    public void setProductSalesForecastList(List<ProductSalesForecastEntity> productSalesForecast) {
+        this.productSalesForecastList = productSalesForecast;
+    }
+
     
-   
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,5 +153,5 @@ public class StoreRetailProductEntity implements Serializable {
     public String toString() {
         return "Entity.Store.StoreRetailProduct[ id=" + storeRetailProductId + " ]";
     }
-    
+
 }

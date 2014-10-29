@@ -11,6 +11,7 @@ import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.KitchenEntity;
 import SessionBean.KM.RawIngredientsManagementModuleLocal;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -38,8 +39,8 @@ public class IngredientIssueBean implements Serializable {
     private IngredientIssueEntity selectedII;
     private List<IngredientItemEntity> filteredIIItems;
     private Date selectedTargetDate;
-
     private String message;
+    private Calendar cal;
 
     public IngredientIssueBean() {
     }
@@ -84,10 +85,19 @@ public class IngredientIssueBean implements Serializable {
         this.message = message;
     }
 
+    public Calendar getCal() {
+        return cal;
+    }
+
+    public void setCal(Calendar cal) {
+        this.cal = cal;
+    }
+
     @PostConstruct
     public void init() {
         try {
             kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
+            cal = Calendar.getInstance();
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: init(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
@@ -116,19 +126,25 @@ public class IngredientIssueBean implements Serializable {
 
     public void findRequiredIngredientIssue(ActionEvent event) {
         try {
-            selectedII = rim.findIngredientIssue(kitchen.getId(), selectedTargetDate);
-            if (selectedII == null) {
-                IngredientForecastEntity selectedIF = rim.findIngredientForecast(kitchen.getId(), selectedTargetDate);
-                if (selectedIF == null) {
-                    message = "The Raw Ingredient Forecast referred to for the selected date is not generated yet";
-                    RequestContext context = RequestContext.getCurrentInstance();
-                    context.execute("PF('message').show();");
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('message').show();");
+            } else {
+                selectedII = rim.findIngredientIssue(kitchen.getId(), selectedTargetDate);
+                if (selectedII == null) {
+                    IngredientForecastEntity selectedIF = rim.findIngredientForecast(kitchen.getId(), selectedTargetDate);
+                    if (selectedIF == null) {
+                        message = "The Raw Ingredient Forecast referred to for the selected date is not generated yet";
+                        RequestContext context = RequestContext.getCurrentInstance();
+                        context.execute("PF('message').show();");
+                    } else {
+                        selectedII = rim.generateIngredientIssue(selectedIF.getId());
+                        filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
+                    }
                 } else {
-                    selectedII = rim.generateIngredientIssue(selectedIF.getId());
                     filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
                 }
-            } else {
-                filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");
@@ -139,16 +155,22 @@ public class IngredientIssueBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         try {
             IngredientItemEntity ii = (IngredientItemEntity) event.getObject();
-            Long iiId = rim.editIngredientIssueItem(ii.getId(), ii.getQuantity());
-            if (iiId == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Request issue quantity is larger than the stock");
+            if (ii.getQuantity() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Quantity cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-            } else if (iiId == -2L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Ingredient Issue Item of " + ii.getIngredient().getName() + " is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Long iiId = rim.editIngredientIssueItem(ii.getId(), ii.getQuantity());
+                if (iiId == -1L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Request issue quantity is larger than the stock");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else if (iiId == -2L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "Ingredient Issue Item of " + ii.getIngredient().getName() + " is Edited");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
             filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
         } catch (Exception ex) {

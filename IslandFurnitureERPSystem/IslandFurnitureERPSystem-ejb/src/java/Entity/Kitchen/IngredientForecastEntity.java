@@ -14,7 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -29,23 +29,29 @@ public class IngredientForecastEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @OneToMany
     private List<IngredientItemEntity> forecastItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime = Calendar.getInstance();
+    private Calendar creationTime;
     @OneToOne
     @JoinColumn(unique = true, nullable = false)
     private MenuItemForecastEntity menuItemForecast;
     @OneToOne(mappedBy = "forecast")
-    private IngredientPurchaseOrderEntity purchaseOrder = null;
+    private IngredientPurchaseOrderEntity purchaseOrder;
     @OneToOne(mappedBy = "forecast")
-    private IngredientIssueEntity issue = null;
+    private IngredientIssueEntity issue;
 
     public IngredientForecastEntity() {
+        purchaseOrder = null;
+        issue = null;
+        creationTime = Calendar.getInstance();
     }
 
     public IngredientForecastEntity(MenuItemForecastEntity menuItemForecast) {
         this.menuItemForecast = menuItemForecast;
+        purchaseOrder = null;
+        issue = null;
+        creationTime = Calendar.getInstance();
     }
 
     public Long getId() {

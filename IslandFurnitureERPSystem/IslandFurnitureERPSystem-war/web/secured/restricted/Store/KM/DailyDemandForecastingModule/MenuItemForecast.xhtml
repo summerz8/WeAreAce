@@ -117,16 +117,10 @@
                                     </div>
                                 </f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{menuItemForecastBean.onRowEditDish}" update=":formMain"/>
+                                <p:ajax event="rowEdit" listener="#{menuItemForecastBean.onRowEditDish}" update="DishForecastList"/>
                                 <p:ajax event="rowEditCancel" listener="#{menuItemForecastBean.onRowCancel}" update="DishForecastList"/>
 
-                                <p:ajax event="rowToggle" listener="#{menuItemForecastBean.onRowToggleDish}" />  
-
-                                <p:column style="width:16px">
-                                    <p:rowToggler />
-                                </p:column>
-
-                                <p:column headerText=" Dish ID" filterBy="#{di.dish.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Dish ID" filterBy="#{di.dish.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{di.dish.id}"/>
                                 </p:column>
 
@@ -137,19 +131,18 @@
                                 <p:column headerText="Forecast Quantity (Daily)" filterBy="#{di.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{di.quantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{di.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{di.quantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
+<!--                                <p:column headerText="Past Week Sales" width="15%">
+                                    <p:commandButton actionListener="#{menuItemForecastBean.setSelectedDishModel(di.dish)}" icon="ui-icon-folder-open" onclick="PF('selectedModelDiag').show();" >
+                                    </p:commandButton> 
+                                </p:column>-->
+                                
                                 <p:column headerText="Edit" width="8%" rendered="#{menuItemForecastBean.selectedMif.ingredientForecast eq null}">
                                     <p:rowEditor/>
                                 </p:column>
-
-                                <p:rowExpansion>
-                                    <p:panel>
-                                        <p:lineChart value="#{menuItemForecastBean.selectedModel}" style="height:400px;" />
-                                    </p:panel>
-                                </p:rowExpansion>
 
                             </p:dataTable>
 
@@ -166,14 +159,8 @@
                                     </div>
                                 </f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{menuItemForecastBean.onRowEditCombo}" update=":formMain"/>
+                                <p:ajax event="rowEdit" listener="#{menuItemForecastBean.onRowEditCombo}" update="ComboForecastList"/>
                                 <p:ajax event="rowEditCancel" listener="#{menuItemForecastBean.onRowCancel}" update="ComboForecastList"/>
-
-                                <p:ajax event="rowToggle" listener="#{menuItemForecastBean.onRowToggleCombo}" />  
-
-                                <p:column style="width:16px">
-                                    <p:rowToggler />
-                                </p:column>
 
                                 <p:column headerText="Combo ID" filterBy="#{ci.combo.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ci.combo.id}"/>
@@ -186,27 +173,36 @@
                                 <p:column headerText="Forecast Quantity (Daily)" filterBy="#{ci.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{ci.quantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{ci.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{ci.quantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
+
+<!--                                <p:column headerText="Past Week Sales" width="15%">
+                                    <p:commandButton actionListener="#{menuItemForecastBean.setSelectedComboModel(ci.combo)}" icon="ui-icon-folder-open" onclick="PF('selectedModelDiag').show();" >
+                                    </p:commandButton> 
+                                </p:column>-->
 
                                 <p:column headerText="Edit" width="8%" rendered="#{menuItemForecastBean.selectedMif.ingredientForecast eq null}">
                                     <p:rowEditor/>
                                 </p:column>
-
-                                <p:rowExpansion>
-                                    <p:panel>
-                                        <p:dataTable rendered="false" />
-                                        <p:lineChart value="#{menuItemForecastBean.selectedModel}" style="height:400px;" />
-                                    </p:panel>
-                                </p:rowExpansion>
 
                             </p:dataTable>
 
                         </h:form>
 
                     </p:panel>
+
+<!--                    <p:dialog widgetVar="selectedModelDiag" header="Past Week Sales"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true">
+                        <p:panel>
+                            <p:dataTable rendered="false"/>
+                            <p:lineChart value="#{menuItemForecastBean.selectedModel}" style="height:400px;" />
+                        </p:panel>
+                    </p:dialog>-->
+                    
                 </p:layoutUnit>
+                
                 <p:dialog header="Message" widgetVar="message" showEffect="fade" hideEffect="fade" resizable="false">
                     <p:outputPanel id="messageDetail" style="text-align:center;">
                         #{menuItemForecastBean.message}
@@ -216,17 +212,18 @@
                         </p:commandButton>
                     </div>
                 </p:dialog>
+                
             </p:layout>
         </h:form>
 
         <h:form>
             <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
-                      draggable="true" closable="true" visible="true">
+                      draggable="true" closable="false" visible="true">
 
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Target Date: " />
-                    <p:calendar value="#{menuItemForecastBean.selectedTargetDate}"/>
+                    <p:calendar value="#{menuItemForecastBean.selectedTargetDate}" maxdate="#{menuItemForecastBean.cal.time}"/>
                 </h:panelGrid>
                 <div align="center">
                     <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{menuItemForecastBean.findRequiredMenuItemForecast}" update=":formMain" >

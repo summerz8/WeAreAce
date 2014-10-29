@@ -13,6 +13,9 @@
     <service name="PickupListModule">
       <implementation-class>SessionBean.OCRM.PickupListModule</implementation-class>
     </service>
+    <service name="CustomerOrderFulfillmentModule">
+      <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

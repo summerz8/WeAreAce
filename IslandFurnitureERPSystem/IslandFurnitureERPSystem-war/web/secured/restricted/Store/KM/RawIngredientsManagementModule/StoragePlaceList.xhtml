@@ -105,7 +105,7 @@
                             <p:column headerText="Location" filterBy="#{sp.location}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{sp.location}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{sp.location}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{sp.location}" required="true" /></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
@@ -142,7 +142,7 @@
                             <h:inputText value="#{storagePlaceBean.location}" />
 
 
-                        <p:commandButton value="Submit" actionListener="#{storagePlaceBean.addStoragePlace}" update="storagePlaceList" oncomplete="PF('dlg1').hide()">
+                        <p:commandButton value="Submit" actionListener="#{storagePlaceBean.addStoragePlace}" update="storagePlaceList" >
                         </p:commandButton>
                     </p:dialog>
                 </p:layoutUnit>

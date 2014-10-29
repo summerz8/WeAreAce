@@ -6,20 +6,16 @@
 
 package Entity.Store.OCRM;
 
-import Entity.Store.OCRM.StoreProductAmountEntity;
-import Entity.Store.OCRM.StoreRetailProductAmountEntity;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreProductEntity;
+import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -33,26 +29,35 @@ public class SalesRecordEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long salesRecordId;
     
+       //Sales record -- store M-->1
     @ManyToOne
     private StoreEntity store;
     
+    //Sales record -- store product M <--> 1
+    @ManyToOne
+    private StoreProductEntity storeProduct;
+
+    //Sales record -- store retail product M <--> 1
+    @ManyToOne
+    private StoreRetailProductEntity storeRetailProduct;
+
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar targetPeriod;
-    private String status; // unconfirmed, confirmed
-    //store product amount entity -- sales forecast entity M <-- 1
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private List<StoreProductAmountEntity> storeProductList = new ArrayList<>();
-
-    //store product amount entity -- sales forecast entity M <-- 1
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private List<StoreRetailProductAmountEntity> storeRetailProductList = new ArrayList<>();
-
+    private Calendar recordPeriod;
+    private Double amount;  //sold amount for this product in this month
+    private Double revenue; //earned revenue for this product in this month
+    
     public SalesRecordEntity() {
+        amount=0D;
+        revenue=0D;
+        recordPeriod=Calendar.getInstance();
     }
 
-    public SalesRecordEntity(StoreEntity store, Calendar targetPeriod) {
-        this.store = store;
-        this.targetPeriod = targetPeriod;
+    public Long getSalesRecordId() {
+        return salesRecordId;
+    }
+
+    public void setSalesRecordId(Long salesRecordId) {
+        this.salesRecordId = salesRecordId;
     }
 
     public StoreEntity getStore() {
@@ -63,47 +68,47 @@ public class SalesRecordEntity implements Serializable {
         this.store = store;
     }
 
-    public Calendar getTargetPeriod() {
-        return targetPeriod;
+    public StoreProductEntity getStoreProduct() {
+        return storeProduct;
     }
 
-    public void setTargetPeriod(Calendar targetPeriod) {
-        this.targetPeriod = targetPeriod;
+    public void setStoreProduct(StoreProductEntity storeProduct) {
+        this.storeProduct = storeProduct;
     }
 
-    public String getStatus() {
-        return status;
+    public StoreRetailProductEntity getStoreRetailProduct() {
+        return storeRetailProduct;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<StoreProductAmountEntity> getStoreProductList() {
-        return storeProductList;
-    }
-
-    public void setStoreProductList(List<StoreProductAmountEntity> storeProductList) {
-        this.storeProductList = storeProductList;
-    }
-
-    public List<StoreRetailProductAmountEntity> getStoreRetailProductList() {
-        return storeRetailProductList;
-    }
-
-    public void setStoreRetailProductList(List<StoreRetailProductAmountEntity> storeRetailProductList) {
-        this.storeRetailProductList = storeRetailProductList;
+    public void setStoreRetailProduct(StoreRetailProductEntity storeRetailProduct) {
+        this.storeRetailProduct = storeRetailProduct;
     }
     
+    public Calendar getRecordPeriod() {
+        return recordPeriod;
+    }
+
+    public void setRecordPeriod(Calendar recordPeriod) {
+        this.recordPeriod = recordPeriod;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Double revenue) {
+        this.revenue = revenue;
+    }
+
     
-    public Long getSalesRecordId() {
-        return salesRecordId;
-    }
-
-    public void setSalesRecordId(Long salesRecordId) {
-        this.salesRecordId = salesRecordId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;

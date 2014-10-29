@@ -12,6 +12,7 @@ import Entity.Kitchen.KitchenEntity;
 import SessionBean.KM.DailyDemandForecastingModuleLocal;
 import SessionBean.KM.ProcurementManagementModuleLocal;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -42,6 +43,7 @@ public class IngredientForecastBean implements Serializable {
     private List<IngredientItemEntity> filteredIfItems;
     private Date selectedTargetDate;
     private String message;
+    private Calendar cal;
 
     public IngredientForecastBean() {
     }
@@ -86,10 +88,20 @@ public class IngredientForecastBean implements Serializable {
         this.message = message;
     }
 
+    public Calendar getCal() {
+        return cal;
+    }
+
+    public void setCal(Calendar cal) {
+        this.cal = cal;
+    }
+
     @PostConstruct
     public void init() {
         try {
             kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
+            cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, 2);
             selectedIF = (IngredientForecastEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ingredientForecastFromMIF");
             if (selectedIF == null) {
                 RequestContext context = RequestContext.getCurrentInstance();
@@ -124,13 +136,19 @@ public class IngredientForecastBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         try {
             IngredientItemEntity ii = (IngredientItemEntity) event.getObject();
-            Long iiId = ddf.editIngredientForecastItem(ii.getId(), ii.getQuantity());
-            if (iiId == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            if (ii.getQuantity() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Quantity cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
+
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Ingredient Forecast Item of " + ii.getIngredient().getName() + " is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Long iiId = ddf.editIngredientForecastItem(ii.getId(), ii.getQuantity());
+                if (iiId == -1L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "Ingredient Forecast Item of " + ii.getIngredient().getName() + " is Edited");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
             filteredIfItems = ddf.getIngredientForecastItems(selectedIF.getId());
         } catch (Exception ex) {
@@ -149,13 +167,19 @@ public class IngredientForecastBean implements Serializable {
 
     public void findRequiredIngredientForecast(ActionEvent event) {
         try {
-            selectedIF = ddf.findIngredientForecast(kitchen.getId(), selectedTargetDate);
-            if (selectedIF == null) {
-                message = "The Raw Ingredient Forecast for the selected target date is not generated yet";
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('message').show();");
             } else {
-                filteredIfItems = ddf.getIngredientForecastItems(selectedIF.getId());
+                selectedIF = ddf.findIngredientForecast(kitchen.getId(), selectedTargetDate);
+                if (selectedIF == null) {
+                    message = "The Raw Ingredient Forecast for the selected target date is not generated yet";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else {
+                    filteredIfItems = ddf.getIngredientForecastItems(selectedIF.getId());
+                }
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");

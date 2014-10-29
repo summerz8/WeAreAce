@@ -9,6 +9,7 @@ import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientPurchaseOrderEntity;
 import Entity.Kitchen.IngredientReceiptEntity;
+import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import java.util.Calendar;
 import java.util.Date;
@@ -127,14 +128,18 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
     }
 
     @Override
-    public Long editPurchaseItem(Long purchaseItemId, Double quantity) {
+    public Long editPurchaseItem(Long ingredientPurchaseOrderId, Long purchaseItemId, Double quantity) {
         try {
+            IngredientPurchaseOrderEntity ipo = em.find(IngredientPurchaseOrderEntity.class, ingredientPurchaseOrderId);
             IngredientItemEntity ii = em.find(IngredientItemEntity.class, purchaseItemId);
 //            Double temp = quantity / ii.getIngredient().getLotSize();
             if ((quantity / ii.getIngredient().getLotSize()) % 1 != 0) {
                 System.out.println("SessionBean.KM.ProcurementManagementModule: editPurchaseItem(): Failed. Quantity does not comply with the lot size constraint.");
                 return -1L;
             }
+            Double priceChange = ii.getIngredient().getPrice() * ((quantity - ii.getQuantity()) / ii.getIngredient().getLotSize());
+            ipo.setTotal(ipo.getTotal() + priceChange);
+            ipo.setActuralTotal(ipo.getTotal());
             ii.setQuantity(quantity);
             return ii.getId();
         } catch (Exception ex) {
@@ -171,4 +176,78 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
         }
     }
 
+    // return ingredient supplier ID
+    //        -1L if an unexpected exception occurred
+    @Override
+    public Long addSupplier(Long kitchenId, String name, String address, String contact, String fax, String remark) {
+        try {
+            KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
+            IngredientSupplierEntity supplier = new IngredientSupplierEntity(name, address, contact, fax, remark, kitchen);
+            em.persist(supplier);
+            kitchen.getIngredientSuppliers().add(supplier);
+            em.flush();
+            System.out.println("SessionBean.KM.ProcurementManagementModule: addSupplier(): Succcessful. New Ingredient Supplier " + supplier.getId() + " is added.");
+            return supplier.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.ProcurementManagementModule: addSupplier(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    // return ingredient supplier ID
+    //        -1L if an unexpected exception occurred
+    @Override
+    public Long editSupplier(Long ingredientSupplierId, String name, String address, String contact, String fax, String remark) {
+        try {
+            IngredientSupplierEntity supplier = em.find(IngredientSupplierEntity.class, ingredientSupplierId);
+            supplier.setName(name);
+            supplier.setAddress(address);
+            supplier.setContact(contact);
+            supplier.setFax(fax);
+            supplier.setRemark(remark);
+            em.flush();
+            System.out.println("SessionBean.KM.ProcurementManagementModule: editSupplier(): Succcessful. Ingredient Supplier " + supplier.getId() + " is edited.");
+            return supplier.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.ProcurementManagementModule: editSupplier(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    // return ingredient supplier ID
+    //        -1L if ingredient supplier has raw ingredients to supply currently
+    //        -2L if an unexpected exception occurred
+    @Override
+    public Long deleteSupplier(Long ingredientSupplierId) {
+        try {
+            IngredientSupplierEntity supplier = em.find(IngredientSupplierEntity.class, ingredientSupplierId);
+            if (!supplier.getIngredients().isEmpty()) {
+                System.out.println("SessionBean.KM.ProcurementManagementModule: deleteSupplier(): Failed. The ingredient supplier has raw ingredients to supply currently.");
+                return -1L;
+            }
+            supplier.getKitchen().getIngredientSuppliers().remove(supplier);
+            supplier.setKitchen(null);
+            supplier.setDeleted(true);
+            em.flush();
+            return supplier.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.ProcurementManagementModule: deleteSupplier(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -2L;
+        }
+    }
+
+    @Override
+    public List<IngredientSupplierEntity> getSuppliers(Long kitchenId) {
+        return em.find(KitchenEntity.class, kitchenId).getIngredientSuppliers();
+    }
+
+    @Override
+    public Double getIPOTotal(Long IPOId) {
+        return em.find(IngredientPurchaseOrderEntity.class, IPOId).getTotal();
+    }
+    
+    
 }

@@ -10,6 +10,7 @@ import Entity.Kitchen.IngredientPurchaseOrderEntity;
 import Entity.Kitchen.KitchenEntity;
 import SessionBean.KM.ProcurementManagementModuleLocal;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -38,7 +39,9 @@ public class IngredientPurchaseOrderBean implements Serializable {
     private List<IngredientItemEntity> filteredIPOItems;
     private Date selectedTargetDate;
     private String message;
-
+    private Calendar cal;
+    private Double total;
+    private Double actualTotal;
 
     public IngredientPurchaseOrderBean() {
     }
@@ -83,10 +86,36 @@ public class IngredientPurchaseOrderBean implements Serializable {
         this.message = message;
     }
 
+    public Calendar getCal() {
+        return cal;
+    }
+
+    public void setCal(Calendar cal) {
+        this.cal = cal;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public Double getActualTotal() {
+        return actualTotal;
+    }
+
+    public void setActualTotal(Double actualTotal) {
+        this.actualTotal = actualTotal;
+    }
+
     @PostConstruct
     public void init() {
         try {
             kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
+            cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, 2);
             selectedIPO = (IngredientPurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ingredientPurchaseOrderFromIF");
             if (selectedIPO == null) {
                 RequestContext context = RequestContext.getCurrentInstance();
@@ -94,6 +123,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ingredientPurchaseOrderFromIF", null);
                 filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
+                total = pm.getIPOTotal(selectedIPO.getId());
+                actualTotal = total;
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: init(): Failed. Caught an unexpected exception.");
@@ -104,18 +135,25 @@ public class IngredientPurchaseOrderBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         try {
             IngredientItemEntity ii = (IngredientItemEntity) event.getObject();
-            Long iiId = pm.editPurchaseItem(ii.getId(), ii.getQuantity());
-            if (iiId == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "The new quantity does not comply with lot size constaint");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            } else if (iiId == -2L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            if (ii.getQuantity() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Quantity cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Ingredient Purxhase Order Item of " + ii.getIngredient().getName() + " is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Long iiId = pm.editPurchaseItem(selectedIPO.getId(), ii.getId(), ii.getQuantity());
+                if (iiId == -1L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "The new quantity does not comply with lot size constaint");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else if (iiId == -2L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "Ingredient Purxhase Order Item of " + ii.getIngredient().getName() + " is Edited");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
             filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
+            total = pm.getIPOTotal(selectedIPO.getId());
+            actualTotal = total;
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -131,7 +169,7 @@ public class IngredientPurchaseOrderBean implements Serializable {
     }
 
     public void comfirmIPO(ActionEvent event) {
-        Long ipoId = pm.confirmIngredientPurchaseOrder(selectedIPO.getId(), selectedIPO.getActuralTotal());
+        Long ipoId = pm.confirmIngredientPurchaseOrder(selectedIPO.getId(), actualTotal);
         if (ipoId == -1L) {
             FacesMessage msg = new FacesMessage("Confirmation Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -141,7 +179,7 @@ public class IngredientPurchaseOrderBean implements Serializable {
         }
         filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
     }
-    
+
     public void cancelIPO(ActionEvent event) {
         Long ipoId = pm.cancelIngredientPurchaseOrder(selectedIPO.getId());
         if (ipoId == -1L) {
@@ -153,23 +191,31 @@ public class IngredientPurchaseOrderBean implements Serializable {
         }
         filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
     }
-    
+
     public void findRequiredIngredientPurchaseOrder(ActionEvent event) {
         try {
-            selectedIPO = pm.findIngredientPurchaseOrder(kitchen.getId(), selectedTargetDate);
-            if (selectedIPO == null) {
-                message = "The Raw Ingredient Purchase Order for the selected target date is not generated yet";
+            if (selectedTargetDate == null) {
+                message = "Please Select A Date";
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('message').show();");
             } else {
-                filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
+                selectedIPO = pm.findIngredientPurchaseOrder(kitchen.getId(), selectedTargetDate);
+                if (selectedIPO == null) {
+                    message = "The Raw Ingredient Purchase Order for the selected target date is not generated yet";
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('message').show();");
+                } else {
+                    filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
+                    total = pm.getIPOTotal(selectedIPO.getId());
+                    actualTotal = total;
+                }
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: findRequiredMenuItemForecast(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
     }
-    
+
     public void generateIngredientReceipt(ActionEvent event) {
         Long irId = pm.generateIngredientReceipt(selectedIPO.getId());
         if (irId == -1L) {
@@ -179,5 +225,5 @@ public class IngredientPurchaseOrderBean implements Serializable {
             FacesMessage msg = new FacesMessage("Successful", "New Raw Ingredient Receipt " + irId + " is generated");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-    }    
+    }
 }

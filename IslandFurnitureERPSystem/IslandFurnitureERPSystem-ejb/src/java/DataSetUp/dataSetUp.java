@@ -35,16 +35,19 @@ import Entity.Kitchen.DailySalesEntity;
 import Entity.Kitchen.DishEntity;
 import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientEntity;
-import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import Entity.Store.OCRM.CustomerWebItemEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.ProductSalesForecastEntity;
+import Entity.Store.OCRM.SalesRecordEntity;
+import Entity.Store.OCRM.SetEntity;
 import Entity.Store.OCRM.TransactionEntity;
-import Entity.Store.OCRM.TransactionItemEntity;
+import Entity.Store.OCRM.TransactionItem;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
@@ -90,7 +93,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000002L);
+        id.setId_S(1000001L);
         em.persist(id);
         em.flush();
 
@@ -188,6 +191,8 @@ public class dataSetUp {
         f1.getStoreList().add(s1.getStoreId());
         f1.getStoreList().add(s2.getStoreId());
         s1.getFactoryList().add(f1.getFactoryId());
+        s1.getFactoryList().add(f2.getFactoryId());
+
         em.flush();
 
         //StoreUser(s1)
@@ -197,9 +202,8 @@ public class dataSetUp {
         em.persist(us1_1);
         em.flush();
 
-        
         //StoreUser(s1)
-        UserEntity u4 = new StoreUserEntity("S", "1000002", 2, "He", null,
+        UserEntity u4 = new StoreUserEntity("S", "1000004", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u4);
@@ -260,6 +264,18 @@ public class dataSetUp {
         em.flush();
         ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
         em.persist(p6);
+        em.flush();
+
+        ProductEntity p7 = new ProductEntity("Bed", "Wooden bed, Queen Size, light yellow", 600.0, 580.0, "one", false);
+        em.persist(p7);
+        em.flush();
+
+        ProductEntity p8 = new ProductEntity("Bedside", "Wooden bedside, 2 drawers, light yellow", 200.0, 180.0, "one", false);
+        em.persist(p8);
+        em.flush();
+
+        ProductEntity p9 = new ProductEntity("Closet", "Wooden closet, 200mm X 170mm,  light yellow", 500.0, 480.0, "one", false);
+        em.persist(p9);
         em.flush();
 
         //Factory Product
@@ -351,23 +367,23 @@ public class dataSetUp {
 
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
-        s1.getStoreProducts().add(sp1_1);
+        s1.getStoreProduct().add(sp1_1);
         em.flush();
         StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE);
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
-        s1.getStoreProducts().add(sp1_2);
+        s1.getStoreProduct().add(sp1_2);
         em.flush();
         //s2.factoryProduct
         StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE);
         em.persist(sp2_1);
         fp1_2.getStoreProducts().add(sp2_1);
-        s2.getStoreProducts().add(sp2_1);
+        s2.getStoreProduct().add(sp2_1);
         em.flush();
         StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE);
         em.persist(sp2_2);
         fp2_2.getStoreProducts().add(sp2_2);
-        s2.getStoreProducts().add(sp2_2);
+        s2.getStoreProduct().add(sp2_2);
         em.flush();
 
         sp1_1.setProduct(p1);
@@ -379,25 +395,29 @@ public class dataSetUp {
         //for s1
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
-        s1.getStoreRetailProducts().add(srp1_1);
+        s1.getStoreRetailProduct().add(srp1_1);
         em.flush();
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
-        s1.getStoreRetailProducts().add(srp1_2);
+        s1.getStoreRetailProduct().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
-        s2.getStoreRetailProducts().add(srp2_1);
+        s2.getStoreRetailProduct().add(srp2_1);
         em.flush();
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        srp2_2.setRetailProduct(rp4);
         em.persist(srp2_2);
         frp2_2.getStoreRetailProducts().add(srp2_2);
-        s2.getStoreRetailProducts().add(srp2_2);
+        s2.getStoreRetailProduct().add(srp2_2);
         em.flush();
 
         //Product.BOM
@@ -415,7 +435,7 @@ public class dataSetUp {
         bom1.add(bom1_1);
         bom1.add(bom1_2);
         bom1.add(bom1_3);
-        p1.setBOM(bom1);
+        p1.setBom(bom1);
         em.flush();
         //for p2
         BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p2);
@@ -431,7 +451,7 @@ public class dataSetUp {
         bom2.add(bom2_1);
         bom2.add(bom2_2);
         bom2.add(bom2_3);
-        p2.setBOM(bom2);
+        p2.setBom(bom2);
         em.flush();
         //for p3
         BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p3);
@@ -447,7 +467,7 @@ public class dataSetUp {
         bom3.add(bom3_1);
         bom3.add(bom3_2);
         bom3.add(bom3_3);
-        p3.setBOM(bom3);
+        p3.setBom(bom3);
         em.flush();
         //for p4
         BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p4);
@@ -459,7 +479,7 @@ public class dataSetUp {
         List bom4 = new ArrayList();
         bom4.add(bom4_1);
         bom4.add(bom4_2);
-        p4.setBOM(bom4);
+        p4.setBom(bom4);
         em.flush();
         //for p5
         BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p5);
@@ -475,7 +495,7 @@ public class dataSetUp {
         bom5.add(bom5_1);
         bom5.add(bom5_2);
         bom5.add(bom5_3);
-        p5.setBOM(bom5);
+        p5.setBom(bom5);
         em.flush();
 
         //Factory Raw Material
@@ -1523,84 +1543,36 @@ public class dataSetUp {
         c1_1.getDishes().add(di1_1_2);
 
         // MenuItemForecast for k1
-        Calendar td_mif1_1 = Calendar.getInstance();
-        td_mif1_1.set(2014, Calendar.OCTOBER, 17);
-        MenuItemForecastEntity mif1_1 = new MenuItemForecastEntity(td_mif1_1, k1);
-        em.persist(mif1_1);
-        em.flush();
-        k1.getMenuItemForecasts().add(mif1_1);
-        DishItemEntity dfi1_1_1 = new DishItemEntity(d1_1, 101);
-        em.persist(dfi1_1_1);
-        em.flush();
-        mif1_1.getDishForecastItems().add(dfi1_1_1);
-        dfi1_1_1.getDish().getForecasts().add(mif1_1);
-        em.flush();
-        DishItemEntity dfi1_1_2 = new DishItemEntity(d1_2, 201);
-        em.persist(dfi1_1_2);
-        em.flush();
-        mif1_1.getDishForecastItems().add(dfi1_1_2);
-        dfi1_1_2.getDish().getForecasts().add(mif1_1);
-        em.flush();
-        ComboItemEntity cfi1_1_1 = new ComboItemEntity(c1_1, 151);
-        em.persist(cfi1_1_1);
-        em.flush();
-        mif1_1.getComboForecastItems().add(cfi1_1_1);
-        cfi1_1_1.getCombo().getForecasts().add(mif1_1);
-        em.flush();
-        Calendar td_mif1_2 = Calendar.getInstance();
-        td_mif1_2.set(2014, Calendar.OCTOBER, 18);
-        MenuItemForecastEntity mif1_2 = new MenuItemForecastEntity(td_mif1_2, k1);
-        em.persist(mif1_2);
-        em.flush();
-        k1.getMenuItemForecasts().add(mif1_2);
-        DishItemEntity dfi1_2_1 = new DishItemEntity(d1_1, 112);
-        em.persist(dfi1_2_1);
-        em.flush();
-        mif1_2.getDishForecastItems().add(dfi1_2_1);
-        dfi1_2_1.getDish().getForecasts().add(mif1_2);
-        em.flush();
-        DishItemEntity dfi1_2_2 = new DishItemEntity(d1_2, 202);
-        em.persist(dfi1_2_2);
-        em.flush();
-        mif1_2.getDishForecastItems().add(dfi1_2_2);
-        dfi1_2_2.getDish().getForecasts().add(mif1_2);
-        em.flush();
-        ComboItemEntity cfi1_2_1 = new ComboItemEntity(c1_1, 152);
-        em.persist(cfi1_2_1);
-        em.flush();
-        mif1_2.getComboForecastItems().add(cfi1_2_1);
-        cfi1_2_1.getCombo().getForecasts().add(mif1_2);
-        em.flush();
-        Calendar td_mif1_3 = Calendar.getInstance();
-        td_mif1_3.set(2014, Calendar.OCTOBER, 19);
-        MenuItemForecastEntity mif1_3 = new MenuItemForecastEntity(td_mif1_3, k1);
-        em.persist(mif1_3);
-        IngredientForecastEntity ingf = new IngredientForecastEntity(mif1_3);
-        em.persist(ingf);
-        mif1_3.setIngredientForecast(ingf);
-        em.flush();
-        k1.getMenuItemForecasts().add(mif1_3);
-        DishItemEntity dfi1_3_1 = new DishItemEntity(d1_1, 112);
-        em.persist(dfi1_3_1);
-        em.flush();
-        mif1_3.getDishForecastItems().add(dfi1_3_1);
-        dfi1_3_1.getDish().getForecasts().add(mif1_3);
-        em.flush();
-        DishItemEntity dfi1_3_2 = new DishItemEntity(d1_2, 203);
-        em.persist(dfi1_3_2);
-        em.flush();
-        mif1_3.getDishForecastItems().add(dfi1_3_2);
-        dfi1_3_2.getDish().getForecasts().add(mif1_3);
-        em.flush();
-        ComboItemEntity cfi1_3_1 = new ComboItemEntity(c1_1, 153);
-        em.persist(cfi1_3_1);
-        em.flush();
-        mif1_3.getComboForecastItems().add(cfi1_3_1);
-        cfi1_3_1.getCombo().getForecasts().add(mif1_3);
-        em.flush();
+        Random rd = new Random();
+        for (int i = 0; i < 1; i++) {
+            Calendar curr = Calendar.getInstance();
+            curr.add(Calendar.DAY_OF_MONTH, i);
+            MenuItemForecastEntity mif = new MenuItemForecastEntity(curr, k1);
+            em.persist(mif);
+            em.flush();
+            k1.getMenuItemForecasts().add(mif);
+
+            for (DishEntity d : k1.getDishes()) {
+                DishItemEntity dfi1 = new DishItemEntity(d, rd.nextInt(200));
+                em.persist(dfi1);
+                em.flush();
+                mif.getDishForecastItems().add(dfi1);
+                dfi1.getDish().getForecasts().add(mif);
+                em.flush();
+            }
+
+            for (ComboEntity c : k1.getCombos()) {
+                ComboItemEntity cfi1 = new ComboItemEntity(c, rd.nextInt(100));
+                em.persist(cfi1);
+                em.flush();
+                mif.getComboForecastItems().add(cfi1);
+                cfi1.getCombo().getForecasts().add(mif);
+                em.flush();
+            }
+
+        }
 
         //DailySales for k1
-        Random rd = new Random();
         for (int i = -10; i < 0; i++) {
             DailySalesEntity ds = new DailySalesEntity(k1);
             em.persist(ds);
@@ -1609,10 +1581,12 @@ public class dataSetUp {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, i);
             ds.setSalesDate(cal);
+            Double sales = 0.0;
             for (DishEntity d : k1.getDishes()) {
                 DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
                 em.persist(di);
                 em.flush();
+                sales += di.getDish().getPrice() * di.getQuantity();
                 ds.getDishes().add(di);
                 d.getDailySales().add(ds);
                 em.flush();
@@ -1621,14 +1595,24 @@ public class dataSetUp {
                 ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
                 em.persist(ci);
                 em.flush();
+                sales += ci.getCombo().getPrice() * ci.getQuantity();
                 ds.getCombos().add(ci);
                 c.getDailySales().add(ds);
                 em.flush();
             }
+            ds.setSales(sales);
         }
 
         //MembershipLevel
+        MembershipLevelEntity memlvl0 = new MembershipLevelEntity();
+        memlvl0.setDiscount(1D);
+        memlvl0.setPointsToUpgrade(1000D);
+        memlvl0.setLevelName("Basic");
+        memlvl0.setCle(3);
+        em.persist(memlvl0);
+        em.flush();
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
+<<<<<<< HEAD
         memlvl1.setDiscount(1D);
         memlvl1.setPointsToUpgrade(0D);
         memlvl1.setLevelName("Basic");
@@ -1646,11 +1630,26 @@ public class dataSetUp {
         memlvl2.setFreeDelivery(Boolean.FALSE);
         memlvl2.setInviteOnlyEvent(true);
         memlvl2.setFreeParking(Boolean.FALSE);
+=======
+        memlvl1.setDiscount(0.9);
+        memlvl1.setPointsToUpgrade(2000D);
+        memlvl1.setLevelName("Blue");
+        memlvl1.setCle(12);
+        em.persist(memlvl1);
+        em.flush();
+        MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
+        memlvl2.setLevelName("Sliver");
+        memlvl2.setDiscount(0.85);
+        memlvl2.setPointsToUpgrade(5000D);
+        memlvl2.setCle(36);
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
         em.persist(memlvl2);
         em.flush();
         MembershipLevelEntity memlvl3 = new MembershipLevelEntity();
-        memlvl3.setDiscount(0.85);
+        memlvl3.setLevelName("Gold");
+        memlvl3.setDiscount(0.8);
         memlvl3.setPointsToUpgrade(10000D);
+<<<<<<< HEAD
         memlvl3.setLevelName("Sliver");
         memlvl3.setExpressCheckout(Boolean.FALSE);
         memlvl3.setFreeDelivery(Boolean.FALSE);
@@ -1692,23 +1691,33 @@ public class dataSetUp {
         tr2.setTotalPrice(180.0);
         tr2.setGenerateTime(Calendar.getInstance());
         em.persist(tr2);
+=======
+        memlvl3.setCle(60);
+        em.persist(memlvl3);
+        em.flush();
+        MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
+        memlvl4.setLevelName("Diamond");
+        memlvl4.setDiscount(0.7);
+        memlvl4.setPointsToUpgrade(20000D);
+        memlvl4.setCle(120);
+        em.persist(memlvl4);
+        em.flush();
+
+        //TransactionEntity
+        TransactionEntity tr = new TransactionEntity();
+        tr.setStore(s1);
+        tr.setTotalPrice(200.0);
+        em.persist(tr);
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
         em.flush();
 
         //StoreItemMappingEntity
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductid(sp1_1.getStoreProductId());
-        sm1.setStore(s1);
         em.persist(sm1);
         em.flush();
-        
-        StoreItemMappingEntity sm2 = new StoreItemMappingEntity();
-        sm2.setProductid(sp1_2.getStoreProductId());
-        sm2.setStore(s1);
-        em.persist(sm2);
-        em.flush();
-        
         //TransactionItem
-        TransactionItemEntity ti1 = new TransactionItemEntity();
+        TransactionItem ti1 = new TransactionItem();
         ti1.setItemId(sm1.getId());
         StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductid());
         ti1.setItemName(temp.getProduct().getName());
@@ -1717,12 +1726,15 @@ public class dataSetUp {
         em.persist(ti1);
         em.flush();
 
-        
-        List<TransactionItemEntity> items = new ArrayList();
+        List<TransactionItem> items = new ArrayList();
         items.add(ti1);
+<<<<<<< HEAD
         tr1.setTransactionItemList(items);
         em.persist(tr1);
         em.flush();
+=======
+        tr.setTransactionItemList(items);
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 
         TransactionItemEntity ti2 = new TransactionItemEntity();
         ti2.setItemId(sm1.getId());
@@ -1764,7 +1776,376 @@ public class dataSetUp {
         MemberEntity member = new MemberEntity("123", "Lee", "", "James",
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "james@gmail.com", Boolean.FALSE);
+        member.setMemberlvl(memlvl1);
         em.persist(member);
+        em.flush();
+
+        //Sales Record Set Up
+        SalesRecordEntity sre1 = new SalesRecordEntity();
+        sre1.setStore(s1);
+        sre1.setStoreProduct(sp1_1);
+        Calendar caltemp1 = Calendar.getInstance();
+        caltemp1.add(Calendar.MONTH, 1);
+        sre1.setRecordPeriod(caltemp1);
+        sre1.setAmount(1000D);
+        sre1.setRevenue(50000D);
+        em.persist(sre1);
+        em.flush();
+
+        SalesRecordEntity sre2 = new SalesRecordEntity();
+        sre2.setStore(s1);
+        sre2.setStoreProduct(sp1_1);
+        Calendar caltemp2 = Calendar.getInstance();
+        sre2.setRecordPeriod(caltemp2);
+        sre2.setAmount(1500D);
+        sre2.setRevenue(75000D);
+        em.persist(sre2);
+        em.flush();
+
+        SalesRecordEntity sre3 = new SalesRecordEntity();
+        sre3.setStore(s1);
+        sre3.setStoreProduct(sp1_1);
+        Calendar caltemp3 = Calendar.getInstance();
+        caltemp3.add(Calendar.YEAR, -1);
+        caltemp3.add(Calendar.MONTH, 2);
+        sre3.setRecordPeriod(caltemp3);
+        sre3.setAmount(1500D);
+        sre3.setRevenue(75000D);
+        em.persist(sre3);
+        em.flush();
+
+        sp1_1.getSalesRecordList().add(sre3);
+        sp1_1.getSalesRecordList().add(sre2);
+        sp1_1.getSalesRecordList().add(sre1);
+        em.persist(sp1_1);
+        em.flush();
+
+        //Product Sales Forecast Set up
+        ProductSalesForecastEntity psfe1 = new ProductSalesForecastEntity();
+        psfe1.setAmount(1600D);
+        psfe1.setTargetPeriod(caltemp3);
+        psfe1.setStore(s1);
+        psfe1.setStoreProduct(sp1_1);
+        psfe1.setStatus("Confirmed");
+        em.persist(psfe1);
+        em.flush();
+
+        ProductSalesForecastEntity psfe2 = new ProductSalesForecastEntity();
+        psfe2.setAmount(1500D);
+        psfe2.setTargetPeriod(caltemp2);
+        psfe2.setStore(s1);
+        psfe2.setStoreProduct(sp1_1);
+        psfe2.setStatus("Confirmed");
+        em.persist(psfe2);
+        em.flush();
+
+        sp1_1.getProductSalesForecastList().add(psfe1);
+        sp1_1.getProductSalesForecastList().add(psfe2);
+
+        em.persist(sp1_1);
+        em.flush();
+
+        //Set Up  CustomerWebItemEntity
+        CustomerWebItemEntity item = new CustomerWebItemEntity();
+        item.setDescription(p7.getDescription());
+        item.setProductName("Bed");
+        item.setPrice(p7.getPrice());
+        item.setMemberPrice(p7.getMemberPrice());
+        item.setPicture("bed_set4.png");
+        item.setAvailability("Avalible");
+        item.setType("Bed");
+        item.setProduct(p7);
+        em.persist(item);
+        em.flush();
+
+        CustomerWebItemEntity item1 = new CustomerWebItemEntity();
+        item1.setDescription("this is a good Bedside");
+        item1.setProductName("Bedside");
+        item1.setPrice(200D);
+        item1.setMemberPrice(180D);
+        item1.setPicture("bedside_set4.png");
+        item1.setAvailability("Avalible");
+        item1.setType("Desk");
+        item1.setProduct(p8);
+        em.persist(item1);
+        em.flush();
+
+        CustomerWebItemEntity item2 = new CustomerWebItemEntity();
+        item2.setDescription("this is a good Bedside");
+        item2.setProductName("Bedside");
+        item2.setPrice(200D);
+        item2.setMemberPrice(180D);
+        item2.setPicture("bedside2_set4.png");
+        item2.setAvailability("Avalible");
+        item2.setType("Desk");
+        item2.setProduct(p8);
+        em.persist(item2);
+        em.flush();
+
+        CustomerWebItemEntity item3 = new CustomerWebItemEntity();
+        item3.setDescription("this is a good closet");
+        item3.setProductName("Closet");
+        item3.setPrice(200D);
+        item3.setMemberPrice(180D);
+        item3.setPicture("closet_set4.png");
+        item3.setAvailability("Avalible");
+        item3.setType("Closet");
+        item3.setProduct(p9);
+        em.persist(item3);
+        em.flush();
+
+        CustomerWebItemEntity item4 = new CustomerWebItemEntity();
+        item4.setDescription("best toy ever");
+        item4.setProductName("Captain America");
+        item4.setPrice(200D);
+        item4.setMemberPrice(180D);
+        item4.setPicture("CaptainAmerica.jpg");
+        item4.setAvailability("Avalible");
+        item4.setType("Others");
+        item4.setProduct(p9);
+        em.persist(item4);
+        em.flush();
+
+        SetEntity set1 = new SetEntity();
+        set1.setDescription("This set uses brown as its theme. Simple design, no extra decoration makes people feel comfortable and relaxed. It uses high quality wooden material and environment friendly oil paint.");
+        set1.setPicture("set4.png");
+        set1.setName("Modern Set 4");
+        set1.getUnitList().add(item);
+        set1.getUnitList().add(item1);
+        set1.getUnitList().add(item2);
+        set1.getUnitList().add(item3);
+        em.persist(set1);
+        em.flush();
+
+        //***************************************************************************************************
+        //*********************************Data setup for ACRM -- Shiyu**************************************
+        //***************************************************************************************************
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Member Setup @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //===============================Member 2=====================================
+        Calendar MemberBirthday2 = Calendar.getInstance();
+        MemberBirthday2.set(1985, 9, 1);
+
+        MemberEntity member2 = new MemberEntity("123", "Hotchner", "", "Arron",
+                MemberBirthday2, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "arronH@gmail.com", Boolean.FALSE, "Singapore", memlvl1);
+        em.persist(member2);
+        em.flush();
+
+        //===============================Member 3=====================================
+        Calendar MemberBirthday3 = Calendar.getInstance();
+        MemberBirthday3.set(1985, 9, 1);
+
+        MemberEntity member3 = new MemberEntity("123", "Morgen", "", "Derek",
+                MemberBirthday3, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "derek@gmail.com", Boolean.FALSE, "Singapore", memlvl2);
+        em.persist(member3);
+        em.flush();
+
+        //===============================Member 4=====================================
+        Calendar MemberBirthday4 = Calendar.getInstance();
+        MemberBirthday4.set(1975, 9, 1);
+
+        MemberEntity member4 = new MemberEntity("123", "Prentiss", "", "Emily",
+                MemberBirthday4, "Female", "Miss", "5 Kent Ridge Drive", "412342",
+                "emily@gmail.com", Boolean.FALSE, "China", memlvl1);
+        em.persist(member4);
+        em.flush();
+
+        //===============================Member 5=====================================
+        Calendar MemberBirthday5 = Calendar.getInstance();
+        MemberBirthday5.set(1975, 9, 1);
+
+        MemberEntity member5 = new MemberEntity("123", "Jareau", "", "Jennifer",
+                MemberBirthday5, "Female", "Ms", "5 Kent Ridge Drive", "412342",
+                "jennifer@gmail.com", Boolean.FALSE, "China", memlvl2);
+        em.persist(member5);
+        em.flush();
+
+        //===============================Member 6=====================================
+        Calendar MemberBirthday6 = Calendar.getInstance();
+        MemberBirthday6.set(1965, 9, 1);
+
+        MemberEntity member6 = new MemberEntity("123", "Rossi", "", "David",
+                MemberBirthday6, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "david@gmail.com", Boolean.FALSE, "United States", memlvl1);
+        em.persist(member6);
+        em.flush();
+
+        //===============================Member 7=====================================
+        Calendar MemberBirthday7 = Calendar.getInstance();
+        MemberBirthday7.set(1965, 9, 1);
+
+        MemberEntity member7 = new MemberEntity("123", "Reid", "", "Spencer",
+                MemberBirthday7, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "spencer@gmail.com", Boolean.FALSE, "United States", memlvl2);
+        em.persist(member7);
+        em.flush();
+
+        //===============================Member 8=====================================
+        Calendar MemberBirthday8 = Calendar.getInstance();
+        MemberBirthday8.set(1955, 9, 1);
+
+        MemberEntity member8 = new MemberEntity("123", "Penelope", "", "Garcia",
+                MemberBirthday8, "Female", "Miss", "5 Kent Ridge Drive", "412342",
+                "garcia@gmail.com", Boolean.FALSE, "South Korea", memlvl1);
+        em.persist(member8);
+        em.flush();
+
+        //===============================Member 9=====================================
+        Calendar MemberBirthday9 = Calendar.getInstance();
+        MemberBirthday9.set(1955, 9, 1);
+
+        MemberEntity member9 = new MemberEntity("123", "Gubler", "Gray", "Mattew",
+                MemberBirthday9, "Male", "Mr", "5 Kent Ridge Drive", "412342",
+                "mattew@gmail.com", Boolean.FALSE, "South Korea", memlvl3);
+        em.persist(member9);
+        em.flush();
+
+        //===============================Member 10=====================================
+        Calendar MemberBirthday10 = Calendar.getInstance();
+        MemberBirthday10.set(1993, 6, 11);
+
+        MemberEntity member10 = new MemberEntity("123", "Zhang", "", "Shiyu",
+                MemberBirthday10, "Female", "Mr", "5 Kent Ridge Drive", "412342",
+                "ms.z.summer@gmail.com", Boolean.FALSE, "China", memlvl3);
+        em.persist(member10);
+        em.flush();
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Transaction Setup @@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //===============================Transaction 2================================
+        Calendar TranDate2 = Calendar.getInstance();
+        TranDate2.set(2014, 9, 1);
+
+        TransactionEntity tr2 = new TransactionEntity(TranDate2, 300.2, 1, s1, member2);
+        em.persist(tr2);
+
+        s1.getTransactions().add(tr2);
+        member2.getTransactionList().add(tr2);
+        member2.setLastTransaction(tr2);
+        em.flush();
+
+        //===============================Transaction 3================================
+        Calendar TranDate3 = Calendar.getInstance();
+        TranDate3.set(2014, 5, 1);
+
+        TransactionEntity tr3 = new TransactionEntity(TranDate3, 249.9, 1, s1, member2);
+        em.persist(tr3);
+
+        s1.getTransactions().add(tr3);
+        member2.getTransactionList().add(tr3);
+        member2.setLastTransaction(tr3);
+        em.flush();
+
+        //===============================Transaction 4================================
+        Calendar TranDate4 = Calendar.getInstance();
+        TranDate4.set(2014, 7, 1);
+
+        TransactionEntity tr4 = new TransactionEntity(TranDate4, 109.9, 1, s2, member3);
+        em.persist(tr4);
+
+        s2.getTransactions().add(tr4);
+        member3.getTransactionList().add(tr4);
+        member3.setLastTransaction(tr4);
+        em.flush();
+
+        //===============================Transaction 5================================
+        Calendar TranDate5 = Calendar.getInstance();
+        TranDate5.set(2013, 12, 1);
+
+        TransactionEntity tr5 = new TransactionEntity(TranDate5, 143.8, 1, s2, member3);
+        em.persist(tr5);
+
+        s2.getTransactions().add(tr5);
+        member3.getTransactionList().add(tr5);
+        member3.setLastTransaction(tr5);
+        em.flush();
+
+        //===============================Transaction 6================================
+        Calendar TranDate6 = Calendar.getInstance();
+        TranDate6.set(2014, 5, 1);
+
+        TransactionEntity tr6 = new TransactionEntity(TranDate6, 69.2, 2, s1, member4);
+        em.persist(tr6);
+
+        s1.getTransactions().add(tr6);
+        member4.getTransactionList().add(tr6);
+        member4.setLastTransaction(tr6);
+        em.flush();
+
+        //===============================Transaction 7================================
+        Calendar TranDate7 = Calendar.getInstance();
+        TranDate7.set(2014, 6, 1);
+
+        TransactionEntity tr7 = new TransactionEntity(TranDate7, 230.2, 2, s1, member4);
+        em.persist(tr7);
+
+        s1.getTransactions().add(tr7);
+        member4.getTransactionList().add(tr7);
+        member4.setLastTransaction(tr7);
+        em.flush();
+
+        //===============================Transaction 8================================
+        Calendar TranDate8 = Calendar.getInstance();
+        TranDate8.set(2014, 7, 1);
+
+        TransactionEntity tr8 = new TransactionEntity(TranDate8, 100.2, 2, s1, member5);
+        em.persist(tr8);
+
+        s1.getTransactions().add(tr8);
+        member5.getTransactionList().add(tr8);
+        member5.setLastTransaction(tr8);
+        em.flush();
+
+        //===============================Transaction 9================================
+        Calendar TranDate9 = Calendar.getInstance();
+        TranDate9.set(2014, 4, 1);
+
+        TransactionEntity tr9 = new TransactionEntity(TranDate9, 99.8, 2, s1, member5);
+        em.persist(tr9);
+
+        s1.getTransactions().add(tr9);
+        member5.getTransactionList().add(tr9);
+        member5.setLastTransaction(tr9);
+        em.flush();
+
+        //===============================Transaction 10================================
+        Calendar TranDate10 = Calendar.getInstance();
+        TranDate10.set(2014, 8, 1);
+
+        TransactionEntity tr10 = new TransactionEntity(TranDate10, 50.7, 3, s1, member6);
+        em.persist(tr10);
+
+        s1.getTransactions().add(tr10);
+        member6.getTransactionList().add(tr10);
+        member6.setLastTransaction(tr10);
+        em.flush();
+
+        //===============================Transaction 11================================
+        Calendar TranDate11 = Calendar.getInstance();
+        TranDate11.set(2014, 10, 1);
+
+        TransactionEntity tr11 = new TransactionEntity(TranDate11, 98.7, 3, s1, member5);
+        em.persist(tr11);
+
+        s1.getTransactions().add(tr11);
+        member5.getTransactionList().add(tr11);
+        member5.setLastTransaction(tr11);
+        em.flush();
+
+        //===============================Transaction 12================================
+        Calendar TranDate12 = Calendar.getInstance();
+        TranDate12.set(2014, 10, 12);
+
+        TransactionEntity tr12 = new TransactionEntity(TranDate12, 75.7, 3, s1, member8);
+        em.persist(tr12);
+
+        s1.getTransactions().add(tr12);
+        member8.getTransactionList().add(tr12);
+        member8.setLastTransaction(tr12);
         em.flush();
 
     }

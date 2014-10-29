@@ -64,8 +64,13 @@
 
 
 
+<<<<<<< HEAD
                         <h:outputLabel value = "Welcome Back " style="font-size: 24px">
                             <h:outputText  value ="#{loginBean.userRole} #{loginBean.fullName}" rendered="#{loginBean.flag}" />
+=======
+                        <h:outputLabel value = "Welcome Back HQ Manager " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
 
                         </h:outputLabel>
 
@@ -101,17 +106,30 @@
 
                             <p:submenu label="Kitchen Management">
                                 <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
-                                <p:menuitem value="Demand Forecast" outcome = "/secured/restricted/Store/KM/DailyDemandForecastingModule/DailyDemandForecastPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Demand Forecast" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Menu Management" outcome = "/secured/restricted/Store/KM/MenuManagementModule/MenuManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Raw Ingredient Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
-                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/ProcurementManagementModule/ProcurementManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
+                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
                             </p:submenu>
 
-                            <p:submenu label="OCRM Management">
+                            <p:submenu label="Operational CRM">
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+<<<<<<< HEAD
                                 <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
+=======
+                                <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+
+                            </p:submenu>
+
+                            <p:submenu label="Analytical CRM">
+                                <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
+                                <p:menuitem value="View Members" update="messages" action="/secured/restricted/Store/ACRM/ViewMembers?faces-redirect=true"/>
+                                <p:menuitem value="View Member Retention Rate" update="messages" action = "/secured/restricted/Store/ACRM/ViewCRR?faces-redirect=true"/>
+                                <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/> 
+>>>>>>> db5c01712158636793f41f6e6f3aa3cbd7fe2e5e
                             </p:submenu>
 
                             <p:submenu label="Ticket Management">
@@ -122,17 +140,81 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
-                        <!--                        <p:panel id="basic" header =" " style="height:800px;" >-->
-                        <!--                            <p:panelGrid columns="2" style="width: 100%!important">
-                                                        <p:column>
-                                                            <p:graphicImage width="250px"  height="250px" value="../resources/images/homepage1.jpg"/>
-                                                        </p:column>
-                                                        <p:column>
-                                                            <p:graphicImage width="250px"  height="250px" value="../resources/images/homepage2.jpg"/>
-                                                        </p:column>
-                                                    </p:panelGrid>-->
+                        <div style="margin: auto;height:600px">
+                            <h:form>
+                                <p:growl id="msgs" showDetail="true" />
 
 
+                                <p:dashboard id="board" model="#{workPlaceBean.model}">
+
+                                    <p:panel id="message" header="Message" style="width: 300px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >
+                                            <h:outputText value="New messages:" />
+                                            <h:outputText value="2" style="color: red;font-size: 16px"/>
+                                            <h:outputText value="Messages to be processed:" />
+                                            <h:outputText value="10" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="ticket" header="Ticket" style="width: 300px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >
+                                            <h:outputText value="New Tickets:" />
+                                            <h:outputText value="3" style="color: red;font-size: 16px"/>
+                                            <h:outputText value="Tickets to be processed:" />
+                                            <h:outputText value="5" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="kitchen" header="Kitchen" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                          
+                                            <h:outputLabel for="kitchenStore" value="Store:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="kitchenStore" value="#{workPlaceBean.selectedStore}">
+                                                <f:selectItem itemLabel="All Stores" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Revenue" />
+                                            <h:outputText value="$121,041.3" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="product" header="Furniture Product" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                 
+                                            <h:outputLabel for="store" value="Store:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="store" value="#{workPlaceBean.selectedStore1}">
+                                                <f:selectItem itemLabel="All Stores" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Revenue" />
+                                            <h:outputText value="$51,294,041.3" style="color: red;font-size: 16px" />
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="retailproduct" header="Retail Product" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                          
+                                            <h:outputLabel for="retail" value="Store:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="retail" value="#{workPlaceBean.selectedStore2}">
+                                                <f:selectItem itemLabel="All Stores" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Revenue" />
+                                            <h:outputText value="$314,041.3" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="calendar" header="Calendar" style="width: 300px; height:150px">
+                                        <p:calendar id="inline" value="#{workPlaceBean.date}" mode="inline" />
+                                    </p:panel>
+
+
+
+                                </p:dashboard>
+
+                                <div style="clear:both" />
+                            </h:form>
+                        </div>
 
                     </p:layoutUnit>
 

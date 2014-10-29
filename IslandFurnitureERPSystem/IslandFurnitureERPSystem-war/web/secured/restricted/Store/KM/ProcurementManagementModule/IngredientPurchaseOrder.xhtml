@@ -82,88 +82,92 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="Raw Ingredient Purchase Order" style="margin-bottom" >
+                    <p:panel id="panelRawIngredient" header="Raw Ingredient Purchase Order" style="margin-bottom" >
+                        <p:panel id="headerInfo">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel value="Raw Ingredient Purchase Order ID: " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.id}" />
+                                <p:outputLabel value="Target Date: " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.forecast.menuItemForecast.targetDate.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                </h:outputText>
+                                <p:outputLabel value="Total ($): " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.total}" >
+                                    <f:convertNumber pattern="#0.00"/>
+                                </h:outputText>
+                                <p:outputLabel value="Actural Total ($): " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.actualTotal}" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status ne 'Unconfirmed'}" >
+                                    <f:convertNumber pattern="#0.00"/>
+                                </h:outputText>
+                                <h:inputText value="#{ingredientPurchaseOrderBean.actualTotal}" required="true" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}" >
+                                    <f:convertNumber pattern="#0.00"/>
+                                </h:inputText>
+                                <p:outputLabel value="Status: " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.status}" />
+                                <p:outputLabel value="Creation Time: " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.creationTime.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                </h:outputText>
+                                <p:outputLabel value="Raw Ingredient Receipt ID: " style="font-weight:bold" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.receipt.id}" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" />
+                                <p:outputLabel value="Raw Ingredient Creation Time: " style="font-weight:bold" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" />
+                                <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.receipt.creationTime.time}" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
+                                </h:outputText>
+                            </h:panelGrid>
+                            <p:commandButton rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}" value="Confirm" actionListener="#{ingredientPurchaseOrderBean.comfirmIPO}" update="headerInfo" />
+                            <p:commandButton rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}" value="Cancel" actionListener="#{ingredientPurchaseOrderBean.cancelIPO}" update="headerInfo" />
+                            <p:commandButton rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Confirmed'}" value="Generate Raw Ingredient Receipt" actionListener="#{ingredientPurchaseOrderBean.generateIngredientReceipt}" update="headerInfo" />
+                            <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
+                        </p:panel>
 
-                        <h:form id="IPOInfo">
+                        <p:dataTable id="ingredientPurchaseOrder" widgetVar="ingredientPurchaseOrder" value="#{ingredientPurchaseOrderBean.selectedIPO.purchaseItems}" 
+                                     var="pi" filteredValue="#{ingredientPurchaseOrderBean.filteredIPOItems}" editable="true">
 
-                            <h:form id ="titleInfo">
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <p:outputLabel value="Raw Ingredient Purchase Order ID: " style="font-weight:bold" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.id}" />
-                                    <p:outputLabel value="Target Date: " style="font-weight:bold" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.forecast.menuItemForecast.targetDate.time}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-                                    <p:outputLabel value="Total ($): " style="font-weight:bold" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.total}" />
-                                    <p:outputLabel value="Actural Total ($): " style="font-weight:bold" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.acturalTotal}" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status ne 'Unconfirmed'}" />
-                                    <h:inputText value="#{ingredientPurchaseOrderBean.selectedIPO.acturalTotal}"  rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}" />
-                                    <p:outputLabel value="Status: " style="font-weight:bold" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.status}" />
-                                    <p:outputLabel value="Creation Time: " style="font-weight:bold" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.creationTime.time}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-                                    <p:outputLabel value="Raw Ingredient Receipt ID: " style="font-weight:bold" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.receipt.id}" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" />
-                                    <p:outputLabel value="Raw Ingredient Creation Time: " style="font-weight:bold" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" />
-                                    <h:outputText value="#{ingredientPurchaseOrderBean.selectedIPO.receipt.creationTime.time}" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Received'}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
-                                    </h:outputText>
-                                </h:panelGrid>
-                                <p:commandButton rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}" value="Confirm" actionListener="#{ingredientPurchaseOrderBean.comfirmIPO}" update=":formMain:IPOInfo:titleInfo" />  
-                                <p:commandButton rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}" value="Cancel" actionListener="#{ingredientPurchaseOrderBean.cancelIPO}" update=":formMain:IPOInfo:titleInfo" />
-                                <p:commandButton rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Confirmed'}" value="Generate Raw Ingredient Receipt" actionListener="#{ingredientPurchaseOrderBean.generateIngredientReceipt}" update=":formMain:IPOInfo:titleInfo" />
-                                <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
-                            </h:form>
-                            <p:separator/>
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search Ingredient: " />
+                                        <p:inputText id="globalFilter" onkeyup="PF('ingredientPurchaseOrder').filter()" placeholder="Enter Keyword" />
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
 
-                            <p:dataTable id="ingredientPurchaseOrder" widgetVar="ingredientPurchaseOrder" value="#{ingredientPurchaseOrderBean.selectedIPO.purchaseItems}" 
-                                         var="pi" filteredValue="#{ingredientPurchaseOrderBean.filteredIPOItems}" editable="true">
+                            <p:ajax event="rowEdit" listener="#{ingredientPurchaseOrderBean.onRowEdit}" update="ingredientPurchaseOrder :formMain:headerInfo"/>
+                            <p:ajax event="rowEditCancel" listener="#{ingredientPurchaseOrderBean.onRowCancel}" update="ingredientPurchaseOrder"/>
 
-                                <f:facet name="header">
-                                    <div align="right">
-                                        <p:outputPanel>
-                                            <h:outputText value="Search Ingredient: " />
-                                            <p:inputText id="globalFilter" onkeyup="PF('ingredientPurchaseOrder').filter()" placeholder="Enter Keyword" />
-                                        </p:outputPanel>
-                                    </div>
-                                </f:facet>
+                            <p:column headerText="Raw Ingredient ID" filterBy="#{pi.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{pi.ingredient.id}"/>
+                            </p:column>
 
-                                <p:ajax event="rowEdit" listener="#{ingredientPurchaseOrderBean.onRowEdit}" update=":formMain"/>
-                                <p:ajax event="rowEditCancel" listener="#{ingredientPurchaseOrderBean.onRowCancel}" update="ingredientPurchaseOrder"/>
+                            <p:column headerText="Name" filterBy="#{pi.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{pi.ingredient.name}"/>
+                            </p:column>
 
-                                <p:column headerText=" Raw Ingredient ID" filterBy="#{pi.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
-                                    <h:outputText value="#{pi.ingredient.id}"/>
-                                </p:column>
+                            <p:column headerText="Purchase Quantity" filterBy="#{pi.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{pi.quantity}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{pi.quantity}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
 
-                                <p:column headerText="Name" filterBy="#{pi.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
-                                    <h:outputText value="#{pi.ingredient.name}"/>
-                                </p:column>
+                            <p:column headerText="Lot Size" filterBy="#{pi.ingredient.lotSize}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{pi.ingredient.lotSize}"/>
+                            </p:column>
 
-                                <p:column headerText="Purchase Quantity" filterBy="#{pi.quantity}" filterMatchMode="contains" filterStyle="display:none">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{pi.quantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{pi.quantity}"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
+                            <p:column headerText="Unit" filterBy="#{pi.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{pi.ingredient.unit}"/>
+                            </p:column>
 
-                                <p:column headerText="Lot Size" filterBy="#{pi.ingredient.lotSize}" filterMatchMode="contains" filterStyle="display:none">
-                                    <h:outputText value="#{pi.ingredient.lotSize}"/>
-                                </p:column>
+                            <p:column headerText="Price (Per Lot Size)" filterBy="#{pi.ingredient.price}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{pi.ingredient.price}"/>
+                            </p:column>
 
-                                <p:column headerText="Unit" filterBy="#{pi.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
-                                    <h:outputText value="#{pi.ingredient.unit}"/>
-                                </p:column>
+                            <p:column headerText="Edit" width="8%" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}">
+                                <p:rowEditor/>
+                            </p:column>
 
-                                <p:column headerText="Edit" width="8%" rendered="#{ingredientPurchaseOrderBean.selectedIPO.status eq 'Unconfirmed'}">
-                                    <p:rowEditor/>
-                                </p:column>
-
-                            </p:dataTable>
-
-                        </h:form>
+                        </p:dataTable>
 
                     </p:panel>
                 </p:layoutUnit>
@@ -184,10 +188,10 @@
         <h:form>
             <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
-                      draggable="true" closable="true" >
+                      draggable="true" closable="false" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Target Date: " />
-                    <p:calendar value="#{ingredientPurchaseOrderBean.selectedTargetDate}"/>
+                    <p:calendar value="#{ingredientPurchaseOrderBean.selectedTargetDate}" maxdate="#{ingredientPurchaseOrderBean.cal.time}"/>
                 </h:panelGrid>
                 <div align="center">
                     <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{ingredientPurchaseOrderBean.findRequiredIngredientPurchaseOrder}" update=":formMain" >

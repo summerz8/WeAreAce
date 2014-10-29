@@ -8,6 +8,7 @@ package SessionBean.OCRM;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.TransactionEntity;
+import static Entity.Store.OCRM.TransactionEntity_.member;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

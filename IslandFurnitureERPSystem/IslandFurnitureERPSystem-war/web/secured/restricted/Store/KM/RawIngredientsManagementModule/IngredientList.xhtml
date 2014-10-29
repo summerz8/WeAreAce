@@ -105,21 +105,21 @@
                             <p:column headerText="Name" width="12%" filterBy="#{i.name}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.name}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{i.name}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.name}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
                             <p:column headerText="Price (Per Lot Size)"  filterBy="#{i.price}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.price}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{i.price}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.price}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
                             <p:column headerText="Unit" width="10%" filterBy="#{i.unit}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.unit}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{i.unit}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.unit}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
@@ -130,16 +130,11 @@
                             <p:column headerText="Lot Size" filterBy="#{i.lotSize}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.lotSize}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{i.lotSize}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{i.lotSize}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
                             <p:column headerText="Storage Places" width="13%">
-<!--                                <f:facet name="spFilter">
-                                    <p:spinner onchange="PF('ingredientTable').filter()">
-                                        <f:converter converterId="storagePlaceConverter" />
-                                    </p:spinner>
-                                </f:facet>-->
                                 <p:cellEditor>
                                     <f:facet name="output">
                                         <p:dataTable var="sp" value="#{i.storagePlaces}">
@@ -149,7 +144,7 @@
                                         </p:dataTable>
                                     </f:facet>
                                     <f:facet name="input">
-                                        <p:selectCheckboxMenu value="#{i.storagePlaces}" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
+                                        <p:selectCheckboxMenu value="#{i.storagePlaces}" required="true" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
                                             <f:selectItems value="#{rawIngredientsManagementBean.kitchen.storagePlaces}" var="sp" itemLabel="#{sp.location}" itemValue="#{sp}" />
                                         </p:selectCheckboxMenu>
 
@@ -158,11 +153,6 @@
                             </p:column>
 
                             <p:column headerText="Supplier" width="15%" filterBy="#{i.supplier.name}" filterMatchMode="contains" filterStyle="display:none">
-<!--                                <f:facet name="isFilter">
-                                    <p:spinner onchange="PF('ingredientTable').filter()">
-                                        <f:converter converterId="ingredientSupplierConverter" />
-                                    </p:spinner>
-                                </f:facet>-->
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.supplier.name}"/></f:facet>
                                     <f:facet name="input">
@@ -190,20 +180,6 @@
                             </p:column>
 
                         </p:dataTable>
-
-                        <!--        ~~~~~~~~<p:column width="4%">       
-                                <p:commandButton type="button" onclick="PF('dlg').show();" icon="ui-icon-trash" title="Delete" rendered="#{!i.deleted}">
-                                </p:commandButton>    
-                                </p:column>~~~~~~~~~~~~        
-           
-                                                <p:dialog header="Comfirmation" widgetVar="dlg" position="center" showEffect="fade" hideEffect="fade" resizable="true" draggable="true" closable="true" width="200">
-                                                <p:outputPanel style="text-align:center;">
-                                                <h:outputText value="Please Confirm Deletion" />
-                                                <p:commandButton value="Confirm" update="ingredientList" actionListener="#{rawIngredientsManagementBean.deleteIngredient(i.id)}">
-                                                </p:commandButton> 
-                                                </p:outputPanel>
-                                            </p:dialog>-->
-
 
                     </p:panel>
                 </p:layoutUnit>
