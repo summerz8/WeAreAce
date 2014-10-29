@@ -18,6 +18,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.RowEditEvent;
@@ -46,7 +47,6 @@ public class RawIngredientsManagementBean implements Serializable {
     private List<StoragePlaceEntity> filteredStoragePlaces;
     private IngredientEntity selectedIngredient;
     private List<IngredientEntity> filteredIngredients;
-    
 
     public RawIngredientsManagementBean() {
     }
@@ -167,15 +167,32 @@ public class RawIngredientsManagementBean implements Serializable {
     }
 
     public void addIngredient(ActionEvent event) {
-        ArrayList<Long> selectedStoragePlaceIds = new ArrayList<>();
-        for (StoragePlaceEntity sp : selectedStoragePlaces) {
-            selectedStoragePlaceIds.add(sp.getId());
-        }
-        ingredientId = rim.addIngredient(kitchen.getId(), name, price, unit, remark, lotSize, selectedStoragePlaceIds, supplier.getId());
-        if (ingredientId == -1L) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Failed", "An unexpected exception occurred"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "New ingredient " + ingredientId + " is added"));
+        try {
+            if (price < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Price cannot be negative");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else if (lotSize < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Lot Size cannot be negative");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                ArrayList<Long> selectedStoragePlaceIds = new ArrayList<>();
+                for (StoragePlaceEntity sp : selectedStoragePlaces) {
+                    selectedStoragePlaceIds.add(sp.getId());
+                }
+                ingredientId = rim.addIngredient(kitchen.getId(), name, price, unit, remark, lotSize, selectedStoragePlaceIds, supplier.getId());
+                if (ingredientId == -1L) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Failed", "An unexpected exception occurred"));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "New ingredient " + ingredientId + " is added"));
+                    ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                    context.redirect("/IslandFurnitureERPSystem-war/secured/restricted/Store/KM/RawIngredientsManagementModule/IngredientList.xhtml?faces-redirect=true");
+                }
+            }
+        } catch (Exception ex) {
+            FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            System.err.println("ManagedBean.KM..RawIngredientsManagementModule.RawIngredientsManagementBean: addIngredient(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
         }
         filteredIngredients = rim.getIngredients(kitchen.getId());
     }
@@ -183,17 +200,25 @@ public class RawIngredientsManagementBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         IngredientEntity ingredient = (IngredientEntity) event.getObject();
         try {
-            ArrayList<Long> selectedStoragePlaceIds = new ArrayList<>();
-            for (StoragePlaceEntity sp : ingredient.getStoragePlaces()) {
-                selectedStoragePlaceIds.add(sp.getId());
-            }
-            Long temp = rim.editIngredient(ingredient.getId(), ingredient.getName(), ingredient.getPrice(), ingredient.getUnit(), ingredient.getRemark(), ingredient.getLotSize(), selectedStoragePlaceIds, ingredient.getSupplier().getId());
-            if (temp == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            if (ingredient.getPrice() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Price cannot be negative");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else if (ingredient.getLotSize() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Lot Size cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Ingredient " + ingredient.getId() + "is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                ArrayList<Long> selectedStoragePlaceIds = new ArrayList<>();
+                for (StoragePlaceEntity sp : ingredient.getStoragePlaces()) {
+                    selectedStoragePlaceIds.add(sp.getId());
+                }
+                Long temp = rim.editIngredient(ingredient.getId(), ingredient.getName(), ingredient.getPrice(), ingredient.getUnit(), ingredient.getRemark(), ingredient.getLotSize(), selectedStoragePlaceIds, ingredient.getSupplier().getId());
+                if (temp == -1L) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage msg = new FacesMessage("Successful", "Ingredient " + ingredient.getId() + "is Edited");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");

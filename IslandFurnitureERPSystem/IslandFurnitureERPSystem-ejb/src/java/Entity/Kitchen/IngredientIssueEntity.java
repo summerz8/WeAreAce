@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -28,19 +28,21 @@ public class IngredientIssueEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @OneToMany
     private List<IngredientItemEntity> issueItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime = Calendar.getInstance();
+    private Calendar creationTime;
     private boolean confirmed;
     @OneToOne
     private IngredientForecastEntity forecast;
 
     public IngredientIssueEntity() {
+        creationTime = Calendar.getInstance();
         this.confirmed = false;
     }
 
     public IngredientIssueEntity(IngredientForecastEntity forecast) {
+        creationTime = Calendar.getInstance();
         this.forecast = forecast;
         this.confirmed = false;
     }

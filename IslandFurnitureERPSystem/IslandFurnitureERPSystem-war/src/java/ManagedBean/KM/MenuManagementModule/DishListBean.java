@@ -75,13 +75,23 @@ public class DishListBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         DishEntity dish = (DishEntity) event.getObject();
         try {
-            Long dishId = mm.editDish(dish.getId(), dish.getName(), dish.getPrice(), dish.getRemark(), dish.getRecipeQuantity());
-            if (dishId == -1L) {
-                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+            if (dish.getPrice() < 0) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Price cannot be negative");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Successful", "Dish " + dish.getName() + " is Edited");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                if (dish.getRecipeQuantity() < 0) {
+                    FacesMessage msg = new FacesMessage("Edition Faild", "Recipe Quantity cannot be negative");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    Long dishId = mm.editDish(dish.getId(), dish.getName(), dish.getPrice(), dish.getRemark(), dish.getRecipeQuantity());
+                    if (dishId == -1L) {
+                        FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                        FacesContext.getCurrentInstance().addMessage(null, msg);
+                    } else {
+                        FacesMessage msg = new FacesMessage("Successful", "Dish " + dish.getName() + " is Edited");
+                        FacesContext.getCurrentInstance().addMessage(null, msg);
+                    }
+                }
             }
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");

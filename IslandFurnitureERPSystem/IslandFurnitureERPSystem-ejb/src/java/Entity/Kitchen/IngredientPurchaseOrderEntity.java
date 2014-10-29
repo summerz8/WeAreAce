@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -28,23 +28,29 @@ public class IngredientPurchaseOrderEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @OneToMany
     private List<IngredientItemEntity> purchaseItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime = Calendar.getInstance();
+    private Calendar creationTime;
     private Double total;
     private Double acturalTotal;
-    private String status = "Unconfirmed";  // Unconfirmed, Confirmed, Cancelled, Received
+    private String status; // Unconfirmed, Confirmed, Cancelled, Received
     @OneToOne
     private IngredientForecastEntity forecast;
     @OneToOne(mappedBy = "purchaseOrder")
-    private IngredientReceiptEntity receipt = null;
+    private IngredientReceiptEntity receipt;
 
     public IngredientPurchaseOrderEntity() {
+        status = "Unconfirmed";
+        creationTime = Calendar.getInstance();
+        receipt = null;
     }
 
     public IngredientPurchaseOrderEntity(IngredientForecastEntity forecast) {
         this.forecast = forecast;
+        status = "Unconfirmed";
+        creationTime = Calendar.getInstance();
+        receipt = null;
     }
 
     public Long getId() {

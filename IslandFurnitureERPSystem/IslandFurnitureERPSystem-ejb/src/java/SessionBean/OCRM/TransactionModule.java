@@ -156,7 +156,7 @@ public class TransactionModule implements TransactionModuleLocal {
             totalPrice += listTotalPrice;
         }
 
-        if (transaction.getMember() != null) {
+        if (transaction.getMember() != null && transaction.getLocation() == 1 ) {
             for (TransactionItemEntity list : transactionItemList) {
                 Double listTotalPrice = list.getTotalMemberPrice();
                 totalMemberPrice += listTotalPrice;

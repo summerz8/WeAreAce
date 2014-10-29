@@ -70,6 +70,14 @@ public class TransactionEntity implements Serializable {
     public TransactionEntity() {
     }
 
+    public TransactionEntity(Calendar generateTime, Double totalPrice, int location, StoreEntity store, MemberEntity member) {
+        this.generateTime = generateTime;
+        this.totalPrice = totalPrice;
+        this.location = location;
+        this.store = store;
+        this.member = member;
+    }
+
     public Long getTransactionId() {
         return transactionId;
     }

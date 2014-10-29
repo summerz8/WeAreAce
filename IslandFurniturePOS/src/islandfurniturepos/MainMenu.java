@@ -5,38 +5,48 @@
  */
 package islandfurniturepos;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Enumeration;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author hangsun
  */
 public class MainMenu extends javax.swing.JFrame {
-    
+
+    private String partnerPoleDisplayCOMPort = "COM4";
+    private OutputStream partnerPoleDisplayOutputStream;
+    private SerialPort serialPort;
     private String storeStaffId = null;
     private int location;
     private Long memberId = null;
-    
+
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
     }
-    
-    public MainMenu(String storeStaffId){
+
+    public MainMenu(String storeStaffId) {
         this();
-        
+
         this.storeStaffId = storeStaffId;
     }
-    
-     public MainMenu(String storeStaffId,Long memberId){
+
+    public MainMenu(String storeStaffId, Long memberId) {
         this();
-        
+
         this.storeStaffId = storeStaffId;
         this.memberId = memberId;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -214,12 +224,12 @@ public class MainMenu extends javax.swing.JFrame {
     private void jButtonNewTransactionFurnitureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionFurnitureActionPerformed
         // TODO add your handling code here:
         location = 1;
-        NewTransaction transaction = new NewTransaction(storeStaffId,location,memberId);
+        NewTransaction transaction = new NewTransaction(storeStaffId, location, memberId);
         transaction.setVisible(true);
         transaction.setExtendedState(JFrame.NORMAL);
         this.setVisible(false);
         this.dispose();
-        
+
     }//GEN-LAST:event_jButtonNewTransactionFurnitureActionPerformed
 
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
@@ -229,13 +239,13 @@ public class MainMenu extends javax.swing.JFrame {
         login.setExtendedState(JFrame.NORMAL);
         this.setVisible(false);
         this.dispose();
-        
+
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
     private void jButtonNewTransactionRetailProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionRetailProductActionPerformed
         // TODO add your handling code here:
         location = 2;
-        NewTransaction transaction = new NewTransaction(storeStaffId,location,memberId);
+        NewTransaction transaction = new NewTransaction(storeStaffId, location, memberId);
         transaction.setVisible(true);
         transaction.setExtendedState(JFrame.NORMAL);
         this.setVisible(false);
@@ -244,40 +254,49 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        
-        if(storeStaffId != null)
-        {
+
+        if (storeStaffId != null) {
             String name = getFullNameById(storeStaffId);
             jLabelName.setText("Have a nice day! " + name);
-        }
-        else
-        {
+        } else {
             jLabelName.setText("Please Login");
         }
-        
-        if(memberId != null){
+
+        if (memberId != null) {
             jLabelMemberId.setText("Member ID: " + memberId);
+        } else {
+            jLabelMemberId.setText("Member Not Found!");
         }
-        else{
-             jLabelMemberId.setText("Member Not Found!");
-        }
+
+//        initPartnerPoleDisplay();
+//        poleDisplay();
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMemberActionPerformed
         // TODO add your handling code here:
-        
+
         this.setVisible(false);
-        
+
         Member member = new Member(storeStaffId);
         member.setVisible(true);
-        member.setExtendedState(JFrame.NORMAL); 
-        
+        member.setExtendedState(JFrame.NORMAL);
+
     }//GEN-LAST:event_jButtonMemberActionPerformed
-           
+
     /**
      * @param args the command line arguments
      */
@@ -312,7 +331,45 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
     }
-    
+
+    private void initPartnerPoleDisplay() {
+        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
+
+        while (commPortList.hasMoreElements()) {
+            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
+
+            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
+                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
+                try {
+                    serialPort = (SerialPort) commPort.open("POS", 5000);
+                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
+                } catch (PortInUseException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void poleDisplay() {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String("Main Menu").getBytes();
+        byte[] message2 = new String("Have a Nice Day!").getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonNewTransactionFurniture;
     private javax.swing.JLabel jLabelLogo;
@@ -328,6 +385,5 @@ public class MainMenu extends javax.swing.JFrame {
         util.login.IFManagerBean port = service.getIFManagerBeanPort();
         return port.getFullNameById(arg0);
     }
-
 
 }

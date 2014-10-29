@@ -43,29 +43,31 @@ public class StoreEntity implements Serializable {
     private List<Long> factoryList;
 
     @OneToOne
+    @XmlTransient
     private KitchenEntity kitchen;
+
 
 //    //factory entity -- store entity: M <--> M 
 //    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "stores")
 //    private List<FactoryEntity> factorys = new ArrayList<>();
+
     //store entity -- store product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
     private List<StoreProductEntity> storeProducts = new ArrayList<>();
-    
+
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
     private List<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
-    
+
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
     private List<StoreItemMappingEntity> storeItemMappings = new ArrayList<>();
-    
+
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
     @XmlTransient
-    private List<TransactionEntity> transacions = new ArrayList<>();
-    
+    private List<TransactionEntity> transactions = new ArrayList<>();
 
     public StoreEntity() {
     }
@@ -76,9 +78,9 @@ public class StoreEntity implements Serializable {
         this.contact = contact;
         this.manager = manager;
         this.deleteFlag = deleteFlag;
-        factoryList = new ArrayList<>();
+        factoryList=new ArrayList<>();
 
-    }
+}
 
     public Long getStoreId() {
         return storeId;
@@ -120,7 +122,7 @@ public class StoreEntity implements Serializable {
         this.manager = manager;
     }
 
-    public Boolean isDeleteFlag() {
+    public Boolean getDeleteFlag() {
         return deleteFlag;
     }
 
@@ -168,24 +170,25 @@ public class StoreEntity implements Serializable {
         this.storeItemMappings = storeItemMappings;
     }
 
-    public List<TransactionEntity> getTransacions() {
-        return transacions;
+    public List<TransactionEntity> getTransactions() {
+        return transactions;
     }
 
-    public void setTransacions(List<TransactionEntity> transacions) {
-        this.transacions = transacions;
+    public void setTransactions(List<TransactionEntity> transactions) {
+        this.transactions = transactions;
     }
 
     
+    
     @Override
-    public int hashCode() {
+        public int hashCode() {
         int hash = 0;
         hash += (storeId != null ? storeId.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+        public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the storeId fields are not set
         if (!(object instanceof StoreEntity)) {
             return false;
@@ -198,7 +201,7 @@ public class StoreEntity implements Serializable {
     }
 
     @Override
-    public String toString() {
+        public String toString() {
         return "Entity.Store.StoreEntity[ id=" + storeId + " ]";
     }
 

@@ -9,13 +9,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -32,20 +31,25 @@ public class DailySalesEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @OneToMany
     private List<DishItemEntity> dishes = new ArrayList<>();
-    @ManyToMany
+    @OneToMany
     private List<ComboItemEntity> combos = new ArrayList<>();
+    private Double sales;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar salesDate = Calendar.getInstance();
+    private Calendar salesDate;
     @ManyToOne
     private KitchenEntity kitchen;
 
     public DailySalesEntity() {
+        salesDate = Calendar.getInstance();
+        sales = 0.0;
     }
 
     public DailySalesEntity(KitchenEntity kitchen) {
         this.kitchen = kitchen;
+        salesDate = Calendar.getInstance();
+        sales = 0.0;
     }
 
     public Long getId() {
@@ -74,6 +78,14 @@ public class DailySalesEntity implements Serializable {
 
     public Calendar getSalesDate() {
         return salesDate;
+    }
+
+    public Double getSales() {
+        return sales;
+    }
+
+    public void setSales(Double sales) {
+        this.sales = sales;
     }
 
     public void setSalesDate(Calendar salesDate) {

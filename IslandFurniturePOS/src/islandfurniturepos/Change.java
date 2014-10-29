@@ -177,12 +177,14 @@ public class Change extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+//        initPartnerPoleDisplay();
+//        poleDisplay();
+        PartnerThermalPrinterAndCashBox();
         if (moneyChange != null) {
             jLabelChange.setText(Double.toString(moneyChange));
         }
         
-       // initPartnerPoleDisplay();
-       // poleDisplay();
+       
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonGoBackToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoBackToMainActionPerformed
@@ -283,7 +285,7 @@ public class Change extends javax.swing.JFrame {
         }
     }
 
-    private void testPartnerThermalPrinterAndCashBox() {
+    private void PartnerThermalPrinterAndCashBox() {
         try {
             Double margin = 1.0;
             Integer lines = 8;
@@ -295,7 +297,7 @@ public class Change extends javax.swing.JFrame {
             paper.setImageableArea(margin, margin, paper.getWidth() - margin * 2, paper.getHeight() - margin * 2);
             pageFormat.setPaper(paper);
             pageFormat.setOrientation(PageFormat.PORTRAIT);
-//            printerJob.setPrintable(jTextFieldPrintTest.getPrintable(null, null), pageFormat);
+        //  printerJob.setPrintable(jTextFieldPrintTest.getPrintable(null, null), pageFormat);
             printerJob.print();
         } catch (PrinterException ex) {
             JOptionPane.showMessageDialog(null, "Unable to print to Partner Thermal Printer: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -306,8 +308,8 @@ public class Change extends javax.swing.JFrame {
         byte[] clear = {0x0C};
         byte[] newLine = {0x0A};
         byte[] carriageReturn = {0x0D};
-        byte[] message1 = new String("Hello World!").getBytes();
-        byte[] message2 = new String("How Are You?").getBytes();
+        byte[] message1 = new String("Change").getBytes();
+        byte[] message2 = new String("Have a Nice Day!").getBytes();
 
         try {
             partnerPoleDisplayOutputStream.write(clear);

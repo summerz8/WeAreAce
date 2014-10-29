@@ -16,12 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 
 /**
  *
@@ -39,7 +39,7 @@ public class DishEntity implements Serializable {
 //    @Column(unique = true, nullable = false)
     private String name;
     private Double price;
-    @ManyToMany
+    @OneToMany
     @JoinTable(inverseJoinColumns = @JoinColumn(name = "RecipeItem_ID") )
     private List<IngredientItemEntity> recipe = new ArrayList<>();
     private Integer recipeQuantity;

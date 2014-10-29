@@ -266,9 +266,9 @@ public class UserInfoManageBean implements Serializable {
         System.out.println("UserInfoManageBean: change password");
         //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
         System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
-        if (cryptographicHelper.doMD5Hashing(inputOldPass).equals(password)) {
+        if (cryptographicHelper.doMD5Hashing(inputOldPass+userId).equals(password)) {
             //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
-            IUMA.changePass(newPass, userId);
+            IUMA.changePass(cryptographicHelper.doMD5Hashing(newPass+userId), userId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Password changed successfully!", ""));
         } else {

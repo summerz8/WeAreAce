@@ -5,14 +5,27 @@
  */
 package islandfurniturepos;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import sessionbean.ocrm.TransactionItemEntity;
@@ -23,6 +36,9 @@ import sessionbean.ocrm.TransactionItemEntity;
  */
 public class NewTransaction extends javax.swing.JFrame {
 
+    private String partnerPoleDisplayCOMPort = "COM4";
+    private OutputStream partnerPoleDisplayOutputStream;
+    private SerialPort serialPort;
     private String storeStaffId = null;
     private int location;
     private Long memberId = null;
@@ -72,6 +88,7 @@ public class NewTransaction extends javax.swing.JFrame {
         jButtonCancel = new javax.swing.JButton();
         jButtonCheckOut = new javax.swing.JButton();
         jLabelLogo = new javax.swing.JLabel();
+        javax.swing.JButton jButtonDelete = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -93,6 +110,9 @@ public class NewTransaction extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -119,6 +139,11 @@ public class NewTransaction extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTableItemList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableItemListMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTableItemList);
@@ -234,6 +259,18 @@ public class NewTransaction extends javax.swing.JFrame {
 
         jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/singapore-logo0.1.jpg"))); // NOI18N
 
+        jButtonDelete.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonDelete.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jButtonDelete.setText("Delete");
+        jButtonDelete.setToolTipText("");
+        jButtonDelete.setActionCommand("Delete");
+        jButtonDelete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionButtonLayout = new javax.swing.GroupLayout(jPanelActionButton);
         jPanelActionButton.setLayout(jPanelActionButtonLayout);
         jPanelActionButtonLayout.setHorizontalGroup(
@@ -245,18 +282,21 @@ public class NewTransaction extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(jPanelActionButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                    .addComponent(jButtonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelActionButtonLayout.setVerticalGroup(
             jPanelActionButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelActionButtonLayout.createSequentialGroup()
                 .addComponent(jLabelLogo)
-                .addGap(78, 78, 78)
+                .addGap(36, 36, 36)
+                .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
                 .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
                 .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -295,15 +335,21 @@ public class NewTransaction extends javax.swing.JFrame {
             amount = Integer.parseInt(jFormattedTextFieldAmount.getText());
 
             if (checkItem(UUID)) {
-                createTransactionItem(UUID, amount, transactionId);
-                loadTable();
-                JOptionPane.showMessageDialog(this, "Item add! ID: " + UUID, "Successful", JOptionPane.INFORMATION_MESSAGE);
-                
+                int itemType = checkItemType(UUID);
+                if (itemType != location) {
+                    JOptionPane.showMessageDialog(this, "Item does not belong to current location!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    createTransactionItem(UUID, amount, transactionId);
+                    loadTable();
+                    JOptionPane.showMessageDialog(this, "Item add! ID: " + UUID, "Successful", JOptionPane.INFORMATION_MESSAGE);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
             jTextFieldItemId.setText("");
+            jFormattedTextFieldAmount.setText("");
         } else {
             JOptionPane.showMessageDialog(this, "Please input valid amount!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -326,21 +372,25 @@ public class NewTransaction extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+//        initPartnerPoleDisplay();
+//        poleDisplay();
         transactionId = createTransaction(storeStaffId, memberId, location);
-        
+
         jTextFieldItemId.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 String kbValue = jTextFieldItemId.getText();
-        
-                if(kbValue != null && kbValue.trim().length() > 0)
-                {
+
+                if (kbValue != null && kbValue.trim().length() > 0) {
                     kbValue = kbValue.trim();
                     JOptionPane.showMessageDialog(null, kbValue, "Detected Keyboard Input", JOptionPane.INFORMATION_MESSAGE);
+                    scanAndAddItem();
                 }
             }
         });
+
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
@@ -354,6 +404,34 @@ public class NewTransaction extends javax.swing.JFrame {
         mainMenu.setExtendedState(JFrame.NORMAL);
 
     }//GEN-LAST:event_jButtonCancelActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void jTableItemListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableItemListMouseClicked
+
+    }//GEN-LAST:event_jTableItemListMouseClicked
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTableItemList.getSelectionModel().getLeadSelectionIndex();
+        System.err.println("Row:" + selectedRow);
+        transactionItemList = getTransactionItemList(transactionId);
+        TransactionItemEntity selectedTransactionItem = transactionItemList.get(selectedRow);
+        deleteTransactionItem(selectedTransactionItem.getTransactionItemId(), transactionId);
+        loadTable();
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,29 +520,56 @@ public class NewTransaction extends javax.swing.JFrame {
     private void loadTable() {
         try {
             transactionItemList = getTransactionItemList(transactionId);
-                
-            if(transactionItemList != null && transactionItemList.size() > 0){
-                Object[][] data = new Object[transactionItemList.size()][5];  
-                
-                for(int i=0;i<transactionItemList.size();i++){
+
+            if (transactionItemList != null && transactionItemList.size() > 0) {
+                Object[][] data = new Object[transactionItemList.size()][5];
+
+                for (int i = 0; i < transactionItemList.size(); i++) {
                     TransactionItemEntity transactionItem = transactionItemList.get(i);
                     data[i][0] = transactionItem.getItemId();
                     data[i][1] = transactionItem.getItemName();
                     data[i][2] = transactionItem.getUnitPrice();
                     data[i][3] = transactionItem.getAmount();
-                    data[i][4] = transactionItem.getTotalPrice();      
+                    data[i][4] = transactionItem.getTotalPrice();
                 }
-                
+
                 Object[] columnNames = new Object[5];
-                
+
                 columnNames[0] = "Item ID";
                 columnNames[1] = "Item Name";
                 columnNames[2] = "Unit Price";
                 columnNames[3] = "Amount";
                 columnNames[4] = "Total Price";
-                
+
+                TableModel tableModel = new DefaultTableModel(data, columnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return true;
+                    }
+
+                    @Override
+                    public void setValueAt(Object value, int row, int column) {
+                        ChangeAmount(value, row);
+                        System.err.println("row: " + row + "; column: " + column + "; value: " + value);
+                        loadTable();
+                    }
+                };
+
+                jTableItemList.setModel(tableModel);
+                jTableItemList.getSelectionModel().addListSelectionListener(new RowListener());
+            } else {
+                Object[] columnNames = new Object[5];
+
+                columnNames[0] = "Item ID";
+                columnNames[1] = "Item Name";
+                columnNames[2] = "Unit Price";
+                columnNames[3] = "Amount";
+                columnNames[4] = "Total Price";
+                Object[][] data = new Object[1][6];
+
                 TableModel tableModel = new DefaultTableModel(data, columnNames);
                 jTableItemList.setModel(tableModel);
+                jTableItemList.getSelectionModel().addListSelectionListener(new RowListener());
             }
 
         } catch (Exception ex) {
@@ -472,10 +577,96 @@ public class NewTransaction extends javax.swing.JFrame {
         }
     }
 
+    private class RowListener implements ListSelectionListener {
+
+        public void valueChanged(ListSelectionEvent event) {
+            if (event.getValueIsAdjusting()) {
+                return;
+            }
+        }
+    }
+
+    private void ChangeAmount(Object value, int row) {
+        transactionItemList = getTransactionItemList(transactionId);
+        TransactionItemEntity selectedTransactionItem = transactionItemList.get(row);
+        int Amount = Integer.parseInt((String) value);
+        changeAmount(selectedTransactionItem.getTransactionItemId(), Amount);
+    }
+
+    private void scanAndAddItem() {
+        UUID = Long.parseLong(jTextFieldItemId.getText());
+//        amount = Integer.parseInt(jFormattedTextFieldAmount.getText());
+
+        if (checkItem(UUID)) {
+            createTransactionItem(UUID, 1, transactionId);
+            loadTable();
+            JOptionPane.showMessageDialog(this, "Item add! ID: " + UUID, "Successful", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void initPartnerPoleDisplay() {
+        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
+
+        while (commPortList.hasMoreElements()) {
+            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
+
+            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
+                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
+                try {
+                    serialPort = (SerialPort) commPort.open("POS", 5000);
+                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
+                } catch (PortInUseException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void poleDisplay() {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String("New Transaction").getBytes();
+        byte[] message2 = new String("Have a Nice Day").getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private static java.util.List<sessionbean.ocrm.TransactionItemEntity> getTransactionItemList(java.lang.Long arg0) {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         return port.getTransactionItemList(arg0);
+    }
+
+    private static void changeAmount(java.lang.Long arg0, int arg1) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        port.changeAmount(arg0, arg1);
+    }
+
+    private static void deleteTransactionItem(java.lang.Long arg0, java.lang.Long arg1) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        port.deleteTransactionItem(arg0, arg1);
+    }
+
+    private static int checkItemType(java.lang.Long arg0) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        return port.checkItemType(arg0);
     }
 
 }

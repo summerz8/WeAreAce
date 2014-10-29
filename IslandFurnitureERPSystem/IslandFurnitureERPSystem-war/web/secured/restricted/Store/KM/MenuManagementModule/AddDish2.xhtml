@@ -85,53 +85,51 @@
                     <p:layoutUnit position="center" resizable="false">
 
                         <p:panel id="basic" header="New Dish: Recipe" style="margin-bottom" >
+
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                                <p:outputLabel value="Dish ID : " style="font-weight:bold" />
+                                <h:outputText value="#{addDishBean2.dish.id}" />
+
+                                <p:outputLabel value="Name : " style="font-weight:bold" />
+                                <h:outputText value="#{addDishBean2.dish.name}" />
+
+                                <p:outputLabel value="Price : " style="font-weight:bold" />
+                                <h:outputText value="#{addDishBean2.dish.price}" />
+
+                                <p:outputLabel value="Remark : " style="font-weight:bold" />
+                                <h:outputText value="#{addDishBean2.dish.remark}" />
+
+                                <p:outputLabel value="Recipe Quantity : " style="font-weight:bold" />
+                                <h:outputText value="#{addDishBean2.dish.recipeQuantity}" />
+
+                            </h:panelGrid>
+
+                            <p:dataTable id="recipe" var="ii" value="#{addDishBean2.dish.recipe}" filteredValue="#{addDishBean2.filteredRecipeItems}">
+                                <f:facet name="header">
+                                    Recipe
+                                </f:facet>
+
+                                <p:column headerText="Raw Ingreident">
+                                    <h:outputText value="#{ii.ingredient.name}" />
+                                </p:column>
+
+                                <p:column headerText="Quantity">
+                                    <h:outputText value="#{ii.quantity}" />
+                                </p:column>
+
+                                <p:column headerText="Unit">
+                                    <h:outputText value="#{ii.ingredient.unit}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <p:commandButton value="Add A Recipe Item" onclick="PF('addRecipeItem').show();">
+                            </p:commandButton>
+
+                            <p:commandButton value="Complete" action="DishList.xhtml?faces-redirect=true" oncomplete="dishTable.filter();"/>
+
                         </p:panel>
-
-
-                        <h:panelGrid columns="2" cellpadding="5">
-
-                            <p:outputLabel value="Dish ID : " />
-                            <h:outputText value="#{addDishBean2.dish.id}" />
-                            
-                            <p:outputLabel value="Name : " />
-                            <h:outputText value="#{addDishBean2.dish.name}" />
-
-                            <p:outputLabel value="Price : " />
-                            <h:outputText value="#{addDishBean2.dish.price}" />
-
-                            <p:outputLabel value="Remark : " />
-                            <h:outputText value="#{addDishBean2.dish.remark}" />
-
-                            <p:outputLabel value="Recipe Quantity : " />
-                            <h:outputText value="#{addDishBean2.dish.remark}" />
-
-                        </h:panelGrid>
-
-                        <p:dataTable id="recipe" var="ii" value="#{addDishBean2.dish.recipe}" filteredValue="#{addDishBean2.filteredRecipeItems}">
-                            <f:facet name="header">
-                                Recipe
-                            </f:facet>
-
-                            <p:column headerText="Raw Ingreident">
-                                <h:outputText value="#{ii.ingredient.name}" />
-                            </p:column>
-
-                            <p:column headerText="Quantity">
-                                <h:outputText value="#{ii.quantity}" />
-                            </p:column>
-
-                            <p:column headerText="Unit">
-                                <h:outputText value="#{ii.ingredient.unit}" />
-                            </p:column>
-
-                        </p:dataTable>
-
-                        <p:commandButton value="Add A Recipe Item" onclick="PF('addRecipeItem').show();">
-                        </p:commandButton>
-
-                        <p:commandButton value="Complete" action="DishList.xhtml?faces-redirect=true" oncomplete="dishTable.filter();"/>
-
-
                         <p:dialog widgetVar="addRecipeItem" header="New Recipe Item" position="center"
                                   showEffect="fade" hideEffect="fade" resizable="true" 
                                   draggable="true" closable="true">
@@ -146,7 +144,7 @@
 
                             </h:panelGrid>
 
-                            <p:commandButton value="Submit" actionListener="#{addDishBean2.addIngredientItem}" update="recipe" oncomplete="PF('addRecipeItem').hide()">
+                            <p:commandButton value="Submit" actionListener="#{addDishBean2.addIngredientItem}" update="recipe" >
                             </p:commandButton>
                         </p:dialog>
 

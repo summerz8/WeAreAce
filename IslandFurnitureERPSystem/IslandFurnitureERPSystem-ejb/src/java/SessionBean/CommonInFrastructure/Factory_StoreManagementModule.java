@@ -146,7 +146,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         List requiredStoreList = new ArrayList();
         for (Object o : q.getResultList()) {
             StoreEntity u = (StoreEntity) o;
-            if (!u.isDeleteFlag()) {
+            if (!u.getDeleteFlag()) {
                 requiredStoreList.add(u);
             }
             System.out.println("Factory_StoreManagementModule: ListStore(): store added" + u.getStoreId());

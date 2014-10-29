@@ -16,21 +16,21 @@
             <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsimport-client-MemberRegistrationModule" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
-        <property name="wsdl-MemberRegistrationModule" location="xml-resources/web-service-references/MemberRegistrationModule/wsdl/localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule" destdir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule" wsdl="${wsdl-MemberRegistrationModule}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-MemberRegistrationModule}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
+    <target name="wsimport-client-TransactionModule" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
+        <property name="wsdl-TransactionModule" location="xml-resources/web-service-references/TransactionModule/wsdl/localhost_8080/TransactionModuleService/TransactionModule.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TransactionModule" destdir="${build.generated.dir}/jax-wsCache/TransactionModule" wsdl="${wsdl-TransactionModule}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/TransactionModuleService/TransactionModule?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-TransactionModule}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule">
+            <fileset dir="${build.generated.dir}/jax-wsCache/TransactionModule">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-MemberRegistrationModule" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
+    <target name="wsimport-client-clean-TransactionModule" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/sessionbean/ocrm"/>
     </target>
     <target name="wsimport-client-IFManagerBean" depends="wsimport-init">
@@ -50,22 +50,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/IFManagerBean"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/util/login"/>
     </target>
-    <target name="wsimport-client-TransactionModule" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
-        <property name="wsdl-TransactionModule" location="xml-resources/web-service-references/TransactionModule/wsdl/localhost_8080/TransactionModuleService/TransactionModule.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TransactionModule" destdir="${build.generated.dir}/jax-wsCache/TransactionModule" wsdl="${wsdl-TransactionModule}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/TransactionModuleService/TransactionModule?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-TransactionModule}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
+    <target name="wsimport-client-MemberRegistrationModule" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
+        <property name="wsdl-MemberRegistrationModule" location="xml-resources/web-service-references/MemberRegistrationModule/wsdl/localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule" destdir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule" wsdl="${wsdl-MemberRegistrationModule}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-MemberRegistrationModule}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/TransactionModule">
+            <fileset dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-TransactionModule" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
+    <target name="wsimport-client-clean-MemberRegistrationModule" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/sessionbean/ocrm"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-MemberRegistrationModule, wsimport-client-IFManagerBean, wsimport-client-TransactionModule"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-TransactionModule, wsimport-client-IFManagerBean, wsimport-client-MemberRegistrationModule"/>
 </project>

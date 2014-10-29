@@ -30,6 +30,7 @@ public class Member extends javax.swing.JFrame {
     private MainMenu mainMenu = null;
     private CardTerminal acr122uCardTerminal = null;
     private String cardId = null;
+    private Timer timerCheckCardPresent = null;
 
     /**
      * Creates new form Member
@@ -250,25 +251,15 @@ public class Member extends javax.swing.JFrame {
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckActionPerformed
         // TODO add your handling code here:
         try {
-            if (acr122uCardTerminal != null) {
-                if (acr122uCardTerminal.isCardPresent()) {
-                    cardId = getCardId();
-                    memberId = getMemberIdByCardId(cardId);
-                    if (memberId != null) {
-                        jTextFieldMemberId.setText(String.valueOf(memberId));
-                        flag = checkMember(memberId);
-                    }
-                }
-            } else {
-                memberId = Long.parseLong(jTextFieldMemberId.getText());
-                flag = checkMember(memberId);
-            }
+
+            memberId = Long.parseLong(jTextFieldMemberId.getText());
+            flag = checkMember(memberId);
             if (flag) {
                 JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
+
             goBack();
 
         } catch (Exception ex) {
@@ -280,62 +271,51 @@ public class Member extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
-        try {
-            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    quitOnNoReaderAttached();
-                }
-            };
-
-            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
-            timerQuitOnNoReaderAttached.setRepeats(false);
-            timerQuitOnNoReaderAttached.start();
-
-            TerminalFactory terminalFactory = TerminalFactory.getDefault();
-
-            if (!terminalFactory.terminals().list().isEmpty()) {
-
-                jTextFieldCardLoader.setText("Yes");
-                jTextFieldCardLoader.setForeground(Color.GREEN);
-
-                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
-                    if (cardTerminal.getName().contains("ACS ACR122")) {
-                        acr122uCardTerminal = cardTerminal;
-                        break;
-                    }
-                }
-
-                if (acr122uCardTerminal != null) {
-                    timerQuitOnNoReaderAttached.stop();
-
-//                    jTextFieldAttachedReader.setText(acr122uCardTerminal.getName());
-                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
-                        public void actionPerformed(ActionEvent event) {
-                            checkCardPresent();
-                        }
-                    };
-
-                    Timer timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
-                    timerCheckCardPresent.setRepeats(true);
-                    timerCheckCardPresent.start();
-
-                    //JOptionPane.showMessageDialog(this, "ACS ACR122U Reader detected successfully", "Reader Detected Successful", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    jTextFieldCardLoader.setText("No");
-                    jTextFieldCardLoader.setForeground(Color.RED);
-//                    JOptionPane.showMessageDialog(this, "Unable to detect ACS ACR122U Reader", "Reader Detected Failure", JOptionPane.ERROR_MESSAGE);
-//                    this.setVisible(false);
-//                    this.dispose();
-                }
-            } else {
-                jTextFieldCardLoader.setText("No");
-                jTextFieldCardLoader.setForeground(Color.RED);
-//                JOptionPane.showMessageDialog(this, "No card reader is attached", "Reader Detected Failure", JOptionPane.ERROR_MESSAGE);
-//                this.setVisible(false);
-//                this.dispose();
-            }
-        } catch (Exception ex) {
-        }
+//        try {
+//            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
+//                public void actionPerformed(ActionEvent event) {
+//                    quitOnNoReaderAttached();
+//                }
+//            };
+//
+//            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
+//            timerQuitOnNoReaderAttached.setRepeats(false);
+//            timerQuitOnNoReaderAttached.start();
+//
+//            TerminalFactory terminalFactory = TerminalFactory.getDefault();
+//
+//            if (!terminalFactory.terminals().list().isEmpty()) {
+//
+//                jTextFieldCardLoader.setText("Yes");
+//                jTextFieldCardLoader.setForeground(Color.GREEN);
+//
+//                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
+//                    if (cardTerminal.getName().contains("ACS ACR122")) {
+//                        acr122uCardTerminal = cardTerminal;
+//                        break;
+//                    }
+//                }
+//
+//                if (acr122uCardTerminal != null) {
+//                    timerQuitOnNoReaderAttached.stop();
+//                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
+//                        public void actionPerformed(ActionEvent event) {
+//                            checkCardPresent();
+//                        }
+//                    };
+//                    timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
+//                    timerCheckCardPresent.setRepeats(true);
+//                    timerCheckCardPresent.start();
+//                } else {
+//                    jTextFieldCardLoader.setText("No");
+//                    jTextFieldCardLoader.setForeground(Color.RED);
+//                }
+//            } else {
+//                jTextFieldCardLoader.setText("No");
+//                jTextFieldCardLoader.setForeground(Color.RED);
+//            }
+//        } catch (Exception ex) {
+//        }
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextFieldCardPresentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCardPresentActionPerformed
@@ -413,6 +393,23 @@ public class Member extends javax.swing.JFrame {
             if (acr122uCardTerminal.isCardPresent()) {
                 jTextFieldCardPresent.setText("Yes");
                 jTextFieldCardPresent.setForeground(Color.GREEN);
+
+                cardId = getCardId();
+                memberId = getMemberIdByCardId(cardId);
+                if (memberId != null) {
+                    jTextFieldMemberId.setText(String.valueOf(memberId));
+                    flag = checkMember(memberId);
+                }
+
+                if (flag) {
+                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                goBack();
+
             } else {
                 jTextFieldCardPresent.setText("No");
                 jTextFieldCardPresent.setForeground(Color.RED);
@@ -463,6 +460,7 @@ public class Member extends javax.swing.JFrame {
     }
 
     private void goBack() {
+       // timerCheckCardPresent.stop();
         this.setVisible(false);
         this.dispose();
 

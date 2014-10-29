@@ -4,6 +4,12 @@
 <xsd:import namespace="http://login.util/" schemaLocation="http://localhost:8080/IFManagerBeanService/IFManagerBean?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="getUserInfo">
+<part name="parameters" element="tns:getUserInfo"/>
+</message>
+<message name="getUserInfoResponse">
+<part name="parameters" element="tns:getUserInfoResponse"/>
+</message>
 <message name="shopLogin">
 <part name="parameters" element="tns:shopLogin"/>
 </message>
@@ -16,7 +22,17 @@
 <message name="getFullNameByIdResponse">
 <part name="parameters" element="tns:getFullNameByIdResponse"/>
 </message>
+<message name="validateUser">
+<part name="parameters" element="tns:validateUser"/>
+</message>
+<message name="validateUserResponse">
+<part name="parameters" element="tns:validateUserResponse"/>
+</message>
 <portType name="IFManagerBean">
+<operation name="getUserInfo">
+<input wsam:Action="http://login.util/IFManagerBean/getUserInfoRequest" message="tns:getUserInfo"/>
+<output wsam:Action="http://login.util/IFManagerBean/getUserInfoResponse" message="tns:getUserInfoResponse"/>
+</operation>
 <operation name="shopLogin">
 <input wsam:Action="http://login.util/IFManagerBean/shopLoginRequest" message="tns:shopLogin"/>
 <output wsam:Action="http://login.util/IFManagerBean/shopLoginResponse" message="tns:shopLoginResponse"/>
@@ -25,9 +41,22 @@
 <input wsam:Action="http://login.util/IFManagerBean/getFullNameByIdRequest" message="tns:getFullNameById"/>
 <output wsam:Action="http://login.util/IFManagerBean/getFullNameByIdResponse" message="tns:getFullNameByIdResponse"/>
 </operation>
+<operation name="validateUser">
+<input wsam:Action="http://login.util/IFManagerBean/validateUserRequest" message="tns:validateUser"/>
+<output wsam:Action="http://login.util/IFManagerBean/validateUserResponse" message="tns:validateUserResponse"/>
+</operation>
 </portType>
 <binding name="IFManagerBeanPortBinding" type="tns:IFManagerBean">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="getUserInfo">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="shopLogin">
 <soap:operation soapAction=""/>
 <input>
@@ -38,6 +67,15 @@
 </output>
 </operation>
 <operation name="getFullNameById">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="validateUser">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

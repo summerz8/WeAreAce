@@ -19,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -88,7 +89,7 @@ public class AddComboBean2 implements Serializable {
     public void setFilteredDishs(List<DishEntity> filteredDishs) {
         this.filteredDishs = filteredDishs;
     }
-    
+
     @PostConstruct
     public void init() {
         try {
@@ -100,20 +101,31 @@ public class AddComboBean2 implements Serializable {
         }
         filteredDishItems = mm.getDishItems(combo.getId());
     }
-    
+
     public void addDishItem(ActionEvent event) {
-        Long dishItemId = mm.addDishItem(combo.getId(), dish.getId(), quantity);
-        if (dishItemId == -1L) {
-            FacesMessage msg = new FacesMessage("Faild", "The Dish " + dish.getName() + " is already in the Combo");
+        if (quantity == null) {
+            FacesMessage msg = new FacesMessage("Faild", "Invalid Quantity Input");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else if (dishItemId == -2L) {
-            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+        } else if (quantity < 0) {
+            FacesMessage msg = new FacesMessage("Faild", "Quantity cannot be negative");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage("Successful", "New Dish Item " + dishItemId + " is added");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Long dishItemId = mm.addDishItem(combo.getId(), dish.getId(), quantity);
+            if (dishItemId == -1L) {
+                FacesMessage msg = new FacesMessage("Faild", "The Dish " + dish.getName() + " is already in the Combo");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else if (dishItemId == -2L) {
+                FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage("Successful", "New Dish Item " + dishItemId + " is added");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dlg1').hide()");
+            }
+            filteredDishItems = mm.getDishItems(combo.getId());
         }
-        filteredDishItems = mm.getDishItems(combo.getId());
+        quantity = null;
     }
 
 }

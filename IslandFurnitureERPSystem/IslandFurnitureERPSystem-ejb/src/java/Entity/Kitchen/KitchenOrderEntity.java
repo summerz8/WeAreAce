@@ -5,7 +5,6 @@
  */
 package Entity.Kitchen;
 
-import Entity.CommonInfrastructure.UserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,26 +33,44 @@ public class KitchenOrderEntity implements Serializable {
     private List<DishItemEntity> dishes = new ArrayList<>();
     @OneToMany
     private List<ComboItemEntity> combos = new ArrayList<>();
-    private Double total = 0.0;
-    private Double received = 0.0;
-    private Double due = 0.0;
+    @OneToMany
+    private List<DetailedDishItemEntity> detailedDishItems = new ArrayList<>();
+    private Double total;
+    private Double received;
+    private Double due;
+    private Integer totalDishItemQuantity;
+    private Integer fulfilledDishItemQuantity;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime = Calendar.getInstance();
-    private String status;  //Unconfirmed, Confirmed, Fulfilled, Cancelled
+    private Calendar creationTime;
+    private String status;  //Unconfirmed, Confirmed, Fulfilled, Cancelled, Served
     @ManyToOne
     private KitchenEntity kitchen;
     @ManyToOne  // not included in member yet
-    private MemberEntity member = null;
+    private MemberEntity member;
 //    @ManyToOne
 //    private UserEntity operator;
 
     public KitchenOrderEntity() {
+        total = 0.0;
+        received = 0.0;
+        due = 0.0;
         this.status = "Unconfirmed";
+        member = null;
+        totalDishItemQuantity = 0;
+        fulfilledDishItemQuantity = 0;
+        creationTime = Calendar.getInstance();
     }
 
     public KitchenOrderEntity(KitchenEntity kitchen) {
         this.kitchen = kitchen;
+        total = 0.0;
+        received = 0.0;
+        due = 0.0;
         this.status = "Unconfirmed";
+        member = null;
+        totalDishItemQuantity = 0;
+        fulfilledDishItemQuantity = 0;
+        creationTime = Calendar.getInstance();
     }
 
     public Long getId() {
@@ -80,6 +97,14 @@ public class KitchenOrderEntity implements Serializable {
         this.combos = combos;
     }
 
+    public List<DetailedDishItemEntity> getDetailedDishItems() {
+        return detailedDishItems;
+    }
+
+    public void setDetailedDishItems(List<DetailedDishItemEntity> detailedDishItems) {
+        this.detailedDishItems = detailedDishItems;
+    }
+
     public Double getTotal() {
         return total;
     }
@@ -102,6 +127,22 @@ public class KitchenOrderEntity implements Serializable {
 
     public void setDue(Double due) {
         this.due = due;
+    }
+
+    public Integer getTotalDishItemQuantity() {
+        return totalDishItemQuantity;
+    }
+
+    public void setTotalDishItemQuantity(Integer totalDishItemQuantity) {
+        this.totalDishItemQuantity = totalDishItemQuantity;
+    }
+
+    public Integer getFulfilledDishItemQuantity() {
+        return fulfilledDishItemQuantity;
+    }
+
+    public void setFulfilledDishItemQuantity(Integer fulfilledDishItemQuantity) {
+        this.fulfilledDishItemQuantity = fulfilledDishItemQuantity;
     }
 
     public Calendar getCreationTime() {

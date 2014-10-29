@@ -5,12 +5,29 @@
  */
 package islandfurniturepos;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.xml.datatype.XMLGregorianCalendar;
+import sessionbean.ocrm.StoreEntity;
+import sessionbean.ocrm.TransactionEntity;
 import sessionbean.ocrm.TransactionItemEntity;
+import util.security.OutputPrinter;
 
 /**
  *
@@ -18,9 +35,18 @@ import sessionbean.ocrm.TransactionItemEntity;
  */
 public class CheckOut extends javax.swing.JFrame {
 
+    private String partnerPoleDisplayCOMPort = "COM4";
+    private OutputStream partnerPoleDisplayOutputStream;
+    private SerialPort serialPort;
     private Long transactionId = null;
     private String storeStaffId = null;
     private Double totalPrice = null;
+    private Double actualTotalPrice = null;
+    private Double totalMemberPrice = null;
+    private Long memberId = null;
+    private Double currentPoints = null;
+    private Double tendered = null;
+    private Double moneyChange = null;
     private List<TransactionItemEntity> transactionItemList = null;
 
     /**
@@ -57,6 +83,10 @@ public class CheckOut extends javax.swing.JFrame {
         jLabelLogo = new javax.swing.JLabel();
         jButtonCancel = new javax.swing.JButton();
         jFormattedTextFieldTendered = new javax.swing.JFormattedTextField();
+        jLabelCurrent = new javax.swing.JLabel();
+        jLabelRedemption = new javax.swing.JLabel();
+        jFormattedTextFieldRedemption = new javax.swing.JFormattedTextField();
+        jButtonRedemption = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableItemList = new javax.swing.JTable();
 
@@ -64,6 +94,9 @@ public class CheckOut extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -82,7 +115,7 @@ public class CheckOut extends javax.swing.JFrame {
             jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTitleLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+                .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelTitleLayout.setVerticalGroup(
@@ -95,10 +128,10 @@ public class CheckOut extends javax.swing.JFrame {
 
         jPanelMain.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabelTotal.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelTotal.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
         jLabelTotal.setText("Total Price :($)");
 
-        jLabelTendered.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelTendered.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
         jLabelTendered.setText("Tendered :($)");
 
         jButtonCheckOut.setBackground(new java.awt.Color(255, 255, 255));
@@ -111,7 +144,7 @@ public class CheckOut extends javax.swing.JFrame {
             }
         });
 
-        jLabelTotalPrice.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jLabelTotalPrice.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
         jLabelTotalPrice.setText("Total Price");
 
         jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/singapore-logo0.1.jpg"))); // NOI18N
@@ -127,43 +160,98 @@ public class CheckOut extends javax.swing.JFrame {
         });
 
         jFormattedTextFieldTendered.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextFieldTendered.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jFormattedTextFieldTendered.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
+
+        jLabelCurrent.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
+        jLabelCurrent.setText("Member Current Points:");
+
+        jLabelRedemption.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
+        jLabelRedemption.setText("Redemption: ");
+
+        jFormattedTextFieldRedemption.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jFormattedTextFieldRedemption.setFont(new java.awt.Font("Times", 3, 14)); // NOI18N
+        jFormattedTextFieldRedemption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldRedemptionActionPerformed(evt);
+            }
+        });
+
+        jButtonRedemption.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonRedemption.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
+        jButtonRedemption.setText("Redemption");
+        jButtonRedemption.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonRedemption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRedemptionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
         jPanelMain.setLayout(jPanelMainLayout);
         jPanelMainLayout.setHorizontalGroup(
             jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMainLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabelLogo))
             .addGroup(jPanelMainLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jFormattedTextFieldTendered)
-                    .addComponent(jLabelTendered, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                    .addComponent(jLabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                    .addComponent(jLabelTotalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMainLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabelLogo))
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addComponent(jLabelCurrent)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanelMainLayout.createSequentialGroup()
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelMainLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jFormattedTextFieldTendered, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jFormattedTextFieldRedemption, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonRedemption, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanelMainLayout.createSequentialGroup()
+                                    .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanelMainLayout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabelTendered)
+                                                .addComponent(jLabelTotalPrice))))
+                                    .addGap(19, 19, 19)))))
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabelRedemption)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanelMainLayout.setVerticalGroup(
             jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMainLayout.createSequentialGroup()
                 .addComponent(jLabelLogo)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelCurrent)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelRedemption)
+                .addGap(4, 4, 4)
+                .addComponent(jFormattedTextFieldRedemption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonRedemption)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelTendered, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jFormattedTextFieldTendered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonCheckOut)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonCancel)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         jTableItemList.setFont(new java.awt.Font("Times", 3, 12)); // NOI18N
@@ -201,7 +289,7 @@ public class CheckOut extends javax.swing.JFrame {
                 .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,21 +307,47 @@ public class CheckOut extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+//        initPartnerPoleDisplay();
+//        poleDisplay();       
+
         totalPrice = caculateTotalPrice(transactionId);
-        jLabelTotalPrice.setText(Double.toString(totalPrice));
-        transactionItemList = getTransactionItemList(transactionId);
+        actualTotalPrice = totalPrice;
+        TransactionEntity transaction = getTransactionById(transactionId);
+        totalMemberPrice = transaction.getTotalMemberPrice();
+        if (transaction.getMember() != null) {
+            if (transaction.getLocation() == 1) {
+                jLabelTotalPrice.setText(Double.toString(totalMemberPrice));
+                actualTotalPrice = totalMemberPrice;
+            }else{
+                jLabelTotalPrice.setText(Double.toString(totalPrice));
+            }
+            memberId = transaction.getMember().getMemberId();
+            currentPoints = transaction.getMember().getCurrentPoints();
+            jLabelCurrent.setText("Member Current Points: " + currentPoints);       
+
+        } else {
+            jLabelTotalPrice.setText(Double.toString(totalPrice));
+        }
         loadTable();
+
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
         // TODO add your handling code here:
-        Double tendered = Double.parseDouble(jFormattedTextFieldTendered.getText());
-        if (tendered < totalPrice) {
+        tendered = Double.parseDouble(jFormattedTextFieldTendered.getText());
+        if (tendered < actualTotalPrice) {
             JOptionPane.showMessageDialog(this, "Tendered is smaller than total!", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Double moneyChange = caculateChange(transactionId, tendered);
+            moneyChange = tendered - actualTotalPrice;
+            caculateChange(transactionId, moneyChange);
 
             jFormattedTextFieldTendered.setText("");
+            
+            if(memberId != null)
+                addNewPointsForMember(actualTotalPrice,memberId);
+
+            PartnerThermalPrinterAndCashBox();
 
             this.setVisible(false);
             this.dispose();
@@ -254,6 +368,42 @@ public class CheckOut extends javax.swing.JFrame {
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonCancelActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void jFormattedTextFieldRedemptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldRedemptionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldRedemptionActionPerformed
+
+    private void jButtonRedemptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRedemptionActionPerformed
+        // TODO add your handling code here:
+        if (memberId == null) {
+            JOptionPane.showMessageDialog(this, "Redemption is only available for member!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (Double.parseDouble(jFormattedTextFieldRedemption.getText()) > currentPoints) {
+            JOptionPane.showMessageDialog(this, "Not Enough Points!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Double redemptionPoints = Double.parseDouble(jFormattedTextFieldRedemption.getText());
+            redemption(redemptionPoints, memberId);
+            currentPoints -= redemptionPoints;
+            jLabelCurrent.setText("Member Current Points: " + currentPoints);
+            actualTotalPrice = caculateRedemption(redemptionPoints, transactionId);
+            jLabelTotalPrice.setText(Double.toString(actualTotalPrice));
+            JOptionPane.showMessageDialog(this, "Redemption success!", "Successful", JOptionPane.INFORMATION_MESSAGE);
+            jFormattedTextFieldRedemption.setText("");
+        }
+    }//GEN-LAST:event_jButtonRedemptionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,8 +444,12 @@ public class CheckOut extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCheckOut;
+    private javax.swing.JButton jButtonRedemption;
+    private javax.swing.JFormattedTextField jFormattedTextFieldRedemption;
     private javax.swing.JFormattedTextField jFormattedTextFieldTendered;
+    private javax.swing.JLabel jLabelCurrent;
     private javax.swing.JLabel jLabelLogo;
+    private javax.swing.JLabel jLabelRedemption;
     private javax.swing.JLabel jLabelTendered;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JLabel jLabelTotal;
@@ -310,12 +464,6 @@ public class CheckOut extends javax.swing.JFrame {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         return port.caculateTotalPrice(transactionId);
-    }
-
-    private static Double caculateChange(java.lang.Long transactionId, java.lang.Double tendered) {
-        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
-        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
-        return port.caculateChange(transactionId, tendered);
     }
 
     private void loadTable() {
@@ -351,6 +499,139 @@ public class CheckOut extends javax.swing.JFrame {
         }
     }
 
+    private void initPartnerPoleDisplay() {
+        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
+
+        while (commPortList.hasMoreElements()) {
+            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
+
+            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
+                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
+                try {
+                    serialPort = (SerialPort) commPort.open("POS", 5000);
+                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
+                } catch (PortInUseException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void poleDisplay() {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String("Check Out").getBytes();
+        byte[] message2 = new String("Have a Nice Day!").getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void PartnerThermalPrinterAndCashBox() {
+        try {
+            Double margin = 1.0;
+            Integer lines = 8;
+            String printData = "";
+
+            //part 1 title 
+            StoreEntity store = getStoreByStaffId(storeStaffId);
+            String title = "                                           Island Furniture\n";
+            String storeId = String.valueOf(store.getStoreId());
+            String storeAddress = store.getAddress();
+            String storeContact = store.getContact();
+            String line = "===========================================";
+            printData = printData + title + "\nStore ID: " + storeId + "\n" + storeAddress + "\nTel: " + storeContact + "\n\n"
+                    + line + "\n";
+
+            //part 2 transaction details
+            TransactionEntity transaction = getTransactionById(transactionId);
+            XMLGregorianCalendar generateTime = transaction.getGenerateTime();
+            String formatTime = "Date: " + generateTime.getDay() + "/" + (generateTime.getMonth() + 1)
+                    + "/" + generateTime.getYear() + "                                                   Time: " + generateTime.getHour() + ":"
+                    + generateTime.getMinute() + ":" + generateTime.getSecond();
+
+            String TransactionId = String.valueOf(transactionId);
+            String cashier = getFullNameById(storeStaffId);
+            String counter = "C1";
+
+            printData = printData + "\n" + formatTime + "\nTransaction ID: " + TransactionId + "\nCashier: " + cashier + "\nCounter: " + counter + "\n\n" + line + "\n\n";
+
+            //part 3 transaction Item Title
+            String TransactionTitle = "Item ID      Item Name     (Member Price)Price/Amount/(Member Total)Total\n\n";
+            printData = printData + TransactionTitle + line + "\n\n";
+
+            //part 4 transaction Item detail
+            List<TransactionItemEntity> transactionList = getTransactionItemList(transactionId);
+
+            for (TransactionItemEntity ti : transactionList) {
+                String itemId = String.valueOf(ti.getItemId());
+                String itemName = ti.getItemName();
+                String amount = String.valueOf(ti.getAmount());
+                String unitPrice = String.valueOf(ti.getUnitPrice());
+                String itemTotalPrice = String.valueOf(ti.getTotalPrice());
+                String unitMemberPrice = "0.00";
+                String TotalMemberPrice = "0.00";
+                //product, member price
+                if (transaction.getLocation() == 1 && transaction.getMember() != null) {
+                    unitMemberPrice = String.valueOf(ti.getUnitMemberPrice());
+                    TotalMemberPrice = String.valueOf(ti.getTotalMemberPrice());
+                } else {
+
+                }
+
+                printData = printData + itemId + "              " + itemName + "\n                       "
+                        + "(" + "$" + unitMemberPrice + ")" + " $" + unitPrice + "     *     " + amount + "     =     "
+                        + "(" + "$" + TotalMemberPrice + ")" + " $" + itemTotalPrice + "\n";
+            }
+
+            printData = printData + "\n" + line + "\n\n";
+
+            //part 5 total price and tendered
+            String TotalPrice = String.valueOf(totalPrice);
+            String TotalMemberPrice = String.valueOf(totalMemberPrice);
+            String ActualPrice = String.valueOf(actualTotalPrice);
+            String Tendered = String.valueOf(tendered);
+            String MoneyChange = String.valueOf(moneyChange);
+
+            printData = printData + "                                         Total Price:                                     $" + TotalPrice + "\n"
+                    + "                                         Total Member Price:                        $" + TotalMemberPrice + "\n"
+                    + "                                         Total Price After Redemption:           $" + ActualPrice + "\n\n"
+                    + line + "\n\n"
+                    + "                                            Tendered:                                   $" + Tendered + "\n"
+                    + "                                            Money Change:                             $" + MoneyChange + "\n\n" + line + "\n\n";
+
+            //part 6 thank you
+            String thankyou = "                                           THANK YOU\n"
+                    + "                                       PLEASE COME AGAIN\n\n";
+
+            printData = printData + thankyou + line + "\n\n";
+
+            PrinterJob printerJob = PrinterJob.getPrinterJob();
+            PageFormat pageFormat = printerJob.defaultPage();
+            Paper paper = new Paper();
+            paper.setSize(180.0, (double) (paper.getHeight() + lines * 10.0));
+            paper.setImageableArea(margin, margin, paper.getWidth() - margin * 2, paper.getHeight() - margin * 2);
+            pageFormat.setPaper(paper);
+
+            pageFormat.setOrientation(PageFormat.PORTRAIT);
+            printerJob.setPrintable(new OutputPrinter(printData));
+            //printerJob.setPrintable(jTableItemList.getPrintable(JTable.PrintMode.NORMAL, null, null), pageFormat);
+            printerJob.print();
+        } catch (PrinterException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to print to Partner Thermal Printer: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private static java.util.List<sessionbean.ocrm.TransactionItemEntity> getTransactionItemList(java.lang.Long arg0) {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
@@ -362,4 +643,53 @@ public class CheckOut extends javax.swing.JFrame {
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         port.deleteUnfinishedTransaction(arg0);
     }
+
+    private static StoreEntity getStoreByStaffId(java.lang.String storeStaffId) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        return port.getStoreByStaffId(storeStaffId);
+    }
+
+    private static TransactionEntity getTransactionById(java.lang.Long arg0) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        return port.getTransactionById(arg0);
+    }
+
+    private static String getFullNameById(java.lang.String id) {
+        util.login.IFManagerBeanService service = new util.login.IFManagerBeanService();
+        util.login.IFManagerBean port = service.getIFManagerBeanPort();
+        return port.getFullNameById(id);
+    }
+
+    private static java.util.List<sessionbean.ocrm.TransactionItemEntity> getTransactionItemList_1(java.lang.Long arg0) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        return port.getTransactionItemList(arg0);
+    }
+
+    private static void redemption(java.lang.Double arg0, java.lang.Long arg1) {
+        sessionbean.ocrm.MemberRegistrationModuleService service = new sessionbean.ocrm.MemberRegistrationModuleService();
+        sessionbean.ocrm.MemberRegistrationModule port = service.getMemberRegistrationModulePort();
+        port.redemption(arg0, arg1);
+    }
+
+    private static void addNewPointsForMember(java.lang.Double arg0, java.lang.Long arg1) {
+        sessionbean.ocrm.MemberRegistrationModuleService service = new sessionbean.ocrm.MemberRegistrationModuleService();
+        sessionbean.ocrm.MemberRegistrationModule port = service.getMemberRegistrationModulePort();
+        port.addNewPointsForMember(arg0, arg1);
+    }
+
+    private static Double caculateRedemption(java.lang.Double arg0, java.lang.Long arg1) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        return port.caculateRedemption(arg0, arg1);
+    }
+
+    private static void caculateChange(java.lang.Long transactionId, java.lang.Double moneyChange) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        port.caculateChange(transactionId, moneyChange);
+    }
+
 }

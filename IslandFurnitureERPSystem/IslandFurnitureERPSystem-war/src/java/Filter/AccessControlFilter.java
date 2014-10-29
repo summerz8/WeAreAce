@@ -50,7 +50,8 @@ public class AccessControlFilter implements Filter {
                     if (url.contains("/DocumentReferenceModule/")) {
                         chain.doFilter(request, response);
                     } else {
-                        resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don not have access right!");
+                        String contextPath = req.getServletContext().getContextPath();
+                        resp.sendRedirect(contextPath + "/ErrorPage.xhtml");
                     }
                 } else if (url.contains("/MRP/")) {
                     chain.doFilter(request, response);
@@ -74,15 +75,15 @@ public class AccessControlFilter implements Filter {
             chain.doFilter(request, response);
         } else if (userLevel == 4 && url.contains("/MRP/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 5 && url.contains("/Kitchen/")) {
+        } else if (userLevel == 5 && url.contains("/KM/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 6 && url.contains("/Market/")) {
+        } else if (userLevel == 6 && (url.contains("/OCRM/") || url.contains("/ACRM/"))) {
             chain.doFilter(request, response);
         } else if (userLevel == 7 && url.contains("/ticket/")) {
             chain.doFilter(request, response);
         } else {
-
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don not have access right!");
+            String contextPath = req.getServletContext().getContextPath();
+            resp.sendRedirect(contextPath + "/ErrorPage.xhtml");
 
         }
     }

@@ -96,13 +96,13 @@
                                 <h:outputText value="#{ingredientForecastBean.selectedIF.creationTime.time}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
                                 </h:outputText>
-                                </h:panelGrid>
-                                <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
-                                <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder == null}" value="Generate Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.generateIngredientPurchaseOrder}" 
-                                                 action="/secured/restricted/Store/KM/ProcurementManagementModule/IngredientPurchaseOrder.xhtml?faces-redirect=true" />
-                                <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder != null}" value="View Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.viewIngredientPurchaseOrder}"
-                                                 action="/secured/restricted/Store/KM/ProcurementManagementModule/IngredientPurchaseOrder.xhtml?faces-redirect=true" />         
-                            
+                            </h:panelGrid>
+                            <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
+                            <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder == null}" value="Generate Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.generateIngredientPurchaseOrder}" 
+                                             action="/secured/restricted/Store/KM/ProcurementManagementModule/IngredientPurchaseOrder.xhtml?faces-redirect=true" />
+                            <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder != null}" value="View Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.viewIngredientPurchaseOrder}"
+                                             action="/secured/restricted/Store/KM/ProcurementManagementModule/IngredientPurchaseOrder.xhtml?faces-redirect=true" />         
+
                             <p:separator/>
 
 
@@ -119,10 +119,10 @@
                                     </div>
                                 </f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{ingredientForecastBean.onRowEdit}" update=":formMain"/>
+                                <p:ajax event="rowEdit" listener="#{ingredientForecastBean.onRowEdit}" update="ingredientForecast"/>
                                 <p:ajax event="rowEditCancel" listener="#{ingredientForecastBean.onRowCancel}" update="ingredientForecast"/>
 
-                                <p:column headerText=" Raw Ingredient ID" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Raw Ingredient ID" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.id}"/>
                                 </p:column>
 
@@ -133,14 +133,14 @@
                                 <p:column headerText="Forecast Quantity (Daily)" filterBy="#{ii.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{ii.quantity}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{ii.quantity}"/></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{ii.quantity}" required="true" /></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                
+
                                 <p:column headerText="Unit" filterBy="#{ii.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.unit}"/>
                                 </p:column>
-   
+
 
                                 <p:column headerText="Edit" width="8%" rendered="#{ingredientForecastBean.selectedIF.purchaseOrder eq null}">
                                     <p:rowEditor/>
@@ -153,7 +153,7 @@
                     </p:panel>
                 </p:layoutUnit>
 
-                 <p:dialog header="Message" widgetVar="message" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:dialog header="Message" widgetVar="message" showEffect="fade" hideEffect="fade" resizable="false">
                     <p:outputPanel id="messageDetail" style="text-align:center;">
                         #{ingredientForecastBean.message}
                     </p:outputPanel>
@@ -162,17 +162,17 @@
                         </p:commandButton>
                     </div>
                 </p:dialog>
-                
+
             </p:layout>
         </h:form>
 
         <h:form>
             <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
-                      draggable="true" closable="true" >
+                      draggable="true" closable="false" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Target Date: " />
-                    <p:calendar value="#{ingredientForecastBean.selectedTargetDate}"/>
+                    <p:calendar value="#{ingredientForecastBean.selectedTargetDate}" maxdate="#{ingredientForecastBean.cal.time}"/>
                 </h:panelGrid>
                 <div align="center">
                     <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{ingredientForecastBean.findRequiredIngredientForecast}" update=":formMain" >

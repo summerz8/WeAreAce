@@ -104,7 +104,7 @@
                             <p:column headerText="Name" width="12%" filterBy="#{is.name}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{is.name}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{is.name}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{is.name}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 

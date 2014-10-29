@@ -22,12 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
 /**
  *
  * @author Yoky
  */
-
 @Entity
 @XmlAccessorType(value = XmlAccessType.FIELD)
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"KITCHEN_ID", "NAME"}))
@@ -135,17 +133,6 @@ public class ComboEntity implements Serializable {
         this.forecasts = forecasts;
     }
 
-
-    public List<DishEntity> getDishList() {
-        return dishList;
-    }
-
-    public void setDishList(List<DishEntity> dishList) {
-        this.dishList = dishList;
-    }
-    
-    
-
     public List<DailySalesEntity> getDailySales() {
         return dailySales;
     }
@@ -153,7 +140,6 @@ public class ComboEntity implements Serializable {
     public void setDailySales(List<DailySalesEntity> dailySales) {
         this.dailySales = dailySales;
     }
-
 
     @Override
     public int hashCode() {

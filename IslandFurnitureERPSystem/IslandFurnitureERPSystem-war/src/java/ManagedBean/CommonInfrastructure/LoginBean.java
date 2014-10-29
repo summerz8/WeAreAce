@@ -37,6 +37,7 @@ public class LoginBean implements Serializable {
     private String department;
     private Long departmentId;
     private int userLevel;
+    private String userRole;
 
     private String fullName;
 
@@ -118,12 +119,30 @@ public class LoginBean implements Serializable {
         this.departmentId = departmentId;
     }
 
+    public int getUserLevel() {
+        return userLevel;
+    }
+
+    public void setUserLevel(int userLevel) {
+        this.userLevel = userLevel;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+    
+    
+
     public void checkLogin(ActionEvent event) {
 
         System.out.println("LoginBean: checkLogin:()");
 
         String checkUserId = String.valueOf(userId);
-        String checkPwd = String.valueOf(cryptographicHelper.doMD5Hashing(pwd));
+        String checkPwd = String.valueOf(cryptographicHelper.doMD5Hashing(pwd+userId));
 
         try {
             int check = IFMB.checkAccount(checkUserId, checkPwd);
@@ -137,6 +156,7 @@ public class LoginBean implements Serializable {
                 department = IFMB.getDepartment(userId);
                 departmentId = IFMB.getDepartmentId(userId);
                 userLevel = IFMB.getUserLevel(userId);
+                userRole = IFMB.getUserRole(userId);
 
                 ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("isLogin", true);
                 ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("Userlvl", userLevel);

@@ -4,17 +4,50 @@
 
 <xs:element name="getFullNameByIdResponse" type="tns:getFullNameByIdResponse"/>
 
+<xs:element name="getUserInfo" type="tns:getUserInfo"/>
+
+<xs:element name="getUserInfoResponse" type="tns:getUserInfoResponse"/>
+
 <xs:element name="shopLogin" type="tns:shopLogin"/>
 
 <xs:element name="shopLoginResponse" type="tns:shopLoginResponse"/>
 
-<xs:complexType name="getFullNameById">
+<xs:element name="validateUser" type="tns:validateUser"/>
+
+<xs:element name="validateUserResponse" type="tns:validateUserResponse"/>
+
+<xs:complexType name="validateUser">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFullNameById">
+<xs:sequence>
+<xs:element name="userId" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="getFullNameByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserInfo">
+<xs:sequence>
+<xs:element name="userId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserInfoResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>

@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store.OCRM;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,28 +19,32 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "memberlevel")
 public class MembershipLevelEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer levelId;
-    
     private String levelName;
     
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
     private Double discount;
 
+    private Boolean inviteOnlyEvent;
+    private Boolean freeParking;
+    private Boolean expressCheckout;
+    private Boolean freeDelivery;
 
-    
+    //Customer life expectancy: 3 for basic(1), 12 for blue(2), 36 for silver(3), 60 for gold(4), 120 for diamond(5)
+    private Integer cle;
 
 
-
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "memberlvl")
-    private List<MemberEntity> members;
-
-    
+//
+//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
+//    private Collection<MemberEntity> members;
     public MembershipLevelEntity() {
     }
+   
 
     public Double getDiscount() {
         return discount;
@@ -54,14 +54,15 @@ public class MembershipLevelEntity implements Serializable {
         this.discount = discount;
     }
 
-    public List<MemberEntity> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<MemberEntity> members) {
-        this.members = members;
-    }
-
+//
+//    public Collection<MemberEntity> getMembers() {
+//        return members;
+//    }
+//
+//    public void setMembers(Collection<MemberEntity> members) {
+//        this.members = members;
+//    }
+//
 
     public String getLevelName() {
         return levelName;
@@ -70,9 +71,15 @@ public class MembershipLevelEntity implements Serializable {
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
-
+    public Integer getCle() {
+        return cle;
+    }
 
 //
+    public void setCle(Integer cle) {
+        this.cle = cle;
+    }
+
 //
     public Integer getLevelId() {
         return levelId;
@@ -82,7 +89,6 @@ public class MembershipLevelEntity implements Serializable {
         this.levelId = level;
     }
 
-
     public Double getPointsToUpgrade() {
         return pointsToUpgrade;
     }
@@ -91,7 +97,40 @@ public class MembershipLevelEntity implements Serializable {
         this.pointsToUpgrade = pointsToUpgrade;
     }
 
+    public Boolean isInviteOnlyEvent() {
+        return inviteOnlyEvent;
+    }
+
+    public void setInviteOnlyEvent(Boolean inviteOnlyEvent) {
+        this.inviteOnlyEvent = inviteOnlyEvent;
+    }
+
+    public Boolean isFreeParking() {
+        return freeParking;
+    }
+
+    public void setFreeParking(Boolean freeParking) {
+        this.freeParking = freeParking;
+    }
+
+    public Boolean isExpressCheckout() {
+        return expressCheckout;
+    }
+
+    public void setExpressCheckout(Boolean expressCheckout) {
+        this.expressCheckout = expressCheckout;
+    }
+
+    public Boolean isFreeDelivery() {
+        return freeDelivery;
+    }
+
+    public void setFreeDelivery(Boolean freeDelivery) {
+        this.freeDelivery = freeDelivery;
+    }
     
+    
+
     @Override
     public int hashCode() {
         int hash = 0;

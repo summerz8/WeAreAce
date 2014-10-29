@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -33,8 +32,7 @@ public class KitchenEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(mappedBy = "kitchen")
-    @XmlTransient
-    private StoreEntity store;  //not in store yet
+    private StoreEntity store;
     private boolean deleted;
     @OneToMany(mappedBy = "kitchen")
     @XmlTransient

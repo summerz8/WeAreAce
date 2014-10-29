@@ -133,7 +133,7 @@
                                         <f:facet name="output"><h:outputText value="#{user.title}" /></f:facet>
                                         <f:facet name="input">
                                             <h:selectOneMenu value="#{user.title}" style="width:100%">
-                                                <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                                <f:selectItems value="#{predefinedAttr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                                             </h:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>
@@ -165,7 +165,7 @@
                                         <f:facet name="output"><h:outputText value="#{user.gender}" /></f:facet>
                                         <f:facet name="input">
                                             <h:selectOneMenu value="#{user.gender}" style="width:100%">
-                                                <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                                <f:selectItems value="#{predefinedAttr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                                             </h:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>
@@ -183,7 +183,7 @@
                                         <f:facet name="output"><h:outputText value="#{user.department}" /></f:facet>
                                         <f:facet name="input">
                                             <h:selectOneMenu value="#{user.department}" style="width:100%">
-                                                <f:selectItems value="#{attr.departments}" var="color" itemLabel="#{departments}" itemValue="#{departments}" />
+                                                <f:selectItems value="#{predefinedAttr.departments}" var="color" itemLabel="#{departments}" itemValue="#{departments}" />
                                             </h:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>
@@ -228,13 +228,6 @@
                                     <p:cellEditor> 
                                         <f:facet name="output"><h:outputText value="#{userControl.BirString(user.birthday)}" /></f:facet>
                                         <f:facet name="input"><p:inputMask  value="#{userControl.birString}" style="width:96%" mask="99-99-9999"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                
-                                <p:column filterBy="#{user.pwd}" headerText="Password" width="150">
-                                    <p:cellEditor> 
-                                        <f:facet name="output"><h:outputText value="#{user.pwd}" /></f:facet>
-                                        <f:facet name="input"><p:password  value="#{user.pwd}" style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 

@@ -13,8 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -32,25 +32,29 @@ public class MenuItemForecastEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @OneToMany
     private List<DishItemEntity> dishForecastItems = new ArrayList<>();
-    @ManyToMany
+    @OneToMany
     private List<ComboItemEntity> comboForecastItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar targetDate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime = Calendar.getInstance();
+    private Calendar creationTime;
     @OneToOne(mappedBy="menuItemForecast")
-    private IngredientForecastEntity ingredientForecast = null;
+    private IngredientForecastEntity ingredientForecast;
     @ManyToOne
     private KitchenEntity kitchen;
 
     public MenuItemForecastEntity() {
+        creationTime = Calendar.getInstance();
+        ingredientForecast = null;
     }
 
     public MenuItemForecastEntity(Calendar targetDate, KitchenEntity kitchen) {
         this.targetDate = targetDate;
         this.kitchen = kitchen;
+        creationTime = Calendar.getInstance();
+        ingredientForecast = null;
     }
 
     public Long getId() {

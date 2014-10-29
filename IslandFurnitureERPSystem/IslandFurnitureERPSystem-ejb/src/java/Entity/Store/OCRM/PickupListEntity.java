@@ -36,14 +36,17 @@ public class PickupListEntity implements Serializable {
     private Long PickupListId;
     
     private Boolean Picked;
+    private Boolean Distributed;
     
     //PickupListEntity <--> TransactionItemEntity 1<-->M
+
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "pickupList")
     @XmlTransient
     private List<TransactionItemEntity> transactoinItems = new ArrayList<>();
-    
+
     public PickupListEntity(){
         this.Picked = Boolean.FALSE;
+        this.Distributed = Boolean.FALSE;
     }
 
 
@@ -63,6 +66,15 @@ public class PickupListEntity implements Serializable {
         this.Picked = Picked;
     }
 
+    public Boolean isDistributed() {
+        return Distributed;
+    }
+
+    public void setDistributed(Boolean Distributed) {
+        this.Distributed = Distributed;
+    }
+
+    
     public List<TransactionItemEntity> getTransactoinItems() {
         return transactoinItems;
     }

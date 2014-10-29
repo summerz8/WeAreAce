@@ -84,12 +84,10 @@ public class FactoryEntity implements Serializable {
     
     //facotry entity -- planned order entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "factory")
-    @XmlTransient
     private List<PlannedOrderEntity> plannedOrders = new ArrayList<>();
     
     //facotry entity -- integrated planned order entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy="factory")
-    @XmlTransient
     private List<IntegratedPlannedOrderEntity> integratedPlannedOrders = new ArrayList<>();
     
     public FactoryEntity() {

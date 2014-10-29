@@ -90,17 +90,17 @@
                         <h:panelGrid columns="2" cellpadding="5">
 
                             <p:outputLabel value="Name: " />
-                            <h:inputText value="#{addComboBean1.name}" />
+                            <h:inputText value="#{addComboBean1.name}" required="true" />
 
                             <p:outputLabel value="Price: " />
-                            <h:inputText value="#{addComboBean1.price}" />
+                            <h:inputText value="#{addComboBean1.price}" required="true" />
 
                             <p:outputLabel value="Remark: " />
                             <h:inputText value="#{addComboBean1.remark}" />
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Next" action="/secured/restricted/Store/KM/MenuManagementModule/AddCombo2?faces-redirect=true" actionListener="#{addComboBean1.addCombo}">
+                        <p:commandButton value="Next" actionListener="#{addComboBean1.addCombo}">
                         </p:commandButton>
 
                     </h:form>

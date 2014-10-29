@@ -90,33 +90,33 @@
                         <h:panelGrid columns="2" cellpadding="5">
 
                             <p:outputLabel value="Name: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.name}" />
+                            <h:inputText value="#{rawIngredientsManagementBean.name}" required="true" />
 
                             <p:outputLabel value="Price: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.price}" />
+                            <h:inputText value="#{rawIngredientsManagementBean.price}" required="true" />
 
                             <p:outputLabel value="Unit: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.unit}" />
+                            <h:inputText value="#{rawIngredientsManagementBean.unit}" required="true" />
 
                             <p:outputLabel value="Remark: " />
                             <h:inputText value="#{rawIngredientsManagementBean.remark}" />
 
                             <p:outputLabel value="Lot Size: " />
-                            <h:inputText value="#{rawIngredientsManagementBean.lotSize}" />
+                            <h:inputText value="#{rawIngredientsManagementBean.lotSize}" required="true" />
 
-                            <p:outputLabel value="Storage Place: " />
-                            <p:selectCheckboxMenu value="#{rawIngredientsManagementBean.selectedStoragePlaces}" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
+                            <p:outputLabel value="Storage Places: " />
+                            <p:selectCheckboxMenu value="#{rawIngredientsManagementBean.selectedStoragePlaces}" required="true" label="Storage Places" converter="storagePlaceConverter" filter="true" filterMatchMode="contains">
                                 <f:selectItems value="#{rawIngredientsManagementBean.filteredStoragePlaces}" var="sp" itemLabel="#{sp.location}" itemValue="#{sp}" />
                             </p:selectCheckboxMenu>
 
                             <p:outputLabel value="Supplier: " />
-                            <p:selectOneMenu value="#{rawIngredientsManagementBean.supplier}" converter="ingredientSupplierConverter">
+                            <p:selectOneMenu value="#{rawIngredientsManagementBean.supplier}" required="true" converter="ingredientSupplierConverter">
                                 <f:selectItems value="#{rawIngredientsManagementBean.filteredSuppliers}" var="s" itemLabel="#{s.name}" itemValue="#{s}" />
                             </p:selectOneMenu>
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Submit" actionListener="#{rawIngredientsManagementBean.addIngredient}"/>
+                        <p:commandButton value="Submit" actionListener="#{rawIngredientsManagementBean.addIngredient}" />
 
                     </h:form>
 

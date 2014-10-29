@@ -6,6 +6,7 @@
 
 package Entity.Store.OCRM;
 
+import Entity.Store.ACRM.RFMEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +43,7 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
+    private TransactionEntity lastTransaction;
     private Long storeId;
 
 
@@ -66,7 +68,7 @@ public class MemberEntity implements Serializable {
     private Boolean deleteFlag;
     
     @OneToMany
-    private List<ItemEntity> shoppingCartList;
+    private List<ShoppingCartItemEntity> shoppingCartList;
 
     @ManyToOne
     private MembershipLevelEntity memberlvl;
@@ -78,6 +80,10 @@ public class MemberEntity implements Serializable {
     @OneToOne(cascade = {CascadeType.PERSIST})
     @XmlTransient
     private MemberCardIdMappingEntity cardIdMapping;
+
+    private RFMEntity rfm = null;
+
+
     
     public MemberEntity() {
     }
@@ -102,6 +108,32 @@ public class MemberEntity implements Serializable {
         this.createDate = Calendar.getInstance();
 
         shoppingCartList=new ArrayList<>();
+    }
+    
+    //for ACRM data setup
+    public MemberEntity(String pwd, String lastName, String midName, String firstName, 
+            Calendar birthday, String gender, String title, String address, String postalCode, 
+            String email, Boolean deleteFlag, String country, MembershipLevelEntity mlvl) {
+        this.pwd = pwd;
+        this.lastName = lastName;
+        this.midName = midName;
+        this.firstName = firstName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.title = title;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.email = email;
+        this.deleteFlag = deleteFlag;
+        this.totalPoints = 0D;
+        this.currentPoints = 0D;
+        this.pointsToUpgrade = 1000D;     
+        this.createDate = Calendar.getInstance();
+        this.country = country;
+        this.memberlvl = mlvl;
+
+        shoppingCartList=new ArrayList<>();
+        this.createDate = Calendar.getInstance();
     }
     
     public Long getMemberId() {
@@ -216,6 +248,16 @@ public class MemberEntity implements Serializable {
         this.transactionList = transactionList;
     }
     
+    
+
+    public TransactionEntity getLastTransaction() {
+        return lastTransaction;
+    }
+
+    public void setLastTransaction(TransactionEntity lastTransaction) {
+        this.lastTransaction = lastTransaction;
+    }
+
     public Boolean isDeleteFlag() {
         return deleteFlag;
     }
@@ -274,11 +316,11 @@ public class MemberEntity implements Serializable {
         this.pointsToUpgrade = PointsToUpgrade;
     }
 
-    public List<ItemEntity> getShoppingCartList() {
+    public List<ShoppingCartItemEntity> getShoppingCartList() {
         return shoppingCartList;
     }
 
-    public void setShoppingCartList(List<ItemEntity> shoppingCartList) {
+    public void setShoppingCartList(List<ShoppingCartItemEntity> shoppingCartList) {
         this.shoppingCartList = shoppingCartList;
     }
 
@@ -288,6 +330,14 @@ public class MemberEntity implements Serializable {
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
+    }
+
+    public RFMEntity getRfm() {
+        return rfm;
+    }
+
+    public void setRfm(RFMEntity rfm) {
+        this.rfm = rfm;
     }
     
     

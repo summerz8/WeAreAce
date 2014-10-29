@@ -148,7 +148,7 @@ public class TransactionItemEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.TransactionItemEntity[ id=" + TransactionItemId + " ]";
+        return "Entity.Store.OCRM.OrderItem[ id=" + TransactionItemId + " ]";
     }
     
 }

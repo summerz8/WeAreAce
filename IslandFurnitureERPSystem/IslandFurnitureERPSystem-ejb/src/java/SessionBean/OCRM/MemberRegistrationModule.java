@@ -9,6 +9,7 @@ import Entity.Store.OCRM.MemberCardIdMappingEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.TransactionEntity;
+import static Entity.Store.OCRM.TransactionEntity_.member;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -186,6 +187,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     }
 
+    @WebMethod(exclude = true)
     public int CheckFirstTransaction(Long transactionId) {
         TransactionEntity te = em.find(TransactionEntity.class, transactionId);
         if (te == null) {
@@ -208,6 +210,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         }
     }
 
+    @WebMethod(exclude = true)
     public Integer upgradeMember(Double totalPoints) {
         //MembershipLevelEntity level6 = em.find(MembershipLevelEntity.class, 6);
         MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5);
@@ -229,6 +232,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @Override
+    @WebMethod(exclude = true)
     public MemberEntity memberLogin(String email, String pwd) {
 
         List<MemberEntity> memberList = ListMember();
@@ -244,6 +248,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         return null;
 
     }
+
 
     @WebMethod(operationName = "getMemberCardIdById")
     public String getMemberCardIdById(Long id) {
@@ -286,6 +291,21 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         member.setCurrentPoints(member.getCurrentPoints() - points);
         em.persist(member);
         em.flush();
+    }
+    
+    @Override
+    @WebMethod(exclude = true)
+    public List<MembershipLevelEntity> getMembership() {
+        System.out.println("getMembership():");
+        Query q = em.createQuery("SELECT m FROM MembershipLevelEntity m");
+        List requiredUserList = new ArrayList();
+        for (Object o : q.getResultList()) {
+            MembershipLevelEntity u = (MembershipLevelEntity) o;
+            requiredUserList.add(u);
+            System.out.println(u.toString());
+        }
+        return requiredUserList;
+
     }
 
 }

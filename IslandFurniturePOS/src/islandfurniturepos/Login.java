@@ -5,6 +5,12 @@
  */
 package islandfurniturepos;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Enumeration;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import util.security.CryptographicHelper;
@@ -14,8 +20,12 @@ import util.security.CryptographicHelper;
  * @author hangsun
  */
 public class Login extends javax.swing.JFrame {
-    
+
+    private String partnerPoleDisplayCOMPort = "COM4";
+    private OutputStream partnerPoleDisplayOutputStream;
+    private SerialPort serialPort;
     CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
+
     /**
      * Creates new form login
      */
@@ -47,6 +57,14 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanelInput.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -111,7 +129,7 @@ public class Login extends javax.swing.JFrame {
         jPanelInputLayout.setHorizontalGroup(
             jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInputLayout.createSequentialGroup()
-                .addContainerGap(165, Short.MAX_VALUE)
+                .addGap(165, 165, 165)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPassword)
                     .addGroup(jPanelInputLayout.createSequentialGroup()
@@ -128,16 +146,16 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanelInputLayout.createSequentialGroup()
                 .addGap(208, 208, 208)
                 .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInputLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jLabelLogo))
         );
         jPanelInputLayout.setVerticalGroup(
             jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInputLayout.createSequentialGroup()
                 .addComponent(jLabelLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelId, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextId, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,7 +193,7 @@ public class Login extends javax.swing.JFrame {
         );
         jPanelTitleLayout.setVerticalGroup(
             jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 119, Short.MAX_VALUE)
+            .addGap(0, 129, Short.MAX_VALUE)
             .addGroup(jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelTitleLayout.createSequentialGroup()
                     .addContainerGap()
@@ -203,46 +221,42 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         // TODO add your handling code here:
-        try{
-            String hashPassword = cryptographicHelper.doMD5Hashing(jPasswordFieldPassword.getText());
-            int temp = shopLogin(jTextId.getText(),hashPassword);
-            if(temp == 1){
+        try {
+            String hashPassword = cryptographicHelper.doMD5Hashing(jPasswordFieldPassword.getText()+jTextId.getText());
+            int temp = shopLogin(jTextId.getText(), hashPassword);
+            if (temp == 1) {
                 String name = getFullNameById(jTextId.getText());
-                JOptionPane.showMessageDialog(this, "Welcome "+ name + "Login successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
-                
+                JOptionPane.showMessageDialog(this, "Welcome " + name + "Login successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
+
                 MainMenu mainMenu = new MainMenu(jTextId.getText());
                 mainMenu.setVisible(true);
                 mainMenu.setExtendedState(JFrame.NORMAL);
-                
+
                 jTextId.setText("");
                 jPasswordFieldPassword.setText("");
 
                 this.setVisible(false);
-                
-            }
-            else if(temp == -1){
+
+            } else if (temp == -1) {
                 JOptionPane.showMessageDialog(this, "User not found!", "Login Error", JOptionPane.ERROR_MESSAGE);
+            } else if (temp == 0) {
+                JOptionPane.showMessageDialog(this, "Incorrect Password!", "Login Error", JOptionPane.ERROR_MESSAGE);
+            } else if (temp == -2) {
+                JOptionPane.showMessageDialog(this, "Invalid credential!", "Login Error", JOptionPane.ERROR_MESSAGE);
             }
-            
-            else if(temp == 0){
-                 JOptionPane.showMessageDialog(this, "Incorrect Password!", "Login Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else if(temp == -2){
-                 JOptionPane.showMessageDialog(this, "Invalid credential!", "Login Error", JOptionPane.ERROR_MESSAGE);
-            }
-        
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "An unknown error has occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
         // TODO add your handling code here:    
         jTextId.setText("");
         jPasswordFieldPassword.setText("");
-        
+
     }//GEN-LAST:event_jButtonClearActionPerformed
 
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
@@ -258,7 +272,27 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextIdActionPerformed
 
-   
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+
+//        initPartnerPoleDisplay();
+//        poleDisplay();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -296,9 +330,45 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    
-    
-    
+
+    private void initPartnerPoleDisplay() {
+        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
+
+        while (commPortList.hasMoreElements()) {
+            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
+
+            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
+                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
+                try {
+                    serialPort = (SerialPort) commPort.open("POS", 5000);
+                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
+                } catch (PortInUseException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void poleDisplay() {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String("Welcome to Island Furniture!").getBytes();
+        byte[] message2 = new String("Have a Nice Day!").getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClear;
@@ -324,11 +394,5 @@ public class Login extends javax.swing.JFrame {
         util.login.IFManagerBean port = service.getIFManagerBeanPort();
         return port.shopLogin(id, password);
     }
-
-    
-
-   
-
-    
 
 }
