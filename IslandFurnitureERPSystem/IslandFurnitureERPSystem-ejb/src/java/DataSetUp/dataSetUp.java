@@ -364,24 +364,24 @@ public class dataSetUp {
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.factoryProduct
-        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE);
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE,"good");
 
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
         s1.getStoreProducts().add(sp1_1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE);
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE,"good");
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
         s1.getStoreProducts().add(sp1_2);
         em.flush();
         //s2.factoryProduct
-        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE);
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE,"good");
         em.persist(sp2_1);
         fp1_2.getStoreProducts().add(sp2_1);
         s2.getStoreProducts().add(sp2_1);
         em.flush();
-        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE);
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE,"good");
         em.persist(sp2_2);
         fp2_2.getStoreProducts().add(sp2_2);
         s2.getStoreProducts().add(sp2_2);
@@ -395,26 +395,26 @@ public class dataSetUp {
         //StoreRetailProduct    /* Further Modification*/
         //for s1
         //s1.StoreRetailProduct
-        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1);
+        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1,"good");
         srp1_1.setRetailProduct(rp1);
         em.persist(srp1_1);
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProducts().add(srp1_1);
         em.flush();
-        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1);
+        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1,"good");
         srp1_2.setRetailProduct(rp2);
         em.persist(srp1_2);
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProducts().add(srp1_2);
         em.flush();
         //s2.StoreRetailProduct
-        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2);
+        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2,"good");
         srp2_1.setRetailProduct(rp3);
         em.persist(srp2_1);
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProducts().add(srp2_1);
         em.flush();
-        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2);
+        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2,"good");
 
         srp2_2.setRetailProduct(rp4);
 

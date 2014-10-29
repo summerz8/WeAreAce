@@ -6,6 +6,7 @@
 package Entity.Store;
 
 import Entity.Kitchen.KitchenEntity;
+import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -69,6 +70,9 @@ public class StoreEntity implements Serializable {
     @XmlTransient
     private List<TransactionEntity> transactions = new ArrayList<>();
 
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy = "store")
+    private List<StoreWarehouseBinEntity> storeBins = new ArrayList<>();
+    
     public StoreEntity() {
     }
 
@@ -176,6 +180,14 @@ public class StoreEntity implements Serializable {
 
     public void setTransactions(List<TransactionEntity> transactions) {
         this.transactions = transactions;
+    }
+
+    public List<StoreWarehouseBinEntity> getStoreBins() {
+        return storeBins;
+    }
+
+    public void setStoreBins(List<StoreWarehouseBinEntity> storeBins) {
+        this.storeBins = storeBins;
     }
 
     

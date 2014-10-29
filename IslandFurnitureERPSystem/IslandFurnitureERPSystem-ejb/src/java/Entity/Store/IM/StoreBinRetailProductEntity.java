@@ -4,24 +4,31 @@
  * and open the template in the editor.
  */
 
-package Entity.Store;
+package Entity.Store.IM;
 
+import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author dan
+ * @author zhengyuan
  */
 @Entity
-public class StoreStorageBinEntity implements Serializable {
+public class StoreBinRetailProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Double quantity;
+    private Boolean isDeleted;
+    
+    @ManyToOne
+    private StoreRetailProductEntity retailProduct;
 
     public Long getId() {
         return id;
@@ -31,6 +38,14 @@ public class StoreStorageBinEntity implements Serializable {
         this.id = id;
     }
 
+    public Boolean isIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -38,13 +53,31 @@ public class StoreStorageBinEntity implements Serializable {
         return hash;
     }
 
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public StoreRetailProductEntity getRetailProduct() {
+        return retailProduct;
+    }
+
+    public void setRetailProduct(StoreRetailProductEntity retailProduct) {
+        this.retailProduct = retailProduct;
+    }
+    
+    
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StoreStorageBinEntity)) {
+        if (!(object instanceof StoreBinRetailProductEntity)) {
             return false;
         }
-        StoreStorageBinEntity other = (StoreStorageBinEntity) object;
+        StoreBinRetailProductEntity other = (StoreBinRetailProductEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +86,7 @@ public class StoreStorageBinEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.StoreStorageBinEntity[ id=" + id + " ]";
+        return "Entity.Store.StoreBinRetailProductEntity[ id=" + id + " ]";
     }
     
 }

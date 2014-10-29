@@ -4,25 +4,35 @@
  * and open the template in the editor.
  */
 
-package Entity.Store;
+package Entity.Store.IM;
 
+import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author dan
+ * @author zhengyuan
  */
 @Entity
-public class StoreInventoryMovement implements Serializable {
+public class StoreBinProductEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Double quantity;
+    private Boolean isDeleted;
+   
+    
+    @ManyToOne
+    private StoreProductEntity product;
+    
+    
+    
     public Long getId() {
         return id;
     }
@@ -31,6 +41,33 @@ public class StoreInventoryMovement implements Serializable {
         this.id = id;
     }
 
+    public Boolean isIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public StoreProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(StoreProductEntity product) {
+        this.product = product;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -41,10 +78,10 @@ public class StoreInventoryMovement implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StoreInventoryMovement)) {
+        if (!(object instanceof StoreBinProductEntity)) {
             return false;
         }
-        StoreInventoryMovement other = (StoreInventoryMovement) object;
+        StoreBinProductEntity other = (StoreBinProductEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +90,7 @@ public class StoreInventoryMovement implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.StoreInventoryMovement[ id=" + id + " ]";
+        return "Entity.Store.IM.StoreBinProductEntity[ id=" + id + " ]";
     }
     
 }
