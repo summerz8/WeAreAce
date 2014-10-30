@@ -371,7 +371,7 @@ public class dataSetUp {
         fp1_1.getStoreProducts().add(sp1_1);
         s1.getStoreProducts().add(sp1_1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE,"good");
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp1_2, s1, Boolean.FALSE,"good");
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
         s1.getStoreProducts().add(sp1_2);

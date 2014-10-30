@@ -38,7 +38,7 @@ public class CreateSet {
     }
     
     public String create(){
-        Long setId=cwml.createSet(setName, description, "set2.jpg");
+        Long setId=cwml.createSet(setName, description, "set2.png");
         set=cwml.getSet(setId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId",setId);
         
