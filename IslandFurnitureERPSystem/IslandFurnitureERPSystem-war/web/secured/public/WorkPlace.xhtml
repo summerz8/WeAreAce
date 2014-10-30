@@ -96,12 +96,12 @@
                                 <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
                             </p:submenu>
 
-                            <p:submenu label="Kitchen Management" rendered="#{workPlaceManageBean.isValidKitchen()}">
-                                <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
-                                <p:menuitem value="Demand Forecast" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                            <p:submenu label="Kitchen Management">
+                                <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/Store/KM/CustomerOrderFulfillmentModule/CustomerOrderFulfillmentPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Daily Demand Forecast" outcome = "/secured/restricted/Store/KM/DailyDemandForecastingModule/DailyDemandForecastPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Menu Management" outcome = "/secured/restricted/Store/KM/MenuManagementModule/MenuManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Raw Ingredient Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
-                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
+                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/ProcurementManagementModule/ProcurementManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
                             </p:submenu>
 
                             <p:submenu label="Operational CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
