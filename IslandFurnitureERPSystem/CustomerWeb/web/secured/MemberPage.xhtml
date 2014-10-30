@@ -15,7 +15,7 @@
             <script type="text/javascript" src="./js/bootstrap.js"></script>
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
-            <title>Island Furniture</title>
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -36,15 +36,12 @@
                     <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                     </p:link>
 
-<!--                    <p:link outcome="/secured/MemberPage?faces-redirect=true" value="Jinqiao" rendered="#{memberInfo.firstName==null}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
-                    </p:link>-->
-
                     <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>
 
 
-                    <p:button value="Log Out" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}">
-                    </p:button> 
+                    
+                    <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
 
                     <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>  
@@ -66,18 +63,18 @@
                 </p:layoutUnit>
 
 
-                <p:layoutUnit position="center" resizable="false" style = "margin: auto;border:0px;margin-bottom:10px ;width: 800px; height:1000px;" >
+                <p:layoutUnit position="center" resizable="false" style = "margin: auto;border:0px;margin-bottom:10px ;width: 900px; height:1000px;" >
 
 
                     <h:panelGrid columns="1" columnClasses="logo,detail" style="  position: absolute; top:160px;left:300px">
                         <div> 
                             <p:outputPanel>
                                 <h:panelGrid columns="2" cellpadding="5" style=" font-size: 15px;">
-                                    <h:outputText value="Hi #{memberInfo.lastName} #{memberInfo.midName} #{memberInfo.lastName}" style=" font-size: 30px; color: #e38d13;"/>
+                                    <h:outputText value="Hi #{memberInfo.lastName} #{memberInfo.midName} #{memberInfo.firstName}" style=" font-size: 30px; color: #e38d13;"/>
                                     <h:outputText value=" " style="font-weight: bold; color: #e38d13"/>
 
                                     <h:outputText value="Member Level:                " />
-                                    <h:outputText value="#{memberInfo.member.memberlvl.level}" style="font-weight: bold; color: #e38d13"/>                                  
+                                    <h:outputText value="#{memberInfo.member.memberlvl.levelId}" style="font-weight: bold; color: #e38d13"/>                                  
 
                                     <h:outputText value="Address:" />
                                     <h:outputText value="#{memberInfo.address}" style="font-weight: bold; color: #e38d13"/>

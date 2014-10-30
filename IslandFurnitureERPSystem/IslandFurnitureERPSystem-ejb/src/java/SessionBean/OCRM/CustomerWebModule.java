@@ -7,8 +7,11 @@ package SessionBean.OCRM;
 
 import Entity.Factory.ProductEntity;
 import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.ShoppingCartItemEntity;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +26,9 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    CustomerWebMemberModuleLocal cwml;
 
     @Override
     public List<CustomerWebItemEntity> listItems() {
@@ -156,21 +162,38 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
         SetEntity set = em.find(SetEntity.class, setId);
         CustomerWebItemEntity item = em.find(CustomerWebItemEntity.class, itemId);
         set.getUnitList().add(item);
-        
+
         em.persist(set);
         em.flush();
     }
 
     @Override
-    public Long createSet(String setName,String description,String picture){
-        SetEntity set=new SetEntity();
+    public Long createSet(String setName, String description, String picture) {
+        SetEntity set = new SetEntity();
         set.setDescription(description);
         set.setName(setName);
         set.setPicture(picture);
-        
+
         em.persist(set);
         em.flush();
-        
+
         return set.getId();
     }
+
+    @Override
+    public void addToShoppingCart(String email, Long itemId, int quantity){
+        
+        MemberEntity member=cwml.getMember(email);
+        CustomerWebItemEntity item=getItem(itemId);
+        ShoppingCartItemEntity shoppingCartItem=new ShoppingCartItemEntity();
+        shoppingCartItem.setQuantity(quantity);
+        shoppingCartItem.setCustomerWebItem(item);
+        em.persist(shoppingCartItem);
+        
+        
+        member.getShoppingCartList().add(shoppingCartItem);
+        em.flush();
+        
+    }
+
 }

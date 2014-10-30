@@ -6,6 +6,7 @@
 package SessionBean.OCRM;
 
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.OCRM.ShoppingCartItemEntity;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
@@ -30,4 +31,9 @@ public interface CustomerWebMemberModuleLocal {
     public void AddMemberWithPassword(String lastName, String midName, String firstName, Calendar birthday, String gender, String title, String address, String postalCode, String email, String password);
 
     public MemberEntity memberLogin(String email, String pwd);
+    
+    public void upDateShoppingCart(Long userId,List<ShoppingCartItemEntity> itemList);
+    
+    public void removeItem(Long memberId,Long ShoppingCartItemId);
+    
 }

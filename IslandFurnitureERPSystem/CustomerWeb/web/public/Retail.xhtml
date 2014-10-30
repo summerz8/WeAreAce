@@ -15,7 +15,7 @@
             <script type="text/javascript" src="./js/bootstrap.js"></script>
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
-            <title>Island Furniture ERP System</title>
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -28,10 +28,15 @@
 
                 <p:messages id="messagesStatus" redisplay="false" />
 
-                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" >
+                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>
 
-                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" >
+                <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+
+                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>  
 
                 <div class="col-md-12 column" style="text-align: center; border: none;">
@@ -42,8 +47,8 @@
                     <p:button value="Retail" outcome="/public/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="Kitchen" outcome="/public/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="About Us" outcome="/public/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                 </div>
-               
+                </div>
+
 
                 <div style="width: 1000px; text-align:center; margin:auto; border: none">
                     <p:dataScroller value="#{gallery.pictureList}" var="picture" chunkSize="10" style=" border: 5px">                     
@@ -65,7 +70,7 @@
                         </div>                        
                     </p:dataScroller>
                 </div>
-                
+
                 <br></br><br></br><br></br>
             </h:form>
         </h:body>

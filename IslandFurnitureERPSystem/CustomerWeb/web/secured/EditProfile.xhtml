@@ -15,7 +15,7 @@
             <script type="text/javascript" src="./js/bootstrap.js"></script>
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
-            <title>Island Furniture</title>
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -33,20 +33,18 @@
                     <!--</p:layoutUnit>--> 
 
 
-                    <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{loginMember.identity}" rendered="#{!(loginMember.identity==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                     </p:link>
 
-                    <p:button  value="Shopping Cart" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{loginMember.identity==null}">
+
+                    <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>
 
-                    <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{loginMember.identity==null}">
-                    </p:button>
 
+                  
+                    <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
 
-                    <p:button value="Log Out" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(loginMember.identity==null)}">
-                    </p:button> 
-
-                    <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{loginMember.identity==null}">
+                    <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>  
 
                     <div class="col-md-12 column" style="text-align: center; border: 0px">
@@ -78,7 +76,7 @@
                                 <h:panelGrid columns="2" cellpadding="10">                                
 
                                     <h:outputLabel for="title" value="Title: *" />
-                                    <h:selectOneMenu value="#{MemberInfo.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
+                                    <h:selectOneMenu value="#{memberInfo.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
                                         <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                                     </h:selectOneMenu>
@@ -86,23 +84,20 @@
 
                                     <h:outputLabel for="firstname" value="FirstName :" />
                                     <p:inplace id="firstname" editor="true">
-                                        <p:inputText value="#{MemberInfo.firstName}" required="true" label="text" />
+                                        <p:inputText value="#{memberInfo.first}" required="true" label="text" />
                                     </p:inplace>
 
 
-                                    <h:outputLabel for="midname" value="MidName:" />
-                                    <p:inplace id="midname" editor="true">
-                                        <p:inputText value="#{MemberInfo.midName}" required="true" label="text" />
-                                    </p:inplace>
+                                
 
                                     <h:outputLabel for="lastname" value="LastName: " />
                                     <p:inplace id="lastname" editor="true">
-                                        <p:inputText value="#{MemberInfo.lastName}" required="true" label="text" />
+                                        <p:inputText value="#{memberInfo.lastName}" required="true" label="text" />
                                     </p:inplace>
 
 
                                     <h:outputLabel for="gender" value="Gender: " />
-                                    <h:selectOneMenu value="#{MemberInfo.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
+                                    <h:selectOneMenu value="#{memberInfo.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
                                         <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                                     </h:selectOneMenu>
@@ -110,26 +105,26 @@
 
                                     <h:outputLabel for="email" value="Email(login account): *" />
                                     <p:inplace id="email" editor="true">
-                                        <p:inputText value="#{MemberInfo.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
+                                        <p:inputText value="#{memberInfo.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
                                             <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                                         </p:inputText>
                                     </p:inplace>
 
                                     <h:outputLabel for="birthday" value="Birthday:*" />
-                                    <p:calendar id="birthday" value="#{MemberInfo.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+                                    <p:calendar id="birthday" value="#{memberInfo.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
 
 
                                     <h:outputLabel for="addr" value="Address:" />
                                     <p:inplace id="addr" editor="true">
-                                        <p:inputText value="#{MemberInfo.address}" required="true" label="text" />
+                                        <p:inputText value="#{memberInfo.address}" required="true" label="text" />
                                     </p:inplace>
 
                                     <h:outputLabel for="postal" value="Postal Code:" />
                                     <p:inplace id="postal" editor="true">
-                                        <p:inputText value="#{MemberInfo.postal}" required="true" label="text" />
+                                        <p:inputText value="#{memberInfo.postal}" required="true" label="text" />
                                     </p:inplace>
 
-                                    <p:commandButton action="#{MemberInfo.upDate}" value="Update" style="background: #28a4c9; color: white; width: 80px; height: 30px; margin-left: 20px;"/>
+                                    <p:commandButton action="#{memberInfo.upDate}" value="Update" style="background: #28a4c9; color: white; width: 80px; height: 30px; margin-left: 20px;"/>
                                     <p:commandButton action="MemberPage?faces-redirect=true" value="Cancel" style="background: #28a4c9; color: white; width: 80px; height: 30px; margin-left: 20px;"/>
 
                                 </h:panelGrid>

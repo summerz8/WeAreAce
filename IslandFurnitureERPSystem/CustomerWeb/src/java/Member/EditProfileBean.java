@@ -19,12 +19,12 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "editProfile")
 @ViewScoped
-public class EditProfile {
+public class EditProfileBean {
 
     @EJB
     private CustomerWebMemberModuleLocal MRMM;
 
-    public EditProfile() {
+    public EditProfileBean() {
     }
     private String FirstName;
     private String MidName;
