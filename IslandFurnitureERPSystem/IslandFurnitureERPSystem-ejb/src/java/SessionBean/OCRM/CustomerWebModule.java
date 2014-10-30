@@ -81,8 +81,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
         customerWebItem.setDescription(description);
         customerWebItem.setType(selectedType);
         customerWebItem.setProduct(product);
-        customerWebItem.setPicture("set1.png");
-
+        
         em.persist(customerWebItem);
         em.flush();
 
