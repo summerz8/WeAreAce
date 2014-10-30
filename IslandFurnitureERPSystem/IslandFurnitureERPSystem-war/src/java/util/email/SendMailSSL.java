@@ -43,7 +43,7 @@ public class SendMailSSL {
         };
         Session session = Session.getInstance(props, auth);
         System.out.println("Session created");
-        
+
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("islandfurnitureit03krt@gmail.com"));
@@ -61,7 +61,7 @@ public class SendMailSSL {
         }
         return true;
     }
-    
+
     public Boolean sendPasswordResetMessage(String userAccount, String newPass) {
         System.out.println(userAccount);
         Properties props = new Properties();
@@ -81,14 +81,52 @@ public class SendMailSSL {
         };
         Session session = Session.getInstance(props, auth);
         System.out.println("Session created");
-        
+
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("islandfurnitureit03krt@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(userAccount));
-                message.setSubject("CAUSION! Your Password Has Been Reseted!");
-            message.setText("Your new temporay password is "+ newPass);
+            message.setSubject("CAUSION! Your Password Has Been Reseted!");
+            message.setText("Your new temporay password is " + newPass);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+
+    public Boolean sendCustomerEmail(String userAccount, String subject, String text) {
+        System.out.println(userAccount);
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//        props.put("mail.smtp.user", "islandfurnitureit03krt@gmail.com");
+//        props.put("mail.smtp.password", "IS3102IT03");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Authenticator auth = new Authenticator() {
+            //override the getPasswordAuthentication method
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("islandfurnitureit03krt@gmail.com", "IS3102IT03");
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+        System.out.println("Session created");
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("islandfurnitureit03krt@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(userAccount));
+            message.setSubject(subject);
+            message.setText(text);
 
             Transport.send(message);
 

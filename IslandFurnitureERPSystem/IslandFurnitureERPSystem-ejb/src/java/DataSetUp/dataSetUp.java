@@ -1795,7 +1795,7 @@ public class dataSetUp {
 
         MemberEntity member = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Lee", "", "James",
                 MemberBirthday, "Male", "Mr", "5 Kent Ridge Drive", "412342",
-                "james@gmail.com", Boolean.FALSE);
+                "ms.z.summer@gmail.com", Boolean.FALSE);
 
         member.setTotalPoints(50000D);
         member.setCurrentPoints(20000D);
@@ -1963,7 +1963,7 @@ public class dataSetUp {
 
         MemberEntity member2 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Hotchner", "", "Arron",
                 MemberBirthday2, "Male", "Mr", "5 Kent Ridge Drive", "412342",
-                "arronH@gmail.com", Boolean.FALSE, "Singapore", memlvl1);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "Singapore", memlvl1);
         em.persist(member2);
         em.flush();
 
@@ -1973,7 +1973,7 @@ public class dataSetUp {
 
         MemberEntity member3 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Morgen", "", "Derek",
                 MemberBirthday3, "Male", "Mr", "5 Kent Ridge Drive", "412342",
-                "derek@gmail.com", Boolean.FALSE, "Singapore", memlvl2);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "Singapore", memlvl2);
         em.persist(member3);
         em.flush();
 
@@ -1983,7 +1983,7 @@ public class dataSetUp {
 
         MemberEntity member4 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Prentiss", "", "Emily",
                 MemberBirthday4, "Female", "Miss", "5 Kent Ridge Drive", "412342",
-                "emily@gmail.com", Boolean.FALSE, "China", memlvl1);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "China", memlvl1);
         em.persist(member4);
         em.flush();
 
@@ -1993,7 +1993,7 @@ public class dataSetUp {
 
         MemberEntity member5 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Jareau", "", "Jennifer",
                 MemberBirthday5, "Female", "Ms", "5 Kent Ridge Drive", "412342",
-                "jennifer@gmail.com", Boolean.FALSE, "China", memlvl2);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "China", memlvl2);
         em.persist(member5);
         em.flush();
 
@@ -2003,7 +2003,7 @@ public class dataSetUp {
 
         MemberEntity member6 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Rossi", "", "David",
                 MemberBirthday6, "Male", "Mr", "5 Kent Ridge Drive", "412342",
-                "david@gmail.com", Boolean.FALSE, "United States", memlvl1);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "United States", memlvl1);
         em.persist(member6);
         em.flush();
 
@@ -2013,7 +2013,7 @@ public class dataSetUp {
 
         MemberEntity member7 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Reid", "", "Spencer",
                 MemberBirthday7, "Male", "Mr", "5 Kent Ridge Drive", "412342",
-                "spencer@gmail.com", Boolean.FALSE, "United States", memlvl2);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "United States", memlvl2);
         em.persist(member7);
         em.flush();
 
@@ -2023,7 +2023,7 @@ public class dataSetUp {
 
         MemberEntity member8 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Penelope", "", "Garcia",
                 MemberBirthday8, "Female", "Miss", "5 Kent Ridge Drive", "412342",
-                "garcia@gmail.com", Boolean.FALSE, "South Korea", memlvl1);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "South Korea", memlvl1);
         em.persist(member8);
         em.flush();
 
@@ -2033,7 +2033,7 @@ public class dataSetUp {
 
         MemberEntity member9 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Gubler", "Gray", "Mattew",
                 MemberBirthday9, "Male", "Mr", "5 Kent Ridge Drive", "412342",
-                "mattew@gmail.com", Boolean.FALSE, "South Korea", memlvl3);
+                "ms.z.summer@gmail.com", Boolean.FALSE, "South Korea", memlvl3);
         em.persist(member9);
         em.flush();
 

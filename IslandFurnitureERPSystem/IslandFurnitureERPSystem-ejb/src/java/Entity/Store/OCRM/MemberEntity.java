@@ -81,6 +81,7 @@ public class MemberEntity implements Serializable {
     @XmlTransient
     private MemberCardIdMappingEntity cardIdMapping;
 
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private RFMEntity rfm = null;
 
 
