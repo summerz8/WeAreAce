@@ -25,17 +25,17 @@ public interface Factory_StoreManagementModuleLocal {
 
     public void AddFactory(String country, String address, String contact, String manager);
 
-    public void DeleteFactory(long factoryId);
+    public void DeleteFactory(long factoryId)throws Exception;
 
-    public void ModifyFactory(long factoryId, String country, String address, String contact, String manager);
+    public void ModifyFactory(long factoryId, String country, String address, String contact, String manager) throws Exception;
 
     public List<FactoryEntity> ListFactory();
 
     public void AddStore(String country, String address, String contact, String manager);
 
-    public void DeleteStore(Long storeId);
+    public void DeleteStore(Long storeId) throws Exception;
 
-    public void ModifyStore(long storeId, String country, String address, String contact, String manager);
+    public void ModifyStore(long storeId, String country, String address, String contact, String manager) throws Exception;
 
     public List<StoreEntity> ListStore();
 

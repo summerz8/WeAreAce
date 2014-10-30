@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <f:view>
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -97,11 +97,12 @@
                             <h:panelGrid columns="2" cellpadding="10">                                
 
                                 <h:outputLabel for="country" value="Country: *" />
-                                <h:selectOneMenu value="#{factoryControl.newFactoryCountry}" style="width:100%" required="true" requiredMessage="Please select a title">
-                                    <f:selectItems value="#{predefinedAttr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                <h:selectOneMenu value="#{factoryControl.newFactoryCountry}" style="width:100%" required="true" requiredMessage="Please select a title" >
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{predefinedAttr.countries}" />
                                 </h:selectOneMenu>
-
-
+                                
+            
                                 <h:outputLabel for="address" value="Address *:" />
                                 <p:inputText value="#{factoryControl.newFactoryAddress}" required="true" requiredMessage="Please enter address" label="text" >
                                     

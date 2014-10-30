@@ -106,7 +106,7 @@
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{rawMaterialControl.deleteRawMaterial(raw.materialId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{rawMaterialControl.setSelectedDeleteRawMaterialId(raw.materialId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
@@ -140,6 +140,21 @@
                                 </p:column>
 
                             </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this raw material ? 
+                                    <p:commandButton  title = "Confirm"  value = "Confirm" actionListener="#{rawMaterialControl.deleteRawMaterial(rawMaterialControl.selectedDeleteRawMaterialId)}"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
 
                             <p:button value="Add Raw Material" outcome="AddNewRawMaterial"></p:button>
                         </p:panel>

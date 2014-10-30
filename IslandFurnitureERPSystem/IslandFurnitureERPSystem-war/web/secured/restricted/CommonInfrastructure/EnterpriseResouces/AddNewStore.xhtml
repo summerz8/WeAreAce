@@ -93,7 +93,8 @@
 
                                 <h:outputLabel for="country" value="Country: *" />
                                 <h:selectOneMenu value="#{storeControl.newStoreCountry}" style="width:100%" required="true" requiredMessage="Please select a title">
-                                    <f:selectItems value="#{predefinedAttr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{predefinedAttr.countries}" />
                                 </h:selectOneMenu>
 
 

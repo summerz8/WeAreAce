@@ -94,7 +94,7 @@ public class ViewMembers implements Serializable {
             getValuesOnSession();
             initSetting();
 
-            System.out.println("ViewMembersBean: memberAmount: " + memberAmount);
+            allMembers = acrm.getAllMembers();
         } catch (Exception ex) {
             Logger.getLogger(ViewMembers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -603,7 +603,6 @@ public class ViewMembers implements Serializable {
 
     private void initSetting() throws Exception {
         if (!checkGender && !checkAge && !checkCountry && !checkMemberlvl) {
-            System.out.println("ViewMembersBean: allMembers = acrm.getAllMembers();");
             allMembers = acrm.getAllMembers();
             filteredMembers = acrm.getAllMembers();
             System.out.println("ViewMembersBean: " + allMembers.toString());
@@ -688,6 +687,18 @@ public class ViewMembers implements Serializable {
         country = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         memberLevel = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberLevel");
 
+    }
+
+    public String sendEmailToAll() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("customers", allMembers);
+
+        return "SendCustomerEmail?faces-redirect=true";
+    }
+
+    public String sendEmailToSegement() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("customers", filteredMembers);
+
+        return "SendCustomerEmail?faces-redirect=true";
     }
 
 }

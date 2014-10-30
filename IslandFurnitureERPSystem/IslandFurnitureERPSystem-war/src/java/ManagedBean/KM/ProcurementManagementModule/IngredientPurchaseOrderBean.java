@@ -123,8 +123,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ingredientPurchaseOrderFromIF", null);
                 filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-                total = selectedIPO.getTotal();
-                actualTotal = selectedIPO.getActuralTotal();
+                total = pm.getIPOTotal(selectedIPO.getId());
+                actualTotal = total;
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: init(): Failed. Caught an unexpected exception.");
@@ -152,8 +152,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
                 }
             }
             filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-            total = selectedIPO.getTotal();
-            actualTotal = selectedIPO.getActuralTotal();
+            total = pm.getIPOTotal(selectedIPO.getId());
+            actualTotal = total;
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -206,8 +206,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
                     context.execute("PF('message').show();");
                 } else {
                     filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-                    total = selectedIPO.getTotal();
-                    actualTotal = selectedIPO.getActuralTotal();
+                    total = pm.getIPOTotal(selectedIPO.getId());
+                    actualTotal = total;
                 }
             }
         } catch (Exception ex) {

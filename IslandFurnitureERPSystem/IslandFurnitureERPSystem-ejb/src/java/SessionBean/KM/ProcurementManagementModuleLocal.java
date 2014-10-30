@@ -40,4 +40,6 @@ public interface ProcurementManagementModuleLocal {
     public Long deleteSupplier(Long ingredientSupplierId);
 
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId);
+
+    Double getIPOTotal(Long IPOId);
 }

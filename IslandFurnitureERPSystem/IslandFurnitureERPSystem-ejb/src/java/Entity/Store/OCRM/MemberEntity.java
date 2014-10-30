@@ -21,6 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,6 +31,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "member")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class MemberEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,10 +74,16 @@ public class MemberEntity implements Serializable {
     private MembershipLevelEntity memberlvl;
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
+    @XmlTransient
     private List<TransactionEntity> transactionList; 
     
     @OneToOne(cascade = {CascadeType.PERSIST})
+    @XmlTransient
+    private MemberCardIdMappingEntity cardIdMapping;
+
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private RFMEntity rfm = null;
+
 
     
     public MemberEntity() {
@@ -264,6 +274,16 @@ public class MemberEntity implements Serializable {
 //    public void setMemberlvl(MembershipLevelEntity memberlvl) {
 //        this.memberlvl = memberlvl;
 //    }
+
+    public MemberCardIdMappingEntity getCardIdMapping() {
+        return cardIdMapping;
+    }
+
+    public void setCardIdMapping(MemberCardIdMappingEntity cardIdMapping) {
+        this.cardIdMapping = cardIdMapping;
+    }
+    
+    
 
     public MembershipLevelEntity getMemberlvl() {
         return memberlvl;

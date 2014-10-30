@@ -13,6 +13,9 @@
     <service name="IFManagerBean">
       <implementation-class>util.login.IFManagerBean</implementation-class>
     </service>
+    <service name="PickupListModule">
+      <implementation-class>SessionBean.OCRM.PickupListModule</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

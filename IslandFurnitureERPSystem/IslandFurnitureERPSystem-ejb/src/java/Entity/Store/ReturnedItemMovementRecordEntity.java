@@ -6,6 +6,7 @@
 
 package Entity.Store;
 
+import Entity.Store.IM.StoreWarehouseBinEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class ReturnedItemMovementRecordEntity implements Serializable {
     private Calendar createdDate=Calendar.getInstance();  
     private String description;
     @ManyToOne
-    private StoreStorageBinEntity storedStorageBin;
+    private StoreWarehouseBinEntity storedWarehouseBin;
     private Long memberId;
     private String type;
     private String status;
@@ -70,13 +71,15 @@ public class ReturnedItemMovementRecordEntity implements Serializable {
         this.description = description;
     }
 
-    public StoreStorageBinEntity getStoredStorageBin() {
-        return storedStorageBin;
+    public StoreWarehouseBinEntity getStoredWarehouseBin() {
+        return storedWarehouseBin;
     }
 
-    public void setStoredStorageBin(StoreStorageBinEntity storedStorageBin) {
-        this.storedStorageBin = storedStorageBin;
+    public void setStoredWarehouseBin(StoreWarehouseBinEntity storedWarehouseBin) {
+        this.storedWarehouseBin = storedWarehouseBin;
     }
+
+    
 
     public Long getMemberId() {
         return memberId;

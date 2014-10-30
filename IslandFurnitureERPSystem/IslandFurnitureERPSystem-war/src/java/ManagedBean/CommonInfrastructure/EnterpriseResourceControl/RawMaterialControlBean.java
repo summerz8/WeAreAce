@@ -38,6 +38,8 @@ public class RawMaterialControlBean {
     private String newRawMaterialDescription;
     
     private String newRawMaterialUnit;
+    
+    private Long selectedDeleteRawMaterialId;
     /**
      * Creates a new instance of RawMaterialControlBean
      */
@@ -70,16 +72,24 @@ public class RawMaterialControlBean {
 
     public void deleteRawMaterial(Long id) throws Exception {
         System.out.println("RawMaterialControlBean: deleteRawMaterial: " + String.valueOf(id));      
-        EIMR.deleteRawMaterial(id);
+        int result = EIMR.deleteRawMaterial(id);
+        if(result==1){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
         
         rawMaterialList = EIMR.listRawMaterial();
         filteredRawMaterial = rawMaterialList;
+        }else if(result == -1){
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Raw Material cannot be deleted! ", "Still associated with BOM entity!"));
+        }else if(result == -2){
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Raw Material cannot be deleted! ", "Factory raw material still exists!"));
+        }
     }
     
     public void addRawMaterial() {
         System.out.println("RawMaterialControlBean: addRawMaterial: ");
-        EIMR.addRawMaterial(newRawMaterialName, newRawMaterialDescription, newRawMaterialUnit);
+        try{EIMR.addRawMaterial(newRawMaterialName, newRawMaterialDescription, newRawMaterialUnit);}catch(Exception ex){}
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product added successfully! ", ""));
 
         try {
@@ -128,6 +138,15 @@ public class RawMaterialControlBean {
     public void setNewRawMaterialUnit(String newRawMaterialUnit) {
         this.newRawMaterialUnit = newRawMaterialUnit;
     }
+
+    public Long getSelectedDeleteRawMaterialId() {
+        return selectedDeleteRawMaterialId;
+    }
+
+    public void setSelectedDeleteRawMaterialId(Long selectedDeleteRawMaterialId) {
+        this.selectedDeleteRawMaterialId = selectedDeleteRawMaterialId;
+    }
+    
     
     
 }

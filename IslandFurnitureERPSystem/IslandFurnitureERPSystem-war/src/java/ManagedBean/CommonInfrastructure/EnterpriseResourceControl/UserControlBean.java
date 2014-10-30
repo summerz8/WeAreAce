@@ -7,6 +7,7 @@ package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
 import Entity.CommonInfrastructure.UserEntity;
 import SessionBean.CommonInFrastructure.InternalUserAccountManagementModuleLocal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,8 +75,8 @@ public class UserControlBean {
             IUMA.ModifyStaff(entity.getUserId(), entity.getDepartment(), entity.getUserLevel(), entity.getLastName(), entity.getMidName(),
                     entity.getFirstName(), entity.getPosition(), cal, entity.getGender(), entity.getTitle(), entity.getAddress(),
                     entity.getPostalCode(), entity.getEmail(), entity.getDepartmentId());
-            IUMA.changePass(entity.getPwd(), entity.getUserId());
-        } catch (Exception e) {
+//            IUMA.changePass(entity.getPwd(), entity.getUserId());
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 

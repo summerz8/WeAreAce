@@ -243,4 +243,11 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredientSuppliers();
     }
+
+    @Override
+    public Double getIPOTotal(Long IPOId) {
+        return em.find(IngredientPurchaseOrderEntity.class, IPOId).getTotal();
+    }
+    
+    
 }

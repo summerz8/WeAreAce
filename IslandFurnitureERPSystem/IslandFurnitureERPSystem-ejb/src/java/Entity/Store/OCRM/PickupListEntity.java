@@ -16,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 
@@ -25,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name ="PickupList")
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class PickupListEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,13 +36,17 @@ public class PickupListEntity implements Serializable {
     private Long PickupListId;
     
     private Boolean Picked;
+    private Boolean Distributed;
     
-    //PickupListEntity <--> TransactionItem 1<-->M
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pickupList")
-    private List<TransactionItem> transactoinItems = new ArrayList<>();
-    
+    //PickupListEntity <--> TransactionItemEntity 1<-->M
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "pickupList")
+    @XmlTransient
+    private List<TransactionItemEntity> transactoinItems = new ArrayList<>();
+
     public PickupListEntity(){
         this.Picked = Boolean.FALSE;
+        this.Distributed = Boolean.FALSE;
     }
 
 
@@ -58,11 +66,20 @@ public class PickupListEntity implements Serializable {
         this.Picked = Picked;
     }
 
-    public List<TransactionItem> getTransactoinItems() {
+    public Boolean isDistributed() {
+        return Distributed;
+    }
+
+    public void setDistributed(Boolean Distributed) {
+        this.Distributed = Distributed;
+    }
+
+    
+    public List<TransactionItemEntity> getTransactoinItems() {
         return transactoinItems;
     }
 
-    public void setTransactoinItems(List<TransactionItem> transactoinItems) {
+    public void setTransactoinItems(List<TransactionItemEntity> transactoinItems) {
         this.transactoinItems = transactoinItems;
     }
 

@@ -154,8 +154,8 @@
 
                             </p:dataTable>                
                         </h:panelGrid>
-                        <p:commandButton  action="ViewMembers.xhtml"  value="Send Message to This group of Members" />
-                        <p:commandButton  action="ViewMembers.xhtml"  value="Send Message to All Members" style="float: right"/>
+                        <p:commandButton  action="#{viewMembers.sendEmailToSegement()}"  value="Send Message to This group of Members" />
+                        <p:commandButton  action="#{viewMembers.sendEmailToAll()}"  value="Send Message to All Members" style="float: right"/>
 
 
                     </p:panel>
