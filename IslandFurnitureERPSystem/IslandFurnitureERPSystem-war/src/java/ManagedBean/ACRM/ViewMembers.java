@@ -10,6 +10,7 @@ import SessionBean.ACRM.AnalyticalCRMSessionBeanLocal;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,7 +81,7 @@ public class ViewMembers implements Serializable {
         genders.put("Male", "Male");
         genders.put("Others", "Others");
 
-        countries = new HashMap<String, String>();
+        countries = new LinkedHashMap<String, String>();
         initialCounties();
 
         memberLevels = new HashMap<>();
@@ -599,6 +600,7 @@ public class ViewMembers implements Serializable {
         countries.put("Yemen", "Yemen");
         countries.put("Zambia", "Zambia");
         countries.put("Zimbabwe", "Zimbabwe");
+        
     }
 
     private void initSetting() throws Exception {

@@ -603,7 +603,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     @Override
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
-            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate, Boolean isManual)
+            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate, Boolean isManual, Boolean isToStore)
             throws Exception {
         System.out.println("createPurchaseOrder():");
 
@@ -642,7 +642,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 itemName = contract.getFactoryRetailProduct().getName();
             }
             purchaseOrder = new PurchaseOrderEntity(itemName, status, purchaseAmount, unit, createDate, destination,
-                    destinationId, leadTime, totalPrice, factory, contract, deliveryDate, isManual);
+                    destinationId, leadTime, totalPrice, factory, contract, deliveryDate, isManual, isToStore);
 
             em.persist(purchaseOrder);
 
@@ -933,7 +933,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     @Override
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId,
             Double plannedAmount, Double nextMonthBeginPlannedAmount, Long contractId, Long storeId,
-            String destination, String itemType) throws Exception {
+            String destination, String itemType, Boolean isToStore) throws Exception {
         System.out.println("generatePurchaseOrder():");
         PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
         Long itemId;
@@ -962,7 +962,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
 
             Collection<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmountAndDate(integratedPlannedOrderId, purchaseAmount);
 
-            purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null, false);
+            purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null, false, isToStore);
 
             //set relationship between delivery orders and purchase order
             for (DeliveryOrderEntity deliveryOrder : deliveryOrderList) {
@@ -1018,7 +1018,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             purchaseOrderList = factory.getPurchaseOrders();
             for (PurchaseOrderEntity po : purchaseOrderList) {
                 //check whether this intergrated planned order is in waiting status
-                if (po.getStatus().equals("confirmed")) {
+                if (po.getStatus().equals("confirmed") && !po.getIsToStore()) {
                     confirmedPurchaseOrderList.add(po);
                 }
             }

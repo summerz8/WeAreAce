@@ -41,5 +41,7 @@ public interface ProcurementManagementModuleLocal {
 
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId);
 
-    Double getIPOTotal(Long IPOId);
+    public Double getIPOTotal(Long IPOId);
+
+    public IngredientPurchaseOrderEntity findIngredientPurchaseOrderById(Long IPOId);
 }

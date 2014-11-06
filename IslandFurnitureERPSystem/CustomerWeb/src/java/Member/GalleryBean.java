@@ -10,6 +10,7 @@ import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -19,21 +20,28 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "gallery")
 @ViewScoped
-public class Gallery {
+public class GalleryBean {
 
     @EJB
     private CustomerWebModuleLocal cwml;
 
-    
     private List<SetEntity> setList;
-    public Gallery() {
+
+    public GalleryBean() {
     }
 
     @PostConstruct
     public void init() {
-        setList=cwml.getSetList();
+        setList = cwml.getSetList();
     }
 
+    public String viewMore(Long setId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", setId);
+
+        return "set?faces-redirect=true";
+    }
+
+    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }
@@ -49,7 +57,5 @@ public class Gallery {
     public void setSetList(List<SetEntity> setList) {
         this.setList = setList;
     }
-    
-    
-    
+
 }

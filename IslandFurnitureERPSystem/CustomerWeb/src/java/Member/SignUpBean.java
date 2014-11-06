@@ -21,7 +21,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "signUp")
 @ViewScoped
-public class SignUp {
+public class SignUpBean {
 //
 
     @EJB
@@ -42,7 +42,7 @@ public class SignUp {
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
 
-    public SignUp() {
+    public SignUpBean() {
     }
 
     public String addMember() {
@@ -50,7 +50,7 @@ public class SignUp {
         MRMM.AddMemberWithPassword(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, password);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", FirstName);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", Email);
-        return "/secured/Memberpage?faces-redirect=true";
+        return "/secured/MemberPage?faces-redirect=true";
     }
 
     public String getFirstName() {

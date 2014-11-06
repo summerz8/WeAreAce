@@ -7,6 +7,7 @@ package SessionBean.OCRM;
 
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
+import Entity.Store.OCRM.ShoppingCartItemEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,7 +27,7 @@ import util.security.CryptographicHelper;
 @Stateless
 public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
 
-  @PersistenceContext
+    @PersistenceContext
     private EntityManager em;
 
     private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
@@ -68,7 +69,7 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
 
         member = new MemberEntity(PWD, lastName, midName, firstName,
                 birthday, gender, title, address, postalCode,
-                email, Boolean.FALSE); 
+                email, Boolean.FALSE);
         member.setMemberlvl(em.find(MembershipLevelEntity.class, 0L));
         em.persist(member);
         System.out.println("New Member created!");
@@ -77,7 +78,7 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
 
     @Override
     @WebMethod(exclude = true)
-    public void DeleteMember(Long userId) {        
+    public void DeleteMember(Long userId) {
         System.out.println("MemberRegistrationModule: deletMember():" + userId);
         MemberEntity member = em.find(MemberEntity.class, userId);
         member.setDeleteFlag(Boolean.TRUE);
@@ -102,13 +103,12 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
         member.setFirstName(firstName);
         member.setGender(gender);
         member.setLastName(lastName);
-        member.setMidName(midName);     
-        member.setPostalCode(postalCode);       
-       
+        member.setMidName(midName);
+        member.setPostalCode(postalCode);
+
         em.persist(member);
         em.flush();
-        
-        
+
     }
 
     //don't know how to implement this
@@ -128,13 +128,12 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
         }
         return requiredUserList;
     }
-    
 
-    @WebMethod(operationName = "checkMember" )
+    @WebMethod(operationName = "checkMember")
     public Boolean checkMember(
-            @WebParam(name = "memberId") Long memberId){
-        MemberEntity member = em.find(MemberEntity.class,memberId);
-        
+            @WebParam(name = "memberId") Long memberId) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);
+
         return member != null;
     }
 
@@ -142,51 +141,82 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
     @WebMethod(exclude = true)
     public void AddMemberWithPassword(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String PWD){
+            String title, String address, String postalCode, String email, String PWD) {
         System.out.println("MemberRegistrationModule: addMember():");
 
-        MemberEntity member;        
+        MemberEntity member;
 
         String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
 
         member = new MemberEntity(PWD, lastName, midName, firstName,
                 birthday, gender, title, address, postalCode,
-                email, Boolean.FALSE); 
-        
-        member.setMemberlvl(em.find(MembershipLevelEntity.class, 1L));
+                email, Boolean.FALSE);
+
+        member.setMemberlvl(em.find(MembershipLevelEntity.class, 1));
         em.persist(member);
         System.out.println("New Member created!");
         em.flush();
-        
+
     }
 
     @Override
     @WebMethod(exclude = true)
-    public MemberEntity getMember(String email){
+    public MemberEntity getMember(String email) {
 
-        List<MemberEntity> memberList=ListMember();
-        
-        for(MemberEntity m: memberList){
-            if(m.getEmail().equals(email))
+        List<MemberEntity> memberList = ListMember();
+
+        for (MemberEntity m : memberList) {
+            if (m.getEmail().equals(email)) {
                 return m;
-        }
-        return null;
-    
-    }
-    
-      @Override
-    public MemberEntity memberLogin(String email, String pwd){
-
-        List<MemberEntity> memberList=ListMember();
-        
-        for(MemberEntity m: memberList){
-            if(m.getEmail().equals(email)){
-                if(m.getPwd().equals(pwd))
-                    return m;
             }
-                
         }
         return null;
-    
+
     }
+
+    @Override
+    public MemberEntity memberLogin(String email, String pwd) {
+
+        List<MemberEntity> memberList = ListMember();
+
+        for (MemberEntity m : memberList) {
+            if (m.getEmail().equals(email)) {
+                if (m.getPwd().equals(pwd)) {
+                    return m;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public void upDateShoppingCart(Long userId, List<ShoppingCartItemEntity> itemList) {
+        MemberEntity member = em.find(MemberEntity.class, userId);
+        List<ShoppingCartItemEntity> newItemList=member.getShoppingCartList();
+        int size=itemList.size();
+        for(int a=0;a<size;a++){
+            newItemList.get(a).setQuantity(itemList.get(a).getQuantity());
+        }
+        
+        em.persist(member);
+        em.flush();
+
+    }
+
+    @Override
+    public void removeItem(Long memberId,Long ShoppingCartItemId) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);   
+        List<ShoppingCartItemEntity> itemList=member.getShoppingCartList();
+        for(ShoppingCartItemEntity s: itemList){
+            if(s.getId().equals(ShoppingCartItemId)){
+                itemList.remove(s);
+                break;
+            }
+        }
+        em.remove(em.find(ShoppingCartItemEntity.class,ShoppingCartItemId));
+        em.persist(member);
+        em.flush();
+    }
+
 }

@@ -16,7 +16,7 @@
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
 
-            <title>Island Furniture ERP System</title>
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -25,19 +25,21 @@
 
             <h:form id="formMain">
 
-                <p:growl id="messages" showDetail="true" sticky="true"/>
+            <p:growl id="messages" showDetail="true"/>
 
                 <p:messages id="messagesStatus" redisplay="false" />
-                <!--
-                                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: none; text-align: left ">       
-                                    </p:layoutUnit> -->
+                 <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    </p:link>
 
-                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" >
-                </p:button>
+                    <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
+                    </p:button>
 
-                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" >
-                </p:button>  
 
+                    <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+                  
+
+                    <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
+                    </p:button>  
 
 
                 <div class="col-md-12 column" style="text-align: center; border: none;">
@@ -48,7 +50,7 @@
                     <p:button value="Retail" outcome="/public/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color: black;border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="Kitchen" outcome="/public/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="About Us" outcome="/public/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                 </div>
+                </div>
 
                 <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
                 <!--
@@ -56,14 +58,14 @@
 
 
                 <div style="width: 1000px; text-align:center; margin:auto; border: none;"  >
-                    <p:galleria value="#{gallery.pictureList}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
-                        <img src="../resources/images/#{image}" alt="Best sell of this week!" title="Modern Set 4"/>
+                    <p:galleria value="#{viewSetBean.pictureList}" var="picture" panelWidth="500" panelHeight="313" showCaption="true">
+                        <img src="../resources/images/#{picture}"  title="#{viewSetBean.set.name}"/>
                     </p:galleria>
                 </div>
 
                 <!--<p:panel id="basic" header="Set 1" style="border: none; position: absolute; right:200px; top:145px; width: 500px;margin: auto;margin-bottom" >-->
                 <div style="border: none; position: absolute; right:200px; top:145px; width: 500px;margin: auto;margin-bottom" >   
-                    <p:dataTable var="item" value="#{furnitureBean.itemList}" > 
+                    <p:dataTable var="item" value="#{viewSetBean.itemList}" > 
                         <p:column headerText="Product Id" style="border: none;">
                             <h:outputText value="#{item.id}"  />
                         </p:column>
@@ -75,35 +77,66 @@
                         <p:column headerText="Price" style="border: none;" >
                             <h:outputText value="#{item.price}" />
                         </p:column>
-
-                        <p:column headerText="Add to my shopping cart" style="border: none;">
-                            <p:commandButton value="Add" style="color: white; width: 60px; height: 30px; margin-left: 20px;background: #c9302c" />
+                        
+                        <p:column headerText="Member Price" style="border: none;" >
+                            <h:outputText value="#{item.memberPrice}" style="color: red; font-weight: bold"/>
+                        </p:column>
+                        
+                        <p:column headerText="Availability" style="border: none;" >
+                            <h:outputText value="#{item.availability}" />
+                        </p:column>
+                        
+                        <p:column headerText="Price" style="border: none;" >
+                            <h:outputText value="#{item.price}" />
                         </p:column>
 
-                    </p:dataTable>
-                    <br></br><br></br>
-                    <p:commandButton value="Add to Shopping Cart"   onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 300px; height: 40px; margin-left: 20px" />
+                        <p:column headerText="Add to my shopping cart" style="border: none;">
+                            <p:commandButton  update=":formMain:addtoCart" oncomplete="PF('addDialog').show()" value="Add" >
+                                <f:setPropertyActionListener value="#{item}" target="#{viewSetBean.item}" />
+                            </p:commandButton>                              
+                        </p:column>                       
 
+                    </p:dataTable>
+                    
+                    <p:dialog header="Add To Shopping Cart" widgetVar="addDialog" position="center"
+                                  showEffect="fade" hideEffect="fade" resizable="true" 
+                                  draggable="true" closable="true" width="300">
+                            <p:outputPanel id="addtoCart" style="text-align:center;">
+                                <p:panelGrid  columns="2" columnClasses="value,value">
+                                    <h:outputText value="Product Name:"  />
+                                    <h:outputText value="#{viewSetBean.item.productName}" />
+
+                                    <h:outputText value="Price " />
+                                    <h:outputText value="#{viewSetBean.item.price}" />
+                                    
+                                    <h:outputText value="Member Price " />
+                                    <h:outputText value="#{viewSetBean.item.memberPrice}" style="color: red; font-weight: bold" />
+                                    
+                                    <h:outputText value="Quantity: " />
+                                    <h:inputText value="#{viewSetBean.quantity}" style="width: 50px"/>
+
+                                    <p:commandButton action="#{viewSetBean.addToShoppingCart}" value="Confirm"/>
+                                    <p:commandButton action="set?faces-redirect=true" value="Cancel"/>
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    <br></br><br></br>
+                    
+                    <p:commandButton value="Add to Shopping Cart" action="#{viewSetBean.addAllToShoppingCart()}" update="messages" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 300px; height: 40px; margin-left: 20px" />
+
+                    
                 </div>
                 <!--</p:panel>-->
                 <br></br><br></br><br></br><br></br>
                 <div class="col-md-12 column" style="bottom: 50px; bottom: 50px; width: 500px; left:130px">
                     <dl>
                         <dt>
-                           Modern Set 4
+                            #{viewSetBean.set.name}
                         </dt>
                         <dd>
-                            This set uses brown as its theme.  Simple design, no extra decoration makes people feel comfortable and relaxed.  It uses high quality wooden material and environment friendly oil paint.
+                            #{viewSetBean.set.description}
                         </dd>
-                        <dt>
-                            Component
-                        </dt>
-                        <dd>
-                            Bed 1900mmx1500mm   x1.
-                            Beside 50mmx45mm    x2.
-                            Closet 1800mmx500mm x1.
-                        </dd>
-                        
+
                     </dl>
                 </div>
             </h:form>

@@ -6,6 +6,7 @@
 
 package Entity.Store.OCRM;
 
+import Entity.Store.ACRM.CLVEntity;
 import Entity.Store.ACRM.RFMEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,6 +84,9 @@ public class MemberEntity implements Serializable {
 
     @OneToOne(cascade = {CascadeType.PERSIST})
     private RFMEntity rfm = null;
+    
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private CLVEntity clv = null;
 
 
     
@@ -339,6 +343,14 @@ public class MemberEntity implements Serializable {
 
     public void setRfm(RFMEntity rfm) {
         this.rfm = rfm;
+    }
+
+    public CLVEntity getClv() {
+        return clv;
+    }
+
+    public void setClv(CLVEntity clv) {
+        this.clv = clv;
     }
     
     

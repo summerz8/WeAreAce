@@ -77,6 +77,8 @@
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+
                             </p:submenu>
 
                         </p:menu>
@@ -87,7 +89,7 @@
                         <p:panel id="basic" header="OCRM Management" style="margin-bottom" >                           
 
                             <p:dataTable id="feedbacktable" var="membership" value="#{membershipLevelBean.membershipLevelList}" >
-                                
+
                                 <p:column headerText="Level Name" width="20%">
                                     <h:outputText value="#{membership.levelName}" />
                                 </p:column>

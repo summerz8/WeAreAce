@@ -47,6 +47,7 @@ import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.ShoppingCartItemEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
@@ -370,7 +371,7 @@ public class dataSetUp {
         fp1_1.getStoreProducts().add(sp1_1);
         s1.getStoreProducts().add(sp1_1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(fp2_1, s1, Boolean.FALSE,"good");
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp1_2, s1, Boolean.FALSE,"good");
         em.persist(sp1_2);
         fp2_1.getStoreProducts().add(sp1_2);
         s1.getStoreProducts().add(sp1_2);
@@ -1951,6 +1952,20 @@ public class dataSetUp {
         em.persist(set1);
         em.flush();
 
+        
+        // Shopping cart tiem set up
+        ShoppingCartItemEntity sci1=new ShoppingCartItemEntity();
+        sci1.setCustomerWebItem(item);
+        sci1.setQuantity(3);
+        sci1.setStoreId(s1.getStoreId());
+        em.persist(sci1);
+        em.flush();
+        
+        
+        member.getShoppingCartList().add(sci1);
+        em.persist(sci1);
+        em.flush();
+        
         //***************************************************************************************************
         //*********************************Data setup for ACRM -- Shiyu**************************************
         //***************************************************************************************************

@@ -33,7 +33,7 @@ public class IngredientPurchaseOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;
     private Double total;
-    private Double acturalTotal;
+    private Double actualTotal;
     private String status; // Unconfirmed, Confirmed, Cancelled, Received
     @OneToOne
     private IngredientForecastEntity forecast;
@@ -85,12 +85,12 @@ public class IngredientPurchaseOrderEntity implements Serializable {
         this.total = total;
     }
 
-    public Double getActuralTotal() {
-        return acturalTotal;
+    public Double getActualTotal() {
+        return actualTotal;
     }
 
-    public void setActuralTotal(Double acturalTotal) {
-        this.acturalTotal = acturalTotal;
+    public void setActualTotal(Double actualTotal) {
+        this.actualTotal = actualTotal;
     }
 
     public String getStatus() {
