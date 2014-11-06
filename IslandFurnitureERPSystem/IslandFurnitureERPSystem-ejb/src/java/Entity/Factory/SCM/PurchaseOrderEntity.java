@@ -46,6 +46,7 @@ public class PurchaseOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar deliveryDate;
     private Boolean isManual;
+    private Boolean isToStore;
     private String itemName;
     //purchase order entity -- factory entity: M <--> 1 
     @ManyToOne
@@ -73,7 +74,7 @@ public class PurchaseOrderEntity implements Serializable {
     public PurchaseOrderEntity(String itemName, String status, Double totalAmount,
             String unit, Calendar createDate, String destination, Long destinationId,
             Integer leadTime, Double totalPrice, FactoryEntity factory,
-            ContractEntity contract, Calendar deliveryDate, Boolean isManual) {
+            ContractEntity contract, Calendar deliveryDate, Boolean isManual, Boolean isToStore) {
         this.itemName = itemName;
         this.status = status;
         this.totalAmount = totalAmount;
@@ -87,6 +88,7 @@ public class PurchaseOrderEntity implements Serializable {
         this.contract = contract;
         this.deliveryDate = deliveryDate;
         this.isManual = isManual;
+        this.isToStore = isToStore;
     }
 
     public Long getId() {
@@ -226,6 +228,14 @@ public class PurchaseOrderEntity implements Serializable {
         this.deliveryOrderList = deliveryOrderList;
     }
 
+    public Boolean getIsToStore() {
+        return isToStore;
+    }
+
+    public void setIsToStore(Boolean isToStore) {
+        this.isToStore = isToStore;
+    }
+ 
     @Override
     public int hashCode() {
         int hash = 0;
