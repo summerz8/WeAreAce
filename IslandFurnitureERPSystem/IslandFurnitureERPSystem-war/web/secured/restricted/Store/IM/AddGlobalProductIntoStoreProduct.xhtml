@@ -138,9 +138,8 @@
                                     <br></br>
                                     
 
-
-                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "Add the product" actionListener="#{storeProductControl.addStoreProduct}" update = ":formMain"  >
-
+                                    <p:commandButton ajax="true" title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "Add the product" 
+                                        actionListener="#{storeProductControl.addStoreProduct}" update = ":formMain"  >
                                     </p:commandButton> 
 
                                     <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('gproductDialog').hide()">

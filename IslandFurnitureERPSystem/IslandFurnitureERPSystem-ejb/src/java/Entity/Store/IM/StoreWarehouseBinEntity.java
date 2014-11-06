@@ -58,6 +58,8 @@ public class StoreWarehouseBinEntity implements Serializable {
     
     @ManyToOne
     private StoreEntity store;
+    
+
      
     public StoreWarehouseBinEntity(String name, String remark, Boolean isBackHouse, Boolean isDisplayArea, Boolean isSelfCollect) {
         this.isDeleted = false;

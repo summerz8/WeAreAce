@@ -12,6 +12,7 @@ import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import ManagedBean.SCM.AddFactoryProduct;
 import SessionBean.IM.StoreInventoryControlLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,13 +33,14 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeProductControl")
 @ViewScoped
-public class StoreProductControl {
+public class StoreProductControl implements Serializable{
 
     /**
      * Creates a new instance of StoreProductControl
      */
     public StoreProductControl() {
     }
+    
     @EJB
     StoreInventoryControlLocal sicl;
     
@@ -89,6 +91,8 @@ public class StoreProductControl {
         selectAvailableFactory(pe);
         
         
+        
+        
     }
     public void deleteStoreProduct(StoreProductEntity spe){
         
@@ -108,10 +112,12 @@ public class StoreProductControl {
     public Collection<FactoryProductEntity> selectAvailableFactory(ProductEntity pe){
         selectedProduct = pe;
         availableFactory =(Collection) sicl.listAvailableFactoryProduct(pe.getProductId());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryProductEntities", availableFactory);
         return availableFactory;
     }
     
     public void addStoreProduct(ActionEvent event){
+        
         
         System.out.println("Add the product function");
         
@@ -125,9 +131,13 @@ public class StoreProductControl {
         }
         else{
             msgprint1 = "Exception occured. Please try again or raise a ticket.";
-            System.out.println(msgprint2);
+            System.out.println(msgprint1);
             
         }
+        selectedProduct = null;
+        selectedFactory = null;
+        isSelfPicked = false;
+        remark = null;
             
     }
 

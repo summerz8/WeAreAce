@@ -111,7 +111,7 @@
                                 </p:column>
 
                                 <p:column headerText="Add to Store Retail Product List" width="15%" >
-                                    <p:commandButton update=":formMain" oncomplete="PF('gproductDialog').show()" value="Add" actionListener ="#{storeRetailProductControl.setSelectedRetailProduct(gproduct)}" >
+                                    <p:commandButton update=":formMain" oncomplete="PF('gproductDialog').show()" value="Add" actionListener ="#{storeRetailProductControl.selelectProductToAdd(gproduct)}" >
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable>
@@ -122,9 +122,8 @@
                                     Please select a factory as your inventory resource factory:
                                     <br></br>
 
-                                    <p:selectOneMenu id="selectAvailableFactory" value="#{storeRetailProductControl.selectedFactory}" converter="factoryRConverter" 
-                                                     effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{storeRetailProductControl.availableFactory}" var="f" itemLabel="Factory #{f.factory.factoryId} | Country: #{f.factory.country}" itemValue="#{f}" />
+                                    <p:selectOneMenu id="selectAvailableFactory" value="#{storeRetailProductControl.selectedFactory}" converter="factoryRConverter" effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{storeRetailProductControl.availableFactory}" var="f" itemLabel="Factory:#{f.factory.factoryId} | Country: #{f.factory.country}" itemValue="#{f}" />
 
                                     </p:selectOneMenu>
                                     <br></br>
@@ -136,7 +135,7 @@
                                     
 
 
-                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "Add the product" actionListener="#{storeRetailProductControl.addStoreRetailProduct(storeRetailProductControl.selectedRetailProduct,storeRetailProductControl.selectedFactory)}" update = ":formMain"  >
+                                    <p:commandButton  ajax = "false" title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "Add the product" actionListener="#{storeRetailProductControl.addStoreRetailProduct}" update = ":formMain"  >
 
                                     </p:commandButton> 
 

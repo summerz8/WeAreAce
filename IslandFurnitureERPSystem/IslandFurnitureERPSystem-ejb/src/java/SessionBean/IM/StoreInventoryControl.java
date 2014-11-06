@@ -127,7 +127,9 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         sime.setProductId(productId);
         sime.setRetailProductId(null);
         sime.setStore(store);
+        newStoreProduct.setProduct(product);
         em.persist(sime);
+        
         currentStoreProductList.add(newStoreProduct);
         mapFactoryProduct.getStoreProducts().add(newStoreProduct);
         em.flush();
@@ -279,10 +281,12 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
                    for(StoreRetailProductEntity aStoreRetailProduct: storeRetailProductList ){
                        if(aStoreRetailProduct.isDeleteFlag() == false  &&  aRProduct.equals(aStoreRetailProduct.getRetailProduct())){
                           isRepeat = true;
+                          System.out.println("id:" + aRProduct.getRetailProductId());
                           
                        }
                    }
-                   
+                   System.out.println("1");
+                   System.out.println(isRepeat);
                    if(!isRepeat){
                      
                         globalRetailProductNotInStore.add(aRProduct);
@@ -315,6 +319,7 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         sime.setRetailProductId(newStoreRetailProduct.getStoreRetailProductId());
         sime.setStore(store);
         em.persist(sime);
+        newStoreRetailProduct.setRetailProduct(product);
         currentStoreRetailProductList.add(newStoreRetailProduct);
         mapFactoryRetailProduct.getStoreRetailProducts().add(newStoreRetailProduct);
         em.flush();
@@ -393,10 +398,10 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     public List<FactoryRetailProductEntity> listAvailableFactoryRetail(Long rproductId){
         try{
            
-            Query q = em.createQuery("Select frp From FactoryRetailProductEntity frp where frp.retailProduct.retailProductId =:rpId and frp.deleteFlag = :deleteflag");
+            Query q = em.createQuery("Select frp From FactoryRetailProductEntity frp where frp.retailProduct.retailProductId = :rpId and frp.isDeleted = :flag");
             List<FactoryRetailProductEntity> availableRProduct = new ArrayList<FactoryRetailProductEntity>();
             q.setParameter("rpId", rproductId);
-            q.setParameter("deleteFlag", false);
+            q.setParameter("flag", false);
             for(Object o: q.getResultList()){
                 FactoryRetailProductEntity frp = (FactoryRetailProductEntity) o;
                 availableRProduct.add(frp);
@@ -408,8 +413,6 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
             return null;
         }
     }
-    
-    
-    
+
     
 }

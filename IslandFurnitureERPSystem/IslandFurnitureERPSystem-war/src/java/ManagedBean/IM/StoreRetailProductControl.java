@@ -6,12 +6,9 @@
 
 package ManagedBean.IM;
 
-import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
-import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
 import Entity.Store.StoreEntity;
-import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import ManagedBean.SCM.AddFactoryProduct;
 import SessionBean.IM.StoreInventoryControlLocal;
@@ -21,9 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.event.RowEditEvent;
@@ -41,7 +38,7 @@ public class StoreRetailProductControl {
      */
     public StoreRetailProductControl() {
     }
-        @EJB
+    @EJB
     StoreInventoryControlLocal sicl;
         
     private List<StoreRetailProductEntity> currentStoreRetailProductList = new ArrayList<>();
@@ -109,13 +106,31 @@ public class StoreRetailProductControl {
     }
     
     public void selectAvailableFactory(RetailProductEntity rpe){
-        selectedRetailProduct = rpe;
+        
         availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryREntities", availableFactory);
+     
     }
     
-    public void addStoreRetailProduct(RetailProductEntity rpe,FactoryRetailProductEntity sf){
+//    public void addStoreRetailProduct(RetailProductEntity rpe,FactoryRetailProductEntity sf){
+//        
+//        int result = sicl.addNewRetailProduct(storeId, rpe.getRetailProductId(),sf.getFactoryRetailProdctId(), remark);
+//        if(result == 1) {
+//            msgprint1 = "A new retail product added successfully!";
+//            currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
+//            retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
+//            
+//        }
+//        else{
+//            msgprint1 = "Exception occured. Please try again or raise a ticket.";
+//            
+//        }
+//            
+//    }
+    
+    public void addStoreRetailProduct(ActionEvent event){
         
-        int result = sicl.addNewRetailProduct(storeId, rpe.getRetailProductId(),sf.getFactoryRetailProdctId(), remark);
+        int result = sicl.addNewRetailProduct(storeId, selectedRetailProduct.getRetailProductId(),selectedFactory.getFactoryRetailProdctId(), remark);
         if(result == 1) {
             msgprint1 = "A new retail product added successfully!";
             currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
@@ -124,6 +139,7 @@ public class StoreRetailProductControl {
         }
         else{
             msgprint1 = "Exception occured. Please try again or raise a ticket.";
+            
             
         }
             

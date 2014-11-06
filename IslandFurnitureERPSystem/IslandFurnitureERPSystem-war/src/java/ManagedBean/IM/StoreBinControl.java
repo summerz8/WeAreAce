@@ -231,12 +231,12 @@ public void onRowEdit(RowEditEvent event) {
         StoreWarehouseBinEntity entity = (StoreWarehouseBinEntity) event.getObject();
         System.out.println("onRowEdit test: " + String.valueOf(entity.getId()) + entity.getStore().getStoreId());
         
-      
+      sbcl.editAStorageBin(entity.getName(), entity.getRemark(), entity.isIsBackHouse(), entity.isIsDisplayArea(), entity.isIsSelfCollect(), storeId);
 
             FacesMessage msg = new FacesMessage("Store Bin Edited", String.valueOf(entity.getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
         
-    }
+   }
 
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((StoreWarehouseBinEntity) event.getObject()).getId().toString());

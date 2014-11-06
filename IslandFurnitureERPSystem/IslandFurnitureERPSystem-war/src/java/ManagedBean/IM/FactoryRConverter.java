@@ -21,6 +21,7 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter("factoryRConverter")
 public class FactoryRConverter implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+        System.out.println("converter 1 testing" + value);
         if(value != null && value.trim().length() > 0) {
             List<FactoryRetailProductEntity> availFactoryEntities = (List<FactoryRetailProductEntity>)fc.getExternalContext().getSessionMap().get("factoryREntities");
             
@@ -28,8 +29,12 @@ public class FactoryRConverter implements Converter {
             
             for(FactoryRetailProductEntity factoryEntity:availFactoryEntities)
             {
-                if(factoryEntity.getFactoryRetailProdctId().equals(value))
+                
+                System.out.println("converter 1 testing" + factoryEntity.getFactoryRetailProdctId());
+                if(factoryEntity.getFactoryRetailProdctId().equals(Long.valueOf(value)))
                 {
+                    
+                    System.out.println("converter 2 testing");
                    return factoryEntity;
                 }
             }
