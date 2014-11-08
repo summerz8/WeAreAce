@@ -83,16 +83,15 @@
                 <p:layoutUnit position="center" resizable="false">         
                     <p:panel header="Customer Web of #{customerWebIndexBean.selectedWeb}" style="text-align:center">
                         <p:commandButton value="Create a new item" action="CreateItem?faces-redirect=true"/>
-                        <p:commandButton value="Create a new set" action="CreateSet?faces-redirect=true"/>
 
                         <h:inputText value="#{customerWebIndexBean.searchId}" />
                         <p:commandButton value="Search" action="#{customerWebIndexBean.search()}"/>
 
                         <p:panel header="View Items " style="text-align:center">
                             <!--                            <p:commandButton value="All"/>-->
-                            <p:commandButton value="Set" action="CustomerWebSingaporeSet?faces-redirect=true"/>
-                            <p:commandButton value="Furniture" action="CustomerWebSingapore?faces-redirect=true"/>
-                            <p:commandButton value="Retail"/>
+                            <p:commandButton value="Set" action="CustomerWebSet?faces-redirect=true"/>
+                            <p:commandButton value="Furniture" action="CustomerWebFurniture?faces-redirect=true"/>
+                            <p:commandButton value="Retail" action="CustomerWebRetail?faces-redirect=true"/>
                             <!--                            <p:commandButton value="Others"/>-->
 
 

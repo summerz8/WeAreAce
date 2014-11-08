@@ -16,7 +16,7 @@
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
 
-            
+
             <title>Island Furniture Customer Web</title>
         </h:head>
 
@@ -33,27 +33,29 @@
                                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: none; text-align: left ">       
                                     </p:layoutUnit> -->
 
-                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                <p:link outcome="FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
 
-                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
+                <p:link outcome="/secured/Singapore/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:button  value="Member Login" outcome="/Singapore/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>
 
 
                 <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
 
-                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
+                <p:button value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>  
 
 
                 <div class="col-md-12 column" style="text-align: center; border: none;">
                     <img alt="200x100" src="../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
                     <p:button value="Home" outcome="/index?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Gallery" outcome="/public/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Furniture" outcome="/public/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Retail" outcome="/public/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Kitchen" outcome="/public/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="About Us" outcome="/public/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Gallery" outcome="/Singapore/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
 
                 </div>
 
@@ -69,7 +71,7 @@
                         </f:facet>
 
                         <h:panelGrid columns="2"  columnClasses="logo,detail" style="left: 200px;border: none;">
-                            <a href="../public/set.xhtml"> <img alt="300x200" src="../resources/images/#{set.picture}"  style = "text-align: left; margin-bottom:50px;width:500px; height:300px"/></a>
+                            <a href="Singapore/set.xhtml"> <img alt="300x200" src="../resources/images/#{set.picture}"  style = "text-align: left; margin-bottom:50px;width:500px; height:300px"/></a>
 
                             <p:outputPanel>
                                 <h:panelGrid columns="1" cellpadding="5" style="border: none;">

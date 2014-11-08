@@ -18,9 +18,9 @@ import javax.faces.view.ViewScoped;
  *
  * @author apple
  */
-@Named(value = "indexBean")
+@Named(value = "chinaIndexBean")
 @ViewScoped
-public class IndexBean {
+public class ChinaIndexBean {
 
     @EJB
     private CustomerWebModuleLocal cwml;
@@ -28,12 +28,14 @@ public class IndexBean {
     private List<SetEntity> setList;
     private SetEntity set;
 
-    public IndexBean() {
+    public ChinaIndexBean() {
     }
 
     @PostConstruct
     public void init() {
-        setList = cwml.getSetList();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("web", "China");
+
+        setList = cwml.getSetList("China");
     }
 
     public String viewMore(Long setId) {
@@ -42,12 +44,34 @@ public class IndexBean {
         return "set?faces-redirect=true";
     }
 
-    public String view() {
-        set = setList.get(0);
-        System.out.println(set.getId());
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", set.getId());
-        return "/public/set?faces-redirect=true";
+    public String view(Long setId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", setId);
+        return "set?faces-redirect=true";
 
+    }
+
+    public CustomerWebModuleLocal getCwml() {
+        return cwml;
+    }
+
+    public void setCwml(CustomerWebModuleLocal cwml) {
+        this.cwml = cwml;
+    }
+
+    public List<SetEntity> getSetList() {
+        return setList;
+    }
+
+    public void setSetList(List<SetEntity> setList) {
+        this.setList = setList;
+    }
+
+    public SetEntity getSet() {
+        return set;
+    }
+
+    public void setSet(SetEntity set) {
+        this.set = set;
     }
 
 }

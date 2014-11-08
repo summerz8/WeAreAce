@@ -28,7 +28,11 @@
                 <p:growl id="messages" showDetail="true"/>
 
                 <p:messages id="messagesStatus" redisplay="false" />
-                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+
+                <p:link outcome="FeedBack?faces-redirect=true" value="反馈"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:link outcome="/secured/China/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
 
                 <p:button  value="会员登录" outcome="/China/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
@@ -49,7 +53,6 @@
                     <p:button value="家具" outcome="/China/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="超市" outcome="/China/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="餐厅" outcome="/China/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="关于我们" outcome="/China/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                 </div>
 
                 <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
@@ -75,11 +78,11 @@
                         </p:column>
 
                         <p:column headerText="价格:" style="border: none;" >
-                            <h:outputText value="#{item.price}" />
+                            <h:outputText value="#{viewSetBean.checkPrice(item.price)}" />
                         </p:column>
 
                         <p:column headerText="会员价:" style="border: none;" >
-                            <h:outputText value="#{item.memberPrice}" style="color: red; font-weight: bold"/>
+                            <h:outputText value="#{viewSetBean.checkPrice(item.memberPrice)}" style="color: red; font-weight: bold"/>
                         </p:column>
 
                         <p:column headerText="库存:" style="border: none;" >
@@ -103,10 +106,10 @@
                                 <h:outputText value="#{viewSetBean.item.productName}" />
 
                                 <h:outputText value="价格: " />
-                                <h:outputText value="#{viewSetBean.item.price}" />
+                                <h:outputText value="#{viewSetBean.checkPrice(item.price)}" />
 
                                 <h:outputText value="会员价:" />
-                                <h:outputText value="#{viewSetBean.item.memberPrice}" style="color: red; font-weight: bold" />
+                                <h:outputText value="#{viewSetBean.checkPrice(item.memberPrice)}" style="color: red; font-weight: bold" />
 
                                 <h:outputText value="数量: " />
                                 <h:inputText value="#{viewSetBean.quantity}" style="width: 50px"/>
@@ -120,6 +123,60 @@
 
                     <p:commandButton value="添加到购物车" action="#{viewSetBean.addAllToShoppingCart()}" update="messages" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 300px; height: 40px; margin-left: 20px" />
 
+                    <p:dialog header="评论" widgetVar="comment" position="center"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true" width="800">
+                        <p:outputPanel id="addComment" style="text-align:center; width:800px">
+                            <p:panelGrid  columns="2" columnClasses="value,value" style="width: 700px">
+                                <h:outputText value="商品名称:"  />
+                                <h:outputText value="#{viewSetBean.item.productName}" />
+
+                                <h:outputText value="您的名字:"  />
+                                <h:inputText value="#{viewSetBean.name}" />
+
+                                <h:outputLabel for="rate" value="评分:" style="font-weight:bold" />
+                                <p:selectOneMenu id="rate" value="#{viewSetBean.selectedRate}">
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItems value="#{viewSetBean.typeList}" />
+                                </p:selectOneMenu>
+
+                                <h:outputText value="评论: " />
+                                <p:inputTextarea rows="10" cols="50" value="#{viewSetBean.comment}" style="width: 500px"/>
+
+                                <p:commandButton action="#{viewSetBean.createComment}" value="确定"/>
+                                <p:commandButton action="ViewItem?faces-redirect=true" value="取消"/>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                </div>
+
+                <div style="border: none; position: absolute; right:190px; top:550px; width: 600px;margin: auto;margin-bottom" >   
+
+                    <p:panel  header="评论" style="border: none">
+                        <p:dataTable value="#{viewSetBean.set.comments}" var="comment" style=" border: none">                     
+                            <p:column headerText="时间" style=" width: 70px; background: white">
+                                <h:outputText value="#{comment.generatedTime.getTime()}"  >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="名字" style=" width: 70px; background: white">
+                                <h:outputText value="#{comment.name}" />
+                            </p:column>
+
+                            <p:column headerText="评分" style=" width: 50px; background: white" >
+                                <h:outputText value="#{comment.rate}" />
+                            </p:column>
+
+                            <p:column headerText="内容" style="width: 200px; background: white" >
+                                <h:outputText value="#{comment.content}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                    <br></br>
+                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="我要评论" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right"/>                      
 
                 </div>
                 <!--</p:panel>-->

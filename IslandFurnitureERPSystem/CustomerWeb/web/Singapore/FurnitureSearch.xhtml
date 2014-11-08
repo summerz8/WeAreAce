@@ -28,26 +28,28 @@
 
                 <p:messages id="messagesStatus" redisplay="false" />
 
-                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                <p:link outcome="FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
 
-                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
+                <p:link outcome="/secured/Singapore/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:button  value="Member Login" outcome="/Singapore/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>
 
 
                 <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
 
-                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
+                <p:button value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>  
 
                 <div class="col-md-12 column" style="text-align: center; border: none;">
                     <img alt="200x100" src="../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
                     <p:button value="Home" outcome="/index?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Gallery" outcome="/public/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Furniture" outcome="/public/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Retail" outcome="/public/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Kitchen" outcome="/public/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="About Us" outcome="/public/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Gallery" outcome="/Singapore/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                 </div>
 
                 <div class="col-md-12 column" style="text-align: center; border: none">
@@ -56,6 +58,7 @@
                     <p:commandButton value="Bed" action="#{furnitureBean.searchBed()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="background-color: #D20005; color:black; width: 80px; height: 30px; margin-left: 30px;background:  white" />
                     <p:commandButton value="Desk" action="#{furnitureBean.searchDesk()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
                     <p:commandButton value="Chair" action="#{furnitureBean.searchChair()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Sofa" action="#{furnitureBean.searchSofa()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
                     <p:commandButton value="Light" action="#{furnitureBean.searchLight()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
                     <p:commandButton value="Closet" action="#{furnitureBean.searchCloset()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
                     <p:commandButton value="Others" action="#{furnitureBean.searchOthers()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
@@ -63,7 +66,7 @@
 
 
                 <div style="width: 1000px; text-align:center; margin:auto; border: none">
-                    <p:dataScroller value="#{furnitureBean.itemList}" var="item" chunkSize="10" style=" border: 5px">                     
+                    <p:dataScroller value="#{furnitureSearchBean.displayList}" var="item" chunkSize="10" style=" border: 5px">                     
                         <div class="col-md-3" style = "margin:auto;vertical-align:bottom">
                             <div class="thumbnail" style = " margin-right:auto; border:none;vertical-align: text-bottom">
                                 <img alt="300x200" src="../resources/images/#{item.picture}" style="width: 130px; height: 130px;vertical-align: bottom" />
@@ -75,7 +78,7 @@
                                         #{item.description}
                                     </p>
                                     <p>
-                                        <p:commandButton id="btn" value="View"  action="#{furnitureBean.view(item.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 10px;color: white; border:none; width: 60px; height: 30px;"/>
+                                        <p:commandButton id="btn" value="View"  action="#{furnitureSearchBean.view(item.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 10px;color: white; border:none; width: 60px; height: 30px;"/>
                                     </p>
                                 </div>
                             </div>                          

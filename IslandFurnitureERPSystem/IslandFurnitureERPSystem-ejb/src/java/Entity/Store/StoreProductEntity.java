@@ -89,13 +89,13 @@ public class StoreProductEntity implements Serializable {
 //        salesRecordList = new ArrayList<>();
 //        productSalesForecastList = new ArrayList<>();
 //    }
-    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick, String storeRemark) {
+    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick, String storeRemark, ProductEntity product) {
         System.out.println("Testing!" + factoryproduct.getFactoryProductId());
         this.name = factoryproduct.getName();
         this.unit = factoryproduct.getUnit();
         this.factoryProduct = factoryproduct;
         this.store = store;
-
+        this.product= product;
         this.deleteFlag = false;
         this.selfPick = selfPick;
         salesRecordList = new ArrayList<>();

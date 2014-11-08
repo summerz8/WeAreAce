@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputScript name="./js/bootstrap.js"/>
+            <h:outputStylesheet name="./css/bootstrap.min.css"/>
+            <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+            <script type="text/javascript" src="./js/bootstrap.js"></script>
+            <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+
+            <title>Island Furniture </title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="./HomePage.xhtml">Home</a></button>
+
+                <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
+
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+
+                <p:messages id="messagesStatus" redisplay="true" />
+
+
+                <p:panel id="basic" header="Feed Back Form" style="position: absolute; right:150px; top:150px;margin-bottom" >
+                    <h:panelGrid columns="2" cellpadding="10">                                
+
+                        <h:outputLabel for="title" value="Title: " rendered="#{(feedBackBean.name==null)}"/>
+                        <h:selectOneMenu value="#{feedBackBean.title}" style="width:100%" required="true" requiredMessage="Please select a title"  rendered="#{(feedBackBean.name==null)}"> 
+                            <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                        </h:selectOneMenu>
+
+
+                        <h:outputLabel for="name" value="Name :" />
+                        <p:inputText value="#{feedBackBean.name}" required="true" requiredMessage="Please input user firstname" label="text" >
+                        </p:inputText>
+
+
+                        <h:outputLabel for="email" value="Email: " />
+                        <p:inputText value="#{feedBackBean.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
+                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                        </p:inputText>
+
+                        <h:outputLabel  value="Content:" />
+                        <p:inputTextarea rows="10" cols="50"  value="#{feedBackBean.content}" required="true" requiredMessage="Please input user firstname" label="text" >
+                        </p:inputTextarea>
+
+                        <p:commandButton action="#{feedBackBean.CreateFeedBack()}" value="Create"/>
+                    </h:panelGrid>
+                </p:panel>
+                <h5>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
+                </h5>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+
