@@ -77,6 +77,8 @@
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                             <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+
                         </p:submenu>
                     </p:menu>
 
@@ -107,11 +109,11 @@
                                     <p:column headerText="Sales Amount">
                                         <h:outputText value="#{salesForecast.amount}" />
                                     </p:column>  
-                                    
-                                    
+
+
                                     <p:column headerText="Edit">
                                         <p:commandButton  value="Edit" action="#{viewProductSalesForecastBean.edit(salesForecast)}"  style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" rendered="#{viewProductSalesForecastBean.editable(salesForecast)}" />
-                                       
+
                                     </p:column>  
 
                                 </p:dataTable> 

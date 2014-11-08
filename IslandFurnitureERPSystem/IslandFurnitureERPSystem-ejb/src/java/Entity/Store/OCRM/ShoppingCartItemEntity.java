@@ -5,14 +5,12 @@
  */
 package Entity.Store.OCRM;
 
-import Entity.Factory.ProductEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,7 +23,6 @@ public class ShoppingCartItemEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer quantity;
-    private Double price;
     private Long storeId;
     
     @ManyToOne
@@ -40,12 +37,28 @@ public class ShoppingCartItemEntity implements Serializable {
         this.id = id;
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public CustomerWebItemEntity getCustomerWebItem() {
+        return customerWebItem;
+    }
+
+    public void setCustomerWebItem(CustomerWebItemEntity customerWebItem) {
+        this.customerWebItem = customerWebItem;
     }
 
 

@@ -6,25 +6,25 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <h:outputStylesheet name="./css/default.css"/>
-            <h:outputStylesheet name="./css/cssLayout.css"/>
-            <h:outputScript name="./js/bootstrap.js"/>
-            <h:outputStylesheet name="./css/bootstrap.min.css"/>
-            <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
-            <script type="text/javascript" src="./js/bootstrap.js"></script>
-            <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputScript name="./js/bootstrap.js"/>
+        <h:outputStylesheet name="./css/bootstrap.min.css"/>
+        <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+        <script type="text/javascript" src="./js/bootstrap.js"></script>
+        <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
 
-        <title>Island Furniture ERP System Exte Portal</title>
+        <title>Island Furniture Customer Web</title>
     </h:head> 
     <h:body>
         <h:form>
             <p:growl id="messages" showDetail="true"/>
-           
+
             <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="/CustomerWeb">Home</a></button>
-           
-  <p:graphicImage value="resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
-                <p:graphicImage value="resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
+
+            <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+            <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
 
             <div class="ui-grid ui-grid-responsive" align="center"> 
                 <p:panel id="basic" header="Log In"  style="position: absolute; right: 220px; top:150px; border: 5px;margin-bottom:20px;width:400px; height:250px;text-align:center" >
@@ -36,19 +36,19 @@
                                 <p:outputLabel for="userId" style="font-weight: bold" value="User ID :"/>
                             </div>
 
-                            <p:inputMask required="true" label = "User ID: " requiredMessage ="User ID is required." id = "userId"
-                                         value="#{loginBean.userId}" mask="a9999999"/> 
+                            <p:inputText required="true" label = "User Email: " requiredMessage ="User ID is required." id = "userId"
+                                         value="#{login.memberEmail}" /> 
                             <br />
                             <div class="ui-grid-col-4">                                
                                 <p:outputLabel for="pwd" style="font-weight: bold" value="Password :"/>
                             </div>
                             <p:password id = "pwd" required="true" label = "Password :" requiredMessage ="Password is required." 
-                                        value="#{loginBean.pwd}"/>
+                                        value="#{login.pwd}"/>
 
 
                             <br></br>
                             <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-                            <p:commandButton id="btn" value="login"  actionListener="#{loginBean.checkLogin}" update="messages" style="border: 5px;"/>
+                            <p:commandButton id="btn" value="login"  action="#{login.checkLogin}" update="messages" style="border: 5px;"/>
                             <br></br><br></br>
                             <p:link  value="forget password?"></p:link>
                             <p:link  value="Sign Up" outcome="/public/SignUp?faces-redirect=true"></p:link>

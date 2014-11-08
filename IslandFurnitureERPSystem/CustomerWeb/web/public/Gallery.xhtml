@@ -16,16 +16,8 @@
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
 
-            <style type="text/css">
-                div.button{
-                    color: red;margin-bottom:10px ;
-                    border:5px ;width: 100px; height:100px; font-size:12px; float:left;
-
-
-                }
-                .adminbutton {border: #ffffff 5px ;background: white; height:50px;}
-            </style>
-            <title>Island Furniture ERP System</title>
+            
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -41,12 +33,17 @@
                                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: none; text-align: left ">       
                                     </p:layoutUnit> -->
 
-                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" >
+                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                 </p:button>
 
-                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" >
-                </p:button>  
 
+                <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+
+                <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
+                </p:button>  
 
 
                 <div class="col-md-12 column" style="text-align: center; border: none;">
@@ -57,7 +54,7 @@
                     <p:button value="Retail" outcome="/public/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="Kitchen" outcome="/public/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="About Us" outcome="/public/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                
+
                 </div>
 
                 <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
@@ -80,6 +77,9 @@
                                     <h:outputText value="#{set.name}" />
 
                                     <h:outputText value="#{set.description}" />
+
+                                    <p:commandButton value="View More" action="#{gallery.viewMore(set.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
+
 
                                 </h:panelGrid>
                             </p:outputPanel>    

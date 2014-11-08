@@ -25,7 +25,7 @@
                 }
                 .adminbutton {border: #ffffff 5px ;background: white; height:50px;}
             </style>
-            <title>Island Furniture ERP System</title>
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -46,15 +46,12 @@
                     <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                     </p:link>
 
-<!--                    <p:link outcome="/secured/MemberPage?faces-redirect=true" value="Jinqiao" rendered="#{memberInfo.firstName==null}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
-                    </p:link>-->
-
                     <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>
 
 
-                    <p:button value="Log Out" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}">
-                    </p:button> 
+                    <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+
 
                     <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>  
@@ -118,16 +115,16 @@
                 <div class="row" style = "margin:auto;border:0px;margin-bottom:10px ;width: 1000px; ">
                     <div class="col-md-4">
                         <div class="thumbnail" style = "border:0px">
-                            <img alt="300x200" src="./resources/images/set3.png" onMouseOver="this.style.backgroundColor = 'red'"/>
+                            <img alt="300x200" src="./resources/images/set4.png" onMouseOver="this.style.backgroundColor = 'red'"/>
                             <div class="caption">
                                 <h3>
-                                    Box World
+                                    Modern Set 4
                                 </h3>
                                 <p>
-                                    This set come from the famous Chinese designer Zhou Heng, she uses wine red, brown and red to be its theme...
-                                </p>
+                                    This set uses brown as its theme. Simple design, no extra decoration makes people feel comfortable and relaxed. It uses high quality wooden material and environment friendly oil paint.                                </p>
                                 <p>
-                                    <a class="btn" href="#">View More</a>
+                                    <p:commandButton value="View More" action="#{indexBean.view()}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
+
                                 </p>
                             </div>
                         </div>
@@ -142,7 +139,7 @@
                                     Description....	
                                 </p>
                                 <p>
-                                    <a class="btn" href="#">View More</a>
+                                    <p:commandButton value="View More" action="#{indexBean.view()}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
                                 </p>
                             </div>
                         </div>
@@ -158,7 +155,7 @@
                                     Spotlight is the main character in this theme, the blue wall makes it feel like a shining sky...
                                 </p>
                                 <p>
-                                    <a class="btn" href="#">View More</a>
+                                    <p:commandButton value="View More" action="#{indexBean.view()}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
                                 </p>
                             </div>
                         </div>
@@ -172,7 +169,7 @@
                                     Description....
                                 </p>
                                 <p>
-                                    <a class="btn" href="#">View More</a>
+                                    <p:commandButton value="View More" action="#{indexBean.view()}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
                                 </p>
                             </div>
                         </div>
@@ -188,7 +185,7 @@
                                     Cane chair and sofa can also be in pair!
                                 </p>
                                 <p>
-                                    <a class="btn" href="#">View More</a>
+                                    <p:commandButton value="View More" action="#{indexBean.view()}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
                                 </p>
                             </div>
                         </div>
@@ -202,7 +199,7 @@
                                     Description....
                                 </p>
                                 <p>
-                                    <a class="btn" href="#">Components</a>
+                                    <p:commandButton value="View More" action="#{indexBean.view()}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 140px; height: 30px; margin: auto" />
                                 </p>
                             </div>
                         </div>

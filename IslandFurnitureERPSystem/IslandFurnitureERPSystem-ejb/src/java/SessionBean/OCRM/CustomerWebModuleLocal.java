@@ -31,14 +31,17 @@ public interface CustomerWebModuleLocal {
     public List<ProductEntity> getProductList();
 
     public Long deleteItem(Long itemId);
-    
+
     public void deleteSet(Long setId);
-    
+
     public SetEntity getSet(Long setId);
-    
-    public void editSet(Long setId,String setName, String description);
-    
-    public void addItem(Long setId,Long itemId);
-    
-    public Long createSet(String setName,String description,String picture);
+
+    public void editSet(Long setId, String setName, String description);
+
+    public void addItem(Long setId, Long itemId);
+
+    public Long createSet(String setName, String description, String picture);
+
+    public void addToShoppingCart(String email, Long itemId, int quantity);
+
 }

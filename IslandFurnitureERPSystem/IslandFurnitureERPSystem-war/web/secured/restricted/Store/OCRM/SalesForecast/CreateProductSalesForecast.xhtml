@@ -75,6 +75,8 @@
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                             <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+
                         </p:submenu>
                     </p:menu>
 
@@ -106,7 +108,7 @@
                                         <h:outputText value="#{createStoreProductSalesForecastBean.productName}" style="font-weight: bold"/>
 
                                         <h:outputText value="Target Period  " />
-                                        <h:outputText value="#{createStoreProductSalesForecastBean.productSalesForecast.period.getTime()}" style="font-weight: bold">
+                                        <h:outputText value="#{createStoreProductSalesForecastBean.productSalesForecast.targetPeriod.getTime()}" style="font-weight: bold">
                                             <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
                                         </h:outputText>
 
@@ -125,7 +127,7 @@
                                         <p:dataTable var="ProductSalesForecast" value="#{viewProductSalesForecastBean.productSalesForecastList}">
 
                                             <p:column headerText="Target Period">
-                                                <h:outputText value="#{ProductSalesForecast.period.getTime()}" >
+                                                <h:outputText value="#{ProductSalesForecast.targetPeriod.getTime()}" >
                                                     <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
                                                 </h:outputText>
                                             </p:column>
@@ -143,7 +145,7 @@
                                         <p:dataTable var="salesRecord" value="#{viewSalesRecordBean.salesRecordList}">
 
                                             <p:column headerText="Target Period">
-                                                <h:outputText value="#{salesRecord.period.getTime()}" >
+                                                <h:outputText value="#{salesRecord.recordPeriod.getTime()}" >
                                                     <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
                                                 </h:outputText>
                                             </p:column>

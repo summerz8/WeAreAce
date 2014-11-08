@@ -6,9 +6,11 @@
 package Member;
 
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.OCRM.ShoppingCartItemEntity;
 import SessionBean.OCRM.CustomerWebMemberModuleLocal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -21,7 +23,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "memberInfo")
 @ViewScoped
-public class MemberInfo {
+public class MemberInfoBean {
 
     @EJB
     private CustomerWebMemberModuleLocal MRMM;
@@ -39,11 +41,14 @@ public class MemberInfo {
     private String postal;
     private String password;
     private Calendar birthday;
+    private List<ShoppingCartItemEntity> itemList;
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
+    
+    private String first;
 
-    public MemberInfo() {
+    public MemberInfoBean() {
     }
 
     @PostConstruct
@@ -61,6 +66,8 @@ public class MemberInfo {
             password = member.getPwd();
             birthday = member.getBirthday();
             memberId = member.getMemberId();
+            itemList= member.getShoppingCartList();
+            first=firstName;
 
         }
     }
@@ -68,10 +75,30 @@ public class MemberInfo {
      
     public String upDate() {
         System.out.println("MemberControlBean: upDateMemberInfo: ");
-        MRMM.ModifyMember(memberId,lastName, midName, firstName, birthday, gender, title, address, postal, email);
+        MRMM.ModifyMember(memberId,lastName, midName, first, birthday, gender, title, address, postal, email);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", email);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", firstName);
-        return "/MemberPage?faces-redirect=true";
+        return "MemberPage?faces-redirect=true";
+    }
+    
+    public String upDateShoppingCart(){
+        MRMM.upDateShoppingCart(memberId,itemList);
+    
+        return "MemberPage?faces-redirect=true";
+    }
+    
+    
+    public String logOut(){
+        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
+        return "/index?faces-redirect=true";
+    }
+            
+    public String removeItem(Long id){
+        MRMM.removeItem(memberId,id);
+        
+        return "ShoppingCart?faces-redirect=true";
     }
 
     public String getFirstName() {
@@ -193,6 +220,22 @@ public class MemberInfo {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    public String getFirst() {
+        return first;
+    }
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
+    public List<ShoppingCartItemEntity> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<ShoppingCartItemEntity> itemList) {
+        this.itemList = itemList;
     }
 
     

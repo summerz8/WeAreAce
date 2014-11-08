@@ -15,7 +15,7 @@
             <script type="text/javascript" src="./js/bootstrap.js"></script>
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
-            <title>Island Furniture</title>
+            <title>Island Furniture Customer Web</title>
         </h:head>
 
 
@@ -33,20 +33,17 @@
                     <!--</p:layoutUnit>--> 
 
 
-                    <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{loginMember.identity}" rendered="#{!(loginMember.identity==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                     </p:link>
 
-                    <p:button  value="Shopping Cart" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{loginMember.identity==null}">
-                    </p:button>
-
-                    <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{loginMember.identity==null}">
+                    <p:button  value="Member Login" outcome="/public/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>
 
 
-                    <p:button value="Log Out" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(loginMember.identity==null)}">
-                    </p:button> 
+                    
+                    <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
 
-                    <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{loginMember.identity==null}">
+                    <p:button value="Sign Up" outcome="/public/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
                     </p:button>  
 
                     <div class="col-md-12 column" style="text-align: center; border: 0px">
@@ -72,9 +69,10 @@
                     <h:panelGrid columns="1" columnClasses="logo,detail" style="  position: absolute; top:160px;left:300px">
                         <div> 
                             <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5" style=" font-size: 15px;">
+                                <h:panelGrid columns="3" cellpadding="5" style=" font-size: 15px;">
                                     <h:outputText value="He Jinqiao's Shopping Cart" style=" font-size: 30px; color: #e38d13;"/>
                                     <p:commandButton value="Back " action="MemberPage?faces-redirect=true" style="background: #28a4c9; color: white; width: 170px; height: 30px; margin-left: 20px;" />
+                                    <p:commandButton value="Update"   action="#{memberInfo.upDateShoppingCart}" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 80px; height: 30px; margin: auto" />
 
 
                                 </h:panelGrid>
@@ -86,29 +84,34 @@
                     <br></br><br></br>
                     <br></br><br></br>
                     <br></br><br></br>
-                    <p:dataTable var="picture" value="#{gallery.pictureList}" style="margin:auto; width: 900px">
+                    <p:dataTable var="item" value="#{memberInfo.itemList}" style="margin:auto; width: 900px">
 
 
                         <p:column headerText="Images">
-                            <img src="../resources/images/#{picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
+                            <img src="../resources/images/#{item.customerWebItem.picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
                         </p:column>
 
                         <p:column headerText="Product Name">
-                            <h:outputText value="#{picture}" />
+
+                            <h:outputText value="#{item.customerWebItem.productName}" />
                         </p:column>
 
                         <p:column headerText="Product Id">
-                            <h:outputText value="#{picture}"  />
+                            <h:outputText value="#{item.customerWebItem.id}"  />
                         </p:column>
 
                         <p:column headerText="Quantity" style="; width:220px;">
-                            <p:spinner id="minMax" value="#{gallery.number}" min="0" max="100" />
+                            <p:inplace id="postal" editor="true">                                   
+                                <p:spinner id="minMax" value="#{item.quantity}" min="0" max="100" />
+                            </p:inplace>
                         </p:column>
 
                         <p:column headerText="Remove" style="; width:100px;">
-                            <p:commandButton value="Remove"   onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 80px; height: 30px; margin: auto" />
-                        </p:column>
+                            <p:commandButton value="Remove" action="#{memberInfo.removeItem(item.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 80px; height: 30px; margin: auto" />
+                        </p:column> 
                     </p:dataTable>
+
+
 
 
 
