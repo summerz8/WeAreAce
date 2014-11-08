@@ -23,10 +23,10 @@ import javax.faces.context.FacesContext;
  *
  * @author Yoky
  */
-@ManagedBean(name = "currentDateUnfulfilledOrdersBean")
+@ManagedBean(name = "unfulfilledOrdersBean")
 @ViewScoped
-public class CurrentDateUnfulfilledOrdersBean implements Serializable {
-    
+public class UnfulfilledOrdersBean implements Serializable {
+
     @EJB
     private CustomerOrderFulfillmentModuleLocal cof;
 
@@ -36,8 +36,8 @@ public class CurrentDateUnfulfilledOrdersBean implements Serializable {
     private KitchenOrderEntity selectedOdr;
     private DetailedDishItemEntity selectedDdi;
     private List<IngredientItemEntity> selectedRecipe;
-    
-    public CurrentDateUnfulfilledOrdersBean() {
+
+    public UnfulfilledOrdersBean() {
     }
 
     public KitchenEntity getKitchen() {
@@ -87,19 +87,19 @@ public class CurrentDateUnfulfilledOrdersBean implements Serializable {
     public void setSelectedRecipe(List<IngredientItemEntity> selectedRecipe) {
         this.selectedRecipe = selectedRecipe;
     }
-    
+
     @PostConstruct
     public void init() {
         try {
             kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
-            orders = cof.getCurrentDateUnfulfilledOrder(kitchen.getId());
+            orders = cof.getUnfulfilledOrders(kitchen.getId());
             filteredOrders = orders;
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.CustomerOrderFulfillmentModule.CurrentDateUnfulfilledOrdersBean: init(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
     }
-    
+
     public void fulfillDishItem(Long orderId, Long detailedDishItemId) {
         try {
             Long temp = cof.fulfillDishItem(orderId, detailedDishItemId);
@@ -109,17 +109,24 @@ public class CurrentDateUnfulfilledOrdersBean implements Serializable {
             } else {
                 FacesMessage msg = new FacesMessage("Successful", "The detailed dish item " + detailedDishItemId + " is fulfilled");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                filteredOrders = cof.getCurrentDateUnfulfilledOrder(kitchen.getId());
+                orders = cof.getUnfulfilledOrders(kitchen.getId());
+                filteredOrders = orders;
             }
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             System.err.println("ManagedBean.KM.CustomerOrderFulfillmentModule.CurrentDateUnfulfilledOrdersBean: fulfillDishItem(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
     }
-    
-    public void findRecipe(Long dishId) {
-        selectedRecipe = cof.findRecipe(dishId);
+
+    public void findRecipe(DetailedDishItemEntity ddi) {
+        selectedDdi = ddi;
+        selectedRecipe = cof.findRecipe(ddi.getDish().getId());
+    }
+
+    public void update() {
+        orders = cof.getUnfulfilledOrders(kitchen.getId());
+        filteredOrders = orders;
     }
 }

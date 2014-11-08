@@ -98,48 +98,48 @@
                                 <p:ajax event="rowEdit" listener="#{dishListBean.onRowEdit}" update="@this"/>
                                 <p:ajax event="rowEditCancel" listener="#{dishListBean.onRowCancel}" update="dishList"/>
 
-                                <p:column headerText=" Dish ID" filterBy="#{d.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText=" Dish ID" style="text-align: center;" filterBy="#{d.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{d.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" filterBy="#{d.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Name" style="text-align: center;" filterBy="#{d.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.name}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.name}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Price" filterBy="#{d.price}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Price" style="text-align: center;" filterBy="#{d.price}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.price}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.price}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Recipe Quantity" filterBy="#{d.recipeQuantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Recipe Quantity" style="text-align: center;" filterBy="#{d.recipeQuantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.recipeQuantity}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.recipeQuantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Remark" filterBy="#{d.remark}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Remark" style="text-align: center;" filterBy="#{d.remark}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{d.remark}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{d.remark}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Recipe" width="8%">
-                                    <p:commandButton actionListener="#{dishListBean.setSelectedDish(d)}" action="Recipe.xhtml?faces-redirect=true" icon="ui-icon-folder-open">
+                                <p:column headerText="Recipe" style="text-align: center;" width="8%">
+                                    <p:commandButton actionListener="#{dishListBean.setSelectedDish(d)}" action="Recipe.xhtml?faces-redirect=true" icon="ui-icon-folder-open" >
                                     </p:commandButton> 
                                 </p:column>
 
-                                <p:column headerText="Edit" width="8%">
+                                <p:column headerText="Edit" style="text-align: center;" width="8%">
                                     <p:rowEditor/>
                                 </p:column>
 
-                                <p:column headerText="Delete" width="8%">       
+                                <p:column headerText="Delete" style="text-align: center;" width="8%">       
                                     <p:commandButton update="dishList" actionListener="#{dishListBean.deleteDish(d)}" icon="ui-icon-trash" title="Delete">
                                     </p:commandButton>    
                                 </p:column>

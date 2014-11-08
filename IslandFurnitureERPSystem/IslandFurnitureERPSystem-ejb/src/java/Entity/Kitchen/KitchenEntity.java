@@ -58,6 +58,9 @@ public class KitchenEntity implements Serializable {
     @OneToMany(mappedBy = "kitchen")
     @XmlTransient
     private List<DailySalesEntity> dailySales = new ArrayList<>();
+    @OneToMany(mappedBy = "kitchen")
+    @XmlTransient
+    private List<IngredientPurchaseOrderToSupplierEntity> ingredientPurchaseOrders = new ArrayList<>();
 
     public KitchenEntity() {
         this.deleted = false;
@@ -154,6 +157,14 @@ public class KitchenEntity implements Serializable {
 
     public void setDailySales(List<DailySalesEntity> dailySales) {
         this.dailySales = dailySales;
+    }
+
+    public List<IngredientPurchaseOrderToSupplierEntity> getIngredientPurchaseOrders() {
+        return ingredientPurchaseOrders;
+    }
+
+    public void setIngredientPurchaseOrders(List<IngredientPurchaseOrderToSupplierEntity> ingredientPurchaseOrders) {
+        this.ingredientPurchaseOrders = ingredientPurchaseOrders;
     }
 
     

@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>KM: Current Date Unfulfilled Orders</title>
+        <title>KM: Current Date Unserved Orders</title>
     </h:head>
 
     <h:body>
@@ -71,8 +71,8 @@
                     <p:menu>
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Customer Order Fulfillment">
-                                <p:menuitem value="Unfulfilled Orders" url="CurrentDateUnfulfilledOrders.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Unserved Orders" url="CurrentDateUnservedOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Unfulfilled Orders" url="UnfulfilledOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Unserved Orders" url="UnservedOrders.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Daily Orders" url="DailyOrders.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Daily Sales" url="DailySales.xhtml?faces-redirect=true"/>
                             </p:submenu>
@@ -83,71 +83,53 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="Current Date Unfulfilled Orders" style="margin-bottom" >
+                    <p:panel id="basic" header="Unserved Orders" style="margin-bottom" >
 
-                        <p:dataTable id="unfulfilledOrders" widgetVar="unfulfilledOrders" value="#{currentDateUnfulfilledOrdersBean.orders}" 
-                                     var="o" filteredValue="#{currentDateUnfulfilledOrdersBean.filteredOrders}" >
+                        <p:poll interval="5" listener="#{unservedOrdersBean.update}" update=":formMain:unservedOrders" />
+                        
+                        <p:dataTable id="unservedOrders" widgetVar="unservedOrders" value="#{unservedOrdersBean.orders}" 
+                                     var="o" filteredValue="#{unservedOrdersBean.filteredOrders}" >
 
                             <div align="right">
                                 <p:outputPanel>
                                     <h:outputText value="Search: " />
-                                    <p:inputText id="globalFilter" onkeyup="PF('unfulfilledOrders').filter()" placeholder="Enter Keyword" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('unservedOrders').filter()" placeholder="Enter Keyword" />
                                 </p:outputPanel>
                             </div>
 
-                            <p:column headerText="Order ID" filterBy="#{o.id}" filterMatchMode="contains" filterStyle="display:none">
-                                <h:outputText value="#{di.dish.id}"/>
+                            <p:column headerText="Order ID" style="text-align: center;" width="10%" filterBy="#{o.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <h:outputText value="#{o.id}"/>
                             </p:column>
 
-                            <p:column headerText="Time" sortBy="#{o.creationTime.time}" filterBy="#{o.creationTime.time}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Time" sortBy="#{o.creationTime.time}" style="text-align: center;" width="30%" filterBy="#{o.creationTime.time}" filterMatchMode="contains" filterStyle="display:none">
                                 <h:outputText value="#{o.creationTime.time}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
                                 </h:outputText>
                             </p:column>
 
-                            <p:column headerText="Dishes" >
+                            <p:column headerText="Dishes" width="50%" >
                                 <p:dataTable id="detailedDishItemList" widgetVar="detailedDishItemList" value="#{o.detailedDishItems}" 
-                                             var="ddi" filteredValue="#{currentDateUnfulfilledOrdersBean.filteredOrders}" >
+                                             var="ddi" >
 
-                                    <p:column headerText="Dish" filterBy="#{ddi.dish.name}" filterMatchMode="contains" filterStyle="display:none">
+                                    <p:column headerText="Dish" style="text-align: center;" >
                                         <h:outputText value="#{ddi.dish.name}"/>
                                     </p:column>
 
-                                    <p:column headerText="Quantity" filterBy="#{ddi.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                    <p:column headerText="Quantity" style="text-align: center;" >
                                         <h:outputText value="#{ddi.quantity}"/>
                                     </p:column>
-
-                                    <p:column headerText="Recipe" width="8%">
-                                        <p:commandButton actionListener="#{currentDateUnfulfilledOrdersBean.findRecipe(ddi.dish.id)}" onclick="PF('recipe').show()" icon="ui-icon-folder-open">
-                                        </p:commandButton> 
-                                    </p:column>
-
-                                    <p:column headerText="Fulfill">
-                                        <p:commandButton value="Fulfill" actionListener="#{currentDateUnfulfilledOrdersBean.fulfillDishItem(o.id, ddi.id)}" update=":formMain" >
-                                        </p:commandButton> 
-                                    </p:column>
-
                                 </p:dataTable>
+                            </p:column>
+
+                            <p:column headerText="Serve" style="text-align: center;" >
+                                <p:commandButton value="Serve" actionListener="#{unservedOrdersBean.serveOrder(o.id)}" update="unservedOrders" >
+                                </p:commandButton> 
                             </p:column>
 
                         </p:dataTable>
 
                     </p:panel>
                 </p:layoutUnit>
-
-                <p:dialog header="Recipe" widgetVar="recipe" showEffect="fade" hideEffect="fade" resizable="false">
-                    <p:dataTable value="#{currentDateUnfulfilledOrdersBean.selectedRecipe}" var="ii">
-
-                        <p:column headerText="Ingredient" filterBy="#{ii.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
-                            <h:outputText value="#{ii.ingredient.name}"/>
-                        </p:column>
-                        
-                        <p:column headerText="Quantity" filterBy="#{ii.quantity}" filterMatchMode="contains" filterStyle="display:none">
-                            <h:outputText value="#{ii.quantity}"/>
-                        </p:column>
-
-                    </p:dataTable>
-                </p:dialog>
 
             </p:layout>
         </h:form>

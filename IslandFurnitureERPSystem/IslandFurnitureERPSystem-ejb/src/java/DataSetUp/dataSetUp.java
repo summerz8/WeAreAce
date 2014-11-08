@@ -38,6 +38,7 @@ import Entity.Kitchen.IngredientEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.KitchenOrderEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 import Entity.Store.OCRM.MemberCardIdMappingEntity;
@@ -53,6 +54,7 @@ import Entity.Store.StoreEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
+import SessionBean.KM.CustomerOrderFulfillmentModuleLocal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -77,6 +80,9 @@ import util.security.CryptographicHelper;
 @LocalBean
 @Startup
 public class dataSetUp {
+
+    @EJB
+    private CustomerOrderFulfillmentModuleLocal cof;
 
     @PersistenceContext
     private EntityManager em;
@@ -1613,7 +1619,7 @@ public class dataSetUp {
             ds.setSalesDate(cal);
             Double sales = 0.0;
             for (DishEntity d : k1.getDishes()) {
-                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
+                DishItemEntity di = new DishItemEntity(d, 150 + rd.nextInt(50));
                 em.persist(di);
                 em.flush();
                 sales += di.getDish().getPrice() * di.getQuantity();
@@ -1622,7 +1628,7 @@ public class dataSetUp {
                 em.flush();
             }
             for (ComboEntity c : k1.getCombos()) {
-                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
+                ComboItemEntity ci = new ComboItemEntity(c, 50 + rd.nextInt(50));
                 em.persist(ci);
                 em.flush();
                 sales += ci.getCombo().getPrice() * ci.getQuantity();
@@ -1633,6 +1639,20 @@ public class dataSetUp {
             ds.setSales(sales);
         }
 
+        // kitchen orders
+        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
+        cof.addDishItem(ko1_1.getId(), d1_1.getId(), 1);
+        cof.addDishItem(ko1_1.getId(), d1_2.getId(), 2);
+        cof.addComboItem(ko1_1.getId(), c1_1.getId(), 3);
+        cof.confirmOrder(ko1_1.getId(), 1000.0);
+        
+        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
+        cof.addDishItem(ko1_2.getId(), d1_1.getId(), 5);
+        cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
+        cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
+        cof.confirmOrder(ko1_2.getId(), 10000.0);
+
+        
         //MembershipLevel
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);

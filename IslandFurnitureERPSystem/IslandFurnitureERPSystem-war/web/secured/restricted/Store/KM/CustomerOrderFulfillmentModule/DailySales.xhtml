@@ -71,8 +71,8 @@
                     <p:menu>
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Customer Order Fulfillment">
-                                <p:menuitem value="Unfulfilled Orders" url="CurrentDateUnfulfilledOrders.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Unserved Orders" url="CurrentDateUnservedOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Unfulfilled Orders" url="UnfulfilledOrders.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Unserved Orders" url="UnservedOrders.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Daily Orders" url="DailyOrders.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Daily Sales" url="DailySales.xhtml?faces-redirect=true"/>
                             </p:submenu>
@@ -109,15 +109,15 @@
                                     </div>
                                 </f:facet>
 
-                                <p:column headerText="Dish ID" filterBy="#{di.dish.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Dish ID" style="text-align: center;" filterBy="#{di.dish.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{di.dish.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" filterBy="#{di.dish.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Name" style="text-align: center;" filterBy="#{di.dish.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{di.dish.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Daily Sales Quantity" filterBy="#{di.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Daily Sales Quantity" style="text-align: center;" filterBy="#{di.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{di.quantity}"/>
                                 </p:column>
 
@@ -136,15 +136,15 @@
                                     </div>
                                 </f:facet>
 
-                                <p:column headerText="Combo ID" filterBy="#{ci.combo.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Combo ID" style="text-align: center;" filterBy="#{ci.combo.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ci.combo.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" filterBy="#{ci.combo.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Name" style="text-align: center;" filterBy="#{ci.combo.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ci.combo.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Daily Sales Quantity" filterBy="#{ci.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Daily Sales Quantity" style="text-align: center;" filterBy="#{ci.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ci.quantity}"/>
                                 </p:column>
 
