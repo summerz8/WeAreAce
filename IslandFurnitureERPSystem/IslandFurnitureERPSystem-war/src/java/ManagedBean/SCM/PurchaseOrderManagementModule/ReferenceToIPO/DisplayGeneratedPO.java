@@ -55,6 +55,8 @@ public class DisplayGeneratedPO {
     private SupplierEntity supplier;
     private Double originalAmount;
 
+    private Boolean isToStore;
+
     @PostConstruct
     public void init() {
         try {
@@ -105,7 +107,7 @@ public class DisplayGeneratedPO {
 
             }
             totalPrice = (purchaseAmount / contract.getLotSize()) * contract.getContractPrice();
-            
+
             if (destination != null && destination.equals("store")) {
                 destinationAddress = pmb.getStoreEntity(storeId).getAddress();
             } else {
@@ -263,6 +265,23 @@ public class DisplayGeneratedPO {
         this.deliveryOrderList = deliveryOrderList;
     }
 
+    public PurchaseOrderManagementModuleLocal getPmb() {
+        return pmb;
+    }
+
+    public void setPmb(PurchaseOrderManagementModuleLocal pmb) {
+        this.pmb = pmb;
+    }
+    
+    public Boolean getIsToStore() {
+        return isToStore;
+    }
+
+    public void setIsToStore(Boolean isToStore) {
+        this.isToStore = isToStore;
+    }
+    
+
     public String generatePO() throws Exception {
         System.out.println("factoryId = " + factoryId);
         System.out.println("IPO id = " + integratedPlannedOrder.getId());
@@ -275,13 +294,15 @@ public class DisplayGeneratedPO {
 
         if (destination != null && destination.equals("store")) {
             destinationAddress = pmb.getStoreEntity(storeId).getAddress();
+            isToStore = true;
         } else {
             destination = "factory";
             storeId = 0L;
             destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
+            isToStore = false;
         }
 
-        purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType);
+        purchaseOrder = pmb.generatePurchaseOrder(factoryId, integratedPlannedOrder.getId(), purchaseAmount, nextMonthBeginPlannedAmount, contract.getContractId(), storeId, destination, itemType, isToStore);
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
