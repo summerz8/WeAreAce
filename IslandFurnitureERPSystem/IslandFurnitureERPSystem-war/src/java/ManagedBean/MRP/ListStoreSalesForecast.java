@@ -37,7 +37,7 @@ public class ListStoreSalesForecast {
 
         storeId= (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("storeId");
         factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-
+        System.out.println(storeId+"  "+factoryId);
         salesForecastList=sfml.ListSalesForecast(factoryId, storeId, null, null);
         
     }

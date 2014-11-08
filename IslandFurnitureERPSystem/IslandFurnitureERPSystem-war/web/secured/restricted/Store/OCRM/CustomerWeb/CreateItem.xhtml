@@ -13,8 +13,7 @@
     </h:head>
 
     <h:body>
-
-        <h:form id="formMain">
+        <h:form>
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
@@ -33,6 +32,7 @@
                                  actionListener="#{idleBean.logoutListener}" />
 
             </p:confirmDialog>
+
             <p:layout >
                 <p:messages id="messagesStatus" redisplay="false" />
 
@@ -80,46 +80,48 @@
                     </p:menu>
 
                 </p:layoutUnit>
-
                 <p:layoutUnit position="center" resizable="false">                   
 
-                    <p:panel id="basic" header="Select a customer website" style="margin-bottom" >
-                        <h:form> 
+                    <p:panel id="basic" header="Select a customer website" style="margin-bottom" >                       
 
+                            <br></br><br></br><br></br><br></br><br></br><br></br>
+
+
+                        <h:panelGrid columns="2" style="width:100%">
+                            <h:outputLabel for="item" value="Product:" style="font-weight:bold" />
+                            <p:selectOneMenu id="item" value="#{createItem.selectedProduct}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{createItem.displayList}" />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Product Name:" />
+                            <h:inputText value="#{createItem.productName}" />
+
+                            <h:outputText value="Product Description:" />
+                            <h:inputText value="#{createItem.description}" />
+
+                            <h:outputLabel for="type" value="Product Type:" style="font-weight:bold" />
+                            <p:selectOneMenu id="type" value="#{createItem.selectedType}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{createItem.typeList}" />
+                            </p:selectOneMenu>
                             
+                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{createItem.create}" />
+                            <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="CustomerWebFurniture?faces-redirect=true" />
 
-                            <h:panelGrid columns="2" style="width:100%">
-                                <h:outputLabel for="item" value="Product:" style="font-weight:bold" />
-                                <p:selectOneMenu id="item" value="#{createItem.selectedProduct}">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{createItem.displayList}" />
-                                </p:selectOneMenu>
-
-                                <h:outputText value="Product Name:" />
-                                <h:inputText value="#{createItem.productName}" />
-
-                                <h:outputText value="Product Description:" />
-                                <h:inputText value="#{createItem.description}" />
-
-                                <h:outputLabel for="type" value="Customer Website:" style="font-weight:bold" />
-                                <p:selectOneMenu id="type" value="#{createItem.selectedType}">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{createItem.typeList}" />
-                                </p:selectOneMenu>
-
-                                <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="#{createItem.create}" />
-                                <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebSingapore?faces-redirect=true" />
-
-                            </h:panelGrid>
-
-
-                        </h:form>
+                        </h:panelGrid>
+                            
                     </p:panel>
 
                 </p:layoutUnit>
 
             </p:layout>
+        </h:form>
 
+        <h:form enctype="multipart/form-data" style="position: absolute; top: 140px; left:220px"> 
+            <h:outputText value="Product Picture:" />
+            <p:fileUpload value="Upload" 
+                          fileUploadListener="#{createItem.handleProductItemImageUpload}"/>
         </h:form>
     </h:body>
 

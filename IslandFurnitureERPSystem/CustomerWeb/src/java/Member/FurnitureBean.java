@@ -22,26 +22,29 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class FurnitureBean {
 
-      @EJB
+    @EJB
     private CustomerWebModuleLocal cwml;
 
     private List<CustomerWebItemEntity> itemList;
-    
+    private String web;
+
     public FurnitureBean() {
     }
-    
+
     @PostConstruct
     public void init() {
-        System.out.println("FurenitureBean:init()");
-        itemList = cwml.listItems();
-   
+        System.out.println("FurenitureBean:init()");       
+        web=(String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+
+        itemList = cwml.listItems(web);
+
     }
 
     public String view(Long itemId) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
         return "ViewItem?faces-redirect=true";
     }
-    
+
     public String searchBed() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("searchType", "Bed");
         return "FurnitureSearch?faces-redirect=true";
@@ -71,14 +74,17 @@ public class FurnitureBean {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("searchType", "Light");
         return "FurnitureSearch?faces-redirect=true";
     }
+    
+    public String searchSofa() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("searchType", "Light");
+        return "FurnitureSearch?faces-redirect=true";
+    }
 
     public String searchOthers() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("searchType", "Others");
         return "FurnitureSearch?faces-redirect=true";
     }
 
-
-    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }

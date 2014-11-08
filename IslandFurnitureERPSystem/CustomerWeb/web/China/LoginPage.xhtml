@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputScript name="./js/bootstrap.js"/>
+        <h:outputStylesheet name="./css/bootstrap.min.css"/>
+        <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+        <script type="text/javascript" src="./js/bootstrap.js"></script>
+        <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+
+        <title>Island Furniture Customer Web</title>
+    </h:head> 
+    <h:body>
+        <h:form>
+            <p:growl id="messages" showDetail="true"/>
+
+            <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="/CustomerWeb/faces/China/HomePage.xhtml">主页</a></button>
+
+            <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;margin-left: 50px;width:200px; height:160px;text-align:center"/> 
+            <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:500px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
+
+            <div class="ui-grid ui-grid-responsive" align="center"> 
+                <p:panel id="basic" header="登录"  style="position: absolute; right: 60px; top:150px; border: 5px;margin-bottom:20px;width:400px; height:250px;text-align:center" >
+                    <div class="component-spacing-top"/> 
+                    <div class="ui-grid ui-grid-responsive" align="center">   
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                                <p:outputLabel for="userId" style="font-weight: bold" value="用户名:"/>
+                            </div>
+
+                            <p:inputText required="true" label = "User Email: " requiredMessage ="请输入用户名" id = "userId"
+                                         value="#{login.memberEmail}" /> 
+                            <br />
+                            <div class="ui-grid-col-4">                                
+                                <p:outputLabel for="pwd" style="font-weight: bold" value="密码 :"/>
+                            </div>
+                            <p:password id = "pwd" required="true" label = "Password :" requiredMessage ="请输入密码" 
+                                        value="#{login.pwd}"/>
+
+
+                            <br></br>
+                            <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                            <p:commandButton id="btn" value="登录"  action="#{login.checkLogin}" update="messages" style="border: 5px;"/>
+                            <br></br><br></br>
+                            <p:link  value="忘记密码?"></p:link>
+                            <p:link  value="新用户注册" outcome="/China/SignUp?faces-redirect=true"></p:link>
+                            <div class="component-spacing-top"/>
+                        </div>
+                    </div>
+                </p:panel>
+                <h5>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
+                </h5>
+            </div>
+        </h:form>
+        <br />
+
+    </h:body>
+</html>

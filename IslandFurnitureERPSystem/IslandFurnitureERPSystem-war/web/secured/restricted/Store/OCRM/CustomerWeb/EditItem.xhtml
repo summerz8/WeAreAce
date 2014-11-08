@@ -83,11 +83,8 @@
 
                 <p:layoutUnit position="center" resizable="false">                   
 
-                    <p:panel id="basic" header="Select a customer website" style="margin-bottom" >
-                        <h:form> 
-
-
-
+                    <p:panel id="basic" header="Edit Item" style="margin-bottom" >
+                        <br></br><br></br><br></br><br></br><br></br><br></br>
                             <h:panelGrid columns="3" style="width:100%">
                                 <h:outputLabel for="item" value="Product:" style="font-weight:bold" />
                                 <h:outputText value="#{editItem.productId}" />
@@ -112,18 +109,21 @@
                                 </p:selectOneMenu>
 
                                 <p:commandButton  id = "update" value="Update" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="#{editItem.upDate}" />
-                                <p:commandButton  id = "back" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebSingapore?redirect=true" />
+                                <p:commandButton  id = "back" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebFurniture?redirect=true" />
 
                             </h:panelGrid>
 
-
-                        </h:form>
                     </p:panel>
 
                 </p:layoutUnit>
 
             </p:layout>
 
+        </h:form>
+          <h:form enctype="multipart/form-data" style="position: absolute; top: 140px; left:220px"> 
+            <h:outputText value="Product Picture:" />
+            <p:fileUpload value="Upload" 
+                          fileUploadListener="#{editItem.handleProductItemImageUpload}"/>
         </h:form>
     </h:body>
 

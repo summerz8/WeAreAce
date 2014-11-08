@@ -29,24 +29,24 @@ public class FurnitureSearchBean {
     private List<CustomerWebItemEntity> itemList;
     private List<CustomerWebItemEntity> displayList;
     private String type;
+    private String web;
 
     public FurnitureSearchBean() {
     }
 
     @PostConstruct
     public void init() {
-        System.out.println("FurenitureBean:init()");
-        itemList = cwml.listItems();
+        web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+        itemList = cwml.listItems(web);
         System.out.println(itemList.get(0).getProductName());
-        displayList=new ArrayList<>();
+        displayList = new ArrayList<>();
         type = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("searchType");
-        if(type.equals("All")){
+        if (type.equals("All")) {
             for (CustomerWebItemEntity c : itemList) {
                 displayList.add(c);
             }
 
-        }
-        else if (type.equals("Others")) {
+        } else if (type.equals("Others")) {
             for (CustomerWebItemEntity c : itemList) {
                 if (c.getType().equals("Others")) {
                     displayList.add(c);
@@ -76,13 +76,19 @@ public class FurnitureSearchBean {
                     displayList.add(c);
                 }
             }
+        } else if (type.equals("Sofa")) {
+            for (CustomerWebItemEntity c : itemList) {
+                if (c.getType().equals("Sofa")) {
+                    displayList.add(c);
+                }
+            }
         } else if (type.equals("Closet")) {
             for (CustomerWebItemEntity c : itemList) {
                 if (c.getType().equals("Closet")) {
                     displayList.add(c);
                 }
             }
-        } 
+        }
 
     }
 
@@ -91,7 +97,6 @@ public class FurnitureSearchBean {
         return "ViewItem?faces-redirect=true";
     }
 
-    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }
@@ -123,7 +128,5 @@ public class FurnitureSearchBean {
     public void setType(String type) {
         this.type = type;
     }
-    
-    
 
 }
