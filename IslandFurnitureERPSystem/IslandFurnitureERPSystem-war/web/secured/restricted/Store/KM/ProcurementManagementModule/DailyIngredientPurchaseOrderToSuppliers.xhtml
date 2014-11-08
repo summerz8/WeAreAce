@@ -101,7 +101,7 @@
                                     <f:convertNumber pattern="#0.00"/>
                                 </h:outputText>
                             </h:panelGrid>
-                            <p:commandButton rendered="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.unconfirmedIPOSQuantity > 0}" value="Confirm All" actionListener="#{ingredientPurchaseOrderToSuppliersBean.confirmAllIPOSs}" update="headerInfo :formMain:IPOSs" />
+                            <p:commandButton rendered="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.unconfirmedIPOSQuantity > 0}" value="Send All" actionListener="#{ingredientPurchaseOrderToSuppliersBean.confirmAllIPOSs}" update="headerInfo :formMain:IPOSs" />
                             <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
                         </p:panel>
 
@@ -167,7 +167,7 @@
                             </p:column>
 
                             <p:column headerText="Option" style="text-align: center;" width="10%" >
-                                <p:commandButton value="Confirm" rendered="#{p.status eq 'Unconfirmed'}" actionListener="#{ingredientPurchaseOrderToSuppliersBean.confirmedIPOS(p)}" update="IPOSs :formMain:headerInfo" />
+                                <p:commandButton value="Send" rendered="#{p.status eq 'Unconfirmed'}" actionListener="#{ingredientPurchaseOrderToSuppliersBean.confirmedIPOS(p)}" update="IPOSs :formMain:headerInfo" />
                                 <p:commandButton value="Receive" rendered="#{p.status eq 'Confirmed'}" actionListener="#{ingredientPurchaseOrderToSuppliersBean.generateIngredientReceipt(p)}" update="IPOSs"/>
                                 <p:commandButton value="View Receipt" rendered="#{p.status eq 'Received'}" update=":formMain:receiptDlg" actionListener="#{ingredientPurchaseOrderToSuppliersBean.setSelectedIPOS(p)}" oncomplete="PF('receiptDlg').show()" />
                             </p:column>
