@@ -2196,6 +2196,16 @@ public class dataSetUp {
         member2.getTransactionList().add(tr13);
         member2.setLastTransaction(tr13);
         em.flush();
+        
+        
+        
+        //=========Outbound Movement =========
+        Calendar omDate1 = Calendar.getInstance();
+        OutboundMovementEntity ome = new OutboundMovementEntity(fb1_1,s1,500.0,omDate1);
+        ome.setFactoryProduct(fp2_2);
+        ome.setStockTypeIndicator(2);
+        
+        
 
     }
 

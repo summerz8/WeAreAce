@@ -41,8 +41,17 @@ public class StoreInboundRecordEntity implements Serializable {
     
     @ManyToOne
     private StoreProductEntity storeProduct = null;
-    
 
+    public StoreInboundRecordEntity() {
+    }
+    
+    
+    
+    public StoreInboundRecordEntity(Double amount, Calendar creationTime){
+        this.amount = amount;
+        this.creationTime = creationTime;
+        
+    }
     
     public Double getAmount() {
         return amount;

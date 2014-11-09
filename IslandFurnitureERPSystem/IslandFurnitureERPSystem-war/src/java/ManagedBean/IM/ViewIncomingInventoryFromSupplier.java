@@ -6,60 +6,46 @@
 
 package ManagedBean.IM;
 
-import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
-import Entity.Store.StoreProductEntity;
-import SessionBean.IM.StoreInventoryControl;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author zhengyuan
  */
-@Named(value = "viewIncomingInventoryList")
+@Named(value = "viewIncomingInventoryFromSupplier")
 @ViewScoped
-public class ViewIncomingInventoryList {
+public class ViewIncomingInventoryFromSupplier {
 
     /**
-     * Creates a new instance of ViewIncomingInventoryList
+     * Creates a new instance of ViewIncomingInventoryFromSupplier
      */
-    public ViewIncomingInventoryList() {
+    public ViewIncomingInventoryFromSupplier() {
     }
+    
     
     @EJB
     StoreMovementControlLocal smcl;
-    
-    
-    private List<OutboundMovementEntity> incomingInventoryfromFactory;
     private List<PurchaseOrderEntity> incomingInventoryfromSupplier;
     private Long storeId;
-    
-    private OutboundMovementEntity selectedome;
+    private PurchaseOrderEntity selectedPO;
+    private PurchaseOrderEntity selectedpoe;
     
     
     @PostConstruct
     public void init(){
-
         storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-        incomingInventoryfromFactory = smcl.viewIncomingGoodsFromFactory(storeId);
-       
-        
-    }
-
+        incomingInventoryfromSupplier = smcl.viewIncomingGoodsFromSupplier(storeId); 
     
+    } 
     
-    public Long convertProduct(Long factoryProductId){
-        Long storeProductId = smcl.convertProductFToS(factoryProductId, storeId);
-        return storeProductId;
-    }
     
     public Long convertRProduct (Long factoryRetailProductId){
         Long storeRetailProductId = smcl.convertRProductFToS(factoryRetailProductId, storeId);
@@ -67,42 +53,24 @@ public class ViewIncomingInventoryList {
         
     }
     
-    public void viewOMRDetail (OutboundMovementEntity ome) throws IOException{
-       selectedome = ome;
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedOME", selectedome);
-        String path = "/secured/restricted/Store/IM/inComingInventoryFromFacoryDetail.xhtml";
+       public void ViewPODetail(PurchaseOrderEntity poe) throws IOException{
+        selectedpoe = poe;
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPOE", selectedpoe);
+        String path = "/secured/restricted/Store/IM/inComingInventoryFromSupplierDetail.xhtml";
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
         System.err.println("go to another page");
- 
-    }
-
-    public OutboundMovementEntity getSelectedome() {
-        return selectedome;
-    }
-
-    public void setSelectedome(OutboundMovementEntity selectedome) {
-        this.selectedome = selectedome;
+           
     }
     
-
     
 
-    
     public StoreMovementControlLocal getSmcl() {
         return smcl;
     }
 
     public void setSmcl(StoreMovementControlLocal smcl) {
         this.smcl = smcl;
-    }
-
-    public List<OutboundMovementEntity> getIncomingInventoryfromFactory() {
-        return incomingInventoryfromFactory;
-    }
-
-    public void setIncomingInventoryfromFactory(List<OutboundMovementEntity> incomingInventoryfromFactory) {
-        this.incomingInventoryfromFactory = incomingInventoryfromFactory;
     }
 
     public List<PurchaseOrderEntity> getIncomingInventoryfromSupplier() {
@@ -119,6 +87,22 @@ public class ViewIncomingInventoryList {
 
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
+    }
+
+    public PurchaseOrderEntity getSelectedPO() {
+        return selectedPO;
+    }
+
+    public void setSelectedPO(PurchaseOrderEntity selectedPO) {
+        this.selectedPO = selectedPO;
+    }
+
+    public PurchaseOrderEntity getSelectedpoe() {
+        return selectedpoe;
+    }
+
+    public void setSelectedpoe(PurchaseOrderEntity selectedpoe) {
+        this.selectedpoe = selectedpoe;
     }
     
     

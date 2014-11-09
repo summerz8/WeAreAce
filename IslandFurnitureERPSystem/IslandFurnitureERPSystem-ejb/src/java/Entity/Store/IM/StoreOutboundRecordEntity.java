@@ -43,6 +43,11 @@ public class StoreOutboundRecordEntity implements Serializable {
     @ManyToOne
     private StoreProductEntity storeProduct = null;
 
+    public StoreOutboundRecordEntity() {
+    }
+
+    
+    
     public StoreRetailProductEntity getStoreRetailProduct() {
         return storeRetailProduct;
     }

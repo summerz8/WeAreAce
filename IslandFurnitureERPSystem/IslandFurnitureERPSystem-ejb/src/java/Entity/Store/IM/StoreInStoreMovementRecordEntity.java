@@ -48,6 +48,11 @@ public class StoreInStoreMovementRecordEntity implements Serializable {
     @ManyToOne
     private StoreWarehouseBinEntity toBin;
 
+    public StoreInStoreMovementRecordEntity() {
+    }
+    
+    
+
     public Long getId() {
         return id;
     }

@@ -26,7 +26,7 @@ public class StoreBinRetailProductEntity implements Serializable {
     private Long id;
     private Double quantity;
     private Boolean isDeleted;
-    
+    private Integer status;  //status: 0 unrestricted 1 returned 2 intransit  
     @ManyToOne
     private StoreRetailProductEntity retailProduct;
 
@@ -37,6 +37,16 @@ public class StoreBinRetailProductEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+    
+    
 
     public Boolean isIsDeleted() {
         return isDeleted;

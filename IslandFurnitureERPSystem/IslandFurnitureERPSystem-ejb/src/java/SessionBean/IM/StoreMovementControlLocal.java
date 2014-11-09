@@ -6,6 +6,9 @@
 
 package SessionBean.IM;
 
+import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -20,5 +23,17 @@ public interface StoreMovementControlLocal {
     public int createInboundRecord();
 
     public int createOutBoundRecord();
+
+    public List<OutboundMovementEntity> viewIncomingGoodsFromFactory(Long storeId);
+
+    public List<PurchaseOrderEntity> viewIncomingGoodsFromSupplier(Long storeId);
+
+    public Long convertProductFToS(Long fproductId, Long storeId);
+
+    public Long convertRProductFToS(Long fRproductId, Long storeId);
+
+    public void fromFactoryGoodReceipts(Long inventoryId, Integer invType, Double quantity, Long storeId);
+
+    public int inboundMovement(Long storeId, Long storeBinId, Integer invType,  Long storeProductId, Double quantity, Integer status);
     
 }

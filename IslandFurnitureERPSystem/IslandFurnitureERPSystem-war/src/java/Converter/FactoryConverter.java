@@ -4,13 +4,10 @@
  * and open the template in the editor.
  */
 
-package ManagedBean.IM;
+package Converter;
 
-import Entity.Factory.FactoryEntity;
+
 import Entity.Factory.FactoryProductEntity;
-import Entity.Kitchen.StoragePlaceEntity;
-import SessionBean.IM.StoreInventoryControlLocal;
-import SessionBean.KM.KitchenSupportLocal;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

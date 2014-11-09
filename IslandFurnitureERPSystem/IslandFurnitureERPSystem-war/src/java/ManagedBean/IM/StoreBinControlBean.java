@@ -28,12 +28,12 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeBinControl")
 @ViewScoped
-public class StoreBinControl {
+public class StoreBinControlBean {
 
     /**
      * Creates a new instance of StoreBinControl
      */
-    public StoreBinControl() {
+    public StoreBinControlBean() {
     
     }
     @EJB

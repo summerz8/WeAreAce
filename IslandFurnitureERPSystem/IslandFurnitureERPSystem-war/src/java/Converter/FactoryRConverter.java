@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ManagedBean.IM;
+package Converter;
 
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryRetailProductEntity;

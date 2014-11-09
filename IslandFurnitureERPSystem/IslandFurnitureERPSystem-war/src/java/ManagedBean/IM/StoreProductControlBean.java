@@ -33,12 +33,12 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeProductControl")
 @ViewScoped
-public class StoreProductControl implements Serializable{
+public class StoreProductControlBean implements Serializable{
 
     /**
      * Creates a new instance of StoreProductControl
      */
-    public StoreProductControl() {
+    public StoreProductControlBean() {
     }
     
     @EJB

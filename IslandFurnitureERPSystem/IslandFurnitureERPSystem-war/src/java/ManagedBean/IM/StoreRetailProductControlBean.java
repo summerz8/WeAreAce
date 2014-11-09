@@ -31,12 +31,12 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeRetailProductControl")
 @ViewScoped
-public class StoreRetailProductControl {
+public class StoreRetailProductControlBean {
 
     /**
      * Creates a new instance of StoreRetailProductControl
      */
-    public StoreRetailProductControl() {
+    public StoreRetailProductControlBean() {
     }
     @EJB
     StoreInventoryControlLocal sicl;
