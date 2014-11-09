@@ -9,7 +9,6 @@ import Entity.Store.OCRM.MemberCardIdMappingEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.TransactionEntity;
-import static Entity.Store.OCRM.TransactionEntity_.member;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +18,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.security.CryptographicHelper;
@@ -50,7 +50,8 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         System.out.println("MemberRegistrationModule: addMember():");
 
         int check = CheckFirstTransaction(transactionId);
-        if (check == 1) {
+        int check2 = checkEmail(email);
+        if (check == 1 && check2==1) {
 
             TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
             MemberEntity member;
@@ -85,6 +86,8 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             transaction.setMember(member);
             em.persist(transaction);
             em.flush();
+        }else if(check2!=1){
+         return check2;
         }
         return check;
     }
@@ -249,7 +252,6 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     }
 
-
     @WebMethod(operationName = "getMemberCardIdById")
     public String getMemberCardIdById(Long id) {
         MemberEntity member = em.find(MemberEntity.class, id);
@@ -271,28 +273,28 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             return null;
         }
     }
-    
+
     @WebMethod(operationName = "addNewPointsForMember")
-    public void addNewPointsForMember(Double points,Long memberId){
-        MemberEntity member = em.find(MemberEntity.class,memberId);
+    public void addNewPointsForMember(Double points, Long memberId) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);
         member.setTotalPoints(member.getTotalPoints() + points);
         member.setCurrentPoints(member.getCurrentPoints() + points);
-        
+
         em.persist(member);
         em.flush();
         member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(member.getTotalPoints())));
         em.persist(member);
         em.flush();
     }
-    
+
     @WebMethod(operationName = "redemption")
-    public void redemption(Double points,Long memberId){
-        MemberEntity member = em.find(MemberEntity.class,memberId);
+    public void redemption(Double points, Long memberId) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);
         member.setCurrentPoints(member.getCurrentPoints() - points);
         em.persist(member);
         em.flush();
     }
-    
+
     @Override
     @WebMethod(exclude = true)
     public List<MembershipLevelEntity> getMembership() {
@@ -306,6 +308,24 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
         }
         return requiredUserList;
 
+    }
+
+    @Override
+    public int checkEmail(String newEmail) {
+        Query q = em.createQuery("SELECT FROM MemberEntity m WHERE m.email=:email;");
+        q.setParameter("email", newEmail);
+        try {
+            MemberEntity me = (MemberEntity) q.getSingleResult();
+            if (me != null) {
+                return -4;
+            }if(me == null){
+                return 1;
+            }
+        } catch (NoResultException e) {
+            return -4;
+        }
+
+        return -5;
     }
 
 }
