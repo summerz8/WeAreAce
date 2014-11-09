@@ -8,7 +8,6 @@ package SessionBean.OCRM;
 
 import Entity.CommonInfrastructure.UserEntity;
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.MembershipLevelEntity;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
@@ -35,6 +34,4 @@ public interface MemberRegistrationModuleLocal {
     public void AddMemberWithPassword(String lastName, String midName, String firstName, Calendar birthday, String gender, String title, String address, String postalCode, String email, String password);
     
     public MemberEntity memberLogin(String email, String pwd);
-    
-    public List<MembershipLevelEntity> getMembership();
 }

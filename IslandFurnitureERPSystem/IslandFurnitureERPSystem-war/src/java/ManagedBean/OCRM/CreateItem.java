@@ -33,16 +33,15 @@ public class CreateItem {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    private List<SelectItem> displayList;
-    private List<ProductEntity> productList;
-    private List<SelectItem> typeList;
+    List<SelectItem> displayList;
+    List<ProductEntity> productList;
+    List<SelectItem> typeList;
     private String selectedType;
     private String name;
     private String description;
     private String path;
     private String productName;
     private String selectedProduct;
-    private String picture;
 
     public CreateItem() {
     }
@@ -50,7 +49,7 @@ public class CreateItem {
     @PostConstruct
     public void init() {
         displayList = new ArrayList<>();
-        typeList = new ArrayList<>();
+        typeList=new ArrayList<>();
         productList = cwml.getProductList();
         for (ProductEntity s : productList) {
             String t = s.getProductId() + " " + s.getName();
@@ -64,6 +63,7 @@ public class CreateItem {
         typeList.add(new SelectItem("Chiar"));
         typeList.add(new SelectItem("Other"));
 
+
     }
 
     public void handleProductItemImageUpload(FileUploadEvent event) throws IOException {
@@ -76,7 +76,7 @@ public class CreateItem {
 
         System.out.println(name);
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
+        path = "../../../../resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -98,42 +98,18 @@ public class CreateItem {
                 out.flush();
             }
         }
-
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
-
-        System.out.println("path is " + path);
-
-        File result2 = new File(path);
-        InputStream is2;
-        try (FileOutputStream out = new FileOutputStream(path)) {
-            int a;
-            int BUFFER_SIZE = 8192;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            is = event.getFile().getInputstream();
-            while (true) {
-                a = is.read(buffer);
-
-                if (a < 0) {
-                    break;
-                }
-
-                out.write(buffer, 0, a);
-                out.flush();
-            }
-        }
-
         is.close();
-        picture = name;
+
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image has been uploaded", ""));
     }
 
     public String create() {
+
         Long productId = Long.valueOf(selectedProduct);
         String web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
 
-        cwml.createItem(productId, productName, description, selectedType, picture,web);
-
-        return "CustomerWebFurniture?faces-redirect=true";
+        cwml.createItem(productId, productName, description, selectedType,web);
+        return "CustomerWebSingapore?faces-redirect=true";
     }
 
     public String getName() {
@@ -167,6 +143,7 @@ public class CreateItem {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
 
     public CustomerWebModuleLocal getCwml() {
         return cwml;
@@ -214,14 +191,6 @@ public class CreateItem {
 
     public void setSelectedProduct(String selectedProduct) {
         this.selectedProduct = selectedProduct;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
     }
 
 }

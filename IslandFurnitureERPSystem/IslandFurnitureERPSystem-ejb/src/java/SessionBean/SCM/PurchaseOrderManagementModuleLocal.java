@@ -79,7 +79,7 @@ public interface PurchaseOrderManagementModuleLocal {
     //6. Generate purchase order
     //Method 1 : by manually input the purcahse item related information (with the above functions)
     public PurchaseOrderEntity createPurchaseOrder(Long factoryId, Long contractId,
-            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate, Boolean isManual, Boolean isToStore) throws Exception;
+            Double purchaseAmount, Long storeId, String destination, Calendar deliveryDate, Boolean isManual) throws Exception;
 
     //Method 2 : by reference to an integrated planned order
     //Step 1: system display a list of available integrated planned order for RM and RP 
@@ -102,7 +102,7 @@ public interface PurchaseOrderManagementModuleLocal {
     //output: purchase order
     public PurchaseOrderEntity generatePurchaseOrder(Long factoryId, Long integratedPlannedOrderId,
             Double purchaseAmount, Double nextMonthBeginPlannedAmount,
-            Long contractId, Long storeId, String destination, String itemType, Boolean isToStore) throws Exception;
+            Long contractId, Long storeId, String destination, String itemType) throws Exception;
 
     public Collection<PurchaseOrderEntity> viewUnconfirmedPurchaseOrder(Long factoryId) throws Exception;
 

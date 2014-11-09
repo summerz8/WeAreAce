@@ -66,10 +66,10 @@
 
                     <p:menu>
                         <p:submenu label="Anaytical Customer Relationship Management Page">
-                            <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true" immediate="true"/>
-                            <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true" immediate="true"/>
-                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true" immediate="true"/> 
-                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true" immediate="true"/> 
+                            <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
+                            <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
+                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
+                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
 
                         </p:submenu>
                     </p:menu>
@@ -88,7 +88,7 @@
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Get Customer Lifespan Value" action="ViewCLVChart?faces-redirect=true"/>
+                        <p:commandButton value="Get Customer Lifespan Value Chart" action="#{viewCLV.getChart}"/>
 
                     </p:panel>
                 </p:layoutUnit>

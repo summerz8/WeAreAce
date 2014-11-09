@@ -23,11 +23,11 @@ public interface PlannedOrderManagementModuleLocal {
 
     public List<BOMEntity> CheckBOM(Long ProductID);
 
-//    public PlannedOrderEntity CreatePlannedOrder(Long productID, Double amount);
+    public PlannedOrderEntity CreatePlannedOrder(Long productID, Double amount);
 
-//    public PlannedOrderEntity CompletePlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit,FactoryEntity factory);
+    public PlannedOrderEntity CompletePlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit,FactoryEntity factory);
 
-//    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit);
+    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput, Calendar targetDate, String statusInput, Long productionIdInput, List<Long> rawMaterialList, List<Double> RawAmount, List<String> Unit);
 
     public boolean DeletePlannedOrder(Long PlannedOrderId);
 

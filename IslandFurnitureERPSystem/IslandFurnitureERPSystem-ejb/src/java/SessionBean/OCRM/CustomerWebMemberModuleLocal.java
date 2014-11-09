@@ -36,6 +36,4 @@ public interface CustomerWebMemberModuleLocal {
     
     public void removeItem(Long memberId,Long ShoppingCartItemId);
     
-    public void createFeedBack(String title, String content, String email,String name);
-    
 }

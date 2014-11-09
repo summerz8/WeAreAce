@@ -8,16 +8,10 @@ package Entity.CommonInfrastructure;
 
 import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,14 +19,12 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name="StoreUser")
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreUserEntity extends UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "storeStaff")
-    @XmlTransient
-    private List<TransactionEntity> transactions = new ArrayList();
+    @OneToOne
+    private TransactionEntity transaction;
 
     public StoreUserEntity() {
     }
@@ -54,12 +46,12 @@ public class StoreUserEntity extends UserEntity implements Serializable {
         
     }
 
-    public List<TransactionEntity> getTransactions() {
-        return transactions;
+    public TransactionEntity getTransaction() {
+        return transaction;
     }
 
-    public void setTransaction(List<TransactionEntity> transactions) {
-        this.transactions = transactions;
+    public void setTransaction(TransactionEntity transaction) {
+        this.transaction = transaction;
     }
     
     

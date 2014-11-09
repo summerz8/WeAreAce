@@ -29,14 +29,10 @@ public class SetEntity implements Serializable {
     @OneToMany
     private List<CustomerWebItemEntity> unitList; 
     private String picture;
-    private String web;
     
-     @OneToMany
-    private List<CommentEntity> comments;
-
+    
     public SetEntity(){
         unitList=new ArrayList<>();
-        comments=new ArrayList<>();
     }
        
     public Long getId() {
@@ -79,23 +75,6 @@ public class SetEntity implements Serializable {
         this.picture = picture;
     }
 
-    public String getWeb() {
-        return web;
-    }
-
-    public void setWeb(String web) {
-        this.web = web;
-    }
-
-    public List<CommentEntity> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentEntity> comments) {
-        this.comments = comments;
-    }
-    
-    
     
     @Override
     public int hashCode() {

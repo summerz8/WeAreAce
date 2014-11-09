@@ -45,7 +45,5 @@ public interface InternalUserAccountManagementModuleLocal {
     public List<UserEntity> ListFactoryUser(Long id);
 
     public List<UserEntity> ListStoreUser(Long id);
-
-    public String resetPass(String userId);
     
 }

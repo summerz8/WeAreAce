@@ -6,9 +6,8 @@
 
 package ManagedBean.CommonInfrastructure;
 
-import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -16,7 +15,7 @@ import javax.inject.Named;
  * @author zhengyuan
  */
 @Named(value = "workPlaceManageBean")
-@ViewScoped
+@Dependent
 public class WorkPlaceManageBean {
 
     /**
@@ -24,66 +23,9 @@ public class WorkPlaceManageBean {
      */
     
     private String currentUserId;
-    private int currentUserLevel;
+    private String currentUsserName;
     
-    public WorkPlaceManageBean() {       
-    }
-    
-    
-    @PostConstruct
-    public void init() 
-    {   
-        currentUserLevel = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl");
-    }
-    
-    public Boolean isValidMRP(){
-        if(currentUserLevel==0||currentUserLevel==1||currentUserLevel==4) return true;
-        else return false;
-    }
-    
-    public Boolean isValidSCM(){
-        if(currentUserLevel==0||currentUserLevel==1||currentUserLevel==3) return true;
-        else return false;
-    }
-    
-    public Boolean isValidHQ(){
-        if(currentUserLevel==0) return true;
-        else return false;
-    }
-    
-    public Boolean isValidResource(){
-        if(currentUserLevel==0||currentUserLevel==1||currentUserLevel==2) return true;
-        else return false;
-    }
-    
-    public Boolean isValidFactoryManager(){
-        if(currentUserLevel==0||currentUserLevel==1) return true;
-        else return false;
-    }
-    
-     public Boolean isValidFactorySCMOnly(){
-        if(currentUserLevel==1||currentUserLevel==3) return true;
-        else return false;
-    }
-    
-    public Boolean isValidStoreManager(){
-        if(currentUserLevel==0||currentUserLevel==2) return true;
-        else return false;
-    }
-    
-    public Boolean isValidKitchen(){
-        if(currentUserLevel==0||currentUserLevel==2||currentUserLevel==5) return true;
-        else return false;
-    }
-    
-    public Boolean isValidCRM(){
-        if(currentUserLevel==0||currentUserLevel==2||currentUserLevel==6) return true;
-        else return false;
-    }
-    
-    public Boolean isValidTicket(){
-        if(currentUserLevel==0||currentUserLevel==7) return true;
-        else return false;
+    public WorkPlaceManageBean() {
     }
 
     public String getCurrentUserId() {
@@ -94,14 +36,18 @@ public class WorkPlaceManageBean {
         this.currentUserId = currentUserId;
     }
 
-    public int getCurrentUserLevel() {
-        return currentUserLevel;
+    public String getCurrentUsserName() {
+        return currentUsserName;
     }
 
-    public void setCurrentUserLevel(int currentUserLevel) {
-        this.currentUserLevel = currentUserLevel;
+    public void setCurrentUsserName(String currentUsserName) {
+        this.currentUsserName = currentUsserName;
     }
 
+    
+    
+    
+    
     
     
     

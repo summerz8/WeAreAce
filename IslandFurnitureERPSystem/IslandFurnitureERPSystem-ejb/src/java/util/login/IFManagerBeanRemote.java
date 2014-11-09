@@ -6,6 +6,7 @@
 
 package util.login;
 
+import java.util.Calendar;
 import javax.ejb.Remote;
 
 /**
@@ -29,10 +30,4 @@ public interface IFManagerBeanRemote {
     public Long getDepartmentId(String userId);
 
     public int getUserLevel(String userId);
-    
-    public String getUserInfo(String userId);
-    
-    public String getUserRole(String userId);
-    
-    public Integer validateUser(String userId, String inputEmail);
 }

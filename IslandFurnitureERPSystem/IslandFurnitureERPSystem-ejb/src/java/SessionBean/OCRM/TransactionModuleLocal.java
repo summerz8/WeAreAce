@@ -14,11 +14,11 @@ import javax.ejb.Local;
 @Local
 public interface TransactionModuleLocal {
 
-    public Long createNewTransaction(String staffId, Long memberId,int location);
+    public void createNewTransaction(String staffId, Long memberId,int location);
 
-    public void createTransactionItem(Long itemId, int amount, Long transactionId);
+    public void createTransactionItem(Long itemId, int amount, Double unitPrice, Long transactionId);
 
-    public void caculateChange(Long transactionId, Double moneyChange);
+    public Double caculateChange(Long transactionId, Double tendered);
 
     public Double caculateTotalPrice(Long transactionId);
     

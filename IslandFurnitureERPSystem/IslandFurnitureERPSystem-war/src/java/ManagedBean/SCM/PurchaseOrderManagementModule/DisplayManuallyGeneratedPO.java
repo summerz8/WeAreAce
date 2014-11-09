@@ -49,8 +49,6 @@ public class DisplayManuallyGeneratedPO implements Serializable {
     private SupplierEntity supplier;
     private StoreEntity store;
     private Long storeId;
-    
-    private Boolean isToStore;
 
     @PostConstruct
     public void init() {
@@ -104,11 +102,10 @@ public class DisplayManuallyGeneratedPO implements Serializable {
 
             if (destination.equals("store") && destination != null) {
                 destinationAddress = pmb.getStoreEntity(store.getStoreId()).getAddress();
-                isToStore = true;
             } else {
                 destinationAddress = pmb.getFactoryEntity(factoryId).getAddress();
                 System.out.println("destinationAddress = " + destinationAddress);
-                isToStore = false;
+
             }
         } catch (Exception ex) {
             Logger.getLogger(DisplayManuallyGeneratedPO.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,7 +244,7 @@ public class DisplayManuallyGeneratedPO implements Serializable {
         System.out.println("deliveryDate = " + deliveryDate);
         try {
             purchaseOrder = pmb.createPurchaseOrder(factoryId, contract.getContractId(),
-                    purchaseAmount, storeId, destination, deliveryDate, true, isToStore);
+                    purchaseAmount, storeId, destination, deliveryDate, true);
 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
 

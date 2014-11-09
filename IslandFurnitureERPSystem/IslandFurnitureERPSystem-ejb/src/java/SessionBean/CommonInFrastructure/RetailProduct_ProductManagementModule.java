@@ -5,7 +5,6 @@
  */
 package SessionBean.CommonInFrastructure;
 
-import Entity.Factory.BOMEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
 import java.util.ArrayList;
@@ -33,43 +32,35 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     @Override
     public void AddProduct(String name, String description, Double price, Double memberPrice, String unit) {
         System.out.println("RetailProduct_ProductManagementModule: AddProduct(): ");
-        ProductEntity pe = new ProductEntity(name, description, price, memberPrice, unit, Boolean.FALSE);
+        ProductEntity pe = new ProductEntity(name, description, price, memberPrice,  unit,Boolean.FALSE);
         em.persist(pe);
         em.flush();
     }
 
     @Override
-    public Boolean DeleteProduct(Long productId) {
-        System.out.println("RetailProduct_ProductManagementModule: DeleteProduct(): " + productId);
+    public void DeleteProduct(Long productId) {
+        System.out.println("RetailProduct_ProductManagementModule: DeleteProduct(): "+productId);
         ProductEntity pe = em.find(ProductEntity.class, productId);
-        if (pe.getFactoryProducts().isEmpty() && pe.getStoreProducts().isEmpty()) {
-            List<BOMEntity> listofBom = pe.getBom();
-            for (BOMEntity b : listofBom) {
-                b.setIsDeleted(Boolean.TRUE);
-            }
-            pe.setDeleteFlag(Boolean.TRUE);
-            em.persist(pe);
-            em.flush();
-            return true;
-        } else {
-            return false;
-        }
-
+        
+        pe.setDeleteFlag(Boolean.TRUE);
+        em.persist(pe);
+        em.flush();
+        
     }
 
     @Override
     public void ModifyProduct(Long productId, String name, String description,
             Double price, Double memberPrice, String unit) {
-        System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): " + productId + name);
+        System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): "+productId + name);
         ProductEntity pe = em.find(ProductEntity.class, productId);
         pe.setName(name);
         pe.setDescription(description);
         pe.setPrice(price);
         pe.setUnit(unit);
-
+        
         em.persist(pe);
         em.flush();
-
+        
     }
 
     @Override
@@ -77,40 +68,34 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
         System.out.println("RetailProduct_ProductManagementModule: ListProduct(): ");
         Query q = em.createQuery("SELECT t FROM ProductEntity t");
         List requiredProductList = new ArrayList();
-        for (Object o : q.getResultList()) {
-            ProductEntity u = (ProductEntity) o;
-            if (!u.isDeleteFlag()) {
-                requiredProductList.add(u);
-            }
-        }
+        for(Object o:q.getResultList()){
+            ProductEntity u = (ProductEntity) o;          
+            if(!u.isDeleteFlag())requiredProductList.add(u);         
+        }       
         return requiredProductList;
     }
 
     //public void SearchProduct(){}
+    
     @Override
-    public void AddRetailProduct(String name, String description, Double price,
+    public void AddRetailProduct(String name, String description, Double price, 
             String unit) {
         System.out.println("RetailProduct_ProductManagementModule: AddRetailProduct(): ");
         RetailProductEntity pe = new RetailProductEntity(name, description, price, unit, Boolean.FALSE);
-
+        
         em.persist(pe);
         em.flush();
-
+        
     }
 
     @Override
-    public Boolean DeleteRetailProduct(Long retailProductId) {
+    public void DeleteRetailProduct(Long retailProductId) {
         System.out.println("RetailProduct_ProductManagementModule: DeleteRetialProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
-        if (pe.getFactoryRetailProducts().isEmpty()&&pe.getStoreRetailProducts().isEmpty()) {
-            pe.setDeleteFlag(Boolean.TRUE);
-
-            em.persist(pe);
-            em.flush();
-            return true;
-        } else {
-            return false;
-        }
+        pe.setDeleteFlag(Boolean.TRUE);
+        
+        em.persist(pe);
+        em.flush();
     }
 
     @Override
@@ -122,10 +107,10 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
         pe.setDescription(description);
         pe.setUnit(unit);
         pe.setPrice(price);
-
+        
         em.persist(pe);
         em.flush();
-
+        
     }
 
     @Override
@@ -133,14 +118,13 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
         System.out.println("RetailProduct_ProductManagementModule: ListRetailProduct(): ");
         Query q = em.createQuery("SELECT t FROM RetailProductEntity t");
         List requiredRetailProductList = new ArrayList();
-        for (Object o : q.getResultList()) {
-            RetailProductEntity u = (RetailProductEntity) o;
-            if (!u.isDeleteFlag()) {
-                requiredRetailProductList.add(u);
-            }
-        }
+        for(Object o:q.getResultList()){
+            RetailProductEntity u = (RetailProductEntity) o;          
+            if(!u.isDeleteFlag())requiredRetailProductList.add(u);         
+        }       
         return requiredRetailProductList;
     }
-
+    
     //public void SearchRetailProduct(){}
+
 }

@@ -28,9 +28,9 @@ public class MemberInfoBean {
     @EJB
     private CustomerWebMemberModuleLocal MRMM;
 
-    private MemberEntity member;
-    private String firstName;
-    private String email;
+    MemberEntity member;
+    String firstName;
+    String email;
     
     private Long memberId;
     private String midName;
@@ -92,24 +92,8 @@ public class MemberInfoBean {
         
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
-        return "HomePage?faces-redirect=true";
+        return "/index?faces-redirect=true";
     }
-    
-    public String logOut2(){
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
-        return "../../Singapore/HomePage?faces-redirect=true";
-    }
-    
-    public String logOut3(){
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
-        return "../../China/HomePage?faces-redirect=true";
-    }
-    
-    
             
     public String removeItem(Long id){
         MRMM.removeItem(memberId,id);

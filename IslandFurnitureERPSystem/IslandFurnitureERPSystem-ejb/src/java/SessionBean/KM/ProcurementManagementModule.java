@@ -51,7 +51,7 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
                 em.flush();
             }
             ipo.setTotal(total);
-            ipo.setActualTotal(total);
+            ipo.setActuralTotal(total);
             em.flush();
             System.out.println("SessionBean.KM.ProcurementManagementModule: generateIngredientPurchaseOrder(): Successful. New Ingredient Purchase Order " + ipo.getId() + " is generated.");
             return ipo;
@@ -89,7 +89,7 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
     public Long confirmIngredientPurchaseOrder(Long ingredientPurchaseOrderId, Double acturalTotal) {
         try {
             IngredientPurchaseOrderEntity ipo = em.find(IngredientPurchaseOrderEntity.class, ingredientPurchaseOrderId);
-            ipo.setActualTotal(acturalTotal);
+            ipo.setActuralTotal(acturalTotal);
             ipo.setStatus("Confirmed");
             em.flush();
             System.out.println("SessionBean.KM.ProcurementManagementModule: confirmIngredientPurchaseOrder(): Successful. New Ingredient Purchase Order " + ipo.getId() + " is comfirmed.");
@@ -139,7 +139,7 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             }
             Double priceChange = ii.getIngredient().getPrice() * ((quantity - ii.getQuantity()) / ii.getIngredient().getLotSize());
             ipo.setTotal(ipo.getTotal() + priceChange);
-            ipo.setActualTotal(ipo.getTotal());
+            ipo.setActuralTotal(ipo.getTotal());
             ii.setQuantity(quantity);
             return ii.getId();
         } catch (Exception ex) {
@@ -243,16 +243,4 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredientSuppliers();
     }
-
-    @Override
-    public Double getIPOTotal(Long IPOId) {
-        return em.find(IngredientPurchaseOrderEntity.class, IPOId).getTotal();
-    }
-
-    @Override
-    public IngredientPurchaseOrderEntity findIngredientPurchaseOrderById(Long IPOId) {
-        return em.find(IngredientPurchaseOrderEntity.class, IPOId);
-    }
-    
-    
 }

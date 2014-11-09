@@ -19,16 +19,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
-@XmlAccessorType(value = XmlAccessType.FIELD)
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"KITCHEN_ID", "NAME"}))
 public class DishEntity implements Serializable {
 
@@ -46,7 +42,6 @@ public class DishEntity implements Serializable {
     private String remark;
     private boolean deleted;
     @ManyToMany
-    @XmlTransient
     private List<ComboEntity> combos = new ArrayList<>();
     @ManyToOne
     private KitchenEntity kitchen;

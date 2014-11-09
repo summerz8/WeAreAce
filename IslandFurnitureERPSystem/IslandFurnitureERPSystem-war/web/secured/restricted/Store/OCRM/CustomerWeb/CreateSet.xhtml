@@ -74,7 +74,6 @@
                             <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                             <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
@@ -84,32 +83,26 @@
                 <p:layoutUnit position="center" resizable="false">                   
 
                     <p:panel id="basic" header="Create a new set" style="margin-bottom" >
-                        <br></br><br></br><br></br><br></br><br></br><br></br>
+                        <h:form> 
+                            <h:panelGrid columns="2" style="width:100%">
+                             
+                                <h:outputText value="Set Name:" />
+                                <h:inputText value="#{createSet.setName}" />
 
-                        <h:panelGrid columns="2" style="width:100%">
+                                <h:outputText value="Set Description:" />
+                                <h:inputText value="#{createSet.description}" />
 
-                            <h:outputText value="Set Name:" />
-                            <h:inputText value="#{createSet.setName}" />
+                                <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="#{createSet.create}" />
+                                <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebSingapore?faces-redirect=true" />
 
-                            <h:outputText value="Set Description:" />
-                            <h:inputText value="#{createSet.description}" />
-
-                            <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="#{createSet.create}" />
-                            <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebSet?faces-redirect=true" />
-
-                        </h:panelGrid>
-
+                            </h:panelGrid>
+                        </h:form>
                     </p:panel>
 
                 </p:layoutUnit>
 
             </p:layout>
 
-        </h:form>
-        <h:form enctype="multipart/form-data" style="position: absolute; top: 140px; left:220px"> 
-            <h:outputText value="Product Picture:" />
-            <p:fileUpload value="Upload" 
-                          fileUploadListener="#{createSet.handleProductItemImageUpload}"/>
         </h:form>
     </h:body>
 

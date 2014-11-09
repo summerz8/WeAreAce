@@ -20,7 +20,7 @@ import javax.persistence.PersistenceContext;
  * @author zhengyuan
  */
 @Stateless
-public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInventoryManagementModule_BOMLocal, EnterpriseInventoryManagementModule_BOMRemote {
+public class EnterpriseInventoryManagementModule_BOM implements EnterpriseInventoryManagementModule_BOMLocal {
 
 
 /*

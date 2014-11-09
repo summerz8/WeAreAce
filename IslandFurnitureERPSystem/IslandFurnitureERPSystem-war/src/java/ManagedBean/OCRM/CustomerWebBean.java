@@ -40,10 +40,10 @@ public class CustomerWebBean {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("web", SelectedWeb);
 
         if (SelectedWeb.equals("Singapore")) {
-            return "CustomerWebFurniture?faces-redirect=true";
+            return "CustomerWebSingapore?faces-redirect=true";
         } else {
 
-            return "CustomerWebFurniture?faces-redirect=true";
+            return "CustomerWebChina?faces-redirect=true";
         }
 
     }

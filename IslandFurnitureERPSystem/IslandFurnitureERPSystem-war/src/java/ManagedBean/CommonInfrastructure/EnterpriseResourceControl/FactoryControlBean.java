@@ -40,8 +40,6 @@ public class FactoryControlBean {
     private String newFactoryAddress;
     private String newFactoryContact;
     private String newFactoryManager;
-    
-    private Long selectedDeleteFactoryId;
 
     /**
      * Creates a new instance of FactoryStoreControlBean
@@ -65,9 +63,8 @@ public class FactoryControlBean {
         if (IUMA.getUser(entity.getManagerId()) == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory edit failed! ", "Manager not found!"));
         } else {
-            try{
             FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManagerId());
-            }catch(Exception ex){}
+
             FacesMessage msg = new FacesMessage("Factory Edited", String.valueOf(entity.getFactoryId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);            
         }
@@ -78,10 +75,10 @@ public class FactoryControlBean {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void deleteFactory(Long id) {
+    public void deleteFactory(long id) {
         System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));
         if (IUMA.ListFactoryUser(id).isEmpty()) {
-            try{FSMM.DeleteFactory(id);}catch(Exception ex){}
+            FSMM.DeleteFactory(id);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
         } else {
@@ -160,13 +157,4 @@ public class FactoryControlBean {
         this.newFactoryManager = newFactoryManager;
     }
 
-    public Long getSelectedDeleteFactoryId() {
-        return selectedDeleteFactoryId;
-    }
-
-    public void setSelectedDeleteFactoryId(Long selectedDeleteFactoryId) {
-        this.selectedDeleteFactoryId = selectedDeleteFactoryId;
-    }
-
-    
 }

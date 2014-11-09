@@ -5,13 +5,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-        <h:head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <h:outputStylesheet name="./css/default.css"/>
-            <h:outputStylesheet name="./css/cssLayout.css"/>
-            <title>Island Furniture ERP System</title>
-        </h:head>
-
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+  
         <h:body>
 
             <h:form id="formMain">
@@ -42,7 +42,7 @@
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
 
-                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" immediate="true">
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
@@ -70,12 +70,36 @@
                     </p:layoutUnit>
 
 
-
+                    
                     <p:layoutUnit position="west" size="500px" style = "border:0px" >
 
-                        <p:panel id="calendar" header="Calendar" style="width: 300px; height:150px">
-                            <p:calendar id="inline" value="#{workPlaceBean.date}" mode="inline" />
-                        </p:panel>
+                        <p:menu>
+                            <p:submenu label="Manufacturing Resource Planning">
+                                <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
+                                <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
+                                <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
+                                <p:menuitem value="Retail Product Purchase Plan" action="/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlan?faces-redirect=true" />                                   
+                                <p:menuitem value="Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrder?faces-redirect=true" />                  
+                                <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
+                                <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
+                            </p:submenu>
+                            <p:submenu label="Supply Chain Management">
+                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" />
+                                <p:menuitem value ="Document Reference" outcome ="/secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml?faces-redirect=true" />
+                            </p:submenu>
+
+                            <p:submenu label="Enterprise Management">
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Resource Control" />
+                            </p:submenu>
+                            <p:submenu label="Ticket Management">
+                                <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>
+                            </p:submenu>
+                        </p:menu>
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
@@ -132,7 +156,7 @@
 
                                 <h:outputLabel for="birthday" value="Birthday:" />
                                 <h:outputText value="#{userInfo.birString}" />
-
+                                
                                 <h:outputLabel for="email" value="Email *:" />
                                 <p:inplace id="email" editor="true">
                                     <p:inputText value="#{userInfo.email}" required="true" label="text" validatorMessage="Invalid email">

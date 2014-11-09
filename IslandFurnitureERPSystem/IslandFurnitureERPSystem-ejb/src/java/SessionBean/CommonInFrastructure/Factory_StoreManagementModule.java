@@ -24,13 +24,14 @@ import javax.persistence.Query;
  * @author dan
  */
 @Stateful
-public class Factory_StoreManagementModule implements Factory_StoreManagementModuleLocal, Factory_StoreManagementModuleRemote {
+public class Factory_StoreManagementModule implements Factory_StoreManagementModuleLocal {
 
     @PersistenceContext
     private EntityManager em;
 
 //    @EJB
 //    private RetailProduct_ProductManagementModuleLocal rpmml;
+
     public Factory_StoreManagementModule() {
     }
 
@@ -46,34 +47,24 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     }
 
     @Override
-    public void DeleteFactory(long factoryId) throws Exception {
+    public void DeleteFactory(long factoryId) {
         System.out.println("Factory_StoreManagementModule: DeleteFactory(): ");
         FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
-        if (fe == null) {
-            throw new Exception("Factory is not found!");
-        } else {
-            fe.setDeleteFlag(Boolean.TRUE);
-            em.persist(fe);
-            em.flush();
-        }
+        fe.setDeleteFlag(Boolean.TRUE);
 
     }
 
     @Override
     public void ModifyFactory(long factoryId, String country, String address,
-            String contact, String manager) throws Exception {
+            String contact, String manager) {
         System.out.println("Factory_StoreManagementModule: ModifyFactory(): ");
         FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
-        if (fe == null) {
-            throw new Exception("Factory is not found!");
-        } else {
-            fe.setAddress(address);
-            fe.setCountry(country);
-            fe.setContact(contact);
-            fe.setManagerId(manager);
-            em.persist(fe);
-            em.flush();
-        }
+        fe.setAddress(address);
+        fe.setCountry(country);
+        fe.setContact(contact);
+        fe.setManagerId(manager);
+        em.persist(fe);
+        em.flush();
 
     }
 
@@ -97,6 +88,8 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
         return fe;
     }
+//    @Override
+//    public void searchFactory(){}
 
     @Override
     public void AddStore(String country, String address, String contact, String manager) {
@@ -109,34 +102,25 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
     }
 
     @Override
-    public void DeleteStore(Long storeId) throws Exception {
+    public void DeleteStore(Long storeId) {
         System.out.println("Factory_StoreManagementModule: DeleteFactory(): ");
         StoreEntity se = em.find(StoreEntity.class, storeId);
-        if (se == null) {
-            throw new Exception("Store is not found!");
-        } else {
-            se.setDeleteFlag(Boolean.TRUE);
-            em.persist(se);
-            em.flush();
-        }
+        se.setDeleteFlag(Boolean.TRUE);
+        em.persist(se);
+        em.flush();
     }
 
     @Override
     public void ModifyStore(long storeId, String country, String address,
-            String contact, String manager) throws Exception {
+            String contact, String manager) {
         System.out.println("Factory_StoreManagementModule: ModifyStore(): ");
         StoreEntity se = em.find(StoreEntity.class, storeId);
-        if (se == null) {
-            throw new Exception("Store is not found!");
-        } else {
-            se.setAddress(address);
-            se.setCountry(country);
-            se.setContact(contact);
-            se.setManager(manager);
-            em.persist(se);
-            em.flush();
-        }
-
+        se.setAddress(address);
+        se.setCountry(country);
+        se.setContact(contact);
+        se.setManager(manager);
+        em.persist(se);
+        em.flush();
     }
 
     @Override
@@ -146,7 +130,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         List requiredStoreList = new ArrayList();
         for (Object o : q.getResultList()) {
             StoreEntity u = (StoreEntity) o;
-            if (!u.getDeleteFlag()) {
+            if (!u.isDeleteFlag()) {
                 requiredStoreList.add(u);
             }
             System.out.println("Factory_StoreManagementModule: ListStore(): store added" + u.getStoreId());
@@ -154,6 +138,10 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         return requiredStoreList;
     }
 
+//    @Override
+//    public void searchStore(){
+//    
+//    }
     @Override
     public Integer addFactoryProduct(Long FactoryId, Long ProductId) {
         Integer status = 0;
@@ -187,9 +175,6 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         Integer flag = 0;
         Collection<ProductEntity> pdList = new ArrayList<>();
         FactoryEntity currentFactory = em.find(FactoryEntity.class, factoryId);
-        if(currentFactory == null){
-            throw new Exception("Factory is not found!");
-        }else{
         Collection<FactoryProductEntity> currentFactoryProductList = currentFactory.getFactoryProducts();
         try {
             Query q = em.createQuery("Select pd from ProductEntity PD");
@@ -211,7 +196,6 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
-        }
         return pdList;
     }
 
@@ -228,7 +212,7 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
             }
             return pdList;
         } else {
-            throw new Exception("Factory is not found!");
+            throw new Exception("A Excepction occurs! ");
         }
     }
 

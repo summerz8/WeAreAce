@@ -6,9 +6,7 @@
 package util.login;
 
 import Entity.CommonInfrastructure.IdNumberEntity;
-import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
-import Entity.Store.StoreEntity;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -92,9 +90,10 @@ public class IFManagerBean implements IFManagerBeanRemote {
 //        }
 //        return "getUserId() failed!";
 //    }
+
     @Override
     @WebMethod(exclude = true)
-    public int checkAccount(String userId, String pwd) {
+    public int checkAccount(String userId,String pwd) {
 
         UserEntity user;
         int check = 0;
@@ -117,17 +116,15 @@ public class IFManagerBean implements IFManagerBeanRemote {
             System.out.println("User Found!");
         } else {
             System.out.println("User Found but password inccorect!");
-            System.out.println("database password: " + user.getPwd());
-            System.out.println("input password: " + pwd);
             check = 0;
         }
 
         return check;
     }
-
+       
     @WebMethod(operationName = "shopLogin")
     public int shopLogin(
-            @WebParam(name = "id") String userId,
+           @WebParam(name = "id") String userId,
             @WebParam(name = "password") String pwd) {
 
         UserEntity user;
@@ -150,13 +147,13 @@ public class IFManagerBean implements IFManagerBeanRemote {
         } else {
             if (!department.equals("S")) {
                 check = -2;
-                System.out.println("Only store staffs and managers are allowed to login");
+                System.out.println("Only store staff and managers are allowed to login");
             } else {
                 if (user.getPwd().equals(pwd)) {
                     check = 1;
                     System.out.println("User Found!");
                 } else {
-                    System.out.println("User Found but password incorrect!");
+                    System.out.println("User Found but password inccorect!");
                     check = 0;
                 }
             }
@@ -167,15 +164,15 @@ public class IFManagerBean implements IFManagerBeanRemote {
 
     @Override
     @WebMethod(operationName = "getFullNameById")
-    public String getFullName(
-            @WebParam(name = "userId") String userId) {
-       
-        UserEntity user = em.find(UserEntity.class, userId);
-        String fullName = user.getFirstName() + " " + user.getLastName() + " ";
-        
+    public String getFullName(String userId) {
+        String fullName = null;
+        if (true) {
+            UserEntity user = em.find(UserEntity.class, userId);
+            fullName = user.getFirstName() + " " + user.getLastName() + " ";
+        }
         return fullName;
     }
-    
+
     @Override
     @WebMethod(exclude = true)
     public String getDepartment(String userId) {
@@ -208,26 +205,6 @@ public class IFManagerBean implements IFManagerBeanRemote {
         }
         return userLevel;
     }
-    
-    @Override
-    @WebMethod(exclude = true)
-    public String getUserRole(String userId) {
-        String userRole=" ";
-        if (true) {
-            UserEntity user = em.find(UserEntity.class, userId);
-            int userLevel = user.getUserLevel();
-            if(userLevel == 0) userRole = "HQ Manager";
-            else if(userLevel == 1) userRole = "Factory Manager";
-            else if(userLevel == 2) userRole = "Store Manager";
-            else if(userLevel == 3) userRole = "Factory SCM Staff";
-            else if(userLevel == 4) userRole = "Factory MRP Staff";
-            else if(userLevel == 5) userRole = "Store Kitchen Staff";
-            else if(userLevel == 6) userRole = "Store Staff";
-            else if(userLevel == 7) userRole = "System Admin";
-
-        }
-        return userRole;
-    }
 
     @Override
     @WebMethod(exclude = true)
@@ -237,24 +214,4 @@ public class IFManagerBean implements IFManagerBeanRemote {
         System.out.println("IdNumber initialized");
     }
 
-    @WebMethod(operationName = "getUserInfo")
-    @Override
-    public String getUserInfo(@WebParam(name = "userId") String userId) {
-        UserEntity ue = em.find(UserEntity.class, userId);
-        System.out.println("getUserInfo: "+userId);
-        return ue.getFirstName()+" "+ue.getLastName() + "&" + ue.getEmail();
-    }
-     
-    @Override
-    public Integer validateUser(String userId, String inputEmail){
-        UserEntity ue;
-        ue = em.find(UserEntity.class, userId);
-        if(ue == null || ue.isDeleteFlag()){
-            return -1;
-        }else if(!inputEmail.equals(ue.getEmail())){
-            return 0;
-        }else{
-            return 1;
-        }
-    }
 }

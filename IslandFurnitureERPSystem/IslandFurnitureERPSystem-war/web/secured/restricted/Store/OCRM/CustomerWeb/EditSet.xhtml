@@ -74,7 +74,6 @@
                             <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                             <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
@@ -83,70 +82,65 @@
 
                 <p:layoutUnit position="center" resizable="false">                   
 
-                    <p:panel id="basic" header="Edit Set" style="margin-bottom" >
+                    <p:panel id="basic" header="Select a customer website" style="margin-bottom" >
+                        <h:form> 
 
-                        <br></br><br></br><br></br><br></br><br></br><br></br>
-
-                        <h:panelGrid columns="2" style="width:500px">
-                            <h:outputText  value="Set #{editSet.setId}"  />
-                            <img alt="200x100" src="../../../../../resources/images/#{editSet.picture}" style="text-align: left; margin-bottom:50px;width:150px; height:150px"/> 
-
-
-                            <h:outputText value="Set Name:" />
-                            <p:inplace id="setName" editor="true"> 
-                                <p:inputText value="#{editSet.setName}"   label="text" />
-                            </p:inplace>  
-
-                            <h:outputText value="Set Description:" />
-                            <p:inplace id="setDescription" editor="true"> 
-                                <p:inputText value="#{editSet.description}"   label="text" />
-                            </p:inplace>  
+                            <h:panelGrid columns="2" style="width:500px">
+                                <h:outputText  value="Set #{editSet.setId}"  />
+                                <img alt="200x100" src="../../../../../resources/images/#{editSet.picture}" style="text-align: left; margin-bottom:50px;width:150px; height:150px"/> 
 
 
+                                <h:outputText value="Set Name:" />
+                                <p:inplace id="setName" editor="true"> 
+                                    <p:inputText value="#{editSet.setName}"   label="text" />
+                                </p:inplace>  
 
-                        </h:panelGrid> 
-                        <p:commandButton  value="Update" action="#{editSet.upDate}" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" />
-
-                        <h:outputLabel for="website" value="Select An Item:" style="font-weight:bold" />
-                        <p:selectOneMenu id="website" value="#{editSet.selectedItem}">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItems value="#{editSet.displayList}" />
-                        </p:selectOneMenu>
-                        <p:commandButton  action="#{editSet.addItem()}" value="AddItem" style="margin-bottom:10px ;border:5px ;width: 80px; height:25px; font-size:12px; float:left"/>
-
-                        <p:dataTable var="item" value="#{editSet.itemList}">
-
-                            <p:column headerText="item ID" style="width:30px">
-                                <h:outputText value="#{item.id}" />
-                            </p:column>
-
-                            <p:column headerText="item picture">
-                                <img alt="200x100" src="../../../../../resources/images/#{item.picture}" style="text-align: left; margin-bottom:50px;width:150px; height:150px"/> 
-                            </p:column>
-
-                            <p:column headerText="Item Name">
-                                <h:outputText value="#{item.productName}" />
-                            </p:column>
-
-                            <p:column headerText="Delete" >
-                                <p:commandButton  value="Delete" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{listStoreSalesForecast.ViewSalesForecast(salesForecast.id)}" >
-                                </p:commandButton>
-                            </p:column>
-
-                        </p:dataTable> 
+                                <h:outputText value="Set Description:" />
+                                <p:inplace id="setDescription" editor="true"> 
+                                    <p:inputText value="#{editSet.description}"   label="text" />
+                                </p:inplace>  
 
 
+
+                            </h:panelGrid> 
+                            <p:commandButton  value="Update" action="#{editSet.upDate}" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" />
+
+                            <h:outputLabel for="website" value="Select An Item:" style="font-weight:bold" />
+                            <p:selectOneMenu id="website" value="#{editSet.selectedItem}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editSet.displayList}" />
+                            </p:selectOneMenu>
+                            <p:commandButton  action="#{editSet.addItem()}" value="AddItem" style="margin-bottom:10px ;border:5px ;width: 80px; height:25px; font-size:12px; float:left"/>
+
+                            <p:dataTable var="item" value="#{editSet.itemList}">
+
+                                <p:column headerText="item ID" style="width:30px">
+                                    <h:outputText value="#{item.id}" />
+                                </p:column>
+
+                                <p:column headerText="item picture">
+                                    <img alt="200x100" src="../../../../../resources/images/#{item.picture}" style="text-align: left; margin-bottom:50px;width:150px; height:150px"/> 
+                                </p:column>
+
+                                <p:column headerText="Item Name">
+                                    <h:outputText value="#{item.productName}" />
+                                </p:column>
+
+                                <p:column headerText="Delete" >
+                                    <p:commandButton  value="Delete" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{listStoreSalesForecast.ViewSalesForecast(salesForecast.id)}" >
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable> 
+
+
+                        </h:form>
                     </p:panel>
 
                 </p:layoutUnit>
 
             </p:layout>
 
-        </h:form>
-        <h:form enctype="multipart/form-data" style="position: absolute; top: 140px; left:220px"> 
-            <h:outputText value="Product Picture:" />
-            <p:fileUpload value="Upload" 
-                          fileUploadListener="#{editSet.handleProductItemImageUpload}"/>
         </h:form>
     </h:body>
 

@@ -10,7 +10,6 @@ import SessionBean.ACRM.AnalyticalCRMSessionBeanLocal;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,7 +80,7 @@ public class ViewMembers implements Serializable {
         genders.put("Male", "Male");
         genders.put("Others", "Others");
 
-        countries = new LinkedHashMap<String, String>();
+        countries = new HashMap<String, String>();
         initialCounties();
 
         memberLevels = new HashMap<>();
@@ -95,7 +94,7 @@ public class ViewMembers implements Serializable {
             getValuesOnSession();
             initSetting();
 
-            allMembers = acrm.getAllMembers();
+            System.out.println("ViewMembersBean: memberAmount: " + memberAmount);
         } catch (Exception ex) {
             Logger.getLogger(ViewMembers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -600,11 +599,11 @@ public class ViewMembers implements Serializable {
         countries.put("Yemen", "Yemen");
         countries.put("Zambia", "Zambia");
         countries.put("Zimbabwe", "Zimbabwe");
-        
     }
 
     private void initSetting() throws Exception {
         if (!checkGender && !checkAge && !checkCountry && !checkMemberlvl) {
+            System.out.println("ViewMembersBean: allMembers = acrm.getAllMembers();");
             allMembers = acrm.getAllMembers();
             filteredMembers = acrm.getAllMembers();
             System.out.println("ViewMembersBean: " + allMembers.toString());
@@ -689,18 +688,6 @@ public class ViewMembers implements Serializable {
         country = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         memberLevel = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberLevel");
 
-    }
-
-    public String sendEmailToAll() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("customers", allMembers);
-
-        return "SendCustomerEmail?faces-redirect=true";
-    }
-
-    public String sendEmailToSegement() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("customers", filteredMembers);
-
-        return "SendCustomerEmail?faces-redirect=true";
     }
 
 }

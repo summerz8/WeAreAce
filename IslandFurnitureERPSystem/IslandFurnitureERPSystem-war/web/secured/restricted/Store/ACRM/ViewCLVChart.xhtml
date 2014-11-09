@@ -78,88 +78,12 @@
                 <p:layoutUnit position="center" resizable="false">
                     <p:panel id="basic" header =" " style="height:800px;" >
                         <h:panelGrid columns="2" >
-                            <p:dataTable var="clv" value="#{viewCLV.allMembersAllPlace}" style="margin-bottom:40px"
-                                         selection="#{viewCLV.selectedCLVs}" rowKey="#{clv.member.memberId}" >
-                                <f:facet name="header">
-                                    Customer Lifespan Value for All Members
-                                </f:facet>
-
-                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-
-                                <p:column style="width:30px;text-align:center">
-                                    <p:commandButton update=":formMain:memberDetail" oncomplete="PF('memberDialog').show()"
-                                                     icon="ui-icon-search" >
-                                        <f:setPropertyActionListener value="#{clv.member}" target="#{viewCLV.selectedMember}" />
-                                    </p:commandButton>
-                                </p:column>
-
-                                <p:column headerText="Member Id" sortBy="#{clv.member.memberId}">
-                                    <h:outputText value="#{clv.member.memberId}" />
-                                </p:column>
-
-                                <p:column headerText="Average Expences" sortBy="#{clv.aveExp}">
-                                    <h:outputText value="#{clv.aveExp}" />
-                                </p:column>
-
-                                <p:column headerText="Number of Visit(in this month)" sortBy="#{clv.visitThisMonth}" >
-                                    <h:outputText value="#{clv.visitThisMonth}" />
-                                </p:column>
-
-                                <p:column headerText="Customer Lifespan Value" sortBy="#{clv.clv}">
-                                    <h:outputText value="#{clv.clv}" />
-                                </p:column>
-
-                                <f:facet name="footer">
-                                    <p:commandButton  value="Send Email" action="#{viewCLV.sendEmail}"/>
-                                </f:facet>
-                            </p:dataTable>
-
-                        </h:panelGrid>
-
-                        <br></br>
-                        <br></br>
-
-                        <h:panelGrid columns="2" >
+                            <p:dataTable rendered="false" />
                             <p:chart type="bar" model="#{viewCLV.barModel}" style="height:300px;width: 1000px" />
+
+                            <p:commandButton value="Back" action="ViewCLV?faces-redirect=true"/>
                         </h:panelGrid>
 
-                        <p:dialog header="Member Info" widgetVar="memberDialog" position="center"
-                                  showEffect="fade" hideEffect="fade" resizable="true" 
-                                  draggable="true" closable="true" width="300">
-                            <p:outputPanel id="memberDetail" style="text-align:center;">
-                                <p:panelGrid  columns="2" columnClasses="label,value">
-                                    <h:outputText value="Member Id: " />
-                                    <h:outputText value="#{viewCLV.selectedMember.memberId}" />
-
-                                    <h:outputText value="Register Date:" />
-                                    <h:outputText value="#{viewCLV.selectedMember.createDate.time}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Title: " />
-                                    <h:outputText value="#{viewCLV.selectedMember.title}" />
-
-                                    <h:outputText value="Name:" />
-                                    <h:outputText value="#{viewCLV.selectedMember.firstName} #{viewCLV.selectedMember.midName} #{viewCLV.selectedMember.lastName}" />
-
-                                    <h:outputText value="Birthday" />
-                                    <h:outputText value="#{viewCLV.selectedMember.birthday.time}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Gender:" />
-                                    <h:outputText value="#{viewCLV.selectedMember.gender}" />  
-
-                                    <h:outputText value="Nationality:" />
-                                    <h:outputText value="#{viewCLV.selectedMember.country}" /> 
-
-                                    <h:outputText value="Member Level" />
-                                    <h:outputText value="#{viewCLV.selectedMember.memberlvl.levelId} #{viewCLV.selectedMember.memberlvl.levelName}" /> 
-
-                                </p:panelGrid>
-
-                            </p:outputPanel>
-                        </p:dialog>
                     </p:panel>
                 </p:layoutUnit>
             </p:layout>

@@ -28,7 +28,6 @@ public class Login {
     private String memberEmail;
     private String pwd;
     private MemberEntity member;
-    private String web;
 
     public Login() {
     }
@@ -38,17 +37,9 @@ public class Login {
         if (member == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Failed, Please enter correct email or password.", ""));
         } else {
-            web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
-
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", member.getFirstName());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", member.getEmail());
-
-            if (web.equals("Singapore")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../secured/Singapore/MemberPage.xhtml");
-            } else {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../secured/China/MemberPage.xhtml");
-            }
-
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../secured/MemberPage.xhtml");
         }
     }
 

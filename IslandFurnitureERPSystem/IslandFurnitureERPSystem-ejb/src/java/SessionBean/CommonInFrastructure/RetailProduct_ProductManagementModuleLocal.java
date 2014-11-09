@@ -21,9 +21,9 @@ public interface RetailProduct_ProductManagementModuleLocal {
 
     public List<ProductEntity> ListProduct();
 
-    public Boolean DeleteProduct(Long productId);
+    public void DeleteProduct(Long productId);
 
-    public Boolean DeleteRetailProduct(Long retailProductId);
+    public void DeleteRetailProduct(Long retailProductId);
 
     public List<RetailProductEntity> ListRetailProduct();
 

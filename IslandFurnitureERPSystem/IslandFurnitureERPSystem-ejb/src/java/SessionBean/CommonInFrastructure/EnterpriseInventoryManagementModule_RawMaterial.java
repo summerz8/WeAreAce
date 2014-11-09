@@ -5,12 +5,8 @@
  */
 package SessionBean.CommonInFrastructure;
 
-import Entity.Factory.BOMEntity;
-import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.RawMaterialEntity;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +17,7 @@ import javax.persistence.Query;
  * @author dan zy
  */
 @Stateful
-public class EnterpriseInventoryManagementModule_RawMaterial implements EnterpriseInventoryManagementModule_RawMaterialLocal, EnterpriseInventoryManagementModule_RawMaterialRemote {
+public class EnterpriseInventoryManagementModule_RawMaterial implements EnterpriseInventoryManagementModule_RawMaterialLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -32,52 +28,29 @@ public class EnterpriseInventoryManagementModule_RawMaterial implements Enterpri
     }
 
     @Override
-    public void addRawMaterial(String name, String description, String unit) throws Exception {
+    public void addRawMaterial(String name, String description, String unit) {
         System.out.println("EnterpriseInventoryManagementModule_RawMaterial: add Raw Material()");
-        if (name.equals("")) {
-           System.out.println("Name cannot be empty!");
-           throw new Exception("Name cannot be empty!");
-        } else {
-            RawMaterialEntity rawMaterial = new RawMaterialEntity();
-            rawMaterial.setMaterialName(name);
-            rawMaterial.setDescription(description);
-            rawMaterial.setUnit(unit);
-            em.persist(rawMaterial);
-            em.flush();
-        }
+        RawMaterialEntity rawMaterial = new RawMaterialEntity();
+        rawMaterial.setMaterialName(name);
+        rawMaterial.setDescription(description);
+        rawMaterial.setUnit(unit);
+        em.persist(rawMaterial);
+        em.flush();
     }
 
     @Override
-    public int deleteRawMaterial(Long rawMaterialId) throws Exception {
+    public void deleteRawMaterial(Long rawMaterialId) throws Exception {
         System.out.println("EnterpriseInventoryManagementModule_RawMaterial: delete Raw Material()");
         RawMaterialEntity rawMaterial = em.find(RawMaterialEntity.class, rawMaterialId);
         if (rawMaterial == null) {
             throw new Exception("Raw Material is not found.");
         } else {
-            List<BOMEntity> listBom = rawMaterial.getBomList();
-            Collection<FactoryRawMaterialEntity> listFactory = rawMaterial.getFactoryRawMaterials();
-            Boolean flagBom = true;
-            Boolean flagFactory = true;
-            if(!listBom.isEmpty()){
-                for(BOMEntity b: listBom){
-                    if(!b.getIsDeleted()) flagBom = false;
-                }
-            }
-            if(!listFactory.isEmpty()){
-                for(FactoryRawMaterialEntity f: listFactory){
-                    if(!f.getIsDeleted()) flagFactory = false;
-                }
-            }
-            
-            if(flagBom && flagFactory){ 
-                rawMaterial.setIsDeleted(Boolean.TRUE);
-                em.persist(rawMaterial);
-                em.flush();
-                return 1;
-            }else if(!flagBom) return -1;
-            else if(!flagFactory) return -2;
+            rawMaterial.setIsDeleted(Boolean.TRUE);
+
         }
-        return 0;
+
+        em.persist(rawMaterial);
+        em.flush();
     }
 
     @Override

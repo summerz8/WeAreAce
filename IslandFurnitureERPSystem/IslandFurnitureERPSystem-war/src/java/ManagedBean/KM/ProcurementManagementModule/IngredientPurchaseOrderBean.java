@@ -40,9 +40,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
     private Date selectedTargetDate;
     private String message;
     private Calendar cal;
-//    private Double total;
-//    private Double actualTotal;
-    private String status;
+    private Double total;
+    private Double actualTotal;
 
     public IngredientPurchaseOrderBean() {
     }
@@ -94,29 +93,21 @@ public class IngredientPurchaseOrderBean implements Serializable {
     public void setCal(Calendar cal) {
         this.cal = cal;
     }
-//
-//    public Double getTotal() {
-//        return total;
-//    }
-//
-//    public void setTotal(Double total) {
-//        this.total = total;
-//    }
-//
-//    public Double getActualTotal() {
-//        return actualTotal;
-//    }
-//
-//    public void setActualTotal(Double actualTotal) {
-//        this.actualTotal = actualTotal;
-//    }
 
-    public String getStatus() {
-        return status;
+    public Double getTotal() {
+        return total;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public Double getActualTotal() {
+        return actualTotal;
+    }
+
+    public void setActualTotal(Double actualTotal) {
+        this.actualTotal = actualTotal;
     }
 
     @PostConstruct
@@ -132,8 +123,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ingredientPurchaseOrderFromIF", null);
                 filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-//                total = pm.getIPOTotal(selectedIPO.getId());
-//                actualTotal = total;
+                total = selectedIPO.getTotal();
+                actualTotal = selectedIPO.getActuralTotal();
             }
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: init(): Failed. Caught an unexpected exception.");
@@ -161,7 +152,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
                 }
             }
             filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-            selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
+            total = selectedIPO.getTotal();
+            actualTotal = selectedIPO.getActuralTotal();
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -174,11 +166,10 @@ public class IngredientPurchaseOrderBean implements Serializable {
         FacesMessage msg = new FacesMessage("Edit Cancelled", null);
         FacesContext.getCurrentInstance().addMessage(null, msg);
         filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-        selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
     }
 
     public void comfirmIPO(ActionEvent event) {
-        Long ipoId = pm.confirmIngredientPurchaseOrder(selectedIPO.getId(), selectedIPO.getActualTotal());
+        Long ipoId = pm.confirmIngredientPurchaseOrder(selectedIPO.getId(), actualTotal);
         if (ipoId == -1L) {
             FacesMessage msg = new FacesMessage("Confirmation Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -187,7 +178,6 @@ public class IngredientPurchaseOrderBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-        selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
     }
 
     public void cancelIPO(ActionEvent event) {
@@ -200,7 +190,6 @@ public class IngredientPurchaseOrderBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-        selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
     }
 
     public void findRequiredIngredientPurchaseOrder(ActionEvent event) {
@@ -217,8 +206,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
                     context.execute("PF('message').show();");
                 } else {
                     filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
-//                    total = pm.getIPOTotal(selectedIPO.getId());
-//                    actualTotal = total;
+                    total = selectedIPO.getTotal();
+                    actualTotal = selectedIPO.getActuralTotal();
                 }
             }
         } catch (Exception ex) {
@@ -236,6 +225,5 @@ public class IngredientPurchaseOrderBean implements Serializable {
             FacesMessage msg = new FacesMessage("Successful", "New Raw Ingredient Receipt " + irId + " is generated");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-        selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
     }
 }

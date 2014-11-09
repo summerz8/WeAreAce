@@ -6,7 +6,6 @@
 
 package Entity.Store.OCRM;
 
-import Entity.Store.ACRM.CLVEntity;
 import Entity.Store.ACRM.RFMEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,9 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,7 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "member")
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class MemberEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,19 +70,10 @@ public class MemberEntity implements Serializable {
     private MembershipLevelEntity memberlvl;
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
-    @XmlTransient
     private List<TransactionEntity> transactionList; 
     
     @OneToOne(cascade = {CascadeType.PERSIST})
-    @XmlTransient
-    private MemberCardIdMappingEntity cardIdMapping;
-
-    @OneToOne(cascade = {CascadeType.PERSIST})
     private RFMEntity rfm = null;
-    
-    @OneToOne(cascade = {CascadeType.PERSIST})
-    private CLVEntity clv = null;
-
 
     
     public MemberEntity() {
@@ -279,16 +265,6 @@ public class MemberEntity implements Serializable {
 //        this.memberlvl = memberlvl;
 //    }
 
-    public MemberCardIdMappingEntity getCardIdMapping() {
-        return cardIdMapping;
-    }
-
-    public void setCardIdMapping(MemberCardIdMappingEntity cardIdMapping) {
-        this.cardIdMapping = cardIdMapping;
-    }
-    
-    
-
     public MembershipLevelEntity getMemberlvl() {
         return memberlvl;
     }
@@ -343,14 +319,6 @@ public class MemberEntity implements Serializable {
 
     public void setRfm(RFMEntity rfm) {
         this.rfm = rfm;
-    }
-
-    public CLVEntity getClv() {
-        return clv;
-    }
-
-    public void setClv(CLVEntity clv) {
-        this.clv = clv;
     }
     
     

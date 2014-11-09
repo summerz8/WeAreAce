@@ -26,16 +26,13 @@ public class GalleryBean {
     private CustomerWebModuleLocal cwml;
 
     private List<SetEntity> setList;
-    private String web;
 
     public GalleryBean() {
     }
 
     @PostConstruct
     public void init() {
-        web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
-
-        setList = cwml.getSetList(web);
+        setList = cwml.getSetList();
     }
 
     public String viewMore(Long setId) {
@@ -44,6 +41,7 @@ public class GalleryBean {
         return "set?faces-redirect=true";
     }
 
+    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }

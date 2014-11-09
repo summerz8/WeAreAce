@@ -75,8 +75,6 @@
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                             <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
-                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
-
                         </p:submenu>
                     </p:menu>
 
@@ -160,7 +158,7 @@
                                             <p:commandButton value="View"  action="#{OCRMSalesForecastBean.ViewStoreRetailProductSalesRecord(StoreRetailProduct.storeRetailProductId)}"  />
                                         </p:column>
                                     </p:dataTable> 
-                                    <p:commandButton value="Create Sales Forecast"  action="#{OCRMSalesForecastBean.createSalesForeacast}"  />
+                                <p:commandButton value="Create Sales Forecast"  action="#{OCRMSalesForecastBean.createSalesForeacast}"  />
 
                                 </p:outputPanel>
 

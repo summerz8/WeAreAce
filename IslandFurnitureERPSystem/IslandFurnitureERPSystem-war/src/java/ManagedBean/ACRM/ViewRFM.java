@@ -6,14 +6,10 @@
 package ManagedBean.ACRM;
 
 import Entity.Store.ACRM.RFMEntity;
-import Entity.Store.OCRM.MemberEntity;
 import SessionBean.ACRM.AnalyticalCRMSessionBeanLocal;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -29,22 +25,8 @@ public class ViewRFM implements Serializable {
     private AnalyticalCRMSessionBeanLocal acrm;
 
     private Collection<RFMEntity> RFMList;
-    private RFMEntity[] selectedRFMs;
 
-    private MemberEntity selectedMember;
-    
     public ViewRFM() {
-    }
-    
-    @PostConstruct
-    public void init()
-    {
-        RFMList = acrm.getAllMembersRFM();
-
-        System.out.println("RFMList get()");
-        for (RFMEntity rfm : RFMList) {
-            System.out.println("viewRFMBean: RFM = " + rfm.toString());
-        }
     }
 
     public AnalyticalCRMSessionBeanLocal getAcrm() {
@@ -57,43 +39,18 @@ public class ViewRFM implements Serializable {
 
     public Collection<RFMEntity> getRFMList() {
         System.out.println(" viewRFMBean: getRFMList()");
-        
+        RFMList = acrm.getAllMembersRFM();
+ 
+        System.out.println("RFMList get()");
+        for (RFMEntity rfm : RFMList) {
+            System.out.println("viewRFMBean: RFM = " + rfm.toString());
+        }
 
         return RFMList;
     }
 
     public void setRFMList(Collection<RFMEntity> RFMList) {
         this.RFMList = RFMList;
-    }
-
-    public RFMEntity[] getSelectedRFMs() {
-        return selectedRFMs;
-    }
-
-    public void setSelectedRFMs(RFMEntity[] selectedRFMs) {
-        this.selectedRFMs = selectedRFMs;
-    }
-
-    public MemberEntity getSelectedMember() {
-        return selectedMember;
-    }
-
-    public void setSelectedMember(MemberEntity selectedMember) {
-        this.selectedMember = selectedMember;
-    }
-    
-    public String sendEmail(){
-        
-        System.out.println("ViewRFMBean: sendEmail:");
-        
-        Collection<MemberEntity> members = new ArrayList<>();
-        for (RFMEntity rfm : selectedRFMs) {
-            members.add(rfm.getMember());
-        }
-
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("customers", members);
-
-        return "SendCustomerEmail?faces-redirect=true";
     }
 
 }

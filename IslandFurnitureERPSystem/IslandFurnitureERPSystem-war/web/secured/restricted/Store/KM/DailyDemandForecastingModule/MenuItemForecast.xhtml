@@ -83,6 +83,8 @@
 
                     <p:panel id="basic" header="Menu Item Forecast" style="margin-bottom" >
 
+                        <h:form id="menuItemForecastList">
+
                             <h:panelGrid columns="2" cellpadding="5">
                                 <p:outputLabel value="Menu Item Forecast ID: " style="font-weight:bold" />
                                 <h:outputText value="#{menuItemForecastBean.selectedMif.id}" />
@@ -133,6 +135,11 @@
                                     </p:cellEditor>
                                 </p:column>
 
+<!--                                <p:column headerText="Past Week Sales" width="15%">
+                                    <p:commandButton actionListener="#{menuItemForecastBean.setSelectedDishModel(di.dish)}" icon="ui-icon-folder-open" onclick="PF('selectedModelDiag').show();" >
+                                    </p:commandButton> 
+                                </p:column>-->
+                                
                                 <p:column headerText="Edit" width="8%" rendered="#{menuItemForecastBean.selectedMif.ingredientForecast eq null}">
                                     <p:rowEditor/>
                                 </p:column>
@@ -170,7 +177,10 @@
                                     </p:cellEditor>
                                 </p:column>
 
-
+<!--                                <p:column headerText="Past Week Sales" width="15%">
+                                    <p:commandButton actionListener="#{menuItemForecastBean.setSelectedComboModel(ci.combo)}" icon="ui-icon-folder-open" onclick="PF('selectedModelDiag').show();" >
+                                    </p:commandButton> 
+                                </p:column>-->
 
                                 <p:column headerText="Edit" width="8%" rendered="#{menuItemForecastBean.selectedMif.ingredientForecast eq null}">
                                     <p:rowEditor/>
@@ -178,8 +188,18 @@
 
                             </p:dataTable>
 
+                        </h:form>
 
                     </p:panel>
+
+<!--                    <p:dialog widgetVar="selectedModelDiag" header="Past Week Sales"
+                              showEffect="fade" hideEffect="fade" resizable="true" 
+                              draggable="true" closable="true">
+                        <p:panel>
+                            <p:dataTable rendered="false"/>
+                            <p:lineChart value="#{menuItemForecastBean.selectedModel}" style="height:400px;" />
+                        </p:panel>
+                    </p:dialog>-->
                     
                 </p:layoutUnit>
                 

@@ -6,7 +6,6 @@
 package Entity.Store;
 
 import Entity.Kitchen.KitchenEntity;
-import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,9 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +25,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Store")
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +39,6 @@ public class StoreEntity implements Serializable {
     private List<Long> factoryList;
 
     @OneToOne
-    @XmlTransient
     private KitchenEntity kitchen;
 
 
@@ -54,25 +48,18 @@ public class StoreEntity implements Serializable {
 
     //store entity -- store product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    @XmlTransient
-    private List<StoreProductEntity> storeProducts = new ArrayList<>();
+    private List<StoreProductEntity> storeProduct = new ArrayList<>();
 
     //store entity -- store retail product entity: 1 <--> M
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    @XmlTransient
-    private List<StoreRetailProductEntity> storeRetailProducts = new ArrayList<>();
+    private List<StoreRetailProductEntity> storeRetailProduct = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    @XmlTransient
-    private List<StoreItemMappingEntity> storeItemMappings = new ArrayList<>();
+    private List<StoreItemMappingEntity> storeItemMapping = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "store")
-    @XmlTransient
     private List<TransactionEntity> transactions = new ArrayList<>();
 
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy = "store")
-    private List<StoreWarehouseBinEntity> storeBins = new ArrayList<>();
-    
     public StoreEntity() {
     }
 
@@ -86,7 +73,7 @@ public class StoreEntity implements Serializable {
 
 }
 
-    public Long getStoreId() {
+public Long getStoreId() {
         return storeId;
     }
 
@@ -101,6 +88,32 @@ public class StoreEntity implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public List<StoreProductEntity> getStoreProduct() {
+        return storeProduct;
+    }
+
+    public void setStoreProduct(List<StoreProductEntity> storeProduct) {
+        this.storeProduct = storeProduct;
+    }
+
+    public List<StoreRetailProductEntity> getStoreRetailProduct() {
+        return storeRetailProduct;
+    }
+
+    public void setStoreRetailProduct(List<StoreRetailProductEntity> storeRetailProduct) {
+        this.storeRetailProduct = storeRetailProduct;
+    }
+
+    public List<TransactionEntity> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionEntity> transactions) {
+        this.transactions = transactions;
+    }
+
+   
 
     public String getCountry() {
         return country;
@@ -126,12 +139,45 @@ public class StoreEntity implements Serializable {
         this.manager = manager;
     }
 
-    public Boolean getDeleteFlag() {
+    public Boolean isDeleteFlag() {
         return deleteFlag;
     }
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public List<StoreItemMappingEntity> getStoreProductMapping() {
+        return storeItemMapping;
+    }
+
+    public void setStoreProductMapping(List<StoreItemMappingEntity> storeProductMapping) {
+        this.storeItemMapping = storeProductMapping;
+    }
+    
+    public KitchenEntity getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(KitchenEntity kitchen) {
+        this.kitchen = kitchen;
+    }
+
+    public List<StoreItemMappingEntity> getStoreItemMapping() {
+        return storeItemMapping;
+    }
+
+//    public List<TransactionEntity> getTransacion() {
+//        return transactions;
+//    }
+
+    public void setStoreItemMapping(List<StoreItemMappingEntity> storeItemMapping) {
+        this.storeItemMapping = storeItemMapping;
     }
 
     public List<Long> getFactoryList() {
@@ -142,53 +188,9 @@ public class StoreEntity implements Serializable {
         this.factoryList = factoryList;
     }
 
-    public KitchenEntity getKitchen() {
-        return kitchen;
-    }
-
-    public void setKitchen(KitchenEntity kitchen) {
-        this.kitchen = kitchen;
-    }
-
-    public List<StoreProductEntity> getStoreProducts() {
-        return storeProducts;
-    }
-
-    public void setStoreProducts(List<StoreProductEntity> storeProducts) {
-        this.storeProducts = storeProducts;
-    }
-
-    public List<StoreRetailProductEntity> getStoreRetailProducts() {
-        return storeRetailProducts;
-    }
-
-    public void setStoreRetailProducts(List<StoreRetailProductEntity> storeRetailProducts) {
-        this.storeRetailProducts = storeRetailProducts;
-    }
-
-    public List<StoreItemMappingEntity> getStoreItemMappings() {
-        return storeItemMappings;
-    }
-
-    public void setStoreItemMappings(List<StoreItemMappingEntity> storeItemMappings) {
-        this.storeItemMappings = storeItemMappings;
-    }
-
-    public List<TransactionEntity> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<TransactionEntity> transactions) {
-        this.transactions = transactions;
-    }
-
-    public List<StoreWarehouseBinEntity> getStoreBins() {
-        return storeBins;
-    }
-
-    public void setStoreBins(List<StoreWarehouseBinEntity> storeBins) {
-        this.storeBins = storeBins;
-    }
+//    public void setTransacion(List<TransactionEntity> transactions) {
+//        this.transactions = transactions;
+//    }
 
     
     

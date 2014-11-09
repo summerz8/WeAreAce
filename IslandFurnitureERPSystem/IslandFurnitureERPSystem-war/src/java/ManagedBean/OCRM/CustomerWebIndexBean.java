@@ -28,7 +28,6 @@ public class CustomerWebIndexBean {
     private List<CustomerWebItemEntity> itemList;
     private String selectedWeb;
     private Long searchId;
-    private CustomerWebItemEntity item;
 
     public CustomerWebIndexBean() {
     }
@@ -36,8 +35,8 @@ public class CustomerWebIndexBean {
     @PostConstruct
     public void init() {
 
+        itemList = cwml.listItems();
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
-        itemList = cwml.listItems(selectedWeb);
 
     }
 
@@ -51,7 +50,7 @@ public class CustomerWebIndexBean {
         Long respond = cwml.deleteItem(itemId);
 
         if (respond.equals(0L)) {
-            return "CustomerWebFurniture?faces-redirect=true";
+            return "CustomerWebSingapore?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", respond);
             return "CantDeleteItem?faces-redirect=true";
@@ -60,12 +59,8 @@ public class CustomerWebIndexBean {
 
     public String search() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", searchId);
-        item = cwml.getItem(searchId);
-        if (item != null) {
-            return "EditItem?faces-redirect=true";
-        } else {
-            return "CantFindItem?faces-redirect=true";
-        }
+
+        return "EditItem?faces-redirect=true";
 
     }
 

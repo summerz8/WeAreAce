@@ -5,7 +5,6 @@
  */
 package SessionBean.OCRM;
 
-import Entity.Store.OCRM.FeedbackEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.ShoppingCartItemEntity;
@@ -194,38 +193,30 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
     @Override
     public void upDateShoppingCart(Long userId, List<ShoppingCartItemEntity> itemList) {
         MemberEntity member = em.find(MemberEntity.class, userId);
-        List<ShoppingCartItemEntity> newItemList = member.getShoppingCartList();
-        int size = itemList.size();
-        for (int a = 0; a < size; a++) {
+        List<ShoppingCartItemEntity> newItemList=member.getShoppingCartList();
+        int size=itemList.size();
+        for(int a=0;a<size;a++){
             newItemList.get(a).setQuantity(itemList.get(a).getQuantity());
         }
-
+        
         em.persist(member);
         em.flush();
 
     }
 
     @Override
-    public void removeItem(Long memberId, Long ShoppingCartItemId) {
-        MemberEntity member = em.find(MemberEntity.class, memberId);
-        List<ShoppingCartItemEntity> itemList = member.getShoppingCartList();
-        for (ShoppingCartItemEntity s : itemList) {
-            if (s.getId().equals(ShoppingCartItemId)) {
+    public void removeItem(Long memberId,Long ShoppingCartItemId) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);   
+        List<ShoppingCartItemEntity> itemList=member.getShoppingCartList();
+        for(ShoppingCartItemEntity s: itemList){
+            if(s.getId().equals(ShoppingCartItemId)){
                 itemList.remove(s);
                 break;
             }
         }
-        em.remove(em.find(ShoppingCartItemEntity.class, ShoppingCartItemId));
+        em.remove(em.find(ShoppingCartItemEntity.class,ShoppingCartItemId));
         em.persist(member);
         em.flush();
-    }
-
-    @Override
-    public void createFeedBack(String title, String content, String email, String name){
-        FeedbackEntity feedback=new FeedbackEntity(title,content,email,name);
-        em.persist(feedback);
-        em.flush();
-    
     }
 
 }

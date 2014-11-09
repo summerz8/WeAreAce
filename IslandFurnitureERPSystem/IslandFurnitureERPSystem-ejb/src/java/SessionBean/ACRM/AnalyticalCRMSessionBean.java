@@ -16,7 +16,6 @@
  */
 package SessionBean.ACRM;
 
-import Entity.Store.ACRM.CLVEntity;
 import Entity.Store.ACRM.RFMEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.TransactionEntity;
@@ -380,6 +379,43 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
     }
 
     @Override
+    public String sendEmailsToSegmentCustomers(Collection<Long> memberIdList) throws Exception {
+        String result;
+        try {
+            for (Long id : memberIdList) {
+                //sendemail function
+            }
+            result = "Email has been sent out successfully!";
+        } catch (Exception e) {
+            System.err.println("AnalyticalCRMSessionBean: sendEmailsToSegmentCustomers(): Caught an unexpected exception.");
+            e.printStackTrace();
+            result = "Email has not been sent out successfully.";
+        }
+
+        return result;
+    }
+
+    @Override
+    public String sendEmailsToAll(Long storeId) throws Exception {
+        String result;
+        try {
+            StoreEntity store = em.find(StoreEntity.class, storeId);
+            Query q = em.createQuery("Select m from MemberEntity where m.storeId=:id");
+            q.setParameter("storeId", storeId);
+            Collection<MemberEntity> memberList = q.getResultList();
+            for (MemberEntity m : memberList) {
+                //sendemail function
+            }
+            result = "Email has been sent out successfully!";
+        } catch (Exception e) {
+            System.err.println("AnalyticalCRMSessionBean: sendEmailsToAll(): Caught an unexpected exception.");
+            e.printStackTrace();
+            result = "Email has not been sent out successfully.";
+        }
+        return result;
+    }
+
+    @Override
     public Double getRetentionRate(Long storeId, Calendar time, Integer location,
             Boolean isForAllPlace, Boolean isMonthly, Boolean isYearly) throws Exception {
         Double rr = null;
@@ -506,7 +542,6 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
             if (member.getRfm() == null) {
                 rfm = new RFMEntity(recency, frequency, monetary, member);
                 member.setRfm(rfm);
-                em.persist(rfm);
             } else {
                 rfm = member.getRfm();
                 rfm.setRecency(recency);
@@ -515,7 +550,6 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
 
                 member.setRfm(rfm);
             }
-            em.flush();
         } catch (Exception e) {
             System.out.println("Caught an unexpected exception!");
             e.printStackTrace();
@@ -579,15 +613,14 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
     }
 
     @Override
-    public Collection<CLVEntity> getCLV(Long storeId, Calendar time,
+    public Collection<Double> getCLV(Long storeId, Calendar time,
             Double grossProfitMargin, Double aveAcquisitionCost, Integer location,
             Boolean isForAllPlace, Boolean isFemale, Boolean isMale, Boolean isOthers,
             Boolean checkMemberlvl, Integer memberlvl) throws Exception {
         System.out.println("AnalyticalCRMSessionBean: getCLV: ");
-        Collection<CLVEntity> clvList = new ArrayList();
+        Collection<Double> clvList = new ArrayList();
         try {
-            CLVEntity clvEntity;
-            Double clv = 0.0;
+            Double clv;
             Double totalExp = 0.0;
             Integer totalVisit = 0;
             Integer visitThisMonth = 0;
@@ -603,10 +636,9 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
                 //check for customer by gender 
                 if ((isFemale && m.getGender().equals("Female"))
                         || (isMale && m.getGender().equals("Male"))
-                        || (isOthers && m.getGender().equals("Others"))
-                        || (!isFemale && !isMale && !isOthers)) {
+                        || (isOthers && m.getGender().equals("Others"))) {
                     cle = m.getMemberlvl().getCle();
-//                    System.out.println("CLE: " + cle);
+                    System.out.println("CLE: " + cle);
                     for (TransactionEntity t : m.getTransactionList()) {
                         //check for furniture, retail , kitchen separetely
                         if ((!isForAllPlace && t.getLocation() == location) || isForAllPlace) {
@@ -622,28 +654,17 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
                         clv = 1000.0;
                     } else {
                         aveExp = totalExp / totalVisit;
-//                        System.out.println("AveExp: " + aveExp);
-//                        System.out.println("visitThisMonth: " + visitThisMonth);
-//                        System.out.println("grossProfitMargin: " + grossProfitMargin);
+                        System.out.println("AveExp: " + aveExp);
+                        System.out.println("visitThisMonth: " + visitThisMonth);
+                        System.out.println("grossProfitMargin: " + grossProfitMargin);
                         clv = cle * aveExp * visitThisMonth * grossProfitMargin - aveAcquisitionCost;
+
                         if (clv < 0) {
                             clv = 0.0;
                         }
                     }
-//                    System.err.println("CLV: " + clv);
-                    if (m.getClv() == null) {
-                        clvEntity = new CLVEntity(visitThisMonth, aveExp, clv, m);
-                        m.setClv(clvEntity);
-                        em.persist(clvEntity);
-                    } else {
-                        clvEntity = m.getClv();
-                        clvEntity.setAveExp(aveExp);
-                        clvEntity.setVisitThisMonth(visitThisMonth);
-                        clvEntity.setClv(clv);
-                        m.setClv(clvEntity);
-                    }
-                    em.flush();
-                    clvList.add(clvEntity);
+                    System.err.println("CLV: " + clv);
+                    clvList.add(clv);
                 }
             }
         } catch (Exception e) {

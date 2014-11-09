@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package ManagedBean.CommonInfrastructure.EnterpriseResourceControl;
 
 import Entity.Factory.ProductEntity;
@@ -28,24 +29,21 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class RetailProductControlBean {
 
-    @EJB
+     @EJB
     private RetailProduct_ProductManagementModuleLocal RPMM;
     private List<RetailProductEntity> retailList;
     private List<RetailProductEntity> filteredRetail;
-
+    
     private String newRetailProductName;
-    private String newRetailProductDescription;
+    private String newRetailProductDescription;   
     private String newRetailProductUnit;
     private Double newRetailProductPrice;
-
-    private Long selectedDeleteRetailId;
-
     /**
      * Creates a new instance of RetailProductControlBean
      */
     public RetailProductControlBean() {
     }
-
+    
     @PostConstruct
     public void init() {
         System.out.println("ProductControlBean: init:");
@@ -60,8 +58,8 @@ public class RetailProductControlBean {
         RetailProductEntity entity = (RetailProductEntity) event.getObject();
         System.out.println("onRowEdit test: " + entity.getRetailProductId() + entity.getName());
 
-        RPMM.ModifyRetailProduct(entity.getRetailProductId(), entity.getName(), entity.getUnit(),
-                entity.getPrice(), entity.getDescription());
+        RPMM.ModifyRetailProduct(entity.getRetailProductId(), entity.getName(), entity.getUnit(), 
+                entity.getPrice(),  entity.getDescription());
 
         FacesMessage msg = new FacesMessage("Retail Product Edited", String.valueOf(entity.getRetailProductId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -72,18 +70,15 @@ public class RetailProductControlBean {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void deleteRetailProduct(Long id) {
-        System.out.println("RetailProductControlBean: deleteRetailProduct: " + String.valueOf(id));
-        if (RPMM.DeleteRetailProduct(id)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product deleted successfully! ", ""));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Retail Product cannot be deleted! ", "Factory retail product or store retail product still exists!"));
-        }
+    public void deleteRetailProduct(long id) {
+        System.out.println("RetailProductControlBean: deleteRetailProduct: " + String.valueOf(id));      
+        RPMM.DeleteRetailProduct(id);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product deleted successfully! ", ""));
+        
         retailList = RPMM.ListRetailProduct();
         filteredRetail = retailList;
     }
-
+    
     public void addRetailProduct() {
         System.out.println("RetailProductControlBean: addRetailProduct: ");
         RPMM.AddRetailProduct(newRetailProductName, newRetailProductDescription, newRetailProductPrice, newRetailProductUnit);
@@ -143,13 +138,6 @@ public class RetailProductControlBean {
     public void setNewRetailProductPrice(Double newRetailProductPrice) {
         this.newRetailProductPrice = newRetailProductPrice;
     }
-
-    public Long getSelectedDeleteRetailId() {
-        return selectedDeleteRetailId;
-    }
-
-    public void setSelectedDeleteRetailId(Long selectedDeleteRetailId) {
-        this.selectedDeleteRetailId = selectedDeleteRetailId;
-    }
-
+    
+    
 }

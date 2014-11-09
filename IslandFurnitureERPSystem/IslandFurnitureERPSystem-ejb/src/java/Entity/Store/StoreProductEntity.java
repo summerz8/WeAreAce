@@ -7,7 +7,6 @@ package Entity.Store;
 
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
-import Entity.Store.IM.StoreBinProductEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import java.io.Serializable;
@@ -24,9 +23,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,7 +31,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "StoreProduct")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,15 +39,12 @@ public class StoreProductEntity implements Serializable {
     private Long storeProductId;
 
     private String name;
-//    private Double quantity;
+    private Double quantity;
     private String unit;
-    private Double minimumInventory;
-    private Double unrestrictedInventory;
-    private Double returnedInventory;
 
     private Boolean selfPick;
     private Boolean deleteFlag;
-    private String storeRemark;
+
     //store product entity -- factory product entity: M <--> 1 
     @ManyToOne
     private FactoryProductEntity factoryProduct;
@@ -65,45 +57,23 @@ public class StoreProductEntity implements Serializable {
     private ProductEntity product;
 
     @OneToMany
-    private Collection<StoreBinProductEntity> binProducts;
-
-    @OneToMany
-    @XmlTransient
     private Collection<ReturnedItemMovementRecordEntity> returnedItemMovementRecords = null;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
-    @XmlTransient
     private List<SalesRecordEntity> salesRecordList;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
-    @XmlTransient
     private List<ProductSalesForecastEntity> productSalesForecastList;
 
     public StoreProductEntity() {
     }
 
-//    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick) {
-//        this.factoryProduct = factoryproduct;
-//        this.store = store;
-//        this.selfPick = selfPick;
-//        salesRecordList = new ArrayList<>();
-//        productSalesForecastList = new ArrayList<>();
-//    }
-    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick, String storeRemark, ProductEntity product) {
-        System.out.println("Testing!" + factoryproduct.getFactoryProductId());
-        this.name = factoryproduct.getName();
-        this.unit = factoryproduct.getUnit();
+    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick) {
         this.factoryProduct = factoryproduct;
         this.store = store;
-        this.product= product;
-        this.deleteFlag = false;
         this.selfPick = selfPick;
         salesRecordList = new ArrayList<>();
-        productSalesForecastList = new ArrayList<>();
-        minimumInventory = 50D;
-        unrestrictedInventory = 0D;
-        returnedInventory = 0D;
-        this.storeRemark = storeRemark;
+        productSalesForecastList= new ArrayList<>();
     }
 
     public Long getStoreProductId() {
@@ -128,6 +98,14 @@ public class StoreProductEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public String getUnit() {
@@ -194,47 +172,6 @@ public class StoreProductEntity implements Serializable {
         this.productSalesForecastList = productSalesForecastList;
     }
 
-    public Double getMinimumInventory() {
-        return minimumInventory;
-    }
-
-    public void setMinimumInventory(Double minimumInventory) {
-        this.minimumInventory = minimumInventory;
-    }
-
-    public Double getUnrestrictedInventory() {
-        return unrestrictedInventory;
-    }
-
-    public void setUnrestrictedInventory(Double unrestrictedInventory) {
-        this.unrestrictedInventory = unrestrictedInventory;
-    }
-
-    public Double getReturnedInventory() {
-        return returnedInventory;
-    }
-
-    public void setReturnedInventory(Double returnedInventory) {
-        this.returnedInventory = returnedInventory;
-    }
-
-    public String getStoreRemark() {
-        return storeRemark;
-    }
-
-    public void setStoreRemark(String storeRemark) {
-        this.storeRemark = storeRemark;
-    }
-
-    public Collection<StoreBinProductEntity> getBinProducts() {
-        return binProducts;
-    }
-
-    public void setBinProducts(Collection<StoreBinProductEntity> binProducts) {
-        this.binProducts = binProducts;
-    }
-
-    
     @Override
     public int hashCode() {
         int hash = 0;

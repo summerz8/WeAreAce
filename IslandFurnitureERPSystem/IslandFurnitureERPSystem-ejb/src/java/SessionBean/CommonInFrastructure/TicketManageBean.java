@@ -34,7 +34,7 @@ public class TicketManageBean implements TicketManageBeanLocal {
     public void raiseATicket(String UserId, String title, String content) throws Exception {
         UserEntity systemUser = em.find(UserEntity.class, UserId);
         if (systemUser == null) {
-            throw new Exception("System user is not found!");
+            throw new Exception("system user is not found!");
         } else {
             TicketEntity ticket = new TicketEntity(title, content);
             
@@ -51,7 +51,7 @@ public class TicketManageBean implements TicketManageBeanLocal {
     public void readATicket(Long ticketId) throws Exception {
         TicketEntity ticket = em.find(TicketEntity.class, ticketId);
         if (ticket == null) {
-            throw new Exception("Ticket is not found!");
+            throw new Exception("Tickey is not found");
 
         } else {
             ticket.setStatus(2);
@@ -64,7 +64,7 @@ public class TicketManageBean implements TicketManageBeanLocal {
     public void processATicket(Long ticketId) throws Exception {
         TicketEntity ticket = em.find(TicketEntity.class, ticketId);
         if (ticket == null) {
-            throw new Exception("Ticket is not found!");
+            throw new Exception("Tickey is not found");
 
         } else {
             ticket.setStatus(3);
@@ -76,7 +76,7 @@ public class TicketManageBean implements TicketManageBeanLocal {
     public void closeATicket(Long ticketId) throws Exception {
         TicketEntity ticket = em.find(TicketEntity.class, ticketId);
         if (ticket == null) {
-            throw new Exception("Ticket is not found!");
+            throw new Exception("Tickey is not found");
 
         } else {
             ticket.setStatus(4);
@@ -92,7 +92,7 @@ public class TicketManageBean implements TicketManageBeanLocal {
         
         
         ticketList = (List<TicketEntity>)  systemUser.getTickets();
-        System.out.println("Session bean : get the system ticket:" + ticketList.size());
+        System.out.println("session bean : get the system ticket:" + ticketList.size());
 
         return ticketList;
     }

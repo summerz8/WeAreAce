@@ -18,7 +18,6 @@
  */
 package SessionBean.ACRM;
 
-import Entity.Store.ACRM.CLVEntity;
 import Entity.Store.ACRM.RFMEntity;
 import Entity.Store.OCRM.MemberEntity;
 import java.util.Calendar;
@@ -64,10 +63,14 @@ public interface AnalyticalCRMSessionBeanLocal {
 
     public Collection<MemberEntity> getMembersByAGCM(Integer minAge, Integer maxAge, String gender, String country, Integer memberLevel) throws Exception;
 
+    public String sendEmailsToSegmentCustomers(Collection<Long> memberIdList) throws Exception;
+
+    public String sendEmailsToAll(Long storeId) throws Exception;
+
     public Double getRetentionRate(Long storeId, Calendar time, Integer location,
             Boolean isForAllPlace, Boolean isMonthly, Boolean isYearly) throws Exception;
 
-    public Collection<CLVEntity> getCLV(Long storeId, Calendar time,
+    public Collection<Double> getCLV(Long storeId, Calendar time,
             Double grossProfitMargin, Double aveAcquisitionCost, Integer location,
             Boolean isForAllPlace, Boolean isFemale, Boolean isMale, Boolean isOthers,
             Boolean checkMemberlvl, Integer memberlvl) throws Exception;

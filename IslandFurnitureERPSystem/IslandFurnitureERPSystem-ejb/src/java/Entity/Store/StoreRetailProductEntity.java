@@ -20,9 +20,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,22 +27,15 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "StoreRetailProduct")
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class StoreRetailProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeRetailProductId;
-//    private Double quantity;
+    private Double quantity;
     private String Name;
-    private Double unrestrictedInventory = 0D;//start with 0
-    private Double minimumInventory = 50D;
-    private Double returnedInventory = 0D;
-    private String storeRemark;
-    private String unit;
-    private Boolean deleteFlag;
-    
+
     //store retail product entity -- factory retail productentity: M <--> 1 
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
@@ -59,35 +49,19 @@ public class StoreRetailProductEntity implements Serializable {
     private RetailProductEntity retailProduct;
 
     @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="storeRetailProduct")
-    @XmlTransient
     private List<SalesRecordEntity> salesRecordList;
     
     @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="storeRetailProduct")
-    @XmlTransient
     private List<ProductSalesForecastEntity> productSalesForecastList;
 
     public StoreRetailProductEntity() {
     }
 
-//    public StoreRetailProductEntity(FactoryRetailProductEntity factoryretail, StoreEntity store) {
-//        this.factoryRetailProduct = factoryretail;
-//        this.store = store;
-//        salesRecordList=new ArrayList<>();
-//        productSalesForecastList=new ArrayList<>();
-//    }
-    
-    public StoreRetailProductEntity(FactoryRetailProductEntity factoryretail, StoreEntity store, String storeRemark) {
+    public StoreRetailProductEntity(FactoryRetailProductEntity factoryretail, StoreEntity store) {
         this.factoryRetailProduct = factoryretail;
         this.store = store;
         salesRecordList=new ArrayList<>();
         productSalesForecastList=new ArrayList<>();
-        unrestrictedInventory = 0D;
-        minimumInventory = 50D;
-        returnedInventory = 0D;
-        this.Name = factoryretail.getRetailProduct().getName();
-        this.unit = factoryretail.getRetailProduct().getUnit();
-        this.storeRemark = storeRemark;
-        this.deleteFlag = false;
     }
 
     public Long getStoreRetailProductId() {
@@ -96,6 +70,14 @@ public class StoreRetailProductEntity implements Serializable {
 
     public void setStoreRetailProductId(Long storeRetailProductId) {
         this.storeRetailProductId = storeRetailProductId;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public FactoryRetailProductEntity getFactoryRetailProduct() {
@@ -144,54 +126,6 @@ public class StoreRetailProductEntity implements Serializable {
 
     public void setProductSalesForecastList(List<ProductSalesForecastEntity> productSalesForecast) {
         this.productSalesForecastList = productSalesForecast;
-    }
-
-    public Double getUnrestrictedInventory() {
-        return unrestrictedInventory;
-    }
-
-    public void setUnrestrictedInventory(Double unrestrictedInventory) {
-        this.unrestrictedInventory = unrestrictedInventory;
-    }
-
-    public Double getMinimumInventory() {
-        return minimumInventory;
-    }
-
-    public void setMinimumInventory(Double minimumInventory) {
-        this.minimumInventory = minimumInventory;
-    }
-
-    public Double getReturnedInventory() {
-        return returnedInventory;
-    }
-
-    public void setReturnedInventory(Double returnedInventory) {
-        this.returnedInventory = returnedInventory;
-    }
-
-    public String getStoreRemark() {
-        return storeRemark;
-    }
-
-    public void setStoreRemark(String storeRemark) {
-        this.storeRemark = storeRemark;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public Boolean isDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
     }
 
     

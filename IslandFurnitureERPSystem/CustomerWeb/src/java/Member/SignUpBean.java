@@ -47,16 +47,10 @@ public class SignUpBean {
 
     public String addMember() {
         System.out.println("MemberControlBean: addMember: ");
-        String web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
-
         MRMM.AddMemberWithPassword(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, password);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", FirstName);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", Email);
-        
-        if(web.equals(("Singapore")))
-        return "/secured/Singapore/MemberPage?faces-redirect=true";
-        else 
-        return "/secured/China/MemberPage?faces-redirect=true";
+        return "/secured/MemberPage?faces-redirect=true";
     }
 
     public String getFirstName() {
@@ -179,4 +173,5 @@ public class SignUpBean {
         this.MRMM = MRMM;
     }
 
+    
 }

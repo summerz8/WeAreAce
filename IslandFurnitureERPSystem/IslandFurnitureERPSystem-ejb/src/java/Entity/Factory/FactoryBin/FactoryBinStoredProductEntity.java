@@ -17,9 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,7 +24,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "FactoryStoredProduct")
-@XmlAccessorType(value = XmlAccessType.FIELD)
 public class FactoryBinStoredProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,24 +34,20 @@ public class FactoryBinStoredProductEntity implements Serializable {
 
     //factory rawMaterial entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @XmlTransient
     private FactoryRawMaterialEntity factoryRawMaterial = null;
 
     //factory product entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @XmlTransient
     private FactoryProductEntity factoryProduct = null;
 
     //factory retail product entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @XmlTransient
     private FactoryRetailProductEntity factoryRetailProduct = null;
 
     private int stockTypeIndicator = 0; // default is 0    //to indicate the type of stocks: 1 for factoryRawMaterial, 2 for factoryProduct, 3 for factoryRetailProduct
 
 //    //factory bin entity -- factory bin stored products entity: 1 <--> M 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @XmlTransient
     private FactoryBinEntity factoryBin;
 
     private String status;  // unrestricted, blocked, returned

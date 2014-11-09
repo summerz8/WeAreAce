@@ -25,10 +25,9 @@ public class CustomerWebSetBean {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    private List<SetEntity> setList;
-    private String selectedWeb;
-    private Long searchId;
-    private SetEntity set;
+    List<SetEntity> setList;
+    String selectedWeb;
+    Long searchId;
 
     public CustomerWebSetBean() {
     }
@@ -36,8 +35,8 @@ public class CustomerWebSetBean {
     @PostConstruct
     public void init() {
 
+        setList = cwml.getSetList();
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
-        setList = cwml.getSetList(selectedWeb);
 
     }
 
@@ -50,20 +49,17 @@ public class CustomerWebSetBean {
     public String delete(Long setId) {
         cwml.deleteSet(setId);
 
-        return "CustomerWebSet?faces-redirect=true";
+        return "CustomerWebSingaporeSet?faces-redirect=true";
 
     }
 
-    public String search() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", searchId);
-        set = cwml.getSet(searchId);
-        if (set != null) {
-            return "EditSet?faces-redirect=true";
-        } else {
-            return "CantFindSet?faces-redirect=true";
-        }
-    }
+    public String search(){
+     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", searchId);
 
+        return "EditSet?faces-redirect=true";
+    }
+    
+    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }

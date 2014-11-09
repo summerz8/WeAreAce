@@ -78,25 +78,13 @@
                 <p:layoutUnit position="center" resizable="false">
                     <p:panel id="basic" header =" " style="height:800px;" >
                         <h:panelGrid columns="2" cellpadding="6">
-                            <p:dataTable var="rfm" value="#{viewRFMBean.RFMList}" style="margin-bottom:40px"
-                                         selection="#{viewRFMBean.selectedRFMs}" rowKey="#{rfm.member.memberId}" >
+                            <p:dataTable var="rfm" value="#{viewRFMBean.RFMList}" style="margin-bottom:40px">
                                 <f:facet name="header">
                                     Customer RFM Values
                                 </f:facet>
-
-                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-
-                                <p:column style="width:30px;text-align:center">
-                                    <p:commandButton update=":formMain:memberDetail" oncomplete="PF('memberDialog').show()"
-                                                     icon="ui-icon-search" >
-                                        <f:setPropertyActionListener value="#{rfm.member}" target="#{viewRFMBean.selectedMember}" />
-                                    </p:commandButton>
-                                </p:column>
                                 <p:column headerText="Member Id" sortBy="#{rfm.member.memberId}">
                                     <h:outputText value="#{rfm.member.memberId}" />
                                 </p:column>
-
-
 
                                 <p:column headerText="Recency (days)" sortBy="#{rfm.recency}">
                                     <h:outputText value="#{rfm.recency}" />
@@ -109,49 +97,8 @@
                                 <p:column headerText="Monetary (Total)" sortBy="#{rfm.monetary}">
                                     <h:outputText value="#{rfm.monetary}" />
                                 </p:column>
-
-                                <f:facet name="footer">
-                                    <p:commandButton  value="Send Email" action="#{viewRFMBean.sendEmail}"/>
-                                </f:facet>
                             </p:dataTable>
                         </h:panelGrid>
-                        <p:dialog header="Member Info" widgetVar="memberDialog" position="center"
-                                  showEffect="fade" hideEffect="fade" resizable="true" 
-                                  draggable="true" closable="true" width="300">
-                            <p:outputPanel id="memberDetail" style="text-align:center;">
-                                <p:panelGrid  columns="2" columnClasses="label,value">
-                                    <h:outputText value="Member Id: " />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.memberId}" />
-
-                                    <h:outputText value="Register Date:" />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.createDate.time}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Title: " />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.title}" />
-
-                                    <h:outputText value="Name:" />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.firstName} #{viewRFMBean.selectedMember.midName} #{viewRFMBean.selectedMember.lastName}" />
-
-                                    <h:outputText value="Birthday" />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.birthday.time}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
-                                    </h:outputText>
-
-                                    <h:outputText value="Gender:" />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.gender}" />  
-
-                                    <h:outputText value="Nationality:" />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.country}" /> 
-
-                                    <h:outputText value="Member Level" />
-                                    <h:outputText value="#{viewRFMBean.selectedMember.memberlvl.levelId} #{viewRFMBean.selectedMember.memberlvl.levelName}" /> 
-                                    
-                                </p:panelGrid>
-
-                            </p:outputPanel>
-                        </p:dialog>
                     </p:panel>
                 </p:layoutUnit>
             </p:layout>
