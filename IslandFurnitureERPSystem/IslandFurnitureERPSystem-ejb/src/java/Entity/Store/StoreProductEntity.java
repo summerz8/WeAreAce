@@ -68,9 +68,27 @@ public class StoreProductEntity implements Serializable {
     public StoreProductEntity() {
     }
 
+<<<<<<< HEAD
     public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick) {
         this.factoryProduct = factoryproduct;
         this.store = store;
+=======
+//    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick) {
+//        this.factoryProduct = factoryproduct;
+//        this.store = store;
+//        this.selfPick = selfPick;
+//        salesRecordList = new ArrayList<>();
+//        productSalesForecastList = new ArrayList<>();
+//    }
+    public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick, String storeRemark) {
+        System.out.println("Testing!" + factoryproduct.getFactoryProductId());
+        this.name = factoryproduct.getName();
+        this.unit = factoryproduct.getUnit();
+        this.factoryProduct = factoryproduct;
+        this.store = store;
+
+        this.deleteFlag = false;
+>>>>>>> parent of 6bf018e... no message
         this.selfPick = selfPick;
         salesRecordList = new ArrayList<>();
         productSalesForecastList= new ArrayList<>();

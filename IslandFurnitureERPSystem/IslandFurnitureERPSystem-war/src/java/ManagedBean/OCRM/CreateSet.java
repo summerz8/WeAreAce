@@ -38,7 +38,11 @@ public class CreateSet {
     }
     
     public String create(){
+<<<<<<< HEAD
         Long setId=cwml.createSet(setName, description, "set2.jpg");
+=======
+        Long setId=cwml.createSet(setName, description, "set2.png");
+>>>>>>> parent of 6bf018e... no message
         set=cwml.getSet(setId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId",setId);
         
