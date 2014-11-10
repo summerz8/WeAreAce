@@ -5,7 +5,7 @@ package Member;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,14 +25,17 @@ public class GalleryBean {
     @EJB
     private CustomerWebModuleLocal cwml;
 
-    private List<SetEntity> setList;
+    private List<CountrySetEntity> setList;
+    private String web;
 
     public GalleryBean() {
     }
 
     @PostConstruct
     public void init() {
-        setList = cwml.getSetList();
+        web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+
+        setList = cwml.getSetList(web);
     }
 
     public String viewMore(Long setId) {
@@ -41,7 +44,6 @@ public class GalleryBean {
         return "set?faces-redirect=true";
     }
 
-    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }
@@ -50,11 +52,11 @@ public class GalleryBean {
         this.cwml = cwml;
     }
 
-    public List<SetEntity> getSetList() {
+    public List<CountrySetEntity> getSetList() {
         return setList;
     }
 
-    public void setSetList(List<SetEntity> setList) {
+    public void setSetList(List<CountrySetEntity> setList) {
         this.setList = setList;
     }
 

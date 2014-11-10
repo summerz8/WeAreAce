@@ -80,7 +80,7 @@
                                 <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
                                 <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
                                 <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-
+                                <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
 
                             </p:submenu>
 
@@ -93,7 +93,8 @@
 
                                 <h:outputLabel for="country" value="Country: *" />
                                 <h:selectOneMenu value="#{storeControl.newStoreCountry}" style="width:100%" required="true" requiredMessage="Please select a title">
-                                    <f:selectItems value="#{predefinedAttr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{predefinedAttr.countries}" />
                                 </h:selectOneMenu>
 
 

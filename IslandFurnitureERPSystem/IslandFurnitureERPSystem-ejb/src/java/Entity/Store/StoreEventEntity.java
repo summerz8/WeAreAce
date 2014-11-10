@@ -7,10 +7,13 @@
 package Entity.Store;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -22,7 +25,32 @@ public class StoreEventEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private String eventName;
+    private String description;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar startDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar endDate;
+    @ManyToOne
+    private StoreEntity store;
+    private Double bonus;
+    
+    @ManyToOne
+    private EventEntity event;
 
+    public StoreEventEntity(){
+    }
+    
+    public StoreEventEntity(String eventName,String description, Calendar startDate, Calendar endDate, StoreEntity store,Double bonus){
+        this.eventName=eventName;
+        this.description=description;
+        this.startDate=startDate;
+        this.endDate=endDate;
+        this.bonus=bonus;
+        this.endDate=endDate;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -31,6 +59,63 @@ public class StoreEventEntity implements Serializable {
         this.id = id;
     }
 
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
+    public Double getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(Double bonus) {
+        this.bonus = bonus;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+
+    public EventEntity getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventEntity event) {
+        this.event = event;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

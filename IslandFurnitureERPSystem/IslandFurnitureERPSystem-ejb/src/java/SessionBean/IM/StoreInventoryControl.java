@@ -121,7 +121,7 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         ProductEntity product = em.find(ProductEntity.class, productId);
         FactoryProductEntity mapFactoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
         List<StoreProductEntity> currentStoreProductList = store.getStoreProducts();
-        StoreProductEntity newStoreProduct = new StoreProductEntity(mapFactoryProduct, store,isSelfPicked, storeRemark);
+        StoreProductEntity newStoreProduct = new StoreProductEntity(mapFactoryProduct, store,isSelfPicked, storeRemark,product);
 //        em.persist(newStoreProduct);
         StoreItemMappingEntity sime = new StoreItemMappingEntity();
         sime.setProductId(productId);

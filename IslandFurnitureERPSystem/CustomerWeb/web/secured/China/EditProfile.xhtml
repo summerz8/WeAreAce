@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputScript name="./js/bootstrap.js"/>
+            <h:outputStylesheet name="./css/bootstrap.min.css"/>
+            <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+            <script type="text/javascript" src="./js/bootstrap.js"></script>
+            <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+            <title>Island Furniture Customer Web</title>
+        </h:head>
+
+
+        <h:body >
+
+
+            <h:form id="formMain">
+
+                <p:growl id="messages" showDetail="true" sticky="true"/>
+
+                <!--                <p:layout >-->
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 10px; text-align: left ">       
+                    <!--</p:layoutUnit>--> 
+
+
+                   
+                    <p:link outcome="/secured/China/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    </p:link>
+
+                   
+
+
+                    <p:commandButton value="退出" action="#{memberInfo.logOut3}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+
+                 
+
+                    <div class="col-md-12 column" style="text-align: center; border: none;">
+                        <img alt="200x100" src="../../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
+                        <p:button value="主页" outcome="/China/HomePage?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="家居印象" outcome="/China/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="家具" outcome="/China/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="超市" outcome="/China/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="餐厅" outcome="/China/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="关于我们" outcome="/China/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    </div>
+
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center" resizable="false" style = "margin: auto;border:0px;margin-bottom:10px ;width: 800px; height:1000px;" >
+
+
+                    <h:panelGrid columns="1" columnClasses="logo,detail" style="  margin: auto  ; top:160px;left:300px">
+                        <div> 
+                            <p:outputPanel>
+                                <h:outputText value="修改用户信息" style=" font-size: 30px; color: #e38d13;"/>
+                                <h:outputText value=" " style="font-weight: bold; color: #e38d13"/>
+
+                                <h:panelGrid columns="2" cellpadding="10">                                
+
+                                    <h:outputLabel for="title" value="称呼: *" />
+                                    <h:selectOneMenu value="#{memberInfo.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
+                                        <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
+                                    </h:selectOneMenu>
+
+
+                                    <h:outputLabel for="firstname" value="名:" />
+                                    <p:inplace id="firstname" editor="true">
+                                        <p:inputText value="#{memberInfo.first}" required="true" label="text" />
+                                    </p:inplace>
+
+
+                                
+
+                                    <h:outputLabel for="lastname" value="姓: " />
+                                    <p:inplace id="lastname" editor="true">
+                                        <p:inputText value="#{memberInfo.lastName}" required="true" label="text" />
+                                    </p:inplace>
+
+
+                                    <h:outputLabel for="gender" value="性别: " />
+                                    <h:selectOneMenu value="#{memberInfo.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
+                                        <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                    </h:selectOneMenu>
+
+
+                                    <h:outputLabel for="email" value="电子邮箱(登陆帐号): *" />
+                                    <p:inplace id="email" editor="true">
+                                        <p:inputText value="#{memberInfo.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
+                                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                        </p:inputText>
+                                    </p:inplace>
+
+                                    <h:outputLabel for="birthday" value="生日:*" />
+                                    <p:calendar id="birthday" value="#{memberInfo.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+
+                                    <h:outputLabel for="addr" value="地址:" />
+                                    <p:inplace id="addr" editor="true">
+                                        <p:inputText value="#{memberInfo.address}" required="true" label="text" />
+                                    </p:inplace>
+
+                                    <h:outputLabel for="postal" value="邮编:" />
+                                    <p:inplace id="postal" editor="true">
+                                        <p:inputText value="#{memberInfo.postal}" required="true" label="text" />
+                                    </p:inplace>
+
+                                    <p:commandButton action="#{memberInfo.upDate}" value="更新" style="background: #28a4c9; color: white; width: 80px; height: 30px; margin-left: 20px;"/>
+                                    <p:commandButton action="MemberPage?faces-redirect=true" value="取消" style="background: #28a4c9; color: white; width: 80px; height: 30px; margin-left: 20px;"/>
+
+                                </h:panelGrid>
+                            </p:outputPanel>
+
+
+                            <br></br><br></br>
+
+                        </div>
+                    </h:panelGrid>
+
+                    <br></br><br></br><br></br><br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br>
+
+                    <br></br><br></br><br></br><br></br><br></br>
+                    <div  style="text-align: center">
+                        <h5>
+                            <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style=" left:500px; bottom: 0px;"/>
+                        </h5>
+                    </div>
+                </p:layoutUnit>
+
+
+                <!--</p:layout>-->
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

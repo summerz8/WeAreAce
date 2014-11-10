@@ -5,7 +5,7 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,9 +25,10 @@ public class CustomerWebIndexBean {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    private List<CustomerWebItemEntity> itemList;
+    private List<CountryProductEntity> itemList;
     private String selectedWeb;
     private Long searchId;
+    private CountryProductEntity item;
 
     public CustomerWebIndexBean() {
     }
@@ -35,8 +36,8 @@ public class CustomerWebIndexBean {
     @PostConstruct
     public void init() {
 
-        itemList = cwml.listItems();
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+        itemList = cwml.listItems(selectedWeb);
 
     }
 
@@ -50,7 +51,7 @@ public class CustomerWebIndexBean {
         Long respond = cwml.deleteItem(itemId);
 
         if (respond.equals(0L)) {
-            return "CustomerWebSingapore?faces-redirect=true";
+            return "CustomerWebFurniture?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", respond);
             return "CantDeleteItem?faces-redirect=true";
@@ -59,8 +60,12 @@ public class CustomerWebIndexBean {
 
     public String search() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", searchId);
-
-        return "EditItem?faces-redirect=true";
+        item = cwml.getItem(searchId);
+        if (item != null) {
+            return "EditItem?faces-redirect=true";
+        } else {
+            return "CantFindItem?faces-redirect=true";
+        }
 
     }
 
@@ -72,11 +77,11 @@ public class CustomerWebIndexBean {
         this.cwml = cwml;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 

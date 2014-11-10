@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputScript name="./js/bootstrap.js"/>
+            <h:outputStylesheet name="./css/bootstrap.min.css"/>
+            <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+            <script type="text/javascript" src="./js/bootstrap.js"></script>
+            <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+            <title>Island Furniture Customer Web</title>
+        </h:head>
+
+
+        <h:body >
+
+
+            <h:form id="formMain">
+
+                <p:growl id="messages" showDetail="true" sticky="true"/>
+
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:link outcome="FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:link outcome="/secured/Singapore/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+
+                <p:button  value="Member Login" outcome="/Singapore/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
+                </p:button>
+
+
+                <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+
+                <p:button value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
+                </p:button>  
+
+                <div class="col-md-12 column" style="text-align: center; border: none;">
+                    <img alt="200x100" src="../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
+                    <p:button value="Home" outcome="/index?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Gallery" outcome="/Singapore/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                    <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                </div>
+
+                <div class="col-md-12 column" style="text-align: center; border: none">
+
+                    <p:commandButton value="All" action="#{furnitureBean.searchAll()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="background-color: #D20005; color:black; width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Bed" action="#{furnitureBean.searchBed()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="background-color: #D20005; color:black; width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Desk" action="#{furnitureBean.searchDesk()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Chair" action="#{furnitureBean.searchChair()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Sofa" action="#{furnitureBean.searchSofa()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Light" action="#{furnitureBean.searchLight()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Closet" action="#{furnitureBean.searchCloset()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                    <p:commandButton value="Others" action="#{furnitureBean.searchOthers()}" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="color:black;width: 80px; height: 30px; margin-left: 30px;background:  white" />
+                </div>
+
+
+                <div style="width: 1000px; text-align:center; margin:auto; border: none">
+                    <p:dataScroller value="#{furnitureSearchBean.displayList}" var="item" chunkSize="10" style=" border: 5px">                     
+                        <div class="col-md-3" style = "margin:auto;vertical-align:bottom">
+                            <div class="thumbnail" style = " margin-right:auto; border:none;vertical-align: text-bottom">
+                                <img alt="300x200" src="../resources/images/#{item.picture}" style="width: 130px; height: 130px;vertical-align: bottom" />
+                                <div class="caption" style="vertical-align: bottom; height: 200px; width: 130px; margin: auto">
+                                    <h3 >
+                                        #{item.productName}
+                                    </h3>
+                                    <p>
+                                        #{item.description}
+                                    </p>
+                                    <p>
+                                        <p:commandButton id="btn" value="View"  action="#{furnitureSearchBean.view(item.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 10px;color: white; border:none; width: 60px; height: 30px;"/>
+                                    </p>
+                                </div>
+                            </div>                          
+                        </div>                        
+                    </p:dataScroller>
+                </div>
+
+                <br></br><br></br><br></br>
+
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

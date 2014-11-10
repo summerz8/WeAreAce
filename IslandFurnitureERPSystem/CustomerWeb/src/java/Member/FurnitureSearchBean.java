@@ -5,7 +5,7 @@
  */
 package Member;
 
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,63 +26,69 @@ public class FurnitureSearchBean {
     @EJB
     private CustomerWebModuleLocal cwml;
 
-    private List<CustomerWebItemEntity> itemList;
-    private List<CustomerWebItemEntity> displayList;
+    private List<CountryProductEntity> itemList;
+    private List<CountryProductEntity> displayList;
     private String type;
+    private String web;
 
     public FurnitureSearchBean() {
     }
 
     @PostConstruct
     public void init() {
-        System.out.println("FurenitureBean:init()");
-        itemList = cwml.listItems();
+        web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+        itemList = cwml.listItems(web);
         System.out.println(itemList.get(0).getProductName());
-        displayList=new ArrayList<>();
+        displayList = new ArrayList<>();
         type = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("searchType");
-        if(type.equals("All")){
-            for (CustomerWebItemEntity c : itemList) {
+        if (type.equals("All")) {
+            for (CountryProductEntity c : itemList) {
                 displayList.add(c);
             }
 
-        }
-        else if (type.equals("Others")) {
-            for (CustomerWebItemEntity c : itemList) {
+        } else if (type.equals("Others")) {
+            for (CountryProductEntity c : itemList) {
                 if (c.getType().equals("Others")) {
                     displayList.add(c);
                 }
             }
         } else if (type.equals("Bed")) {
-            for (CustomerWebItemEntity c : itemList) {
+            for (CountryProductEntity c : itemList) {
                 if (c.getType().equals("Bed")) {
                     displayList.add(c);
                 }
             }
         } else if (type.equals("Desk")) {
-            for (CustomerWebItemEntity c : itemList) {
+            for (CountryProductEntity c : itemList) {
                 if (c.getType().equals("Desk")) {
                     displayList.add(c);
                 }
             }
         } else if (type.equals("Chair")) {
-            for (CustomerWebItemEntity c : itemList) {
+            for (CountryProductEntity c : itemList) {
                 if (c.getType().equals("Chair")) {
                     displayList.add(c);
                 }
             }
         } else if (type.equals("Light")) {
-            for (CustomerWebItemEntity c : itemList) {
+            for (CountryProductEntity c : itemList) {
                 if (c.getType().equals("Light")) {
                     displayList.add(c);
                 }
             }
+        } else if (type.equals("Sofa")) {
+            for (CountryProductEntity c : itemList) {
+                if (c.getType().equals("Sofa")) {
+                    displayList.add(c);
+                }
+            }
         } else if (type.equals("Closet")) {
-            for (CustomerWebItemEntity c : itemList) {
+            for (CountryProductEntity c : itemList) {
                 if (c.getType().equals("Closet")) {
                     displayList.add(c);
                 }
             }
-        } 
+        }
 
     }
 
@@ -91,7 +97,6 @@ public class FurnitureSearchBean {
         return "ViewItem?faces-redirect=true";
     }
 
-    
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }
@@ -100,19 +105,19 @@ public class FurnitureSearchBean {
         this.cwml = cwml;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 
-    public List<CustomerWebItemEntity> getDisplayList() {
+    public List<CountryProductEntity> getDisplayList() {
         return displayList;
     }
 
-    public void setDisplayList(List<CustomerWebItemEntity> displayList) {
+    public void setDisplayList(List<CountryProductEntity> displayList) {
         this.displayList = displayList;
     }
 
@@ -123,7 +128,5 @@ public class FurnitureSearchBean {
     public void setType(String type) {
         this.type = type;
     }
-    
-    
 
 }

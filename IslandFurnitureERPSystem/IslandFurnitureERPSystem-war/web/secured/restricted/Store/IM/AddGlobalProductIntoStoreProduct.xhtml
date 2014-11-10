@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                         <p:menu>
+                            <p:submenu label="Store Resources Control">
+                                <p:menuitem value="Product" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Retail Product" icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListCurrentRetailProduct.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Storage Bin"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Global Product List" style="border:0px; margin-bottom" >
+
+                            <p:dataTable var="gproduct" value="#{storeProductControl.productNotInStoreList}" editable ="true" >
+                                <f:facet name="header">
+                                    Global Product List 
+                                </f:facet>
+
+                                <p:column headerText="Global Product Id" width="5%" >
+                                    <h:outputText value="#{gproduct.productId}"  style="font-weight: bold" />    
+                                </p:column>
+
+                                <p:column headerText="Name" width="15%">
+                                    <h:outputText value="#{gproduct.name}" style="font-weight: bold" /> 
+                                </p:column>
+                                <p:column headerText="Unit" width="10%">
+                                    <h:outputText value="#{gproduct.unit}" style="font-weight: bold" /> 
+                                </p:column>
+
+                                <p:column headerText="Description" width="10%">
+                                    <h:outputText value="#{gproduct.description}" style="font-weight: bold" /> 
+                                </p:column>
+
+                                <p:column headerText="Global Price (USD)" width="10%">
+                                    <h:outputText value="#{gproduct.price}" style="font-weight: bold" /> 
+                                </p:column>
+
+                                <p:column headerText="Add to Factory Product List" width="15%" >
+                                    <p:commandButton update=":formMain" oncomplete="PF('gproductDialog').show()" value="Add" actionListener ="#{storeProductControl.selelectProductToAdd(gproduct)}" >
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dialog id = "gproductDialog" header="New Product Details" widgetVar="gproductDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="fProductDetail" style="text-align:center;">
+                                    Please select a factory as your inventory resource factory:
+                                    <br></br>
+
+                                    <p:selectOneMenu id="selectAvailableFactory" value="#{storeProductControl.selectedFactory}" converter="factoryConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{storeProductControl.availableFactory}" var="f" itemLabel=" Factory:#{f.factory.factoryId}|#{f.factory.country}" itemValue="#{f}" />
+
+                                    </p:selectOneMenu>
+                                    <br></br>
+                                    <br></br>
+
+                                    <h:outputText value="Self Collection: " />
+                                    <p:selectBooleanCheckbox value="#{storeProductControl.isSelfPicked}" />
+                                    <br></br>
+                                    <br></br>
+                                    <h:outputText value="Remark:" />
+                                    <h:inputText value ="#{storeProductControl.remark}"/>
+                                    <br></br>
+                                    
+
+
+                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "Add the product" actionListener="#{storeProductControl.addStoreProduct}" update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('gproductDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+                            <p:dialog header="Message" widgetVar="msgDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="msgDetail" style="text-align:center;">
+
+                                    #{storeProductControl.msgprint1}  
+                                </p:outputPanel>
+                            </p:dialog>
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

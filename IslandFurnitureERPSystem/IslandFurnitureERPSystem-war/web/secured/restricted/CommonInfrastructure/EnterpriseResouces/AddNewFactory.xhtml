@@ -2,15 +2,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Island Furniture ERP System</title>
-    </h:head>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
 
         <h:body>
 
@@ -41,21 +41,21 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
 
-                        
+
                         <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button>  
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
 
                         </p:button> 
-                        
+
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
 
                         </p:button>
@@ -70,24 +70,25 @@
                     </p:layoutUnit>
 
 
-                    
+
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
                             <p:submenu label="People and Organization">
-                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
-                                </p:submenu>
-                             <p:submenu label="Inventory" >
+                                <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                            </p:submenu>
+                            <p:submenu label="Inventory" >
 
-                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
-                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-                                    
+                                <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
 
-                                </p:submenu>
-                            
+
+                            </p:submenu>
+
                         </p:menu>
 
 
@@ -97,20 +98,21 @@
                             <h:panelGrid columns="2" cellpadding="10">                                
 
                                 <h:outputLabel for="country" value="Country: *" />
-                                <h:selectOneMenu value="#{factoryControl.newFactoryCountry}" style="width:100%" required="true" requiredMessage="Please select a title">
-                                    <f:selectItems value="#{predefinedAttr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                                <h:selectOneMenu value="#{factoryControl.newFactoryCountry}" style="width:100%" required="true" requiredMessage="Please select a title" >
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{predefinedAttr.countries}" />
                                 </h:selectOneMenu>
 
 
                                 <h:outputLabel for="address" value="Address *:" />
                                 <p:inputText value="#{factoryControl.newFactoryAddress}" required="true" requiredMessage="Please enter address" label="text" >
-                                    
+
                                 </p:inputText>
 
 
                                 <h:outputLabel for="contact" value="Contact *:" />
                                 <p:inputText value="#{factoryControl.newFactoryContact}" required="true" requiredMessage="Please input contact" label="text" />
-                             
+
 
                                 <p:commandButton actionListener="#{factoryControl.addFactory()}" value="Save"/>
                             </h:panelGrid>

@@ -5,12 +5,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Island Furniture ERP System</title>
-    </h:head>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
 
         <h:body>
 
@@ -70,24 +70,24 @@
                     </p:layoutUnit>
 
 
-                    
+
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
                             <p:submenu label="People and Organization">
-                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
-                                </p:submenu>
-                             <p:submenu label="Inventory" >
+                                <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                            </p:submenu>
+                            <p:submenu label="Inventory" >
 
-                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
-                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
-                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-                                    
+                                <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
 
-                                </p:submenu>
-                            
+                            </p:submenu>
+
                         </p:menu>
 
 
@@ -117,9 +117,9 @@
 
                                 <p:column style="width:5%;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{factoryControl.deleteFactory(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{factoryControl.setSelectedDeleteFactoryId(factory.factoryId)}" icon="ui-icon-trash" title="Delete">
 
-                                    </p:commandButton>                                   
+                                    </p:commandButton>   
                                 </p:column>
 
                                 <p:column filterBy="#{factory.factoryId}" headerText="Factory Id" width="10%">
@@ -127,13 +127,14 @@
                                 </p:column>                               
 
 
-                                <p:column  filterBy="#{factory.country}" headerText="Conuntry" width="10%" filterMatchMode="contains">
+                                <p:column filterBy="#{factory.country}" headerText="Conuntry" width="10%" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{factory.country}" /></f:facet>
                                         <f:facet name="input">
-                                            <h:selectOneMenu value="#{factory.country}" style="width:96%">
-                                                <f:selectItems value="#{predefinedAttr.country}" var="color" itemLabel="#{country}" itemValue="#{country}" />
-                                            </h:selectOneMenu>
+                                            <p:selectOneMenu id="city" value="#{factory.country}" style="width:96%" editable="true">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{predefinedAttr.countries}" />
+                                            </p:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
@@ -155,6 +156,21 @@
 
 
                             </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this factory ? 
+                                    <p:commandButton  title = "Confirm"  actionListener="#{factoryControl.deleteFactory(factoryControl.selectedDeleteFactoryId)}" value = "Confirm"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
 
                             <p:commandButton value="Add Factory" action="AddNewFactory"></p:commandButton>
                         </p:panel>

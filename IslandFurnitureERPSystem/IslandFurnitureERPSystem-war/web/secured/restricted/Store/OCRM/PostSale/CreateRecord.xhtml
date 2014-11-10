@@ -71,24 +71,20 @@
 
                     <p:menu>
                         <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
-                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                                <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
-                            </p:submenu>
+                            <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
+                            <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
+                            <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                        </p:submenu>
                     </p:menu>
 
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" resizable="false">                   
 
-                    <p:panel id="basic" header="Sales Forecast" style="margin-bottom" >
-                        <h:form> 
-                            <p:commandButton  value="Create Product Change Record"  style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="CreateProductChangeRecord?faces-redirect=true" rendered="#{salesForecastBean.department.equals('F')}">
-                            </p:commandButton>
-
-                            <p:commandButton  value="Create Product Return Record" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="MRPViewIntegratedSalesForecast?faces-redirect=true" >
-                            </p:commandButton>                         
+                    <p:panel id="basic" header="Post-sales Service" style="margin-bottom" >
+                        <h:form>                                           
 
                             <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 

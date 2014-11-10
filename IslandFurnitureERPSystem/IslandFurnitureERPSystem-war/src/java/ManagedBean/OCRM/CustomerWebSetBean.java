@@ -5,7 +5,7 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,9 +25,10 @@ public class CustomerWebSetBean {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    List<SetEntity> setList;
-    String selectedWeb;
-    Long searchId;
+    private List<CountrySetEntity> setList;
+    private String selectedWeb;
+    private Long searchId;
+    private CountrySetEntity set;
 
     public CustomerWebSetBean() {
     }
@@ -35,8 +36,8 @@ public class CustomerWebSetBean {
     @PostConstruct
     public void init() {
 
-        setList = cwml.getSetList();
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+        setList = cwml.getSetList(selectedWeb);
 
     }
 
@@ -49,17 +50,20 @@ public class CustomerWebSetBean {
     public String delete(Long setId) {
         cwml.deleteSet(setId);
 
-        return "CustomerWebSingaporeSet?faces-redirect=true";
+        return "CustomerWebSet?faces-redirect=true";
 
     }
 
-    public String search(){
-     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", searchId);
-
-        return "EditSet?faces-redirect=true";
+    public String search() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", searchId);
+        set = cwml.getSet(searchId);
+        if (set != null) {
+            return "EditSet?faces-redirect=true";
+        } else {
+            return "CantFindSet?faces-redirect=true";
+        }
     }
-    
-    
+
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }
@@ -68,11 +72,11 @@ public class CustomerWebSetBean {
         this.cwml = cwml;
     }
 
-    public List<SetEntity> getSetList() {
+    public List<CountrySetEntity> getSetList() {
         return setList;
     }
 
-    public void setSetList(List<SetEntity> setList) {
+    public void setSetList(List<CountrySetEntity> setList) {
         this.setList = setList;
     }
 

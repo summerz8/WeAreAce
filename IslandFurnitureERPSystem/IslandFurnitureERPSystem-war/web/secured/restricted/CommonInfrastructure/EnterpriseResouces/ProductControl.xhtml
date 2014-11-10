@@ -83,7 +83,7 @@
                                     <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
                                     <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
                                     <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-                                    
+                                    <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
 
                                 </p:submenu>
                             
@@ -116,7 +116,7 @@
 
                                 <p:column headerText = "Delete" style="width:6%;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain" actionListener="#{productControl.deleteProduct(product.productId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{productControl.setSelectedDeleteProductId(product.productId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>                                   
                                 </p:column>
@@ -171,6 +171,21 @@
                                 </p:column>
 
                             </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this user ? 
+                                    <p:commandButton  title = "Confirm"  value = "Confirm" actionListener="#{productControl.deleteProduct(productControl.selectedDeleteProductId)}"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
 
                             <p:button value="Add Product" outcome="AddNewProduct"></p:button>
                         </p:panel>

@@ -24,13 +24,16 @@ public class MembershipLevelEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer levelId;
-
+    private String levelName;
+    
     private Double pointsToUpgrade;// lvl1 1000, lvl2 2000, lvl3 5000 lvl4 10000 lvl5 20000
        
     private Double discount;
 
-    private String levelName;
-
+    private Boolean inviteOnlyEvent;
+    private Boolean freeParking;
+    private Boolean expressCheckout;
+    private Boolean freeDelivery;
 
     //Customer life expectancy: 3 for basic(1), 12 for blue(2), 36 for silver(3), 60 for gold(4), 120 for diamond(5)
     private Integer cle;
@@ -41,6 +44,7 @@ public class MembershipLevelEntity implements Serializable {
 //    private Collection<MemberEntity> members;
     public MembershipLevelEntity() {
     }
+   
 
     public Double getDiscount() {
         return discount;
@@ -92,6 +96,40 @@ public class MembershipLevelEntity implements Serializable {
     public void setPointsToUpgrade(Double pointsToUpgrade) {
         this.pointsToUpgrade = pointsToUpgrade;
     }
+
+    public Boolean isInviteOnlyEvent() {
+        return inviteOnlyEvent;
+    }
+
+    public void setInviteOnlyEvent(Boolean inviteOnlyEvent) {
+        this.inviteOnlyEvent = inviteOnlyEvent;
+    }
+
+    public Boolean isFreeParking() {
+        return freeParking;
+    }
+
+    public void setFreeParking(Boolean freeParking) {
+        this.freeParking = freeParking;
+    }
+
+    public Boolean isExpressCheckout() {
+        return expressCheckout;
+    }
+
+    public void setExpressCheckout(Boolean expressCheckout) {
+        this.expressCheckout = expressCheckout;
+    }
+
+    public Boolean isFreeDelivery() {
+        return freeDelivery;
+    }
+
+    public void setFreeDelivery(Boolean freeDelivery) {
+        this.freeDelivery = freeDelivery;
+    }
+    
+    
 
     @Override
     public int hashCode() {

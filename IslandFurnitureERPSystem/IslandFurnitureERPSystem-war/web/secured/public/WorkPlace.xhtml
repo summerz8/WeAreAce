@@ -35,7 +35,10 @@
                                      oncomplete="idleDialog.hide()"
                                      actionListener="#{idleBean.logoutListener}" />
 
-                </p:confirmDialog>   
+                </p:confirmDialog> 
+
+                <p:poll interval="70" listener="#{idleBean.logoutListener}"/>
+
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />
 
@@ -44,7 +47,7 @@
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
-                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" immediate="true">
                         </p:commandButton>
 
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
@@ -59,11 +62,8 @@
                         <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
-
-
-                        <h:outputLabel value = "Welcome Back HQ Manager " >
-                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
-
+                        <h:outputLabel value = "Welcome Back " style="font-size: 24px">
+                            <h:outputText  value ="#{loginBean.userRole} #{loginBean.fullName}" rendered="#{loginBean.flag}" />
                         </h:outputLabel>
 
 
@@ -73,7 +73,7 @@
                     <p:layoutUnit position="west"  style = "border:0px;">
 
                         <p:menu>
-                            <p:submenu label="Manufacturing Resource Planning">
+                            <p:submenu label="Manufacturing Resource Planning" rendered="#{workPlaceManageBean.isValidMRP()}">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
                                 <p:menuitem value="Production Plan" action="/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlan?faces-redirect=true" />                            
@@ -82,45 +82,48 @@
                                 <p:menuitem value="Integrated Planned Order" action="/secured/restricted/Factory/MRP/PlannedOrder/MRPIntegratedPlannedOrderView?faces-redirect=true" />
                                 <p:menuitem value="Bill of Material"  update="messages" action="/secured/restricted/Factory/MRP/CheckBOM/SearchBOM?faces-redirect=true"/>
                             </p:submenu>
-                            <p:submenu label="Supply Chain Management">
-                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true" />
-                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml?faces-redirect=true" />
-                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml?faces-redirect=true" />
-                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" />
+                            <p:submenu label="Supply Chain Management" rendered="#{workPlaceManageBean.isValidSCM()}">
+                                <p:menuitem value ="Purchased Items and Suppliers Management"  outcome ="/secured/restricted/Factory/SCM/PurchasedItemAndSupplierManagementModule/PurchasedItemAndSupplierManagementPage?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
+                                <p:menuitem value ="Purchase Order Management" outcome ="/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/PurchaseOrderManagementPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
+                                <p:menuitem value ="Factory Inventory Management" outcome ="/secured/restricted/Factory/SCM/FactoryInventoryManagementModule/FactoryInventoryManagementPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
+                                <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
                                 <p:menuitem value ="Document Reference" outcome ="/secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml?faces-redirect=true" />
                             </p:submenu>
 
-                            <p:submenu label="Enterprise Management">
-                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true"/>
-                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Store Resource Control" />
+                            <p:submenu label="Enterprise Management" rendered="#{workPlaceManageBean.isValidResource()}">
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true" rendered="#{workPlaceManageBean.isValidHQ()}" />
+                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactoryManager()}"/>
+                                <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
                             </p:submenu>
 
                             <p:submenu label="Kitchen Management">
-                                <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
-                                <p:menuitem value="Demand Forecast" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/Store/KM/CustomerOrderFulfillmentModule/CustomerOrderFulfillmentPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
+                                <p:menuitem value="Daily Demand Forecast" outcome = "/secured/restricted/Store/KM/DailyDemandForecastingModule/DailyDemandForecastPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Menu Management" outcome = "/secured/restricted/Store/KM/MenuManagementModule/MenuManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Raw Ingredient Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
-                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/RawIngredientsManagementModule/RawIngredientsManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
+                                <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/ProcurementManagementModule/ProcurementManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
                             </p:submenu>
 
-                            <p:submenu label="Operational CRM">
+                            <p:submenu label="Operational CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
+                                <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
                                 <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                                <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true"/>
 
                             </p:submenu>
 
-                            <p:submenu label="Analytical CRM">
+                            <p:submenu label="Analytical CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
                                 <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
                                 <p:menuitem value="View Members" update="messages" action="/secured/restricted/Store/ACRM/ViewMembers?faces-redirect=true"/>
                                 <p:menuitem value="View Member Retention Rate" update="messages" action = "/secured/restricted/Store/ACRM/ViewCRR?faces-redirect=true"/>
-                                <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/> 
+                                <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/>
+                                <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "/secured/restricted/Store/ACRM/ViewRFM?faces-redirect=true"/> 
                             </p:submenu>
 
-                            <p:submenu label="Ticket Management">
+                            <p:submenu label="Ticket Management" rendered="#{workPlaceManageBean.isValidTicket()}">
                                 <p:menuitem value="View Tickets" outcome = "/secured/restricted/CommonInfrastructure/ticket/receiveTicketList?faces-redirect=true"/>
                             </p:submenu>
                         </p:menu>

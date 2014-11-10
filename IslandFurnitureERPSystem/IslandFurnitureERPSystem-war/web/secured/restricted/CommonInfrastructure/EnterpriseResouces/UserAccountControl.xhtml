@@ -84,7 +84,7 @@
                                     <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
                                     <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
                                     <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-                                    
+                                    <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
 
                                 </p:submenu>
                             
@@ -117,10 +117,10 @@
 
                                 <p:column style="width:32px;text-align: center">                                    
 
-                                    <p:commandButton  update=":formMain"  actionListener="#{userControl.deleteUser(user.userId)}" icon="ui-icon-trash" title="Delete">
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{userControl.setDeletedUserId(user.userId)}" icon="ui-icon-trash" title="Delete" >
 
-                                    </p:commandButton>    
-                                   
+                                    </p:commandButton>  
+
                                 </p:column>
                                 
                                 <p:column filterBy="#{user.userId}" headerText="User Id" width="100">
@@ -231,15 +231,23 @@
                                     </p:cellEditor>
                                 </p:column>
                                 
-                                <p:column filterBy="#{user.pwd}" headerText="Password" width="150">
-                                    <p:cellEditor> 
-                                        <f:facet name="output"><h:outputText value="#{user.pwd}" /></f:facet>
-                                        <f:facet name="input"><p:password  value="#{user.pwd}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                
 
-                            </p:dataTable>                            
+                            </p:dataTable> 
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this user ? 
+                                    <p:commandButton  title = "Confirm"  value = "Confirm" actionListener="#{userControl.deleteUser(userControl.deletedUserId)}"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
                             <p:button value="Add User" outcome="AddNewUser"></p:button>
                         </p:panel>
                     </p:layoutUnit>
