@@ -43,7 +43,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
         int check = 0;
 
         System.out.println("memberLogin:" + email);
-        Query q = em.createQuery("SELECT FROM MemberEntity m WHERE m.email=:email;");
+        Query q = em.createQuery("SELECT m FROM MemberEntity m WHERE m.email=:email");
         q.setParameter("email", email);
         try {
             member = (MemberEntity) q.getSingleResult();
@@ -76,7 +76,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
     @Override
     @WebMethod(operationName = "getMember")
     public MemberEntity getMember(@WebParam(name = "email") String email) {
-        Query q = em.createQuery("SELECT FROM MemberEntity m WHERE m.email=:email;");
+        Query q = em.createQuery("SELECT m FROM MemberEntity m WHERE m.email=:email");
         q.setParameter("email", email);
         try {
             MemberEntity member = (MemberEntity) q.getSingleResult();
@@ -139,7 +139,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
         Integer hour = checkInTime.get(Calendar.HOUR_OF_DAY);
         SurpriseQRBean qrb = new SurpriseQRBean();
         if (qrb.checkSameQR(QR)) {
-            Query q = em.createQuery("SELECT FROM SurpriseQREntity  s WHERE s.randomString:=QR;");
+            Query q = em.createQuery("SELECT s FROM SurpriseQREntity  s WHERE s.randomString:=QR");
             q.setParameter("QR", QR);
             SurpriseQREntity sqe = (SurpriseQREntity) q.getSingleResult();
             Calendar today = Calendar.getInstance();

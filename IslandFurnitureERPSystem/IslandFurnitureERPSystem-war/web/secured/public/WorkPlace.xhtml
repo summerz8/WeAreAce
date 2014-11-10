@@ -22,7 +22,7 @@
 
                 <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
 
-                <p:confirmDialog id="confirmDialog"
+                <p:confirmDialog id="idleDialog"
                                  message="You have been idle for a while, 
                                  Please click ok to continue."
                                  header="Are you there?" severity="alert" widgetVar="idleDialog">
@@ -96,7 +96,7 @@
                                 <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
                             </p:submenu>
 
-                            <p:submenu label="Kitchen Management">
+                            <p:submenu label="Kitchen Management" rendered="#{workPlaceManageBean.isValidKitchen()}">
                                 <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/Store/KM/CustomerOrderFulfillmentModule/CustomerOrderFulfillmentPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Daily Demand Forecast" outcome = "/secured/restricted/Store/KM/DailyDemandForecastingModule/DailyDemandForecastPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
                                 <p:menuitem value="Menu Management" outcome = "/secured/restricted/Store/KM/MenuManagementModule/MenuManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
@@ -111,6 +111,7 @@
                                 <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
                                 <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                                <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
 
                             </p:submenu>
 
@@ -146,7 +147,7 @@
                                         </h:panelGrid>
                                     </p:panel>
 
-                                    <p:panel id="ticket" header="Ticket" style="width: 300px; height:150px">
+                                    <p:panel id="ticket" header="Ticket" rendered="#{workPlaceManageBean.isValidTicket()}" style="width: 300px; height:150px">
                                         <h:panelGrid columns="2" cellpadding="5" >
                                             <h:outputText value="New Tickets:" />
                                             <h:outputText value="3" style="color: red;font-size: 16px"/>
@@ -155,7 +156,7 @@
                                         </h:panelGrid>
                                     </p:panel>
 
-                                    <p:panel id="kitchen" header="Kitchen" style="width: 600px; height:150px">
+                                    <p:panel id="kitchen" header="Kitchen" rendered="#{workPlaceManageBean.isValidKitchen()}" style="width: 600px; height:150px">
                                         <h:panelGrid columns="2" cellpadding="5" >                                          
                                             <h:outputLabel for="kitchenStore" value="Store:" style="font-weight:bold" />
                                             <p:selectOneMenu id="kitchenStore" value="#{workPlaceBean.selectedStore}">
@@ -168,7 +169,7 @@
                                         </h:panelGrid>
                                     </p:panel>
 
-                                    <p:panel id="product" header="Furniture Product" style="width: 600px; height:150px">
+                                    <p:panel id="product" header="Furniture Product" rendered="#{workPlaceManageBean.isValidStoreManager()}" style="width: 600px; height:150px">
                                         <h:panelGrid columns="2" cellpadding="5" >                                 
                                             <h:outputLabel for="store" value="Store:" style="font-weight:bold" />
                                             <p:selectOneMenu id="store" value="#{workPlaceBean.selectedStore1}">
@@ -181,7 +182,7 @@
                                         </h:panelGrid>
                                     </p:panel>
 
-                                    <p:panel id="retailproduct" header="Retail Product" style="width: 600px; height:150px">
+                                    <p:panel id="retailproduct" header="Retail Product" rendered="#{workPlaceManageBean.isValidStoreManager()}" style="width: 600px; height:150px">
                                         <h:panelGrid columns="2" cellpadding="5" >                                          
                                             <h:outputLabel for="retail" value="Store:" style="font-weight:bold" />
                                             <p:selectOneMenu id="retail" value="#{workPlaceBean.selectedStore2}">
@@ -193,7 +194,46 @@
                                             <h:outputText value="$314,041.3" style="color: red;font-size: 16px"/>
                                         </h:panelGrid>
                                     </p:panel>
+                                    
+                                    <p:panel id="productf" header="Furniture Product" rendered="#{workPlaceManageBean.isValidFactoryManager()}" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                 
+                                            <h:outputLabel for="factory" value="Factory:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="factory" value="#{workPlaceBean.selectedFactory1}">
+                                                <f:selectItem itemLabel="All Factorys" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
 
+                                            <h:outputText value="Current Month Cumulative Forcast" />
+                                            <h:outputText value="$51,294,041.3" style="color: red;font-size: 16px" />
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="retailproductf" header="Retail Product" rendered="#{workPlaceManageBean.isValidFactoryManager()}" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                          
+                                            <h:outputLabel for="retailf" value="Factory:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="retailf" value="#{workPlaceBean.selectedFactory2}">
+                                                <f:selectItem itemLabel="All Factorys" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Forcast" />
+                                            <h:outputText value="$314,041.3" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel id="rawMaterial" header="Raw Material" rendered="#{workPlaceManageBean.isValidFactoryManager()}" style="width: 600px; height:150px">
+                                        <h:panelGrid columns="2" cellpadding="5" >                                          
+                                            <h:outputLabel for="raw" value="Factory:" style="font-weight:bold" />
+                                            <p:selectOneMenu id="raw" value="#{workPlaceBean.selectedFactory2}">
+                                                <f:selectItem itemLabel="All Factorys" itemValue="" />
+                                                <f:selectItems value="#{workPlaceBean.displayList}" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputText value="Current Month Cumulative Forcast" />
+                                            <h:outputText value="$314,041.3" style="color: red;font-size: 16px"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    
                                     <p:panel id="calendar" header="Calendar" style="width: 300px; height:150px">
                                         <p:calendar id="inline" value="#{workPlaceBean.date}" mode="inline" />
                                     </p:panel>

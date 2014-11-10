@@ -87,8 +87,9 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             em.persist(transaction);
             em.flush();
         }else if(check2!=1){
+            System.out.println("email incorrect! existed!");
          return check2;
-        }
+        }        
         return check;
     }
 
@@ -312,7 +313,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     @Override
     public int checkEmail(String newEmail) {
-        Query q = em.createQuery("SELECT FROM MemberEntity m WHERE m.email=:email;");
+        Query q = em.createQuery("SELECT m FROM MemberEntity m WHERE m.email=:email");
         q.setParameter("email", newEmail);
         try {
             MemberEntity me = (MemberEntity) q.getSingleResult();
@@ -322,7 +323,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
                 return 1;
             }
         } catch (NoResultException e) {
-            return -4;
+            return 1;
         }
 
         return -5;

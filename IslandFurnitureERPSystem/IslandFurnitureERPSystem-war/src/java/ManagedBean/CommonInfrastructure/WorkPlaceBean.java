@@ -5,6 +5,7 @@
  */
 package ManagedBean.CommonInfrastructure;
 
+import Entity.Factory.FactoryEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.CommonInFrastructure.WorkPlaceModuleLocal;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class WorkPlaceBean {
     private DashboardModel model;
     private Date date;
     private List<StoreEntity> storeList;
+    private List<FactoryEntity> factoryList;
     private List<SelectItem> displayList;
     private String selectedStore;
     private String selectedStore1;
@@ -47,6 +49,7 @@ public class WorkPlaceBean {
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
+        DashboardColumn column3 = new DefaultDashboardColumn();
 
         column1.addWidget("message");
         column1.addWidget("ticket");
@@ -55,9 +58,14 @@ public class WorkPlaceBean {
         column2.addWidget("product");
         column2.addWidget("kitchen");
         column2.addWidget("retailproduct");
+        
+        column3.addWidget("productf");
+        column3.addWidget("rawMaterial");
+        column3.addWidget("retailproductf");
 
         model.addColumn(column1);
         model.addColumn(column2);
+        model.addColumn(column3);
 
         displayList = new ArrayList<>();
         storeList = wpml.listStores();
@@ -65,6 +73,11 @@ public class WorkPlaceBean {
         for (StoreEntity s : storeList) {
             String t = s.getStoreId() + " " + s.getAddress();
             displayList.add(new SelectItem(s.getStoreId(), t));
+        }
+        
+        for (FactoryEntity f : factoryList) {
+            String t = f.getFactoryId() + " " + f.getAddress();
+            displayList.add(new SelectItem(f.getFactoryId(), t));
         }
   
 
@@ -132,6 +145,14 @@ public class WorkPlaceBean {
 
     public void setSelectedStore2(String selectedStore2) {
         this.selectedStore2 = selectedStore2;
+    }
+
+    public List<FactoryEntity> getFactoryList() {
+        return factoryList;
+    }
+
+    public void setFactoryList(List<FactoryEntity> factoryList) {
+        this.factoryList = factoryList;
     }
 
 

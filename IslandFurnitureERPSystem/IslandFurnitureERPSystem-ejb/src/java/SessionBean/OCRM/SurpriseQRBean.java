@@ -28,8 +28,11 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
     @PersistenceContext
     private EntityManager em;
 
+    public SurpriseQRBean() {
+    }
+
     @Override
-    public String createQR(Double percentage, Double rewardPoints, Calendar expireDate) {
+    public String createQR(Double percentage, Double rewardPoints, Calendar expireDate, String name) {
 
         String QR;
         String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -41,8 +44,9 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
         }
 
         QR = sb.toString();
+        System.out.println("createQR(): " + QR);
         if (checkSameQR(QR)) {
-            SurpriseQREntity qr = new SurpriseQREntity(QR, percentage, rewardPoints, expireDate);
+            SurpriseQREntity qr = new SurpriseQREntity(name, QR, percentage, rewardPoints, expireDate);
             em.persist(qr);
             em.flush();
 
@@ -53,7 +57,7 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
     }
 
     public Boolean checkSameQR(String QR) {
-        Query q = em.createQuery("SELECT FROM SurpriseQREntity  s WHERE s.randomString:=QR;");
+        Query q = em.createQuery("SELECT m FROM SurpriseQREntity m WHERE m.randomString=:QR");
         q.setParameter("QR", QR);
 
         try {

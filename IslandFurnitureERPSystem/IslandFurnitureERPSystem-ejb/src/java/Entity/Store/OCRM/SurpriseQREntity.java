@@ -24,7 +24,7 @@ public class SurpriseQREntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private String name;
     private String randomString;
     private Double percentage;
     private Double rewardPoints;
@@ -32,12 +32,19 @@ public class SurpriseQREntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar expireDate;
 
-    public SurpriseQREntity(String randomString, Double percentage, Double rewardPoints, Calendar expireDate) {
+    public SurpriseQREntity() {
+    }
+
+    
+    public SurpriseQREntity(String name, String randomString, Double percentage, Double rewardPoints, Calendar expireDate) {
+        this.name = name;
         this.randomString = randomString;
         this.percentage = percentage;
         this.rewardPoints = rewardPoints;
         this.expireDate = expireDate;
     }
+
+    
     
     
     public Long getId() {
@@ -78,6 +85,14 @@ public class SurpriseQREntity implements Serializable {
 
     public void setExpireDate(Calendar expireDate) {
         this.expireDate = expireDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

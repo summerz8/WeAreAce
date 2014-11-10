@@ -20,7 +20,7 @@ public interface SurpriseQRBeanLocal {
 
 //    public Boolean checkQR(Calendar date);
 
-    public String createQR(Double percentage, Double rewardPoints, Calendar expireDate);
+    public String createQR(Double percentage, Double rewardPoints, Calendar expireDate, String name);
 
     public List<SurpriseQREntity> getAllQR();
     
