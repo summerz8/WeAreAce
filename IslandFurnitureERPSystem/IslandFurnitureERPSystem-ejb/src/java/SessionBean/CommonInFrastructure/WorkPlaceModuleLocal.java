@@ -5,6 +5,7 @@
  */
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.FactoryEntity;
 import Entity.Store.StoreEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -17,5 +18,7 @@ import javax.ejb.Local;
 public interface WorkPlaceModuleLocal {
     
     public List<StoreEntity> listStores();
+
+    public List<FactoryEntity> listFactory();
     
 }

@@ -5,6 +5,7 @@
  */
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.FactoryEntity;
 import Entity.Store.StoreEntity;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -26,6 +27,12 @@ public class WorkPlaceModule implements WorkPlaceModuleLocal {
     public List<StoreEntity> listStores() {
         Query q=em.createQuery("SELECT s FROM StoreEntity s");
         return (List<StoreEntity>) q.getResultList();
+    }
+    
+    @Override
+    public List<FactoryEntity> listFactory() {
+        Query q=em.createQuery("SELECT s FROM FactoryEntity s");
+        return (List<FactoryEntity>) q.getResultList();
     }
 
 }

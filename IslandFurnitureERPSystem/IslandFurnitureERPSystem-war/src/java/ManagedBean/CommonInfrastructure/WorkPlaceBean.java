@@ -41,6 +41,9 @@ public class WorkPlaceBean {
     private String selectedStore;
     private String selectedStore1;
     private String selectedStore2;
+    private String selectedFactory;
+    private String selectedFactory1;
+    private String selectedFactory2;
 
     @PostConstruct
     public void init() {
@@ -69,6 +72,7 @@ public class WorkPlaceBean {
 
         displayList = new ArrayList<>();
         storeList = wpml.listStores();
+        factoryList = wpml.listFactory();
 
         for (StoreEntity s : storeList) {
             String t = s.getStoreId() + " " + s.getAddress();
@@ -153,6 +157,30 @@ public class WorkPlaceBean {
 
     public void setFactoryList(List<FactoryEntity> factoryList) {
         this.factoryList = factoryList;
+    }
+
+    public String getSelectedFactory() {
+        return selectedFactory;
+    }
+
+    public void setSelectedFactory(String selectedFactory) {
+        this.selectedFactory = selectedFactory;
+    }
+
+    public String getSelectedFactory1() {
+        return selectedFactory1;
+    }
+
+    public void setSelectedFactory1(String selectedFactory1) {
+        this.selectedFactory1 = selectedFactory1;
+    }
+
+    public String getSelectedFactory2() {
+        return selectedFactory2;
+    }
+
+    public void setSelectedFactory2(String selectedFactory2) {
+        this.selectedFactory2 = selectedFactory2;
     }
 
 
