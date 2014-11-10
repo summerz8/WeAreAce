@@ -278,31 +278,4 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             return newPass;
         } else return "error";
     }
-//    
-//    @Override
-//    public List<UserEntity> ListCasher(){
-//        System.out.println("InternalUserAccountModule: ListCasher(): for store ");
-//        Query q = em.createQuery("SELECT t FROM UserEntity t");
-//        List requiredUserList = new ArrayList();
-//        for (Object o : q.getResultList()) {
-//            UserEntity u = (UserEntity) o;
-//            if ((!u.isDeleteFlag()) && (u.getDepartment().equals("S") && u.getUserLevel()==8)) {
-//                requiredUserList.add(u);
-//                System.out.println("added user: " + u.getUserId());
-//            } else {
-//                System.out.println("deleted user: " + u.getUserId());
-//            }
-//        }
-//        if (requiredUserList.isEmpty()) {
-//            System.out.println("storeuserlist is null~~~");
-//        }
-//        return requiredUserList;
-//    };
-////
-////    @Override
-////    public void resetCash(Double newCash, Double d, Long userId){
-////        UserEntity ue = em.find(UserEntity.class, userId);
-////        ue.setStartCash(newCash);
-////        ue.setEndCash(d);
-////    };
 }

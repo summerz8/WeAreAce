@@ -5,7 +5,6 @@
  */
 package ManagedBean.KM.CustomerOrderFulfillmentModule;
 
-import Entity.Kitchen.DetailedDishItemEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.KitchenOrderEntity;
 import SessionBean.KM.CustomerOrderFulfillmentModuleLocal;

@@ -98,43 +98,43 @@
                             <p:ajax event="rowEdit" listener="#{rawIngredientsManagementBean.onRowEdit}" update="@this"/>
                             <p:ajax event="rowEditCancel" listener="#{rawIngredientsManagementBean.onRowCancel}" update="ingredientList"/>
 
-                            <p:column headerText="ID" style="text-align: center;" >
+                            <p:column headerText="ID">
                                 <h:outputText value="#{i.id}"/>
                             </p:column>
 
-                            <p:column headerText="Name" style="text-align: center;" width="12%" filterBy="#{i.name}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Name" width="12%" filterBy="#{i.name}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.name}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.name}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Price (Per Lot Size)" style="text-align: center;" filterBy="#{i.price}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Price (Per Lot Size)"  filterBy="#{i.price}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.price}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.price}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Unit" style="text-align: center;" width="10%" filterBy="#{i.unit}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Unit" width="10%" filterBy="#{i.unit}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.unit}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.unit}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Stock" style="text-align: center;" width="5%" filterBy="#{i.stock}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Stock" width="5%" filterBy="#{i.stock}" filterMatchMode="contains" filterStyle="display:none">
                                 <h:outputText value="#{i.stock}"/>
                             </p:column>
 
-                            <p:column headerText="Lot Size" style="text-align: center;" filterBy="#{i.lotSize}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Lot Size" filterBy="#{i.lotSize}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.lotSize}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.lotSize}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Storage Places" style="text-align: center;" width="13%">
+                            <p:column headerText="Storage Places" width="13%">
                                 <p:cellEditor>
                                     <f:facet name="output">
                                         <p:dataTable var="sp" value="#{i.storagePlaces}">
@@ -152,7 +152,7 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Supplier" style="text-align: center;" width="15%" filterBy="#{i.supplier.name}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Supplier" width="15%" filterBy="#{i.supplier.name}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.supplier.name}"/></f:facet>
                                     <f:facet name="input">
@@ -163,18 +163,18 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Remark" style="text-align: center;" width="20%" filterBy="#{i.remark}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Remark" width="20%" filterBy="#{i.remark}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{i.remark}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{i.remark}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Edit" style="text-align: center;" width="5%">
+                            <p:column headerText="Edit" width="5%">
                                 <p:rowEditor/>
                             </p:column>
 
-                            <p:column headerText="Delete" style="text-align: center;" width="6%">       
+                            <p:column headerText="Delete" width="6%">       
                                 <p:commandButton update="ingredientList" actionListener="#{rawIngredientsManagementBean.deleteIngredient(i)}" icon="ui-icon-trash" title="Delete">
                                 </p:commandButton>    
                             </p:column>

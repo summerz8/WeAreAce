@@ -6,8 +6,8 @@
 package Member;
 
 import Entity.Store.OCRM.CommentEntity;
-import Entity.Store.OCRM.CustomerWebItemEntity;
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountryProductEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.io.IOException;
@@ -34,11 +34,11 @@ public class ViewSetBean {
     private CustomerWebModuleLocal cwml;
 
     private Long setId;
-    private SetEntity set;
+    private CountrySetEntity set;
     private List<String> pictureList;
-    private List<CustomerWebItemEntity> itemList;
+    private List<CountryProductEntity> itemList;
     private String email;
-    private CustomerWebItemEntity item;
+    private CountryProductEntity item;
     private Integer quantity;
 
     private String name;
@@ -69,7 +69,7 @@ public class ViewSetBean {
         pictureList = new ArrayList<>();
         pictureList.add(set.getPicture());
         itemList = set.getUnitList();
-        for (CustomerWebItemEntity c : itemList) {
+        for (CountryProductEntity c : itemList) {
             pictureList.add(c.getPicture());
         }
         name = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("FirstName");
@@ -136,7 +136,7 @@ public class ViewSetBean {
 
         }
         quantity = 1;
-        for (CustomerWebItemEntity c : itemList) {
+        for (CountryProductEntity c : itemList) {
             item = c;
             addToShoppingCart();
         }
@@ -189,11 +189,11 @@ public class ViewSetBean {
         this.setId = setId;
     }
 
-    public SetEntity getSet() {
+    public CountrySetEntity getSet() {
         return set;
     }
 
-    public void setSet(SetEntity set) {
+    public void setSet(CountrySetEntity set) {
         this.set = set;
     }
 
@@ -205,11 +205,11 @@ public class ViewSetBean {
         this.pictureList = pictureList;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 
@@ -221,11 +221,11 @@ public class ViewSetBean {
         this.email = email;
     }
 
-    public CustomerWebItemEntity getItem() {
+    public CountryProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebItemEntity item) {
+    public void setItem(CountryProductEntity item) {
         this.item = item;
     }
 

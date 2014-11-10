@@ -5,7 +5,7 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,10 +25,10 @@ public class CustomerWebRetailBean {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    private List<CustomerWebRetailItemEntity> retailItemList;
+    private List<CountryRetailProductEntity> retailItemList;
     private String selectedWeb;
     private Long searchId;
-    private CustomerWebRetailItemEntity retailItem;
+    private CountryRetailProductEntity retailItem;
 
     public CustomerWebRetailBean() {
     }
@@ -72,11 +72,11 @@ public class CustomerWebRetailBean {
         this.cwml = cwml;
     }
 
-    public List<CustomerWebRetailItemEntity> getRetailItemList() {
+    public List<CountryRetailProductEntity> getRetailItemList() {
         return retailItemList;
     }
 
-    public void setRetailItemList(List<CustomerWebRetailItemEntity> retailItemList) {
+    public void setRetailItemList(List<CountryRetailProductEntity> retailItemList) {
         this.retailItemList = retailItemList;
     }
 
@@ -96,11 +96,11 @@ public class CustomerWebRetailBean {
         this.searchId = searchId;
     }
 
-    public CustomerWebRetailItemEntity getRetailItem() {
+    public CountryRetailProductEntity getRetailItem() {
         return retailItem;
     }
 
-    public void setRetailItem(CustomerWebRetailItemEntity retailItem) {
+    public void setRetailItem(CountryRetailProductEntity retailItem) {
         this.retailItem = retailItem;
     }
 

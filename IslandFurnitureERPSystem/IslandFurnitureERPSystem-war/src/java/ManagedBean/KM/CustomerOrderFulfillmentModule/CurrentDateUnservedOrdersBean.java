@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *
  * @author Yoky
  */
-@ManagedBean(name = "unservedOrdersBean")
+@ManagedBean(name = "currentDateUnservedOrdersBean")
 @ViewScoped
-public class UnservedOrdersBean implements Serializable {
-
+public class CurrentDateUnservedOrdersBean implements Serializable {
+    
     @EJB
     private CustomerOrderFulfillmentModuleLocal cof;
 
@@ -32,8 +32,8 @@ public class UnservedOrdersBean implements Serializable {
     private List<KitchenOrderEntity> orders;
     private List<KitchenOrderEntity> filteredOrders;
     private KitchenOrderEntity selectedOdr;
-
-    public UnservedOrdersBean() {
+    
+    public CurrentDateUnservedOrdersBean() {
     }
 
     public KitchenEntity getKitchen() {
@@ -72,29 +72,22 @@ public class UnservedOrdersBean implements Serializable {
     public void init() {
         try {
             kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
-            orders = cof.getUnservedOrders(kitchen.getId());
+            orders = cof.getCurrentDateUnservedOrder(kitchen.getId());
             filteredOrders = orders;
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.CustomerOrderFulfillmentModule.CurrentDateUnservedOrdersBean: init(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
         }
     }
-
     public void serveOrder(Long orderId) {
         Long temp = cof.serveOrder(orderId);
         if (temp == -1L) {
-            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("Successful", "The Order  " + orderId + " is fulfilled");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            orders = cof.getUnservedOrders(kitchen.getId());
-            filteredOrders = cof.getUnservedOrders(kitchen.getId());
-        }
-    }
-
-    public void update() {
-        orders = cof.getUnservedOrders(kitchen.getId());
-        filteredOrders = cof.getUnservedOrders(kitchen.getId());
+                FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage("Successful", "The Order  " + orderId + " is fulfilled");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                filteredOrders = cof.getCurrentDateUnservedOrder(kitchen.getId());
+            }
     }
 }

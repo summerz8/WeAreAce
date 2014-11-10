@@ -11,6 +11,7 @@
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
         </h:head>
+
         <h:body>
 
             <h:form id="formMain">
@@ -39,7 +40,6 @@
 
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
@@ -60,6 +60,7 @@
                         </p:button>
 
 
+
                         <h:outputLabel value = "Welcome Back " >
                             <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
@@ -70,47 +71,55 @@
 
 
 
-                    <p:layoutUnit position="west" size="500px">
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
-                            <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
-                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                                <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                            <p:submenu label="Store Resources Control">
+                                <p:menuitem value="Product" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Retail Product" icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListCurrentRetailProduct.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Storage Bin"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />
                             </p:submenu>
-
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
-                            <h:panelGrid columns="2" cellpadding="10">                   
+                        <p:panel id="basic" header="Store Product" style="border:0px; margin-bottom" >
 
-                                <h:outputLabel value="Name *:" />
-                                <p:inputText value="#{surpriseQRBean.name}" required="true" requiredMessage="Please input name" label="text" >
+                            <p:dataTable id ="current" var="set" value="#{storeSetControl.setNotInStoreList}" editable="true" >
 
-                                </p:inputText>
+                                <p:ajax event="rowEdit" listener="#{storeSetControl.onRowEdit}"  />
+                                <p:ajax event="rowEditCancel" listener="#{storeSetControl.onRowCancel}"  />
 
-                                <h:outputLabel value="Percentage *:" />
-                                <p:inputText value="#{surpriseQRBean.percentage}" required="true" requiredMessage="Please input percentage" label="text" >
+                                <f:facet name="header">
+                                    Store Set List 
+                                </f:facet>
+                                <p:column headerText="Country Set Id" width="8%" >
+                                    <h:outputText value="#{set.id}"  style="font-weight: bold" />    
+                                </p:column>
 
-                                </p:inputText>
+                                <p:column headerText="Country Set Name" width="8%" >
+                                    <h:outputText value="#{set.name}"  style="font-weight: bold" />    
+                                </p:column>
 
-                                <h:outputLabel value="Points *:" />
-                                <p:inputText value="#{surpriseQRBean.rewardPoints}" required="true" requiredMessage="Please input point" label="text" >
+                                <p:column headerText="Country Set Description" width="8%" >
+                                    <h:outputText value="#{set.description}"  style="font-weight: bold" />    
+                                </p:column>
+                               
 
-                                </p:inputText>
+                                <p:column headerText="Global Set Id" width="10%">
+                                    <h:outputText value="#{set.set.id}" style="font-weight: bold" /> 
+                                </p:column>
+        
+                                <p:column headerText = "Add" style="width:32px">
+                                    <p:commandButton  value="Add" action ="#{storeSetControl.add(set.id)}" >
+                                    </p:commandButton>
+                                </p:column>
 
-                                <h:outputLabel for="expire" value="Expire Date*" />
-                                <p:calendar id="expire" value="#{surpriseQRBean.expireDate}" locale="de" requiredMessage="Please choose expire date" navigator="true" pattern="dd-MM-yyyy" />
+                            </p:dataTable>
+                            
 
-
-                                <p:commandButton ajax="false" action="#{surpriseQRBean.createSurpriseQR()}" value="Submit"/>
-                            </h:panelGrid>
                         </p:panel>
-
                     </p:layoutUnit>
 
 

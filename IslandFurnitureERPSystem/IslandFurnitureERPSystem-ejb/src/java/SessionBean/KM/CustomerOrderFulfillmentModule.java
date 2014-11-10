@@ -5,7 +5,6 @@
  */
 package SessionBean.KM;
 
-import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.ComboItemEntity;
 import Entity.Kitchen.DailySalesEntity;
@@ -15,7 +14,6 @@ import Entity.Kitchen.DishItemEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.KitchenOrderEntity;
-import Entity.Store.OCRM.MemberEntity;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +25,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -46,18 +43,10 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
 
     @Override
     @WebMethod(operationName = "createOrder")
-    public KitchenOrderEntity createOrder(
-            @WebParam(name = "kitchenId") Long kitchenId,
-            @WebParam(name = "memberId") Long memberId,
-            @WebParam(name = "storestaffId") String storestaffId) {
+    public KitchenOrderEntity createOrder(@WebParam(name = "kitchenId") Long kitchenId) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
-            StoreUserEntity storeStaff = em.find(StoreUserEntity.class, storestaffId);
-            KitchenOrderEntity order = new KitchenOrderEntity(kitchen, storeStaff);
-            if (memberId != null) {
-                MemberEntity member = em.find(MemberEntity.class, memberId);
-                order.setMember(member);
-            }
+            KitchenOrderEntity order = new KitchenOrderEntity(kitchen);
             em.persist(order);
             kitchen.getOrders().add(order);
             em.flush();
@@ -84,7 +73,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
             em.flush();
             return dishItem.getId();
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: addDishItem(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: createOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return -1L;
         }
@@ -93,7 +82,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     @Override
     @WebMethod(operationName = "deleteDishItem")
     public Long deleteDishItem(
-            @WebParam(name = "orderId") Long orderId,
+            @WebParam(name = "orderId") Long orderId, 
             @WebParam(name = "dishItemId") Long dishItemId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
@@ -109,11 +98,29 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(operationName = "deleteComboItem")
+    public Long deleteComboItem(
+            @WebParam(name = "orderId")Long orderId, 
+            @WebParam(name = "comboItemId")Long comboItemId) {
+        try {
+            KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
+            ComboItemEntity comboItem = em.find(ComboItemEntity.class, comboItemId);
+            order.getCombos().remove(comboItem);
+            em.flush();
+            return comboItem.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: deleteComboItem(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    @Override
     @WebMethod(operationName = "addComboItem")
     public Long addComboItem(
-            @WebParam(name = "orderId") Long orderId,
-            @WebParam(name = "comboId") Long comboId,
-            @WebParam(name = "quantity") Integer quantity) {
+            @WebParam(name = "orderId")Long orderId, 
+            @WebParam(name = "comboId")Long comboId, 
+            @WebParam(name = "quantity")Integer quantity) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             ComboEntity combo = em.find(ComboEntity.class, comboId);
@@ -130,28 +137,8 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    @WebMethod(operationName = "deleteComboItem")
-    public Long deleteComboItem(
-            @WebParam(name = "orderId") Long orderId,
-            @WebParam(name = "comboItemId") Long comboItemId) {
-        try {
-            KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
-            ComboItemEntity comboItem = em.find(ComboItemEntity.class, comboItemId);
-            order.getCombos().remove(comboItem);
-            em.flush();
-            return comboItem.getId();
-        } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: deleteComboItem(): Failed. Caught an unexpected exception.");
-            ex.printStackTrace();
-            return -1L;
-        }
-    }
-
-    @Override
     @WebMethod(operationName = "confirmOrder")
-    public Long confirmOrder(
-            @WebParam(name = "orderId") Long orderId,
-            @WebParam(name = "received") Double received) {
+    public Long confirmOrder(@WebParam(name = "orderId")Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             order.setStatus("Confirmed");
@@ -207,13 +194,11 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
                     }
                 }
             }
-            order.setReceived(received);
-            order.setDue(received - order.getTotal());
             dailySales.setSales(dailySales.getSales() + order.getTotal());
 
             return order.getId();
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: confirmOrder(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: createOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
         }
@@ -243,7 +228,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
             em.flush();
             return dailySales;
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: createDailySales(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: createOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
         }
@@ -252,7 +237,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
 
     @Override
     @WebMethod(operationName = "cancelOrder")
-    public Long cancelOrder(@WebParam(name = "orderId") Long orderId) {
+    public Long cancelOrder(@WebParam(name = "orderId")Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             if (!order.getStatus().equals("Unconfirmed")) {
@@ -267,21 +252,23 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
             em.flush();
             return order.getId();
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: cancelOrder(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: createOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return -2L;
         }
     }
 
     @Override
-    public List<KitchenOrderEntity> getUnfulfilledOrders(Long kitchenId) {
+    public List<KitchenOrderEntity> getCurrentDateUnfulfilledOrder(Long kitchenId) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
-            Query q = em.createQuery("SELECT odr FROM KitchenOrderEntity odr WHERE odr.kitchen = :kitchen AND odr.status = 'Confirmed'");
+            Calendar cal = Calendar.getInstance();
+            Query q = em.createQuery("SELECT odr FROM KitchenOrderEntity odr WHERE odr.kitchen = :kitchen AND odr.status = 'Confirmed' AND odr.creationTime = :cal");
             q.setParameter("kitchen", kitchen);
+            q.setParameter("cal", cal);
             return q.getResultList();
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: getUnfulfilledOrders(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: getAllUnfulfilledOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
         }
@@ -291,18 +278,14 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     public List<KitchenOrderEntity> getDailyOrders(Long kitchenId, Date selectedDate) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
-            Calendar calFrom = Calendar.getInstance();
-            calFrom.setTime(selectedDate);
-            Calendar calTo = Calendar.getInstance();
-            calTo.setTime(selectedDate);
-            calTo.add(Calendar.DAY_OF_MONTH, 1);
-            Query q = em.createQuery("SELECT odr FROM KitchenOrderEntity odr WHERE odr.kitchen = :kitchen AND odr.creationTime >= :calFrom AND odr.creationTime < :calTo");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(selectedDate);
+            Query q = em.createQuery("SELECT odr FROM KitchenOrderEntity odr WHERE odr.kitchen = :kitchen AND odr.creationTime = :cal");
             q.setParameter("kitchen", kitchen);
-            q.setParameter("calFrom", calFrom);
-            q.setParameter("calTo", calTo);
+            q.setParameter("cal", cal);
             return q.getResultList();
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: getDailyOrders(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: getAllOrders(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
         }
@@ -327,14 +310,16 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
-    public List<KitchenOrderEntity> getUnservedOrders(Long kitchenId) {
+    public List<KitchenOrderEntity> getCurrentDateUnservedOrder(Long kitchenId) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
-            Query q = em.createQuery("SELECT odr FROM KitchenOrderEntity odr WHERE odr.kitchen = :kitchen AND odr.status = 'Fulfilled'");
+            Calendar cal = Calendar.getInstance();
+            Query q = em.createQuery("SELECT odr FROM KitchenOrderEntity odr WHERE odr.kitchen = :kitchen AND odr.status = 'Fulfilled' AND odr.creationTime = :cal");
             q.setParameter("kitchen", kitchen);
+            q.setParameter("cal", cal);
             return q.getResultList();
         } catch (Exception ex) {
-            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: getUnservedOrders(): Failed. Caught an unexpected exception.");
+            System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: getCurrentDateUnservedOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
         }

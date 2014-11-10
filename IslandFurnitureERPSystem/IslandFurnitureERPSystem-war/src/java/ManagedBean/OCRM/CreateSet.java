@@ -5,16 +5,20 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.SetEntity;
+import Entity.Factory.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
@@ -29,22 +33,45 @@ public class CreateSet {
 
     @EJB
     CustomerWebModuleLocal cwml;
-    
+
     private String picture;
     private String setName;
     private String description;
-    private SetEntity set;
+    private CountrySetEntity set;
     private String name;
     private String path;
-    
+    private List<SetEntity> globalSetList;
+    private List<SelectItem> displayList;
+    private List<CountrySetEntity> setList;
+    private String selectedWeb;
+    private String selectedSet;
+
     public CreateSet() {
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
+        selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+
+        globalSetList = cwml.getGlobalSetList();
+        setList= cwml.getSetList(selectedWeb);
+        for(CountrySetEntity c: setList){
+            for(SetEntity s:globalSetList){
+                if(s.equals(c.getSet())){
+                    globalSetList.remove(s);
+                    break;
+                }
+            }
+        }
         
+        displayList=new ArrayList<>();
+        for (SetEntity s : globalSetList) {
+            String t = s.getId() + " " + s.getName();
+            displayList.add(new SelectItem(s.getId(), t));
+        }
+
     }
-    
+
     public void handleProductItemImageUpload(FileUploadEvent event) throws IOException {
 
         System.out.println("Enter handleProductItemImage ");
@@ -105,12 +132,13 @@ public class CreateSet {
         picture = name;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image has been uploaded", ""));
     }
-    
-    public String create(){
-        Long setId=cwml.createSet(setName, description, picture, "Singapore");
-        set=cwml.getSet(setId);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId",setId);
-        
+
+    public String create() {
+        Long selectedSetId=Long.valueOf(selectedSet);
+        Long setId = cwml.createSet(selectedSetId, selectedWeb);
+        set = cwml.getSet(setId);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", setId);
+
         return "EditSet?faces-redirect=true";
     }
 
@@ -146,11 +174,11 @@ public class CreateSet {
         this.description = description;
     }
 
-    public SetEntity getSet() {
+    public CountrySetEntity getSet() {
         return set;
     }
 
-    public void setSet(SetEntity set) {
+    public void setSet(CountrySetEntity set) {
         this.set = set;
     }
 
@@ -169,6 +197,45 @@ public class CreateSet {
     public void setPath(String path) {
         this.path = path;
     }
-    
-    
+
+    public List<SetEntity> getGlobalSetList() {
+        return globalSetList;
+    }
+
+    public void setGlobalSetList(List<SetEntity> globalSetList) {
+        this.globalSetList = globalSetList;
+    }
+
+    public List<SelectItem> getDisplayList() {
+        return displayList;
+    }
+
+    public void setDisplayList(List<SelectItem> displayList) {
+        this.displayList = displayList;
+    }
+
+    public List<CountrySetEntity> getSetList() {
+        return setList;
+    }
+
+    public void setSetList(List<CountrySetEntity> setList) {
+        this.setList = setList;
+    }
+
+    public String getSelectedWeb() {
+        return selectedWeb;
+    }
+
+    public void setSelectedWeb(String selectedWeb) {
+        this.selectedWeb = selectedWeb;
+    }
+
+    public String getSelectedSet() {
+        return selectedSet;
+    }
+
+    public void setSelectedSet(String selectedSet) {
+        this.selectedSet = selectedSet;
+    }
+
 }

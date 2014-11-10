@@ -6,7 +6,7 @@
  */
 package Entity.Factory;
 
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import Entity.Store.StoreProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;

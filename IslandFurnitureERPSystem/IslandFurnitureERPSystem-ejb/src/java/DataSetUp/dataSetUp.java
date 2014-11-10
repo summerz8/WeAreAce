@@ -28,6 +28,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Factory.SetEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.ComboItemEntity;
@@ -38,25 +39,26 @@ import Entity.Kitchen.IngredientEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
-import Entity.Kitchen.KitchenOrderEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
+import Entity.Store.EventEntity;
 import Entity.Store.OCRM.MemberCardIdMappingEntity;
-import Entity.Store.OCRM.CustomerWebItemEntity;
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import Entity.Store.OCRM.ShoppingCartItemEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreEventEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
-import SessionBean.KM.CustomerOrderFulfillmentModuleLocal;
+import Entity.Store.StoreSetEntity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +68,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -82,9 +83,6 @@ import util.security.CryptographicHelper;
 @LocalBean
 @Startup
 public class dataSetUp {
-
-    @EJB
-    private CustomerOrderFulfillmentModuleLocal cof;
 
     @PersistenceContext
     private EntityManager em;
@@ -285,6 +283,31 @@ public class dataSetUp {
 
         ProductEntity p9 = new ProductEntity("Closet", "Wooden closet, 200mm X 170mm,  light yellow", 500.0, 480.0, "one", false);
         em.persist(p9);
+        em.flush();
+
+        // Set Entity 
+        SetEntity set1_1 = new SetEntity();
+        set1_1.setName("Modern Set 4");
+        set1_1.setDescription("best");
+        set1_1.setPrice(2000D);
+        set1_1.setMemberPrice(1900D);
+        em.persist(set1_1);
+        em.flush();
+
+        SetEntity set1_2 = new SetEntity();
+        set1_2.setName("Modern Set 5");
+        set1_2.setDescription("nice");
+        set1_2.setPrice(1000D);
+        set1_2.setMemberPrice(900D);
+        em.persist(set1_2);
+        em.flush();
+
+        SetEntity set1_3 = new SetEntity();
+        set1_3.setName("Modern Set 6");
+        set1_3.setDescription("good");
+        set1_3.setPrice(1500D);
+        set1_3.setMemberPrice(1400D);
+        em.persist(set1_3);
         em.flush();
 
         //Factory Product
@@ -1704,7 +1727,7 @@ public class dataSetUp {
             ds.setSalesDate(cal);
             Double sales = 0.0;
             for (DishEntity d : k1.getDishes()) {
-                DishItemEntity di = new DishItemEntity(d, 150 + rd.nextInt(50));
+                DishItemEntity di = new DishItemEntity(d, rd.nextInt(200));
                 em.persist(di);
                 em.flush();
                 sales += di.getDish().getPrice() * di.getQuantity();
@@ -1713,7 +1736,7 @@ public class dataSetUp {
                 em.flush();
             }
             for (ComboEntity c : k1.getCombos()) {
-                ComboItemEntity ci = new ComboItemEntity(c, 50 + rd.nextInt(50));
+                ComboItemEntity ci = new ComboItemEntity(c, rd.nextInt(100));
                 em.persist(ci);
                 em.flush();
                 sales += ci.getCombo().getPrice() * ci.getQuantity();
@@ -1724,20 +1747,6 @@ public class dataSetUp {
             ds.setSales(sales);
         }
 
-        // kitchen orders
-        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
-        cof.addDishItem(ko1_1.getId(), d1_1.getId(), 1);
-        cof.addDishItem(ko1_1.getId(), d1_2.getId(), 2);
-        cof.addComboItem(ko1_1.getId(), c1_1.getId(), 3);
-        cof.confirmOrder(ko1_1.getId(), 1000.0);
-        
-        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
-        cof.addDishItem(ko1_2.getId(), d1_1.getId(), 5);
-        cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
-        cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
-        cof.confirmOrder(ko1_2.getId(), 10000.0);
-
-        
         //MembershipLevel
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);
@@ -1979,8 +1988,8 @@ public class dataSetUp {
         em.persist(sp1_1);
         em.flush();
 
-        //Set Up  CustomerWebItemEntity
-        CustomerWebItemEntity item = new CustomerWebItemEntity();
+        //Set Up  CountryProductEntity
+        CountryProductEntity item = new CountryProductEntity();
         item.setDescription(p7.getDescription());
         item.setProductName("Bed");
         item.setPrice(p7.getPrice());
@@ -1993,7 +2002,7 @@ public class dataSetUp {
         em.persist(item);
         em.flush();
 
-        CustomerWebItemEntity item1 = new CustomerWebItemEntity();
+        CountryProductEntity item1 = new CountryProductEntity();
         item1.setDescription("this is a good Bedside");
         item1.setProductName("Bedside");
         item1.setPrice(200D);
@@ -2006,20 +2015,7 @@ public class dataSetUp {
         em.persist(item1);
         em.flush();
 
-        CustomerWebItemEntity item2 = new CustomerWebItemEntity();
-        item2.setDescription("this is a good Bedside");
-        item2.setProductName("Bedside");
-        item2.setPrice(200D);
-        item2.setMemberPrice(180D);
-        item2.setPicture("bedside2_set4.png");
-        item2.setAvailability("Avalible");
-        item2.setType("Desk");
-        item2.setProduct(p8);
-        item2.setWeb("Singapore");
-        em.persist(item2);
-        em.flush();
-
-        CustomerWebItemEntity item3 = new CustomerWebItemEntity();
+        CountryProductEntity item3 = new CountryProductEntity();
         item3.setDescription("this is a good closet");
         item3.setProductName("Closet");
         item3.setPrice(200D);
@@ -2032,7 +2028,7 @@ public class dataSetUp {
         em.persist(item3);
         em.flush();
 
-        CustomerWebItemEntity item4 = new CustomerWebItemEntity();
+        CountryProductEntity item4 = new CountryProductEntity();
         item4.setDescription("best toy ever");
         item4.setProductName("Captain America");
         item4.setPrice(200D);
@@ -2045,7 +2041,7 @@ public class dataSetUp {
         em.persist(item4);
         em.flush();
 
-        CustomerWebItemEntity item5 = new CustomerWebItemEntity();
+        CountryProductEntity item5 = new CountryProductEntity();
         item5.setDescription("各种歪");
         item5.setProductName("歪脖美国队长");
         item5.setPrice(200D);
@@ -2058,16 +2054,41 @@ public class dataSetUp {
         em.persist(item5);
         em.flush();
 
-        SetEntity set1 = new SetEntity();
+        CountrySetEntity set1 = new CountrySetEntity();
         set1.setDescription("This set uses brown as its theme. Simple design, no extra decoration makes people feel comfortable and relaxed. It uses high quality wooden material and environment friendly oil paint.");
         set1.setPicture("set4.png");
         set1.setName("Modern Set 4");
         set1.getUnitList().add(item);
         set1.getUnitList().add(item1);
-        set1.getUnitList().add(item2);
         set1.getUnitList().add(item3);
         set1.setWeb("Singapore");
+        set1.setSet(set1_1);
+
         em.persist(set1);
+        em.flush();
+
+        // Store Set 
+        System.out.println("set id=============================================================" + set1.getSet().getId());
+        System.out.println("countrySET id=============================================================" + set1.getId());
+
+        StoreSetEntity ss1_1 = new StoreSetEntity(set1_1, set1, s1);
+        em.persist(ss1_1);
+        em.flush();
+
+        // set relationship
+        set1_1.getProductList().add(p7);
+        set1_1.getProductList().add(p8);
+        set1_1.getProductList().add(p9);
+        set1_1.getStoreSetList().add(ss1_1);
+        set1_1.getWebSetList().add(set1);
+        set1.getSetList().add(ss1_1);
+
+        set1_2.getProductList().add(p7);
+        set1_2.getProductList().add(p8);
+        set1_2.getProductList().add(p9);
+        set1_2.getProductList().add(p1);
+        set1_2.getProductList().add(p2);
+
         em.flush();
 
         // Shopping cart tiem set up
@@ -2083,7 +2104,7 @@ public class dataSetUp {
         em.flush();
 
         // Retail Item set up
-        CustomerWebRetailItemEntity retailItem1 = new CustomerWebRetailItemEntity();
+        CountryRetailProductEntity retailItem1 = new CountryRetailProductEntity();
         retailItem1.setDescription(rp1.getDescription());
         retailItem1.setProductName(rp1.getName());
         retailItem1.setPrice(rp1.getPrice());
@@ -2094,7 +2115,7 @@ public class dataSetUp {
         em.persist(retailItem1);
         em.flush();
 
-        CustomerWebRetailItemEntity retailItem2 = new CustomerWebRetailItemEntity();
+        CountryRetailProductEntity retailItem2 = new CountryRetailProductEntity();
         retailItem2.setDescription(rp2.getDescription());
         retailItem2.setProductName(rp2.getName());
         retailItem2.setPrice(rp2.getPrice());
@@ -2105,7 +2126,7 @@ public class dataSetUp {
         em.persist(retailItem2);
         em.flush();
 
-        CustomerWebRetailItemEntity retailItem3 = new CustomerWebRetailItemEntity();
+        CountryRetailProductEntity retailItem3 = new CountryRetailProductEntity();
         retailItem3.setDescription(rp3.getDescription());
         retailItem3.setProductName(rp3.getName());
         retailItem3.setPrice(rp3.getPrice());
@@ -2116,7 +2137,7 @@ public class dataSetUp {
         em.persist(retailItem3);
         em.flush();
 
-        CustomerWebRetailItemEntity retailItem4 = new CustomerWebRetailItemEntity();
+        CountryRetailProductEntity retailItem4 = new CountryRetailProductEntity();
         retailItem4.setDescription("特别的K 只给特别的你");
         retailItem4.setProductName("特别的K");
         retailItem4.setPrice(rp1.getPrice());
@@ -2125,6 +2146,60 @@ public class dataSetUp {
         retailItem4.setProduct(rp1);
         retailItem4.setWeb("China");
         em.persist(retailItem4);
+        em.flush();
+
+        //Event 
+        Calendar ec1 = Calendar.getInstance();
+        ec1.set(2014, 10, 13);
+        Calendar ec2 = Calendar.getInstance();
+        ec2.set(2014, 10, 15);
+        Calendar ec3 = Calendar.getInstance();
+        ec3.set(2014, 7, 14);
+        Calendar ec4 = Calendar.getInstance();
+        ec4.set(2014, 7, 17);
+        Calendar ec5 = Calendar.getInstance();
+        ec5.set(2015, 0, 13);
+        Calendar ec6 = Calendar.getInstance();
+        ec6.set(2015, 0, 17);
+        Calendar ec7 = Calendar.getInstance();
+        ec5.set(2015, 10, 10);
+        Calendar ec8 = Calendar.getInstance();
+        ec6.set(2015, 10, 13);
+
+        EventEntity ece1 = new EventEntity("National Day", "National Day Celebration, double points", ec1, ec2);
+        em.persist(ece1);
+        em.flush();
+        EventEntity ece2 = new EventEntity("Labor Day", "Larbor Day Celebration, parts of items count 1.5x points", ec3, ec4);
+        em.persist(ece2);
+        em.flush();
+        EventEntity ece3 = new EventEntity("Island Furniture Anniversary", "5th Anniversary Celebration, double points", ec5, ec6);
+        em.persist(ece3);
+        em.flush();
+
+        EventEntity ece4 = new EventEntity("Double 11", "double 11, 1.1x", ec5, ec6);
+
+        em.persist(ece4);
+        em.flush();
+
+        StoreEventEntity event1 = new StoreEventEntity("National Day", "National Day Celebration, double points", ec1, ec2, s1, 2D
+        );
+        event1.setEvent(ece1);
+        event1.setStore(s1);
+        em.persist(event1);
+        em.flush();
+
+        StoreEventEntity event2 = new StoreEventEntity("Labor Day", "Larbor Day Celebration, parts of items count 1.5x points", ec3, ec4, s1, 1.5D
+        );
+        event2.setEvent(ece2);
+        event2.setStore(s1);
+        em.persist(event2);
+        em.flush();
+
+        StoreEventEntity event3 = new StoreEventEntity("Island Furniture Anniversary", "5th Anniversary Celebration, double points", ec5, ec6, s1, 2D
+        );
+        event3.setEvent(ece3);        
+        event3.setStore(s1);
+        em.persist(event3);
         em.flush();
 
         //***************************************************************************************************

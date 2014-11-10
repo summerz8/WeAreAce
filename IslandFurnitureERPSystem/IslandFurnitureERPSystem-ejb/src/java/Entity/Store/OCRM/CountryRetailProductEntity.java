@@ -5,6 +5,7 @@
  */
 package Entity.Store.OCRM;
 
+import Entity.Factory.RetailProductEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,32 +14,37 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author apple
  */
 @Entity
-public class SetEntity implements Serializable {
+public class CountryRetailProductEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String description;
-    @OneToMany
-    private List<CustomerWebItemEntity> unitList; 
     private String picture;
+    private String productName;
+    private String availability;
+    private String description;
+    private Double price;
+    private String type;
     private String web;
-    
-     @OneToMany
+
+    @OneToOne
+    private RetailProductEntity product;
+
+    @OneToMany
     private List<CommentEntity> comments;
 
-    public SetEntity(){
-        unitList=new ArrayList<>();
-        comments=new ArrayList<>();
+    public CountryRetailProductEntity() {
+        comments = new ArrayList<>();
     }
-       
+
     public Long getId() {
         return id;
     }
@@ -47,12 +53,28 @@ public class SetEntity implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setName(String setName) {
-        this.name = setName;
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     public String getDescription() {
@@ -63,20 +85,28 @@ public class SetEntity implements Serializable {
         this.description = description;
     }
 
-    public List<CustomerWebItemEntity> getUnitList() {
-        return unitList;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setUnitList(List<CustomerWebItemEntity> unitList) {
-        this.unitList = unitList;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getType() {
+        return type;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public RetailProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(RetailProductEntity product) {
+        this.product = product;
     }
 
     public String getWeb() {
@@ -94,9 +124,7 @@ public class SetEntity implements Serializable {
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
     }
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -107,10 +135,10 @@ public class SetEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SetEntity)) {
+        if (!(object instanceof CountryRetailProductEntity)) {
             return false;
         }
-        SetEntity other = (SetEntity) object;
+        CountryRetailProductEntity other = (CountryRetailProductEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -119,7 +147,7 @@ public class SetEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.SetEntity[ id=" + id + " ]";
+        return "Entity.Store.OCRM.CustomerWebRetailItemEntity[ id=" + id + " ]";
     }
-    
+
 }

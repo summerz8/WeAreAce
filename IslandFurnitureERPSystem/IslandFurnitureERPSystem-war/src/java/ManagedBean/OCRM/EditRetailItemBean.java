@@ -6,7 +6,7 @@
 package ManagedBean.OCRM;
 
 import Entity.Factory.RetailProductEntity;
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,7 +35,7 @@ public class EditRetailItemBean {
     @EJB
     CustomerWebModuleLocal cwml;
     private Long retailItemId;
-    private CustomerWebRetailItemEntity item;
+    private CountryRetailProductEntity item;
     private String description;
     private String productName;
     private List<SelectItem> displayList;
@@ -151,11 +151,11 @@ public class EditRetailItemBean {
         this.retailItemId = retailItemId;
     }
 
-    public CustomerWebRetailItemEntity getItem() {
+    public CountryRetailProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebRetailItemEntity item) {
+    public void setItem(CountryRetailProductEntity item) {
         this.item = item;
     }
 

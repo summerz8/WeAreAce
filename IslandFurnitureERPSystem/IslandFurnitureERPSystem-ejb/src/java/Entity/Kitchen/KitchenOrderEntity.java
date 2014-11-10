@@ -5,7 +5,6 @@
  */
 package Entity.Kitchen;
 
-import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,10 +45,10 @@ public class KitchenOrderEntity implements Serializable {
     private String status;  //Unconfirmed, Confirmed, Fulfilled, Cancelled, Served
     @ManyToOne
     private KitchenEntity kitchen;
-    @ManyToOne  
+    @ManyToOne  // not included in member yet
     private MemberEntity member;
-    @ManyToOne
-    private StoreUserEntity storeStaff;
+//    @ManyToOne
+//    private UserEntity operator;
 
     public KitchenOrderEntity() {
         total = 0.0;
@@ -62,9 +61,8 @@ public class KitchenOrderEntity implements Serializable {
         creationTime = Calendar.getInstance();
     }
 
-    public KitchenOrderEntity(KitchenEntity kitchen, StoreUserEntity storeStaff) {
+    public KitchenOrderEntity(KitchenEntity kitchen) {
         this.kitchen = kitchen;
-        this.storeStaff = storeStaff;
         total = 0.0;
         received = 0.0;
         due = 0.0;
@@ -177,14 +175,6 @@ public class KitchenOrderEntity implements Serializable {
 
     public void setMember(MemberEntity member) {
         this.member = member;
-    }
-
-    public StoreUserEntity getStoreStaff() {
-        return storeStaff;
-    }
-
-    public void setStoreStaff(StoreUserEntity storeStaff) {
-        this.storeStaff = storeStaff;
     }
 
     @Override

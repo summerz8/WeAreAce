@@ -71,8 +71,7 @@
                     <p:menu>
                         <p:submenu label="Kitchen Management">
                             <p:submenu label="Percurement Management">
-                                <p:menuitem value="Integrated Raw Ingredient Purchase Order" url="IngredientPurchaseOrder.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Raw Ingredient Purchase Order To Supplier ＆ Receipt" url="DailyIngredientPurchaseOrderToSuppliers.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Raw Ingredient Purchase Order ＆ Receipt" url="IngredientPurchaseOrder.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
                                 <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
                             </p:submenu>
@@ -89,69 +88,67 @@
                                      filteredValue="#{ingredientSupplierBean.filteredSuppliers}" emptyMessage="No Ingredient Supplier Found With Given Criteria" editable="true" >
 
                             <f:facet name="header">
-                                <div align="right">
-                                    <p:outputPanel>
-                                        <h:outputText value="Search Ingredient Supplier: " />
-                                        <p:inputText id="globalFilter" onkeyup="PF('ingredientSupplierTable').filter()" placeholder="Enter Keyword" />
-                                    </p:outputPanel>
-                                </div>
+                                <p:outputPanel>
+                                    <h:outputText value="Search Ingredient Supplier: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('ingredientSupplierTable').filter()" placeholder="Enter Keyword" />
+                                </p:outputPanel>
                             </f:facet>
 
                             <p:ajax event="rowEdit" listener="#{ingredientSupplierBean.onRowEdit}" update="@this"/>
                             <p:ajax event="rowEditCancel" listener="#{ingredientSupplierBean.onRowCancel}" update="ingredientSupplierList"/>
 
-                            <p:column headerText="ID" style="text-align: center;" width="3%">
+                            <p:column headerText="ID" width="3%">
                                 <h:outputText value="#{is.id}"/>
                             </p:column>
 
-                            <p:column headerText="Name" style="text-align: center;" width="12%" filterBy="#{is.name}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Name" width="12%" filterBy="#{is.name}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{is.name}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{is.name}" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Contact" style="text-align: center;" filterBy="#{is.contact}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Contact" filterBy="#{is.contact}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{is.contact}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{is.contact}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Fax" style="text-align: center;" filterBy="#{is.fax}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Fax" filterBy="#{is.fax}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{is.fax}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{is.fax}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Address" style="text-align: center;" width="15%" filterBy="#{is.address}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Address" width="15%" filterBy="#{is.address}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{is.address}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{is.address}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Remark" style="text-align: center;" width="20%" filterBy="#{is.remark}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Remark" width="20%" filterBy="#{is.remark}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{is.remark}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{is.remark}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Raw Ingredients" style="text-align: center;" >
+                            <p:column headerText="Raw Ingredients">
                                 <p:dataTable var="i" value="#{is.ingredients}">
-                                    <p:column style="text-align: center;" >
+                                    <p:column>
                                         #{i.name}
                                     </p:column>
                                 </p:dataTable>
                             </p:column>
 
-                            <p:column headerText="Edit" style="text-align: center;" width="5%">
+                            <p:column headerText="Edit" width="5%">
                                 <p:rowEditor/>
                             </p:column>
 
-                            <p:column headerText="Delete" style="text-align: center;" width="7%">       
+                            <p:column headerText="Delete" width="7%">       
                                 <p:commandButton update="ingredientSupplierList" actionListener="#{ingredientSupplierBean.deleteSupplier(is)}" icon="ui-icon-trash" title="Delete">
                                 </p:commandButton>    
                             </p:column>

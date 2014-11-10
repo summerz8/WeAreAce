@@ -5,7 +5,7 @@
  */
 package Member;
 
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,8 +25,8 @@ public class ChinaIndexBean {
     @EJB
     private CustomerWebModuleLocal cwml;
 
-    private List<SetEntity> setList;
-    private SetEntity set;
+    private List<CountrySetEntity> setList;
+    private CountrySetEntity set;
 
     public ChinaIndexBean() {
     }
@@ -58,19 +58,19 @@ public class ChinaIndexBean {
         this.cwml = cwml;
     }
 
-    public List<SetEntity> getSetList() {
+    public List<CountrySetEntity> getSetList() {
         return setList;
     }
 
-    public void setSetList(List<SetEntity> setList) {
+    public void setSetList(List<CountrySetEntity> setList) {
         this.setList = setList;
     }
 
-    public SetEntity getSet() {
+    public CountrySetEntity getSet() {
         return set;
     }
 
-    public void setSet(SetEntity set) {
+    public void setSet(CountrySetEntity set) {
         this.set = set;
     }
 

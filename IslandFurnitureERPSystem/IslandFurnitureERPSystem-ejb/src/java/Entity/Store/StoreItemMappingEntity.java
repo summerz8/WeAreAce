@@ -23,8 +23,9 @@ public class StoreItemMappingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Long retailProductId;
-    private Long productid;
+    private Long retailProductId;  //should be storeRetailProductId
+    private Long productid;     //should be storeProductId
+    private Long storeSetId;
     
     @ManyToOne
     private StoreEntity store;
@@ -63,6 +64,22 @@ public class StoreItemMappingEntity implements Serializable {
 
     public void setStore(StoreEntity store) {
         this.store = store;
+    }
+
+    public Long getProductid() {
+        return productid;
+    }
+
+    public void setProductid(Long productid) {
+        this.productid = productid;
+    }
+
+    public Long getStoreSetId() {
+        return storeSetId;
+    }
+
+    public void setStoreSetId(Long storeSetId) {
+        this.storeSetId = storeSetId;
     }
     
     

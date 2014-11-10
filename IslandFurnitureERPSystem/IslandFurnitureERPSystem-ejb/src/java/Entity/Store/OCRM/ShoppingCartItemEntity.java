@@ -26,7 +26,7 @@ public class ShoppingCartItemEntity implements Serializable {
     private Long storeId;
     
     @ManyToOne
-    private CustomerWebItemEntity customerWebItem;
+    private CountryProductEntity customerWebItem;
 
 
     public Long getId() {
@@ -53,11 +53,11 @@ public class ShoppingCartItemEntity implements Serializable {
         this.storeId = storeId;
     }
 
-    public CustomerWebItemEntity getCustomerWebItem() {
+    public CountryProductEntity getCustomerWebItem() {
         return customerWebItem;
     }
 
-    public void setCustomerWebItem(CustomerWebItemEntity customerWebItem) {
+    public void setCustomerWebItem(CountryProductEntity customerWebItem) {
         this.customerWebItem = customerWebItem;
     }
 

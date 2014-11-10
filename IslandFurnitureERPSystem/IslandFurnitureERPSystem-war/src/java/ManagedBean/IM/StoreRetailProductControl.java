@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.IM;
 
 import Entity.Factory.FactoryProductEntity;
@@ -41,9 +40,9 @@ public class StoreRetailProductControl {
      */
     public StoreRetailProductControl() {
     }
-        @EJB
+    @EJB
     StoreInventoryControlLocal sicl;
-        
+
     private List<StoreRetailProductEntity> currentStoreRetailProductList = new ArrayList<>();
     private List<RetailProductEntity> retailProductNotInStoreList = new ArrayList<>();
     private StoreRetailProductEntity selectedStoreRetailProduct;
@@ -51,95 +50,90 @@ public class StoreRetailProductControl {
     private StoreEntity store;
     private String msgprint1;
     private String msgprint2;
-   
-    
+
     private List<FactoryRetailProductEntity> availableFactory;
     private FactoryRetailProductEntity selectedFactory;
     private StoreRetailProductEntity storeRetailProductToDelete;
     private String remark;
     private Long storeId;
-    
-    
+
     @PostConstruct
-    public void init(){
-        try{
-            if ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl")==0) {
+    public void init() {
+        try {
+            if ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl") == 0) {
                 storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("HFactoryId");
-                
+
             } else {
                 storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
             }
-        currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
-        System.out.println("ManagedBean : StoreProductControl : currentStoreProductList size()" + currentStoreRetailProductList.size());
-        retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
-        System.out.println("ManagedBean : StoreProductControl : productNotInStore size()" + retailProductNotInStoreList.size());
+            currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
+            System.out.println("ManagedBean : StoreProductControl : currentStoreProductList size()" + currentStoreRetailProductList.size());
+            retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
+            System.out.println("ManagedBean : StoreProductControl : productNotInStore size()" + retailProductNotInStoreList.size());
 
-         } catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AddFactoryProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void selectRetailProductToDetele(StoreRetailProductEntity srpe){
+
+    public void selectRetailProductToDetele(StoreRetailProductEntity srpe) {
         storeRetailProductToDelete = srpe;
         System.out.println("selected retail product to delete:" + srpe.getStoreRetailProductId());
-         
-        
+
     }
-    
-   public void selelectProductToAdd(RetailProductEntity pe){
+
+    public void selelectProductToAdd(RetailProductEntity pe) {
         selectedRetailProduct = pe;
         selectAvailableFactory(pe);
-        
-        
+
     }
-    public void deleteStoreRetailProduct(StoreRetailProductEntity spe){
-        
-      System.out.println("deleteRetailProduct " + spe.getFactoryRetailProduct().getFactoryRetailProdctId());
-      int result = sicl.deleteStoreRetailProduct(storeId, spe.getStoreRetailProductId(), spe.getFactoryRetailProduct().getFactoryRetailProdctId());
-       if(result == 1){
-            
+
+    public void deleteStoreRetailProduct(StoreRetailProductEntity spe) {
+
+        System.out.println("deleteRetailProduct " + spe.getFactoryRetailProduct().getFactoryRetailProdctId());
+        int result = sicl.deleteStoreRetailProduct(storeId, spe.getStoreRetailProductId(), spe.getFactoryRetailProduct().getFactoryRetailProdctId());
+        if (result == 1) {
+
             msgprint2 = "Retail roduct delete successfully!!";
             currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
             retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
-            
-        }
-        else {
+
+        } else {
             msgprint2 = "Exception occured. Please try again or raise a ticket.";
-        } 
+        }
     }
-    
-    public void selectAvailableFactory(RetailProductEntity rpe){
+
+    public void selectAvailableFactory(RetailProductEntity rpe) {
         selectedRetailProduct = rpe;
         availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
     }
-    
-    public void addStoreRetailProduct(RetailProductEntity rpe,FactoryRetailProductEntity sf){
-        
-        int result = sicl.addNewRetailProduct(storeId, rpe.getRetailProductId(),sf.getFactoryRetailProdctId(), remark);
-        if(result == 1) {
+
+    public void addStoreRetailProduct(RetailProductEntity rpe, FactoryRetailProductEntity sf) {
+
+        int result = sicl.addNewRetailProduct(storeId, rpe.getRetailProductId(), sf.getFactoryRetailProdctId(), remark);
+        if (result == 1) {
             msgprint1 = "A new retail product added successfully!";
             currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
             retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
-            
-        }
-        else{
+
+        } else {
             msgprint1 = "Exception occured. Please try again or raise a ticket.";
-            
+
         }
-            
+
     }
 
- public void onRowEdit(RowEditEvent event) {
+    public void onRowEdit(RowEditEvent event) {
         System.out.println("onRowEdit test: ");
         StoreRetailProductEntity entity = (StoreRetailProductEntity) event.getObject();
         Long oldFactoryRetailProductId = entity.getFactoryRetailProduct().getFactoryRetailProdctId();
         System.out.println("onRowEdit test: " + entity.getStoreRetailProductId() + entity.getMinimumInventory());
 
-        if (entity.getFactoryRetailProduct()==null) {
+        if (entity.getFactoryRetailProduct() == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Store Retail Product cannot be edited!", "Please at least select a factory"));
         } else {
-           sicl.editStoreRetailProduct(entity.getStore().getStoreId(), entity.getStoreRetailProductId(), oldFactoryRetailProductId, entity.getFactoryRetailProduct().getFactoryRetailProdctId(), entity.getMinimumInventory(),entity.getStoreRemark());
+            sicl.editStoreRetailProduct(entity.getStore().getStoreId(), entity.getStoreRetailProductId(), oldFactoryRetailProductId, entity.getFactoryRetailProduct().getFactoryRetailProdctId(), entity.getMinimumInventory(), entity.getStoreRemark());
 
             FacesMessage msg = new FacesMessage("Store Retail Product Edited", String.valueOf(entity.getStoreRetailProductId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -151,8 +145,6 @@ public class StoreRetailProductControl {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    
-    
     public StoreInventoryControlLocal getSicl() {
         return sicl;
     }
@@ -184,7 +176,6 @@ public class StoreRetailProductControl {
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
     }
-
 
     public StoreRetailProductEntity getSelectedStoreRetailProduct() {
         return selectedStoreRetailProduct;
@@ -242,8 +233,6 @@ public class StoreRetailProductControl {
         this.remark = remark;
     }
 
-
-
     public String getMsgprint1() {
         return msgprint1;
     }
@@ -259,6 +248,5 @@ public class StoreRetailProductControl {
     public void setMsgprint2(String msgprint2) {
         this.msgprint2 = msgprint2;
     }
-    
-    
+
 }

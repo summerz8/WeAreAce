@@ -8,6 +8,7 @@ package SessionBean.CommonInFrastructure;
 import Entity.Factory.BOMEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Factory.SetEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -102,7 +103,7 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     public Boolean DeleteRetailProduct(Long retailProductId) {
         System.out.println("RetailProduct_ProductManagementModule: DeleteRetialProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
-        if (pe.getFactoryRetailProducts().isEmpty()&&pe.getStoreRetailProducts().isEmpty()) {
+        if (pe.getFactoryRetailProducts().isEmpty() && pe.getStoreRetailProducts().isEmpty()) {
             pe.setDeleteFlag(Boolean.TRUE);
 
             em.persist(pe);
@@ -142,5 +143,84 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
         return requiredRetailProductList;
     }
 
-    //public void SearchRetailProduct(){}
+    @Override
+    public List<SetEntity> listSetList() {
+        System.out.println("RetailProduct_ProductManagementModule: ListRetailProduct(): ");
+        Query q = em.createQuery("SELECT t FROM SetEntity t");
+        List requiredSetList = new ArrayList();
+        for (Object o : q.getResultList()) {
+            SetEntity u = (SetEntity) o;
+            if (!u.getDeleteFlag()) {
+                requiredSetList.add(u);
+            }
+        }
+        return requiredSetList;
+    }
+
+    @Override
+    public void ModifySet(Long setId, String name, String description, Double price, Double memberPrice) {
+        System.out.println("RetailProduct_ProductManagementModule: ModifySet(): ");
+        SetEntity set = em.find(SetEntity.class, setId);
+        set.setName(name);
+        set.setDescription(description);
+        set.setPrice(price);
+        set.setMemberPrice(memberPrice);
+
+        em.persist(set);
+        em.flush();
+    }
+
+    @Override
+    public Boolean DeleteSet(Long setId) {
+        System.out.println("RetailProduct_ProductManagementModule: DeleteSet(): ");
+        SetEntity set = em.find(SetEntity.class, setId);
+        if (set.getStoreSetList().isEmpty() && set.getWebSetList().isEmpty()) {
+            set.setDeleteFlag(Boolean.TRUE);
+
+            em.persist(set);
+            em.flush();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public SetEntity createSet(String setName, String description) {
+        SetEntity set = new SetEntity();
+        set.setName(setName);
+        set.setDescription(description);
+        em.persist(set);
+        em.flush();
+        return set;
+    }
+
+    @Override
+    public SetEntity getSet(Long setId) {
+        return em.find(SetEntity.class, setId);
+    }
+
+ 
+
+    @Override
+    public void addItem(Long setId, Long productId) {
+        SetEntity set = em.find(SetEntity.class, setId);
+        ProductEntity product = em.find(ProductEntity.class, productId);
+        set.getProductList().add(product);
+        em.flush();
+    }
+
+    @Override
+    public void deleteSetProduct(Long setId, Long productId) {
+        SetEntity set = em.find(SetEntity.class, setId);
+        List<ProductEntity> productList=set.getProductList();
+        int size=productList.size();
+        for(int a=0;a<size;a++){
+            if(productList.get(a).getProductId().equals(productId)){
+                productList.remove(a);
+                break;
+            }
+        }
+    }
+
 }

@@ -7,11 +7,12 @@ package SessionBean.OCRM;
 
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Factory.SetEntity;
 import Entity.Store.OCRM.CommentEntity;
-import Entity.Store.OCRM.CustomerWebItemEntity;
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import Entity.Store.OCRM.ShoppingCartItemEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
@@ -39,18 +40,18 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     CustomerWebMemberModuleLocal cwml;
 
     @Override
-    public List<CustomerWebItemEntity> listItems(String web) {
-        Query q = em.createQuery("SELECT q FROM CustomerWebItemEntity q");
+    public List<CountryProductEntity> listItems(String web) {
+        Query q = em.createQuery("SELECT q FROM CountryProductEntity q");
         if (web == null) {
             System.out.println("none web info");
 
-            return (List<CustomerWebItemEntity>) q.getResultList();
+            return (List<CountryProductEntity>) q.getResultList();
         } else {
             System.out.println(web);
 
-            List<CustomerWebItemEntity> list = (List<CustomerWebItemEntity>) q.getResultList();
-            List<CustomerWebItemEntity> returnList = new ArrayList<>();
-            for (CustomerWebItemEntity c : list) {
+            List<CountryProductEntity> list = (List<CountryProductEntity>) q.getResultList();
+            List<CountryProductEntity> returnList = new ArrayList<>();
+            for (CountryProductEntity c : list) {
                 if (c.getWeb().equals(web)) {
                     returnList.add(c);
                 }
@@ -60,16 +61,16 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public List<SetEntity> getSetList(String web) {
-        Query q = em.createQuery("SELECT q FROM SetEntity q");
+    public List<CountrySetEntity> getSetList(String web) {
+        Query q = em.createQuery("SELECT q FROM CountrySetEntity q");
         if (web == null) {
             System.out.println("none web info");
-            return (List<SetEntity>) q.getResultList();
+            return (List<CountrySetEntity>) q.getResultList();
         } else {
             System.out.println(web);
-            List<SetEntity> list = (List<SetEntity>) q.getResultList();
-            List<SetEntity> returnList = new ArrayList<>();
-            for (SetEntity c : list) {
+            List<CountrySetEntity> list = (List<CountrySetEntity>) q.getResultList();
+            List<CountrySetEntity> returnList = new ArrayList<>();
+            for (CountrySetEntity c : list) {
                 if (c.getWeb().equals(web)) {
                     returnList.add(c);
                 }
@@ -80,7 +81,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public void createItem(Long productId, String productName, String description, String selectedType, String picture, String web) {
-        CustomerWebItemEntity customerWebItem = new CustomerWebItemEntity();
+        CountryProductEntity customerWebItem = new CountryProductEntity();
         ProductEntity product = em.find(ProductEntity.class, productId);
 
         customerWebItem.setAvailability("Available");
@@ -108,7 +109,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     @Override
     public void editItem(Long itemId, Long productId, String productName, String description, String selectedType, String picture) {
 
-        CustomerWebItemEntity customerWebItem = em.find(CustomerWebItemEntity.class, itemId);
+        CountryProductEntity customerWebItem = em.find(CountryProductEntity.class, itemId);
 
         ProductEntity product = em.find(ProductEntity.class, productId);
 
@@ -127,16 +128,16 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public Long deleteItem(Long itemId) {
-        CustomerWebItemEntity customerWebItem = em.find(CustomerWebItemEntity.class, itemId);
+        CountryProductEntity customerWebItem = em.find(CountryProductEntity.class, itemId);
         customerWebItem.setProduct(null);
 
-        List<SetEntity> setList;
-        Query q = em.createQuery("SELECT q FROM SetEntity q");
-        setList = (List<SetEntity>) q.getResultList();
+        List<CountrySetEntity> setList;
+        Query q = em.createQuery("SELECT q FROM CountrySetEntity q");
+        setList = (List<CountrySetEntity>) q.getResultList();
 
-        for (SetEntity s : setList) {
-            List<CustomerWebItemEntity> list = s.getUnitList();
-            for (CustomerWebItemEntity c : list) {
+        for (CountrySetEntity s : setList) {
+            List<CountryProductEntity> list = s.getUnitList();
+            for (CountryProductEntity c : list) {
                 if (c.getId().equals(itemId)) {
                     return s.getId();
                 }
@@ -149,24 +150,24 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public CustomerWebItemEntity getItem(Long itemId) {
-        return em.find(CustomerWebItemEntity.class, itemId);
+    public CountryProductEntity getItem(Long itemId) {
+        return em.find(CountryProductEntity.class, itemId);
     }
 
     @Override
     public void deleteSet(Long setId) {
-        SetEntity set = em.find(SetEntity.class, setId);
+        CountrySetEntity set = em.find(CountrySetEntity.class, setId);
         em.remove(set);
     }
 
     @Override
-    public SetEntity getSet(Long setId) {
-        return em.find(SetEntity.class, setId);
+    public CountrySetEntity getSet(Long setId) {
+        return em.find(CountrySetEntity.class, setId);
     }
 
     @Override
     public void editSet(Long setId, String setName, String description, String picture) {
-        SetEntity set = em.find(SetEntity.class, setId);
+        CountrySetEntity set = em.find(CountrySetEntity.class, setId);
         set.setDescription(description);
         set.setName(setName);
         set.setPicture(picture);
@@ -178,8 +179,8 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public void addItem(Long setId, Long itemId) {
-        SetEntity set = em.find(SetEntity.class, setId);
-        CustomerWebItemEntity item = em.find(CustomerWebItemEntity.class, itemId);
+        CountrySetEntity set = em.find(CountrySetEntity.class, setId);
+        CountryProductEntity item = em.find(CountryProductEntity.class, itemId);
         set.getUnitList().add(item);
 
         em.persist(set);
@@ -187,12 +188,42 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public Long createSet(String setName, String description, String picture, String web) {
-        SetEntity set = new SetEntity();
-        set.setDescription(description);
-        set.setName(setName);
-        set.setPicture(picture);
+    public Long createSet(Long setId, String web) {
+        CountrySetEntity set = new CountrySetEntity();
+        SetEntity globalSet = em.find(SetEntity.class, setId);
+        set.setDescription(globalSet.getDescription());
+        set.setName(globalSet.getName());
         set.setWeb(web);
+
+        List<ProductEntity> productList = globalSet.getProductList();
+        Query q = em.createQuery("Select b from CountryProductEntity b where b.web = :sId");
+        q.setParameter("sId", web);
+        boolean exsit;
+        List<CountryProductEntity> countryProductList = (List<CountryProductEntity>) q.getResultList();
+        for (ProductEntity p : productList) {
+            exsit = false;
+            for (CountryProductEntity c : countryProductList) {
+                if (c.getProduct().equals(p)) {
+                    set.getUnitList().add(c);
+                    exsit = true;
+                    break;
+                }
+            }
+            if (!exsit) {
+                CountryProductEntity cp = new CountryProductEntity();
+                cp.setMemberPrice(p.getMemberPrice());
+                cp.setDescription(p.getDescription());
+                cp.setPrice(p.getPrice());
+                cp.setProduct(p);
+                cp.setProductName(p.getName());
+                cp.setWeb(web);
+                em.persist(cp);
+                set.getUnitList().add(cp);
+                em.flush();
+            } else {
+
+            }
+        }
         em.persist(set);
         em.flush();
 
@@ -203,7 +234,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     public void addToShoppingCart(String email, Long itemId, int quantity) {
 
         MemberEntity member = cwml.getMember(email);
-        CustomerWebItemEntity item = getItem(itemId);
+        CountryProductEntity item = getItem(itemId);
         ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
         shoppingCartItem.setQuantity(quantity);
         shoppingCartItem.setCustomerWebItem(item);
@@ -215,16 +246,16 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public List<CustomerWebRetailItemEntity> listRetailItems(String web) {
-        Query q = em.createQuery("SELECT q FROM CustomerWebRetailItemEntity q");
+    public List<CountryRetailProductEntity> listRetailItems(String web) {
+        Query q = em.createQuery("SELECT q FROM CountryRetailProductEntity q");
         if (web == null) {
             System.out.println("none web info");
-            return (List<CustomerWebRetailItemEntity>) q.getResultList();
+            return (List<CountryRetailProductEntity>) q.getResultList();
         } else {
             System.out.println(web);
-            List<CustomerWebRetailItemEntity> list = (List<CustomerWebRetailItemEntity>) q.getResultList();
-            List<CustomerWebRetailItemEntity> returnList = new ArrayList<>();
-            for (CustomerWebRetailItemEntity c : list) {
+            List<CountryRetailProductEntity> list = (List<CountryRetailProductEntity>) q.getResultList();
+            List<CountryRetailProductEntity> returnList = new ArrayList<>();
+            for (CountryRetailProductEntity c : list) {
                 if (c.getWeb().equals(web)) {
                     returnList.add(c);
                 }
@@ -234,13 +265,13 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public CustomerWebRetailItemEntity getRetailItem(Long itemId) {
-        return em.find(CustomerWebRetailItemEntity.class, itemId);
+    public CountryRetailProductEntity getRetailItem(Long itemId) {
+        return em.find(CountryRetailProductEntity.class, itemId);
     }
 
     @Override
     public void createRetailItem(Long retailProductId, String retailProductName, String description, String picture, String selectWeb) {
-        CustomerWebRetailItemEntity customerWebRetailItem = new CustomerWebRetailItemEntity();
+        CountryRetailProductEntity customerWebRetailItem = new CountryRetailProductEntity();
         RetailProductEntity product = em.find(RetailProductEntity.class, retailProductId);
 
         customerWebRetailItem.setProduct(product);
@@ -257,7 +288,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public void editRetailItem(Long itemId, Long productId, String retailProductName, String description, String picture) {
-        CustomerWebRetailItemEntity customerWebRetailItem = em.find(CustomerWebRetailItemEntity.class, itemId);
+        CountryRetailProductEntity customerWebRetailItem = em.find(CountryRetailProductEntity.class, itemId);
         RetailProductEntity product = em.find(RetailProductEntity.class, productId);
 
         customerWebRetailItem.setProduct(product);
@@ -272,7 +303,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public void deleteRetailItem(Long retailItemId) {
-        CustomerWebRetailItemEntity customerWebRetailItem = em.find(CustomerWebRetailItemEntity.class, retailItemId);
+        CountryRetailProductEntity customerWebRetailItem = em.find(CountryRetailProductEntity.class, retailItemId);
         em.remove(customerWebRetailItem);
     }
 
@@ -290,17 +321,17 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
         em.persist(comment);
         switch (type) {
             case "set":
-                SetEntity set = em.find(SetEntity.class, Id);
+                CountrySetEntity set = em.find(CountrySetEntity.class, Id);
                 set.getComments().add(comment);
                 em.flush();
                 break;
             case "item":
-                CustomerWebItemEntity item = em.find(CustomerWebItemEntity.class, Id);
+                CountryProductEntity item = em.find(CountryProductEntity.class, Id);
                 item.getComments().add(comment);
                 em.flush();
                 break;
             default:
-                CustomerWebRetailItemEntity retail = em.find(CustomerWebRetailItemEntity.class, Id);
+                CountryRetailProductEntity retail = em.find(CountryRetailProductEntity.class, Id);
                 retail.getComments().add(comment);
                 em.flush();
                 break;
@@ -327,11 +358,11 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
         switch (type) {
             case "set":
-                SetEntity set = em.find(SetEntity.class, itemId);
+                CountrySetEntity set = em.find(CountrySetEntity.class, itemId);
                 em.flush();
                 break;
             case "item":
-                CustomerWebItemEntity item = em.find(CustomerWebItemEntity.class, itemId);
+                CountryProductEntity item = em.find(CountryProductEntity.class, itemId);
                 Collection<StoreProductEntity> storeProductList = item.getProduct().getStoreProducts();
                 System.out.println("checkStock():1");
                 for (StoreProductEntity s : storeProductList) {
@@ -345,7 +376,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
                 em.flush();
                 break;
             default:
-                CustomerWebRetailItemEntity retail = em.find(CustomerWebRetailItemEntity.class, itemId);
+                CountryRetailProductEntity retail = em.find(CountryRetailProductEntity.class, itemId);
                 Collection<StoreRetailProductEntity> storeRetailProductList = retail.getProduct().getStoreRetailProducts();
                 System.out.println("checkStock():1");
                 for (StoreRetailProductEntity s : storeRetailProductList) {
@@ -361,6 +392,26 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
         }
 
         return stock;
+    }
+
+    @Override
+    public List<SetEntity> getGlobalSetList() {
+        Query q = em.createQuery("SELECT q FROM SetEntity q");
+        return (List<SetEntity>) q.getResultList();
+    }
+
+    @Override
+    public void deleteItemInSet(Long countrySetId, Long countryProductId) {
+        CountrySetEntity set=em.find(CountrySetEntity.class, countrySetId);
+        List<CountryProductEntity> productList=set.getUnitList();
+        for(CountryProductEntity c: productList){
+            if(c.getId().equals(countryProductId)){
+                productList.remove(c);
+                break;
+            }
+        }
+        set.setUnitList(productList);
+        em.flush();
     }
 
 }

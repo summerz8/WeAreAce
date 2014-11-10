@@ -6,7 +6,7 @@
 package Member;
 
 import Entity.Store.OCRM.CommentEntity;
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.text.DecimalFormat;
@@ -30,7 +30,7 @@ public class ViewRetailItemBean {
     @EJB
     private CustomerWebModuleLocal cwml;
     private Long itemId;
-    private CustomerWebRetailItemEntity item;
+    private CountryRetailProductEntity item;
     private String name;
     private String comment;
     private Integer rate;
@@ -140,11 +140,11 @@ public class ViewRetailItemBean {
         this.itemId = itemId;
     }
 
-    public CustomerWebRetailItemEntity getItem() {
+    public CountryRetailProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebRetailItemEntity item) {
+    public void setItem(CountryRetailProductEntity item) {
         this.item = item;
     }
 

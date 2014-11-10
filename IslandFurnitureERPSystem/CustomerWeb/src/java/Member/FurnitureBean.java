@@ -5,7 +5,7 @@
  */
 package Member;
 
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,7 +25,7 @@ public class FurnitureBean {
     @EJB
     private CustomerWebModuleLocal cwml;
 
-    private List<CustomerWebItemEntity> itemList;
+    private List<CountryProductEntity> itemList;
     private String web;
 
     public FurnitureBean() {
@@ -93,11 +93,11 @@ public class FurnitureBean {
         this.cwml = cwml;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 }
