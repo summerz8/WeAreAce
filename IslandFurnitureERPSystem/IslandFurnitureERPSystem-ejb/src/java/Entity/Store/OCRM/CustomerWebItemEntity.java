@@ -7,10 +7,13 @@ package Entity.Store.OCRM;
 
 import Entity.Factory.ProductEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -30,12 +33,17 @@ public class CustomerWebItemEntity implements Serializable {
     private Double price;
     private Double memberPrice;
     private String type;
+    private String web;
     
     @OneToOne
     private ProductEntity product;
     
+    @OneToMany
+    private List<CommentEntity> comments;
+    
 
-    public CustomerWebItemEntity(){    
+    public CustomerWebItemEntity(){ 
+        comments=new ArrayList<>();
     }
     
     public Long getId() {
@@ -108,6 +116,22 @@ public class CustomerWebItemEntity implements Serializable {
 
     public void setMemberPrice(Double memberPrice) {
         this.memberPrice = memberPrice;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
     }
 
     

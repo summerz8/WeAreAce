@@ -28,7 +28,10 @@
 
                 <p:messages id="messagesStatus" redisplay="false" />
 
-                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                <p:link outcome="FeedBack?faces-redirect=true" value="反馈"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+                
+                <p:link outcome="/secured/China/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
 
                 <p:button  value="会员登录" outcome="/China/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
@@ -46,24 +49,23 @@
                     <p:button value="家具" outcome="/China/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="超市" outcome="/China/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="餐厅" outcome="/China/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="关于我们" outcome="/China/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                 </div>
 
 
                 <div style="width: 1000px; text-align:center; margin:auto; border: none">
-                    <p:dataScroller value="#{gallery.pictureList}" var="picture" chunkSize="10" style=" border: 5px">                     
-                        <div class="col-md-3" style = "margin:auto; border:5px;">
-                            <div class="thumbnail" style = " margin-right:  auto; border: none;">
-                                <img alt="300x200" src="../resources/images/#{picture}" />
-                                <div class="caption" style="border: none;">
-                                    <h3 >
-                                        Sparking Sky
-                                    </h3>
+                    <p:dataScroller value="#{retailBean.retailItemList}" var="item" chunkSize="10" style=" border: 5px">                     
+                        <div class="col-md-3" style = "margin:auto;vertical-align:bottom">
+                            <div class="thumbnail" style = " margin-right:auto; border:none;vertical-align: text-bottom">
+                                <img alt="300x200" src="../resources/images/#{item.picture}" style="width: 130px; height: 130px;vertical-align: bottom" />
+                                <div class="caption" style="vertical-align: bottom; height: 200px; width: 130px; margin: auto">
                                     <p>
-                                        Description....	
+                                        #{item.productName}
                                     </p>
                                     <p>
-                                        <a class="btn" href="#">元素</a>
+                                        #{item.description}
+                                    </p>
+                                    <p>
+                                        <p:commandButton id="btn" value="View"  action="#{retailBean.view(item.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 10px;color: white; border:none; width: 60px; height: 30px;"/>
                                     </p>
                                 </div>
                             </div>                          

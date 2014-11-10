@@ -28,7 +28,10 @@
 
                 <p:messages id="messagesStatus" redisplay="false" />
 
-                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                <p:link outcome="FeedBack?faces-redirect=true" value="反馈"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+                
+                <p:link outcome="/secured/China/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
 
                 <p:button  value="会员登录" outcome="/China/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
@@ -48,7 +51,6 @@
                     <p:button value="家具" outcome="/China/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="超市" outcome="/China/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="餐厅" outcome="/China/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="关于我们" outcome="/China/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                 </div>
 
                 <div class="col-md-12 column" style="text-align: center; border: none">

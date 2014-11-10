@@ -33,7 +33,10 @@
                                 <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: none; text-align: left ">       
                                     </p:layoutUnit> -->
 
-                <p:link outcome="/secured/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                <p:link outcome="FeedBack?faces-redirect=true" value="反馈"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                </p:link>
+                
+                <p:link outcome="/secured/China/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
 
                 <p:button  value="会员登录" outcome="/China/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
@@ -54,7 +57,6 @@
                     <p:button value="家具" outcome="/China/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="超市" outcome="/China/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                     <p:button value="餐厅" outcome="/China/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="关于我们" outcome="/China/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                 </div>
 
                 <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
@@ -69,7 +71,7 @@
                         </f:facet>
 
                         <h:panelGrid columns="2"  columnClasses="logo,detail" style="left: 200px;border: none;">
-                            <a href="../public/set.xhtml"> <img alt="300x200" src="../resources/images/#{set.picture}"  style = "text-align: left; margin-bottom:50px;width:500px; height:300px"/></a>
+                            <a href="../Singapore/set.xhtml"> <img alt="300x200" src="../resources/images/#{set.picture}"  style = "text-align: left; margin-bottom:50px;width:500px; height:300px"/></a>
 
                             <p:outputPanel>
                                 <h:panelGrid columns="1" cellpadding="5" style="border: none;">

@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,7 +30,6 @@ public class IngredientSupplierEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @Column(unique = true, nullable = false)
     private String name;
     private String address;
     private String contact;
@@ -40,6 +40,8 @@ public class IngredientSupplierEntity implements Serializable {
     private List<IngredientEntity> ingredients = new ArrayList<>();
     @ManyToOne
     private KitchenEntity kitchen;
+    @ManyToMany
+    private List<IngredientPurchaseOrderToSupplierEntity> purchaseOrders = new ArrayList<>();
 
     public IngredientSupplierEntity() {
         deleted = false;
@@ -125,6 +127,14 @@ public class IngredientSupplierEntity implements Serializable {
 
     public void setKitchen(KitchenEntity kitchen) {
         this.kitchen = kitchen;
+    }
+
+    public List<IngredientPurchaseOrderToSupplierEntity> getPurchaseOrders() {
+        return purchaseOrders;
+    }
+
+    public void setPurchaseOrders(List<IngredientPurchaseOrderToSupplierEntity> purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
     }
 
     @Override

@@ -93,7 +93,7 @@
                                 <h:outputLabel for="title" value="Title: *" />
                                 <h:selectOneMenu value="#{memberControl.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
                                     <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.titles}" var="color"/>
+                                    <f:selectItems value="#{predefinedAttr.titles}" var="color"/>
                                 </h:selectOneMenu>
 
 
@@ -113,7 +113,7 @@
                                 <h:outputLabel for="gender" value="Gender: *" />
                                 <h:selectOneMenu value="#{memberControl.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
                                     <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
+                                    <f:selectItems value="#{predefinedAttr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                                 </h:selectOneMenu>
 
                                 <h:outputLabel for="birthday" value="Birthday:*" />
@@ -137,7 +137,7 @@
                                 <p:inputText value="#{memberControl.transactionId}" label="text" />
 
 
-                                <p:commandButton actionListener="#{memberControl.addMember}" value="Save"/>                                                            
+                                <p:commandButton ajax="false" actionListener="#{memberControl.addMember}" value="Save"/>                                                            
                             </h:panelGrid>
                         </p:panel>
                     </p:layoutUnit>

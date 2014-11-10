@@ -7,15 +7,14 @@ package Entity.Kitchen;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -30,27 +29,29 @@ public class IngredientPurchaseOrderEntity implements Serializable {
     private Long id;
     @OneToMany
     private List<IngredientItemEntity> purchaseItems = new ArrayList<>();
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar creationTime;
     private Double total;
     private Double actualTotal;
-    private String status; // Unconfirmed, Confirmed, Cancelled, Received
+    private String status; // Unconfirmed, Confirmed, Cancelled
     @OneToOne
+    @JoinColumn(unique = true, nullable = false)
     private IngredientForecastEntity forecast;
-    @OneToOne(mappedBy = "purchaseOrder")
-    private IngredientReceiptEntity receipt;
+    @OneToMany(mappedBy = "ingredientPurchaseOrder")
+    private List<IngredientPurchaseOrderToSupplierEntity> IPOSs = new ArrayList<>();
+    private Integer unconfirmedIPOSQuantity;
 
     public IngredientPurchaseOrderEntity() {
         status = "Unconfirmed";
-        creationTime = Calendar.getInstance();
-        receipt = null;
+        total = 0.0;
+        actualTotal = 0.0;
+        unconfirmedIPOSQuantity = 0;
     }
 
     public IngredientPurchaseOrderEntity(IngredientForecastEntity forecast) {
         this.forecast = forecast;
         status = "Unconfirmed";
-        creationTime = Calendar.getInstance();
-        receipt = null;
+        total = 0.0;
+        actualTotal = 0.0;
+        unconfirmedIPOSQuantity = 0;
     }
 
     public Long getId() {
@@ -67,14 +68,6 @@ public class IngredientPurchaseOrderEntity implements Serializable {
 
     public void setPurchaseItems(List<IngredientItemEntity> purchaseItems) {
         this.purchaseItems = purchaseItems;
-    }
-
-    public Calendar getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(Calendar creationTime) {
-        this.creationTime = creationTime;
     }
 
     public Double getTotal() {
@@ -109,12 +102,20 @@ public class IngredientPurchaseOrderEntity implements Serializable {
         this.forecast = forecast;
     }
 
-    public IngredientReceiptEntity getReceipt() {
-        return receipt;
+    public List<IngredientPurchaseOrderToSupplierEntity> getIPOSs() {
+        return IPOSs;
     }
 
-    public void setReceipt(IngredientReceiptEntity receipt) {
-        this.receipt = receipt;
+    public void setIPOSs(List<IngredientPurchaseOrderToSupplierEntity> IPOSs) {
+        this.IPOSs = IPOSs;
+    }
+
+    public Integer getUnconfirmedIPOSQuantity() {
+        return unconfirmedIPOSQuantity;
+    }
+
+    public void setUnconfirmedIPOSQuantity(Integer unconfirmedIPOSQuantity) {
+        this.unconfirmedIPOSQuantity = unconfirmedIPOSQuantity;
     }
 
     @Override
