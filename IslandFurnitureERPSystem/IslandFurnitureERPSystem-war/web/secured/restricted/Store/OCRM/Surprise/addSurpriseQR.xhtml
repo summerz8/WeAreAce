@@ -11,7 +11,6 @@
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
         </h:head>
-
         <h:body>
 
             <h:form id="formMain">
@@ -34,9 +33,11 @@
 
                 </p:confirmDialog>
                 <p:layout >
-                    <p:messages id="messagesStatus" redisplay="true" />
+                    <p:messages id="messagesStatus" redisplay="false" />
 
                     <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
@@ -77,69 +78,39 @@
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
-                            
                             </p:submenu>
+
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="OCRM Management" style="margin-bottom" >
+                            <h:panelGrid columns="2" cellpadding="10">                   
 
-                        <p:panel id="basic" header="Please Input New Member Information " style="margin-bottom" >  
-                            <p:button  value="View Existing Member" outcome="viewMember?faces-redirect=true" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px;"/>
-                            <br/>
-                            <h:panelGrid columns="2" cellpadding="10">                                
-
-                                <h:outputLabel for="title" value="Title: *" />
-                                <h:selectOneMenu value="#{memberControl.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
-                                    <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{predefinedAttr.titles}" var="color"/>
-                                </h:selectOneMenu>
-
-
-                                <h:outputLabel for="firstname" value="FirstName *:" />
-                                <p:inputText value="#{memberControl.firstName}" required="true" requiredMessage="Please input user firstname" label="text" >
+                                <h:outputLabel value="Name *:" />
+                                <p:inputText value="#{surpriseQRBean.name}" required="true" requiredMessage="Please input name" label="text" >
 
                                 </p:inputText>
 
+                                <h:outputLabel value="Percentage *:" />
+                                <p:inputText value="#{surpriseQRBean.percentage}" required="true" requiredMessage="Please input percentage" label="text" >
 
-                                <h:outputLabel for="midname" value="MidName:" />
-                                <p:inputText value="#{memberControl.midName}" label="text" />
-
-
-                                <h:outputLabel for="lastname" value="LastName: *" />
-                                <p:inputText value="#{memberControl.lastName}" required="true" requiredMessage="Please input user lastname" label="text" />                               
-
-                                <h:outputLabel for="gender" value="Gender: *" />
-                                <h:selectOneMenu value="#{memberControl.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
-                                    <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{predefinedAttr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
-                                </h:selectOneMenu>
-
-                                <h:outputLabel for="birthday" value="Birthday:*" />
-                                <p:calendar id="birthday" value="#{memberControl.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
-
-
-                                <h:outputLabel for="email" value="Email: *" />
-                                <p:inputText value="#{memberControl.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
-                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                                 </p:inputText>
 
+                                <h:outputLabel value="Points *:" />
+                                <p:inputText value="#{surpriseQRBean.rewardPoints}" required="true" requiredMessage="Please input point" label="text" >
 
-                                <h:outputLabel for="addr" value="Address:" />
-                                <p:inputText value="#{memberControl.address}" label="text" />
+                                </p:inputText>
 
-
-                                <h:outputLabel for="postal" value="Postal Code:" />
-                                <p:inputText value="#{memberControl.postal}" label="text" />
-                                
-                                <h:outputLabel for="transaction" value="Transaction ID:" />
-                                <p:inputText value="#{memberControl.transactionId}" label="text" />
+                                <h:outputLabel for="expire" value="Expire Date*" />
+                                <p:calendar id="expire" value="#{surpriseQRBean.expireDate}" locale="de" requiredMessage="Please choose expire date" navigator="true" pattern="dd-MM-yyyy" />
 
 
-                                <p:commandButton ajax="false" actionListener="#{memberControl.addMember}" value="Save"/>                                                            
+                                <p:commandButton ajax="false" action="#{surpriseQRBean.createSurpriseQR()}" value="Submit"/>
                             </h:panelGrid>
                         </p:panel>
+
                     </p:layoutUnit>
 
 

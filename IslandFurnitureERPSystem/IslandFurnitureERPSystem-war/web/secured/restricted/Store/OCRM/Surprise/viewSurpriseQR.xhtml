@@ -6,12 +6,11 @@
       xmlns:p="http://primefaces.org/ui">
     <f:view>
         <h:head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta http-equiv="Content-Type" points="text/html; charset=UTF-8" />
             <h:outputStylesheet name="./css/default.css"/>
             <h:outputStylesheet name="./css/cssLayout.css"/>
-            <title>Island Furniture ERP System</title>
+            <percentage>Island Furniture ERP System</percentage>
         </h:head>
-
         <h:body>
 
             <h:form id="formMain">
@@ -34,9 +33,11 @@
 
                 </p:confirmDialog>
                 <p:layout >
-                    <p:messages id="messagesStatus" redisplay="true" />
+                    <p:messages id="messagesStatus" redisplay="false" />
 
                     <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
@@ -77,69 +78,60 @@
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
-                            
                             </p:submenu>
+
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Customer Feedback Management" style="margin-bottom" >                           
 
-                        <p:panel id="basic" header="Please Input New Member Information " style="margin-bottom" >  
-                            <p:button  value="View Existing Member" outcome="viewMember?faces-redirect=true" style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px;"/>
-                            <br/>
-                            <h:panelGrid columns="2" cellpadding="10">                                
+                            <p:dataTable id="surpriseQRtable" var="surpriseQR" value="#{surpriseQRBean.surpriseQRList}" 
+                                         scrollable="true" scrollWidth="100%" scrollHeight="100%"
+                                         widgetVar="surpriseQRTable" emptyMessage="No member found with given criteria" 
+                                         filteredValue="#{surpriseQRBean.filteredFeedback}"
+                                         editable="true">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('surpriseQRTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
 
-                                <h:outputLabel for="title" value="Title: *" />
-                                <h:selectOneMenu value="#{memberControl.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
-                                    <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{predefinedAttr.titles}" var="color"/>
-                                </h:selectOneMenu>
-
-
-                                <h:outputLabel for="firstname" value="FirstName *:" />
-                                <p:inputText value="#{memberControl.firstName}" required="true" requiredMessage="Please input user firstname" label="text" >
-
-                                </p:inputText>
-
-
-                                <h:outputLabel for="midname" value="MidName:" />
-                                <p:inputText value="#{memberControl.midName}" label="text" />
-
-
-                                <h:outputLabel for="lastname" value="LastName: *" />
-                                <p:inputText value="#{memberControl.lastName}" required="true" requiredMessage="Please input user lastname" label="text" />                               
-
-                                <h:outputLabel for="gender" value="Gender: *" />
-                                <h:selectOneMenu value="#{memberControl.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
-                                    <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{predefinedAttr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
-                                </h:selectOneMenu>
-
-                                <h:outputLabel for="birthday" value="Birthday:*" />
-                                <p:calendar id="birthday" value="#{memberControl.birDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
-
-
-                                <h:outputLabel for="email" value="Email: *" />
-                                <p:inputText value="#{memberControl.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
-                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                                </p:inputText>
-
-
-                                <h:outputLabel for="addr" value="Address:" />
-                                <p:inputText value="#{memberControl.address}" label="text" />
-
-
-                                <h:outputLabel for="postal" value="Postal Code:" />
-                                <p:inputText value="#{memberControl.postal}" label="text" />
+                                <p:column headerText="QR" width="10%">                              
+                                    <p:barcode value="#{surpriseQR.randomString}" type="qr"/>
+                                </p:column>
                                 
-                                <h:outputLabel for="transaction" value="Transaction ID:" />
-                                <p:inputText value="#{memberControl.transactionId}" label="text" />
+                                
+                                <p:column filterBy="#{surpriseQR.id}" filterStyle="width:50px" headerText="QR Id" width="10%">
+                                    <h:outputText value="#{surpriseQR.id}" />
+                                </p:column>
 
+                                <p:column filterBy="#{surpriseQR.name}" filterStyle="width:150px" headerText="Name" width="25%">
+                                    <h:outputText value="#{surpriseQR.name}" />
+                                </p:column>
 
-                                <p:commandButton ajax="false" actionListener="#{memberControl.addMember}" value="Save"/>                                                            
-                            </h:panelGrid>
+                                <p:column filterBy="#{surpriseQR.percentage}" headerText="Percentage" width="15%">
+                                    <h:outputText value="#{surpriseQR.percentage}" />
+                                </p:column>
+
+                                <p:column filterBy="#{surpriseQR.rewardPoints}" filterStyle="width:200px" headerText="Reward" width="35%">
+                                    <h:outputText value="#{surpriseQR.rewardPoints}" />
+                                </p:column>
+
+                                <p:column filterBy="#{surpriseQR}" headerText="Expire Time" width="15%">
+                                    <h:outputText value="#{surpriseQR.expireDate.getTime()}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8" locale="sg"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+                            
+                            <p:button value="Create New Surprise" outcome="addSurpriseQR"></p:button>
+                            
                         </p:panel>
+
                     </p:layoutUnit>
 
 
