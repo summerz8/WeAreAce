@@ -84,13 +84,13 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Create an new product inbound movement record" style="border:0px; margin-bottom" >
+                        <p:panel id="basic" header="Create an new retail product inbound movement record" style="border:0px; margin-bottom" >
 
                             <p:row>
                                 <p:column>
                                     <p:outputLabel value="Store Product:" for="selectProduct" />
-                                    <p:selectOneMenu id="selectProduct" value="#{productInboundMovementBean.selectedProduct}" converter="sProductConverter"  effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{productInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                    <p:selectOneMenu id="selectProduct" value="#{rproductInboundMovementBean.selectedProduct}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{rproductInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
                                     </p:selectOneMenu>
                                 </p:column>  
                             </p:row>
@@ -99,8 +99,8 @@
                             <p:row>
                                 <p:column>
                                     <p:outputLabel value="Destination Bin:" for="selectBin" />
-                                    <p:selectOneMenu id="selectBin" value="#{productInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{productInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
+                                    <p:selectOneMenu id="selectBin" value="#{rproductInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{rproductInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     </p:selectOneMenu>
                                 </p:column>  
                             </p:row>
@@ -109,7 +109,7 @@
                             <p:row>
                                 <p:column>
                                     <p:outputLabel value="Inventory Type:" for="invtype"/>
-                                    <p:selectOneRadio id="invtype" required ="true" value="#{productInboundMovementBean.inventoryType}">
+                                    <p:selectOneRadio id="invtype" required ="true" value="#{rproductInboundMovementBean.inventoryType}">
                                         <f:selectItem itemLabel="Unrestricted" itemValue="0" />
                                         <f:selectItem itemLabel="Returned" itemValue="1" />
                                         
@@ -122,7 +122,7 @@
                             <p:row>
                                 <p:column>
                                     <p:outputLabel value="Transferred Amount:" for="aId" />
-                                    <p:inputText required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." id ="aId" value ="#{productInboundMovementBean.quantity}" >
+                                    <p:inputText required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." id ="aId" value ="#{rproductInboundMovementBean.quantity}" >
                                     </p:inputText>
                                 </p:column>  
                             </p:row>
@@ -131,7 +131,7 @@
                             <br></br>
 
                             <p:column>
-                                <p:commandButton  value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
+                                <p:commandButton value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
                             </p:column>
                             <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
@@ -142,8 +142,8 @@
 
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Store Product:" for="c1" />
-                                            <h:outputText id="c1" value="(#{productInboundMovementBean.selectedProduct.storeProductId})#{productInboundMovementBean.selectedProduct.name}" style="font-weight: bold" /> 
+                                            <p:outputLabel value="Store Retail Product:" for="c1" />
+                                            <h:outputText id="c1" value="(#{rproductInboundMovementBean.selectedProduct.storeRetailProductId})#{rproductInboundMovementBean.selectedProduct.name}" style="font-weight: bold" /> 
 
                                         </p:column>  
                                     </p:row>
@@ -151,19 +151,19 @@
                                     <p:row>
                                         <p:column>
                                             <p:outputLabel value="Destination Bin:" for="c2" />
-                                            <h:outputText id="c2" value="(#{productInboundMovementBean.selectedBin.id})#{productInboundMovementBean.selectedBin.name}" style="font-weight: bold" /> 
+                                            <h:outputText id="c2" value="(#{rproductInboundMovementBean.selectedBin.id})#{rproductInboundMovementBean.selectedBin.name}" style="font-weight: bold" /> 
                                         </p:column>  
                                     </p:row>
                                     <br> </br>
                                     <p:row>
                                         <p:column>
                                             <p:outputLabel value="Quantity:" for="c3" />
-                                            <h:outputText id="c3" value="#{productInboundMovementBean.quantity}" style="font-weight: bold" /> 
+                                            <h:outputText id="c3" value="#{rproductInboundMovementBean.quantity}" style="font-weight: bold" /> 
                                         </p:column>  
                                     </p:row>
                                     
                                     <br> </br>
-                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{productInboundMovementBean.confrimResult}" update = ":formMain"  >
+                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{rproductInboundMovementBean.confrimResult}" update = ":formMain"  >
 
                                     </p:commandButton> 
                                         

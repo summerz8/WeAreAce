@@ -6,6 +6,7 @@
 
 package ManagedBean.IM;
 
+import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
@@ -47,26 +48,35 @@ public class ViewOmeDetail {
     private Long globalRProductId;
     private Double quantity;
     private Double actualAmount;
-    private Boolean isRetail = false;
-    private Boolean isfulfilled = false;
+    private Boolean isRetail;
+    private Boolean isfulfilled;
+    private FactoryEntity factory;
+    
     
     
     @PostConstruct
     public void init(){
        storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
        ome = (OutboundMovementEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedOME");
-       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("selectedOME");
+    //   ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).removeAttribute("selectedOME");
        omeId = ome.getOutboundMovementId();
+       isfulfilled = false;
+       System.out.println("IsFulfilled : " + isfulfilled);
        if(ome.getStockTypeIndicator() == 2 ){
+            isRetail = false;
            fp = ome.getFactoryProduct();
            storeProductId = smcl.convertProductFToS(fp.getFactoryProductId(),storeId);
-           globalProductId = fp.getProduct().getProductId();        
+           globalProductId = fp.getProduct().getProductId();  
+           factory = fp.getFactory();
            
        }else {
            isRetail = true; 
            frp = ome.getFactoryRetailProduct();
            storeRProductId = smcl.convertRProductFToS(frp.getFactoryRetailProdctId(), storeId);
-           globalProductId = frp.getRetailProduct().getRetailProductId();
+           globalRProductId = frp.getRetailProduct().getRetailProductId();
+           factory = frp.getFactory();
+           
+           System.out.println("ViewOMEDetail:" + globalRProductId);
        }
        factoryId = ome.getFromBin().getFactory().getFactoryId();
        quantity = ome.getQuantity();
@@ -79,17 +89,23 @@ public class ViewOmeDetail {
     
     
     public void submitFulfillment(ActionEvent event){
-      try{
-        if(isRetail){
-      smcl.fromFactoryGoodReceipts(storeRProductId, 1, actualAmount, storeId);
+     try{
+       if(isRetail){
+      smcl.fromFactoryGoodReceipts(omeId, storeRProductId, 1, actualAmount, storeId);
       
       }
       else{
-      smcl.fromFactoryGoodReceipts(storeProductId, 0, actualAmount, storeId);
+      smcl.fromFactoryGoodReceipts(omeId, storeProductId, 0, actualAmount, storeId);
       }
+       
        String statusMsg = "Good Receipt has been generated!";
        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout result " + statusMsg, ""));
-      }
+       String path = "/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true";
+       String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+       FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
+       System.err.println("go to another page");
+      
+     }
       catch (Exception e){
        String statusMsg = "Exception Happend! Please try again or contact system admin";
        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout result " + statusMsg, ""));
@@ -99,7 +115,8 @@ public class ViewOmeDetail {
     }
     
     public void makeFulfillment(ActionEvent event){
-       isfulfilled = true;   
+        System.out.println("IsFulfilled : " + isfulfilled);
+       isfulfilled = true; 
     } 
     
 
@@ -108,9 +125,21 @@ public class ViewOmeDetail {
     }
 
     public void setIsfulfilled(Boolean isfulfilled) {
+        System.out.println("IsFulfilled : " + isfulfilled);
         this.isfulfilled = isfulfilled;
+        System.out.println("IsFulfilled : " + isfulfilled);
     }
 
+    public FactoryEntity getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryEntity factory) {
+        this.factory = factory;
+    }
+
+    
+    
     
     
     

@@ -76,8 +76,8 @@
                         <p:menu>
                             <p:submenu label="Inbound Movement Management">
                                 <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Generate Good Receipt by referencing documents" outcome="/secured/restricted/Store/IM/ListCurrentRetailProduct.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Create New Inbound Movement Record"  outcome="/secured/restricted/Store/IM/selectInboundRecordType.xhtml?faces-redirect=true" />
                             </p:submenu>
                         </p:menu>
 
@@ -85,65 +85,104 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="View Incoming Inventory Details" style="border:0px; margin-bottom" >
+                            <br></br>
+                            <br></br>
                             <p:row>
                             <p:column>
-                                <p:outputLabel value="Record Id:" for="rId" />
+                                <p:outputLabel value="Record Id:   " for="rId" />
                                 <h:outputText id = "rId" value ="OME#{viewOmeDetail.omeId}"/>
                             </p:column>  
                            </p:row>
+                            <br></br>
+                            <br></br>
                             <p:row>
                             <p:column>
-                                <p:outputLabel value="From Factory (Id):" for="fId" />
+                                <p:outputLabel value="From Factory (Id):   " for="fId" />
                                 <h:outputText id = "fId" value ="#{viewOmeDetail.factoryId}"/>
+                                <p:tooltip id="toolTipFade5" for="fId" value="Factory Address: #{viewOmeDetail.factory.address}" />
+
                             </p:column>  
                            </p:row>
-                            <p:row>
+                            
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?false:true}">
+                             <br></br>
+                            <br></br>
                             <p:column>
-                                <p:outputLabel value="Global Product Id:" for="gpId" rendered ="#{viewOmeDetail.isIsRetail?false:true}" />
+                                <p:outputLabel value="Global Product Id:   " for="gpId"  rendered ="#{viewOmeDetail.isIsRetail()?false:true}" />
+                               
                                 <h:outputText id = "gpId" value ="#{viewOmeDetail.globalProductId}"/>
+                                
+                                <p:tooltip id="toolTipFade1" for="gpId" value="Product Name:#{viewOmeDetail.fp.name}" />
                             </p:column>  
                            </p:row>
-                            <p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?false:true}">
                             <p:column>
-                                <p:outputLabel value="Store Product Id:" for="spId" rendered ="#{viewOmeDetail.isIsRetail?false:true}" />
+                               
+                                <p:outputLabel value="Store Product Id:   " for="spId" rendered ="#{viewOmeDetail.isIsRetail()?false:true}"  />
+                                
                                 <h:outputText id = "spId" value ="#{viewOmeDetail.storeProductId}"/>
+                               
+                                <p:tooltip id="toolTipFade2" for="spId" value="Product Name: #{viewOmeDetail.fp.name}" />
                             </p:column>  
                            </p:row>
+                            
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?true:false}">
                             <p:column>
-                                <p:outputLabel value="Global Retail Product Id:" for="grpId" rendered ="#{viewOmeDetail.isIsRetail?false:true}" />
-                                <h:outputText id = "grpId" value ="#{viewOmeDetail.globalRProductId}"/>
+                                <p:outputLabel value="Global Retail Product Id:   " for="grpId" rendered ="#{viewOmeDetail.isIsRetail()?true:false}" />
+                                <h:outputText id = "grpId" value ="#{viewOmeDetail.globalRProductId}"/> 
+                                <p:tooltip id="toolTipFade3" for="grpId" value="Retail Product Name: #{viewOmeDetail.frp.name}" />
                             </p:column>  
                            </p:row>
-                            <p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?true:false}">
                             <p:column>
-                                <p:outputLabel value="Store Retail Product Id:" for="srpId" rendered ="#{viewOmeDetail.isIsRetail?true:false}" />
+                                <p:outputLabel value="Store Retail Product Id:   " for="srpId" rendered ="#{viewOmeDetail.isIsRetail()?true:false}" />
                                 <h:outputText id = "srpId" value ="#{viewOmeDetail.storeRProductId}"/>
+                                <p:tooltip id="toolTipFade4" for="srpId" value="Retail Product Name: #{viewOmeDetail.frp.name}" />
+
                             </p:column>  
+                            <br></br>
+                            <br></br>
                            </p:row>
+                            
+                            <p:row>
                            <p:column>
-                                <p:outputLabel value="Quantity:" for="fId" />
-                                <h:outputText id = "fId" value ="#{viewOmeDetail.quantity}"/>
+                                <p:outputLabel value="Quantity:   " for="qId" />
+                                <h:outputText id = "qId" value ="#{viewOmeDetail.quantity}"/>
                             </p:column> 
+                                </p:row>
+                            
+                            <br></br>
+                            <br></br>
    
-                            <p:column>
+                            <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?false:true}">
                                 <p:commandButton value="Fulfill Order" actionListener="#{viewOmeDetail.makeFulfillment}" icon="ui-icon-disk" update = ":formMain"/>
                             </p:column>
                            
-                           <div rendered = "#{viewOmeDetail.isfulfilled}">
-                           <p:column>
-                                <p:outputLabel value="Actory Amount Received:" for="fId" />
-                                <p:inputText required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." id ="actualAmount" value ="#{viewOmeDetail.actualAmount}" >
+                            
+                               <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?true:false}">
+                                <p:outputLabel value="Actory Amount Received:   " for="aaId" />
+                                <p:inputText id = "aaId" required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." value ="#{viewOmeDetail.actualAmount}" >
                                 </p:inputText>
-                           </p:column> 
-                           <p:column>
-                               <p:commandButton value="Submit" onclick = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain"/>
-                           </p:column>
-                                <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
+                              </p:column> 
+                            <br></br>
+                            <br></br>
+                               <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?true:false}">
+                               <p:commandButton value="Receive" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain"/>
+                              </p:column>
+   
+                        
+                            
+                             <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
                                       draggable="true" closable="true" width="300">
                                 <p:outputPanel id="toconfrim" style="text-align:center;">
                                     Confirm Received? 
-                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "#{viewOmeDetail.submitFulfillment}" update = ":formMain"  >
+                                    <br></br>
+                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value ="Confrimƒ"   actionListener = "#{viewOmeDetail.submitFulfillment}" update = ":formMain"  >
 
                                     </p:commandButton> 
 
@@ -153,8 +192,6 @@
 
                                 </p:outputPanel>
                             </p:dialog>
-                               
-                           </div>
                    
                            
                             

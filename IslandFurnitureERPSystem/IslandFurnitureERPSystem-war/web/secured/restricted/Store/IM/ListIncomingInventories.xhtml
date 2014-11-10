@@ -75,95 +75,98 @@
 
                         <p:menu>
                             <p:submenu label="Inbound Movement Management">
-                                <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Generate Good Receipt by referencing documents" outcome="/secured/restricted/Store/IM/ListCurrentRetailProduct.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />
-                            </p:submenu>
+                             <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Create New Inbound Movement Record"  outcome="/secured/restricted/Store/IM/selectInboundRecordType.xhtml?faces-redirect=true" />
+                        </p:submenu>
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="Incoming Inventory" style="border:0px; margin-bottom" >
-                        <p:tabView>
-                            <p:tab title="From Factory">
-
-                   
-                            <p:dataTable id ="current" var="omr" value="#{viewIncomingInventoryList.incomingInventoryfromFactory}"  >
+                            <p:tabView>
+                                <p:tab title="From Factory">
 
 
-<!--                                <f:facet name="header">
-                                    Incoming Inventory from Factory 
-                                </f:facet>-->
-                                <p:column headerText="Record Id" width="8%" >
-                                    <h:outputText value="OME#{omr.outboundMovementId}"  style="font-weight: bold" />    
-                                </p:column>
-
-                                <p:column headerText="Store Product Id" width="8%" rendered = "#{omr.factoryProduct == null?false:true}">
-                                    <h:outputText value="#{viewIncomingInventoryList.convertProduct(omr.factoryProduct.factoryProductId)}"  style="font-weight: bold" />    
-                                </p:column>
-                                
-                                 <p:column headerText="Store Retail Product Id" width="8%" rendered = "#{omr.factoryRetailProduct == null?false:true}">
-                                     <h:outputText value="#{viewIncomingInventoryList.convertRProduct(omr.factoryRetailProduct.factoryRetailProdctId)}"  style="font-weight: bold" />    
-                                </p:column>
-
-                                <p:column headerText="Date" width="10%">
-                                    <h:outputText value="#{omr.creationDate}" style="font-weight: bold" /> 
-                                </p:column>
-                                <p:column headerText="From Factory" width="10%">
-                                    <h:outputText value="#{omr.fromBin.factory.factoryId}" style="font-weight: bold" /> 
-                                </p:column>
-                                <p:column headerText="Quantity" width="10%">
-                                    <h:outputText value="#{omr.quantity}" style="font-weight: bold" /> 
-                                </p:column>
-                                 <p:column headerText="Fulfillment" width="10%" >
-                                     <p:commandButton update=":formMain" value="Details" actionListener ="#{viewIncomingInventoryList.viewOMRDetail(ome)}" >
-                                    </p:commandButton>
-                                </p:column>
+                                    <p:dataTable id ="current" var="omr" value="#{viewIncomingInventoryList.incomingInventoryfromFactory}"  >
 
 
-                            </p:dataTable>
-                            </p:tab>
-                            <p:tab title="From Suppliers">
-                                <p:dataTable id ="currentS" var="po" value="#{viewIncomingInventoryFromSupplier.incomingInventoryfromSupplier}"  >
+                                        <!--                                <f:facet name="header">
+                                                                            Incoming Inventory from Factory 
+                                                                        </f:facet>-->
+                                        
+                                        <p:column headerText="Date" width="10%">
+                                            <h:outputText value="#{viewIncomingInventoryList.displayTime(omr.creationDate)}" style="font-weight: bold" /> 
+                                        </p:column>
+                                        <p:column headerText="Record Id" width="8%" >
+                                            <h:outputText value="OME#{omr.outboundMovementId}"  style="font-weight: bold" />    
+                                        </p:column>
+
+                                        <p:column headerText="Inventory Type" width="8%" >
+                                            <h:outputText value="#{viewIncomingInventoryList.checkProductType(omr.stockTypeIndicator)}"  style="font-weight: bold" />    
+                                        </p:column>
 
 
-<!--                                <f:facet name="header">
-                                    Incoming Inventory from Factory 
-                                </f:facet>-->
-                                <p:column headerText="Record Id" width="8%" >
-                                    <h:outputText value="PO#{po.id}"  style="font-weight: bold" />    
-                                </p:column>        
-                                 <p:column headerText="Store Retail Product Id(need convert to store)" width="8%" >
-                                     <h:outputText value="#{viewIncomingInventoryFromSupplier.convertRProduct(po.contract.factoryRetailProduct.factoryRetailProdctId)}"  style="font-weight: bold" />    
-                                </p:column>
+                                        <p:column headerText="Inventory Id" width="8%" >
+                                            <h:outputText value="#{viewIncomingInventoryList.checkID(omr)}"  style="font-weight: bold" />    
+                                        </p:column>
 
-                                <p:column headerText="Date" width="10%">
-                                    <h:outputText value="#{po.createDate}" style="font-weight: bold" /> 
-                                </p:column>
-                                <p:column headerText="Name" width="10%">
-                                    <h:outputText value="#{po.itemName}" style="font-weight: bold" /> 
-                                </p:column>
-                                <p:column headerText="Quantity" width="10%" rendered = "#{po.isManual}">
-                                    <h:outputText value="#{po.totalAmount}" style="font-weight: bold" /> 
-                                </p:column>
-                                 <p:column headerText="Fulfillment" width="10%" >
-                                     <p:commandButton update=":formMain" value="Details" actionListener ="#{viewIncomingInventoryFromSupplier.ViewPODetail(po)}" >
-                                    </p:commandButton>
-                                </p:column>
+                                        
+                                        <p:column headerText="From Factory" width="10%">
+                                            <h:outputText value="#{omr.fromBin.factory.factoryId}" style="font-weight: bold" /> 
+                                        </p:column>
+                                        <p:column headerText="Quantity" width="10%">
+                                            <h:outputText value="#{omr.quantity}" style="font-weight: bold" /> 
+                                        </p:column>
+                                        <p:column headerText="Fulfillment" width="10%" >
+                                            <p:commandButton update=":formMain" value="Details" actionListener ="#{viewIncomingInventoryList.viewOMRDetail(omr)}" >
+                                            </p:commandButton>
+                                        </p:column>
 
 
-                            </p:dataTable>
-                                
-                                
-                                
-                                
-                            </p:tab>
-                            
-   
-                        </p:tabView>
-                            
-                            
+                                    </p:dataTable>
+                                </p:tab>
+                                <p:tab title="From Suppliers">
+                                    <p:dataTable id ="currentS" var="po" value="#{viewIncomingInventoryFromSupplier.incomingInventoryfromSupplier}"  >
+
+
+                                        <!--                                <f:facet name="header">
+                                                                            Incoming Inventory from Factory 
+                                                                        </f:facet>-->
+                                        <p:column headerText="Record Id" width="8%" >
+                                            <h:outputText value="PO#{po.id}"  style="font-weight: bold" />    
+                                        </p:column>        
+                                        <p:column headerText="Store Retail Product Id(need convert to store)" width="8%" >
+                                            <h:outputText value="#{viewIncomingInventoryFromSupplier.convertRProduct(po.contract.factoryRetailProduct.factoryRetailProdctId)}"  style="font-weight: bold" />    
+                                        </p:column>
+
+                                        <p:column headerText="Date" width="10%">
+                                            <h:outputText value="#{po.createDate}" style="font-weight: bold" /> 
+                                        </p:column>
+                                        <p:column headerText="Name" width="10%">
+                                            <h:outputText value="#{po.itemName}" style="font-weight: bold" /> 
+                                        </p:column>
+                                        <p:column headerText="Quantity" width="10%" rendered = "#{po.isManual}">
+                                            <h:outputText value="#{po.totalAmount}" style="font-weight: bold" /> 
+                                        </p:column>
+                                        <p:column headerText="Fulfillment" width="10%" >
+                                            <p:commandButton update=":formMain" value="Details" actionListener ="#{viewIncomingInventoryFromSupplier.ViewPODetail(po)}" >
+                                            </p:commandButton>
+                                        </p:column>
+
+
+                                    </p:dataTable>
+
+
+
+
+                                </p:tab>
+
+
+                            </p:tabView>
+
+
 
                         </p:panel>
                     </p:layoutUnit>

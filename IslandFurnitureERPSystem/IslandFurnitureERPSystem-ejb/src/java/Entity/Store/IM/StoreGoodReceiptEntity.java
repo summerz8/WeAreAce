@@ -6,6 +6,7 @@
 
 package Entity.Store.IM;
 
+import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
@@ -16,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -45,6 +47,10 @@ public class StoreGoodReceiptEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;
     
+    @OneToOne
+    private OutboundMovementEntity ome = null;
+    
+    
     
     public StoreGoodReceiptEntity(){
         
@@ -69,6 +75,17 @@ public class StoreGoodReceiptEntity implements Serializable {
         this.id = id;
     }
 
+    public OutboundMovementEntity getOme() {
+        return ome;
+    }
+
+    public void setOme(OutboundMovementEntity ome) {
+        this.ome = ome;
+    }
+
+    
+     
+    
     public Integer getInventoryType() {
         return inventoryType;
     }

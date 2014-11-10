@@ -42,7 +42,7 @@ public class StoreEntity implements Serializable {
     private String contact;
     private String manager;//manager id
     private Boolean deleteFlag;
-    private List<Long> factoryList;
+    private List<Long> factoryList = new ArrayList<>();
 
     @OneToOne
     @XmlTransient
@@ -75,7 +75,7 @@ public class StoreEntity implements Serializable {
     private List<StoreWarehouseBinEntity> storeBins = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "se")
-    private List<StoreGoodReceiptEntity> goodReceipts;
+    private List<StoreGoodReceiptEntity> goodReceipts  = new ArrayList<>();
     
     
     public StoreEntity() {
@@ -87,8 +87,7 @@ public class StoreEntity implements Serializable {
         this.contact = contact;
         this.manager = manager;
         this.deleteFlag = deleteFlag;
-        factoryList=new ArrayList<>();
-        goodReceipts = new ArrayList<>();
+       
 
 }
 

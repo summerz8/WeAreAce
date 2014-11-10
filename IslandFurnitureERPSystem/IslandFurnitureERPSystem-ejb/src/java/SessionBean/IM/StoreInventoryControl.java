@@ -10,7 +10,10 @@ import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Store.IM.StoreBinProductEntity;
+import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.StoreEntity;
+import static Entity.Store.StoreEntity_.storeId;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
@@ -413,6 +416,64 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
             return null;
         }
     }
+    
+    
+    
+    @Override
+    public List<StoreRetailProductEntity> getHaveStockRP(Long storeId){
+        List<StoreRetailProductEntity> rplist = getListOfStoreRetailProduct(storeId);
+        List<StoreRetailProductEntity> resultList = new ArrayList<>();
+        for(StoreRetailProductEntity srp: rplist){
+            if(srp.getUnrestrictedInventory()> 0 || srp.getReturnedInventory() >0){
+                resultList.add(srp);
+            }
+            
+        }
+        return resultList;
+        
+    }
+     
+    @Override
+    public List<StoreProductEntity> getHaveStockP(Long storeId){
+        List<StoreProductEntity> rplist = getListOfStoreProduct(storeId);
+        List<StoreProductEntity> resultList = new ArrayList<>();
+        for(StoreProductEntity srp: rplist){
+            if(srp.getUnrestrictedInventory()> 0 || srp.getReturnedInventory() >0){
+                resultList.add(srp);
+            }
+            
+        }
+        return resultList;
+        
+    }
+    
+    
+    
+    @Override
+    public List<StoreBinProductEntity> getProductStorageInformation(Long productId){
+       try{
+           StoreProductEntity sp = em.find(StoreProductEntity.class, productId);
+       
+        Long storeId = sp.getStore().getStoreId();
+        List<StoreBinProductEntity> resultList = null;
+        Query q = em.createQuery("Select sb From StoreBinProductEntity sb Where sb.product.storeProductId = :spId And sb.isDeleted = false And sb.quantity > 0");
+        q.setParameter("spId", productId);
+        for(Object o: q.getResultList()){
+            StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+            resultList.add(sbpe);   
+        }
+        return resultList;
+       }
+       catch (Exception e){
+           System.err.println("SessionBean.IM.StoreProductControl: getProductStorageInformation(): Failed. Caught an unexpected exception.");
+            e.printStackTrace();  
+            return null;
+           
+    }
+        
 
+    }
+    
+    
     
 }

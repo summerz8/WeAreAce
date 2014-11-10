@@ -25,7 +25,7 @@ public class StoreBinProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double quantity;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
     private Integer status;  //status: 0 unrestricted 1 returned 2 intransit  
     
     @ManyToOne

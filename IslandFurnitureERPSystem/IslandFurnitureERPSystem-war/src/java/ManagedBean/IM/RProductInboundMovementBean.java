@@ -1,17 +1,16 @@
-package ManagedBean.IM;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+package ManagedBean.IM;
+
 import Entity.Store.IM.StoreWarehouseBinEntity;
-import Entity.Store.StoreProductEntity;
+import Entity.Store.StoreRetailProductEntity;
 import SessionBean.IM.StoreBinControlLocal;
 import SessionBean.IM.StoreInventoryControlLocal;
 import SessionBean.IM.StoreMovementControlLocal;
-import java.awt.ActiveEvent;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -25,14 +24,14 @@ import javax.inject.Named;
  *
  * @author zhengyuan
  */
-@Named(value = "productInboundMovementBean")
+@Named(value = "rproductInboundMovementBean")
 @ViewScoped
-public class ProductInboundMovementBean {
+public class RProductInboundMovementBean {
 
     /**
-     * Creates a new instance of ProductInboundMovementBean
+     * Creates a new instance of RProductInboundMovementBean
      */
-    public ProductInboundMovementBean() {
+    public RProductInboundMovementBean() {
     }
     @EJB
     StoreMovementControlLocal smcl; 
@@ -41,8 +40,8 @@ public class ProductInboundMovementBean {
     @EJB
     StoreBinControlLocal sbcl;
     
-    StoreProductEntity selectedProduct;
-    List<StoreProductEntity> productList;
+    StoreRetailProductEntity selectedProduct;
+    List<StoreRetailProductEntity> productList;
     Long storeId;
     StoreWarehouseBinEntity selectedBin;
     List<StoreWarehouseBinEntity> binList;
@@ -56,27 +55,19 @@ public class ProductInboundMovementBean {
     @PostConstruct
     public void init(){
        storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-       productList =  sicl.getListOfStoreProduct(storeId);
+       productList =  sicl.getListOfStoreRetailProduct(storeId);
        binList = sbcl.getAllBackHouseBin(storeId);
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", productList);
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", productList);
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sBinEntities", binList);
 
         
         
     }
     
-    public void setData(StoreProductEntity sp, StoreWarehouseBinEntity sbe, Integer inventorytype, Double q){
-        selectedProduct = sp;
-        selectedBin = sbe;
-        inventoryType = inventorytype;
-        quantity = q;
-   
-        
-    }    
-    
+
     public void confrimResult(ActionEvent event){
-        System.out.println("ProductInBoundMovementBean:confirmResult:Found");
-       Integer result =  smcl.inboundMovement(storeId, selectedBin.getId(), 0, selectedProduct.getStoreProductId(), quantity, inventoryType);
+        System.out.println("RetailProductInBoundMovementBean:confirmResult:Found");
+       Integer result =  smcl.inboundMovement(storeId, selectedBin.getId(), 1, selectedProduct.getStoreRetailProductId(), quantity, inventoryType);
        if(result == 0){
            
            msgPrint = "An new record is created!";
@@ -97,18 +88,6 @@ public class ProductInboundMovementBean {
         
     }
 
-    public String getMsgPrint() {
-        return msgPrint;
-    }
-
-    public void setMsgPrint(String msgPrint) {
-        this.msgPrint = msgPrint;
-    }
-    
-    
-
-    
-    
     public StoreMovementControlLocal getSmcl() {
         return smcl;
     }
@@ -133,19 +112,19 @@ public class ProductInboundMovementBean {
         this.sbcl = sbcl;
     }
 
-    public StoreProductEntity getSelectedProduct() {
+    public StoreRetailProductEntity getSelectedProduct() {
         return selectedProduct;
     }
 
-    public void setSelectedProduct(StoreProductEntity selectedProduct) {
+    public void setSelectedProduct(StoreRetailProductEntity selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
 
-    public List<StoreProductEntity> getProductList() {
+    public List<StoreRetailProductEntity> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<StoreProductEntity> productList) {
+    public void setProductList(List<StoreRetailProductEntity> productList) {
         this.productList = productList;
     }
 
@@ -188,9 +167,15 @@ public class ProductInboundMovementBean {
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
+
+    public String getMsgPrint() {
+        return msgPrint;
+    }
+
+    public void setMsgPrint(String msgPrint) {
+        this.msgPrint = msgPrint;
+    }
     
     
     
-    
-   
 }

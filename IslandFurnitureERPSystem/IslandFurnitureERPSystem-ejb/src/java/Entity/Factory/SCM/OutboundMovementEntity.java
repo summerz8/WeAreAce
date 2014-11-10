@@ -55,7 +55,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     private Calendar creationDate;
     
     
-    private Boolean receivedByStore;
+    private Boolean receivedByStore = false;
 
     public OutboundMovementEntity() {
     }
@@ -65,7 +65,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
         this.toStore = toStore;
         this.quantity = quantity;
         this.creationDate = creationDate;
-        this.receivedByStore = false;
+        
     }
 
     public Long getOutboundMovementId() {

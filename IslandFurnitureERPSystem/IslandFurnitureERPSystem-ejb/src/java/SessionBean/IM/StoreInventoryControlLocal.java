@@ -10,6 +10,7 @@ import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Store.IM.StoreBinProductEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.util.List;
@@ -45,5 +46,11 @@ public interface StoreInventoryControlLocal {
     public void editStoreRetailProduct(Long storeId, Long storeRetailProductId, Long oldFactoryRetailProductId, Long newFactoryRetailProductId, Double minimumInventory, String storeRemark);
 
     public List<FactoryRetailProductEntity> listAvailableFactoryRetail(Long rproductId);
+
+    public List<StoreRetailProductEntity> getHaveStockRP(Long storeId);
+
+    public List<StoreProductEntity> getHaveStockP(Long storeId);
+
+    public List<StoreBinProductEntity> getProductStorageInformation(Long productId);
     
 }

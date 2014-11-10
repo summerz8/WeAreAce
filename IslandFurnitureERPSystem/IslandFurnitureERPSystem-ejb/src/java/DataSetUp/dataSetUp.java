@@ -1391,6 +1391,7 @@ public class dataSetUp {
         OutboundMovementEntity om1_2_1 = new OutboundMovementEntity();
         om1_2_1.recordFactoryProductOutboundMovement(fbsp1_2_1, s1, 50.0, com1);
         em.persist(om1_2_1);
+        
         em.flush();
         OutboundMovementEntity om1_3_1 = new OutboundMovementEntity();
         om1_3_1.recordFactoryRetailProductOutboundMovement(fbsp1_3_1, s2, 100.0, com2);
@@ -2200,11 +2201,7 @@ public class dataSetUp {
         
         
         //=========Outbound Movement =========
-        Calendar omDate1 = Calendar.getInstance();
-        OutboundMovementEntity ome = new OutboundMovementEntity(fb1_1,s1,500.0,omDate1);
-        ome.setFactoryProduct(fp2_2);
-        ome.setStockTypeIndicator(2);
-        
+
         
 
     }

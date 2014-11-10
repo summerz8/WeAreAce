@@ -27,7 +27,7 @@ public class StoreWarehouseBinEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
     private Boolean isBackHouse;
     private Boolean isDisplayArea;
     private Boolean isSelfCollect;
@@ -62,7 +62,7 @@ public class StoreWarehouseBinEntity implements Serializable {
 
      
     public StoreWarehouseBinEntity(String name, String remark, Boolean isBackHouse, Boolean isDisplayArea, Boolean isSelfCollect) {
-        this.isDeleted = false;
+       
         this.isBackHouse = isBackHouse;
         this.isDisplayArea = isDisplayArea;
         this.isSelfCollect = isSelfCollect;

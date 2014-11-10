@@ -84,55 +84,55 @@
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Create an new product inbound movement record" style="border:0px; margin-bottom" >
+                        <p:panel id="basic" header="Create an new inbound store movement record" style="border:0px; margin-bottom" >
+                            
+                         
+                              
+                            <p:outputLabel for="console" value="Console:" />
+                            <p:selectOneRadio id="console" value="#{inStoreMovementBean.invtype}" required = "true" >
+                                <f:selectItem itemLabel="Product" itemValue="0" />
+                                <f:selectItem itemLabel="Retail Product" itemValue="1" />
+                                 <p:ajax update=":formMain" listener="#{inStoreMovementBean.setInvType}" />
 
-                            <p:row>
-                                <p:column>
+
+                             </p:selectOneRadio>
+                              
+                                   <p:column rendered = "#{inStoreMovementBean.invtype == 0? true:false}" >
                                     <p:outputLabel value="Store Product:" for="selectProduct" />
-                                    <p:selectOneMenu id="selectProduct" value="#{productInboundMovementBean.selectedProduct}" converter="sProductConverter"  effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{productInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                    <p:selectOneMenu id="selectProduct" value="#{inStoreMovementBean.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{inStoreMovementBean.getpList()}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                    
                                     </p:selectOneMenu>
-                                </p:column>  
-                            </p:row>
-                            <br></br>
-                            <br></br>
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="Destination Bin:" for="selectBin" />
-                                    <p:selectOneMenu id="selectBin" value="#{productInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{productInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
+                                  </p:column>  
+                                   <p:column rendered = "#{inStoreMovementBean.invtype == 0? false:true}" >
+                                    <p:outputLabel value="From :" for="fromBin1" />
+                                    <p:selectOneMenu id="fromBin1" value="#{inStoreMovementBean.selectedrp}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{inStoreMovementBean.getRpList()}" var="f" itemLabel="Id : #{f.storeRetailProductId} | Name: #{f.name}" itemValue="#{f}" />
+                                       
                                     </p:selectOneMenu>
-                                </p:column>  
-                            </p:row>
-                            <br></br>
-                            <br></br>
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="Inventory Type:" for="invtype"/>
-                                    <p:selectOneRadio id="invtype" required ="true" value="#{productInboundMovementBean.inventoryType}">
-                                        <f:selectItem itemLabel="Unrestricted" itemValue="0" />
-                                        <f:selectItem itemLabel="Returned" itemValue="1" />
-                                        
-                                    </p:selectOneRadio>
-
-                                </p:column>  
-                            </p:row>
-                            <br></br>
-                            <br></br>
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="Transferred Amount:" for="aId" />
-                                    <p:inputText required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." id ="aId" value ="#{productInboundMovementBean.quantity}" >
-                                    </p:inputText>
-                                </p:column>  
-                            </p:row>
-                            <br></br>
-
-                            <br></br>
-
+                                  </p:column> 
+                            
+                            
+                                 
+                                  
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   
+                             
+                                   
+                                   
+                                   
+                                   
+                          
                             <p:column>
                                 <p:commandButton  value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
                             </p:column>
+                            
+                            
+                           
                             <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
                                       draggable="true" closable="true" width="300">
@@ -161,12 +161,12 @@
                                             <h:outputText id="c3" value="#{productInboundMovementBean.quantity}" style="font-weight: bold" /> 
                                         </p:column>  
                                     </p:row>
-                                    
+
                                     <br> </br>
                                     <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{productInboundMovementBean.confrimResult}" update = ":formMain"  >
 
                                     </p:commandButton> 
-                                        
+
 
                                     <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('confrimationDialog').hide()">
 
@@ -185,4 +185,5 @@
         </h:body>
     </f:view>
 </html>
+
 

@@ -48,7 +48,9 @@ public class StoreInStoreMovementRecordEntity implements Serializable {
     @ManyToOne
     private StoreWarehouseBinEntity toBin;
 
-    public StoreInStoreMovementRecordEntity() {
+    public StoreInStoreMovementRecordEntity(Double amount, Calendar creationTime) {
+        this.amount = amount;
+        this.creationTime = creationTime;
     }
     
     

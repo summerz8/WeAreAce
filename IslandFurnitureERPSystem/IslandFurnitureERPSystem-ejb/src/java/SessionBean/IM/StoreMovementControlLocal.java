@@ -32,7 +32,7 @@ public interface StoreMovementControlLocal {
 
     public Long convertRProductFToS(Long fRproductId, Long storeId);
 
-    public void fromFactoryGoodReceipts(Long inventoryId, Integer invType, Double quantity, Long storeId);
+    public void fromFactoryGoodReceipts(Long outboungMovementId, Long inventoryId, Integer invType, Double quantity, Long storeId);
 
     public int inboundMovement(Long storeId, Long storeBinId, Integer invType,  Long storeProductId, Double quantity, Integer status);
     

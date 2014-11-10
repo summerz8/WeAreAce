@@ -87,6 +87,11 @@ public class StoreProductEntity implements Serializable {
     private List<StoreGoodReceiptEntity> goodReceipts;
    
     
+    //new attribute
+    private Double onairInventory;
+    
+    private Double warningOnAirInv;
+    
 
     public StoreProductEntity() {
     }
@@ -116,6 +121,9 @@ public class StoreProductEntity implements Serializable {
         this.storeRemark = storeRemark;
         goodReceipts = new ArrayList<>();
         intransitInventory = 0D;
+        onairInventory= 0D;
+        warningOnAirInv = 0D;
+        
         
     }
 
@@ -135,6 +143,23 @@ public class StoreProductEntity implements Serializable {
         this.intransitInventory = intransitInventory;
     }
 
+    public Double getOnairInventory() {
+        return onairInventory;
+    }
+
+    public void setOnairInventory(Double onairInventory) {
+        this.onairInventory = onairInventory;
+    }
+
+    public Double getWarningOnAirInv() {
+        return warningOnAirInv;
+    }
+
+    public void setWarningOnAirInv(Double warningOnAirInv) {
+        this.warningOnAirInv = warningOnAirInv;
+    }
+
+    
     
     
     

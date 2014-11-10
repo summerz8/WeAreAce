@@ -12,6 +12,8 @@ import Entity.Store.StoreProductEntity;
 import SessionBean.IM.StoreInventoryControl;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -50,12 +52,47 @@ public class ViewIncomingInventoryList {
 
         storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         incomingInventoryfromFactory = smcl.viewIncomingGoodsFromFactory(storeId);
-       
+        System.out.println("managedbean:OMEList: " + incomingInventoryfromFactory.size());
         
     }
 
+    public String checkProductType(Integer invType){
+        if(invType == 2){
+            
+           return "Product"; 
+        }
+        if(invType == 3){
+            
+            return "Retail Product";
+        }
+        
+        return null;
+    }
     
     
+    public Long checkID(OutboundMovementEntity ome){
+        Integer invType = ome.getStockTypeIndicator();
+        if(invType == 2){
+            
+           return convertProduct(ome.getFactoryProduct().getFactoryProductId()); 
+        }
+        if(invType == 3){
+            
+            return convertRProduct(ome.getFactoryRetailProduct().getFactoryRetailProdctId());
+        }
+        
+        return null;
+    }
+    
+    
+    
+     public String displayTime(Calendar calendarTime){ 
+           System.err.println("Calendar Time:" + calendarTime.getTime());
+           SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy HH:mm:ss");
+           String time = sdf.format(calendarTime.getTime()).toString();
+           return time;
+    }
+     
     public Long convertProduct(Long factoryProductId){
         Long storeProductId = smcl.convertProductFToS(factoryProductId, storeId);
         return storeProductId;
@@ -69,8 +106,9 @@ public class ViewIncomingInventoryList {
     
     public void viewOMRDetail (OutboundMovementEntity ome) throws IOException{
        selectedome = ome;
+       System.out.println("ManagedBean: OME ID:" + ome.getOutboundMovementId() );
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedOME", selectedome);
-        String path = "/secured/restricted/Store/IM/inComingInventoryFromFacoryDetail.xhtml";
+        String path = "/secured/restricted/Store/IM/incomingInventoryFromFactoryDetail.xhtml";
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
         System.err.println("go to another page");
