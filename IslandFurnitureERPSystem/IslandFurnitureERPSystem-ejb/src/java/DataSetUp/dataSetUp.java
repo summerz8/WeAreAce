@@ -67,6 +67,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.security.CreateID;
 import util.security.CryptographicHelper;
 
 /**
@@ -197,19 +198,39 @@ public class dataSetUp {
         em.flush();
 
         //StoreUser(s1)
-        UserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+        StoreUserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
                 "Yaowen", "Store Manager", birthday, "Female",
                 "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"+"S1000001"), false);
         em.persist(us1_1);
         em.flush();
 
-        //StoreUser(s1)
-        UserEntity u4 = new StoreUserEntity("S", "1000002", 2, "He", null,
+        //StoreUser(s2)
+        StoreUserEntity u4 = new StoreUserEntity("S", "1000002", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"+"S1000002"), false);
         em.persist(u4);
         em.flush();
-
+        
+        //StoreUser Casher 
+        StoreUserEntity casher1 = new StoreUserEntity("S", "1000003", 2, "He", null,
+                "Jinqiao", "Store Manager", birthday, "Male",
+                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"+"S1000003"), false);
+        casher1.setIsCasher(true);
+        casher1.setBeginCash(1000D);
+        casher1.setEndCash(1000D);
+        em.persist(casher1);
+        em.flush();
+        
+        StoreUserEntity casher2 = new StoreUserEntity("S", "1000004", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123"+"S1000004"), false);
+        casher2.setIsCasher(true);
+        casher1.setBeginCash(4000D);
+        casher1.setEndCash(4000D);
+        em.persist(casher2);
+        em.flush();
+        
+        
         //Retail Product
         RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 10.0, "box", false);
         em.persist(rp1);
@@ -1689,24 +1710,28 @@ public class dataSetUp {
         StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
         sm1.setProductId(sp1_1.getStoreProductId());
         sm1.setStore(s1);
+        sm1.setId(233523352L);
         em.persist(sm1);
         em.flush();
         
         StoreItemMappingEntity sm2 = new StoreItemMappingEntity();
         sm2.setProductId(sp1_2.getStoreProductId());
         sm2.setStore(s1);
+        sm2.setId(987654321L);
         em.persist(sm2);
         em.flush();
         
         StoreItemMappingEntity sm3 = new StoreItemMappingEntity();
         sm3.setRetailProductId(srp1_1.getStoreRetailProductId());
         sm3.setStore(s1);
+        sm3.setId(876543210L);
         em.persist(sm3);
         em.flush();
         
         StoreItemMappingEntity sm4 = new StoreItemMappingEntity();
         sm4.setRetailProductId(srp1_2.getStoreRetailProductId());
         sm4.setStore(s1);
+        sm4.setId(372845627L);
         em.persist(sm4);
         em.flush();
                 
@@ -1773,7 +1798,7 @@ public class dataSetUp {
         member.setTotalPoints(50000D);
         member.setCurrentPoints(20000D);
 
-        member.setMemberlvl(memlvl1);
+        member.setMemberlvl(memlvl5);
         em.persist(member);
         em.flush();
         
@@ -2026,8 +2051,9 @@ public class dataSetUp {
         //===============================Transaction 3================================
         Calendar TranDate3 = Calendar.getInstance();
         TranDate3.set(2014, 5, 1);
-
+        
         TransactionEntity tr3 = new TransactionEntity(TranDate3, 249.9, 1, s1, member2);
+        tr3.setPOSid("F1");
         em.persist(tr3);
 
         s1.getTransactions().add(tr3);
@@ -2040,6 +2066,7 @@ public class dataSetUp {
         TranDate4.set(2014, 7, 1);
 
         TransactionEntity tr4 = new TransactionEntity(TranDate4, 109.9, 1, s2, member3);
+        tr4.setPOSid("F1");
         em.persist(tr4);
 
         s2.getTransactions().add(tr4);
@@ -2052,6 +2079,7 @@ public class dataSetUp {
         TranDate5.set(2013, 12, 1);
 
         TransactionEntity tr5 = new TransactionEntity(TranDate5, 143.8, 1, s2, member3);
+        tr5.setPOSid("F1");
         em.persist(tr5);
 
         s2.getTransactions().add(tr5);
@@ -2064,6 +2092,7 @@ public class dataSetUp {
         TranDate6.set(2014, 5, 1);
 
         TransactionEntity tr6 = new TransactionEntity(TranDate6, 69.2, 2, s1, member4);
+        tr6.setPOSid("R1");
         em.persist(tr6);
 
         s1.getTransactions().add(tr6);
@@ -2076,6 +2105,7 @@ public class dataSetUp {
         TranDate7.set(2014, 6, 1);
 
         TransactionEntity tr7 = new TransactionEntity(TranDate7, 230.2, 2, s1, member4);
+        tr7.setPOSid("R2");
         em.persist(tr7);
 
         s1.getTransactions().add(tr7);
@@ -2088,6 +2118,7 @@ public class dataSetUp {
         TranDate8.set(2014, 7, 1);
 
         TransactionEntity tr8 = new TransactionEntity(TranDate8, 100.2, 2, s1, member5);
+        tr8.setPOSid("R2");
         em.persist(tr8);
 
         s1.getTransactions().add(tr8);
@@ -2100,6 +2131,7 @@ public class dataSetUp {
         TranDate9.set(2014, 4, 1);
 
         TransactionEntity tr9 = new TransactionEntity(TranDate9, 99.8, 2, s1, member5);
+        tr9.setPOSid("R2");
         em.persist(tr9);
 
         s1.getTransactions().add(tr9);
@@ -2107,53 +2139,56 @@ public class dataSetUp {
         member5.setLastTransaction(tr9);
         em.flush();
 
-        //===============================Transaction 10================================
-        Calendar TranDate10 = Calendar.getInstance();
-        TranDate10.set(2014, 8, 1);
-
-        TransactionEntity tr10 = new TransactionEntity(TranDate10, 50.7, 3, s1, member6);
-        em.persist(tr10);
-
-        s1.getTransactions().add(tr10);
-        member6.getTransactionList().add(tr10);
-        member6.setLastTransaction(tr10);
-        em.flush();
-
-        //===============================Transaction 11================================
-        Calendar TranDate11 = Calendar.getInstance();
-        TranDate11.set(2014, 10, 1);
-
-        TransactionEntity tr11 = new TransactionEntity(TranDate11, 98.7, 3, s1, member5);
-        em.persist(tr11);
-
-        s1.getTransactions().add(tr11);
-        member5.getTransactionList().add(tr11);
-        member5.setLastTransaction(tr11);
-        em.flush();
-
-        //===============================Transaction 12================================
-        Calendar TranDate12 = Calendar.getInstance();
-        TranDate12.set(2014, 10, 12);
-
-        TransactionEntity tr12 = new TransactionEntity(TranDate12, 75.7, 3, s1, member8);
-        em.persist(tr12);
-
-        s1.getTransactions().add(tr12);
-        member8.getTransactionList().add(tr12);
-        member8.setLastTransaction(tr12);
-        em.flush();
-
-        //===============================Transaction 13================================
-        Calendar TranDate2 = Calendar.getInstance();
-        TranDate2.set(2014, 9, 1);
-
-        TransactionEntity tr13 = new TransactionEntity(TranDate2, 300.2, 1, s1, member2);
-        em.persist(tr13);
-
-        s1.getTransactions().add(tr13);
-        member2.getTransactionList().add(tr13);
-        member2.setLastTransaction(tr13);
-        em.flush();
+//        //===============================Transaction 10================================
+//        Calendar TranDate10 = Calendar.getInstance();
+//        TranDate10.set(2014, 8, 1);
+//
+//        TransactionEntity tr10 = new TransactionEntity(TranDate10, 50.7, 3, s1, member6);
+//        tr10.setPOSid("R2");
+//        em.persist(tr10);
+//
+//        s1.getTransactions().add(tr10);
+//        member6.getTransactionList().add(tr10);
+//        member6.setLastTransaction(tr10);
+//        em.flush();
+//
+//        //===============================Transaction 11================================
+//        Calendar TranDate11 = Calendar.getInstance();
+//        TranDate11.set(2014, 10, 1);
+//
+//        TransactionEntity tr11 = new TransactionEntity(TranDate11, 98.7, 3, s1, member5);
+//        em.persist(tr11);
+//
+//        s1.getTransactions().add(tr11);
+//        member5.getTransactionList().add(tr11);
+//        member5.setLastTransaction(tr11);
+//        em.flush();
+//
+//        //===============================Transaction 12================================
+//        Calendar TranDate12 = Calendar.getInstance();
+//        TranDate12.set(2014, 10, 12);
+//
+//        TransactionEntity tr12 = new TransactionEntity(TranDate12, 75.7, 3, s1, member8);
+//        em.persist(tr12);
+//
+//        s1.getTransactions().add(tr12);
+//        member8.getTransactionList().add(tr12);
+//        member8.setLastTransaction(tr12);
+//        em.flush();
+//
+//        //===============================Transaction 13================================
+//        Calendar TranDate2 = Calendar.getInstance();
+//        TranDate2.set(2014, 9, 1);
+//
+//        TransactionEntity tr13 = new TransactionEntity(TranDate2, 300.2, 1, s1, member2);
+//        em.persist(tr13);
+//
+//        s1.getTransactions().add(tr13);
+//        member2.getTransactionList().add(tr13);
+//        member2.setLastTransaction(tr13);
+//        em.flush();
+//        
+//       
 
     }
 

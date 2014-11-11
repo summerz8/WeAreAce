@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://KM.SessionBean/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://KM.SessionBean/">
+
+<xs:element name="addComboItem" type="tns:addComboItem"/>
+
+<xs:element name="addComboItemResponse" type="tns:addComboItemResponse"/>
+
+<xs:element name="addDishItem" type="tns:addDishItem"/>
+
+<xs:element name="addDishItemResponse" type="tns:addDishItemResponse"/>
+
+<xs:element name="cancelOrder" type="tns:cancelOrder"/>
+
+<xs:element name="cancelOrderResponse" type="tns:cancelOrderResponse"/>
+
+<xs:element name="checkOut" type="tns:checkOut"/>
+
+<xs:element name="checkOutResponse" type="tns:checkOutResponse"/>
+
+<xs:element name="confirmOrder" type="tns:confirmOrder"/>
+
+<xs:element name="confirmOrderResponse" type="tns:confirmOrderResponse"/>
+
+<xs:element name="createOrder" type="tns:createOrder"/>
+
+<xs:element name="createOrderResponse" type="tns:createOrderResponse"/>
+
+<xs:element name="deleteComboItem" type="tns:deleteComboItem"/>
+
+<xs:element name="deleteComboItemResponse" type="tns:deleteComboItemResponse"/>
+
+<xs:element name="deleteDishItem" type="tns:deleteDishItem"/>
+
+<xs:element name="deleteDishItemResponse" type="tns:deleteDishItemResponse"/>
+
+<xs:element name="findKitchenByStoreStaffId" type="tns:findKitchenByStoreStaffId"/>
+
+<xs:element name="findKitchenByStoreStaffIdResponse" type="tns:findKitchenByStoreStaffIdResponse"/>
+
+<xs:element name="findOrderById" type="tns:findOrderById"/>
+
+<xs:element name="findOrderByIdResponse" type="tns:findOrderByIdResponse"/>
+
+<xs:element name="getComboByKitchenId" type="tns:getComboByKitchenId"/>
+
+<xs:element name="getComboByKitchenIdResponse" type="tns:getComboByKitchenIdResponse"/>
+
+<xs:element name="getComboItemByOrderId" type="tns:getComboItemByOrderId"/>
+
+<xs:element name="getComboItemByOrderIdResponse" type="tns:getComboItemByOrderIdResponse"/>
+
+<xs:element name="getDishByKitchenId" type="tns:getDishByKitchenId"/>
+
+<xs:element name="getDishByKitchenIdResponse" type="tns:getDishByKitchenIdResponse"/>
+
+<xs:element name="getDishItemByOrderId" type="tns:getDishItemByOrderId"/>
+
+<xs:element name="getDishItemByOrderIdResponse" type="tns:getDishItemByOrderIdResponse"/>
+
+<xs:complexType name="getDishByKitchenId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDishByKitchenIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:dishEntity" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dishEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:double" minOccurs="0"/>
+<xs:element name="recipe" type="tns:ingredientItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="recipeQuantity" type="xs:int" minOccurs="0"/>
+<xs:element name="remark" type="xs:string" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+<xs:element name="forecasts" type="tns:menuItemForecastEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="dailySales" type="tns:dailySalesEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientItemEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="ingredient" type="tns:ingredientEntity" minOccurs="0"/>
+<xs:element name="quantity" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:double" minOccurs="0"/>
+<xs:element name="unit" type="xs:string" minOccurs="0"/>
+<xs:element name="remark" type="xs:string" minOccurs="0"/>
+<xs:element name="stock" type="xs:double" minOccurs="0"/>
+<xs:element name="lotSize" type="xs:double" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean"/>
+<xs:element name="forecasts" type="tns:ingredientForecastEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="purchaseOrders" type="tns:ingredientPurchaseOrderEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="issues" type="tns:ingredientIssueEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="storagePlaces" type="tns:storagePlaceEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+<xs:element name="supplier" type="tns:ingredientSupplierEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientForecastEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="menuItemForecast" type="tns:menuItemForecastEntity" minOccurs="0"/>
+<xs:element name="purchaseOrder" type="tns:ingredientPurchaseOrderEntity" minOccurs="0"/>
+<xs:element name="issue" type="tns:ingredientIssueEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="menuItemForecastEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="targetDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="ingredientForecast" type="tns:ingredientForecastEntity" minOccurs="0"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="kitchenEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="storeEntity">
+<xs:sequence>
+<xs:element name="storeId" type="xs:long" minOccurs="0"/>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="country" type="xs:string" minOccurs="0"/>
+<xs:element name="contact" type="xs:string" minOccurs="0"/>
+<xs:element name="manager" type="xs:string" minOccurs="0"/>
+<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
+<xs:element name="factoryList" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientPurchaseOrderEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="total" type="xs:double" minOccurs="0"/>
+<xs:element name="actualTotal" type="xs:double" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="forecast" type="tns:ingredientForecastEntity" minOccurs="0"/>
+<xs:element name="unconfirmedIPOSQuantity" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientIssueEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="confirmed" type="xs:boolean"/>
+<xs:element name="forecast" type="tns:ingredientForecastEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="storagePlaceEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="location" type="xs:string" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientSupplierEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="contact" type="xs:string" minOccurs="0"/>
+<xs:element name="fax" type="xs:string" minOccurs="0"/>
+<xs:element name="remark" type="xs:string" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean" minOccurs="0"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+<xs:element name="purchaseOrders" type="tns:ingredientPurchaseOrderToSupplierEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientPurchaseOrderToSupplierEntity">
+<xs:sequence>
+<xs:element name="actualTotal" type="xs:double" minOccurs="0"/>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="ingredientPurchaseOrder" type="tns:ingredientPurchaseOrderEntity" minOccurs="0"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+<xs:element name="purchaseItems" type="tns:ingredientItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="receipt" type="tns:ingredientReceiptEntity" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="supplier" type="tns:ingredientSupplierEntity" minOccurs="0"/>
+<xs:element name="targetDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="total" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ingredientReceiptEntity">
+<xs:sequence>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="purchaseOrder" type="tns:ingredientPurchaseOrderToSupplierEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dailySalesEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="sales" type="xs:double" minOccurs="0"/>
+<xs:element name="salesAfterDiscount" type="xs:double" minOccurs="0"/>
+<xs:element name="salesDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDishItemByOrderId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDishItemByOrderIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:dishItemEntity" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dishItemEntity">
+<xs:sequence>
+<xs:element name="dish" type="tns:dishEntity" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findKitchenByStoreStaffId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findKitchenByStoreStaffIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:kitchenEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteComboItem">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+<xs:element name="comboItemId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteComboItemResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteDishItem">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+<xs:element name="dishItemId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteDishItemResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addDishItem">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+<xs:element name="dishId" type="xs:long" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addDishItemResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cancelOrder">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cancelOrderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addComboItem">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+<xs:element name="comboId" type="xs:long" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addComboItemResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getComboItemByOrderId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getComboItemByOrderIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:comboItemEntity" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="comboItemEntity">
+<xs:sequence>
+<xs:element name="combo" type="tns:comboEntity" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="comboEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:double" minOccurs="0"/>
+<xs:element name="dishes" type="tns:dishItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="remark" type="xs:string" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+<xs:element name="forecasts" type="tns:menuItemForecastEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="dishList" type="tns:dishEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="dailySales" type="tns:dailySalesEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createOrder">
+<xs:sequence>
+<xs:element name="kitchenId" type="xs:long" minOccurs="0"/>
+<xs:element name="memberId" type="xs:long" minOccurs="0"/>
+<xs:element name="storestaffId" type="xs:string" minOccurs="0"/>
+<xs:element name="POSid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createOrderResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:kitchenOrderEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="kitchenOrderEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="total" type="xs:double" minOccurs="0"/>
+<xs:element name="totalWithDiscount" type="xs:double" minOccurs="0"/>
+<xs:element name="received" type="xs:double" minOccurs="0"/>
+<xs:element name="due" type="xs:double" minOccurs="0"/>
+<xs:element name="totalDishItemQuantity" type="xs:int" minOccurs="0"/>
+<xs:element name="fulfilledDishItemQuantity" type="xs:int" minOccurs="0"/>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="POSid" type="xs:string" minOccurs="0"/>
+<xs:element name="kitchen" type="tns:kitchenEntity" minOccurs="0"/>
+<xs:element name="member" type="tns:memberEntity" minOccurs="0"/>
+<xs:element name="storeStaff" type="tns:storeUserEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="memberEntity">
+<xs:sequence>
+<xs:element name="memberId" type="xs:long" minOccurs="0"/>
+<xs:element name="pwd" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="midName" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
+<xs:element name="storeId" type="xs:long" minOccurs="0"/>
+<xs:element name="birthday" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="gender" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="createDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="country" type="xs:string" minOccurs="0"/>
+<xs:element name="currentPoints" type="xs:double" minOccurs="0"/>
+<xs:element name="totalPoints" type="xs:double" minOccurs="0"/>
+<xs:element name="pointsToUpgrade" type="xs:double" minOccurs="0"/>
+<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
+<xs:element name="shoppingCartList" type="tns:shoppingCartItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="memberlvl" type="tns:membershipLevelEntity" minOccurs="0"/>
+<xs:element name="rfm" type="tns:rfmEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transactionEntity">
+<xs:sequence>
+<xs:element name="transactionId" type="xs:long" minOccurs="0"/>
+<xs:element name="generateTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="totalPrice" type="xs:double" minOccurs="0"/>
+<xs:element name="totalMemberPrice" type="xs:double" minOccurs="0"/>
+<xs:element name="tendered" type="xs:double" minOccurs="0"/>
+<xs:element name="moneyChange" type="xs:double" minOccurs="0"/>
+<xs:element name="POSid" type="xs:string" minOccurs="0"/>
+<xs:element name="location" type="xs:int"/>
+<xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
+<xs:element name="member" type="tns:memberEntity" minOccurs="0"/>
+<xs:element name="storeStaff" type="tns:storeUserEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="storeUserEntity">
+<xs:complexContent>
+<xs:extension base="tns:userEntity">
+<xs:sequence>
+<xs:element name="isCasher" type="xs:boolean"/>
+<xs:element name="beginCash" type="xs:double" minOccurs="0"/>
+<xs:element name="endCash" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="userEntity">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="birthday" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
+<xs:element name="department" type="xs:string" minOccurs="0"/>
+<xs:element name="departmentId" type="xs:long"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="gender" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="midName" type="xs:string" minOccurs="0"/>
+<xs:element name="position" type="xs:string" minOccurs="0"/>
+<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="pwd" type="xs:string" minOccurs="0"/>
+<xs:element name="receiveMessage" type="tns:internalMessageReceive" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="sendMessage" type="tns:internalMessageEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="tickets" type="tns:ticketEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="userId" type="xs:string" minOccurs="0"/>
+<xs:element name="userLevel" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="internalMessageReceive">
+<xs:sequence>
+<xs:element name="calendarTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="deleted" type="xs:boolean"/>
+<xs:element name="message" type="tns:internalMessageEntity" minOccurs="0"/>
+<xs:element name="opened" type="xs:boolean"/>
+<xs:element name="receivedMessageid" type="xs:long" minOccurs="0"/>
+<xs:element name="receiver" type="tns:userEntity" minOccurs="0"/>
+<xs:element name="replied" type="xs:boolean" minOccurs="0"/>
+<xs:element name="sendMessage" type="tns:internalMessageEntity" minOccurs="0"/>
+<xs:element name="senderId" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="internalMessageEntity">
+<xs:sequence>
+<xs:element name="calendarTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="internalMessageId" type="xs:long" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:boolean" minOccurs="0"/>
+<xs:element name="receiveMessages" type="tns:internalMessageReceive" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="receiverIds" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="sendTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sender" type="tns:userEntity" minOccurs="0"/>
+<xs:element name="senderName" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ticketEntity">
+<xs:sequence>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="status" type="xs:int" minOccurs="0"/>
+<xs:element name="systemUser" type="tns:userEntity" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="shoppingCartItemEntity">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="price" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="membershipLevelEntity">
+<xs:sequence>
+<xs:element name="cle" type="xs:int" minOccurs="0"/>
+<xs:element name="discount" type="xs:double" minOccurs="0"/>
+<xs:element name="expressCheckout" type="xs:boolean" minOccurs="0"/>
+<xs:element name="freeDelivery" type="xs:boolean" minOccurs="0"/>
+<xs:element name="freeParking" type="xs:boolean" minOccurs="0"/>
+<xs:element name="inviteOnlyEvent" type="xs:boolean" minOccurs="0"/>
+<xs:element name="levelId" type="xs:int" minOccurs="0"/>
+<xs:element name="levelName" type="xs:string" minOccurs="0"/>
+<xs:element name="pointsToUpgrade" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rfmEntity">
+<xs:sequence>
+<xs:element name="frequency" type="xs:int" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="member" type="tns:memberEntity" minOccurs="0"/>
+<xs:element name="monetary" type="xs:double" minOccurs="0"/>
+<xs:element name="recency" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findOrderById">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findOrderByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:kitchenOrderEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="checkOut">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+<xs:element name="received" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="checkOutResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getComboByKitchenId">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getComboByKitchenIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:comboEntity" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="confirmOrder">
+<xs:sequence>
+<xs:element name="orderId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="confirmOrderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

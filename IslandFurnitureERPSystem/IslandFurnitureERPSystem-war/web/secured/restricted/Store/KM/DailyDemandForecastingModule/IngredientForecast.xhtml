@@ -98,9 +98,9 @@
                                 </h:outputText>
                             </h:panelGrid>
                             <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
-                            <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder == null}" value="Generate Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.generateIngredientPurchaseOrder}" 
+                            <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder == null}" value="Generate Integrated Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.generateIngredientPurchaseOrder}" 
                                              action="/secured/restricted/Store/KM/ProcurementManagementModule/IngredientPurchaseOrder.xhtml?faces-redirect=true" />
-                            <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder != null}" value="View Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.viewIngredientPurchaseOrder}"
+                            <p:commandButton rendered="#{ingredientForecastBean.selectedIF.purchaseOrder != null}" value="View Integrated Raw Ingredient Purchase Order" actionListener="#{ingredientForecastBean.viewIngredientPurchaseOrder}"
                                              action="/secured/restricted/Store/KM/ProcurementManagementModule/IngredientPurchaseOrder.xhtml?faces-redirect=true" />         
 
                             <p:separator/>
@@ -122,27 +122,27 @@
                                 <p:ajax event="rowEdit" listener="#{ingredientForecastBean.onRowEdit}" update="ingredientForecast"/>
                                 <p:ajax event="rowEditCancel" listener="#{ingredientForecastBean.onRowCancel}" update="ingredientForecast"/>
 
-                                <p:column headerText="Raw Ingredient ID" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Raw Ingredient ID" style="text-align: center;" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" filterBy="#{ii.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Name" style="text-align: center;" filterBy="#{ii.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Forecast Quantity (Daily)" filterBy="#{ii.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Forecast Quantity (Daily)" style="text-align: center;" filterBy="#{ii.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{ii.quantity}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{ii.quantity}" required="true" /></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Unit" filterBy="#{ii.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Unit" style="text-align: center;" filterBy="#{ii.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.unit}"/>
                                 </p:column>
 
 
-                                <p:column headerText="Edit" width="8%" rendered="#{ingredientForecastBean.selectedIF.purchaseOrder eq null}">
+                                <p:column headerText="Edit" style="text-align: center;" width="8%" rendered="#{ingredientForecastBean.selectedIF.purchaseOrder eq null}">
                                     <p:rowEditor/>
                                 </p:column>
 

@@ -17,12 +17,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class IngredientForecastEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +34,7 @@ public class IngredientForecastEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @XmlTransient
     private List<IngredientItemEntity> forecastItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;

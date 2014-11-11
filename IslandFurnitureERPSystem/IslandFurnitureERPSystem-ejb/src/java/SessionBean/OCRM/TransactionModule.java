@@ -43,7 +43,8 @@ public class TransactionModule implements TransactionModuleLocal {
     public Long createNewTransaction(
             @WebParam(name = "staffId") String staffId,
             @WebParam(name = "memberId") Long memberId,
-            @WebParam(name = "location") int location) {
+            @WebParam(name = "location") int location,
+            @WebParam(name = "POSid") String POSid) {
 
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
@@ -59,7 +60,7 @@ public class TransactionModule implements TransactionModuleLocal {
             transaction.setMember(member);
         }
         transaction.setLocation(location);
-
+        transaction.setPOSid(POSid);
         em.persist(transaction);
         em.flush();
 
@@ -109,12 +110,12 @@ public class TransactionModule implements TransactionModuleLocal {
                 transactionItem.setItemName(itemName);
                 transactionItem.setTotalPrice(totalPrice);
                 transactionItem.setUnitPrice(unitPrice);
-                if (transaction.getMember() != null) {
-                    Double unitMemberPrice = storeProduct.getProduct().getMemberPrice();
-                    Double totalMemberPrice = unitMemberPrice * amount;
-                    transactionItem.setUnitMemberPrice(unitMemberPrice);
-                    transactionItem.setTotalMemberPrice(totalMemberPrice);
-                }
+
+                Double unitMemberPrice = storeProduct.getProduct().getMemberPrice();
+                Double totalMemberPrice = unitMemberPrice * amount;
+                transactionItem.setUnitMemberPrice(unitMemberPrice);
+                transactionItem.setTotalMemberPrice(totalMemberPrice);
+
             } else {
                 StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, item.getRetailProductId());
                 String itemName = storeRetailProduct.getRetailProduct().getName();
@@ -156,7 +157,7 @@ public class TransactionModule implements TransactionModuleLocal {
             totalPrice += listTotalPrice;
         }
 
-        if (transaction.getMember() != null && transaction.getLocation() == 1 ) {
+        if (transaction.getLocation() == 1) {
             for (TransactionItemEntity list : transactionItemList) {
                 Double listTotalPrice = list.getTotalMemberPrice();
                 totalMemberPrice += listTotalPrice;
@@ -217,11 +218,11 @@ public class TransactionModule implements TransactionModuleLocal {
             StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
             Long storeProductId = mapping.getProductId();
             StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
-            if (!storeProduct.getSelfPick()) {
+            if (storeProduct.getSelfPick()) {
                 ti.setPickupList(pickupList);
                 em.persist(ti);
                 em.flush();
-                temp.add(ti);              
+                temp.add(ti);
             }
         }
 
@@ -307,14 +308,16 @@ public class TransactionModule implements TransactionModuleLocal {
         em.remove(transactionItem);
         em.flush();
     }
-    
+
     //check the product type, return 1 if it is furniture, 2 if it is retail product
     @WebMethod(operationName = "checkItemType")
-    public int checkItemType(Long itemId){
-        StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class,itemId);
-        if(mapping.getProductId()!=null)
+    public int checkItemType(Long itemId) {
+        StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
+        if (mapping.getProductId() != null) {
             return 1;
-        else return 2;
+        } else {
+            return 2;
+        }
     }
 
 //    

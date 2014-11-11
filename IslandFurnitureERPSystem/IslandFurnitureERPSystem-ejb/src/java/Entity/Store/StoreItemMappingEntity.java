@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import util.security.CreateID;
 
 /**
  *
@@ -20,7 +21,6 @@ import javax.persistence.ManyToOne;
 public class StoreItemMappingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private Long retailProductId;
@@ -30,7 +30,7 @@ public class StoreItemMappingEntity implements Serializable {
     private StoreEntity store;
     
     public StoreItemMappingEntity(){
-    
+        this.id =   Long.parseLong(CreateID.generate());
     }
 
     public Long getId() {

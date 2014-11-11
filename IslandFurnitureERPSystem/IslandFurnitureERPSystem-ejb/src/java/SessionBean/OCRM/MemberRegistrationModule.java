@@ -187,6 +187,11 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     }
 
+    @WebMethod(operationName = "getMemberById")
+    public MemberEntity getMemberById(Long id){
+        return em.find(MemberEntity.class, id);
+    }
+    
     @WebMethod(exclude = true)
     public int CheckFirstTransaction(Long transactionId) {
         TransactionEntity te = em.find(TransactionEntity.class, transactionId);
