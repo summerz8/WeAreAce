@@ -6,6 +6,7 @@
 
 package SessionBean.IM;
 
+import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreInStoreMovementRecordEntity;
 import Entity.Store.IM.StoreInboundRecordEntity;
@@ -30,5 +31,7 @@ public interface StoreDocumentControlLocal {
     public List<StoreOutboundRecordEntity> getStoreOutboundRecord(Long storeId);
 
     public List<ReturnedItemMovementRecordEntity> getToProcessReturnIMRE(Long storeId);
+
+    public List<DeliveryOrderEntity> getDeliveryOrder(Long purchaseOrderId);
     
 }

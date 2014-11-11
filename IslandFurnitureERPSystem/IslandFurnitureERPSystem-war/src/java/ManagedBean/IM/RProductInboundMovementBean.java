@@ -53,6 +53,7 @@ public class RProductInboundMovementBean  implements Serializable{
     
     String msgPrint;
     
+    private Boolean SetBin;
     @PostConstruct
     public void init(){
        storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
@@ -61,6 +62,13 @@ public class RProductInboundMovementBean  implements Serializable{
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", productList);
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sBinEntities", binList);
 
+        SetBin = false;
+        
+    }
+    
+        
+    public void setSelectedPD(){
+        SetBin = true;
         
         
     }
@@ -85,6 +93,9 @@ public class RProductInboundMovementBean  implements Serializable{
        context.addMessage(null, new FacesMessage("Message", msgPrint));
        inventoryType = null;
        quantity = null;
+       SetBin = false;
+       selectedProduct = null;
+       selectedBin = null;
        
         
     }
@@ -175,6 +186,14 @@ public class RProductInboundMovementBean  implements Serializable{
 
     public void setMsgPrint(String msgPrint) {
         this.msgPrint = msgPrint;
+    }
+
+    public Boolean isSetBin() {
+        return SetBin;
+    }
+
+    public void setSetBin(Boolean SetBin) {
+        this.SetBin = SetBin;
     }
     
     

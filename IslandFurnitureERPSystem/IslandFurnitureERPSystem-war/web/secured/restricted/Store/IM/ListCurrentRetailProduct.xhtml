@@ -96,7 +96,7 @@
                             
                             <p:button outcome="/secured/restricted/Store/IM/AddGlobalRetailProductToStore.xhtml" value ="Add New Retail Product" />
                             
-                            <p:dataTable var="sproduct" editable="true" scrollable="true"  scrollHeight="100%" value="#{storeRetailProductControl.currentStoreRetailProductList}" rowStyleClass="#{sproduct.unrestrictedInventory le sproduct.minimumInventory ?'old':null}" >
+                            <p:dataTable var="sproduct" editable="true" value="#{storeRetailProductControl.currentStoreRetailProductList}" rowStyleClass="#{sproduct.unrestrictedInventory le sproduct.minimumInventory ?'old':null}" >
                                 <f:facet name="header">
                                     Store Retail Product List 
                                 </f:facet>
@@ -109,7 +109,7 @@
                                     </p:commandButton>
                                 </p:column>
 
-                                <p:column headerText="Global Retail Product Id" width="6%" >
+                                <p:column headerText="Global Retail Product Id" width="8%" >
                                     <h:outputText value="#{sproduct.factoryRetailProduct.retailProduct.retailProductId}"  style="font-weight: bold" />    
                                 </p:column>
 
@@ -145,11 +145,9 @@
                                     </p:cellEditor>
                                 </p:column>
                                 
-                                <p:column headerText="Offering Inventory" width="12%">
-                                    <h:outputText value="#{sproduct.onairInventory}" style="font-weight: bold" /> 
-                                </p:column>
+                               
                                 
-                                <p:column headerText="Warining Inventory" width="10%">
+                                <p:column headerText="Warining Offering Inventory" width="10%">
                                     <p:cellEditor> 
 
                                         <f:facet name="output"> <h:outputText value="#{sproduct.warningOnAirInv}" style="font-weight: bold" /> </f:facet>

@@ -117,7 +117,7 @@
                             </p:dataTable>
                             <p:dialog id = "gproductDialog" header="New Product Details" widgetVar="gproductDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
-                                      draggable="true" closable="true" width="300">
+                                      draggable="true" closable="true" width="500">
                                 <p:outputPanel id="fProductDetail" style="text-align:center;">
                                     Please select a factory as your inventory resource factory:
                                     <br></br>
@@ -130,7 +130,7 @@
                                     <br></br>
 
                                     <h:outputText value="Self Collection: " />
-                                    <p:selectBooleanCheckbox value="#{storeProductControl.isSelfPicked}" />
+                                    <p:selectBooleanCheckbox value="#{storeProductControl.isSelfPicked}"  />
                                     <br></br>
                                     <br></br>
                                     <h:outputText value="Minimum Inventory Level:" />
@@ -138,12 +138,12 @@
                                     <br></br>
                                     <br></br>
                                     
-                                    <h:outputText value="Minimum Offering Level(:" />
-                                    <h:inputText value ="#{storeProductControl.onAirInventory}"/>
+                                    <h:outputText value="Minimum Offering Level:" />
+                                    <h:inputText value ="#{storeProductControl.onAirInventory}" />
                                     <br></br>
                                     <br></br>
                                     <h:outputText value="Remark:" />
-                                    <h:inputText value ="#{storeProductControl.remark}"/>
+                                    <h:inputText value ="#{storeProductControl.remark}" />
                                     <br></br>
                                     
 

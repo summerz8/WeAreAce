@@ -91,6 +91,8 @@
                                     <p:outputLabel value="Store Product:" for="selectProduct" />
                                     <p:selectOneMenu id="selectProduct" value="#{productInboundMovementBean.selectedProduct}" converter="sProductConverter"  effect="fade" style="width:160px" >
                                         <f:selectItems value="#{productInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{productInboundMovementBean.setSelectedPD}" update=":formMain" />
+
                                     </p:selectOneMenu>
                                 </p:column>  
                             </p:row>
@@ -102,6 +104,14 @@
                                     <p:selectOneMenu id="selectBin" value="#{productInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
                                         <f:selectItems value="#{productInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     </p:selectOneMenu>
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column rendered = "#{productInboundMovementBean.isSetBin()?true:false}" >
+                                    <p:outputLabel value="In Transit Inventory Available:" for="selectinv" />
+                                    <h:outputText id ="selectinv" value ="#{productInboundMovementBean.selectedProduct.intransitInventory}"/>
                                 </p:column>  
                             </p:row>
                             <br></br>

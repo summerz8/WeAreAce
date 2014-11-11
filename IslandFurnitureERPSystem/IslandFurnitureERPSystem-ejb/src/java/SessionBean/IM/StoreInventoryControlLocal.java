@@ -40,7 +40,7 @@ public interface StoreInventoryControlLocal {
 
     public List<RetailProductEntity> getListOfRetailProductNotInStore(Long storeId);
 
-    public int addNewRetailProduct(Long storeId, Long storeRetailProductId, Long factoryRetailProductId, String storeRemark);
+    public int addNewRetailProduct(Long storeId, Long storeRetailProductId, Long factoryRetailProductId,Double minInv , Double onAir, String storeRemark);
 
     public int deleteStoreRetailProduct(Long storeId, Long storeRetailProductId, Long FactoryRetailProductId);
 

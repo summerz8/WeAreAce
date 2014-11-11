@@ -6,6 +6,7 @@
 
 package SessionBean.IM;
 
+import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreInStoreMovementRecordEntity;
 import Entity.Store.IM.StoreInboundRecordEntity;
@@ -115,7 +116,21 @@ public class StoreDocumentControl implements StoreDocumentControlLocal {
     
     
    
-    
+        @Override
+    public List<DeliveryOrderEntity> getDeliveryOrder(Long purchaseOrderId){
+        Query q = em.createQuery("Select doe From DeliveryOrderEntity doe Where doe.purchaseOrder.id = :poId");
+        q.setParameter("poId", purchaseOrderId);
+        List<DeliveryOrderEntity> doList = new ArrayList<>();
+        for(Object o : q.getResultList()){
+            
+            DeliveryOrderEntity doe = (DeliveryOrderEntity) o;
+            doList.add(doe);
+            
+        }
+        
+        return doList;
+
+    }
     
     
     

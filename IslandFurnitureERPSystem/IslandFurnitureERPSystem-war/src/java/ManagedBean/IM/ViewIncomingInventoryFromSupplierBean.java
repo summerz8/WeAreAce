@@ -46,7 +46,7 @@ public class ViewIncomingInventoryFromSupplierBean  implements Serializable{
     public void init(){
         storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         incomingInventoryfromSupplier = smcl.viewIncomingGoodsFromSupplier(storeId); 
-    
+        System.out.println("ViewIncomingInventoryFromSupplierBean:init()");
     } 
     
     

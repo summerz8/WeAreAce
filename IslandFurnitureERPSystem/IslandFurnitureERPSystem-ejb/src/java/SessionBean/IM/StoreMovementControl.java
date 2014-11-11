@@ -71,6 +71,8 @@ public class StoreMovementControl implements StoreMovementControlLocal {
              PurchaseOrderEntity poe = (PurchaseOrderEntity) o;
              result.add(poe);
          }
+       
+       System.out.println("SESSION BEAN: viewIncomingGoodsFromSupplier: size " + result.size());
   
         return result;
     }
@@ -775,6 +777,12 @@ public class StoreMovementControl implements StoreMovementControlLocal {
          Long storeProductId = record.getStoreProduct().getStoreProductId();
          Long storeId = record.getStoreProduct().getStore().getStoreId();
          Integer result = ProductmoveInABin(storeId, storeBinId, storeProductId, 1.0 , 1);
+         StoreWarehouseBinEntity bin = em.find(StoreWarehouseBinEntity.class, storeBinId);
+         if(result == 0){
+             record.setStatus("Finished");
+             record.setStoredWarehouseBin(bin);
+             
+         }
          em.flush();
          
          return result;

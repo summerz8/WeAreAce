@@ -42,23 +42,27 @@ public class ProductInboundMovementBean implements Serializable {
     @EJB
     StoreBinControlLocal sbcl;
     
-    StoreProductEntity selectedProduct;
-    List<StoreProductEntity> productList;
-    Long storeId;
-    StoreWarehouseBinEntity selectedBin;
-    List<StoreWarehouseBinEntity> binList;
+    private StoreProductEntity selectedProduct;
+    private List<StoreProductEntity> productList;
+    private Long storeId;
+    private StoreWarehouseBinEntity selectedBin;
+    private List<StoreWarehouseBinEntity> binList;
     
     
-    Integer inventoryType;
-    Double quantity;
+    private Integer inventoryType;
+    private Double quantity;
     
-    String msgPrint;
+    private String msgPrint;
+    
+    
+    private Boolean SetBin;
     
     @PostConstruct
     public void init(){
        storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
        productList =  sicl.getListOfStoreProduct(storeId);
        binList = sbcl.getAllBackHouseBin(storeId);
+       SetBin = false;
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", productList);
        
        
@@ -76,6 +80,13 @@ public class ProductInboundMovementBean implements Serializable {
    
         
     }    
+    
+    
+    public void setSelectedPD(){
+        SetBin = true;
+        
+        
+    }
     
     public void confrimResult(ActionEvent event){
         System.out.println("ProductInBoundMovementBean:confirmResult:Found");
@@ -96,6 +107,9 @@ public class ProductInboundMovementBean implements Serializable {
        context.addMessage(null, new FacesMessage("Message", msgPrint));
        inventoryType = null;
        quantity = null;
+       selectedProduct = null;
+       selectedBin = null;
+       SetBin = false;
        
         
     }
@@ -106,6 +120,14 @@ public class ProductInboundMovementBean implements Serializable {
 
     public void setMsgPrint(String msgPrint) {
         this.msgPrint = msgPrint;
+    }
+
+    public Boolean isSetBin() {
+        return SetBin;
+    }
+
+    public void setSetBin(Boolean SetBin) {
+        this.SetBin = SetBin;
     }
     
     

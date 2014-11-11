@@ -273,6 +273,7 @@ public class InStoreMovementBean implements Serializable  {
                selectedp = null;
                selectedTb = null;
                Quantity = null;
+               finishedSelectFromBin = false;
                
             }
             else if(result == -1){

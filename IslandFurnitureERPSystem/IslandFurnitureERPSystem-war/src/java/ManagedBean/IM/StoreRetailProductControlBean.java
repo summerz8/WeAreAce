@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import static javax.ws.rs.client.Entity.entity;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -56,6 +57,8 @@ public class StoreRetailProductControlBean  implements Serializable {
     private StoreRetailProductEntity storeRetailProductToDelete;
     private String remark;
     private Long storeId;
+    private Double minimumInv;
+    private Double onAirInventory;
     
     
     @PostConstruct
@@ -130,19 +133,32 @@ public class StoreRetailProductControlBean  implements Serializable {
 //    }
     
     public void addStoreRetailProduct(ActionEvent event){
+        int result;
+       if(minimumInv == null || onAirInventory == null){
+           FacesMessage msg = new FacesMessage("Error", "Minimum Inventory/Minimum Offering Level cannot be blank.");
+           FacesContext.getCurrentInstance().addMessage(null, msg);
+           
+       }
+       else{
+         result = sicl.addNewRetailProduct(storeId, selectedRetailProduct.getRetailProductId(),selectedFactory.getFactoryRetailProdctId(), minimumInv, onAirInventory, remark);
         
-        int result = sicl.addNewRetailProduct(storeId, selectedRetailProduct.getRetailProductId(),selectedFactory.getFactoryRetailProdctId(), remark);
+        
         if(result == 1) {
             msgprint1 = "A new retail product added successfully!";
             currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
             retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
-            
+            FacesMessage msg = new FacesMessage("Added", "A new retail product added successfully!");
+              FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         else{
             msgprint1 = "Exception occured. Please try again or raise a ticket.";
+            FacesMessage msg = new FacesMessage("Exception", "Exception occured. Please try again or raise a ticket.");
+              FacesContext.getCurrentInstance().addMessage(null, msg);
             
             
         }
+        
+       }
             
     }
 
@@ -275,6 +291,22 @@ public class StoreRetailProductControlBean  implements Serializable {
 
     public void setMsgprint2(String msgprint2) {
         this.msgprint2 = msgprint2;
+    }
+
+    public Double getMinimumInv() {
+        return minimumInv;
+    }
+
+    public void setMinimumInv(Double minimumInv) {
+        this.minimumInv = minimumInv;
+    }
+
+    public Double getOnAirInventory() {
+        return onAirInventory;
+    }
+
+    public void setOnAirInventory(Double onAirInventory) {
+        this.onAirInventory = onAirInventory;
     }
     
     

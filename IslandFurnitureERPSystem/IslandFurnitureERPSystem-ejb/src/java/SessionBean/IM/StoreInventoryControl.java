@@ -320,7 +320,7 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     }
     
     @Override
-    public int addNewRetailProduct(Long storeId, Long storeRetailProductId, Long factoryRetailProductId, String storeRemark){
+    public int addNewRetailProduct(Long storeId, Long storeRetailProductId, Long factoryRetailProductId,Double minInv , Double onAir, String storeRemark){
          try{
         StoreEntity store = em.find(StoreEntity.class,storeId);
         RetailProductEntity product = em.find(RetailProductEntity.class, storeRetailProductId);
@@ -333,6 +333,9 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         sime.setRetailProductId(newStoreRetailProduct.getStoreRetailProductId());
         sime.setStore(store);
         em.persist(sime);
+        newStoreRetailProduct.setStoreRemark(storeRemark);
+        newStoreRetailProduct.setOnairInventory(onAir);
+        newStoreRetailProduct.setMinimumInventory(minInv);
         newStoreRetailProduct.setRetailProduct(product);
         currentStoreRetailProductList.add(newStoreRetailProduct);
         mapFactoryRetailProduct.getStoreRetailProducts().add(newStoreRetailProduct);

@@ -9,6 +9,7 @@ package ManagedBean.IM;
 import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
+import SessionBean.IM.StoreDocumentControlLocal;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -39,6 +40,9 @@ public class viewPoBean implements Serializable {
     @EJB 
     StoreMovementControlLocal smcl;
     
+    @EJB
+    StoreDocumentControlLocal sdcl;
+    
     
     private PurchaseOrderEntity po;
     private Long storeId;
@@ -54,7 +58,11 @@ public class viewPoBean implements Serializable {
        po = (PurchaseOrderEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedPOE");
        storeRPId = smcl.convertRProductFToS(po.getContract().getFactoryRetailProduct().getFactoryRetailProdctId(), storeId);
        
-        dolist =  (List<DeliveryOrderEntity>) po.getDeliveryOrderList();
+        dolist =  sdcl.getDeliveryOrder(po.getId());
+        for(DeliveryOrderEntity doe: dolist){
+            System.out.println("DoEntity Id: " + doe.getId() + " Status: " + doe.getStatus());
+            
+        }
       
         
     }
@@ -77,7 +85,8 @@ public class viewPoBean implements Serializable {
         
         selectedDO  = po;
         newQuantity = po.getAmount();
-        
+        System.out.println("ManagedBean: viewPoBean: selectDOE is set.");
+    
     }
     
     
@@ -88,8 +97,8 @@ public class viewPoBean implements Serializable {
     
     public void receiveGoodFromSupplier(ActionEvent event){
        try{ 
-        if(newQuantity > selectedDO.getAmount()){
-               String statusMsg = "Actual Amount cannot be larger than the amount indicated! Please eneter a smaller amount. If you received extra inventory, please generate it mannually!";
+        if(newQuantity > selectedDO.getAmount() || newQuantity == null){
+               String statusMsg = "Please key in an amount between ( 0 ," + selectedDO.getAmount() + " )" ;
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Result : " + statusMsg, ""));
  
             
@@ -98,7 +107,7 @@ public class viewPoBean implements Serializable {
         else{
             
            smcl.fromSupplierGoodReceipt(po.getId(), storeId, 1, storeRPId , selectedDO.getId(), newQuantity);
-            
+             dolist =  sdcl.getDeliveryOrder(po.getId());
             
             
            String statusMsg = "A good receipt has been generated!";
