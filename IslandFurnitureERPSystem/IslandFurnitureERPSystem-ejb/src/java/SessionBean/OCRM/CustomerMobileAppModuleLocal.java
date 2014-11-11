@@ -6,8 +6,12 @@
 package SessionBean.OCRM;
 
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.StoreEntity;
+import Entity.Store.StoreEventEntity;
+import java.io.File;
 import java.util.List;
 import javax.ejb.Local;
+import javax.jws.WebParam;
 
 /**
  *
@@ -31,11 +35,22 @@ public interface CustomerMobileAppModuleLocal {
 //    public List<CountrySetEntity> getWishListSetByCountry() ;
 //
 //    public List<CountrySetEntity> getWishListSetByStore() ;
-
     public int MemberLogin(String email, String pwd);
 
     public MemberEntity getMember(String email);
 
     public Integer checkSurprise(String QR, String email);
+
+    public List<String[]> getWishListItem(String email, Long store);
+
+    public List<StoreEntity> getStoreList();
+
+    public String getItemPicture(File imageFile);
+
+    public String[] viewItemDetail(Long storeProductId, String email);
+
+    public List<String[]> getSetItemList(String email, Long setId);
+
+    public List<StoreEventEntity> getEventList(Long storeId);
 
 }

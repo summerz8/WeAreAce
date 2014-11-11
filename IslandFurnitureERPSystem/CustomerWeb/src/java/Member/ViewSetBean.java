@@ -117,7 +117,7 @@ public class ViewSetBean {
         if (email == null) {
             return "LoginPage?faces-redirect=true";
         } else {
-            cwml.addToShoppingCart(email, item.getId(), quantity);
+            cwml.addToShoppingCart(email, item.getId(), quantity, "");
             return "set?faces-redirect=true";
         }
     }
@@ -134,14 +134,11 @@ public class ViewSetBean {
         if (email == null) {
             FacesContext.getCurrentInstance().getExternalContext().redirect("LoginPage.xhtml");
 
-        }
-        quantity = 1;
-        for (CountryProductEntity c : itemList) {
-            item = c;
-            addToShoppingCart();
-        }
+        } else {
+            cwml.addToShoppingCart(email, set.getId(), quantity, "set");
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The whole set of furniture has been added to your shopping cart", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The whole set of furniture has been added to your shopping cart", ""));
+        }
     }
 
     public void checkStock(Long itemId) {

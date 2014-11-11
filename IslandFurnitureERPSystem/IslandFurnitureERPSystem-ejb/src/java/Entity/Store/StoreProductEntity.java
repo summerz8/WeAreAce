@@ -65,6 +65,7 @@ public class StoreProductEntity implements Serializable {
     private ProductEntity product;
 
     @OneToMany
+    @XmlTransient
     private Collection<StoreBinProductEntity> binProducts;
 
     @OneToMany

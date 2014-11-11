@@ -231,13 +231,20 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public void addToShoppingCart(String email, Long itemId, int quantity) {
+    public void addToShoppingCart(String email, Long itemId, int quantity, String type) {
 
         MemberEntity member = cwml.getMember(email);
-        CountryProductEntity item = getItem(itemId);
+
         ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
         shoppingCartItem.setQuantity(quantity);
-        shoppingCartItem.setCustomerWebItem(item);
+        if (type.equals("product")) {
+            CountryProductEntity item = getItem(itemId);
+            shoppingCartItem.setCustomerWebItem(item);
+        } else {
+            CountrySetEntity set = getSet(itemId);
+            shoppingCartItem.setCountrySet(set);
+        }
+        shoppingCartItem.setType(type);
         em.persist(shoppingCartItem);
 
         member.getShoppingCartList().add(shoppingCartItem);
@@ -402,10 +409,10 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public void deleteItemInSet(Long countrySetId, Long countryProductId) {
-        CountrySetEntity set=em.find(CountrySetEntity.class, countrySetId);
-        List<CountryProductEntity> productList=set.getUnitList();
-        for(CountryProductEntity c: productList){
-            if(c.getId().equals(countryProductId)){
+        CountrySetEntity set = em.find(CountrySetEntity.class, countrySetId);
+        List<CountryProductEntity> productList = set.getUnitList();
+        for (CountryProductEntity c : productList) {
+            if (c.getId().equals(countryProductId)) {
                 productList.remove(c);
                 break;
             }

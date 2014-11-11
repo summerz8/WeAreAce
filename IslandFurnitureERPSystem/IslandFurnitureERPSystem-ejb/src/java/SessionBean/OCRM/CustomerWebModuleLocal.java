@@ -46,7 +46,7 @@ public interface CustomerWebModuleLocal {
 
     public Long createSet(Long setId, String web);
 
-    public void addToShoppingCart(String email, Long itemId, int quantity);
+    public void addToShoppingCart(String email, Long itemId, int quantity, String type);
 
     public List<CountryRetailProductEntity> listRetailItems(String web);
 

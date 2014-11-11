@@ -99,7 +99,7 @@ public class ViewItemBean {
         if (email == null) {
             return "LoginPage?faces-redirect=true";
         } else {
-            cwml.addToShoppingCart(email, item.getId(), quantity);
+            cwml.addToShoppingCart(email, item.getId(), quantity, "product");
             return "ViewItem?faces-redirect=true";
         }
     }

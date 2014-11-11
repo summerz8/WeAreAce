@@ -79,7 +79,7 @@
                     <br></br><br></br>
                     <br></br><br></br>
                     <br></br><br></br>
-                    <p:dataTable var="item" value="#{memberInfo.itemList}" style="margin:auto; width: 900px">
+                    <p:dataTable var="item" value="#{memberInfo.productList}" style="margin:auto; width: 900px">
 
 
                         <p:column headerText="Images">
@@ -103,6 +103,32 @@
 
                         <p:column headerText="Remove" style="; width:100px;">
                             <p:commandButton value="Remove" action="#{memberInfo.removeItem(item.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 80px; height: 30px; margin: auto" />
+                        </p:column> 
+                    </p:dataTable>
+                    
+                    <p:dataTable var="set" value="#{memberInfo.setList}" style="margin:auto; width: 900px">
+
+                        <p:column headerText="Images">
+                            <img src="../resources/images/#{set.countrySet.picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
+                        </p:column>
+
+                        <p:column headerText="Product Name">
+
+                            <h:outputText value="#{set.countrySet.name}" />
+                        </p:column>
+
+                        <p:column headerText="Set Id">
+                            <h:outputText value="#{set.countrySet.id}"  />
+                        </p:column>
+
+                        <p:column headerText="Quantity" style="; width:220px;">
+                            <p:inplace id="postal" editor="true">                                   
+                                <p:spinner id="minMax" value="#{set.quantity}" min="0" max="100" />
+                            </p:inplace>
+                        </p:column>
+
+                        <p:column headerText="Remove" style="; width:100px;">
+                            <p:commandButton value="Remove" action="#{memberInfo.removeItem(set.id)}"  onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#d43f3a'" style=" color: white; background: #d43f3a; font-size: 12px; border:none; width: 80px; height: 30px; margin: auto" />
                         </p:column> 
                     </p:dataTable>
 

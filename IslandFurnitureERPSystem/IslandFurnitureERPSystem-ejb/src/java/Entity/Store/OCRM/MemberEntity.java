@@ -44,6 +44,7 @@ public class MemberEntity implements Serializable {
     private String midName;
     private String firstName;
 
+    @XmlTransient
     private TransactionEntity lastTransaction;
     private Long storeId;
 
@@ -69,6 +70,7 @@ public class MemberEntity implements Serializable {
     private Boolean deleteFlag;
     
     @OneToMany
+    @XmlTransient
     private List<ShoppingCartItemEntity> shoppingCartList;
 
     @ManyToOne

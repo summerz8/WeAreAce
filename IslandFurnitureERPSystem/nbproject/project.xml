@@ -17,6 +17,7 @@
                 </library>
                 <library>
                     <file>${reference.CustomerWeb-1.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
         </data>

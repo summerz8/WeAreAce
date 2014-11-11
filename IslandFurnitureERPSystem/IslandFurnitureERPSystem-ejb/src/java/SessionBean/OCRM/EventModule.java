@@ -5,11 +5,9 @@
  */
 package SessionBean.OCRM;
 
-import Entity.Factory.FactoryProductEntity;
 import Entity.Store.EventEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreEventEntity;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -41,9 +39,18 @@ public class EventModule implements EventModuleLocal {
     }
 
     @Override
-    public void createStoreEvent(String eventName, String description, Calendar startDate, Calendar endDate, StoreEntity store, Double bonus) {
-        StoreEventEntity storeEvent=new StoreEventEntity(eventName,description,startDate,endDate,store,bonus);
+    public void createStoreEvent(Long eventId, String description, Calendar startDate, Calendar endDate, Long storeId, Double bonus) {
+        StoreEntity store = em.find(StoreEntity.class, storeId);
+        EventEntity event = em.find(EventEntity.class, eventId);
+        StoreEventEntity storeEvent = new StoreEventEntity(event, description, startDate, endDate, store, bonus);
         em.persist(storeEvent);
+        em.flush();
+    }
+
+    @Override
+    public void createEvent(String eventName, String description, Calendar startDate, Calendar endDate) {
+        EventEntity event = new EventEntity(eventName, description, startDate, endDate);
+        em.persist(event);
         em.flush();
     }
 
@@ -57,6 +64,38 @@ public class EventModule implements EventModuleLocal {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @Override
+    public EventEntity getEvent(Long eventId) {
+        return em.find(EventEntity.class, eventId);
+    }
+
+    @Override
+    public StoreEventEntity getStoreEvent(Long storeEventId) {
+        return em.find(StoreEventEntity.class, storeEventId);
+    }
+
+    @Override
+    public void deleteStoreEvent(Long storeEventId) {
+        StoreEventEntity storeEvent = em.find(StoreEventEntity.class, storeEventId);
+        EventEntity event = storeEvent.getEvent();
+        for (StoreEventEntity s : event.getStoreEvent()) {
+            if (s.getId().equals(storeEvent.getId())) {
+                event.getStoreEvent().remove(s);
+                break;
+            }
+        }
+        em.remove(storeEvent);
+        em.flush();
+    }
+
+    @Override
+    public void editStoreEvent(Long storeEventId, String description, Calendar startDate, Calendar endDate, Double bonus) {
+        StoreEventEntity s=em.find(StoreEventEntity.class, storeEventId);
+        s.setBonus(bonus);
+        s.setDescription(description);
+        s.setEndDate(endDate);
+        s.setStartDate(startDate);
+        em.flush();
+    }
+
 }

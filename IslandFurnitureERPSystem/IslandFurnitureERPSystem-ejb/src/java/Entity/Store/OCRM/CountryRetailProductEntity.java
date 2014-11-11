@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +40,7 @@ public class CountryRetailProductEntity implements Serializable {
     private RetailProductEntity product;
 
     @OneToMany
+    @XmlTransient
     private List<CommentEntity> comments;
 
     public CountryRetailProductEntity() {

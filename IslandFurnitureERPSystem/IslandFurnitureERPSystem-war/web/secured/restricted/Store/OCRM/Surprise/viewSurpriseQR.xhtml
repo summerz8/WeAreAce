@@ -99,7 +99,8 @@
                                     </p:outputPanel>
                                 </f:facet>
 
-                                <p:column headerText="QR" width="10%">                              
+                                <p:column headerText="QR" width="10%">    
+                                    <h:outputText value="#{surpriseQR.randomString}" />
                                     <p:barcode value="#{surpriseQR.randomString}" type="qr"/>
                                 </p:column>
                                 

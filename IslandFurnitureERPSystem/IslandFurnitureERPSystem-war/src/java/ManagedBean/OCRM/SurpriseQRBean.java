@@ -8,6 +8,7 @@ package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.SurpriseQREntity;
 import SessionBean.OCRM.SurpriseQRBeanLocal;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "surpriseQRBean")
 @ViewScoped
-public class SurpriseQRBean {
+public class SurpriseQRBean implements Serializable{
     @EJB
     SurpriseQRBeanLocal sqb;
     

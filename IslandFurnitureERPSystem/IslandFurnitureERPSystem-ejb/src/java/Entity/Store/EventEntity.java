@@ -92,6 +92,15 @@ public class EventEntity implements Serializable {
         this.storeEvent = storeEvent;
     }
 
+ 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public List<StoreEventEntity> getStoreEvent() {
+        return storeEvent;
+    }
+
 
 
     @Override

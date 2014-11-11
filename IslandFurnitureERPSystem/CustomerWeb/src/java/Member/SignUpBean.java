@@ -11,6 +11,7 @@ import SessionBean.OCRM.CustomerWebMemberModuleLocal;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -38,9 +39,15 @@ public class SignUpBean {
     private String password;
     private Calendar birthday;
     private String departmentId;
+    
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
+    private String userId;
+    private String subject;
+    private String text;
+
+    private Boolean isSuccess = true;
 
     public SignUpBean() {
     }
@@ -52,6 +59,7 @@ public class SignUpBean {
         MRMM.AddMemberWithPassword(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, password);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", FirstName);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", Email);
+        sendEmail();
         
         if(web.equals(("Singapore")))
         return "/secured/Singapore/MemberPage?faces-redirect=true";
@@ -59,6 +67,22 @@ public class SignUpBean {
         return "/secured/China/MemberPage?faces-redirect=true";
     }
 
+    public void sendEmail() {
+        userId= (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Email");
+
+        SendMailSSLWeb se = new SendMailSSLWeb();
+
+        if (!se.sendMessage(userId)) {
+            isSuccess = false;
+        }
+
+        if (isSuccess) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Email Send Successfully!", ""));
+        }
+
+    }
+    
     public String getFirstName() {
         return FirstName;
     }
