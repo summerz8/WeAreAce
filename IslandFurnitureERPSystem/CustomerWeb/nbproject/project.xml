@@ -10,11 +10,7 @@
                     <file>${reference.IslandFurnitureERPSystem-ejb-1.dist}</file>
                 </library>
                 <library dirs="200">
-<<<<<<< HEAD
                     <file>${libs.primefaces.classpath}</file>
-=======
-                    <file>${libs.PrimeFaces5.0.classpath}</file>
->>>>>>> a2a37e5893af09d40487ff6724afafc134edc141
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

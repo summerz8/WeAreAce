@@ -93,6 +93,12 @@
     <class>Entity.Store.StoreItemMappingEntity</class>
     <class>Entity.Store.StoreProductEntity</class>
     <class>Entity.Store.StoreRetailProductEntity</class>
+    <class>Entity.Factory.SetEntity</class>
+    <class>Entity.Store.EventEntity</class>
+    <class>Entity.Store.OCRM.CountryProductEntity</class>
+    <class>Entity.Store.OCRM.CountryRetailProductEntity</class>
+    <class>Entity.Store.OCRM.CountrySetEntity</class>
+    <class>Entity.Store.StoreSetEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
