@@ -60,6 +60,8 @@ public class ProductInboundMovementBean implements Serializable {
        productList =  sicl.getListOfStoreProduct(storeId);
        binList = sbcl.getAllBackHouseBin(storeId);
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", productList);
+       
+       
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sBinEntities", binList);
 
         

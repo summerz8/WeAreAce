@@ -11,11 +11,14 @@ import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import SessionBean.IM.StoreBinControlLocal;
 import SessionBean.IM.StoreInventoryControlLocal;
+import SessionBean.IM.StoreMovementControlLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -39,6 +42,9 @@ public class GoodReceiptGenerateManuallyBean implements Serializable{
     
     @EJB
     StoreBinControlLocal sbcl;
+    
+    @EJB
+    StoreMovementControlLocal smcl;
     
     private Integer invtype;
     private StoreProductEntity selectedp;
@@ -69,10 +75,51 @@ public class GoodReceiptGenerateManuallyBean implements Serializable{
          rpList = sicl.getListOfStoreRetailProduct(storeId);
          binList = sbcl.getAllBackHouseBin(storeId);
          
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sProductConverter", pList);
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sRProductConverter", rpList);
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sBinConverter", binList);
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", pList);
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", rpList);
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sBinEntities", binList);
 
+        
+    }
+    
+    
+    public void confrimGoodReceipt(ActionEvent event){
+        try{
+            
+       Integer result = -1;
+       if(invtype == 0){
+       result = smcl.generateGoodReceiptMannually(storeId,  0, selectedp.getStoreProductId(),  quantity);
+       
+       }
+       if(invtype == 1){
+           
+           
+       result = smcl.generateGoodReceiptMannually(storeId,  1, selectedrp.getStoreRetailProductId(),  quantity);
+       
+       }
+       if(result == 0){
+       
+       String statusMsg = "Good Receipt has been generated!";
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  statusMsg, ""));
+       String path = "/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true";
+       String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+       FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
+       System.err.println("go to another page");
+       }
+       else{
+           
+       String statusMsg = "Exception Happend! Please try again or contact system admin";
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Result " + statusMsg, ""));
+      
+       }
+      
+     }
+      catch (Exception e){
+       String statusMsg = "Exception Happend! Please try again or contact system admin";
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Result " + statusMsg, ""));
+          e.printStackTrace();
+      }
+        
         
     }
 

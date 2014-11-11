@@ -55,5 +55,7 @@ public interface StoreInventoryControlLocal {
     public List<StoreBinProductEntity> getProductStorageInformation(Long productId);
 
     public List<StoreBinRetailProductEntity> getRProductStorageInformation(Long productId);
+
+    public List<StoreBinProductEntity> getReturnedProduct(Long storeId);
     
 }

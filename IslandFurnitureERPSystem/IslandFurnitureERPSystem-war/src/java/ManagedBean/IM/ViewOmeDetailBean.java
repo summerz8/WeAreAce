@@ -27,12 +27,12 @@ import javax.servlet.http.HttpSession;
  */
 @Named(value = "viewOmeDetail")
 @ViewScoped
-public class ViewOmeDetail  implements Serializable{
+public class ViewOmeDetailBean  implements Serializable{
 
     /**
      * Creates a new instance of ViewOmeDetail
      */
-    public ViewOmeDetail() {
+    public ViewOmeDetailBean() {
     }
     
     @EJB
@@ -89,27 +89,38 @@ public class ViewOmeDetail  implements Serializable{
     
     
     
-    public void submitFulfillment(ActionEvent event){
+   public void submitFulfillment(ActionEvent event){
      try{
-       if(isRetail){
-      smcl.fromFactoryGoodReceipts(omeId, storeRProductId, 1, actualAmount, storeId);
-      
-      }
-      else{
-      smcl.fromFactoryGoodReceipts(omeId, storeProductId, 0, actualAmount, storeId);
-      }
+         
+      if(actualAmount <= quantity){
+           if(isRetail){
+          smcl.fromFactoryGoodReceipts(omeId, storeRProductId, 1, actualAmount, storeId);
+
+             }
+          else{
+          smcl.fromFactoryGoodReceipts(omeId, storeProductId, 0, actualAmount, storeId);
+          }
        
-       String statusMsg = "Good Receipt has been generated!";
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout result " + statusMsg, ""));
-       String path = "/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true";
-       String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-       FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
-       System.err.println("go to another page");
+           String statusMsg = "Good Receipt has been generated!";
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Result : " + statusMsg, ""));
+           String path = "/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true";
+           String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+           FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
+           System.err.println("go to another page");
       
      }
+      
+     
+     else {
+               String statusMsg = "Actual Amount cannot be larger than the amount indicated! Please eneter a smaller amount. If you received extra inventory, please generate it mannually!";
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Result : " + statusMsg, ""));
+ 
+       }    
+     }       
+      
       catch (Exception e){
        String statusMsg = "Exception Happend! Please try again or contact system admin";
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout result " + statusMsg, ""));
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Result : " + statusMsg, ""));
           
       }
  

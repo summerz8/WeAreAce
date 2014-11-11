@@ -10,6 +10,7 @@ import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreInStoreMovementRecordEntity;
 import Entity.Store.IM.StoreInboundRecordEntity;
 import Entity.Store.IM.StoreOutboundRecordEntity;
+import Entity.Store.ReturnedItemMovementRecordEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -91,6 +92,29 @@ public class StoreDocumentControl implements StoreDocumentControlLocal {
    
         
     }
+    
+    
+        @Override
+    public List<ReturnedItemMovementRecordEntity> getToProcessReturnIMRE(Long storeId){
+        String status = "processing";
+        Query q = em.createQuery("Select r From ReturnedItemMovementRecordEntity r Where r.status = :stt and r.storeProduct.store.storeId = :sId");
+        q.setParameter("stt", status);
+        q.setParameter("sId", storeId);
+        List<ReturnedItemMovementRecordEntity> resultList = new ArrayList<>();
+        for(Object o : q.getResultList()){
+            ReturnedItemMovementRecordEntity r = (ReturnedItemMovementRecordEntity) o;
+            resultList.add(r);
+            
+            
+        }
+        
+        return resultList;
+        
+    }
+    
+    
+    
+   
     
     
     

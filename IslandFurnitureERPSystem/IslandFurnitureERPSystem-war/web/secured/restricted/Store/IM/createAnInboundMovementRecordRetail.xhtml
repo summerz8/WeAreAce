@@ -88,7 +88,7 @@
 
                             <p:row>
                                 <p:column>
-                                    <p:outputLabel value="Store Product:" for="selectProduct" />
+                                    <p:outputLabel value="Store Retail Product:" for="selectProduct" />
                                     <p:selectOneMenu id="selectProduct" value="#{rproductInboundMovementBean.selectedProduct}" converter="sRProductConverter"  effect="fade" style="width:160px" >
                                         <f:selectItems value="#{rproductInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
                                     </p:selectOneMenu>

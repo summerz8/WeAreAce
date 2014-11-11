@@ -9,6 +9,7 @@ package SessionBean.IM;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.ProductEntity;
+import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Store.IM.StoreBinProductEntity;
@@ -17,6 +18,7 @@ import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreInStoreMovementRecordEntity;
 import Entity.Store.IM.StoreInboundRecordEntity;
 import Entity.Store.IM.StoreWarehouseBinEntity;
+import Entity.Store.ReturnedItemMovementRecordEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import static Entity.Store.StoreProductEntity_.storeProductId;
@@ -63,7 +65,7 @@ public class StoreMovementControl implements StoreMovementControlLocal {
         List<PurchaseOrderEntity> result = new ArrayList<PurchaseOrderEntity> ();
        StoreEntity store = em.find(StoreEntity.class, storeId);
        Query q = em.createQuery("Select poe From PurchaseOrderEntity poe where poe.isToStore = true and poe.status = :cStatus and  poe.destinationId = :storeCode");
-       q.setParameter("storeCode", store.getStoreId());
+       q.setParameter("storeCode", storeId);
        q.setParameter("cStatus","confirmed");
        for (Object o : q.getResultList()){
              PurchaseOrderEntity poe = (PurchaseOrderEntity) o;
@@ -334,67 +336,182 @@ public class StoreMovementControl implements StoreMovementControlLocal {
     
     //-1 exception 
     // 0 
-    public int generateGoodReceiptMannually(Long storeId, Long storeBinId, Integer invType, Long ivId, Integer invStatus, Double quantity ){
-        try{
-           StoreWarehouseBinEntity storeBin = em.find(StoreWarehouseBinEntity.class, storeBinId);
-           StoreEntity store = em.find(StoreEntity.class, storeId);
-            StoreProductEntity storeP = new StoreProductEntity();
-            StoreRetailProductEntity storeRP = new StoreRetailProductEntity();
-            Integer result = null;
-           if(invType == 0){
-               result = ProductmoveInABin(storeId, storeBinId, ivId, quantity, invStatus);
-               if(result == 0){
-                   storeP = em.find(StoreProductEntity.class, ivId);
-               }
-                   
-              }
-    
-           if(invType == 1){
-               result = RProductmoveInABin(storeId, storeBinId, ivId, quantity, invStatus);
-               if(result == 0){
-                   storeRP = em.find(StoreRetailProductEntity.class, ivId);
-               }
-                   
-  
-           }
-           
-           
-           
-           
-           Calendar creationTime = Calendar.getInstance();
-           StoreGoodReceiptEntity gr = new StoreGoodReceiptEntity(1,quantity,-1.0,creationTime);
-           em.persist(gr);
-           gr.setSe(store);
-           gr.setSpe(storeP);
-           gr.setSrpe(storeRP);
-           gr.setOme(null);
-           store.getGoodReceipts().add(gr);
-           
-           if(invType == 0){
-           storeP.getGoodReceipts().add(gr);
-           
-           }
-           if(invType == 1){
-               
-               storeRP.getGoodReceipts().add(gr);
-           }
-           em.flush();
-           return 0;
-           
+    @Override
+    public int generateGoodReceiptMannually(Long storeId, Integer invType, Long ivId, Double quantity ){
+  try {
+        StoreProductEntity spe = null;
+        StoreRetailProductEntity srpe = null;
+        StoreEntity store = em.find(StoreEntity.class, storeId);
+        
+        if(invType == 0){
+        spe = em.find(StoreProductEntity.class,ivId);
+        Double newQuantity = spe.getIntransitInventory() + quantity;
+        spe.setIntransitInventory(newQuantity);
+        System.out.println("StoreMovementControlBean:generateGoodReceiptMannually(): type " + invType);
+        
+        }
+        
+        else if(invType == 1){   
             
+        srpe = em.find(StoreRetailProductEntity.class, ivId);
+        Double newQuantity = srpe.getIntransitInventory() + quantity;
+        srpe.setIntransitInventory(newQuantity);
+        System.out.println("StoreMovementControlBean:generateGoodReceiptMannually(): type " + invType);
+
+        }
+        
+        
+        
+        Calendar creationTime = Calendar.getInstance();
+        StoreGoodReceiptEntity goodreceipt = new StoreGoodReceiptEntity(invType,quantity,-1.0, creationTime);
+        em.persist(goodreceipt);
+        System.out.println("StoreMovementControlBean:fromFactoryGoodReceipts(): persist: GD: " + goodreceipt.getId());
+        
+        goodreceipt.setSpe(spe);
+        System.out.println("StoreMovementControlBean:fromFactoryGoodReceipts(): persist: Set SPE");
+
+        goodreceipt.setSrpe(srpe);
+        System.out.println("StoreMovementControlBean:fromFactoryGoodReceipts(): persist: Set SRPE");
+
+        goodreceipt.setSe(store);
+        System.out.println("StoreMovementControlBean:fromFactoryGoodReceipts(): persist: Set S");
+        
+        
+
+        store.getGoodReceipts().add(goodreceipt);
+        
+        if(invType == 0){
+        spe.getGoodReceipts().add(goodreceipt);}
+        if(invType ==1){
+        srpe.getGoodReceipts().add(goodreceipt);}
+        
+        
+        
+        goodreceipt.setOme(null);
+        goodreceipt.setDoe(null);
+        
+        em.flush();
+        
+        
+        return 0;
         }
         catch (Exception e){
             
-         
-          System.err.println("SessionBean.IM.StoreMovementControl: generateGoodReceiptMannually(): Failed. Caught an unexpected exception.");
+          System.err.println("SessionBean.IM.StoreMovementControl: fromFactoryGoodReceipts(): Failed. Caught an unexpected exception.");
           e.printStackTrace();
-         return -1;
-            
-            
+          return -1;
+          
         }
         
     }
     
+    
+    
+    @Override
+    public int fromSupplierGoodReceipt(Long poId, Long storeId, Integer invType, Long inventoryId, Long deliveryOrderId, Double quantity){
+       try {
+        StoreProductEntity spe = null;
+        StoreRetailProductEntity srpe = null;
+        StoreEntity store = em.find(StoreEntity.class, storeId);
+        DeliveryOrderEntity doe = em.find(DeliveryOrderEntity.class, deliveryOrderId);
+        PurchaseOrderEntity poe = em.find(PurchaseOrderEntity.class,poId);
+        Double doeQ = doe.getAmount();
+        if(invType == 0){
+        spe = em.find(StoreProductEntity.class,inventoryId);
+        Double newQuantity = spe.getIntransitInventory() + quantity;
+        spe.setIntransitInventory(newQuantity);
+        System.out.println("StoreMovementControlBean:fromSupplierGoodReceipt(): type " + invType);
+        
+        }
+        
+        else if(invType == 1){   
+            
+        srpe = em.find(StoreRetailProductEntity.class, inventoryId);
+        Double newQuantity = srpe.getIntransitInventory() + quantity;
+        srpe.setIntransitInventory(newQuantity);
+        System.out.println("StoreMovementControlBean:fromSupplierGoodReceipt(): type " + invType);
+
+        }
+        
+        
+        
+        Calendar creationTime = Calendar.getInstance();
+        StoreGoodReceiptEntity goodreceipt = new StoreGoodReceiptEntity(invType,quantity,doeQ, creationTime);
+        em.persist(goodreceipt);
+        System.out.println("StoreMovementControlBean:fromSupplierGoodReceipt(): persist: GD: " + goodreceipt.getId());
+        
+        goodreceipt.setSpe(spe);
+        System.out.println("StoreMovementControlBean:fromSupplierGoodReceipt(): persist: Set SPE");
+
+        goodreceipt.setSrpe(srpe);
+        System.out.println("StoreMovementControlBean:fromSupplierGoodReceipt(): persist: Set SRPE");
+
+        goodreceipt.setSe(store);
+        System.out.println("StoreMovementControlBean:fromSupplierGoodReceipt(): persist: Set S");
+        
+        
+
+        store.getGoodReceipts().add(goodreceipt);
+        
+        if(invType == 0){
+        spe.getGoodReceipts().add(goodreceipt);}
+        if(invType ==1){
+        srpe.getGoodReceipts().add(goodreceipt);}
+        
+        doe.setStatus("fulfilled");
+
+        goodreceipt.setDoe(doe);
+        fulfillAnPO(poId);
+        
+        em.flush();
+        
+        return 0;
+        }
+        catch (Exception e){
+            
+          System.err.println("SessionBean.IM.StoreMovementControl: fromFactoryGoodReceipts(): Failed. Caught an unexpected exception.");
+          e.printStackTrace();
+          return -1;
+        }
+    
+        
+    }
+    
+    
+    
+    private void fulfillAnPO(Long purchaseOrderId){
+     try{   
+     PurchaseOrderEntity poe = em.find(PurchaseOrderEntity.class,purchaseOrderId);
+     
+     Collection<DeliveryOrderEntity> doList = poe.getDeliveryOrderList();
+     Boolean notFulfilled = false;
+     for(DeliveryOrderEntity doe : doList){
+         DeliveryOrderEntity doee = doe;
+         {
+         if(doee.getStatus().equals("waiting")){
+             notFulfilled = true;
+             break;
+         }
+         }
+     }
+
+     if(!notFulfilled){
+         
+         poe.setStatus("accomplished");
+     }
+     
+     em.flush();
+     
+     }
+     catch (Exception e){
+          System.err.println("SessionBean.IM.StoreMovementControl: fulfillAnPO(): Failed. Caught an unexpected exception.");
+          e.printStackTrace();
+         
+         
+     }
+        
+        
+    }
     
     private int ProductmoveOutABin(Long storeId, Long storeBinId, Long storeProductId, Double quantity, Integer status){
         StoreWarehouseBinEntity storeBin = em.find(StoreWarehouseBinEntity.class, storeBinId);
@@ -650,5 +767,25 @@ public class StoreMovementControl implements StoreMovementControlLocal {
     
     }
     
+        
+    @Override
+     public Integer handleReturnedProductFromStore(Long recordId, Long storeBinId){
+        try{
+         ReturnedItemMovementRecordEntity record = em.find(ReturnedItemMovementRecordEntity.class, recordId);
+         Long storeProductId = record.getStoreProduct().getStoreProductId();
+         Long storeId = record.getStoreProduct().getStore().getStoreId();
+         Integer result = ProductmoveInABin(storeId, storeBinId, storeProductId, 1.0 , 1);
+         em.flush();
+         
+         return result;
+        }
+        
+        catch (Exception e){
+              System.err.println("SessionBean.IM.StoreMovementControl: handleReturnedProductFromStore(): Failed. Caught an unexpected exception.");
+          e.printStackTrace();
+            return -1;
+            
+        }
+     }
    
 }

@@ -6,6 +6,7 @@
 
 package Entity.Store.IM;
 
+import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
@@ -50,6 +51,9 @@ public class StoreGoodReceiptEntity implements Serializable {
     @OneToOne
     private OutboundMovementEntity ome = null;
     
+    @OneToOne
+    private DeliveryOrderEntity doe = null;
+    
     
     private Double orginalAmount;
     
@@ -85,6 +89,14 @@ public class StoreGoodReceiptEntity implements Serializable {
 
     public void setOme(OutboundMovementEntity ome) {
         this.ome = ome;
+    }
+
+    public DeliveryOrderEntity getDoe() {
+        return doe;
+    }
+
+    public void setDoe(DeliveryOrderEntity doe) {
+        this.doe = doe;
     }
 
     

@@ -10,6 +10,8 @@ import Entity.Factory.SCM.PurchaseOrderEntity;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,12 +25,12 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "viewIncomingInventoryFromSupplier")
 @ViewScoped
-public class ViewIncomingInventoryFromSupplier  implements Serializable{
+public class ViewIncomingInventoryFromSupplierBean  implements Serializable{
 
     /**
      * Creates a new instance of ViewIncomingInventoryFromSupplier
      */
-    public ViewIncomingInventoryFromSupplier() {
+    public ViewIncomingInventoryFromSupplierBean() {
     }
     
     
@@ -56,7 +58,7 @@ public class ViewIncomingInventoryFromSupplier  implements Serializable{
     
        public void ViewPODetail(PurchaseOrderEntity poe) throws IOException{
         selectedpoe = poe;
-       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPOE", selectedpoe);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPOE", selectedpoe);
         String path = "/secured/restricted/Store/IM/inComingInventoryFromSupplierDetail.xhtml";
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);
@@ -64,7 +66,16 @@ public class ViewIncomingInventoryFromSupplier  implements Serializable{
            
     }
     
+       
+    public String displayTime(Calendar calendarTime){ 
+           System.err.println("Calendar Time:" + calendarTime.getTime());
+           SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+           String time = sdf.format(calendarTime.getTime()).toString();
+           return time;
+    }
     
+    
+   
 
     public StoreMovementControlLocal getSmcl() {
         return smcl;

@@ -78,8 +78,8 @@
                             <p:menu>
                             <p:submenu label="Document Reference">
                                 <p:menuitem value="View Good Receipts"  outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="View Inbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInStoreMovementRecord.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="View In Store Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInboundMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View Inbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInboundMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View In Store Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInStoreMovementRecord.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Outbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreOutboundMovementRecord.xhtml?faces-redirect=true"/>
     
                             </p:submenu>
@@ -99,10 +99,7 @@
                                 <f:facet name="header">
                                     Store In Store Movement Record List
                                 </f:facet>
-                                <p:column headerText="Please Select" width="8%" >
-                                    <p:commandButton update=":formMain" oncomplete="PF('sproductDialog').show()" value="Detail" actionListener ="#{storeProductControl.selectProductToDetele(sproduct)}" >
-                                    </p:commandButton>
-                                </p:column>
+                              
 
                                 <p:column headerText="Id" width="8%" >
                                     <h:outputText value="SIMR#{gr.id}"  style="font-weight: bold" />    

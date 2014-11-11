@@ -123,7 +123,7 @@ public class StoreProductEntity implements Serializable {
         intransitInventory = 20D; //base
         onairInventory= 0D;
         warningOnAirInv = 0D;
-        
+       
         
     }
 

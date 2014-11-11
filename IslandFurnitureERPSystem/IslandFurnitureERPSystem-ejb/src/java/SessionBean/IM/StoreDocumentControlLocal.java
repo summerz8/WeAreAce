@@ -10,6 +10,7 @@ import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreInStoreMovementRecordEntity;
 import Entity.Store.IM.StoreInboundRecordEntity;
 import Entity.Store.IM.StoreOutboundRecordEntity;
+import Entity.Store.ReturnedItemMovementRecordEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -27,5 +28,7 @@ public interface StoreDocumentControlLocal {
     public List<StoreInStoreMovementRecordEntity> getStoreInStoreMovementRecord(Long storeId);
 
     public List<StoreOutboundRecordEntity> getStoreOutboundRecord(Long storeId);
+
+    public List<ReturnedItemMovementRecordEntity> getToProcessReturnIMRE(Long storeId);
     
 }

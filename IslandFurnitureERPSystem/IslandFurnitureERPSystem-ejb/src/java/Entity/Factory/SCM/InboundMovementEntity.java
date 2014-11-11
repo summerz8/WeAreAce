@@ -56,6 +56,7 @@ public class InboundMovementEntity /*extends FactoryMovementEntity*/ implements 
     private Calendar creationDate;
 
     public InboundMovementEntity() {
+    
     }
 
     public Long getInboundMovementId() {

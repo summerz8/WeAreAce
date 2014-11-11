@@ -72,17 +72,19 @@
 
 
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
-
-                        <p:menu>
-                            <p:submenu label="In Store Movement Management">
-                                <p:menuitem value="Create In Store Movement Record"  outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                           <p:menu>
+                            <p:submenu label="Inbound Movement Management">
+                                <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Create New Inbound Movement Record"   outcome="/secured/restricted/Store/IM/selectInboundRecordType.xhtml?faces-redirect=true" />
                             </p:submenu>
                         </p:menu>
+                        
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Create an new instore movement record" style="border:0px; margin-bottom" >
+                        <p:panel id="basic" header="Create an new good receipt" style="border:0px; margin-bottom" >
 
 
 
@@ -107,7 +109,7 @@
                                 </p:selectOneMenu>
                                  </p:column> 
                             
-                            <p:column rendered = "#{goodReceiptGenerateManually.invtype==0?true:false}" >
+                            <p:column rendered = "#{goodReceiptGenerateManually.invtype==0?false:true}" >
                                 <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
                                 <p:selectOneMenu id="selectRProduct" value="#{goodReceiptGenerateManually.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
 
@@ -119,34 +121,8 @@
                             <br></br>
                             
                             <br></br>
-                            
 
-                             
                             
-                            <p:column>
-                                <p:outputLabel value="Destionation Bins(To):" for="selectToBinP1" />
-                                <p:selectOneMenu id="selectToBinP1" value="#{goodReceiptGenerateManually.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px">  
-                                    <f:selectItems value="#{goodReceiptGenerateManually.binList}" var="f" itemLabel="Id : #{f.id} | Name: #{f.name}" itemValue="#{f}" />
-                            
-                                </p:selectOneMenu>
-                            </p:column> 
-                             
-                             <br></br>
-                            
-                            <br></br>
-                              <p:column>
-                          
-                             <p:outputLabel for="console4" value="Inventory Status: " />
-                             <p:selectOneRadio id="console4" value="#{goodReceiptGenerateManually.selectedDestinationStatus}" required = "true" >
-                                  <f:selectItem itemLabel="Unrestricted" itemValue="0" />
-                                <f:selectItem itemLabel="Returned" itemValue="1" />
-                                
-                            </p:selectOneRadio>
-                              </p:column>
-                             <br></br>
-                            
-                            <br></br>
-                             
                              <p:column>
                                 <p:outputLabel value="Transferred Amount :   " for="taId" />
                                 <p:inputText id = "taId" required ="true" label ="Transferred Amount :   " requiredMessage ="It cannot be blank." value ="#{goodReceiptGenerateManually.quantity}" >
@@ -159,7 +135,7 @@
                              
  
 
-                            <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
+                            <p:column>
                                 <p:commandButton  value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
                             </p:column>
                             
@@ -177,7 +153,7 @@
                                     <br> </br>
 
                                     <br> </br>
-                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{inStoreMovementBean.confrimMovement}" update = ":formMain"  >
+                                    <p:commandButton   title = "Confirm"  value ="Confrim" actionListener = "#{goodReceiptGenerateManually.confrimGoodReceipt}" update = ":formMain"  >
 
                                     </p:commandButton> 
 

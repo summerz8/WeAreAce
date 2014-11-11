@@ -518,10 +518,41 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
             return null;
            
     }
+       
+        }     
+       
+    @Override
+    public List<StoreBinProductEntity> getReturnedProduct(Long storeId){
         
-
+        Query q = em.createQuery("Select sb From StoreBinProductEntity sb Where sb.status = 1 and sb.swe.store.storeId = :sId");
+        q.setParameter("sId", storeId);
+        List<StoreBinProductEntity>  resultList = new ArrayList<>();
+        for(Object o : q.getResultList()){
+            
+            StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+            resultList.add(sbpe);
+        }
+        return resultList;
+   
+        
     }
+          
     
-    
+        public List<StoreBinRetailProductEntity> getReturnedRProduct(Long storeId){
+        
+        Query q = em.createQuery("Select sb From StoreBinRetailProductEntity sb Where sb.status = 1 and sb.swe.store.storeId = :sId");
+        q.setParameter("sId", storeId);
+        List<StoreBinRetailProductEntity>  resultList = new ArrayList<>();
+        for(Object o : q.getResultList()){
+            
+            StoreBinRetailProductEntity sbpe = (StoreBinRetailProductEntity) o;
+            resultList.add(sbpe);
+        }
+        return resultList;
+   
+        
+    }
+       
+  
     
 }

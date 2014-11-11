@@ -99,10 +99,7 @@
                                 <f:facet name="header">
                                     Store Inbound Movement Record List
                                 </f:facet>
-                                <p:column headerText="Please Select" width="8%" >
-                                    <p:commandButton update=":formMain" oncomplete="PF('sproductDialog').show()" value="Detail" actionListener ="#{storeProductControl.selectProductToDetele(sproduct)}" >
-                                    </p:commandButton>
-                                </p:column>
+                              
 
                                 <p:column headerText="Id" width="8%" >
                                     <h:outputText value="SIBM#{gr.id}"  style="font-weight: bold" />    

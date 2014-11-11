@@ -131,23 +131,21 @@
                                     <p:dataTable id ="currentS" var="po" value="#{viewIncomingInventoryFromSupplier.incomingInventoryfromSupplier}"  >
 
 
-                                        <!--                                <f:facet name="header">
-                                                                            Incoming Inventory from Factory 
-                                                                        </f:facet>-->
+                                       
                                         <p:column headerText="Record Id" width="8%" >
                                             <h:outputText value="PO#{po.id}"  style="font-weight: bold" />    
                                         </p:column>        
-                                        <p:column headerText="Store Retail Product Id(need convert to store)" width="8%" >
+                                        <p:column headerText="Store Retail Product Id" width="8%" >
                                             <h:outputText value="#{viewIncomingInventoryFromSupplier.convertRProduct(po.contract.factoryRetailProduct.factoryRetailProdctId)}"  style="font-weight: bold" />    
                                         </p:column>
 
                                         <p:column headerText="Date" width="10%">
-                                            <h:outputText value="#{po.createDate}" style="font-weight: bold" /> 
+                                            <h:outputText value="#{viewIncomingInventoryFromSupplier.displayTime(po.createDate)}" style="font-weight: bold" /> 
                                         </p:column>
                                         <p:column headerText="Name" width="10%">
                                             <h:outputText value="#{po.itemName}" style="font-weight: bold" /> 
                                         </p:column>
-                                        <p:column headerText="Quantity" width="10%" rendered = "#{po.isManual}">
+                                        <p:column headerText="Total Amount" width="10%" rendered = "#{po.isManual}">
                                             <h:outputText value="#{po.totalAmount}" style="font-weight: bold" /> 
                                         </p:column>
                                         <p:column headerText="Fulfillment" width="10%" >

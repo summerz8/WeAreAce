@@ -107,7 +107,7 @@
                                 </p:selectOneMenu>
                             </p:column> 
                             
-                            <p:column rendered = "#{inStoreMovementBean.invtype == 0? false:true}" >
+                            <p:column rendered = "#{inStoreMovementBean.invtype == 1? true:false}" >
                                 <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
                                 <p:selectOneMenu id="selectRProduct" value="#{inStoreMovementBean.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
                                     
@@ -132,7 +132,7 @@
                                 </p:selectOneMenu>
                             </p:column> 
                             
-                            <p:column rendered = "#{inStoreMovementBean.invtype == 0? false:true}">
+                            <p:column rendered = "#{inStoreMovementBean.invtype == 1? true:false}">
                                 <p:outputLabel value="Store Bins(From):" for="selectPBinRP" />
                                 <p:selectOneMenu id="selectPBinRP" value="#{inStoreMovementBean.sleectedtb}" converter="rproductBinConverter"  effect="fade" style="width:160px" >
                                     <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
