@@ -118,7 +118,7 @@
                             <h:outputLabel for="ipoAmount" value="Order Request Amount:"  style="font-size: 120%"/>
                             <h:outputText id="ipoAmount" value="#{displayContractForSelectedSupplierIPO.purchaseAmount}"/>
                             <h:outputLabel for="input" value="Please Input the Planned Inventory of this item in the Factory at end of next month: " style="font-size: 120%"/>
-                            <h:inputText  id="input" value="#{displayContractForSelectedSupplierIPO.nextMonthBeginPlannedAmount}"/>
+                            <h:inputText  id="input" value="#{displayContractForSelectedSupplierIPO.nextMonthBeginPlannedAmount}" required="true"/>
 
                             <p:commandButton action="#{displayPlannedOrderDeliveryAmountAndDate.displayPlannedDeliveryOrders()}" value="Submit"></p:commandButton>
                         </h:panelGrid>
