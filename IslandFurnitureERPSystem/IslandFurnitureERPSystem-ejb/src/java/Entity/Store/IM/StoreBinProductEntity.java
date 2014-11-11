@@ -26,10 +26,18 @@ public class StoreBinProductEntity implements Serializable {
     private Long id;
     private Double quantity;
     private Boolean isDeleted = false;
-    private Integer status;  //status: 0 unrestricted 1 returned 2 intransit  
+    private Integer status;  //status: 0 unrestricted 1 returned 2 intransit 
+    
+    @ManyToOne
+    private StoreWarehouseBinEntity swe;
     
     @ManyToOne
     private StoreProductEntity product;
+
+    public StoreBinProductEntity() {
+    }
+    
+    
 
     public Integer getStatus() {
         return status;
@@ -37,6 +45,14 @@ public class StoreBinProductEntity implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public StoreWarehouseBinEntity getSwe() {
+        return swe;
+    }
+
+    public void setSwe(StoreWarehouseBinEntity swe) {
+        this.swe = swe;
     }
     
     

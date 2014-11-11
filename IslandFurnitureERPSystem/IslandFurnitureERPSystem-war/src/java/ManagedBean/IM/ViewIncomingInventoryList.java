@@ -12,6 +12,7 @@ import Entity.Store.StoreProductEntity;
 import SessionBean.IM.StoreInventoryControl;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -28,7 +29,7 @@ import javax.inject.Named;
  */
 @Named(value = "viewIncomingInventoryList")
 @ViewScoped
-public class ViewIncomingInventoryList {
+public class ViewIncomingInventoryList  implements Serializable{
 
     /**
      * Creates a new instance of ViewIncomingInventoryList

@@ -12,6 +12,7 @@ import Entity.Store.StoreEntity;
 import Entity.Store.StoreRetailProductEntity;
 import ManagedBean.SCM.AddFactoryProduct;
 import SessionBean.IM.StoreInventoryControlLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,7 +32,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeRetailProductControl")
 @ViewScoped
-public class StoreRetailProductControlBean {
+public class StoreRetailProductControlBean  implements Serializable {
 
     /**
      * Creates a new instance of StoreRetailProductControl

@@ -6,6 +6,7 @@
 
 package Entity.Store.IM;
 
+import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
@@ -42,6 +43,9 @@ public class StoreOutboundRecordEntity implements Serializable {
     
     @ManyToOne
     private StoreProductEntity storeProduct = null;
+    
+    @ManyToOne
+    private StoreEntity store;
 
     public StoreOutboundRecordEntity() {
     }
@@ -70,6 +74,14 @@ public class StoreOutboundRecordEntity implements Serializable {
 
     public void setCreationTime(Calendar creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
 
 

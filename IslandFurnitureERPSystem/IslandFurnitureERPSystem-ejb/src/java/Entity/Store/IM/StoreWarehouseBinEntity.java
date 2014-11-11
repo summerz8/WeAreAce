@@ -37,10 +37,10 @@ public class StoreWarehouseBinEntity implements Serializable {
    
     
 
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "swe")
     private Collection<StoreBinProductEntity> storeBinProducts;
     
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "swe")
     private Collection<StoreBinRetailProductEntity> storeBinRetailProducts;
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")

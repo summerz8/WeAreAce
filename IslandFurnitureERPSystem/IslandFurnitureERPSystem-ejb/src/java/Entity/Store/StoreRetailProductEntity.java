@@ -73,6 +73,13 @@ public class StoreRetailProductEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "srpe")
     private List<StoreGoodReceiptEntity> goodReceipts;
     
+    
+        //new attribute
+    private Double onairInventory;
+    
+    private Double warningOnAirInv;
+    
+    
 
     public StoreRetailProductEntity() {
     }
@@ -97,8 +104,28 @@ public class StoreRetailProductEntity implements Serializable {
         this.storeRemark = storeRemark;
         this.deleteFlag = false;
         goodReceipts = new ArrayList<>();
-        intransitInventory = 0D;
+        intransitInventory = 20D;
+        onairInventory= 0D;
+        warningOnAirInv = 0D;
+        
     }
+
+    public Double getOnairInventory() {
+        return onairInventory;
+    }
+
+    public void setOnairInventory(Double onairInventory) {
+        this.onairInventory = onairInventory;
+    }
+
+    public Double getWarningOnAirInv() {
+        return warningOnAirInv;
+    }
+
+    public void setWarningOnAirInv(Double warningOnAirInv) {
+        this.warningOnAirInv = warningOnAirInv;
+    }
+    
     
 
     public List<StoreGoodReceiptEntity> getGoodReceipts() {

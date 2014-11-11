@@ -1,12 +1,203 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                        <p:menu>
+                            <p:submenu label="In Store Movement Management">
+                                <p:menuitem value="Create In Store Movement Record"  outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Create an new instore movement record" style="border:0px; margin-bottom" >
+
+
+
+                            <p:outputLabel for="console" value="Inventory Type: " />
+                            <p:selectOneRadio id="console" value="#{goodReceiptGenerateManually.invtype}" required = "true" >
+                                <f:selectItem itemLabel="Product" itemValue="0" />
+                                <f:selectItem itemLabel="Retail Product" itemValue="1" />
+                                <p:ajax update=":formMain" listener="#{goodReceiptGenerateManually.putInvType()}" />
+                            </p:selectOneRadio>
+                            
+                            
+
+                            <p:column rendered = "#{goodReceiptGenerateManually.isIsSelectedType()? true:false}" >
+                                
+                                <p:column rendered = "#{goodReceiptGenerateManually.invtype==0?true:false}">
+                                <p:outputLabel value="Store Product:" for="selectProduct" />
+                                <p:selectOneMenu id="selectProduct" value="#{goodReceiptGenerateManually.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
+
+                                    <f:selectItems value="#{goodReceiptGenerateManually.getpList()}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                  
+
+                                </p:selectOneMenu>
+                                 </p:column> 
+                            
+                            <p:column rendered = "#{goodReceiptGenerateManually.invtype==0?true:false}" >
+                                <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
+                                <p:selectOneMenu id="selectRProduct" value="#{goodReceiptGenerateManually.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+
+                                    <f:selectItems value="#{goodReceiptGenerateManually.rpList}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                   
+                                </p:selectOneMenu>
+                            </p:column>  
+                            
+                            <br></br>
+                            
+                            <br></br>
+                            
+
+                             
+                            
+                            <p:column>
+                                <p:outputLabel value="Destionation Bins(To):" for="selectToBinP1" />
+                                <p:selectOneMenu id="selectToBinP1" value="#{goodReceiptGenerateManually.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px">  
+                                    <f:selectItems value="#{goodReceiptGenerateManually.binList}" var="f" itemLabel="Id : #{f.id} | Name: #{f.name}" itemValue="#{f}" />
+                            
+                                </p:selectOneMenu>
+                            </p:column> 
+                             
+                             <br></br>
+                            
+                            <br></br>
+                              <p:column>
+                          
+                             <p:outputLabel for="console4" value="Inventory Status: " />
+                             <p:selectOneRadio id="console4" value="#{goodReceiptGenerateManually.selectedDestinationStatus}" required = "true" >
+                                  <f:selectItem itemLabel="Unrestricted" itemValue="0" />
+                                <f:selectItem itemLabel="Returned" itemValue="1" />
+                                
+                            </p:selectOneRadio>
+                              </p:column>
+                             <br></br>
+                            
+                            <br></br>
+                             
+                             <p:column>
+                                <p:outputLabel value="Transferred Amount :   " for="taId" />
+                                <p:inputText id = "taId" required ="true" label ="Transferred Amount :   " requiredMessage ="It cannot be blank." value ="#{goodReceiptGenerateManually.quantity}" >
+                                </p:inputText>
+                              </p:column> 
+                            
+                            <br></br>
+                            
+                            <br></br>
+                             
+ 
+
+                            <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
+                                <p:commandButton  value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
+                            </p:column>
+                            
+                            </p:column>
+                            
+                           
+
+
+
+                            <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="toconfrim" style="text-align:center;">
+                                    Confirm creating the record? 
+                                    <br> </br>
+
+                                    <br> </br>
+                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{inStoreMovementBean.confrimMovement}" update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('confrimationDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
 </html>
+
 

@@ -133,12 +133,21 @@
                                     <p:selectBooleanCheckbox value="#{storeProductControl.isSelfPicked}" />
                                     <br></br>
                                     <br></br>
+                                    <h:outputText value="Minimum Inventory Level:" />
+                                    <h:inputText value ="#{storeProductControl.minimumInv}"/>
+                                    <br></br>
+                                    <br></br>
+                                    
+                                    <h:outputText value="Minimum Offering Level(:" />
+                                    <h:inputText value ="#{storeProductControl.onAirInventory}"/>
+                                    <br></br>
+                                    <br></br>
                                     <h:outputText value="Remark:" />
                                     <h:inputText value ="#{storeProductControl.remark}"/>
                                     <br></br>
                                     
 
-                                    <p:commandButton ajax="true" title = "Confirm"  oncomplete = "PF('msgDialog').show()" value = "Add the product" 
+                                    <p:commandButton ajax="true" title = "Confirm"   value = "Add the product" 
                                         actionListener="#{storeProductControl.addStoreProduct}" update = ":formMain"  >
                                     </p:commandButton> 
 

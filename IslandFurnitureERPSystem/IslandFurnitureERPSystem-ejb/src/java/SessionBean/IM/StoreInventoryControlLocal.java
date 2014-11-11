@@ -11,6 +11,7 @@ import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
 import Entity.Store.IM.StoreBinProductEntity;
+import Entity.Store.IM.StoreBinRetailProductEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.util.List;
@@ -27,7 +28,7 @@ public interface StoreInventoryControlLocal {
 
     public List<ProductEntity> getListOfProductNotInStore(Long storeId);
 
-    public int addNewStoreProduct(Long storeId, Long productId, Long factoryProductId, Boolean isSelfPicked, String storeRemark);
+    public int addNewStoreProduct(Long storeId, Long productId, Long factoryProductId, Boolean isSelfPicked, String storeRemark, Double minimumInv, Double onAirInventory);
 
     public int deleteStoreProduct(Long storeId, Long storeProductId, Long factoryProductId);
 
@@ -52,5 +53,7 @@ public interface StoreInventoryControlLocal {
     public List<StoreProductEntity> getHaveStockP(Long storeId);
 
     public List<StoreBinProductEntity> getProductStorageInformation(Long productId);
+
+    public List<StoreBinRetailProductEntity> getRProductStorageInformation(Long productId);
     
 }

@@ -11,6 +11,7 @@ import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import SessionBean.IM.StoreBinControlLocal;
 import SessionBean.IM.StoreInventoryControlLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,7 +29,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeBinControl")
 @ViewScoped
-public class StoreBinControlBean {
+public class StoreBinControlBean  implements Serializable{
 
     /**
      * Creates a new instance of StoreBinControl

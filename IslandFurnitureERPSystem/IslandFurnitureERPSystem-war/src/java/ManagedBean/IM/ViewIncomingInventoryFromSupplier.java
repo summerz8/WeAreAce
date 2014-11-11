@@ -9,6 +9,7 @@ package ManagedBean.IM;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,7 +23,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "viewIncomingInventoryFromSupplier")
 @ViewScoped
-public class ViewIncomingInventoryFromSupplier {
+public class ViewIncomingInventoryFromSupplier  implements Serializable{
 
     /**
      * Creates a new instance of ViewIncomingInventoryFromSupplier

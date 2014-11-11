@@ -51,17 +51,21 @@ public class StoreGoodReceiptEntity implements Serializable {
     private OutboundMovementEntity ome = null;
     
     
+    private Double orginalAmount;
+    
+    
     
     public StoreGoodReceiptEntity(){
         
         
     }
     
-    public StoreGoodReceiptEntity (Integer inventoryType, Double receivedAmount, Calendar creationTime){
+    public StoreGoodReceiptEntity (Integer inventoryType, Double receivedAmount,Double orginalAmount, Calendar creationTime){
         
         this.inventoryType = inventoryType;
         this.receivedAmount = receivedAmount;
         this.creationTime = creationTime;
+        this.orginalAmount = orginalAmount;
         
     }
     
@@ -132,6 +136,14 @@ public class StoreGoodReceiptEntity implements Serializable {
 
     public void setSe(StoreEntity se) {
         this.se = se;
+    }
+
+    public Double getOrginalAmount() {
+        return orginalAmount;
+    }
+
+    public void setOrginalAmount(Double orginalAmount) {
+        this.orginalAmount = orginalAmount;
     }
 
     

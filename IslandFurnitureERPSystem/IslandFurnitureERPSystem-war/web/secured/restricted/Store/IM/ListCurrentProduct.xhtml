@@ -10,6 +10,14 @@
             <h:outputStylesheet name="./css/default.css"/>
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
+            <style type="text/css">
+            .old {
+                background-color: #f54747 !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+            
+        </style>
         </h:head>
 
         <h:body>
@@ -88,7 +96,8 @@
 
                             <p:button outcome="/secured/restricted/Store/IM/AddGlobalProductIntoStoreProduct.xhtml?faces-redirect=true" value ="Add New Product"/>
 
-                            <p:dataTable id ="current" var="sproduct" value="#{storeProductControl.currentStoreProductList}" editable="true" >
+                            <p:dataTable id ="current" var="sproduct" value="#{storeProductControl.currentStoreProductList}" editable="true"  rowStyleClass="#{sproduct.unrestrictedInventory le sproduct.minimumInventory ?'old':null}" >
+                                
 
                                 <p:ajax event="rowEdit" listener="#{storeProductControl.onRowEdit}"  />
                                 <p:ajax event="rowEditCancel" listener="#{storeProductControl.onRowCancel}"  />
@@ -96,12 +105,12 @@
                                 <f:facet name="header">
                                     Store Product List 
                                 </f:facet>
-                                <p:column headerText="Please Select Here" width="10%" >
+                                <p:column headerText="Please Select" width="11%" >
                                     <p:commandButton update=":formMain" oncomplete="PF('sproductDialog').show()" value="Delete" actionListener ="#{storeProductControl.selectProductToDetele(sproduct)}" >
                                     </p:commandButton>
                                 </p:column>
 
-                                <p:column headerText="Global Product Id" width="8%" >
+                                <p:column headerText="Global Id" width="5%" >
                                     <h:outputText value="#{sproduct.product.productId}"  style="font-weight: bold" />    
                                 </p:column>
 
@@ -118,15 +127,15 @@
 
                                
 
-                                <p:column headerText="Available Inventory" width="10%">
+                                <p:column headerText="Unrestricted Inventory" width="12%">
                                     <h:outputText value="#{sproduct.unrestrictedInventory}" style="font-weight: bold" /> 
                                 </p:column>
 
-                                <p:column headerText="Returned Inventory" width="10%">
+                                <p:column headerText="Returned Inventory" width="12%">
                                     <h:outputText value="#{sproduct.returnedInventory}" style="font-weight: bold" /> 
                                 </p:column>
 
-                                <p:column headerText="Minimum Inventory" width="10%">
+                                <p:column headerText="Minimum Inventory" width="12%">
                                     <p:cellEditor> 
 
                                         <f:facet name="output"> <h:outputText value="#{sproduct.minimumInventory}" style="font-weight: bold" /> </f:facet>
@@ -136,13 +145,42 @@
 
                                 </p:column>
                                 
+                                
+                                
+                                <p:column headerText="Warining Inventory" width="10%">
+                                    <p:cellEditor> 
 
-                                <p:column headerText="Remark" width="30%">
+                                        <f:facet name="output"> <h:outputText value="#{sproduct.warningOnAirInv}" style="font-weight: bold" /> </f:facet>
+                                        <f:facet name="input"><p:inputText value="#{sproduct.warningOnAirInv}" required="true"/> </f:facet>
+
+                                    </p:cellEditor>
+
+                                </p:column>
+                                
+
+                                <p:column headerText="Remark" width="20%">
                                     
 
-                                        <f:facet name="output"><h:outputText value="#{sproduct.storeRemark}" style="font-weight: bold" /></f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{sproduct.storeRemark}" style="font-weight: bold" /></f:facet>
                                      
                                 </p:column>
+                                
+<!--                                <p:column headerText="Supplying Factory" width="10%">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText  value="#{sproduct.factoryProduct}" /></f:facet>
+                                        
+                                        <f:facet name="input">
+                                            <p:selectOneMenu id="selectAvailableFactory" value="#{sproduct.factoryProduct}" converter="factoryConverter"  effect="fade" style="width:160px">  
+                                                <f:selectItems value="#{storeProductControl.selectAvailableFactory(sproduct.product)}" var="f" itemLabel="#{f.factoryProductId}" itemValue="#{f}" />
+                                             </p:selectOneMenu>
+                                        </f:facet>
+
+                                    
+                                    </p:cellEditor>
+                                    
+                                </p:column>-->
+                                
                                 <p:column headerText = "Edit" style="width:32px">
                                     <p:rowEditor />
                                 </p:column>

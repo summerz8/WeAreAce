@@ -35,5 +35,7 @@ public interface StoreMovementControlLocal {
     public void fromFactoryGoodReceipts(Long outboungMovementId, Long inventoryId, Integer invType, Double quantity, Long storeId);
 
     public int inboundMovement(Long storeId, Long storeBinId, Integer invType,  Long storeProductId, Double quantity, Integer status);
+
+    public int inStoreMovement(Long storeId, Integer productType, Long inId, Integer oldStatus, Integer newStatus, Long oldBId, Long newBId, Double quantity);
     
 }

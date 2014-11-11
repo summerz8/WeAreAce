@@ -11,6 +11,7 @@ import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import SessionBean.IM.StoreMovementControlLocal;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpSession;
  */
 @Named(value = "viewOmeDetail")
 @ViewScoped
-public class ViewOmeDetail {
+public class ViewOmeDetail  implements Serializable{
 
     /**
      * Creates a new instance of ViewOmeDetail

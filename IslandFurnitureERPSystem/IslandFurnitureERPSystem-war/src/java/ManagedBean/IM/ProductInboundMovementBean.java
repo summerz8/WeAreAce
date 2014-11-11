@@ -12,6 +12,7 @@ import SessionBean.IM.StoreBinControlLocal;
 import SessionBean.IM.StoreInventoryControlLocal;
 import SessionBean.IM.StoreMovementControlLocal;
 import java.awt.ActiveEvent;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -27,7 +28,7 @@ import javax.inject.Named;
  */
 @Named(value = "productInboundMovementBean")
 @ViewScoped
-public class ProductInboundMovementBean {
+public class ProductInboundMovementBean implements Serializable {
 
     /**
      * Creates a new instance of ProductInboundMovementBean

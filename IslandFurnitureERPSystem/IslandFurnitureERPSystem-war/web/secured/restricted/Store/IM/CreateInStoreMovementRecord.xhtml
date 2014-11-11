@@ -74,65 +74,142 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
-                            <p:submenu label="Inbound Movement Management">
-                                <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
-                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Create New Inbound Movement Record"   outcome="/secured/restricted/Store/IM/selectInboundRecordType.xhtml?faces-redirect=true" />
+                            <p:submenu label="In Store Movement Management">
+                                <p:menuitem value="Create In Store Movement Record"  outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
                             </p:submenu>
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Create an new inbound store movement record" style="border:0px; margin-bottom" >
-                            
-                         
-                              
-                            <p:outputLabel for="console" value="Console:" />
+                        <p:panel id="basic" header="Create an new instore movement record" style="border:0px; margin-bottom" >
+
+
+
+                            <p:outputLabel for="console" value="Inventory Type: " />
                             <p:selectOneRadio id="console" value="#{inStoreMovementBean.invtype}" required = "true" >
                                 <f:selectItem itemLabel="Product" itemValue="0" />
                                 <f:selectItem itemLabel="Retail Product" itemValue="1" />
-                                 <p:ajax update=":formMain" listener="#{inStoreMovementBean.setInvType}" />
+                                <p:ajax update=":formMain" listener="#{inStoreMovementBean.setInvType}" />
+                            </p:selectOneRadio>
+                            
+                            
+
+                            <p:column rendered = "#{inStoreMovementBean.invtype == 0? true:false}" >
+                                
+                                <p:outputLabel value="Store Product:" for="selectProduct" />
+                                <p:selectOneMenu id="selectProduct" value="#{inStoreMovementBean.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
+<!--                                   <f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                    <f:selectItems value="#{inStoreMovementBean.getpList()}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                    <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.getAvailableBinList}" update=":formMain" />
 
 
-                             </p:selectOneRadio>
-                              
-                                   <p:column rendered = "#{inStoreMovementBean.invtype == 0? true:false}" >
-                                    <p:outputLabel value="Store Product:" for="selectProduct" />
-                                    <p:selectOneMenu id="selectProduct" value="#{inStoreMovementBean.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{inStoreMovementBean.getpList()}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                </p:selectOneMenu>
+                            </p:column> 
+                            
+                            <p:column rendered = "#{inStoreMovementBean.invtype == 0? false:true}" >
+                                <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
+                                <p:selectOneMenu id="selectRProduct" value="#{inStoreMovementBean.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
                                     
-                                    </p:selectOneMenu>
-                                  </p:column>  
-                                   <p:column rendered = "#{inStoreMovementBean.invtype == 0? false:true}" >
-                                    <p:outputLabel value="From :" for="fromBin1" />
-                                    <p:selectOneMenu id="fromBin1" value="#{inStoreMovementBean.selectedrp}" converter="sProductConverter"  effect="fade" style="width:160px" >
-                                        <f:selectItems value="#{inStoreMovementBean.getRpList()}" var="f" itemLabel="Id : #{f.storeRetailProductId} | Name: #{f.name}" itemValue="#{f}" />
-                                       
-                                    </p:selectOneMenu>
-                                  </p:column> 
+                                    <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                    <f:selectItems value="#{inStoreMovementBean.rpList}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.getAvailableBinList}" update=":formMain" />
+
+                                </p:selectOneMenu>
+                            </p:column>  
                             
+                            <br></br>
                             
-                                 
-                                  
-                                   
-                                   
-                                   
-                                   
-                                   
-                                   
+                            <br></br>
+                            
+                            <p:column rendered = "#{inStoreMovementBean.invtype == 0? true:false}">
+                                <p:outputLabel value="Store Bins(From):" for="selectPBinP" />
+                                <p:selectOneMenu id="selectPBinP" value="#{inStoreMovementBean.selectedfb}" converter="productBinConverter"  effect="fade" style="width:160px" >
+                                    <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                    <f:selectItems value="#{inStoreMovementBean.fromBinP}" var="f" itemLabel="Id : #{f.swe.id} | Name: #{f.swe.name} | Status: #{inStoreMovementBean.convertStatus(f.status)}" itemValue="#{f}" />
+                                    <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.selectFromBin}" update=":formMain" />
+
+                                </p:selectOneMenu>
+                            </p:column> 
+                            
+                            <p:column rendered = "#{inStoreMovementBean.invtype == 0? false:true}">
+                                <p:outputLabel value="Store Bins(From):" for="selectPBinRP" />
+                                <p:selectOneMenu id="selectPBinRP" value="#{inStoreMovementBean.sleectedtb}" converter="rproductBinConverter"  effect="fade" style="width:160px" >
+                                    <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                    <f:selectItems value="#{inStoreMovementBean.fromBinRP}" var="f" itemLabel="Id : #{f.swe.id} | Name: #{f.swe.name} | Status: #{inStoreMovementBean.convertStatus(f.status)}" itemValue="#{f}" />
+                                    <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.selectFromBin}" update=":formMain" />
+
+                                </p:selectOneMenu>
+                            </p:column> 
+                            <br></br>
+                            
+                            <br></br>
+                            
+                            <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
+                                <p:outputLabel value="Quantity at the selected Bin:   " for="qATbin"  rendered = "#{inStoreMovementBean.invtype == 0? true:false}" />
+                                
+                                <h:outputText id = "qATbin" value ="#{inStoreMovementBean.selectedfb.quantity}" rendered = "#{inStoreMovementBean.invtype == 0? true:false}"/>
+                                <p:outputLabel value="Quantity at the selected Bin:   " for="qATbin2" rendered = "#{inStoreMovementBean.invtype == 0? false:true}" />
+                                
+                                <h:outputText id = "qATbin2" value ="#{inStoreMovementBean.sleectedtb.quantity}" rendered = "#{inStoreMovementBean.invtype == 0? false:true}"/>
+                               
+                            </p:column> 
+                             <br></br>
+                             <br></br>
                              
-                                   
-                                   
-                                   
-                                   
+                             <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
+                             <p:outputLabel for="console2" value="Destination Bin Type: " />
+                             <p:selectOneRadio id="console2" value="#{inStoreMovementBean.selectedDestinationBinType}" required = "true" >
+                                 <f:selectItems value="#{inStoreMovementBean.destinationBinType}" var="c" itemLabel="#{inStoreMovementBean.convertDestinationType(c)}" itemValue="#{c}"/>
+                                <p:ajax update=":formMain" listener="#{inStoreMovementBean.setDestinationType}" />
+
+                               
+                            </p:selectOneRadio>
+                             </p:column>
+                             
+                             <br></br>
+                             <br></br>
+                             
+                             
+                            
+                            <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
+                                <p:outputLabel value="Destionation Bins(To):" for="selectToBinP1" />
+                                <p:selectOneMenu id="selectToBinP1" value="#{inStoreMovementBean.selectedTb}" converter="sBinConverter"  effect="fade" style="width:160px">  
+                                    <f:selectItems value="#{inStoreMovementBean.toBins}" var="f" itemLabel="Id : #{f.id} | Name: #{f.name}" itemValue="#{f}" />
+                            
+                                </p:selectOneMenu>
+                            </p:column> 
+                             
+                             <br></br>
+                            
+                            <br></br>
+                              <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
                           
-                            <p:column>
+                             <p:outputLabel for="console4" value="Inventory Status: " />
+                             <p:selectOneRadio id="console4" value="#{inStoreMovementBean.selectedDestinationStatus}" required = "true" >
+                                 <f:selectItems value="#{inStoreMovementBean.destinationBinStatus}" var="c" itemLabel="#{inStoreMovementBean.convertStatus(c)}" itemValue="#{c}"/>
+                             
+                                
+                            </p:selectOneRadio>
+                              </p:column>
+                             <br></br>
+                            
+                            <br></br>
+                             
+                             <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
+                                <p:outputLabel value="Transferred Amount :   " for="taId" />
+                                <p:inputText id = "taId" required ="true" label ="Transferred Amount :   " requiredMessage ="It cannot be blank." value ="#{inStoreMovementBean.quantity}" >
+                                </p:inputText>
+                              </p:column> 
+                            
+ 
+
+                            <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
                                 <p:commandButton  value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
                             </p:column>
-                            
-                            
-                           
+
+
+
                             <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
                                       draggable="true" closable="true" width="300">
@@ -140,30 +217,8 @@
                                     Confirm creating the record? 
                                     <br> </br>
 
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Store Product:" for="c1" />
-                                            <h:outputText id="c1" value="(#{productInboundMovementBean.selectedProduct.storeProductId})#{productInboundMovementBean.selectedProduct.name}" style="font-weight: bold" /> 
-
-                                        </p:column>  
-                                    </p:row>
                                     <br> </br>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Destination Bin:" for="c2" />
-                                            <h:outputText id="c2" value="(#{productInboundMovementBean.selectedBin.id})#{productInboundMovementBean.selectedBin.name}" style="font-weight: bold" /> 
-                                        </p:column>  
-                                    </p:row>
-                                    <br> </br>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Quantity:" for="c3" />
-                                            <h:outputText id="c3" value="#{productInboundMovementBean.quantity}" style="font-weight: bold" /> 
-                                        </p:column>  
-                                    </p:row>
-
-                                    <br> </br>
-                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{productInboundMovementBean.confrimResult}" update = ":formMain"  >
+                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{inStoreMovementBean.confrimMovement}" update = ":formMain"  >
 
                                     </p:commandButton> 
 

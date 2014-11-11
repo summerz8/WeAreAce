@@ -30,6 +30,24 @@ public class StoreBinRetailProductEntity implements Serializable {
     @ManyToOne
     private StoreRetailProductEntity retailProduct;
 
+    
+    @ManyToOne
+    private StoreWarehouseBinEntity swe;
+
+    public StoreBinRetailProductEntity() {
+    }
+    
+    
+
+    public StoreWarehouseBinEntity getSwe() {
+        return swe;
+    }
+
+    public void setSwe(StoreWarehouseBinEntity swe) {
+        this.swe = swe;
+    }
+    
+    
     public Long getId() {
         return id;
     }

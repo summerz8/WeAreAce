@@ -28,7 +28,6 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
-import Entity.Store.OCRM.MemberEntity;
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.ComboItemEntity;
 import Entity.Kitchen.DailySalesEntity;
@@ -40,8 +39,10 @@ import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
-import Entity.Store.OCRM.MemberCardIdMappingEntity;
+import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.MemberCardIdMappingEntity;
+import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
@@ -2200,7 +2201,30 @@ public class dataSetUp {
         
         
         
-        //=========Outbound Movement =========
+        //=========Warehouse Bin=========
+        StoreWarehouseBinEntity sb1 = new StoreWarehouseBinEntity("1-1","Living Room",true,false,false);
+        em.persist(sb1);
+        sb1.setStore(s1);
+        StoreWarehouseBinEntity sb2 = new StoreWarehouseBinEntity("1-2","Bed Room",true,false,false);
+        em.persist(sb2);
+        sb2.setStore(s1);
+        StoreWarehouseBinEntity sb3 = new StoreWarehouseBinEntity("1-1","Living Room",false,false,true);
+        em.persist(sb3);
+        sb3.setStore(s1);
+        StoreWarehouseBinEntity sb4 = new StoreWarehouseBinEntity("1-3","Wash Room",true,false,false); 
+        em.persist(sb4);
+        sb4.setStore(s1);
+        StoreWarehouseBinEntity sb5 = new StoreWarehouseBinEntity("1-1","Heavy Product",false,true,false); 
+        em.persist(sb5);
+        sb5.setStore(s1);
+        StoreWarehouseBinEntity sb6 = new StoreWarehouseBinEntity("3-2","AAAAAA 22222",false,true,false); 
+        em.persist(sb6);
+        sb6.setStore(s1);
+        StoreWarehouseBinEntity sb7 = new StoreWarehouseBinEntity("2-2","bbbbb 2222",false,false,true); 
+        em.persist(sb7);
+        sb7.setStore(s1);
+        
+        em.flush();
 
         
 

@@ -120,7 +120,7 @@ public class StoreProductEntity implements Serializable {
         returnedInventory = 0D;
         this.storeRemark = storeRemark;
         goodReceipts = new ArrayList<>();
-        intransitInventory = 0D;
+        intransitInventory = 20D; //base
         onairInventory= 0D;
         warningOnAirInv = 0D;
         
