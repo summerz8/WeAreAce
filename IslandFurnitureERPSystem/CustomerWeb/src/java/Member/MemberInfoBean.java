@@ -8,6 +8,7 @@ package Member;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.ShoppingCartItemEntity;
 import SessionBean.OCRM.CustomerWebMemberModuleLocal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ public class MemberInfoBean {
     private MemberEntity member;
     private String firstName;
     private String email;
-    
+
     private Long memberId;
     private String midName;
     private String lastName;
@@ -42,10 +43,12 @@ public class MemberInfoBean {
     private String password;
     private Calendar birthday;
     private List<ShoppingCartItemEntity> itemList;
+    private List<ShoppingCartItemEntity> setList;
+    private List<ShoppingCartItemEntity> productList;
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
-    
+
     private String first;
 
     public MemberInfoBean() {
@@ -66,54 +69,57 @@ public class MemberInfoBean {
             password = member.getPwd();
             birthday = member.getBirthday();
             memberId = member.getMemberId();
-            itemList= member.getShoppingCartList();
-            first=firstName;
+            itemList = member.getShoppingCartList();
+            setList=new ArrayList<>();
+            productList=new ArrayList<>();
+            
+            for(ShoppingCartItemEntity s: itemList){
+                if(s.getType().equals("product"))productList.add(s);
+                else setList.add(s);
+            }
+            first = firstName;
 
         }
     }
 
-     
     public String upDate() {
         System.out.println("MemberControlBean: upDateMemberInfo: ");
-        MRMM.ModifyMember(memberId,lastName, midName, first, birthday, gender, title, address, postal, email);
+        MRMM.ModifyMember(memberId, lastName, midName, first, birthday, gender, title, address, postal, email);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", email);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", firstName);
         return "MemberPage?faces-redirect=true";
     }
-    
-    public String upDateShoppingCart(){
-        MRMM.upDateShoppingCart(memberId,itemList);
-    
+
+    public String upDateShoppingCart() {
+        MRMM.upDateShoppingCart(memberId, itemList);
+
         return "MemberPage?faces-redirect=true";
     }
-    
-    
-    public String logOut(){
-        
+
+    public String logOut() {
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
         return "HomePage?faces-redirect=true";
     }
-    
-    public String logOut2(){
-        
+
+    public String logOut2() {
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
         return "../../Singapore/HomePage?faces-redirect=true";
     }
-    
-    public String logOut3(){
-        
+
+    public String logOut3() {
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
         return "../../China/HomePage?faces-redirect=true";
     }
-    
-    
-            
-    public String removeItem(Long id){
-        MRMM.removeItem(memberId,id);
-        
+
+    public String removeItem(Long id) {
+        MRMM.removeItem(memberId, id);
+
         return "ShoppingCart?faces-redirect=true";
     }
 
@@ -124,7 +130,6 @@ public class MemberInfoBean {
     public void setFristName(String firstName) {
         this.firstName = firstName;
     }
-
 
     public MemberEntity getMember() {
         return member;
@@ -254,5 +259,20 @@ public class MemberInfoBean {
         this.itemList = itemList;
     }
 
-    
+    public List<ShoppingCartItemEntity> getSetList() {
+        return setList;
+    }
+
+    public void setSetList(List<ShoppingCartItemEntity> setList) {
+        this.setList = setList;
+    }
+
+    public List<ShoppingCartItemEntity> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<ShoppingCartItemEntity> productList) {
+        this.productList = productList;
+    }
+
 }

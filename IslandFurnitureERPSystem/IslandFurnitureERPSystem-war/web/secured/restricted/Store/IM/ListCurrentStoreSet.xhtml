@@ -6,11 +6,12 @@
       xmlns:p="http://primefaces.org/ui">
     <f:view>
         <h:head>
-            <meta http-equiv="Content-Type" points="text/html; charset=UTF-8" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <h:outputStylesheet name="./css/default.css"/>
             <h:outputStylesheet name="./css/cssLayout.css"/>
-            <percentage>Island Furniture ERP System</percentage>
+            <title>Island Furniture ERP System</title>
         </h:head>
+
         <h:body>
 
             <h:form id="formMain">
@@ -39,7 +40,6 @@
 
 
                         <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
-
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
 
                         </p:commandButton>
@@ -60,6 +60,7 @@
                         </p:button>
 
 
+
                         <h:outputLabel value = "Welcome Back " >
                             <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
 
@@ -70,68 +71,60 @@
 
 
 
-                    <p:layoutUnit position="west" size="500px">
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
-                            <p:submenu label="OCRM Management">
-                                <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
-                                <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                                <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                            <p:submenu label="Store Resources Control">
+                                <p:menuitem value="Product" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Retail Product" icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListCurrentRetailProduct.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Storage Bin"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />
                             </p:submenu>
-
                         </p:menu>
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
-                        <p:panel id="basic" header="Customer Feedback Management" style="margin-bottom" >                           
+                        <p:panel id="basic" header="Store Product" style="border:0px; margin-bottom" >
 
-                            <p:dataTable id="surpriseQRtable" var="surpriseQR" value="#{surpriseQRBean.surpriseQRList}" 
-                                         scrollable="true" scrollWidth="100%" scrollHeight="100%"
-                                         widgetVar="surpriseQRTable" emptyMessage="No member found with given criteria" 
-                                         filteredValue="#{surpriseQRBean.filteredFeedback}"
-                                         editable="true">
+                            <p:button outcome="/secured/restricted/Store/IM/AddCountrySet.xhtml?faces-redirect=true" value ="Add New Set"/>
+
+                            <p:dataTable id ="current" var="set" value="#{storeSetControl.currentStoreSetList}" editable="true" >
+
+                                <p:ajax event="rowEdit" listener="#{storeSetControl.onRowEdit}"  />
+                                <p:ajax event="rowEditCancel" listener="#{storeSetControl.onRowCancel}"  />
+
                                 <f:facet name="header">
-                                    <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter"  onkeyup="PF('surpriseQRTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                                    </p:outputPanel>
+                                    Store Set List 
                                 </f:facet>
+                              
 
-                                <p:column headerText="QR" width="10%">                              
-                                    <p:barcode value="#{surpriseQR.randomString}" type="qr"/>
+                                <p:column headerText="Store Set Name" width="8%" >
+                                    <h:outputText value="#{set.name}"  style="font-weight: bold" />    
+                                </p:column>
+
+                                <p:column headerText="Store Set Description" width="8%" >
+                                    <h:outputText value="#{set.description}"  style="font-weight: bold" />    
                                 </p:column>
                                 
-                                
-                                <p:column filterBy="#{surpriseQR.id}" filterStyle="width:50px" headerText="QR Id" width="10%">
-                                    <h:outputText value="#{surpriseQR.id}" />
+                                <p:column headerText="Components" width="8%" >
+                                     <p:commandButton  value="View" action ="#{storeSetControl.viewConponents(set.id)}" >
+                                    </p:commandButton>  
                                 </p:column>
+                               
 
-                                <p:column filterBy="#{surpriseQR.name}" filterStyle="width:150px" headerText="Name" width="25%">
-                                    <h:outputText value="#{surpriseQR.name}" />
+                                <p:column headerText="Country Set Id" width="10%">
+                                    <h:outputText value="#{set.webSet.id}" style="font-weight: bold" /> 
                                 </p:column>
-
-                                <p:column filterBy="#{surpriseQR.percentage}" headerText="Percentage" width="15%">
-                                    <h:outputText value="#{surpriseQR.percentage}" />
-                                </p:column>
-
-                                <p:column filterBy="#{surpriseQR.rewardPoints}" filterStyle="width:200px" headerText="Reward" width="35%">
-                                    <h:outputText value="#{surpriseQR.rewardPoints}" />
-                                </p:column>
-
-                                <p:column filterBy="#{surpriseQR}" headerText="Expire Time" width="15%">
-                                    <h:outputText value="#{surpriseQR.expireDate.getTime()}" >
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8" locale="sg"/>
-                                    </h:outputText>
+        
+                                <p:column headerText = "Delete" style="width:32px">
+                                    <p:commandButton  value="Delete" action ="#{storeSetControl.delete(set.id)}" >
+                                    </p:commandButton>
                                 </p:column>
 
                             </p:dataTable>
                             
-                            <p:button value="Create New Surprise" outcome="addSurpriseQR"></p:button>
-                            
-                        </p:panel>
 
+                        </p:panel>
                     </p:layoutUnit>
 
 

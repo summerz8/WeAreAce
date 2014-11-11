@@ -59,7 +59,7 @@
                                 </p:layoutUnit>-->
 
 
-                <div style="position: absolute; left: 0px; top: 150px;width: 1000px; text-align:center; margin:auto; border: none;"  >
+                <div style="position: absolute; right:600px; top: 150px;width: 500px; text-align:left; margin:auto;  border: none;"  >
                     <img src="../resources/images/#{viewItemBean.item.picture}"  title="#{viewItemBean.item.picture}" width="300px" height="250px"/>
                 </div>
 
@@ -162,7 +162,7 @@
 
                     </p:panel>
                     <br></br>
-                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="评论" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right"/>                      
+                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="我要评论" rendered="#{viewItemBean.checkLogIn()}" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right"/>                      
 
                 </div>
                 <!--</p:panel>-->

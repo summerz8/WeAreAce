@@ -211,6 +211,7 @@ public class DailyDemandForecastingModule implements DailyDemandForecastingModul
     @Override
     public LinkedHashMap<Calendar, Integer> getWeeklyDishSales(Long kitchenId, Long dishId) {
         try {
+            System.out.println("getWeeklyDishSales#################");
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
             DishEntity d = em.find(DishEntity.class, dishId);
             LinkedHashMap<Calendar, Integer> weeklyDishSales = new LinkedHashMap<>();
@@ -239,6 +240,7 @@ public class DailyDemandForecastingModule implements DailyDemandForecastingModul
     @Override
     public LinkedHashMap<Calendar, Integer> getWeeklyComboSales(Long kitchenId, Long comboId) {
         try {
+            System.out.println("getWeeklyComboSales#################");
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
             ComboEntity c = em.find(ComboEntity.class, comboId);
             LinkedHashMap<Calendar, Integer> weeklyComboSales = new LinkedHashMap<>();

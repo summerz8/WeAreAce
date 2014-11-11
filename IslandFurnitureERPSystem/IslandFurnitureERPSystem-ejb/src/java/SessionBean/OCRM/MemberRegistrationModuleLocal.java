@@ -37,6 +37,4 @@ public interface MemberRegistrationModuleLocal {
     public MemberEntity memberLogin(String email, String pwd);
     
     public List<MembershipLevelEntity> getMembership();
-
-    public int checkEmail(String newEmail);
 }

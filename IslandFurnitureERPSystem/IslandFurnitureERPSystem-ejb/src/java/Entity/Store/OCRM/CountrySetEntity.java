@@ -5,7 +5,8 @@
  */
 package Entity.Store.OCRM;
 
-import Entity.Factory.ProductEntity;
+import Entity.Factory.SetEntity;
+import Entity.Store.StoreSetEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,39 +14,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author apple
  */
 @Entity
-public class CustomerWebItemEntity implements Serializable {
+public class CountrySetEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String picture;
-    private String productName;
-    private String availability;
+    private String name;
     private String description;
-    private Double price;
-    private Double memberPrice;
-    private String type;
+    @OneToMany
+    private List<CountryProductEntity> unitList;
+    private String picture;
     private String web;
-    
-    @OneToOne
-    private ProductEntity product;
-    
+
     @OneToMany
     private List<CommentEntity> comments;
     
-
-    public CustomerWebItemEntity(){ 
-        comments=new ArrayList<>();
-    }
+    @OneToMany
+    private List<StoreSetEntity> setList;
     
+    @ManyToOne
+    private SetEntity set;
+
+    public CountrySetEntity() {
+        unitList = new ArrayList<>();
+        comments = new ArrayList<>();
+    }
+
     public Long getId() {
         return id;
     }
@@ -54,28 +57,12 @@ public class CustomerWebItemEntity implements Serializable {
         this.id = id;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getName() {
+        return name;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
+    public void setName(String setName) {
+        this.name = setName;
     }
 
     public String getDescription() {
@@ -86,36 +73,20 @@ public class CustomerWebItemEntity implements Serializable {
         this.description = description;
     }
 
-    public Double getPrice() {
-        return price;
+    public List<CountryProductEntity> getUnitList() {
+        return unitList;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setUnitList(List<CountryProductEntity> unitList) {
+        this.unitList = unitList;
     }
 
-    public ProductEntity getProduct() {
-        return product;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setProduct(ProductEntity product) {
-        this.product = product;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getMemberPrice() {
-        return memberPrice;
-    }
-
-    public void setMemberPrice(Double memberPrice) {
-        this.memberPrice = memberPrice;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getWeb() {
@@ -134,7 +105,24 @@ public class CustomerWebItemEntity implements Serializable {
         this.comments = comments;
     }
 
+    public List<StoreSetEntity> getSetList() {
+        return setList;
+    }
+
+    public void setSetList(List<StoreSetEntity> setList) {
+        this.setList = setList;
+    }
+
+    public SetEntity getSet() {
+        return set;
+    }
+
+    public void setSet(SetEntity set) {
+        this.set = set;
+    }
     
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -145,10 +133,10 @@ public class CustomerWebItemEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CustomerWebItemEntity)) {
+        if (!(object instanceof CountrySetEntity)) {
             return false;
         }
-        CustomerWebItemEntity other = (CustomerWebItemEntity) object;
+        CountrySetEntity other = (CountrySetEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -157,7 +145,7 @@ public class CustomerWebItemEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Store.OCRM.DisplayUnitEntity[ id=" + id + " ]";
+        return "Entity.Store.OCRM.SetEntity[ id=" + id + " ]";
     }
-    
+
 }

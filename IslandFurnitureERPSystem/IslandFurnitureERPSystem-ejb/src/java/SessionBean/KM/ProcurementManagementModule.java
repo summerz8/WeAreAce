@@ -8,7 +8,6 @@ package SessionBean.KM;
 import Entity.Kitchen.IngredientForecastEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientPurchaseOrderEntity;
-import Entity.Kitchen.IngredientPurchaseOrderToSupplierEntity;
 import Entity.Kitchen.IngredientReceiptEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
@@ -27,10 +26,10 @@ import javax.persistence.Query;
  */
 @Stateful
 public class ProcurementManagementModule implements ProcurementManagementModuleLocal {
-    
+
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;
-    
+
     @Override
     public IngredientPurchaseOrderEntity generateIngredientPurchaseOrder(Long ingredientForecastId) {
         try {
@@ -62,34 +61,36 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             return null;
         }
     }
-    
+
     @Override
-    public Long generateIngredientPurchaseOrderToSuppliers(Long ingredientPurchaseOrderId) {
+    public Long generateIngredientReceipt(Long ingredientPurchaseOrderId) {
         try {
             IngredientPurchaseOrderEntity ipo = em.find(IngredientPurchaseOrderEntity.class, ingredientPurchaseOrderId);
-            for (IngredientSupplierEntity supplier : ipo.getForecast().getMenuItemForecast().getKitchen().getIngredientSuppliers()) {
-                IngredientPurchaseOrderToSupplierEntity ipos = new IngredientPurchaseOrderToSupplierEntity(supplier, ipo);
-                Double total = 0.0;
-                for (IngredientItemEntity iiIPO : ipo.getPurchaseItems()) {
-                    if (iiIPO.getIngredient().getSupplier().equals(supplier) && iiIPO.getQuantity() > 0) {
-                        IngredientItemEntity iiIPOS = new IngredientItemEntity(iiIPO.getIngredient(), iiIPO.getQuantity());
-                        total += iiIPOS.getIngredient().getPrice() * (iiIPOS.getQuantity() / iiIPOS.getIngredient().getLotSize());
-                        em.persist(iiIPOS);
-                        em.flush();
-                        ipos.getPurchaseItems().add(iiIPOS);
-                    }
-                }
-                if (!ipos.getPurchaseItems().isEmpty()) {
-                    em.persist(ipos);
-                    ipos.setTotal(total);
-                    ipos.setActualTotal(total);
-                    supplier.getPurchaseOrders().add(ipos);
-                    ipos.getKitchen().getIngredientPurchaseOrders().add(ipos);
-                    ipo.getIPOSs().add(ipos);
-                }
+            IngredientReceiptEntity ir = new IngredientReceiptEntity(ipo);
+            em.persist(ir);
+            em.flush();
+            ipo.setStatus("Received");
+            ipo.setReceipt(ir);
+            em.flush();
+            for (IngredientItemEntity ii : ipo.getPurchaseItems()) {
+                Double newStockLevel = ii.getIngredient().getStock() + ii.getQuantity();
+                ii.getIngredient().setStock(newStockLevel);
             }
+            System.err.println("SessionBean.KM.ProcurementManagementModule: generateIngredientReceipt(): Successful. New Ingredient Recipe " + ir.getId() + " is generated.");
+            return ir.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.ProcurementManagementModule: generateIngredientReceipt(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -1L;
+        }
+    }
+
+    @Override
+    public Long confirmIngredientPurchaseOrder(Long ingredientPurchaseOrderId, Double acturalTotal) {
+        try {
+            IngredientPurchaseOrderEntity ipo = em.find(IngredientPurchaseOrderEntity.class, ingredientPurchaseOrderId);
+            ipo.setActualTotal(acturalTotal);
             ipo.setStatus("Confirmed");
-            ipo.setUnconfirmedIPOSQuantity(ipo.getIPOSs().size());
             em.flush();
             System.out.println("SessionBean.KM.ProcurementManagementModule: confirmIngredientPurchaseOrder(): Successful. New Ingredient Purchase Order " + ipo.getId() + " is comfirmed.");
             return ipo.getId();
@@ -99,7 +100,7 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             return -1L;
         }
     }
-    
+
     @Override
     public Long cancelIngredientPurchaseOrder(Long ingredientPurchaseOrderId) {
         try {
@@ -107,13 +108,13 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             if (ipo.getStatus().equals("Confirmed")) {
                 System.out.println("SessionBean.KM.ProcurementManagementModule: cancelIngredientPurchaseOrder(): Cancellation Failed. Ingredient Purchase Order " + ipo.getId() + " is confirmed already.");
                 return -2L;
-            } else if (ipo.getStatus().equals("Received")) {
+            }else if (ipo.getStatus().equals("Received")) {
                 System.out.println("SessionBean.KM.ProcurementManagementModule: cancelIngredientPurchaseOrder(): Cancellation Failed. Ingredient Purchase Order " + ipo.getId() + " is received already.");
                 return -3L;
             }
             ipo.setStatus("Cancelled");
             ipo.getForecast().setPurchaseOrder(null);
-            for (IngredientItemEntity ii : ipo.getPurchaseItems()) {
+            for(IngredientItemEntity ii: ipo.getPurchaseItems()) {
                 ii.getIngredient().getPurchaseOrders().remove(ipo);
             }
             em.flush();
@@ -125,7 +126,7 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             return -1L;
         }
     }
-    
+
     @Override
     public Long editPurchaseItem(Long ingredientPurchaseOrderId, Long purchaseItemId, Double quantity) {
         try {
@@ -147,12 +148,12 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             return -2L;
         }
     }
-    
+
     @Override
     public List<IngredientItemEntity> getPurchaseItems(Long purchaseOrderId) {
         return em.find(IngredientPurchaseOrderEntity.class, purchaseOrderId).getPurchaseItems();
     }
-    
+
     @Override
     public IngredientPurchaseOrderEntity findIngredientPurchaseOrder(Long kitchenId, Date targetDate) {
         try {
@@ -237,113 +238,21 @@ public class ProcurementManagementModule implements ProcurementManagementModuleL
             return -2L;
         }
     }
-    
+
     @Override
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredientSuppliers();
     }
-    
+
     @Override
     public Double getIPOTotal(Long IPOId) {
         return em.find(IngredientPurchaseOrderEntity.class, IPOId).getTotal();
     }
-    
+
     @Override
     public IngredientPurchaseOrderEntity findIngredientPurchaseOrderById(Long IPOId) {
         return em.find(IngredientPurchaseOrderEntity.class, IPOId);
     }
-
-//    @Override
-//    public List<IngredientPurchaseOrderToSupplierEntity> findIngredientPurchaseOrdersToSuppliersByDate(Long kitchenId, Date selectedDate) {
-//        try {
-//            KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
-//            Calendar selectedDateCal = Calendar.getInstance();
-//            selectedDateCal.setTime(selectedDate);
-//            Query q = em.createQuery("SELECT ipos FROM IngredientPurchaseOrderToSupplierEntity ipos WHERE ipos.kitchen = :kitchen AND ipos.targetDate = :selectedDateCal");
-//            q.setParameter("kitchen", kitchen);
-//            q.setParameter("selectedDateCal", selectedDateCal);
-//            return q.getResultList();
-//        } catch (Exception ex) {
-//            System.err.println("SessionBean.KM.ProcurementManagementModule: findIngredientPurchaseOrdersToSupplier(): Failed. Caught an unexpected exception.");
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
-    @Override
-    public List<IngredientPurchaseOrderToSupplierEntity> findIngredientPurchaseOrdersToSuppliersByIPO(Long IPOId) {
-        return em.find(IngredientPurchaseOrderEntity.class, IPOId).getIPOSs();
-    }
     
-    @Override
-    public Long confirmAllIPOSs(Long IPOId) {
-        try {
-            IngredientPurchaseOrderEntity ipo = em.find(IngredientPurchaseOrderEntity.class, IPOId);
-            for (IngredientPurchaseOrderToSupplierEntity ipos : ipo.getIPOSs()) {
-                if (ipos.getStatus().equals("Unconfirmed")) {
-                    ipos.setStatus("Confirmed");
-                    em.flush();
-                }
-            }
-            ipo.setUnconfirmedIPOSQuantity(0);
-            return ipo.getId();
-        } catch (Exception ex) {
-            System.err.println("SessionBean.KM.ProcurementManagementModule: confirmAllIPOSs(): Failed. Caught an unexpected exception.");
-            ex.printStackTrace();
-            return -1L;
-        }
-    }
-    
-    @Override
-    public Long confirmIPOS(Long IPOSId) {
-        try {
-            IngredientPurchaseOrderToSupplierEntity ipos = em.find(IngredientPurchaseOrderToSupplierEntity.class, IPOSId);
-            ipos.setStatus("Confirmed");
-            ipos.getIngredientPurchaseOrder().setUnconfirmedIPOSQuantity(ipos.getIngredientPurchaseOrder().getUnconfirmedIPOSQuantity() - 1);
-            return ipos.getId();
-        } catch (Exception ex) {
-            System.err.println("SessionBean.KM.ProcurementManagementModule: confirmIPOS(): Failed. Caught an unexpected exception.");
-            ex.printStackTrace();
-            return -1L;
-        }
-    }
-    
-    @Override
-    public Long generateIngredientReceipt(Long ingredientPurchaseOrdertoSupplierId) {
-        try {
-            IngredientPurchaseOrderToSupplierEntity ipos = em.find(IngredientPurchaseOrderToSupplierEntity.class, ingredientPurchaseOrdertoSupplierId);
-            IngredientReceiptEntity ir = new IngredientReceiptEntity(ipos);
-            em.persist(ir);
-            em.flush();
-            ipos.setReceipt(ir);
-            ipos.setStatus("Received");
-            em.flush();
-            for (IngredientItemEntity ii : ipos.getPurchaseItems()) {
-                Double newStockLevel = ii.getIngredient().getStock() + ii.getQuantity();
-                ii.getIngredient().setStock(newStockLevel);
-            }
-            System.err.println("SessionBean.KM.ProcurementManagementModule: generateIngredientReceipt(): Successful. New Ingredient Recipe " + ir.getId() + " is generated.");
-            return ir.getId();
-        } catch (Exception ex) {
-            System.err.println("SessionBean.KM.ProcurementManagementModule: generateIngredientReceipt(): Failed. Caught an unexpected exception.");
-            ex.printStackTrace();
-            return -1L;
-        }
-    }
-    
-    @Override
-    public Long editIPOSActualTotal(Long IPOSId, Double actualTotal) {
-        try {
-            IngredientPurchaseOrderToSupplierEntity ipos = em.find(IngredientPurchaseOrderToSupplierEntity.class, IPOSId);
-            Double change = actualTotal - ipos.getActualTotal();
-            ipos.setActualTotal(actualTotal);
-            ipos.getIngredientPurchaseOrder().setActualTotal(ipos.getIngredientPurchaseOrder().getActualTotal() + change);
-            em.flush();
-            return ipos.getId();
-        } catch (Exception ex) {
-            System.err.println("SessionBean.KM.ProcurementManagementModule: editIPOSActualTotal(): Failed. Caught an unexpected exception.");
-            ex.printStackTrace();
-            return -1L;
-        }
-    }
     
 }

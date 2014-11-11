@@ -40,7 +40,7 @@ import javax.persistence.Query;
 
  */
 @Stateless
-public class InternalMessageModule implements InternalMessageModuleLocal,InternalMessageModuleRemote {
+public class InternalMessageModule implements InternalMessageModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

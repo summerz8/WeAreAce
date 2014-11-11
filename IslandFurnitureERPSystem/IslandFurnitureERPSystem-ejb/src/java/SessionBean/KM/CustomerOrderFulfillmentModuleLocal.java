@@ -22,25 +22,25 @@ import javax.ejb.Local;
 @Local
 public interface CustomerOrderFulfillmentModuleLocal {
 
-    public KitchenOrderEntity createOrder(Long kitchenId, Long memberId, String storestaffId);
+    public KitchenOrderEntity createOrder(Long kitchenId);
     
     public Long addDishItem(Long orderId, Long dishId, Integer quantity);
     
     public Long addComboItem(Long orderId, Long comboId, Integer quantity);
     
-    public Long confirmOrder(Long orderId, Double received);
+    public Long confirmOrder(Long orderId);
     
     public Long cancelOrder(Long orderId);
 
     public Long serveOrder(Long orderId);
 
-    public List<KitchenOrderEntity> getUnfulfilledOrders(Long kitchenId);
+    public List<KitchenOrderEntity> getCurrentDateUnfulfilledOrder(Long kitchenId);
 
     public List<KitchenOrderEntity> getDailyOrders(Long kitchenId, Date selectedDate);
     
     public DailySalesEntity findDailySales(Long kitchenId, Date selectedDate);
     
-    public List<KitchenOrderEntity> getUnservedOrders(Long kitchenId);
+    public List<KitchenOrderEntity> getCurrentDateUnservedOrder(Long kitchenId);
     
     public Long fulfillDishItem(Long orderId, Long detailedDishItemId);
     

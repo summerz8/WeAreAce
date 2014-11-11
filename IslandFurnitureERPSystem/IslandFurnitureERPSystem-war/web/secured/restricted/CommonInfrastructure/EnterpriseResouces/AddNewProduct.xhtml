@@ -5,12 +5,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Island Furniture ERP System</title>
-    </h:head>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
 
         <h:body>
 
@@ -43,13 +43,13 @@
 
                         <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
                         </p:commandButton>
-                        
+
                         <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                         </p:button>
 
                         <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                         </p:button> 
-                        
+
                         <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
                         </p:button> 
 
@@ -64,7 +64,7 @@
 
 
                     </p:layoutUnit>
-                    
+
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
@@ -78,7 +78,7 @@
                                 <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
                                 <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
                                 <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
-
+                                <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
 
                             </p:submenu>
 

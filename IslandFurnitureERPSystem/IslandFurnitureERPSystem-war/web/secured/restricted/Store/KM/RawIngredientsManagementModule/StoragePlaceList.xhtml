@@ -98,31 +98,31 @@
                             <p:ajax event="rowEdit" listener="#{storagePlaceBean.onRowEdit}" update="@this"/>
                             <p:ajax event="rowEditCancel" listener="#{storagePlaceBean.onRowCancel}" update="storagePlaceList"/>
 
-                            <p:column headerText="ID" style="text-align: center;" >
+                            <p:column headerText="ID">
                                 <h:outputText value="#{sp.id}"/>
                             </p:column>
 
-                            <p:column headerText="Location" style="text-align: center;" filterBy="#{sp.location}" filterMatchMode="contains" filterStyle="display:none">
+                            <p:column headerText="Location" filterBy="#{sp.location}" filterMatchMode="contains" filterStyle="display:none">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{sp.location}"/></f:facet>
                                     <f:facet name="input"><p:inputText value="#{sp.location}" required="true" /></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column headerText="Raw Ingredients" style="text-align: center;" >
+                            <p:column headerText="Raw Ingredients">
                                 <p:dataTable var="i" value="#{sp.ingredients}">
-                                    <p:column style="text-align: center;" >
+                                    <p:column>
                                         #{i.name}
                                     </p:column>
                                 </p:dataTable>
                             </p:column>
 
 
-                            <p:column headerText="Edit" style="text-align: center;" width="5%">
+                            <p:column headerText="Edit" width="5%">
                                 <p:rowEditor/>
                             </p:column>
 
-                            <p:column headerText="Delete" style="text-align: center;" width="5%">       
+                            <p:column headerText="Delete" width="5%">       
                                 <p:commandButton update="storagePlaceList" actionListener="#{storagePlaceBean.deleteStoragePlace(sp)}" icon="ui-icon-trash" title="Delete">
                                 </p:commandButton>    
                             </p:column>

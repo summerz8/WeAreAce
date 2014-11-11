@@ -116,26 +116,26 @@
                                 <p:ajax event="rowEdit" listener="#{recipeBean.onRowEdit}" update="recipe"/>
                                 <p:ajax event="rowEditCancel" listener="#{recipeBean.onRowCancel}" update="recipe"/>
 
-                                <p:column headerText="Raw Ingredient" style="text-align: center;" >
+                                <p:column headerText="Raw Ingredient">
                                     <h:outputText value="#{i.ingredient.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Quantity" style="text-align: center;" >
+                                <p:column headerText="Quantity">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{i.quantity}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{i.quantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Unit" style="text-align: center;" >
+                                <p:column headerText="Unit">
                                     <h:outputText value="#{i.ingredient.unit}"/>
                                 </p:column>
 
-                                <p:column headerText="Edit" style="text-align: center;" width="8%">
+                                <p:column headerText="Edit" width="8%">
                                     <p:rowEditor/>
                                 </p:column>
 
-                                <p:column headerText="Delete" style="text-align: center;" width="8%">       
+                                <p:column headerText="Delete" width="8%">       
                                     <p:commandButton update="recipe" actionListener="#{recipeBean.deleteRecipeItem(i.id)}" icon="ui-icon-trash" title="Delete">
                                     </p:commandButton>    
                                 </p:column>

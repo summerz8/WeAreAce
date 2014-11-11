@@ -12,6 +12,4 @@
     <system systemId="http://localhost:8080/IFManagerBeanService/IFManagerBean?xsd=1" uri="xml-resources/web-service-references/IFManagerBean/wsdl/localhost_8080/IFManagerBeanService/IFManagerBean.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl" uri="xml-resources/web-service-references/MemberRegistrationModule/wsdl/localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl"/>
     <system systemId="http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?xsd=1" uri="xml-resources/web-service-references/MemberRegistrationModule/wsdl/localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?wsdl" uri="xml-resources/web-service-references/CustomerOrderFulfillmentModule_2/wsdl/localhost_8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule.wsdl"/>
-    <system systemId="http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?xsd=1" uri="xml-resources/web-service-references/CustomerOrderFulfillmentModule_2/wsdl/localhost_8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule.xsd_1.xsd"/>
 </catalog>
