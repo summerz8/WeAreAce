@@ -8,9 +8,11 @@ package Member;
 //import SessionBean.OCRM.MemberRegistrationModuleLocal;
 
 import SessionBean.OCRM.CustomerWebMemberModuleLocal;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -38,25 +40,61 @@ public class SignUpBean {
     private String password;
     private Calendar birthday;
     private String departmentId;
+    private String country;
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
+    private String userId;
+    private String subject;
+    private String text;
+    private boolean checkBox;
+
+    private Boolean isSuccess = true;
 
     public SignUpBean() {
     }
 
-    public String addMember() {
+    public void addMember() throws IOException {
         System.out.println("MemberControlBean: addMember: ");
         String web = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
+        if (checkBox == true) {
+            birthday=Calendar.getInstance();
+            birthday.setTime(birDate);
+            boolean check = MRMM.AddMemberWithPassword(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, password,country);
+            if (check == true) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", FirstName);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", Email);
+                sendEmail();
 
-        MRMM.AddMemberWithPassword(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, password);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", FirstName);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", Email);
-        
-        if(web.equals(("Singapore")))
-        return "/secured/Singapore/MemberPage?faces-redirect=true";
-        else 
-        return "/secured/China/MemberPage?faces-redirect=true";
+                if (web.equals("Singapore")) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("../secured/Singapore/MemberPage.xhtml");
+                } else {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("../secured/China/MemberPage.xhtml");
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "This email address has been used", ""));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "You did not agree with the terms and conditions", ""));
+        }
+    }
+
+    public void sendEmail() {
+        userId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Email");
+
+        SendMailSSLWeb se = new SendMailSSLWeb();
+
+        if (!se.sendMessage(userId)) {
+            isSuccess = false;
+        }
+
+        if (isSuccess) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Email Send Successfully!", ""));
+        }
+
     }
 
     public String getFirstName() {
@@ -177,6 +215,54 @@ public class SignUpBean {
 
     public void setMRMM(CustomerWebMemberModuleLocal MRMM) {
         this.MRMM = MRMM;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isCheckBox() {
+        return checkBox;
+    }
+
+    public void setCheckBox(boolean checkBox) {
+        this.checkBox = checkBox;
+    }
+
+    public Boolean getIsSuccess() {
+        return isSuccess;
+    }
+
+    public void setIsSuccess(Boolean isSuccess) {
+        this.isSuccess = isSuccess;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
 }

@@ -231,17 +231,58 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
     }
 
     @Override
-    public void addToShoppingCart(String email, Long itemId, int quantity) {
+    public void addToShoppingCart(String email, Long itemId, int quantity, String type) {
 
         MemberEntity member = cwml.getMember(email);
-        CountryProductEntity item = getItem(itemId);
-        ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
-        shoppingCartItem.setQuantity(quantity);
-        shoppingCartItem.setCustomerWebItem(item);
-        em.persist(shoppingCartItem);
 
-        member.getShoppingCartList().add(shoppingCartItem);
-        em.flush();
+        if (type.equals("product")) {
+            boolean exist = false;
+            List<ShoppingCartItemEntity> shoppingCartItemList = member.getShoppingCartList();
+            for (ShoppingCartItemEntity s : shoppingCartItemList) {
+                if (s.getType().equals("product")) {
+                    if (s.getCustomerWebItem().getId().equals(itemId)) {
+                        s.setQuantity(s.getQuantity() + quantity);
+                        exist = true;
+                        break;
+                    }
+                }
+            }
+            if (exist == false) {
+                ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
+                shoppingCartItem.setQuantity(quantity);
+                CountryProductEntity item = getItem(itemId);
+                shoppingCartItem.setCustomerWebItem(item);
+                shoppingCartItem.setType(type);
+                em.persist(shoppingCartItem);
+                member.getShoppingCartList().add(shoppingCartItem);
+                em.flush();
+            }
+
+        } else {
+            boolean exist = false;
+            List<ShoppingCartItemEntity> shoppingCartItemList = member.getShoppingCartList();
+            for (ShoppingCartItemEntity s : shoppingCartItemList) {
+                if (s.getType().equals("set")) {
+                    if (s.getCountrySet().getId().equals(itemId)) {
+                        s.setQuantity(s.getQuantity() + quantity);
+                        exist = true;
+                        break;
+                    }
+                }
+            }
+            if (exist == false) {
+                ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
+                shoppingCartItem.setQuantity(quantity);
+                CountrySetEntity item = getSet(itemId);
+                shoppingCartItem.setCountrySet(item);
+                shoppingCartItem.setType(type);
+                em.persist(shoppingCartItem);
+                member.getShoppingCartList().add(shoppingCartItem);
+                em.flush();
+            }
+            
+            
+        }
 
     }
 
@@ -402,16 +443,31 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
     @Override
     public void deleteItemInSet(Long countrySetId, Long countryProductId) {
-        CountrySetEntity set=em.find(CountrySetEntity.class, countrySetId);
-        List<CountryProductEntity> productList=set.getUnitList();
-        for(CountryProductEntity c: productList){
-            if(c.getId().equals(countryProductId)){
+        CountrySetEntity set = em.find(CountrySetEntity.class, countrySetId);
+        List<CountryProductEntity> productList = set.getUnitList();
+        for (CountryProductEntity c : productList) {
+            if (c.getId().equals(countryProductId)) {
                 productList.remove(c);
                 break;
             }
         }
         set.setUnitList(productList);
         em.flush();
+    }
+
+    @Override
+    public List<ShoppingCartItemEntity> getShoppingCarItemList(String email) {
+        MemberEntity member = getMember(email);
+        return member.getShoppingCartList();
+
+    }
+
+    @Override
+    public MemberEntity getMember(String email) {
+        Query q = em.createQuery("SELECT q FROM MemberEntity q where q.email :=email");
+        q.setParameter("email", email);
+
+        return (MemberEntity) q;
     }
 
 }

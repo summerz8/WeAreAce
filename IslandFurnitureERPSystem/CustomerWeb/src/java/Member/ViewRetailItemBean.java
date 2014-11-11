@@ -68,13 +68,14 @@ public class ViewRetailItemBean {
         }
 
         int size = commentList.size();
+        if(size!=0){
         for (CommentEntity c : commentList) {
             if (c.getCountry().equals(web)) {
                 totalRate = totalRate + c.getRate();
             }
         }
         totalRate = totalRate / size;
-
+        }
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));
@@ -122,6 +123,11 @@ public class ViewRetailItemBean {
         } else {
             return price + "";
         }
+    }
+    
+     public boolean checkLogIn(){
+        if(name==null) return false;
+        else return true;
     }
 
     public CustomerWebModuleLocal getCwml() {

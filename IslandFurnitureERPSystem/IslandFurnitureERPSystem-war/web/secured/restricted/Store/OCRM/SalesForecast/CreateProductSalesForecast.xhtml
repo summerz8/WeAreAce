@@ -85,81 +85,130 @@
                 <p:layoutUnit position="center" resizable="false">                   
 
                     <p:panel id="basic" header="Sales Forecast/Record Management" style="margin-bottom" >
-                        <h:form> 
-                            <br></br>
-                            <br></br> 
-                            <p:commandButton  value="Back"  style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="SalesForecastIndex?faces-redirect=true" >
-                            </p:commandButton>
+                        <br></br>
+                        <br></br> 
+                        <p:commandButton  value="Back"  style="margin-bottom:10px ;border:5px ;width: 250px; height:25px; font-size:12px; float:left" action="SalesForecastIndex?faces-redirect=true" >
+                        </p:commandButton>
 
 
 
-                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 
-                                <p:outputPanel>
-                                    <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
 
-                                        <h:outputText value="Product Type:  " />
-                                        <h:outputText value="#{createStoreProductSalesForecastBean.productType}" style="font-weight: bold"/>
+                                    <h:outputText value="Product Type:  " />
+                                    <h:outputText value="#{createStoreProductSalesForecastBean.productType}" style="font-weight: bold"/>
 
-                                        <h:outputText value="Product ID:  " />
-                                        <h:outputText value="#{createStoreProductSalesForecastBean.productId}" style="font-weight: bold"/>
+                                    <h:outputText value="Product ID:  " />
+                                    <h:outputText value="#{createStoreProductSalesForecastBean.productId}" style="font-weight: bold"/>
 
-                                        <h:outputText value="Product Name:  " />
-                                        <h:outputText value="#{createStoreProductSalesForecastBean.productName}" style="font-weight: bold"/>
+                                    <h:outputText value="Product Name:  " />
+                                    <h:outputText value="#{createStoreProductSalesForecastBean.productName}" style="font-weight: bold"/>
 
-                                        <h:outputText value="Target Period  " />
-                                        <h:outputText value="#{createStoreProductSalesForecastBean.productSalesForecast.targetPeriod.getTime()}" style="font-weight: bold">
-                                            <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
-                                        </h:outputText>
+                                    <h:outputText value="Target Period  " />
+                                    <h:outputText value="#{createStoreProductSalesForecastBean.productSalesForecast.targetPeriod.getTime()}" style="font-weight: bold">
+                                        <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                    </h:outputText>
 
-                                        <h:outputText value="Sales Forecast Amount(System Generated):  " />
-                                        <p:inplace id="SalesForecast" editor="true"> 
-                                            <p:inputText  value="#{createStoreProductSalesForecastBean.productSalesForecast.amount}" valueChangeListener="#{createStoreProductSalesForecastBean.changeAmount}"  label="text" />
-                                        </p:inplace>   
-
-                                        <p:commandButton  value="Confirm" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{createStoreProductSalesForecastBean.Confirm}" ajax="false"/>
+                                    <h:outputText value="Sales Forecast Amount:  " />
+                                    <p:inputText  value="#{createStoreProductSalesForecastBean.productSalesForecast.amount}" valueChangeListener="#{createStoreProductSalesForecastBean.changeAmount}"  label="text" />
 
 
-                                    </h:panelGrid>                    
+                                    <p:commandButton  value="Confirm" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{createStoreProductSalesForecastBean.Confirm}" ajax="false"/>
+                                    <h:outputText value="" />
 
-                                    <p:panel id="salesForecastData" header="Reference Sales Forecast Data" style="margin-bottom" >
 
-                                        <p:dataTable var="ProductSalesForecast" value="#{viewProductSalesForecastBean.productSalesForecastList}">
+                                    <p:chart type="line" model="#{chartView.createRecent(viewProductSalesForecastBean.productSalesForecastList, viewSalesRecordBean.salesRecordList)}" style="width:400px;" rendered="#{createStoreProductSalesForecastBean.check(viewProductSalesForecastBean.productSalesForecastList,viewSalesRecordBean.salesRecordList)}"/>
+                                    <p:chart type="line" model="#{chartView.compareYear(viewProductSalesForecastBean.productSalesForecastList, viewSalesRecordBean.salesRecordList)}" style="width:400px;" rendered="#{createStoreProductSalesForecastBean.check(viewProductSalesForecastBean.productSalesForecastList,viewSalesRecordBean.salesRecordList)}"/>
 
-                                            <p:column headerText="Target Period">
-                                                <h:outputText value="#{ProductSalesForecast.targetPeriod.getTime()}" >
-                                                    <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
-                                                </h:outputText>
-                                            </p:column>
+                                </h:panelGrid>                    
 
-                                            <p:column headerText="Forecast Amount">
-                                                <h:outputText value="#{ProductSalesForecast.amount}" />
-                                            </p:column>
+                                <p:panel id="eventData" header="Event in this month" style="margin-bottom" >
 
-                                        </p:dataTable> 
+                                    <p:dataTable var="event" value="#{createStoreProductSalesForecastBean.disPlayList}">
 
-                                    </p:panel>
 
-                                    <p:panel id="salesRecordData" header="Reference Sales Record Data" style="margin-bottom" >
+                                        <p:column headerText="Event Name">
+                                            <h:outputText value="#{event.eventName}" />
+                                        </p:column>
 
-                                        <p:dataTable var="salesRecord" value="#{viewSalesRecordBean.salesRecordList}">
+                                        <p:column headerText="Event Description">
+                                            <h:outputText value="#{event.description}" />
+                                        </p:column>
 
-                                            <p:column headerText="Target Period">
-                                                <h:outputText value="#{salesRecord.recordPeriod.getTime()}" >
-                                                    <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
-                                                </h:outputText>
-                                            </p:column>
 
-                                            <p:column headerText="Forecast Amount">
-                                                <h:outputText value="#{salesRecord.amount}" />
-                                            </p:column>
+                                        <p:column headerText="Start Date">
+                                            <h:outputText value="#{event.startDate.getTime()}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                            </h:outputText>
+                                        </p:column>
 
-                                        </p:dataTable> 
-                                    </p:panel>
+                                        <p:column headerText="End Date">
+                                            <h:outputText value="#{event.endDate.getTime()}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                            </h:outputText>
+                                        </p:column>
 
-                                </p:outputPanel>
-                            </h:panelGrid>
-                        </h:form>
+                                        <p:column headerText="Bonus">
+                                            <h:outputText value="#{event.bonus}" />
+                                        </p:column>
+
+                                        <p:column headerText="View Sales Effect">
+                                            <p:commandButton  actionListener="#{createStoreProductSalesForecastBean.setStoreEventList(event)}" value="View" update=":formMain:ViewChart"  oncomplete="PF('addDialog').show()" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" rendered="#{createStoreProductSalesForecastBean.checkSalesEffect(event)}"/>
+                                        </p:column>
+
+                                    </p:dataTable> 
+                                    <p:dialog header="Edit Store Event" widgetVar="addDialog" position="center"
+                                              showEffect="fade" hideEffect="fade" resizable="true" 
+                                              draggable="true" closable="true" width="500">
+                                        <p:outputPanel id="ViewChart" style="text-align:center;">
+
+                                            <p:chart type="line" model="#{chartView.EventEffect(createStoreProductSalesForecastBean.eventEffectList)}" style="width:400px;" />
+                                            <p:commandButton  action="CreateProductSalesForecast?faces-redirect=true" value="Back" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left"  ajax="false"/>
+
+                                        </p:outputPanel>
+                                    </p:dialog>
+
+                                </p:panel>
+
+                                <p:panel id="salesForecastData" header="Reference Sales Forecast Data" style="margin-bottom" >
+
+                                    <p:dataTable var="ProductSalesForecast" value="#{viewProductSalesForecastBean.productSalesForecastList}">
+
+                                        <p:column headerText="Target Period">
+                                            <h:outputText value="#{ProductSalesForecast.targetPeriod.getTime()}" >
+                                                <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Forecast Amount">
+                                            <h:outputText value="#{ProductSalesForecast.amount}" />
+                                        </p:column>
+
+                                    </p:dataTable> 
+
+                                </p:panel>
+
+                                <p:panel id="salesRecordData" header="Reference Sales Record Data" style="margin-bottom" >
+
+                                    <p:dataTable var="salesRecord" value="#{viewSalesRecordBean.salesRecordList}">
+
+                                        <p:column headerText="Target Period">
+                                            <h:outputText value="#{salesRecord.recordPeriod.getTime()}" >
+                                                <f:convertDateTime pattern="MM/yyyy" timeZone="GMT+8" locale="sg"/>  
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Forecast Amount">
+                                            <h:outputText value="#{salesRecord.amount}" />
+                                        </p:column>
+
+                                    </p:dataTable> 
+                                </p:panel>
+
+                            </p:outputPanel>
+                        </h:panelGrid>
                     </p:panel>
 
 

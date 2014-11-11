@@ -25,7 +25,7 @@ public class EventEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String eventName;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -90,6 +90,15 @@ public class EventEntity implements Serializable {
 
     public void setStoreEvent(List<StoreEventEntity> storeEvent) {
         this.storeEvent = storeEvent;
+    }
+
+ 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public List<StoreEventEntity> getStoreEvent() {
+        return storeEvent;
     }
 
 

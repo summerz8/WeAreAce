@@ -24,11 +24,18 @@ public class ShoppingCartItemEntity implements Serializable {
     private Long id;
     private Integer quantity;
     private Long storeId;
+    private String type;
     
     @ManyToOne
     private CountryProductEntity customerWebItem;
+    
+    @ManyToOne
+    private CountrySetEntity countrySet;
 
 
+    public ShoppingCartItemEntity(){
+    
+    }
     public Long getId() {
         return id;
     }
@@ -59,6 +66,22 @@ public class ShoppingCartItemEntity implements Serializable {
 
     public void setCustomerWebItem(CountryProductEntity customerWebItem) {
         this.customerWebItem = customerWebItem;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public CountrySetEntity getCountrySet() {
+        return countrySet;
+    }
+
+    public void setCountrySet(CountrySetEntity countrySet) {
+        this.countrySet = countrySet;
     }
 
 

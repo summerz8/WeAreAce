@@ -86,61 +86,178 @@
                 <p:layoutUnit position="center" resizable="false">                   
 
                     <p:panel id="basic" header="Sales Forecast/Record Management" style="margin-bottom" >
-                        <h:form> 
-                            <br></br>
-                            <br></br>
+
+                        <br></br>
+                        <br></br>
 
 
-                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 
-                                <p:outputPanel>
-                                    <p:commandButton value="Create A New Event"   action="CreateEvent?faces-redirect=true" />
-                                   
-
-                                    <h:panelGrid columns="3" cellpadding="5">
-                                        <h:outputLabel for="RetailProduct" value="Event:         " style="font-weight:bold" />
-                                        <p:selectOneMenu id="RetailProduct" value="#{eventBean.selectedEvent}">
-                                            <f:selectItem itemLabel="Select One" itemValue="" />
-                                            <f:selectItems value="#{eventBean.displayList}" />
-                                        </p:selectOneMenu>
-                                        <p:commandButton value="Create"  action="#{eventBean.createNewStoreEvent()}"  />
-                                    </h:panelGrid>
-
-                                    <p:dataTable var="event" value="#{eventBean.storeEventList}">
-
-                                        <p:column headerText="Store Product Id">
-                                            <h:outputText value="#{event.startDate.getTime()}" >
-                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
-                                            </h:outputText>
-                                        </p:column>
-
-                                        <p:column headerText="Store Product Name">
-                                            <h:outputText value="#{event.endDate.getTime()}" >
-                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
-                                            </h:outputText>
-                                        </p:column>
-
-                                        <p:column headerText="Event Name">
-                                            <h:outputText value="#{event.eventName}" />
-                                        </p:column>
-                                        
-                                        <p:column headerText="Description">
-                                            <h:outputText value="#{event.description}" />
-                                        </p:column>
-                                        
-                                        <p:column headerText="points rate">
-                                            <h:outputText value="#{event.bonus}" />
-                                        </p:column>
-
-                                    </p:dataTable> 
-
-                                   
-                                </p:outputPanel>
+                            <p:outputPanel>
+                                <p:commandButton value="Create A New Event"   update=":formMain:NewEvent"  oncomplete="PF('addnewDialog').show()" />
 
 
-                            </h:panelGrid>
-                        </h:form>
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <h:outputLabel for="RetailProduct" value="Event: " style="font-weight:bold" />
+                                    <p:selectOneMenu id="RetailProduct" value="#{eventBean.selectedEvent}">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItems value="#{eventBean.displayList}" />
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Create Store Event" actionListener="#{eventBean.theEvent(eventBean.selectedEvent)}"  update=":formMain:NewStoreEvent"  oncomplete="PF('addDialog').show()" />
+
+                                    <p:dialog header="Create New Store Event" widgetVar="addDialog" position="center"
+                                              showEffect="fade" hideEffect="fade" resizable="true" 
+                                              draggable="true" closable="true" width="700">
+                                        <p:outputPanel id="NewStoreEvent" style="text-align:center;">
+                                            <p:panelGrid  columns="2" columnClasses="value,value">
+
+                                                <h:outputText value="Event Name "  />
+                                                <h:outputText value="#{eventBean.event.eventName}" />
+
+                                                <h:outputLabel  value="Start Date:" />
+                                                <p:calendar  value="#{eventBean.startDate1}"  requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+                                                <h:outputLabel  value="End Date:" />
+                                                <p:calendar  value="#{eventBean.endDate1}"   requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+                                                <h:outputText value="Description: " />
+                                                <p:inputTextarea rows="10" cols="50" value="#{eventBean.description1}" style="width: 500px"/>
+
+                                                <h:outputText value="Bonus: " />
+                                                <h:inputText value="#{eventBean.bonus}" style="width: 50px"/>
+
+                                                <p:commandButton actionListener="#{eventBean.createNewStoreEvent()}" value="Confirm"/>
+                                                <p:commandButton action="Event?faces-redirect=true" value="Cancel"/>
+                                            </p:panelGrid>
+                                        </p:outputPanel>
+                                    </p:dialog>
+                                    <p:dialog header="Create New Event" widgetVar="addnewDialog" position="center"
+                                              showEffect="fade" hideEffect="fade" resizable="true" 
+                                              draggable="true" closable="true" width="700">
+                                        <p:outputPanel id="NewEvent" style="text-align:center;">
+                                            <p:panelGrid  columns="2" columnClasses="value,value">
+                                                <h:outputText value="Event Name:"  />
+                                                <h:inputText value="#{eventBean.newEventName}" />
+
+                                                <h:outputLabel  value="Start Date:" />
+                                                <p:calendar  value="#{eventBean.startDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+                                                <h:outputLabel  value="End Date:" />
+                                                <p:calendar  value="#{eventBean.endDate}" locale="de" requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+                                                <h:outputText value="Description: " />
+                                                <p:inputTextarea rows="10" cols="50" value="#{eventBean.description}" style="width: 500px"/>
+
+
+                                                <p:commandButton actionListener="#{eventBean.createNewEvent()}" value="Confirm"/>
+                                                <p:commandButton action="Event?faces-redirect=true" value="Cancel"/>
+                                            </p:panelGrid>
+                                        </p:outputPanel>
+                                    </p:dialog>
+                                </h:panelGrid>
+
+                                <p:dataTable var="event" value="#{eventBean.storeEventList}">
+
+                                    <p:column headerText="Start Date">
+                                        <h:outputText value="#{event.startDate.getTime()}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="End Date">
+                                        <h:outputText value="#{event.endDate.getTime()}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8" locale="sg"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Event Name">
+                                        <h:outputText value="#{event.eventName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Description">
+                                        <h:outputText value="#{event.description}" />
+                                    </p:column>
+
+                                    <p:column headerText="Points Rate">
+                                        <h:outputText value="#{event.bonus}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Increase Daily Sale (%)">
+                                        <h:outputText value="#{event.increaseSale}" />
+                                    </p:column>
+
+                                    <p:column headerText="Delete">
+                                        <p:commandButton action="#{eventBean.delete(event.id)}" value="delete" rendered="#{eventBean.checkbefore(event.startDate)}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Edit">
+                                        <p:commandButton actionListener="#{eventBean.theStoreEvent(event.id)}" update=":formMain:EditStoreEvent"  oncomplete="PF('editDialog').show()" value="edit" rendered="#{eventBean.checkbefore(event.startDate)}"/>
+                                    </p:column>
+
+                                     <p:column headerText="Update">
+                                        <p:commandButton actionListener="#{eventBean.theStoreEvent(event.id)}" update=":formMain:UpdateStoreEvent"  oncomplete="PF('updateDialog').show()" value="update" rendered="#{eventBean.checkafter(event.endDate)}"/>
+                                    </p:column>
+
+                                </p:dataTable> 
+                                <p:dialog header="Edit Store Event" widgetVar="editDialog" position="center"
+                                          showEffect="fade" hideEffect="fade" resizable="true" 
+                                          draggable="true" closable="true" width="700">
+                                    <p:outputPanel id="EditStoreEvent" style="text-align:center;">
+                                        <p:panelGrid  columns="2" columnClasses="value,value">
+
+                                            <h:outputText value="Event Name "  />
+                                            <h:outputText value="#{eventBean.storeEvent.eventName}" />
+
+                                            <h:outputLabel  value="Start Date:" />
+                                            <p:calendar  value="#{eventBean.startDate2}"  requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+                                            <h:outputLabel  value="End Date:" />
+                                            <p:calendar  value="#{eventBean.endDate2}"   requiredMessage="Please choose birthday" navigator="true" pattern="dd-MM-yyyy" />
+
+                                            <h:outputText value="Description: " />
+                                            <p:inputTextarea rows="10" cols="50" value="#{eventBean.description2}" style="width: 500px"/>
+
+
+                                            <h:outputText value="Bonus: " />
+                                            <h:inputText value="#{eventBean.bonus2}" style="width: 50px"/>
+
+                                            <p:commandButton actionListener="#{eventBean.editStoreEvent()}" value="Confirm"/>
+                                            <p:commandButton action="Event?faces-redirect=true" value="Cancel"/>
+                                        </p:panelGrid>
+                                    </p:outputPanel>
+                                </p:dialog>
+                                
+                                 <p:dialog header="Update Event" widgetVar="updateDialog" position="center"
+                                          showEffect="fade" hideEffect="fade" resizable="true" 
+                                          draggable="true" closable="true" width="400">
+                                    <p:outputPanel id="UpdateStoreEvent" style="text-align:center;">
+                                        <p:panelGrid  columns="2" columnClasses="value,value">
+
+                                            <h:outputText value="Event Name: "  />
+                                            <h:outputText value="#{eventBean.storeEvent.eventName}" />
+
+                
+                                            <h:outputText value="Increase Sale Rate (%): " />
+                                            <h:inputText value="#{eventBean.increaseSale}"/>
+
+                                            <p:commandButton action="#{eventBean.updateEvent()}" value="Confirm"/>
+                                            <p:commandButton action="Event?faces-redirect=true" value="Cancel"/>
+                                        </p:panelGrid>
+                                    </p:outputPanel>
+                                </p:dialog>
+
+
+                            </p:outputPanel>
+
+
+                        </h:panelGrid>
+
                     </p:panel>
+
+
+
+
+
 
 
                 </p:layoutUnit>

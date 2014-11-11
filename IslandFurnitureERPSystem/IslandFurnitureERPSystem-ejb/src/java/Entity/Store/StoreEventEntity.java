@@ -35,20 +35,23 @@ public class StoreEventEntity implements Serializable {
     @ManyToOne
     private StoreEntity store;
     private Double bonus;
-    
+    private Double increaseSale;
     @ManyToOne
     private EventEntity event;
 
     public StoreEventEntity(){
     }
     
-    public StoreEventEntity(String eventName,String description, Calendar startDate, Calendar endDate, StoreEntity store,Double bonus){
-        this.eventName=eventName;
+    public StoreEventEntity(EventEntity event,String description, Calendar startDate, Calendar endDate, StoreEntity store,Double bonus){
+        this.event=event;
+        this.eventName=event.getEventName();
         this.description=description;
         this.startDate=startDate;
         this.endDate=endDate;
         this.bonus=bonus;
         this.endDate=endDate;
+        this.store=store;
+        this.increaseSale=1D;
     }
     
     public Long getId() {
@@ -113,6 +116,14 @@ public class StoreEventEntity implements Serializable {
 
     public void setEvent(EventEntity event) {
         this.event = event;
+    }
+
+    public Double getIncreaseSale() {
+        return increaseSale;
+    }
+
+    public void setIncreaseSale(Double increaseSale) {
+        this.increaseSale = increaseSale;
     }
 
     

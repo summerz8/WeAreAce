@@ -47,12 +47,16 @@
 
 
                             <br></br>
-                            <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
 
 
                             <p:commandButton id="btn" value="login"  action="#{login.checkLogin}" update="messages" style="border: 5px;"/>
                             <br></br><br></br>
                             <p:link  value="forget password?"></p:link>
+
+                            <p:messages showDetail="true"/>
+                            <p:captcha label="Captcha" />
+
                             <p:link  value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true"></p:link>
                             <div class="component-spacing-top"/>
                         </div>

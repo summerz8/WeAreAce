@@ -1909,6 +1909,7 @@ public class dataSetUp {
 
         member.setTotalPoints(50000D);
         member.setCurrentPoints(20000D);
+        member.setPointsToUpgrade(0D);
 
         member.setMemberlvl(memlvl1);
         em.persist(member);
@@ -1924,12 +1925,57 @@ public class dataSetUp {
         em.flush();
 
         //Sales Record Set Up
+        Calendar cal_2014_1 = Calendar.getInstance();
+        cal_2014_1.set(2014, 0, 1);
+        Calendar cal_2014_2 = Calendar.getInstance();
+        cal_2014_2.set(2014, 1, 1);
+        Calendar cal_2014_3 = Calendar.getInstance();
+        cal_2014_3.set(2014, 2, 1);
+        Calendar cal_2014_4 = Calendar.getInstance();
+        cal_2014_4.set(2014, 3, 1);
+        Calendar cal_2014_5 = Calendar.getInstance();
+        cal_2014_5.set(2014, 4, 1);
+        Calendar cal_2014_6 = Calendar.getInstance();
+        cal_2014_6.set(2014, 5, 1);
+        Calendar cal_2014_7 = Calendar.getInstance();
+        cal_2014_7.set(2014, 6, 1);
+        Calendar cal_2014_8 = Calendar.getInstance();
+        cal_2014_8.set(2014, 7, 1);
+        Calendar cal_2014_9 = Calendar.getInstance();
+        cal_2014_9.set(2014, 8, 1);
+        Calendar cal_2014_10 = Calendar.getInstance();
+        cal_2014_10.set(2014, 9, 1);
+        Calendar cal_2014_11 = Calendar.getInstance();
+        cal_2014_11.set(2014, 10, 1);
+        Calendar cal_2014_12 = Calendar.getInstance();
+        cal_2014_12.set(2014, 11, 1);
+        Calendar cal_2013_1 = Calendar.getInstance();
+        cal_2013_1.set(2013, 0, 1);
+        Calendar cal_2012_1 = Calendar.getInstance();
+        cal_2012_1.set(2012, 0, 1);
+
+        SalesRecordEntity sre13 = new SalesRecordEntity();
+        sre13.setStore(s1);
+        sre13.setStoreProduct(sp1_1);
+        sre13.setRecordPeriod(cal_2012_1);
+        sre13.setAmount(1500D);
+        sre13.setRevenue(75000D);
+        em.persist(sre13);
+        em.flush();
+
+        SalesRecordEntity sre12 = new SalesRecordEntity();
+        sre12.setStore(s1);
+        sre12.setStoreProduct(sp1_1);
+        sre12.setRecordPeriod(cal_2013_1);
+        sre12.setAmount(2100D);
+        sre12.setRevenue(105000D);
+        em.persist(sre12);
+        em.flush();
+
         SalesRecordEntity sre1 = new SalesRecordEntity();
         sre1.setStore(s1);
         sre1.setStoreProduct(sp1_1);
-        Calendar caltemp1 = Calendar.getInstance();
-        caltemp1.add(Calendar.MONTH, 1);
-        sre1.setRecordPeriod(caltemp1);
+        sre1.setRecordPeriod(cal_2014_1);
         sre1.setAmount(1000D);
         sre1.setRevenue(50000D);
         em.persist(sre1);
@@ -1938,8 +1984,7 @@ public class dataSetUp {
         SalesRecordEntity sre2 = new SalesRecordEntity();
         sre2.setStore(s1);
         sre2.setStoreProduct(sp1_1);
-        Calendar caltemp2 = Calendar.getInstance();
-        sre2.setRecordPeriod(caltemp2);
+        sre2.setRecordPeriod(cal_2014_2);
         sre2.setAmount(1500D);
         sre2.setRevenue(75000D);
         em.persist(sre2);
@@ -1948,25 +1993,150 @@ public class dataSetUp {
         SalesRecordEntity sre3 = new SalesRecordEntity();
         sre3.setStore(s1);
         sre3.setStoreProduct(sp1_1);
-        Calendar caltemp3 = Calendar.getInstance();
-        caltemp3.add(Calendar.YEAR, -1);
-        caltemp3.add(Calendar.MONTH, 2);
-        sre3.setRecordPeriod(caltemp3);
-        sre3.setAmount(1500D);
-        sre3.setRevenue(75000D);
+        sre3.setRecordPeriod(cal_2014_3);
+        sre3.setAmount(1200D);
+        sre3.setRevenue(60000D);
         em.persist(sre3);
         em.flush();
 
-        sp1_1.getSalesRecordList().add(sre3);
-        sp1_1.getSalesRecordList().add(sre2);
+        SalesRecordEntity sre4 = new SalesRecordEntity();
+        sre4.setStore(s1);
+        sre4.setStoreProduct(sp1_1);
+        sre4.setRecordPeriod(cal_2014_4);
+        sre4.setAmount(1600D);
+        sre4.setRevenue(80000D);
+        em.persist(sre4);
+        em.flush();
+
+        SalesRecordEntity sre5 = new SalesRecordEntity();
+        sre5.setStore(s1);
+        sre5.setStoreProduct(sp1_1);
+        sre5.setRecordPeriod(cal_2014_5);
+        sre5.setAmount(2100D);
+        sre5.setRevenue(105000D);
+        em.persist(sre5);
+        em.flush();
+
+        SalesRecordEntity sre6 = new SalesRecordEntity();
+        sre6.setStore(s1);
+        sre6.setStoreProduct(sp1_1);
+        sre6.setRecordPeriod(cal_2014_6);
+        sre6.setAmount(2200D);
+        sre6.setRevenue(110000D);
+        em.persist(sre6);
+        em.flush();
+
+        SalesRecordEntity sre7 = new SalesRecordEntity();
+        sre7.setStore(s1);
+        sre7.setStoreProduct(sp1_1);
+        sre7.setRecordPeriod(cal_2014_7);
+        sre7.setAmount(2300D);
+        sre7.setRevenue(115000D);
+        em.persist(sre7);
+        em.flush();
+
+        SalesRecordEntity sre8 = new SalesRecordEntity();
+        sre8.setStore(s1);
+        sre8.setStoreProduct(sp1_1);
+        sre8.setRecordPeriod(cal_2014_8);
+        sre8.setAmount(2400D);
+        sre8.setRevenue(120000D);
+        em.persist(sre8);
+        em.flush();
+
+        SalesRecordEntity sre9 = new SalesRecordEntity();
+        sre9.setStore(s1);
+        sre9.setStoreProduct(sp1_1);
+        sre9.setRecordPeriod(cal_2014_9);
+        sre9.setAmount(2500D);
+        sre9.setRevenue(125000D);
+        em.persist(sre9);
+        em.flush();
+
+        SalesRecordEntity sre10 = new SalesRecordEntity();
+        sre10.setStore(s1);
+        sre10.setStoreProduct(sp1_1);
+        sre10.setRecordPeriod(cal_2014_10);
+        sre10.setAmount(2300D);
+        sre10.setRevenue(115000D);
+        em.persist(sre10);
+        em.flush();
+
+        SalesRecordEntity sre11 = new SalesRecordEntity();
+        sre11.setStore(s1);
+        sre11.setStoreProduct(sp1_1);
+        sre11.setRecordPeriod(cal_2014_11);
+        sre11.setAmount(2300D);
+        sre11.setRevenue(115000D);
+        em.persist(sre11);
+        em.flush();
+
+        sp1_1.getSalesRecordList().add(sre13);
+        sp1_1.getSalesRecordList().add(sre12);
         sp1_1.getSalesRecordList().add(sre1);
+        sp1_1.getSalesRecordList().add(sre2);
+        sp1_1.getSalesRecordList().add(sre3);
+        sp1_1.getSalesRecordList().add(sre4);
+        sp1_1.getSalesRecordList().add(sre5);
+        sp1_1.getSalesRecordList().add(sre6);
+        sp1_1.getSalesRecordList().add(sre7);
+        sp1_1.getSalesRecordList().add(sre8);
+        sp1_1.getSalesRecordList().add(sre9);
+        sp1_1.getSalesRecordList().add(sre10);
+        sp1_1.getSalesRecordList().add(sre11);
+
         em.persist(sp1_1);
         em.flush();
 
         //Product Sales Forecast Set up
+        ProductSalesForecastEntity psfe_2012_1 = new ProductSalesForecastEntity();
+        psfe_2012_1.setAmount(1300D);
+        psfe_2012_1.setTargetPeriod(cal_2012_1);
+        psfe_2012_1.setStore(s1);
+        psfe_2012_1.setStoreProduct(sp1_1);
+        psfe_2012_1.setStatus("Confirmed");
+        em.persist(psfe_2012_1);
+        em.flush();
+
+        ProductSalesForecastEntity psfe_2013_1 = new ProductSalesForecastEntity();
+        psfe_2013_1.setAmount(1300D);
+        psfe_2013_1.setTargetPeriod(cal_2013_1);
+        psfe_2013_1.setStore(s1);
+        psfe_2013_1.setStoreProduct(sp1_1);
+        psfe_2013_1.setStatus("Confirmed");
+        em.persist(psfe_2013_1);
+        em.flush();
+
+        ProductSalesForecastEntity psfe_2014_1 = new ProductSalesForecastEntity();
+        psfe_2014_1.setAmount(1600D);
+        psfe_2014_1.setTargetPeriod(cal_2014_1);
+        psfe_2014_1.setStore(s1);
+        psfe_2014_1.setStoreProduct(sp1_1);
+        psfe_2014_1.setStatus("Confirmed");
+        em.persist(psfe_2014_1);
+        em.flush();
+
+        ProductSalesForecastEntity psfe_2014_6 = new ProductSalesForecastEntity();
+        psfe_2014_6.setAmount(2300D);
+        psfe_2014_6.setTargetPeriod(cal_2014_6);
+        psfe_2014_6.setStore(s1);
+        psfe_2014_6.setStoreProduct(sp1_1);
+        psfe_2014_6.setStatus("psfe_2014_6");
+        em.persist(psfe_2014_6);
+        em.flush();
+        
+        ProductSalesForecastEntity psfe6 = new ProductSalesForecastEntity();
+        psfe6.setAmount(2400D);
+        psfe6.setTargetPeriod(cal_2014_7);
+        psfe6.setStore(s1);
+        psfe6.setStoreProduct(sp1_1);
+        psfe6.setStatus("Confirmed");
+        em.persist(psfe6);
+        em.flush();
+
         ProductSalesForecastEntity psfe1 = new ProductSalesForecastEntity();
-        psfe1.setAmount(1600D);
-        psfe1.setTargetPeriod(caltemp3);
+        psfe1.setAmount(1300D);
+        psfe1.setTargetPeriod(cal_2014_8);
         psfe1.setStore(s1);
         psfe1.setStoreProduct(sp1_1);
         psfe1.setStatus("Confirmed");
@@ -1975,15 +2145,49 @@ public class dataSetUp {
 
         ProductSalesForecastEntity psfe2 = new ProductSalesForecastEntity();
         psfe2.setAmount(1500D);
-        psfe2.setTargetPeriod(caltemp2);
+        psfe2.setTargetPeriod(cal_2014_9);
         psfe2.setStore(s1);
         psfe2.setStoreProduct(sp1_1);
         psfe2.setStatus("Confirmed");
         em.persist(psfe2);
         em.flush();
 
+        ProductSalesForecastEntity psfe3 = new ProductSalesForecastEntity();
+        psfe3.setAmount(2000D);
+        psfe3.setTargetPeriod(cal_2014_10);
+        psfe3.setStore(s1);
+        psfe3.setStoreProduct(sp1_1);
+        psfe3.setStatus("Confirmed");
+        em.persist(psfe3);
+        em.flush();
+
+        ProductSalesForecastEntity psfe4 = new ProductSalesForecastEntity();
+        psfe4.setAmount(2200D);
+        psfe4.setTargetPeriod(cal_2014_11);
+        psfe4.setStore(s1);
+        psfe4.setStoreProduct(sp1_1);
+        psfe4.setStatus("Confirmed");
+        em.persist(psfe4);
+        em.flush();
+
+        ProductSalesForecastEntity psfe5 = new ProductSalesForecastEntity();
+        psfe5.setAmount(2400D);
+        psfe5.setTargetPeriod(cal_2014_12);
+        psfe5.setStore(s1);
+        psfe5.setStoreProduct(sp1_1);
+        psfe5.setStatus("Confirmed");
+        em.persist(psfe5);
+        em.flush();
+
+        sp1_1.getProductSalesForecastList().add(psfe_2014_1);
+        sp1_1.getProductSalesForecastList().add(psfe_2013_1);
+        sp1_1.getProductSalesForecastList().add(psfe_2012_1);
+        sp1_1.getProductSalesForecastList().add(psfe_2014_6);
         sp1_1.getProductSalesForecastList().add(psfe1);
         sp1_1.getProductSalesForecastList().add(psfe2);
+        sp1_1.getProductSalesForecastList().add(psfe3);
+        sp1_1.getProductSalesForecastList().add(psfe4);
+        sp1_1.getProductSalesForecastList().add(psfe5);
 
         em.persist(sp1_1);
         em.flush();
@@ -2067,6 +2271,25 @@ public class dataSetUp {
         em.persist(set1);
         em.flush();
 
+        ShoppingCartItemEntity scie = new ShoppingCartItemEntity();
+        scie.setCustomerWebItem(item);
+        scie.setType("product");
+        scie.setQuantity(1);
+        scie.setStoreId(1L);
+        em.persist(scie);
+        em.flush();
+
+        ShoppingCartItemEntity scie1 = new ShoppingCartItemEntity();
+        scie1.setCountrySet(set1);
+        scie1.setType("set");
+        scie1.setQuantity(1);
+        scie1.setStoreId(1L);
+        em.persist(scie1);
+        em.flush();
+
+        member.getShoppingCartList().add(scie);
+        member.getShoppingCartList().add(scie1);
+
         // Store Set 
         System.out.println("set id=============================================================" + set1.getSet().getId());
         System.out.println("countrySET id=============================================================" + set1.getId());
@@ -2096,6 +2319,7 @@ public class dataSetUp {
         sci1.setCustomerWebItem(item);
         sci1.setQuantity(3);
         sci1.setStoreId(s1.getStoreId());
+        sci1.setType("product");
         em.persist(sci1);
         em.flush();
 
@@ -2162,9 +2386,29 @@ public class dataSetUp {
         Calendar ec6 = Calendar.getInstance();
         ec6.set(2015, 0, 17);
         Calendar ec7 = Calendar.getInstance();
-        ec5.set(2015, 10, 10);
+        ec7.set(2015, 10, 10);
         Calendar ec8 = Calendar.getInstance();
-        ec6.set(2015, 10, 13);
+        ec8.set(2015, 10, 13);
+
+        Calendar ec9 = Calendar.getInstance();
+        ec9.set(2014, 0, 14);
+        Calendar ec10 = Calendar.getInstance();
+        ec10.set(2014, 0, 24);
+
+        Calendar ec11 = Calendar.getInstance();
+        ec11.set(2013, 0, 13);
+        Calendar ec12 = Calendar.getInstance();
+        ec12.set(2013, 0, 23);
+
+        Calendar ec13 = Calendar.getInstance();
+        ec13.set(2012, 0, 17);
+        Calendar ec14 = Calendar.getInstance();
+        ec14.set(2012, 0, 27);
+
+        Calendar ec15 = Calendar.getInstance();
+        ec15.set(2015, 0, 17);
+        Calendar ec16 = Calendar.getInstance();
+        ec16.set(2015, 0, 27);
 
         EventEntity ece1 = new EventEntity("National Day", "National Day Celebration, double points", ec1, ec2);
         em.persist(ece1);
@@ -2176,30 +2420,57 @@ public class dataSetUp {
         em.persist(ece3);
         em.flush();
 
-        EventEntity ece4 = new EventEntity("Double 11", "double 11, 1.1x", ec5, ec6);
-
+        EventEntity ece4 = new EventEntity("Double 11", "double 11, 1.1x", ec7, ec8);
         em.persist(ece4);
         em.flush();
 
-        StoreEventEntity event1 = new StoreEventEntity("National Day", "National Day Celebration, double points", ec1, ec2, s1, 2D
+        EventEntity ece5 = new EventEntity("Chinese New Year", "Chinese new year", ec9, ec10);
+        em.persist(ece5);
+        em.flush();
+
+        StoreEventEntity event1 = new StoreEventEntity(ece1, "National Day Celebration, double points", ec1, ec2, s1, 2D
         );
         event1.setEvent(ece1);
         event1.setStore(s1);
         em.persist(event1);
         em.flush();
 
-        StoreEventEntity event2 = new StoreEventEntity("Labor Day", "Larbor Day Celebration, parts of items count 1.5x points", ec3, ec4, s1, 1.5D
+        StoreEventEntity event2 = new StoreEventEntity(ece2, "Larbor Day Celebration, parts of items count 1.5x points", ec3, ec4, s1, 1.5D
         );
         event2.setEvent(ece2);
         event2.setStore(s1);
         em.persist(event2);
         em.flush();
 
-        StoreEventEntity event3 = new StoreEventEntity("Island Furniture Anniversary", "5th Anniversary Celebration, double points", ec5, ec6, s1, 2D
+        StoreEventEntity event4 = new StoreEventEntity(ece5, "Chinese new year", ec9, ec10, s1, 2D
         );
-        event3.setEvent(ece3);        
-        event3.setStore(s1);
-        em.persist(event3);
+        event4.setEvent(ece5);
+        event4.setStore(s1);
+        event4.setIncreaseSale(192.5);
+        em.persist(event4);
+        em.flush();
+
+        StoreEventEntity event5 = new StoreEventEntity(ece5, "Chinese new year", ec11, ec12, s1, 2D
+        );
+        event5.setEvent(ece5);
+        event5.setStore(s1);
+        event5.setIncreaseSale(230D);
+        em.persist(event5);
+        em.flush();
+
+        StoreEventEntity event6 = new StoreEventEntity(ece5, "Chinese new year", ec13, ec14, s1, 2D
+        );
+        event6.setEvent(ece5);
+        event6.setStore(s1);
+        event6.setIncreaseSale(300D);
+        em.persist(event6);
+        em.flush();
+
+        StoreEventEntity event7 = new StoreEventEntity(ece5, "Chinese new year", ec15, ec16, s1, 2D
+        );
+        event7.setEvent(ece5);
+        event7.setStore(s1);
+        em.persist(event7);
         em.flush();
 
         //***************************************************************************************************

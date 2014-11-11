@@ -12,6 +12,7 @@ import Entity.Factory.MRP.SalesForecastEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.StoreEntity;
+import Entity.Store.StoreEventEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.util.ArrayList;
@@ -388,6 +389,38 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
         forecast.setAmount(NewAmount);
         em.persist(forecast);
         em.flush();
+    }
+
+    @Override
+    public List<StoreEventEntity> getEventList(Long storeId) {
+        Query q = em.createQuery("Select b from StoreEventEntity b where b.store.storeId =:sId");
+        q.setParameter("sId", storeId);
+        return (List<StoreEventEntity>) q.getResultList();
+    }
+
+    @Override
+    public List<StoreEventEntity> getEventEffectList(Long storeEventId) {
+        StoreEventEntity event = em.find(StoreEventEntity.class, storeEventId);
+        Query q = em.createQuery("Select b from StoreEventEntity b where b.store.storeId =:sId and b.event.id =:eId ORDER BY b.startDate DESC");
+        q.setParameter("sId", event.getStore().getStoreId());
+        q.setParameter("eId",event.getEvent().getId());
+        
+        List<StoreEventEntity> result=(List<StoreEventEntity>) q.getResultList();
+        System.out.println("111"+result.size());
+        int size=result.size();
+        Calendar today=Calendar.getInstance();
+        for(int a=0;a<size;a++){
+            if(result.get(a).getStartDate().after(today)){
+                result.remove(result.get(a));
+                a--;
+                size--;
+            }
+        }
+                System.out.println("222"+result.size());
+
+        
+        return (List<StoreEventEntity>) result;
+        
     }
 
 }

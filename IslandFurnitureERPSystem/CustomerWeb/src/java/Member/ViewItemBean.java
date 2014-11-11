@@ -35,17 +35,17 @@ public class ViewItemBean {
     private int quantity;
     private String name;
     private String comment;
-    private Integer rate;
+    private Integer rate = 0;
     private List<SelectItem> typeList;
     private String selectedRate;
     private List<CommentEntity> allComment;
     private List<CommentEntity> commentList;
-    private Double totalRate;
+    private Double totalRate = 0D;
     private String web;
     private String selectedStore;
     private List<SelectItem> storeList;
     private List<StoreEntity> stores;
-    private Double stock;
+    private Double stock = null;
 
     public ViewItemBean() {
     }
@@ -67,13 +67,14 @@ public class ViewItemBean {
         }
 
         int size = commentList.size();
+        if(size!=0){
         for (CommentEntity c : commentList) {
             if (c.getCountry().equals(web)) {
                 totalRate = totalRate + c.getRate();
             }
         }
         totalRate = totalRate / size;
-
+        }
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));
@@ -99,7 +100,7 @@ public class ViewItemBean {
         if (email == null) {
             return "LoginPage?faces-redirect=true";
         } else {
-            cwml.addToShoppingCart(email, item.getId(), quantity);
+            cwml.addToShoppingCart(email, item.getId(), quantity, "product");
             return "ViewItem?faces-redirect=true";
         }
     }
@@ -129,6 +130,11 @@ public class ViewItemBean {
         } else {
             return price + "";
         }
+    }
+    
+    public boolean checkLogIn(){
+        if(name==null) return false;
+        else return true;
     }
 
     public CustomerWebModuleLocal getCwml() {

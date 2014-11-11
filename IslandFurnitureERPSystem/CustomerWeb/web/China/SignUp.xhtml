@@ -23,7 +23,7 @@
 
             <h:form id="formMain">
                 <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" 
-                         onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px " ><a href="/CustomerWeb/faces/China/HomePage.xhtml">主页</a></button>
+                         onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px " ><a href="/CustomerWeb/China/HomePage.xhtml">主页</a></button>
 
                 <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
                 <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
@@ -33,7 +33,7 @@
                 <p:messages id="messagesStatus" redisplay="true" />
 
 
-                <p:panel id="basic" header="请输入用户信息" style="position: absolute; right:220px; top:150px;margin-bottom" >
+                <p:panel id="basic" header="请输入用户信息" style="position: absolute; right:180px; top:150px;margin-bottom" >
                     <h:panelGrid columns="2" cellpadding="10">                                
 
                         <h:outputLabel for="title" value="称呼：" />
@@ -77,12 +77,22 @@
                         <h:outputLabel for="postal" value="邮编:" />
                         <p:inputText value="#{signUp.postal}" label="text" />
 
+                        <h:outputLabel value="" />
+                        <p:link  value="协议及条款" outcome="/China/TermsAndCondition?faces-redirect=true"></p:link>
+
+                        <h:outputLabel value="同意" />
+                        <p:selectBooleanCheckbox value="#{signUp.checkBox}" />
+
+                        <p:messages showDetail="true"/>
+                        <p:captcha label="Captcha" />
 
                         <p:commandButton action="#{signUp.addMember}" value="提交"/>
+                        <p:commandButton action="HomePage?faces-redirect=true" value="取消"/>
+
                     </h:panelGrid>
                 </p:panel>
                 <h5>
-                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:800px; left: 400px;text-align: center;"/>
                 </h5>
             </h:form>
         </h:body>

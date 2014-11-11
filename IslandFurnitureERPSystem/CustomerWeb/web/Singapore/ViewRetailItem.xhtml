@@ -140,7 +140,7 @@
 
                     </p:panel>
                     <br></br>
-                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="Commend" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right"/>                      
+                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="Commend" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right" rendered="#{viewRetailItemBean.checkLogIn()}"/>                      
 
                 </div>
                 <!--</p:panel>-->
