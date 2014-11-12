@@ -1003,21 +1003,61 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
+<<<<<<< HEAD
         <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}"/>
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 =======
         <copyfiles files="${libs.primefaces.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
 >>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e
+=======
+<<<<<<< HEAD
+        <copyfiles files="${libs.primefaces.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+<<<<<<< HEAD
+        <copyfiles files="${file.reference.qrgen-1.4.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+=======
+>>>>>>> a2a37e5893af09d40487ff6724afafc134edc141
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+=======
+=======
+>>>>>>> 2ecb8dab2b2121d403f4ee522e93245628880bb9
+        <copyfiles files="${libs.primefaces.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+>>>>>>> 2ecb8dab2b2121d403f4ee522e93245628880bb9
+>>>>>>> 36f5e87de15b3e862d275c96e2cc096a720b83cf
+>>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
+<<<<<<< HEAD
         <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" todir="${build.web.dir}/WEB-INF/lib"/>
 <<<<<<< HEAD
         <copyfiles files="${libs.PrimeFaces_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
 =======
         <copyfiles files="${libs.primefaces.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+>>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e
+=======
+<<<<<<< HEAD
+        <copyfiles files="${libs.primefaces.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+<<<<<<< HEAD
+        <copyfiles files="${file.reference.qrgen-1.4.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+=======
+>>>>>>> a2a37e5893af09d40487ff6724afafc134edc141
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <copyfiles files="${reference.IslandFurnitureERPSystem-ejb.dist}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.PrimeFace_5.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+=======
+=======
+>>>>>>> 2ecb8dab2b2121d403f4ee522e93245628880bb9
+        <copyfiles files="${libs.primefaces.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+>>>>>>> 2ecb8dab2b2121d403f4ee522e93245628880bb9
+>>>>>>> 36f5e87de15b3e862d275c96e2cc096a720b83cf
 >>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">

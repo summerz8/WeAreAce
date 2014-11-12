@@ -8,10 +8,15 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>IslandFurnitureERPSystem-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
+<<<<<<< HEAD
             <included-library dirs="200">file.reference.BarcodeEngine_v1.3.jar</included-library>
             <included-library dirs="200">file.reference.commons-codec-1.9.jar-2</included-library>
             <included-library dirs="200">file.reference.core.jar</included-library>
             <included-library dirs="200">file.reference.javase.jar</included-library>
+=======
+            <included-library dirs="200">libs.primefaces.classpath</included-library>
+            <included-library dirs="200">file.reference.commons-codec-1.9.jar-1</included-library>
+>>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
