@@ -4,15 +4,12 @@
 <xsd:import namespace="http://OCRM.SessionBean/" schemaLocation="http://localhost:8080/TransactionModuleService/TransactionModule?xsd=1"/>
 </xsd:schema>
 </types>
-<<<<<<< HEAD
-<message name="setTendered">
-<part name="parameters" element="tns:setTendered"/>
+<message name="changeAmount">
+<part name="parameters" element="tns:changeAmount"/>
 </message>
-<message name="setTenderedResponse">
-<part name="parameters" element="tns:setTenderedResponse"/>
+<message name="changeAmountResponse">
+<part name="parameters" element="tns:changeAmountResponse"/>
 </message>
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <message name="createTransaction">
 <part name="parameters" element="tns:createTransaction"/>
 </message>
@@ -37,12 +34,6 @@
 <message name="caculateChangeResponse">
 <part name="parameters" element="tns:caculateChangeResponse"/>
 </message>
-<message name="caculateRedemption">
-<part name="parameters" element="tns:caculateRedemption"/>
-</message>
-<message name="caculateRedemptionResponse">
-<part name="parameters" element="tns:caculateRedemptionResponse"/>
-</message>
 <message name="checkItem">
 <part name="parameters" element="tns:checkItem"/>
 </message>
@@ -61,11 +52,11 @@
 <message name="deleteUnfinishedTransactionResponse">
 <part name="parameters" element="tns:deleteUnfinishedTransactionResponse"/>
 </message>
-<message name="getStoreByStaffId">
-<part name="parameters" element="tns:getStoreByStaffId"/>
+<message name="deleteTransactionItem">
+<part name="parameters" element="tns:deleteTransactionItem"/>
 </message>
-<message name="getStoreByStaffIdResponse">
-<part name="parameters" element="tns:getStoreByStaffIdResponse"/>
+<message name="deleteTransactionItemResponse">
+<part name="parameters" element="tns:deleteTransactionItemResponse"/>
 </message>
 <message name="getTransactionById">
 <part name="parameters" element="tns:getTransactionById"/>
@@ -73,17 +64,17 @@
 <message name="getTransactionByIdResponse">
 <part name="parameters" element="tns:getTransactionByIdResponse"/>
 </message>
-<message name="changeAmount">
-<part name="parameters" element="tns:changeAmount"/>
+<message name="getStoreByStaffId">
+<part name="parameters" element="tns:getStoreByStaffId"/>
 </message>
-<message name="changeAmountResponse">
-<part name="parameters" element="tns:changeAmountResponse"/>
+<message name="getStoreByStaffIdResponse">
+<part name="parameters" element="tns:getStoreByStaffIdResponse"/>
 </message>
-<message name="deleteTransactionItem">
-<part name="parameters" element="tns:deleteTransactionItem"/>
+<message name="caculateRedemption">
+<part name="parameters" element="tns:caculateRedemption"/>
 </message>
-<message name="deleteTransactionItemResponse">
-<part name="parameters" element="tns:deleteTransactionItemResponse"/>
+<message name="caculateRedemptionResponse">
+<part name="parameters" element="tns:caculateRedemptionResponse"/>
 </message>
 <message name="checkItemType">
 <part name="parameters" element="tns:checkItemType"/>
@@ -92,13 +83,10 @@
 <part name="parameters" element="tns:checkItemTypeResponse"/>
 </message>
 <portType name="TransactionModule">
-<<<<<<< HEAD
-<operation name="setTendered">
-<input wsam:Action="http://OCRM.SessionBean/TransactionModule/setTenderedRequest" message="tns:setTendered"/>
-<output wsam:Action="http://OCRM.SessionBean/TransactionModule/setTenderedResponse" message="tns:setTenderedResponse"/>
+<operation name="changeAmount">
+<input wsam:Action="http://OCRM.SessionBean/TransactionModule/changeAmountRequest" message="tns:changeAmount"/>
+<output wsam:Action="http://OCRM.SessionBean/TransactionModule/changeAmountResponse" message="tns:changeAmountResponse"/>
 </operation>
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <operation name="createTransaction">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/createTransactionRequest" message="tns:createTransaction"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/createTransactionResponse" message="tns:createTransactionResponse"/>
@@ -115,10 +103,6 @@
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateChangeRequest" message="tns:caculateChange"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateChangeResponse" message="tns:caculateChangeResponse"/>
 </operation>
-<operation name="caculateRedemption">
-<input wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateRedemptionRequest" message="tns:caculateRedemption"/>
-<output wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateRedemptionResponse" message="tns:caculateRedemptionResponse"/>
-</operation>
 <operation name="checkItem">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/checkItemRequest" message="tns:checkItem"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/checkItemResponse" message="tns:checkItemResponse"/>
@@ -131,21 +115,21 @@
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/deleteUnfinishedTransactionRequest" message="tns:deleteUnfinishedTransaction"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/deleteUnfinishedTransactionResponse" message="tns:deleteUnfinishedTransactionResponse"/>
 </operation>
-<operation name="getStoreByStaffId">
-<input wsam:Action="http://OCRM.SessionBean/TransactionModule/getStoreByStaffIdRequest" message="tns:getStoreByStaffId"/>
-<output wsam:Action="http://OCRM.SessionBean/TransactionModule/getStoreByStaffIdResponse" message="tns:getStoreByStaffIdResponse"/>
+<operation name="deleteTransactionItem">
+<input wsam:Action="http://OCRM.SessionBean/TransactionModule/deleteTransactionItemRequest" message="tns:deleteTransactionItem"/>
+<output wsam:Action="http://OCRM.SessionBean/TransactionModule/deleteTransactionItemResponse" message="tns:deleteTransactionItemResponse"/>
 </operation>
 <operation name="getTransactionById">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/getTransactionByIdRequest" message="tns:getTransactionById"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/getTransactionByIdResponse" message="tns:getTransactionByIdResponse"/>
 </operation>
-<operation name="changeAmount">
-<input wsam:Action="http://OCRM.SessionBean/TransactionModule/changeAmountRequest" message="tns:changeAmount"/>
-<output wsam:Action="http://OCRM.SessionBean/TransactionModule/changeAmountResponse" message="tns:changeAmountResponse"/>
+<operation name="getStoreByStaffId">
+<input wsam:Action="http://OCRM.SessionBean/TransactionModule/getStoreByStaffIdRequest" message="tns:getStoreByStaffId"/>
+<output wsam:Action="http://OCRM.SessionBean/TransactionModule/getStoreByStaffIdResponse" message="tns:getStoreByStaffIdResponse"/>
 </operation>
-<operation name="deleteTransactionItem">
-<input wsam:Action="http://OCRM.SessionBean/TransactionModule/deleteTransactionItemRequest" message="tns:deleteTransactionItem"/>
-<output wsam:Action="http://OCRM.SessionBean/TransactionModule/deleteTransactionItemResponse" message="tns:deleteTransactionItemResponse"/>
+<operation name="caculateRedemption">
+<input wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateRedemptionRequest" message="tns:caculateRedemption"/>
+<output wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateRedemptionResponse" message="tns:caculateRedemptionResponse"/>
 </operation>
 <operation name="checkItemType">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/checkItemTypeRequest" message="tns:checkItemType"/>
@@ -154,8 +138,7 @@
 </portType>
 <binding name="TransactionModulePortBinding" type="tns:TransactionModule">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<<<<<<< HEAD
-<operation name="setTendered">
+<operation name="changeAmount">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -164,8 +147,6 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <operation name="createTransaction">
 <soap:operation soapAction=""/>
 <input>
@@ -202,15 +183,6 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="caculateRedemption">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="checkItem">
 <soap:operation soapAction=""/>
 <input>
@@ -238,7 +210,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getStoreByStaffId">
+<operation name="deleteTransactionItem">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -256,7 +228,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="changeAmount">
+<operation name="getStoreByStaffId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -265,7 +237,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="deleteTransactionItem">
+<operation name="caculateRedemption">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -227,7 +227,6 @@ public class IngredientPurchaseOrderBean implements Serializable {
             ex.printStackTrace();
         }
     }
-
 //
 //    public void generateIngredientReceipt(ActionEvent event) {
 //        Long irId = pm.generateIngredientReceipt(selectedIPO.getId());
@@ -244,5 +243,5 @@ public class IngredientPurchaseOrderBean implements Serializable {
     public void viewIngredientPurchaseOrdersToSuppliers(ActionEvent event) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("IPOForIPOSs", selectedIPO);
     }
-    
+
 }

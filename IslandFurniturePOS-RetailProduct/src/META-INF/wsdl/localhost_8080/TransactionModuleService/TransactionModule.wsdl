@@ -4,12 +4,15 @@
 <xsd:import namespace="http://OCRM.SessionBean/" schemaLocation="http://localhost:8080/TransactionModuleService/TransactionModule?xsd=1"/>
 </xsd:schema>
 </types>
+<<<<<<< HEAD
 <message name="setTendered">
 <part name="parameters" element="tns:setTendered"/>
 </message>
 <message name="setTenderedResponse">
 <part name="parameters" element="tns:setTenderedResponse"/>
 </message>
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <message name="createTransaction">
 <part name="parameters" element="tns:createTransaction"/>
 </message>
@@ -89,10 +92,13 @@
 <part name="parameters" element="tns:checkItemTypeResponse"/>
 </message>
 <portType name="TransactionModule">
+<<<<<<< HEAD
 <operation name="setTendered">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/setTenderedRequest" message="tns:setTendered"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/setTenderedResponse" message="tns:setTenderedResponse"/>
 </operation>
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <operation name="createTransaction">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/createTransactionRequest" message="tns:createTransaction"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/createTransactionResponse" message="tns:createTransactionResponse"/>
@@ -148,6 +154,7 @@
 </portType>
 <binding name="TransactionModulePortBinding" type="tns:TransactionModule">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<<<<<<< HEAD
 <operation name="setTendered">
 <soap:operation soapAction=""/>
 <input>
@@ -157,6 +164,8 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <operation name="createTransaction">
 <soap:operation soapAction=""/>
 <input>

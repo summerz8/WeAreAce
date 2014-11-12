@@ -210,6 +210,24 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD:IslandFurniturePOS-RetailProduct/src/islandfurniturepos/MainMenu.java
+=======
+    private void jButtonNewTransactionFurnitureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionFurnitureActionPerformed
+        // TODO add your handling code here:
+        if (POSid.substring(0, 1).equals("F")) {
+            location = 1;
+            NewTransaction transaction = new NewTransaction(POSid, storeStaffId, location, memberId);
+            transaction.setVisible(true);
+            transaction.setExtendedState(JFrame.NORMAL);
+            this.setVisible(false);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "You are not allowed to create this transaction!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButtonNewTransactionFurnitureActionPerformed
+
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17:IslandFurniturePOS-RetailProduct/src/islandfurniturepos/MainMenu.java
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
         // TODO add your handling code here:
         StoreUserEntity cashier = getCasherById(storeStaffId);   

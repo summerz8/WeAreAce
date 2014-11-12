@@ -63,9 +63,16 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jButtonLogout" min="-2" pref="187" max="-2" attributes="0"/>
                       </Group>
+<<<<<<< HEAD
                       <Component id="jButtonNewTransactionFurniture" min="-2" pref="420" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="122" max="32767" attributes="0"/>
+=======
+                      <Component id="jButtonNewTransactionRetailProduct" min="-2" pref="420" max="-2" attributes="0"/>
+                      <Component id="jButtonNewTransactionFurniture" min="-2" pref="420" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -92,7 +99,13 @@
                   </Group>
                   <EmptySpace type="separate" pref="23" max="32767" attributes="0"/>
                   <Component id="jButtonNewTransactionFurniture" min="-2" pref="52" max="-2" attributes="0"/>
+<<<<<<< HEAD
                   <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+=======
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jButtonNewTransactionRetailProduct" min="-2" pref="57" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButtonMember" alignment="3" min="-2" pref="64" max="-2" attributes="0"/>
                       <Component id="jButtonLogout" alignment="3" min="-2" pref="64" max="-2" attributes="0"/>
@@ -145,6 +158,32 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
+<<<<<<< HEAD
+=======
+        <Component class="javax.swing.JButton" name="jButtonNewTransactionRetailProduct">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Times" size="18" style="3"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Create New Transaction for Retail Product"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                <BevelBorder/>
+              </Border>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNewTransactionRetailProductActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         <Component class="javax.swing.JLabel" name="jLabelName">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">

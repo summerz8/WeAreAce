@@ -394,7 +394,10 @@ public class CreditCard extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void checkOut() {
+<<<<<<< HEAD
         setTendered(transactionId,actualTotalPrice);
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         caculateChange(transactionId, 0D);
 
         if (memberId != null) {
@@ -651,10 +654,13 @@ public class CreditCard extends javax.swing.JFrame {
         return c;
     }
 
+<<<<<<< HEAD
     private static void setTendered(java.lang.Long transactionId, java.lang.Double tendered) {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         port.setTendered(transactionId, tendered);
     }
 
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 }
