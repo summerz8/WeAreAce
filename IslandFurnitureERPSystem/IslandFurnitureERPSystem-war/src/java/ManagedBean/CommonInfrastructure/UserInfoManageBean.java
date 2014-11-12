@@ -250,34 +250,42 @@ public class UserInfoManageBean implements Serializable {
     }
 
     public void saveChangedUserInfo(ActionEvent event) {
-        System.out.println("UserInfoManageBean: save changes");
-        System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
+        try {
+            System.out.println("UserInfoManageBean: save changes");
+            System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
 
-        IUMA.ModifyStaff(userId, Department, userLevel, LastName, MidName, FirstName,
-                Position, birthday, Gender, Title, Address, Postal, Email, departmentId);
+            IUMA.ModifyStaff(userId, Department, userLevel, LastName, MidName, FirstName,
+                    Position, birthday, Gender, Title, Address, Postal, Email, departmentId);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "User Info Changed Successfully!", ""));
-
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "User Info Changed Successfully!", ""));
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public void changePassword(ActionEvent event) {
-        //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
-        System.out.println("UserInfoManageBean: change password");
-        //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
-        System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
-        if (cryptographicHelper.doMD5Hashing(inputOldPass+userId).equals(password)) {
-            //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
-            IUMA.changePass(cryptographicHelper.doMD5Hashing(newPass+userId), userId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Password changed successfully!", ""));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Wrong Password, please enter again!", ""));
+        try {
+            //System.out.println(FacesContext.getCurrentInstance().getAttributes().get("pwd"));
+            System.out.println("UserInfoManageBean: change password");
+            //System.out.println(FacesContext.getCurrentInstance().getMessages("messagesStatus"));
+            System.out.println("UserInfoManageBean: old password" + password + " and input password " + inputOldPass + " and new pass " + newPass);
+            if (cryptographicHelper.doMD5Hashing(inputOldPass + userId).equals(password)) {
+                //System.out.println("\n\n\nIMPORTANT!!!: New password before hashing: "+ newPass +" Just for check!\n\n\n");
+                IUMA.changePass(cryptographicHelper.doMD5Hashing(newPass + userId), userId);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Password changed successfully!", ""));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Wrong Password, please enter again!", ""));
+            }
+
+            inputOldPass = null;
+            password = IUMA.getUser(userId).getPwd();
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
         }
-
-        inputOldPass = null;
-        password = IUMA.getUser(userId).getPwd();
-
     }
 }

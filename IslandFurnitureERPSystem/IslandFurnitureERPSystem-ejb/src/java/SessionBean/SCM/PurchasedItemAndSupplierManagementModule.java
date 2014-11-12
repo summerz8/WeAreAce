@@ -35,7 +35,7 @@ import javax.persistence.Query;
  * @author Shiyu
  */
 @Stateful
-public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAndSupplierManagementModuleLocal {
+public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAndSupplierManagementModuleLocal, PurchasedItemAndSupplierManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -52,6 +52,9 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         try {
             FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            if (factory == null) {
+                throw new Exception("Factory is not found!");
+            }
             Collection<FactoryRawMaterialEntity> factoryRawMaterialList = factory.getFactoryRawMaterials();
 
             System.out.println("Session Bean view Raw Material With Select Type: " + factoryRawMaterialList.size());
@@ -63,6 +66,9 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 }
             }
         } catch (Exception ex) {
+            if (ex.getMessage().equals("Factory is not found!")) {
+                throw ex;
+            }
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
         }
@@ -181,20 +187,26 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         //create new supplier entity and contract entity
         supplier.create(name, address, telephone, fax, remark);
         contract.create(contractPrice, leadTime, unit, lotSize, contractStartDate, contractEndDate);
-
         try {
             //create relationship between contract and factory Raw material 
             if (itemType.equals("RawMaterial")) {
                 FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, itemId);
+                if (factoryRawMaterial == null) {
+                    result = "Factory Raw Material is not found!";
+                    return result;
+                }
                 contract.setFactoryRawMaterial(factoryRawMaterial);
-                factoryRawMaterial.getContracts()
-                        .add(contract);
+                factoryRawMaterial.getContracts().add(contract);
                 unit = factoryRawMaterial.getUnit();
                 contract.setTypeIndicator(1);
-
+                System.err.println("SB: 5");
             } //create relationship between contract and retail products
             else {//itemType.equals("RetailProducts")
                 FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, itemId);
+                if (factoryRetailProduct == null) {
+                    result = "Factory Retail Product is not found!";
+                    return result;
+                }
                 contract.setFactoryRetailProduct(factoryRetailProduct);
 
                 factoryRetailProduct.getContracts().add(contract);
@@ -202,24 +214,21 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
                 contract.setTypeIndicator(3);
 
             }
-
             //create relationship between supplier ad contract 
             supplier.getContractList().add(contract);
             contract.setSupplier(supplier);
             em.persist(supplier);
             em.persist(contract);
             em.flush();
-
             result = "Supplier " + supplier.getSupplierName() + " [id = " + supplier.getSupplierId() + " ] created!";
             result = result + "\nContract [id = " + contract.getContractId() + "] created with this supplier!";
+            return result;
         } catch (Exception ex) {
             System.err.println("Caught an unexpected exception!");
             ex.printStackTrace();
             result = "Supplier has not been created successfully...\nPlease try again...";
+            return result;
         }
-
-        System.out.println(result);
-        return result;
     }
 
     //view all suppliers in the factory
@@ -351,6 +360,10 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
 
         try {
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
+            if (supplier == null) {
+                result = "Supplier is not found!";
+                return result;
+            }
             System.out.println("SessionBean: SupplierName + " + name);
             supplier.setSupplierName(name);
 
@@ -383,7 +396,10 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
         String result = null;
         try {
             SupplierEntity supplier = em.find(SupplierEntity.class, supplierId);
-
+            if (supplier == null) {
+                result = "Supplier is not found!";
+                return result;
+            }
             String supplierName = supplier.getSupplierName();
             Collection<ContractEntity> contractList = supplier.getContractList();
 
@@ -660,6 +676,9 @@ public class PurchasedItemAndSupplierManagementModule implements PurchasedItemAn
     @Override
     public UserEntity getUser(String userId) throws Exception {
         UserEntity user = em.find(UserEntity.class, userId);
+        if (user == null) {
+            throw new Exception("User is not found!");
+        }
         return user;
     }
 

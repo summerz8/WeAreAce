@@ -28,6 +28,7 @@ import util.security.CryptographicHelper;
 @Table(name = "User")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     private String userId;
     private String pwd;

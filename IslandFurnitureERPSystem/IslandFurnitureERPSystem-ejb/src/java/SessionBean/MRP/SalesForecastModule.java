@@ -26,14 +26,18 @@ import javax.persistence.Query;
  * @author apple
  */
 @Stateless
-public class SalesForecastModule implements SalesForecastModuleLocal {
+public class SalesForecastModule implements SalesForecastModuleLocal, SalesForecastModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public SalesForecastEntity GetSalesForecast(Long salesForecastId) {
-        return em.find(SalesForecastEntity.class, salesForecastId);
+    public SalesForecastEntity GetSalesForecast(Long salesForecastId) throws Exception {
+        SalesForecastEntity sf = em.find(SalesForecastEntity.class, salesForecastId);
+        if (sf == null) {
+            throw new Exception("Sales Forecast is not found!");
+        }
+        return sf;
     }
 
     @Override
@@ -348,9 +352,13 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
 
     @Override
     // Now assume that all there is only 1 factory 
-    public List<FactoryProductEntity> productListNeededTobeIntegrated(Long FactoryId) {
+    public List<FactoryProductEntity> productListNeededTobeIntegrated(Long FactoryId) throws Exception {
 
         FactoryEntity factory = em.find(FactoryEntity.class, FactoryId);
+
+        if (factory == null) {
+            throw new Exception("Factory is not found!");
+        }
 
         List<FactoryProductEntity> factoryProductList = new ArrayList<>();
         Query q = em.createQuery("SELECT t FROM FactoryProductEntity t");
@@ -444,42 +452,42 @@ public class SalesForecastModule implements SalesForecastModuleLocal {
     public void GenerateIntegratedSalesForecast(String type, Long factoryProductId, Calendar period) {
 
         IntegratedSalesForecastEntity integratedSalesForecast = IntegrateSalesForecast(type, factoryProductId, period);
-
-        em.persist(integratedSalesForecast);
-        em.flush();
+        if (integratedSalesForecast != null) {
+            em.persist(integratedSalesForecast);
+            em.flush();
+        }
 
     }
 
     @Override
     public List<StoreEntity> ListStore(Long factoryId) {
         StoreEntity store;
-        if(factoryId!=null){
-        FactoryEntity factory=em.find(FactoryEntity.class, factoryId);
-        List<StoreEntity> storeList = new ArrayList<>();
-        for(Long id: factory.getStoreList()){
-        store=em.find(StoreEntity.class, id);
-        storeList.add(store);
+        if (factoryId != null) {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            List<StoreEntity> storeList = new ArrayList<>();
+            for (Long id : factory.getStoreList()) {
+                store = em.find(StoreEntity.class, id);
+                storeList.add(store);
+            }
+
+            return storeList;
+        } else {
+            List<StoreEntity> storeList = new ArrayList<>();
+            List<FactoryEntity> factoryList;
+            Query query = em.createQuery("SELECT t FROM FactoryEntity t");
+            factoryList = (List<FactoryEntity>) query.getResultList();
+            for (FactoryEntity f : factoryList) {
+
+                for (Long id : f.getStoreList()) {
+                    store = em.find(StoreEntity.class, id);
+                    storeList.add(store);
+                }
+
+            }
+
+            return storeList;
         }
-        
-        return storeList;
-        }
-        else {
-        List<StoreEntity> storeList = new ArrayList<>();
-        List<FactoryEntity> factoryList;
-         Query query = em.createQuery("SELECT t FROM FactoryEntity t");
-        factoryList = (List<FactoryEntity>) query.getResultList();
-        for(FactoryEntity f: factoryList){    
-        
-        for(Long id: f.getStoreList()){
-        store=em.find(StoreEntity.class, id);
-        storeList.add(store);
-        }
-        
-        }
-        
-        return storeList;
-        }
-        
+
     }
 
 }

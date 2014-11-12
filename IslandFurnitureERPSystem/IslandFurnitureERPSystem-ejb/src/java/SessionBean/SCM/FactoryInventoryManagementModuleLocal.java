@@ -17,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface FactoryInventoryManagementModuleLocal {
 
-    public List listStorageBinInformation(Long factoryId);
+    public List listStorageBinInformation (Long factoryId) throws Exception;
 
     public Long recordInboundMovement(Long factoryId, Long goodsReceiptId, Long toBinId, String status, Double quantity, Calendar creationDate);
 

@@ -321,6 +321,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
 
     @Override
     @WebMethod(operationName = "checkOut")
+
     public Double checkout(
             @WebParam(name = "orderId") Long orderId,
             @WebParam(name = "received") Double received) {

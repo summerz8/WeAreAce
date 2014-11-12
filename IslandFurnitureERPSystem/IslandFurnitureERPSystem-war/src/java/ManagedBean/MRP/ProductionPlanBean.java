@@ -79,8 +79,6 @@ public class ProductionPlanBean implements Serializable {
         return department;
     }
 
-    
-
     public void setProductionPlan(List<ProductionPlanEntity> ProductionPlan) {
         this.productionPlan = ProductionPlan;
     }
@@ -96,7 +94,6 @@ public class ProductionPlanBean implements Serializable {
     public void setProductionPlanCancelled(List<ProductionPlanEntity> productionPlanCancelled) {
         this.productionPlanCancelled = productionPlanCancelled;
     }
- 
 
     public void setQuantity(Object quantity) {
         this.quantity = quantity;
@@ -109,12 +106,12 @@ public class ProductionPlanBean implements Serializable {
     public void setDepartment(String department) {
         this.department = department;
     }
-     
 
     public String getStatus() {
         return status;
     }
 //
+
     public String getRemark() {
         return remark;
     }
@@ -129,11 +126,16 @@ public class ProductionPlanBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
-        productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed(id,department);
-        productionPlanConfirmed = PP.getProductionPlanConfirmed(id,department);
-        productionPlanCancelled = PP.getProductionPlanCancelled(id,department);
+        try {
+            id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+            productionPlanUnconfirmed = PP.getProductionPlanUnconfirmed(id, department);
+            productionPlanConfirmed = PP.getProductionPlanConfirmed(id, department);
+            productionPlanCancelled = PP.getProductionPlanCancelled(id, department);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public List<ProductionPlanEntity> getProductionPlanConfirmed() {
@@ -152,21 +154,22 @@ public class ProductionPlanBean implements Serializable {
         return productionPlan;
     }
 
-    
-    
     public void saveId(Long id) {
-        productionPlanId = id;
-        pp = PP.searchProductionPlan(productionPlanId);
-        if (!pp.getQuantity().equals(quantity) && quantity != null) {
-            save(productionPlanId, "quantity", quantity);
-        } else if (!pp.getStatus().equals(status) && status != null) {
-            save(productionPlanId, "status", status);
-        } else if (!pp.getRemark().equals(remark) && remark != null) {
-            save(productionPlanId, "remark", remark);
+        try {
+            productionPlanId = id;
+            pp = PP.searchProductionPlan(productionPlanId);
+            if (!pp.getQuantity().equals(quantity) && quantity != null) {
+                save(productionPlanId, "quantity", quantity);
+            } else if (!pp.getStatus().equals(status) && status != null) {
+                save(productionPlanId, "status", status);
+            } else if (!pp.getRemark().equals(remark) && remark != null) {
+                save(productionPlanId, "remark", remark);
+            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
         }
-
     }
-
 
     public void quantityChanged(ValueChangeEvent event) {
         Object newValue = event.getNewValue();
@@ -199,33 +202,48 @@ public class ProductionPlanBean implements Serializable {
     }
 
     public void save(Long productionPlanId, String field, Object content) {
-        System.out.println("9");
-        PP.editProductionPlan(productionPlanId, field, content);
-        System.out.println("10");
+        try {
+            System.out.println("9");
+            PP.editProductionPlan(productionPlanId, field, content);
+            System.out.println("10");
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
-    
-    public String confirm(Long id){
-        Calendar confirmDate = Calendar.getInstance();
-        PP.editProductionPlan(id, "status", "confirmed");
-        PP.editProductionPlan(id, "confirmDate", confirmDate);
-        PO.createPlannedOrder(id);
-        WPO.generateWeeklyProductionPlan(id);
-        
-        return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
+
+    public String confirm(Long id) {
+        try {
+            Calendar confirmDate = Calendar.getInstance();
+            PP.editProductionPlan(id, "status", "confirmed");
+            PP.editProductionPlan(id, "confirmDate", confirmDate);
+            PO.createPlannedOrder(id);
+            WPO.generateWeeklyProductionPlan(id);
+
+            return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
-    
-    public String cancel(Long id){
-        PP.editProductionPlan(id, "status", "cancelled");
-        return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
+
+    public String cancel(Long id) {
+        try {
+            PP.editProductionPlan(id, "status", "cancelled");
+            return "/secured/restricted/Factory/MRP/ProductionPlan/MRPProductionPlanUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
-    
-    public String viewWeeklyProductionPlan(List<WeeklyProductionPlanEntity> selectedWeeklyProductionPlan){
+
+    public String viewWeeklyProductionPlan(List<WeeklyProductionPlanEntity> selectedWeeklyProductionPlan) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedWeeklyProductionPlan", selectedWeeklyProductionPlan);
 //        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedProductionPlan", selectedProductionPlan);
         return "/secured/restricted/Factory/MRP/ProductionPlan/MRPWeeklyProductionPlanView?faces-redirect=true";
 
     }
-    
-    
 
 }

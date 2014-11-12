@@ -110,7 +110,7 @@ public class Factory_StoreManagementModuleTest {
     public void testListFactory() {
         System.out.println("ListFactory");
         List<FactoryEntity> result = Factory_StoreManagementModule.ListFactory();
-        assertFalse(result.isEmpty());   
+        assertFalse(result.isEmpty());
     }
 
     /**
@@ -122,8 +122,8 @@ public class Factory_StoreManagementModuleTest {
         String country = "China";
         String address = "Shang Hai";
         String contact = "12345";
-        String manager = "S1000004";       
-        Factory_StoreManagementModule.AddStore(country, address, contact, manager);     
+        String manager = "S1000004";
+        Factory_StoreManagementModule.AddStore(country, address, contact, manager);
     }
 
     /**
@@ -154,12 +154,12 @@ public class Factory_StoreManagementModuleTest {
         String contact = "9879262";
         String manager = "S1000004";
         String result = new String();
-         try {
+        try {
             Factory_StoreManagementModule.ModifyStore(storeId, country, address, contact, manager);
         } catch (Exception ex) {
             result = ex.getMessage();
         }
-        assertEquals("Store is not found!", result);       
+        assertEquals("Store is not found!", result);
     }
 
     /**
@@ -182,24 +182,24 @@ public class Factory_StoreManagementModuleTest {
         Long factoryId = -1L;
         Collection<ProductEntity> temp = new ArrayList();
         String result = new String();
-         try {
+        try {
             temp = Factory_StoreManagementModule.viewProductListNotInFactory(factoryId);
         } catch (Exception ex) {
             result = ex.getMessage();
         }
-             assertEquals("Factory is not found!", result);   
+        assertEquals("Factory is not found!", result);
     }
-    
+
     @Test
     public void testViewProductListNotInFactory2() throws Exception {
         System.out.println("viewProductListNotInFactory");
         Long factoryId = 1L;
-         try {
+        try {
             Collection<ProductEntity> result = Factory_StoreManagementModule.viewProductListNotInFactory(factoryId);
             assertNotNull(result);
         } catch (Exception ex) {
             String err = ex.getMessage();
-        }                   
+        }
     }
 
     /**
@@ -212,26 +212,26 @@ public class Factory_StoreManagementModuleTest {
         Long factoryId = -1L;
         Collection<FactoryProductEntity> temp = new ArrayList();
         String result = new String();
-         try {
+        try {
             temp = Factory_StoreManagementModule.listFactoryProduct(factoryId);
         } catch (Exception ex) {
             result = ex.getMessage();
         }
-        assertEquals("Factory is not found!", result);   
-         
+        assertEquals("Factory is not found!", result);
+
     }
-    
+
     @Test
     public void testListFactoryProduct2() throws Exception {
         System.out.println("listFactoryProduct");
         Long factoryId = 1L;
-         try {
+        try {
             Collection<FactoryProductEntity> result = Factory_StoreManagementModule.listFactoryProduct(factoryId);
             assertNotNull(result);
         } catch (Exception ex) {
             String err = ex.getMessage();
         }
-        
+
     }
 
     /**
@@ -246,8 +246,8 @@ public class Factory_StoreManagementModuleTest {
         Integer result = Factory_StoreManagementModule.deleteFatoryProduct(factoryProductId);
         assertEquals(expResult, result);
     }
-    
-        @Test
+
+    @Test
     public void testDeleteFatoryProduct2() {
         System.out.println("deleteFatoryProduct");
         Long factoryProductId = 2L;
@@ -267,9 +267,9 @@ public class Factory_StoreManagementModuleTest {
         Long ProductId = 1L;
         Integer expResult = 0;
         Integer result = Factory_StoreManagementModule.addFactoryProduct(FactoryId, ProductId);
-        assertEquals(expResult, result);      
+        assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testAddFactoryProduct2() {
         System.out.println("addFactoryProduct");
@@ -277,17 +277,17 @@ public class Factory_StoreManagementModuleTest {
         Long ProductId = -1L;
         Integer expResult = 1;
         Integer result = Factory_StoreManagementModule.addFactoryProduct(FactoryId, ProductId);
-        assertEquals(expResult, result);      
+        assertEquals(expResult, result);
     }
-    
-        @Test
+
+    @Test
     public void testAddFactoryProduct3() {
         System.out.println("addFactoryProduct");
         Long FactoryId = 1L;
         Long ProductId = 6L;
         Integer expResult = 2;
         Integer result = Factory_StoreManagementModule.addFactoryProduct(FactoryId, ProductId);
-        assertEquals(expResult, result);      
+        assertEquals(expResult, result);
     }
 
     /**
@@ -296,17 +296,17 @@ public class Factory_StoreManagementModuleTest {
     @Test
     public void testGetFactory1() {
         System.out.println("getFactory");
-        Long factoryId = 1L;           
+        Long factoryId = 1L;
         FactoryEntity result = Factory_StoreManagementModule.getFactory(factoryId);
-        assertFalse(result == null);       
+        assertFalse(result == null);
     }
-    
-        @Test
+
+    @Test
     public void testGetFactory2() {
         System.out.println("getFactory");
-        Long factoryId = -2L;           
+        Long factoryId = -2L;
         FactoryEntity result = Factory_StoreManagementModule.getFactory(factoryId);
-        assertTrue(result == null);       
+        assertTrue(result == null);
     }
 
     public class Factory_StoreManagementModuleRemoteImpl implements Factory_StoreManagementModuleRemote {

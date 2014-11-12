@@ -17,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface RawMaterialInventoryMonitoringModuleLocal {
 
-    public List<InboundMovementEntity> viewWeeklyRawMaterialInventoryInFlow(long factoryId);
+    public List<InboundMovementEntity> viewWeeklyRawMaterialInventoryInFlow(long factoryId) throws Exception;
     
     public List viewWeeklyRawMaterialInventoryOutFlow(long factoryId);
     

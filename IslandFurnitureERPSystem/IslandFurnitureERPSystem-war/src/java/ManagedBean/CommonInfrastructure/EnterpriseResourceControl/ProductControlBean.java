@@ -57,19 +57,24 @@ public class ProductControlBean {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        System.out.println("onRowEdit test:");
-        ProductEntity entity = (ProductEntity) event.getObject();
-        System.out.println("onRowEdit test: " + entity.getProductId() + entity.getName());
+        try {
+            System.out.println("onRowEdit test:");
+            ProductEntity entity = (ProductEntity) event.getObject();
+            System.out.println("onRowEdit test: " + entity.getProductId() + entity.getName());
 
-        if (entity.getPrice() <= entity.getMemberPrice()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Product cannot be edited!", "Member Price must be smaller than Original Price!"));
-        } else {
-            RPMM.ModifyProduct(entity.getProductId(), entity.getName(), entity.getDescription(),
-                    entity.getPrice(), entity.getMemberPrice(), entity.getUnit());
+            if (entity.getPrice() <= entity.getMemberPrice()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Product cannot be edited!", "Member Price must be smaller than Original Price!"));
+            } else {
+                RPMM.ModifyProduct(entity.getProductId(), entity.getName(), entity.getDescription(),
+                        entity.getPrice(), entity.getMemberPrice(), entity.getUnit());
 
-            FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(entity.getProductId()));
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+                FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(entity.getProductId()));
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+        } catch (Exception e) {
+            System.out.println("unexpected exception occured");
+            e.printStackTrace();
         }
     }
 
@@ -79,15 +84,20 @@ public class ProductControlBean {
     }
 
     public void deleteProduct(Long id) {
-        System.out.println("ProductControlBean: deleteProduct: " + String.valueOf(id));
-        if(RPMM.DeleteProduct(id)){
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
+        try {
+            System.out.println("ProductControlBean: deleteProduct: " + String.valueOf(id));
+            if (RPMM.DeleteProduct(id)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Product deleted successfully! ", ""));
 
-        productList = RPMM.ListProduct();
-        filteredProduct = productList;
-        }else{
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Product cannot be deleted! ", "Factory product or store product still exists!"));
+                productList = RPMM.ListProduct();
+                filteredProduct = productList;
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Product cannot be deleted! ", "Factory product or store product still exists!"));
+            }
+        } catch (Exception e) {
+            System.out.println("unexpected exception occured");
+            e.printStackTrace();
         }
     }
 
@@ -198,5 +208,4 @@ public class ProductControlBean {
         this.selectedDeleteProductId = selectedDeleteProductId;
     }
 
-    
 }
