@@ -395,4 +395,5 @@ public class WorkPlaceBean implements Serializable {
         this.displayList2 = displayList2;
     }
 
+
 }

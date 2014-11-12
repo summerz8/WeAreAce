@@ -24,7 +24,7 @@ public interface MemberRegistrationModuleLocal {
 
     public int AddMember(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, Long transactionId);
+            String title, String address, String postalCode, String email, Long transactionId, String country);
     
     public void DeleteMember(Long userId);
 
@@ -37,4 +37,6 @@ public interface MemberRegistrationModuleLocal {
     public MemberEntity memberLogin(String email, String pwd);
     
     public List<MembershipLevelEntity> getMembership();
+
+    public int checkEmail(String newEmail);
 }

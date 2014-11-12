@@ -95,7 +95,7 @@ public class SignUpBean {
                     "Email Send Successfully!", ""));
         }
 
-    }
+        }
 
     public String getFirstName() {
         return FirstName;

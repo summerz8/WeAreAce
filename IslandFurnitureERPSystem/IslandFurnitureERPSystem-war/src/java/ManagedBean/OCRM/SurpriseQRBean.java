@@ -8,21 +8,14 @@ package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.SurpriseQREntity;
 import SessionBean.OCRM.SurpriseQRBeanLocal;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.imageio.ImageIO;
-
 
 /**
  *
@@ -30,7 +23,7 @@ import javax.imageio.ImageIO;
  */
 @Named(value = "surpriseQRBean")
 @ViewScoped
-public class SurpriseQRBean {
+public class SurpriseQRBean implements Serializable{
     @EJB
     SurpriseQRBeanLocal sqb;
     
@@ -65,8 +58,6 @@ public class SurpriseQRBean {
         return "/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true";
     }
 
-          
-    
     public SurpriseQRBeanLocal getSqb() {
         return sqb;
     }

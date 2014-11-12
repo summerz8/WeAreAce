@@ -113,6 +113,7 @@
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                                 <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true"/>
                                 <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
+
                             </p:submenu>
 
                             <p:submenu label="Analytical CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
@@ -184,14 +185,15 @@
                                     <h:panelGrid columns="2" cellpadding="5" >                                 
                                         <h:outputLabel for="store2" value="Store:" style="font-weight:bold" />
                                         <p:selectOneMenu id="store2" value="#{workPlaceBean.selectedStore1}">
-                                                <p:ajax  update="out1" listener="#{workPlaceBean.checkRev}" />
+                                            <p:ajax  update="out1" listener="#{workPlaceBean.checkRev}" />
 
-                                                <f:selectItem itemLabel="All Stores" itemValue="" />
-                                                <f:selectItems value="#{workPlaceBean.displayList}" />
-                                            </p:selectOneMenu>
 
-                                            <h:outputText value="Current Month Cumulative Revenue" />
-                                            <h:outputText id="out1" value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
+                                            <f:selectItem itemLabel="All Stores" itemValue="" />
+                                            <f:selectItems value="#{workPlaceBean.displayList}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+                                        <h:outputText id="out1" value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
                                     </h:panelGrid>
                                 </p:panel>
 

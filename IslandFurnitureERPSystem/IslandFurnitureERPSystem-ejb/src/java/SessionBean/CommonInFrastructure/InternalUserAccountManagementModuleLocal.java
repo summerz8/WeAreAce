@@ -47,5 +47,10 @@ public interface InternalUserAccountManagementModuleLocal {
     public List<UserEntity> ListStoreUser(Long id);
 
     public String resetPass(String userId);
+
+//    public List<UserEntity> ListCasher();
+//
+//    public void resetCash(Double newCash, Double d, Long userId);
+//    
     
 }

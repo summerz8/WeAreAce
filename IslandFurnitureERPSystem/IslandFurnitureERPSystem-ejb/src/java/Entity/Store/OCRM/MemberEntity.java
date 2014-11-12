@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entity.Store.OCRM;
 
 import Entity.Store.ACRM.CLVEntity;
@@ -34,19 +33,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "member")
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class MemberEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
-    
-    private String pwd; 
+
+    private String pwd;
     private String lastName;
     private String midName;
     private String firstName;
 
+    @XmlTransient
     private TransactionEntity lastTransaction;
     private Long storeId;
-
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthday;
@@ -55,46 +55,44 @@ public class MemberEntity implements Serializable {
     private String address;
     private String postalCode;
     private String email;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar createDate;
 
     private String country;
-    
 
     private Double currentPoints;
     private Double totalPoints;
     private Double pointsToUpgrade;
 
     private Boolean deleteFlag;
-    
+
     @OneToMany
+    @XmlTransient
     private List<ShoppingCartItemEntity> shoppingCartList;
 
     @ManyToOne
     private MembershipLevelEntity memberlvl;
-    
+
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "member")
     @XmlTransient
-    private List<TransactionEntity> transactionList; 
-    
+    private List<TransactionEntity> transactionList;
+
     @OneToOne(cascade = {CascadeType.PERSIST})
     @XmlTransient
     private MemberCardIdMappingEntity cardIdMapping;
 
     @OneToOne(cascade = {CascadeType.PERSIST})
     private RFMEntity rfm = null;
-    
+
     @OneToOne(cascade = {CascadeType.PERSIST})
     private CLVEntity clv = null;
 
-
-    
     public MemberEntity() {
     }
 
-    public MemberEntity(String pwd, String lastName, String midName, String firstName, 
-            Calendar birthday, String gender, String title, String address, String postalCode, 
+    public MemberEntity(String pwd, String lastName, String midName, String firstName,
+            Calendar birthday, String gender, String title, String address, String postalCode,
             String email, Boolean deleteFlag) {
         this.pwd = pwd;
         this.lastName = lastName;
@@ -109,15 +107,38 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.pointsToUpgrade = 1000D;     
+        this.pointsToUpgrade = 1000D;
         this.createDate = Calendar.getInstance();
 
-        shoppingCartList=new ArrayList<>();
+        shoppingCartList = new ArrayList<>();
     }
-    
+
+    public MemberEntity(String pwd, String lastName, String midName, String firstName,
+            Calendar birthday, String gender, String title, String address, String postalCode,
+            String email, Boolean deleteFlag, String country) {
+        this.pwd = pwd;
+        this.lastName = lastName;
+        this.midName = midName;
+        this.firstName = firstName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.title = title;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.email = email;
+        this.deleteFlag = deleteFlag;
+        this.totalPoints = 0D;
+        this.currentPoints = 0D;
+        this.pointsToUpgrade = 1000D;
+        this.createDate = Calendar.getInstance();
+        this.country = country;
+
+        shoppingCartList = new ArrayList<>();
+    }
+
     //for ACRM data setup
-    public MemberEntity(String pwd, String lastName, String midName, String firstName, 
-            Calendar birthday, String gender, String title, String address, String postalCode, 
+    public MemberEntity(String pwd, String lastName, String midName, String firstName,
+            Calendar birthday, String gender, String title, String address, String postalCode,
             String email, Boolean deleteFlag, String country, MembershipLevelEntity mlvl) {
         this.pwd = pwd;
         this.lastName = lastName;
@@ -132,15 +153,15 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.pointsToUpgrade = 1000D;     
+        this.pointsToUpgrade = 1000D;
         this.createDate = Calendar.getInstance();
         this.country = country;
         this.memberlvl = mlvl;
 
-        shoppingCartList=new ArrayList<>();
+        shoppingCartList = new ArrayList<>();
         this.createDate = Calendar.getInstance();
     }
-    
+
     public Long getMemberId() {
         return memberId;
     }
@@ -252,8 +273,6 @@ public class MemberEntity implements Serializable {
     public void setTransactionList(List<TransactionEntity> transactionList) {
         this.transactionList = transactionList;
     }
-    
-    
 
     public TransactionEntity getLastTransaction() {
         return lastTransaction;
@@ -286,8 +305,6 @@ public class MemberEntity implements Serializable {
     public void setCardIdMapping(MemberCardIdMappingEntity cardIdMapping) {
         this.cardIdMapping = cardIdMapping;
     }
-    
-    
 
     public MembershipLevelEntity getMemberlvl() {
         return memberlvl;
@@ -352,9 +369,7 @@ public class MemberEntity implements Serializable {
     public void setClv(CLVEntity clv) {
         this.clv = clv;
     }
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -379,5 +394,5 @@ public class MemberEntity implements Serializable {
     public String toString() {
         return "Entity.Store.OCRM.MemberEntity[ id=" + memberId + " ]";
     }
-    
+
 }

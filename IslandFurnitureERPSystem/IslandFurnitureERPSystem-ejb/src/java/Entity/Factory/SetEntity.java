@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,12 +35,15 @@ public class SetEntity implements Serializable {
     private Double memberPrice;
 
     @OneToMany
+    @XmlTransient
     private List<ProductEntity> productList;
 
     @OneToMany
+    @XmlTransient
     private List<StoreSetEntity> storeSetList;
 
     @OneToMany
+    @XmlTransient
     private List<CountrySetEntity> webSetList;
     
     
