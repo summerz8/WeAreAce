@@ -132,79 +132,166 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false" style = "border:0px;margin-bottom:10px ;width: 200px; height:800px;" >
                         <div style="margin: auto;height:600px">
-                            <h:form>
-                                <p:growl id="msgs" showDetail="true" />
+
+                            <p:growl id="msgs" showDetail="true" />
 
 
-                                <p:dashboard id="board" model="#{workPlaceBean.model}">
+                            <p:dashboard id="board" model="#{workPlaceBean.model}">
 
-                                    <p:panel id="message" header="Message" style="width: 300px; height:150px">
-                                        <h:panelGrid columns="2" cellpadding="5" >
-                                            <h:outputText value="New messages:" />
-                                            <h:outputText value="2" style="color: red;font-size: 16px"/>
-                                            <h:outputText value="Messages to be processed:" />
-                                            <h:outputText value="10" style="color: red;font-size: 16px"/>
-                                        </h:panelGrid>
-                                    </p:panel>
+                                <p:panel id="message" header="Message" style="width: 300px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >
+                                        <h:outputText value="New messages:" />
+                                        <h:outputText value="#{workPlaceBean.newMessages}" style="color: red;font-size: 16px"/>
+                                        <h:outputText value="Messages to be processed:" />
+                                        <h:outputText value="#{workPlaceBean.msgTobeProcessed}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
 
-                                    <p:panel id="ticket" header="Ticket" style="width: 300px; height:150px">
-                                        <h:panelGrid columns="2" cellpadding="5" >
-                                            <h:outputText value="New Tickets:" />
-                                            <h:outputText value="3" style="color: red;font-size: 16px"/>
-                                            <h:outputText value="Tickets to be processed:" />
-                                            <h:outputText value="5" style="color: red;font-size: 16px"/>
-                                        </h:panelGrid>
-                                    </p:panel>
-
-                                    <p:panel id="kitchen" header="Kitchen" style="width: 600px; height:150px">
-                                        <h:panelGrid columns="2" cellpadding="5" >                                          
-                                            <h:outputLabel for="kitchenStore" value="Store:" style="font-weight:bold" />
-                                            <p:selectOneMenu id="kitchenStore" value="#{workPlaceBean.selectedStore}">
-                                                <f:selectItem itemLabel="All Stores" itemValue="" />
-                                                <f:selectItems value="#{workPlaceBean.displayList}" />
-                                            </p:selectOneMenu>
-
-                                            <h:outputText value="Current Month Cumulative Revenue" />
-                                            <h:outputText value="$121,041.3" style="color: red;font-size: 16px"/>
-                                        </h:panelGrid>
-                                    </p:panel>
-
-                                    <p:panel id="product" header="Furniture Product" style="width: 600px; height:150px">
-                                        <h:panelGrid columns="2" cellpadding="5" >                                 
-                                            <h:outputLabel for="store" value="Store:" style="font-weight:bold" />
-                                            <p:selectOneMenu id="store" value="#{workPlaceBean.selectedStore1}">
-                                                <f:selectItem itemLabel="All Stores" itemValue="" />
-                                                <f:selectItems value="#{workPlaceBean.displayList}" />
-                                            </p:selectOneMenu>
-
-                                            <h:outputText value="Current Month Cumulative Revenue" />
-                                            <h:outputText value="$51,294,041.3" style="color: red;font-size: 16px" />
-                                        </h:panelGrid>
-                                    </p:panel>
-
-                                    <p:panel id="retailproduct" header="Retail Product" style="width: 600px; height:150px">
-                                        <h:panelGrid columns="2" cellpadding="5" >                                          
-                                            <h:outputLabel for="retail" value="Store:" style="font-weight:bold" />
-                                            <p:selectOneMenu id="retail" value="#{workPlaceBean.selectedStore2}">
-                                                <f:selectItem itemLabel="All Stores" itemValue="" />
-                                                <f:selectItems value="#{workPlaceBean.displayList}" />
-                                            </p:selectOneMenu>
-
-                                            <h:outputText value="Current Month Cumulative Revenue" />
-                                            <h:outputText value="$314,041.3" style="color: red;font-size: 16px"/>
-                                        </h:panelGrid>
-                                    </p:panel>
-
-                                    <p:panel id="calendar" header="Calendar" style="width: 300px; height:150px">
-                                        <p:calendar id="inline" value="#{workPlaceBean.date}" mode="inline" />
-                                    </p:panel>
+                                <p:panel id="ticket" header="Ticket" rendered="#{workPlaceManageBean.isValidTicket()}" style="width: 300px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >
+                                        <h:outputText value="New Tickets:" />
+                                        <h:outputText value="#{workPlaceBean.ticketsToBeViewed}" style="color: red;font-size: 16px"/>
+                                        <h:outputText value="Tickets to be processed:" />
+                                        <h:outputText value="#{workPlaceBean.ticketsToBeProcessed}" style="color: red;font-size: 16px"/>
+                                        <h:outputText value="Tickets to be closed" />
+                                        <h:outputText value="#{workPlaceBean.ticketsToBeClosed}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
 
 
 
-                                </p:dashboard>
+                                <p:panel id="kitchenH" header="Kitchen" rendered="#{workPlaceManageBean.isValidHQ()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                          
+                                        <h:outputLabel for="kitchenStore" value="Store:" style="font-weight:bold" />
+                                        <p:selectOneMenu id="kitchenStore" value="#{workPlaceBean.selectedStore}">
+                                            <p:ajax  update="out6" listener="#{workPlaceBean.checkRev()}" />
+                                            <f:selectItem itemLabel="All Stores" itemValue="" />
+                                            <f:selectItems  value="#{workPlaceBean.displayList}" />
+                                        </p:selectOneMenu>
 
-                                <div style="clear:both" />
-                            </h:form>
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+                                        <h:outputText id="out6" value="#{workPlaceBean.revK}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="kitchen" header="Kitchen" rendered="#{workPlaceManageBean.isValidKitchenOnly()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >        
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+                                        <h:outputText value="#{workPlaceBean.revK}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="productH" header="Furniture Product" rendered="#{workPlaceManageBean.isValidHQ()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                 
+                                        <h:outputLabel for="store2" value="Store:" style="font-weight:bold" />
+                                        <p:selectOneMenu id="store2" value="#{workPlaceBean.selectedStore1}">
+                                            <p:ajax  update="out1" listener="#{workPlaceBean.checkRev}" />
+                                            <h:outputText id="out1" value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="product" header="Furniture Product" rendered="#{workPlaceManageBean.isValidStoreManager()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                 
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+                                        <h:outputText value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="retailproductH" header="Retail Product" rendered="#{workPlaceManageBean.isValidHQ()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                 
+                                        <h:outputLabel for="store3" value="Store:" style="font-weight:bold" />
+                                        <p:selectOneMenu id="store3" value="#{workPlaceBean.selectedStore2}">
+                                            <p:ajax  update="out2" listener="#{workPlaceBean.checkRev()}" />
+                                            <f:selectItem itemLabel="All Stores" itemValue="" />
+                                            <f:selectItems value="#{workPlaceBean.displayList}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+                                        <h:outputText id="out2" value="#{workPlaceBean.revSRP}" style="color: red;font-size: 16px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+
+                                <p:panel id="retailproduct" header="Retail Product" rendered="#{workPlaceManageBean.isValidStoreManager()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                          
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+                                        <h:outputText value="#{workPlaceBean.revSRP}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="productfH" header="Furniture Product" rendered="#{workPlaceManageBean.isValidHQ()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                 
+                                        <h:outputLabel for="factory1" value="Factory:" style="font-weight:bold" />
+                                        <p:selectOneMenu id="factory1" value="#{workPlaceBean.selectedFactory1}">
+                                            <p:ajax  update="out3" listener="#{workPlaceBean.checkStock()}" />
+                                            <f:selectItem itemLabel="All Factorys" itemValue="" />
+                                            <f:selectItems value="#{workPlaceBean.displayList2}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Current Stock" />
+                                        <h:outputText id="out3" value="#{workPlaceBean.stockFP}" style="color: red;font-size: 16px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="productf" header="Furniture Product" rendered="#{workPlaceManageBean.isValidFactoryManager()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                 
+                                        <h:outputText value="Current Stock" />
+                                        <h:outputText value="#{workPlaceBean.stockFP}" style="color: red;font-size: 16px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="retailproductfH" header="Retail Product" rendered="#{workPlaceManageBean.isValidHQ()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                 
+                                        <h:outputLabel for="factory2" value="Factory:" style="font-weight:bold" />
+                                        <p:selectOneMenu id="factory2" value="#{workPlaceBean.selectedFactory2}">
+                                            <p:ajax  update="out4" listener="#{workPlaceBean.checkStock()}" />
+                                            <f:selectItem itemLabel="All Factorys" itemValue="" />
+                                            <f:selectItems value="#{workPlaceBean.displayList2}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Current Stock" />
+                                        <h:outputText id="out4" value="#{workPlaceBean.stockFRP}" style="color: red;font-size: 16px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+
+                                <p:panel id="retailproductf" header="Retail Product" rendered="#{workPlaceManageBean.isValidFactoryManager()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                          
+                                        <h:outputText value="Current Stock" />
+                                        <h:outputText value="#{workPlaceBean.stockFRP}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="rawMaterialH" header="Raw Material" rendered="#{workPlaceManageBean.isValidHQ()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                          
+                                        <h:outputLabel for="raw" value="Factory:" style="font-weight:bold" />
+                                        <p:selectOneMenu id="raw" value="#{workPlaceBean.selectedFactory3}">
+                                            <p:ajax  update="out5" listener="#{workPlaceBean.checkStock()}" />
+                                            <f:selectItem itemLabel="All Factorys" itemValue="" />
+                                            <f:selectItems value="#{workPlaceBean.displayList2}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Current Stock" />
+                                        <h:outputText id="out5" value="#{workPlaceBean.stockFRM}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="rawMaterial" header="Raw Material" rendered="#{workPlaceManageBean.isValidFactoryManager()}" style="width: 600px; height:150px">
+                                    <h:panelGrid columns="2" cellpadding="5" >                                          
+                                        <h:outputText value="Current Stock" />
+                                        <h:outputText value="#{workPlaceBean.stockFRM}" style="color: red;font-size: 16px"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="calendar" header="Calendar" style="width: 100%; height:100%">
+                                    <p:calendar id="inline" value="#{workPlaceBean.date}" mode="inline" />
+                                </p:panel>
+
+
+                            </p:dashboard>
+
+                            <div style="clear:both" />
+
                         </div>
 
                     </p:layoutUnit>

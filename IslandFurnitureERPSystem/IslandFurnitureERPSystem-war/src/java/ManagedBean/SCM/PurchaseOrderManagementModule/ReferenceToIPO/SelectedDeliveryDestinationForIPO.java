@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.SCM.PurchaseOrderManagementModule.ReferenceToIPO;
 
 import Entity.Factory.FactoryEntity;
@@ -24,7 +23,7 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class SelectedDeliveryDestinationForIPO {
 
-       @EJB
+    @EJB
     private PurchaseOrderManagementModuleLocal pmb;
 
     private String destination;
@@ -37,8 +36,11 @@ public class SelectedDeliveryDestinationForIPO {
 
     public void setDestination(String destination) {
         this.destination = destination;
+        System.out.println("setDestination : destination = " + destination);
+
         if (destination.equals("factory")) {
             try {
+
                 Long factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
                 this.selectedFactory = pmb.getFactoryEntity(factoryId);
             } catch (Exception ex) {
@@ -63,9 +65,9 @@ public class SelectedDeliveryDestinationForIPO {
         this.selectedFactory = selectedFactory;
     }
 
-
     public String passValue() {
 
+        System.out.println("passValue : destination = " + destination);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("destination", destination);
 
         if (destination.equals("store")) {
@@ -73,8 +75,8 @@ public class SelectedDeliveryDestinationForIPO {
         }
         return "/secured/restricted/Factory/SCM/PurchaseOrderManagementModule/ReferenceToIntegratedPlannedOrder/DisplayGeneratedPO?faces-redirect=true";
     }
-    
+
     public SelectedDeliveryDestinationForIPO() {
     }
-    
+
 }

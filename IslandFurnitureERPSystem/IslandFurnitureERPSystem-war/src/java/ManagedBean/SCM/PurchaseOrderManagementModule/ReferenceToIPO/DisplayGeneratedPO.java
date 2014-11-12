@@ -10,6 +10,7 @@ import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.DeliveryOrderEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.SupplierEntity;
+import Entity.Store.StoreEntity;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
 import java.util.Calendar;
 import java.util.Collection;
@@ -18,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -79,7 +79,8 @@ public class DisplayGeneratedPO {
 
             contract = pmb.selectSupplier(itemType, itemId, supplier.getSupplierId());
 
-            storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("storeId");
+            StoreEntity se = (StoreEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedStore");
+            storeId = se.getStoreId();
             destination = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("destination");
 
             if (integratedPlannedOrder.getFactoryRawMaterialAmount() != null) {
@@ -307,7 +308,7 @@ public class DisplayGeneratedPO {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedIPO");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSupplierIPO");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("nextMonthBeginPlannedAmount");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("storeId");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedStore");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("destination");
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("po", purchaseOrder);
