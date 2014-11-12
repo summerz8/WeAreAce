@@ -13,13 +13,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PersistenceContext;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -33,9 +31,6 @@ public class StoreSetEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @PersistenceContext
-    private EntityManager em;
 
     private String name;
     private String description;
@@ -133,14 +128,6 @@ public class StoreSetEntity implements Serializable {
 
     public void setStoreProductList(List<StoreProductEntity> storeProductList) {
         this.storeProductList = storeProductList;
-    }
-
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
     }
 
     public String getDescription() {
