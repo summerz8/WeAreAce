@@ -948,11 +948,11 @@ public class dataSetUp {
         //Inventory Record
         //Inventory Record.Calendars
         Calendar ci1 = Calendar.getInstance();
-        ci1.set(2014, 7, 1);
+        ci1.set(2014, 10, 1);
         Calendar ci2 = Calendar.getInstance();
-        ci2.set(2014, 8, 1);
+        ci2.set(2014, 11, 1);
         Calendar ci3 = Calendar.getInstance();
-        ci3.set(2014, 9, 1);
+        ci3.set(2014, 12, 1);
         //for f1.factoryRawMaterial
         InventoryRecordEntity ir1_1_1_1 = new InventoryRecordEntity(frm1_1, ci1, 1000.0);
         em.persist(ir1_1_1_1);
@@ -1746,6 +1746,19 @@ public class dataSetUp {
             }
             ds.setSales(sales);
         }
+//
+//        // kitchen orders
+//        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
+//        cof.addDishItem(ko1_1.getId(), d1_1.getId(), 1);
+//        cof.addDishItem(ko1_1.getId(), d1_2.getId(), 2);
+//        cof.addComboItem(ko1_1.getId(), c1_1.getId(), 3);
+//        cof.confirmOrder(ko1_1.getId(), 1000.0);
+//        
+//        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
+//        cof.addDishItem(ko1_2.getId(), d1_1.getId(), 5);
+//        cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
+//        cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
+//        cof.confirmOrder(ko1_2.getId(), 10000.0);
 
         //MembershipLevel
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
