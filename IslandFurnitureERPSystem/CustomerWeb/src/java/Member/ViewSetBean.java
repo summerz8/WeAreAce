@@ -94,6 +94,7 @@ public class ViewSetBean {
         
         totalRate = totalRate / size;
         }
+        
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));

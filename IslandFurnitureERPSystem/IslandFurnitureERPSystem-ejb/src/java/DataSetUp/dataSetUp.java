@@ -120,11 +120,11 @@ public class dataSetUp {
         em.flush();
 
         //Factory
-        FactoryEntity f1 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
-        em.persist(f1);
-        em.flush();
-        FactoryEntity f2 = new FactoryEntity("United States", "4400 Shellmound St, Emeryville, CA", "+1888-888-4532", "F1000002", false);
+        FactoryEntity f2 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
         em.persist(f2);
+        em.flush();
+        FactoryEntity f1 = new FactoryEntity("China", "Guang Zhou Chongqing Lu 142523", "+86 8888-4532", "F1000002", false);
+        em.persist(f1);
         em.flush();
 
         //Factory Bin
@@ -285,92 +285,149 @@ public class dataSetUp {
         em.persist(p9);
         em.flush();
 
+        ProductEntity p10 = new ProductEntity("MuYa Bed", "Queen Size,  France Style", 500.0, 480.0, "one", false);
+        em.persist(p10);
+        em.flush();
+
+        ProductEntity p11 = new ProductEntity("Muya Bedside", "400mm X 300mm,  pink/white", 200.0, 180.0, "one", false);
+        em.persist(p11);
+        em.flush();
+
+        ProductEntity p12 = new ProductEntity("Muya closet", "2000mm X 1700mm,  pink/white", 400.0, 380.0, "one", false);
+        em.persist(p12);
+        em.flush();
+
+        ProductEntity p13 = new ProductEntity("GreenHouse Bed", "Queen Size,  Chinese Style", 600.0, 580.0, "one", false);
+        em.persist(p13);
+        em.flush();
+
+        ProductEntity p14 = new ProductEntity("GreenHouse Closet", "2000mm X 1700mm,  Chinese style", 400.0, 380.0, "one", false);
+        em.persist(p14);
+        em.flush();
+
+        ProductEntity p15 = new ProductEntity("GreenHouse Bedside", "400mm X 300mm ,  Chinese style", 300.0, 280.0, "one", false);
+        em.persist(p15);
+        em.flush();
+
+        ProductEntity p16 = new ProductEntity("U.S. Classical Closet", "2000mm X 1700mm,  pink/white", 400.0, 380.0, "one", false);
+        em.persist(p16);
+        em.flush();
+
+        ProductEntity p17 = new ProductEntity("U.S. classical Bed", "Queen Size,  Chinese Style", 600.0, 580.0, "one", false);
+        em.persist(p17);
+        em.flush();
+
+        ProductEntity p18 = new ProductEntity("U.S. classical mirror", "round, white, 100mmX70mm ", 100.0, 80.0, "one", false);
+        em.persist(p18);
+        em.flush();
+
+        ProductEntity p19 = new ProductEntity("U.S. classical Bedside", "400mm X 300mm", 300.0, 280.0, "one", false);
+        em.persist(p19);
+        em.flush();
+
         // Set Entity 
         SetEntity set1_1 = new SetEntity();
-        set1_1.setName("Modern Set 4");
-        set1_1.setDescription("best");
-        set1_1.setPrice(2000D);
-        set1_1.setMemberPrice(1900D);
+        set1_1.setName("MuYa France-Style Rest Room Set");
+        set1_1.setDescription("Desgined by france team, using best wooden material with harmless paint.");
+        set1_1.setPrice(998D);
+        set1_1.setMemberPrice(898D);
+        set1_1.getProductList().add(p10);
+        set1_1.getProductList().add(p11);
+        set1_1.getProductList().add(p12);
         em.persist(set1_1);
         em.flush();
 
         SetEntity set1_2 = new SetEntity();
-        set1_2.setName("Modern Set 5");
-        set1_2.setDescription("nice");
-        set1_2.setPrice(1000D);
-        set1_2.setMemberPrice(900D);
+        set1_2.setName("GreenHouse Chinese-Style Rest Room Set");
+        set1_2.setDescription("Pure traditional chinese style, with the tranditional Chinese wooden material.");
+        set1_2.setPrice(1198D);
+        set1_2.setMemberPrice(998D);
+        set1_2.getProductList().add(p13);
+        set1_2.getProductList().add(p14);
+        set1_2.getProductList().add(p15);
         em.persist(set1_2);
         em.flush();
 
         SetEntity set1_3 = new SetEntity();
-        set1_3.setName("Modern Set 6");
-        set1_3.setDescription("good");
-        set1_3.setPrice(1500D);
-        set1_3.setMemberPrice(1400D);
+        set1_3.setName("U.S. classical");
+        set1_3.setDescription("U.S. style rest room set");
+        set1_3.setPrice(920D);
+        set1_3.setMemberPrice(889D);
+        set1_3.getProductList().add(p16);
+        set1_3.getProductList().add(p17);
+        set1_3.getProductList().add(p18);
+        set1_3.getProductList().add(p19);
         em.persist(set1_3);
         em.flush();
 
         //Factory Product
         //for f1
-        FactoryProductEntity fp1_1 = new FactoryProductEntity(p1.getUnit(), f1, p1);
+        FactoryProductEntity fp1_1 = new FactoryProductEntity(p10.getUnit(), f1, p10);
         em.persist(fp1_1);
         em.flush();
         f1.getFactoryProducts().add(fp1_1);
-        p1.getFactoryProducts().add(fp1_1);
-        FactoryProductEntity fp1_2 = new FactoryProductEntity(p2.getUnit(), f1, p2);
+        p10.getFactoryProducts().add(fp1_1);
+
+        FactoryProductEntity fp1_2 = new FactoryProductEntity(p11.getUnit(), f1, p11);
         em.persist(fp1_2);
-        em.flush();
         f1.getFactoryProducts().add(fp1_2);
-        p2.getFactoryProducts().add(fp1_2);
-        FactoryProductEntity fp1_3 = new FactoryProductEntity(p3.getUnit(), f1, p3);
+        p11.getFactoryProducts().add(fp1_2);
+        em.flush();
+
+
+        FactoryProductEntity fp1_3 = new FactoryProductEntity(p12.getUnit(), f1, p12);
         em.persist(fp1_3);
-        em.flush();
         f1.getFactoryProducts().add(fp1_3);
-        p3.getFactoryProducts().add(fp1_3);
-        FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p4);
-        em.persist(fp1_4);
+        p12.getFactoryProducts().add(fp1_3);
         em.flush();
+        
+
+        FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p13);
+        em.persist(fp1_4);
         f1.getFactoryProducts().add(fp1_4);
-        p4.getFactoryProducts().add(fp1_4);
-        FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
+        p13.getFactoryProducts().add(fp1_4);
+        em.flush();
+        
+        FactoryProductEntity fp1_5 = new FactoryProductEntity(p14.getUnit(), f1, p14);
         em.persist(fp1_5);
         em.flush();
         f1.getFactoryProducts().add(fp1_5);
-        p5.getFactoryProducts().add(fp1_5);
+        p14.getFactoryProducts().add(fp1_5);
         em.flush();
 
-        FactoryProductEntity fp1_6 = new FactoryProductEntity(p7.getUnit(), f1, p7);
+        FactoryProductEntity fp1_6 = new FactoryProductEntity(p7.getUnit(), f1, p15);
         em.persist(fp1_6);
         em.flush();
         f1.getFactoryProducts().add(fp1_6);
-        p5.getFactoryProducts().add(fp1_6);
+        p15.getFactoryProducts().add(fp1_6);
         em.flush();
 
-        FactoryProductEntity fp1_7 = new FactoryProductEntity(p8.getUnit(), f1, p8);
-        em.persist(fp1_7);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_7);
-        p5.getFactoryProducts().add(fp1_7);
-        em.flush();
-
-        FactoryProductEntity fp1_8 = new FactoryProductEntity(p9.getUnit(), f1, p9);
-        em.persist(fp1_8);
-        em.flush();
-        f1.getFactoryProducts().add(fp1_8);
-        p5.getFactoryProducts().add(fp1_8);
-        em.flush();
-
-        //for f2
-        FactoryProductEntity fp2_1 = new FactoryProductEntity(p1.getUnit(), f2, p1);
+        FactoryProductEntity fp2_1 = new FactoryProductEntity(p17.getUnit(), f2, p17);
         em.persist(fp2_1);
         em.flush();
         f2.getFactoryProducts().add(fp2_1);
-        p1.getFactoryProducts().add(fp2_1);
-        FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
+        p17.getFactoryProducts().add(fp2_1);
+        em.flush();
+
+        //for f2
+        FactoryProductEntity fp2_2 = new FactoryProductEntity(p18.getUnit(), f2, p18);
         em.persist(fp2_2);
         em.flush();
         f2.getFactoryProducts().add(fp2_2);
-        p2.getFactoryProducts().add(fp2_2);
+        p18.getFactoryProducts().add(fp2_2);
+        
+        FactoryProductEntity fp2_3 = new FactoryProductEntity(p19.getUnit(), f2, p19);
+        em.persist(fp2_3);
+        em.flush();
+        f2.getFactoryProducts().add(fp2_3);
+        p19.getFactoryProducts().add(fp2_3);
+        em.flush();
+        
+        FactoryProductEntity fp2_4 = new FactoryProductEntity(p16.getUnit(), f2, p16);
+        em.persist(fp2_4);
+        em.flush();
+        f2.getFactoryProducts().add(fp2_4);
+        p16.getFactoryProducts().add(fp2_4);
         em.flush();
 
         //Factory Retail Product
@@ -417,92 +474,93 @@ public class dataSetUp {
         //StoreProduct      /* Further Modification*/
         //for s1
         //s1.storeProduct
-        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE, "good", p1);
-
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE, "good", p10);
         em.persist(sp1_1);
         fp1_1.getStoreProducts().add(sp1_1);
         s1.getStoreProducts().add(sp1_1);
-        p1.getStoreProducts().add(sp1_1);
-        em.persist(p1);
+        p10.getStoreProducts().add(sp1_1);
         em.flush();
-        StoreProductEntity sp1_2 = new StoreProductEntity(fp1_2, s1, Boolean.FALSE, "good", p2);
+
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp1_2, s1, Boolean.FALSE, "good", p11);
         em.persist(sp1_2);
-        fp2_1.getStoreProducts().add(sp1_2);
+        fp1_2.getStoreProducts().add(sp1_2);
         s1.getStoreProducts().add(sp1_2);
-        p2.getStoreProducts().add(sp1_2);
+        p11.getStoreProducts().add(sp1_2);
         em.flush();
 
-        StoreProductEntity sp1_3 = new StoreProductEntity(fp1_6, s1, Boolean.FALSE, "good", p7);
+        StoreProductEntity sp1_3 = new StoreProductEntity(fp1_3, s1, Boolean.FALSE, "good", p12);
         em.persist(sp1_3);
-        fp2_2.getStoreProducts().add(sp1_3);
-        s2.getStoreProducts().add(sp1_3);
-        p7.getStoreProducts().add(sp1_3);
+        fp1_3.getStoreProducts().add(sp1_3);
+        s1.getStoreProducts().add(sp1_3);
+        p12.getStoreProducts().add(sp1_3);
         em.flush();
 
-        StoreProductEntity sp1_4 = new StoreProductEntity(fp1_7, s1, Boolean.FALSE, "good", p8);
+        StoreProductEntity sp1_4 = new StoreProductEntity(fp1_4, s1, Boolean.FALSE, "good", p13);
         em.persist(sp1_4);
-        fp2_2.getStoreProducts().add(sp1_4);
-        s2.getStoreProducts().add(sp1_4);
-        p8.getStoreProducts().add(sp1_4);
+        fp1_4.getStoreProducts().add(sp1_4);
+        s1.getStoreProducts().add(sp1_4);
+        p13.getStoreProducts().add(sp1_4);
         em.flush();
 
-        StoreProductEntity sp1_5 = new StoreProductEntity(fp1_8, s1, Boolean.FALSE, "good", p9);
+        StoreProductEntity sp1_5 = new StoreProductEntity(fp1_5, s1, Boolean.FALSE, "good", p14);
         em.persist(sp1_5);
-        fp2_2.getStoreProducts().add(sp1_5);
-        s2.getStoreProducts().add(sp1_5);
-        p9.getStoreProducts().add(sp1_5);
+        fp1_5.getStoreProducts().add(sp1_5);
+        s1.getStoreProducts().add(sp1_5);
+        p14.getStoreProducts().add(sp1_5);
         em.flush();
+        
+        StoreProductEntity sp1_6 = new StoreProductEntity(fp1_6, s1, Boolean.FALSE, "good", p15);
+        em.persist(sp1_6);
+        fp1_6.getStoreProducts().add(sp1_6);
+        s1.getStoreProducts().add(sp1_6);
+        p15.getStoreProducts().add(sp1_6);
+        em.flush();
+        
+        
 
         //s2.storeProduct
-        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_2, s2, Boolean.TRUE, "good", p2);
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_1, s2, Boolean.TRUE, "good", p10);
         em.persist(sp2_1);
-        fp1_2.getStoreProducts().add(sp2_1);
+        fp1_1.getStoreProducts().add(sp2_1);
         s2.getStoreProducts().add(sp2_1);
-        p2.getStoreProducts().add(sp2_1);
+        p10.getStoreProducts().add(sp2_1);
         em.flush();
-        StoreProductEntity sp2_2 = new StoreProductEntity(fp2_2, s2, Boolean.FALSE, "good", p2);
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp1_2, s2, Boolean.FALSE, "good", p11);
         em.persist(sp2_2);
-        fp2_2.getStoreProducts().add(sp2_2);
+        fp1_2.getStoreProducts().add(sp2_2);
         s2.getStoreProducts().add(sp2_2);
-        p2.getStoreProducts().add(sp2_2);
+        p11.getStoreProducts().add(sp2_2);
         em.flush();
 
-        StoreProductEntity sp2_3 = new StoreProductEntity(fp1_6, s2, Boolean.FALSE, "good", p7);
+        StoreProductEntity sp2_3 = new StoreProductEntity(fp1_3, s2, Boolean.FALSE, "good", p12);
         em.persist(sp2_3);
-        fp2_2.getStoreProducts().add(sp2_3);
+        fp1_3.getStoreProducts().add(sp2_3);
         s2.getStoreProducts().add(sp2_3);
-        p7.getStoreProducts().add(sp2_3);
+        p12.getStoreProducts().add(sp2_3);
         em.flush();
 
-        StoreProductEntity sp2_4 = new StoreProductEntity(fp1_7, s2, Boolean.FALSE, "good", p8);
+        StoreProductEntity sp2_4 = new StoreProductEntity(fp1_4, s2, Boolean.FALSE, "good", p13);
         em.persist(sp2_4);
-        fp2_2.getStoreProducts().add(sp2_4);
+        fp1_4.getStoreProducts().add(sp2_4);
         s2.getStoreProducts().add(sp2_4);
-        p8.getStoreProducts().add(sp2_4);
+        p13.getStoreProducts().add(sp2_4);
         em.flush();
 
-        StoreProductEntity sp2_5 = new StoreProductEntity(fp1_8, s2, Boolean.FALSE, "good", p9);
+        StoreProductEntity sp2_5 = new StoreProductEntity(fp1_5, s2, Boolean.FALSE, "good", p14);
         em.persist(sp2_5);
-        fp2_2.getStoreProducts().add(sp2_5);
+        fp1_5.getStoreProducts().add(sp2_5);
         s2.getStoreProducts().add(sp2_5);
-        p9.getStoreProducts().add(sp2_5);
+        p14.getStoreProducts().add(sp2_5);
+        em.flush();
+        
+        StoreProductEntity sp2_6 = new StoreProductEntity(fp1_6, s2, Boolean.FALSE, "good", p15);
+        em.persist(sp2_6);
+        fp1_6.getStoreProducts().add(sp2_6);
+        s2.getStoreProducts().add(sp2_6);
+        p15.getStoreProducts().add(sp2_6);
         em.flush();
 
-        sp1_1.setProduct(p1);
-        sp1_2.setProduct(p2);
-        sp1_3.setProduct(p7);
-        sp1_4.setProduct(p8);
-        sp1_5.setProduct(p9);
-        sp2_1.setProduct(p2);
-        sp2_2.setProduct(p2);
-        sp2_3.setProduct(p7);
-        sp2_4.setProduct(p8);
-        sp2_5.setProduct(p9);
-        em.persist(sp1_1);
-        em.persist(sp1_2);
-        em.persist(sp2_1);
-        em.persist(sp2_2);
-        em.flush();
+
         //StoreRetailProduct    /* Further Modification*/
         //for s1
         //s1.StoreRetailProduct
@@ -1760,8 +1818,6 @@ public class dataSetUp {
 //        cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
 //        cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
 //        cof.confirmOrder(ko1_2.getId(), 10000.0);
-
-        
         //MembershipLevel
         MembershipLevelEntity memlvl1 = new MembershipLevelEntity();
         memlvl1.setDiscount(1D);
@@ -2139,7 +2195,7 @@ public class dataSetUp {
         psfe_2014_6.setStatus("psfe_2014_6");
         em.persist(psfe_2014_6);
         em.flush();
-        
+
         ProductSalesForecastEntity psfe6 = new ProductSalesForecastEntity();
         psfe6.setAmount(2400D);
         psfe6.setTargetPeriod(cal_2014_7);
@@ -2273,17 +2329,179 @@ public class dataSetUp {
         em.persist(item5);
         em.flush();
 
+        //Create Set 1 and its corresponding country product
+        CountryProductEntity item1_1 = new CountryProductEntity();
+        item1_1.setDescription("Queen Size,  France Style");
+        item1_1.setProductName("MuYa Bed");
+        item1_1.setPrice(500D);
+        item1_1.setMemberPrice(480D);
+        item1_1.setPicture("RestRoomSet1_2.png");
+        item1_1.setType("Bed");
+        item1_1.setProduct(p10);
+        item1_1.setWeb("Singapore");
+        em.persist(item1_1);
+        em.flush();
+
+        CountryProductEntity item1_2 = new CountryProductEntity();
+        item1_2.setDescription("400mm X 300mm,  pink white");
+        item1_2.setProductName("MuYa Bedside");
+        item1_2.setPrice(200D);
+        item1_2.setMemberPrice(180D);
+        item1_2.setPicture("RestRoomSet1_1.png");
+        item1_2.setType("Desk");
+        item1_2.setProduct(p11);
+        item1_2.setWeb("Singapore");
+        em.persist(item1_2);
+        em.flush();
+
+        CountryProductEntity item1_3 = new CountryProductEntity();
+        item1_3.setDescription("2000mm X 1700mm,  pink/white");
+        item1_3.setProductName("MuYa Closet");
+        item1_3.setPrice(400D);
+        item1_3.setMemberPrice(380D);
+        item1_3.setPicture("RestRoomSet1_3.png");
+        item1_3.setType("Desk");
+        item1_3.setProduct(p11);
+        item1_3.setWeb("Singapore");
+        em.persist(item1_3);
+        em.flush();
+
         CountrySetEntity set1 = new CountrySetEntity();
-        set1.setDescription("This set uses brown as its theme. Simple design, no extra decoration makes people feel comfortable and relaxed. It uses high quality wooden material and environment friendly oil paint.");
-        set1.setPicture("set4.png");
-        set1.setName("Modern Set 4");
-        set1.getUnitList().add(item);
-        set1.getUnitList().add(item1);
-        set1.getUnitList().add(item3);
+        set1.setDescription(set1_1.getDescription());
+        set1.setPicture("RestRoomSet1.png");
+        set1.setName("MuYa France-Style Rest Room Set");
+        set1.getUnitList().add(item1_1);
+        set1.getUnitList().add(item1_2);
+        set1.getUnitList().add(item1_3);
         set1.setWeb("Singapore");
         set1.setSet(set1_1);
-
         em.persist(set1);
+        em.flush();
+
+        //Create Set 2 and its corresponding country product
+        CountryProductEntity item2_1 = new CountryProductEntity();
+        item2_1.setDescription("Queen Size,  Chinese Style");
+        item2_1.setProductName("GreenHouse Bed");
+        item2_1.setPrice(p13.getPrice());
+        item2_1.setMemberPrice(p13.getMemberPrice());
+        item2_1.setPicture("RestRoomSet2_Bed.png");
+        item2_1.setType("Bed");
+        item2_1.setProduct(p13);
+        item2_1.setWeb("Singapore");
+        em.persist(item2_1);
+        em.flush();
+
+        CountryProductEntity item2_2 = new CountryProductEntity();
+        item2_2.setDescription(p14.getDescription());
+        item2_2.setProductName(p14.getName());
+        item2_2.setPrice(p14.getPrice());
+        item2_2.setMemberPrice(p14.getMemberPrice());
+        item2_2.setPicture("RestRoomSet2_Closet.png");
+        item2_2.setType("Closet");
+        item2_2.setProduct(p14);
+        item2_2.setWeb("Singapore");
+        em.persist(item2_2);
+        em.flush();
+
+        CountryProductEntity item2_3 = new CountryProductEntity();
+        item2_3.setDescription(p15.getDescription());
+        item2_3.setProductName(p15.getName());
+        item2_3.setPrice(p15.getPrice());
+        item2_3.setMemberPrice(p15.getMemberPrice());
+        item2_3.setPicture("RestRoomSet2_Closet2.png");
+        item2_3.setType("Closet");
+        item2_3.setProduct(p15);
+        item2_3.setWeb("Singapore");
+        em.persist(item2_3);
+        em.flush();
+
+        CountrySetEntity set2 = new CountrySetEntity();
+        set2.setDescription(set1_2.getDescription());
+        set2.setPicture("RestRoomSet1.png");
+        set2.setName(set1_2.getName());
+        set2.getUnitList().add(item2_1);
+        set2.getUnitList().add(item2_2);
+        set2.getUnitList().add(item2_3);
+        set2.setWeb("Singapore");
+        set2.setSet(set1_2);
+        em.persist(set2);
+        em.flush();
+
+        //Create Set 3 and its corresponding country product
+//        ProductEntity p16 = new ProductEntity("U.S. Classical Closet", "2000mm X 1700mm,  pink/white", 400.0, 380.0, "one", false);
+//        em.persist(p16);
+//        em.flush();
+//
+//        ProductEntity p17 = new ProductEntity("U.S. classical Bed", "Queen Size,  Chinese Style", 600.0, 580.0, "one", false);
+//        em.persist(p17);
+//        em.flush();
+//
+//        ProductEntity p18 = new ProductEntity("U.S. classical mirror", "round, white, 100mmX70mm ", 100.0, 80.0, "one", false);
+//        em.persist(p18);
+//        em.flush();
+//
+//        ProductEntity p19 = new ProductEntity("U.S. classical Bedside", "400mm X 300mm", 300.0, 280.0, "one", false);
+//        em.persist(p19);
+//        em.flush();
+        CountryProductEntity item3_1 = new CountryProductEntity();
+        item3_1.setDescription(p17.getDescription());
+        item3_1.setProductName(p17.getName());
+        item3_1.setPrice(p17.getPrice());
+        item3_1.setMemberPrice(p17.getMemberPrice());
+        item3_1.setPicture("RestRoomSet3_Bed.png");
+        item3_1.setType("Bed");
+        item3_1.setProduct(p17);
+        item3_1.setWeb("Singapore");
+        em.persist(item3_1);
+        em.flush();
+
+        CountryProductEntity item3_2 = new CountryProductEntity();
+        item3_2.setDescription(p16.getDescription());
+        item3_2.setProductName(p16.getName());
+        item3_2.setPrice(p16.getPrice());
+        item3_2.setMemberPrice(p16.getMemberPrice());
+        item3_2.setPicture("RestRoomSet3_Closet.png");
+        item3_2.setType("Closet");
+        item3_2.setProduct(p16);
+        item3_2.setWeb("Singapore");
+        em.persist(item3_2);
+        em.flush();
+
+        CountryProductEntity item3_3 = new CountryProductEntity();
+        item3_3.setDescription(p18.getDescription());
+        item3_3.setProductName(p18.getName());
+        item3_3.setPrice(p18.getPrice());
+        item3_3.setMemberPrice(p18.getMemberPrice());
+        item3_3.setPicture("RestRoomSet3_Mirror.png");
+        item3_3.setType("Other");
+        item3_3.setProduct(p18);
+        item3_3.setWeb("Singapore");
+        em.persist(item3_3);
+        em.flush();
+
+        CountryProductEntity item3_4 = new CountryProductEntity();
+        item3_4.setDescription(p19.getDescription());
+        item3_4.setProductName(p19.getName());
+        item3_4.setPrice(p19.getPrice());
+        item3_4.setMemberPrice(p19.getMemberPrice());
+        item3_4.setPicture("RestRoomSet3_BedSide.png");
+        item3_4.setType("Desk");
+        item3_4.setProduct(p19);
+        item3_4.setWeb("Singapore");
+        em.persist(item3_4);
+        em.flush();
+
+        CountrySetEntity set3 = new CountrySetEntity();
+        set3.setDescription(set1_3.getDescription());
+        set3.setPicture("RestRoomSet3.png");
+        set3.setName(set1_3.getName());
+        set3.getUnitList().add(item3_1);
+        set3.getUnitList().add(item3_2);
+        set3.getUnitList().add(item3_3);
+        set3.getUnitList().add(item3_4);
+        set3.setWeb("Singapore");
+        set3.setSet(set1_3);
+        em.persist(set3);
         em.flush();
 
         ShoppingCartItemEntity scie = new ShoppingCartItemEntity();
@@ -2306,26 +2524,22 @@ public class dataSetUp {
         member.getShoppingCartList().add(scie1);
 
         // Store Set 
-        System.out.println("set id=============================================================" + set1.getSet().getId());
-        System.out.println("countrySET id=============================================================" + set1.getId());
-
-        StoreSetEntity ss1_1 = new StoreSetEntity(set1_1, set1, s1);
+        StoreSetEntity ss1_1 = new StoreSetEntity();
+        ss1_1.setSet(set1_1);
+        ss1_1.setStore(s1);
+        ss1_1.setWebSet(set1);
+        ss1_1.setName(set1.getName());
+        
+        ss1_1.getStoreProductList().add(sp1_1);
+        ss1_1.getStoreProductList().add(sp1_2);
+        ss1_1.getStoreProductList().add(sp1_3);
         em.persist(ss1_1);
         em.flush();
 
         // set relationship
-        set1_1.getProductList().add(p7);
-        set1_1.getProductList().add(p8);
-        set1_1.getProductList().add(p9);
         set1_1.getStoreSetList().add(ss1_1);
         set1_1.getWebSetList().add(set1);
         set1.getSetList().add(ss1_1);
-
-        set1_2.getProductList().add(p7);
-        set1_2.getProductList().add(p8);
-        set1_2.getProductList().add(p9);
-        set1_2.getProductList().add(p1);
-        set1_2.getProductList().add(p2);
 
         em.flush();
 

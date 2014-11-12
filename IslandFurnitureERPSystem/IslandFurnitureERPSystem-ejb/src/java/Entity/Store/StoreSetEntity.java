@@ -56,6 +56,7 @@ public class StoreSetEntity implements Serializable {
     private CountrySetEntity webSet;
 
     public StoreSetEntity() {
+        storeProductList = new ArrayList<>();
     }
 
     public StoreSetEntity(SetEntity set,CountrySetEntity webset, StoreEntity store) {
@@ -66,7 +67,7 @@ public class StoreSetEntity implements Serializable {
         this.store = store;
         this.deleteFlag = false;
         storeProductList = new ArrayList<>();
-        for (CountryProductEntity s : webSet.getUnitList()) {
+        for (CountryProductEntity s : this.webSet.getUnitList()) {
             Collection<StoreProductEntity> list = s.getProduct().getStoreProducts();
             for (StoreProductEntity c : list) {
                 if (c.getStore().getStoreId().equals(store.getStoreId())) {

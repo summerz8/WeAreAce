@@ -41,6 +41,12 @@ public class CustomerWebSetBean {
 
     }
 
+    public String viewComment(Long itemId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "set");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+        return "ViewSetComments?faces-redirect=true";
+    }
+
     public String edit(Long setId) {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("setId", setId);

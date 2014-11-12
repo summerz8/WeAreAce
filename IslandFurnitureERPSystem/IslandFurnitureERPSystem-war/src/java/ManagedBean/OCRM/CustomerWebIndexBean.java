@@ -41,6 +41,12 @@ public class CustomerWebIndexBean {
 
     }
 
+    public String viewComment(Long itemId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "product");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+        return "ViewComments?faces-redirect=true";
+    }
+
     public String edit(Long itemId) {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
