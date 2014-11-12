@@ -188,13 +188,13 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
 
     
     @Override
-    public void editStoreProduct(Long storeId, Long storeProductId, Long oldFactoryProductId, Boolean isSelfPicked, Long newFactoryProductId, Double minimumInventory, String storeRemark){
+    public void editStoreProduct(Long storeId, Long storeProductId, Boolean isSelfPicked, Long newFactoryProductId, Double minimumInventory, String storeRemark){
         try{
         StoreEntity store = em.find(StoreEntity.class, storeId);
         StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
-        FactoryProductEntity oldFactoryProduct = em.find(FactoryProductEntity.class,oldFactoryProductId);
+        FactoryProductEntity oldFactoryProduct = storeProduct.getFactoryProduct();
         FactoryProductEntity newfactoryProduct = em.find(FactoryProductEntity.class,newFactoryProductId);
-        if(newFactoryProductId != oldFactoryProductId ){
+        if(newfactoryProduct.equals(oldFactoryProduct) ){
         for(StoreProductEntity sp: oldFactoryProduct.getStoreProducts()){
                   StoreProductEntity p = sp;
                   if(p.equals(storeProduct)){
@@ -256,7 +256,9 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
       List<StoreRetailProductEntity>  storeRetailProductList = store.getStoreRetailProducts();
       for(StoreRetailProductEntity aRProduct:storeRetailProductList){
        if(!aRProduct.isDeleteFlag()){
-        storeRetailProductTemp.add(aRProduct);
+           em.refresh(aRProduct);
+           System.err.println("intransit inventory: " + aRProduct.getName() + " : " + aRProduct.getIntransitInventory());
+           storeRetailProductTemp.add(aRProduct);
        }
       }  
       
@@ -555,6 +557,125 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
    
         
     }
+        
+        
+        
+    @Override
+        public List<StoreProductEntity> getNonSelfCollectProduct(Long storeId){
+            
+            List<StoreProductEntity> spe = new ArrayList<>();
+            
+            Query q = em.createQuery("Select sp From StoreProductEntity sp Where sp.selfPick = false and sp.store.storeId = :sId and sp.deleteFlag = false and sp.onairInventory > 0");
+            q.setParameter("sId", storeId);
+            for(Object o: q.getResultList()){
+                
+                
+                StoreProductEntity sp = (StoreProductEntity)o;
+                spe.add(sp);
+            }
+            return spe;
+            
+       }
+        
+        
+        
+    @Override
+        public List<StoreRetailProductEntity> getRetailProduct(Long storeId){
+            
+           List<StoreRetailProductEntity> srpe = new ArrayList<>();
+           Query q = em.createQuery("Select srpe From StoreRetailProductEntity srpe Where srpe.store.storeId = :sId and srpe.deleteFlag = false and srpe.onairInventory > 0");
+           q.setParameter("sId", storeId);
+           for(Object o: q.getResultList()){
+                
+                
+                StoreRetailProductEntity sp = (StoreRetailProductEntity)o;
+                srpe.add(sp);
+            }
+            return srpe;
+            
+            
+        }
+        
+        
+        
+    @Override
+        public List<StoreBinProductEntity> listAllAvailBin(Long storeProductId){
+            Query q = em.createQuery("Select s From StoreBinProductEntity s where s.product.storeProductId = :spId and s.swe.isBackHouse = false and s.isDeleted = false");
+            q.setParameter("spId", storeProductId);
+            List<StoreBinProductEntity> sbpe = new ArrayList<>();
+            for(Object o: q.getResultList()){
+                StoreBinProductEntity sbp = (StoreBinProductEntity) o;
+                sbpe.add(sbp);
+                
+                
+            }
+            return sbpe;
+            
+        }
+        
+        
+        
+    @Override
+      public List<StoreBinRetailProductEntity> listAllAvailBinRP(Long storeProductId){
+            Query q = em.createQuery("Select s From StoreBinRetailProductEntity s where s.retailProduct.storeRetailProductId = :spId and s.swe.isBackHouse = false and s.isDeleted = false");
+            q.setParameter("spId", storeProductId);
+            List<StoreBinRetailProductEntity> sbpe = new ArrayList<>();
+            for(Object o: q.getResultList()){
+                StoreBinRetailProductEntity sbp = (StoreBinRetailProductEntity) o;
+                sbpe.add(sbp);
+                
+                
+            }
+            return sbpe;
+            
+        }
+        
+        
+        //0 updated successfully 
+        public Integer updateABinAmountP(Long sbinId, Double newQuantity,Long storeProductId){
+          
+            try{
+            StoreBinProductEntity sbpe = em.find(StoreBinProductEntity.class, sbinId);
+            Double total = 0.0;
+            StoreProductEntity sp = em.find(StoreProductEntity.class,storeProductId);
+            
+            List<StoreBinProductEntity> binlist = listAllAvailBin(storeProductId);
+            
+            for(StoreBinProductEntity sbp: binlist){
+                
+                if(sbpe.equals(sbp)){
+                    
+                    total = total + newQuantity;
+                    
+                }
+                else{
+                    
+                    total = total + sbp.getQuantity();
+                }
+                
+                
+            }
+            
+            if(total > sp.getOnairInventory() ){
+                
+                return -2;
+            }
+            
+            sbpe.setQuantity(newQuantity);
+            em.flush();
+            return 0;
+            }
+            catch (Exception e){
+                
+                System.err.println("SessionBean.IM.StoreProductControl: updateABinAmountP(): Failed. Caught an unexpected exception.");
+                e.printStackTrace();  
+                return -1;
+                
+                
+            }
+            
+            
+        }
        
   
     

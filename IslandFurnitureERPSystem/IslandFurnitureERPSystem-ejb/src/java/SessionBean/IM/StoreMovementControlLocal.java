@@ -18,11 +18,7 @@ import javax.ejb.Local;
 @Local
 public interface StoreMovementControlLocal {
 
-    public int createInStoreRecord(Long storeId, Long frombinId, Long tobinId, Long productId, Long retailProductId, Double amount);
 
-    public int createInboundRecord();
-
-    public int createOutBoundRecord();
 
     public List<OutboundMovementEntity> viewIncomingGoodsFromFactory(Long storeId);
 
@@ -43,5 +39,7 @@ public interface StoreMovementControlLocal {
     public int fromSupplierGoodReceipt(Long poId, Long storeId, Integer invType, Long inventoryId, Long deliveryOrderId, Double quantity);
 
     public Integer handleReturnedProductFromStore(Long recordId, Long storeBinId);
+
+    public Integer sendOutboundMovement(Long storeId, Integer invtype, Long storeBinId, Long inventoryId, Double quantity);
     
 }

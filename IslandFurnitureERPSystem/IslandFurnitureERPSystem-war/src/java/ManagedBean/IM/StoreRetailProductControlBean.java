@@ -109,28 +109,15 @@ public class StoreRetailProductControlBean  implements Serializable {
         } 
     }
     
-    public void selectAvailableFactory(RetailProductEntity rpe){
+    public List<FactoryRetailProductEntity> selectAvailableFactory(RetailProductEntity rpe){
         
         availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
+      
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryREntities", availableFactory);
-     
+        return availableFactory;
     }
     
-//    public void addStoreRetailProduct(RetailProductEntity rpe,FactoryRetailProductEntity sf){
-//        
-//        int result = sicl.addNewRetailProduct(storeId, rpe.getRetailProductId(),sf.getFactoryRetailProdctId(), remark);
-//        if(result == 1) {
-//            msgprint1 = "A new retail product added successfully!";
-//            currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
-//            retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
-//            
-//        }
-//        else{
-//            msgprint1 = "Exception occured. Please try again or raise a ticket.";
-//            
-//        }
-//            
-//    }
+
     
     public void addStoreRetailProduct(ActionEvent event){
         int result;

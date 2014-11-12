@@ -53,7 +53,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
-    
+   
     
     private Boolean receivedByStore = false;
 

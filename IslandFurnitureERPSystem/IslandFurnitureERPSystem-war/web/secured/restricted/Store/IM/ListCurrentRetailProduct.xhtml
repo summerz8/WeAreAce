@@ -163,9 +163,28 @@
                                     <f:facet name="input"> <p:inputText value="#{sproduct.storeRemark}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
+                                
+                                <p:column headerText="Supplying Factory" width="10%">
+                                    <p:cellEditor> 
+
+                                        <f:facet name="output"> <h:outputText value="Factory:#{sproduct.factoryRetailProduct.factory.factoryId}|#{sproduct.factoryRetailProduct.factory.country}" style="font-weight: bold" /> </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectOneMenu id="selectAvailableFactory1" value="#{sproduct.factoryRetailProduct}" converter="factoryRConverter"  effect="fade" style="width:160px" >
+                                                <f:selectItems value="#{storeRetailProductControl.selectAvailableFactory(sproduct.retailProduct)}" var="f" itemLabel="Factory:#{f.factory.factoryId}|#{f.factory.country}" itemValue="#{f}" />
+
+                                         </p:selectOneMenu>
+                                        </f:facet>
+
+                                    </p:cellEditor>
+                                    
+                                     </p:column>
                                 <p:column headerText = "Edit" style="width:32px">
                                     <p:rowEditor />
                                 </p:column>
+                                
+                                   
+
+                               
                                 
 
                                 
@@ -193,6 +212,10 @@
                                      #{storeRetailProductControl.msgprint2}  
                                 </p:outputPanel>
                             </p:dialog>
+                            
+                            formMain:current:0:selectAvailableFactory1: Validation Error: Value is not valid
+                     formMain:current:0:selectAvailableFactory1: Validation Error: Value is not valid
+                            
                             
                         </p:panel>
                     </p:layoutUnit>

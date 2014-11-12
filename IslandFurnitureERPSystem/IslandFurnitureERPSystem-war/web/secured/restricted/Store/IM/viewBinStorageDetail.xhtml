@@ -105,6 +105,7 @@
                                 <p:column rendered = "#{viewStorageDtailyByBin.selectedBinType == 0?true:false}" >
                                 <p:outputLabel value="Storage Bin:" for="selectBin1" />
                                 <p:selectOneMenu id="selectBin1" value="#{viewStorageDtailyByBin.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
+                                     <f:selectItem itemValue="" itemLabel="[Select One]" />
 
                                     <f:selectItems value="#{viewStorageDtailyByBin.backhouseBinList}" var="f" itemLabel="Id:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{viewStorageDtailyByBin.selectBin}" update=":formMain" />
@@ -115,7 +116,7 @@
                                  <p:column rendered = "#{viewStorageDtailyByBin.selectedBinType == 1?true:false}">
                                 <p:outputLabel value="Storage Bin:" for="selectBin2" />
                                 <p:selectOneMenu id="selectBin2" value="#{viewStorageDtailyByBin.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
-
+                                       <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{viewStorageDtailyByBin.displayareaBinList}" var="f" itemLabel="Id:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{viewStorageDtailyByBin.selectBin}" update=":formMain" />
 
@@ -125,7 +126,7 @@
                                  <p:column rendered = "#{viewStorageDtailyByBin.selectedBinType == 2?true:false}">
                                 <p:outputLabel value="Storage Bin:" for="selectBin3" />
                                 <p:selectOneMenu id="selectBin3" value="#{viewStorageDtailyByBin.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
-
+                                    <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{viewStorageDtailyByBin.selfcollectBinList}" var="f" itemLabel="Id:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{viewStorageDtailyByBin.selectBin}" update=":formMain" />
 
@@ -170,11 +171,7 @@
                                  <p:tab title="Retail Product">
                                 <p:dataTable id ="currentInfo2" var="gr" widgetVar="current2" 
                                              value="#{viewStorageDtailyByBin.selectedsbrp}">
-                                
-
-                                
-                               
-
+    
                                 <p:column headerText="Store Retail Product Id" width="8%" >
                                     <h:outputText value="#{gr.retailProduct.storeRetailProductId}"  style="font-weight: bold" />    
                                 </p:column>

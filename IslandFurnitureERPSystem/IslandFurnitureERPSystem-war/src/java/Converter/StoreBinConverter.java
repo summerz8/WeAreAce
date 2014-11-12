@@ -8,6 +8,7 @@ package Converter;
 
 import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.StoreProductEntity;
+import Entity.Store.StoreRetailProductEntity;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -25,7 +26,7 @@ public class StoreBinConverter implements Converter {
      
         System.out.println("converter: value:" + value);
      
-        if(value != null && value.trim().length() > 0) {
+        if(value != null && value.trim().length() > 0 && !value.equals("[Select One]")) {
             List<StoreWarehouseBinEntity> binEntities = (List<StoreWarehouseBinEntity>)fc.getExternalContext().getSessionMap().get("sBinEntities");
             
            
@@ -50,8 +51,16 @@ public class StoreBinConverter implements Converter {
     }
  
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        if(object != null) {
-            return String.valueOf(((StoreWarehouseBinEntity) object).getId());
+       if(object != null) {
+            
+            if(object instanceof String)
+            {
+                return null;
+            }
+            else
+            {
+                return String.valueOf(((StoreWarehouseBinEntity) object).getId());
+            }
         }
         else {
             return null;

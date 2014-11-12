@@ -24,7 +24,7 @@ public class SRProductConverter implements Converter {
      
         System.out.println("converter: value:" + value);
      
-        if(value != null && value.trim().length() > 0) {
+        if(value != null && value.trim().length() > 0 && !value.equals("[Select One]")) {
             List<StoreRetailProductEntity> storeRetailProductEntities = (List<StoreRetailProductEntity>)fc.getExternalContext().getSessionMap().get("storeRetailProductEntities");
             
            
@@ -50,7 +50,15 @@ public class SRProductConverter implements Converter {
  
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if(object != null) {
-            return String.valueOf(((StoreRetailProductEntity) object).getStoreRetailProductId());
+            
+            if(object instanceof String)
+            {
+                return null;
+            }
+            else
+            {
+                return String.valueOf(((StoreRetailProductEntity) object).getStoreRetailProductId());
+            }
         }
         else {
             return null;

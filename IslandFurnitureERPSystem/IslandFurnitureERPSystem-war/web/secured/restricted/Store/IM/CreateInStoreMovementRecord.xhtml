@@ -99,7 +99,7 @@
                                 
                                 <p:outputLabel value="Store Product:" for="selectProduct" />
                                 <p:selectOneMenu id="selectProduct" value="#{inStoreMovementBean.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
-<!--                                   <f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                   <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{inStoreMovementBean.getpList()}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.getAvailableBinList}" update=":formMain" />
 
@@ -111,7 +111,7 @@
                                 <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
                                 <p:selectOneMenu id="selectRProduct" value="#{inStoreMovementBean.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
                                     
-                                    <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                    <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{inStoreMovementBean.rpList}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
                                      <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.getAvailableBinList}" update=":formMain" />
 
@@ -125,7 +125,7 @@
                             <p:column rendered = "#{inStoreMovementBean.invtype == 0? true:false}">
                                 <p:outputLabel value="Store Bins(From):" for="selectPBinP" />
                                 <p:selectOneMenu id="selectPBinP" value="#{inStoreMovementBean.selectedfb}" converter="productBinConverter"  effect="fade" style="width:160px" >
-                                    <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                    <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{inStoreMovementBean.fromBinP}" var="f" itemLabel="Id : #{f.swe.id} | Name: #{f.swe.name} | Status: #{inStoreMovementBean.convertStatus(f.status)}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.selectFromBin}" update=":formMain" />
 
@@ -135,7 +135,7 @@
                             <p:column rendered = "#{inStoreMovementBean.invtype == 1? true:false}">
                                 <p:outputLabel value="Store Bins(From):" for="selectPBinRP" />
                                 <p:selectOneMenu id="selectPBinRP" value="#{inStoreMovementBean.sleectedtb}" converter="rproductBinConverter"  effect="fade" style="width:160px" >
-                                    <!--<f:selectItem itemLabel="Select One" itemValue="null" />-->
+                                   <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{inStoreMovementBean.fromBinRP}" var="f" itemLabel="Id : #{f.swe.id} | Name: #{f.swe.name} | Status: #{inStoreMovementBean.convertStatus(f.status)}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{inStoreMovementBean.selectFromBin}" update=":formMain" />
 
@@ -175,6 +175,7 @@
                             <p:column rendered = "#{inStoreMovementBean.isFinishedSelectFromBin()? true:false}">
                                 <p:outputLabel value="Destionation Bins(To):" for="selectToBinP1" />
                                 <p:selectOneMenu id="selectToBinP1" value="#{inStoreMovementBean.selectedTb}" converter="sBinConverter"  effect="fade" style="width:160px">  
+                                    <f:selectItem itemValue="" itemLabel="[Select One]" />
                                     <f:selectItems value="#{inStoreMovementBean.toBins}" var="f" itemLabel="Id : #{f.id} | Name: #{f.name}" itemValue="#{f}" />
                             
                                 </p:selectOneMenu>

@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                        <p:menu>
+                            <p:submenu label="Returned Item Clearning">
+                                <p:menuitem value="Current Returned Item from Customer" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View Returned Item to Factory" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ReturnToFactory.xhtml?faces-redirect=true"/>
+
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Returned Inventory" style="border:0px; margin-bottom" >
+                            <p:tabView>
+                                <p:tab title="Product">
+                                    
+                                     <p:outputLabel value="Store Product:" for="selectProduct" />
+                                    <p:selectOneMenu id="selectProduct" value="#{returnInventoryToFactoryBin.selectedpd}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
+
+                                        <f:selectItems value="#{returnInventoryToFactoryBin.pdlist}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                        <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{returnInventoryToFactoryBin.setselectinv1()}" update="table1" />
+
+
+                                    </p:selectOneMenu>
+                                     
+                                     <br></br>
+                                     <br></br>
+                                     
+                                     <p:dataTable id = "table1" var="gproduct" value="#{returnInventoryToFactoryBin.pbinlist}"  >
+                                    <f:facet name="header">
+                                        Returned Product Storage Bin Details
+                                    </f:facet>
+
+                                    <p:column headerText="Bin Id" width="5%" >
+                                        <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
+                                    </p:column>
+
+
+                                    <p:column headerText="Quantity" width="10%">
+                                        <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
+                                    </p:column>
+
+
+                                    <p:column headerText="Select" width="15%" >
+                                        <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovement(sproduct)}" >
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+
+
+                                   
+                                </p:tab>
+                                <p:tab title="Retail Product">
+                                    
+                                     <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
+                                     <p:selectOneMenu id="selectRProduct" value="#{returnInventoryToFactoryBin.selectedrpd}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+                                                <f:selectItem itemValue="" itemLabel="[Select One]" />
+                                        <f:selectItems value="#{returnInventoryToFactoryBin.rpdlist}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                        <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{returnInventoryToFactoryBin.setselectinv2()}" update="table2" />
+
+                                    </p:selectOneMenu>
+                                     
+                                     <br></br>
+                                     <br></br>
+                                     
+                                      <p:dataTable id = "table2" var="gproduct" value="#{returnInventoryToFactoryBin.rpbinlist}"  >
+                                    <f:facet name="header">
+                                        Returned Retail Product Storage Bin Details
+                                    </f:facet>
+
+                                    <p:column headerText="Bin Id" width="5%" >
+                                        <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
+                                    </p:column>
+
+
+                                    <p:column headerText="Quantity" width="10%">
+                                        <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
+                                    </p:column>
+
+
+                                    <p:column  headerText="Select" width="15%" >
+                                        <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovementRP(gproduct)}" >
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                                    
+
+
+
+                                </p:tab>
+
+
+                            </p:tabView>
+                            
+                            
+                        <p:dialog id = "movementDialog" header="Outbound Movement Detail" widgetVar="movementDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="500">
+                                <p:outputPanel id="fProductDetail" style="text-align:center;">
+                        
+                                    
+                                    <h:outputText value="Minimum Offering Level:" />
+                                    <h:inputText value ="#{returnInventoryToFactoryBin.moveoutQuantity}" />
+                                    <br></br>
+                                    <br></br>
+                                    
+
+                                    <p:commandButton ajax="true" title = "Confirm"   value = "Update" 
+                                                     actionListener="#{returnInventoryToFactoryBin.createOutboundMovementRecord}" update = ":formMain"  >
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('movementDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

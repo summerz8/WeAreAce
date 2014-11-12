@@ -99,8 +99,8 @@
                             <p:dataTable id ="current" var="sproduct" value="#{storeProductControl.currentStoreProductList}" editable="true"  rowStyleClass="#{sproduct.unrestrictedInventory le sproduct.minimumInventory ?'old':null}" >
                                 
 
-                                <p:ajax event="rowEdit" listener="#{storeProductControl.onRowEdit}"  />
-                                <p:ajax event="rowEditCancel" listener="#{storeProductControl.onRowCancel}"  />
+                                <p:ajax event="rowEdit" listener="#{storeProductControl.onRowEdit}" update="@this"  />
+                                <p:ajax event="rowEditCancel" listener="#{storeProductControl.onRowCancel}" update="current" />
 
                                 <f:facet name="header">
                                     Store Product List 
@@ -160,33 +160,25 @@
                                     </p:cellEditor>
 
                                 </p:column>
-                                
+                                       
 
                                 <p:column headerText="Remark" width="20%">
-                                    
+                                    <p:cellEditor>
+                                        <f:facet name="output"> <h:outputText value="#{sproduct.storeRemark}" style="font-weight: bold" /></f:facet>
+                                         <f:facet name="input"><p:inputText value="#{sproduct.storeRemark}" /> </f:facet>
 
-                                   
-                                        <h:outputText value="#{sproduct.storeRemark}" style="font-weight: bold" />
-                                     
+                                    </p:cellEditor>
                                 </p:column>
                                 
-<!--                                <p:column headerText="Supplying Factory" width="10%">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText  value="#{sproduct.factoryProduct}" /></f:facet>
-                                        
-                                        <f:facet name="input">
-                                            <p:selectOneMenu id="selectAvailableFactory" value="#{sproduct.factoryProduct}" converter="factoryConverter"  effect="fade" style="width:160px">  
-                                                <f:selectItems value="#{storeProductControl.selectAvailableFactory(sproduct.product)}" var="f" itemLabel="#{f.factoryProductId}" itemValue="#{f}" />
-                                             </p:selectOneMenu>
-                                        </f:facet>
 
-                                    
-                                    </p:cellEditor>
-                                    
-                                </p:column>-->
                                 
                                 <p:column headerText = "Edit" style="width:32px">
                                     <p:rowEditor />
+                                </p:column>
+                                
+                                <p:column headerText="Please Select" width="11%" >
+                                    <p:commandButton update=":formMain" oncomplete="PF('editDialog').show()" value="Edit" actionListener ="#{storeProductControl.selectProductToEdit(sproduct)}" >
+                                    </p:commandButton>
                                 </p:column>
 
 
@@ -213,6 +205,37 @@
                                 <p:outputPanel id="msgDetail" style="text-align:center;">
 
                                     #{storeProductControl.msgprint2}  
+                                </p:outputPanel>
+                            </p:dialog>
+                            
+                            <p:dialog id = "editDialog" header="New Product Details" widgetVar="editDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="500">
+                                <p:outputPanel id="fProductDetail" style="text-align:center;">
+                                    Please select a factory as your inventory resource factory:
+                                    <br></br>
+
+                                    <p:selectOneMenu id="selectAvailableFactory" value="#{storeProductControl.selectedFactory}" converter="factoryConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{storeProductControl.availableFactory}" var="f" itemLabel=" Factory:#{f.factory.factoryId}|#{f.factory.country}" itemValue="#{f}" />
+
+                                    </p:selectOneMenu>
+                                    <br></br>
+                                    <br></br>
+
+                                    <h:outputText value="Self Collection: " />
+                                    <p:selectBooleanCheckbox value="#{storeProductControl.isSelfPicked}"  />
+                                    
+                                    <br></br>
+                                    <br></br>
+
+                                    <p:commandButton ajax="true" title = "Update"   value = "Update" 
+                                        actionListener="#{storeProductControl.editStoreProduct}" update = ":formMain"  >
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('editDialog').hide()">
+
+                                    </p:commandButton>
+
                                 </p:outputPanel>
                             </p:dialog>
 
