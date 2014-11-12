@@ -6,6 +6,12 @@
 package SessionBean.OCRM;
 
 import Entity.Store.OCRM.SurpriseQREntity;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.decoder.Mode;
+import eg.com.tm.barcode.processor.BarcodeEngine;
+import eg.com.tm.barcode.processor.config.EncodeConfig;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -56,6 +62,24 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
         }
     }
 
+//    private void generateQRCodeImage(String QR) {
+//        File qrCodeFile = new File("QR Image/" + fileName + ".png");
+//
+//        EncodeConfig encodeConfig
+//                = new EncodeConfig.Builder().createDirectories(Boolean.TRUE)
+//                .isQRCodeFormat(Boolean.TRUE)
+//                .withErrorCorrLevel(ErrorCorrectionLevel.M).build();
+//
+//        String content = QR;
+//
+//        BarcodeEngine.encode(qrCodeFile, content, BarcodeFormat.QR_CODE, 200, 200, encodeConfig);
+//
+//        encodeConfig
+//                = new EncodeConfig.Builder().createDirectories(Boolean.TRUE).
+//                withCharactersMode(Mode.ALPHANUMERIC).build();
+//
+//    }
+    
     public Boolean checkSameQR(String QR) {
         try{
         Query q = em.createQuery("SELECT m FROM SurpriseQREntity m WHERE m.randomString=:QR");
