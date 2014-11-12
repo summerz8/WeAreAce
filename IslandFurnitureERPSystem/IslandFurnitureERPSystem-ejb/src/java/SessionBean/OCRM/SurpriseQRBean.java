@@ -55,30 +55,31 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
             SurpriseQREntity qr = new SurpriseQREntity(name, QR, percentage, rewardPoints, expireDate);
             em.persist(qr);
             em.flush();
-
-            return QR;
+            String resultPath = generateQRCodeImage(QR, qr.getId().toString());
+            return resultPath;
         } else {
             return null;
         }
     }
+//
+    private String generateQRCodeImage(String QR, String fileName) {
+        String path = "/Users/dan/Desktop/Project/QRCode" + fileName + ".png";
+        File qrCodeFile = new File(path);
 
-//    private void generateQRCodeImage(String QR) {
-//        File qrCodeFile = new File("QR Image/" + fileName + ".png");
-//
-//        EncodeConfig encodeConfig
-//                = new EncodeConfig.Builder().createDirectories(Boolean.TRUE)
-//                .isQRCodeFormat(Boolean.TRUE)
-//                .withErrorCorrLevel(ErrorCorrectionLevel.M).build();
-//
-//        String content = QR;
-//
-//        BarcodeEngine.encode(qrCodeFile, content, BarcodeFormat.QR_CODE, 200, 200, encodeConfig);
-//
-//        encodeConfig
-//                = new EncodeConfig.Builder().createDirectories(Boolean.TRUE).
-//                withCharactersMode(Mode.ALPHANUMERIC).build();
-//
-//    }
+        EncodeConfig encodeConfig
+                = new EncodeConfig.Builder().createDirectories(Boolean.TRUE)
+                .isQRCodeFormat(Boolean.TRUE)
+                .withErrorCorrLevel(ErrorCorrectionLevel.M).build();
+
+        String content = QR;
+
+        BarcodeEngine.encode(qrCodeFile, content, BarcodeFormat.QR_CODE, 200, 200, encodeConfig);
+
+        encodeConfig
+                = new EncodeConfig.Builder().createDirectories(Boolean.TRUE).
+                withCharactersMode(Mode.ALPHANUMERIC).build();
+        return path;
+    }
     
     public Boolean checkSameQR(String QR) {
         try{
