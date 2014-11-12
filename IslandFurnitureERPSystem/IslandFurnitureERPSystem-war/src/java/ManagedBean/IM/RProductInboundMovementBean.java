@@ -59,6 +59,7 @@ public class RProductInboundMovementBean  implements Serializable{
        storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
        productList =  sicl.getListOfStoreRetailProduct(storeId);
        binList = sbcl.getAllBackHouseBin(storeId);
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", null);
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", productList);
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sBinEntities", binList);
 
@@ -76,10 +77,24 @@ public class RProductInboundMovementBean  implements Serializable{
 
     public void confrimResult(ActionEvent event){
         System.out.println("RetailProductInBoundMovementBean:confirmResult:Found");
-       Integer result =  smcl.inboundMovement(storeId, selectedBin.getId(), 1, selectedProduct.getStoreRetailProductId(), quantity, inventoryType);
+      
+        if(selectedProduct != null && selectedBin != null){
+        Integer result =  smcl.inboundMovement(storeId, selectedBin.getId(), 1, selectedProduct.getStoreRetailProductId(), quantity, inventoryType);
        if(result == 0){
            
            msgPrint = "An new record is created!";
+       inventoryType = null;
+       quantity = null;
+       SetBin = false;
+       selectedProduct = null;
+       selectedBin = null;
+      
+       productList =  sicl.getListOfStoreRetailProduct(storeId);
+       
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", null);
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeRetailProductEntities", productList);
+    
+       
        }
        else if(result == -1){
            
@@ -89,13 +104,15 @@ public class RProductInboundMovementBean  implements Serializable{
            
            msgPrint = "Please check again! The quantity is smaller than what you required.";
        }
+       
+       
+        }else{
+            
+            
+            msgPrint = "Please fill in all the field!";
+        }
        FacesContext context = FacesContext.getCurrentInstance();
        context.addMessage(null, new FacesMessage("Message", msgPrint));
-       inventoryType = null;
-       quantity = null;
-       SetBin = false;
-       selectedProduct = null;
-       selectedBin = null;
        
         
     }

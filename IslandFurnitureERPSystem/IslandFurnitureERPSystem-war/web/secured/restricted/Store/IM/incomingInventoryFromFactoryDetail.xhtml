@@ -171,7 +171,7 @@
                             <br></br>
                             <br></br>
                                <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?true:false}">
-                               <p:commandButton value="Receive" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain"/>
+                                   <p:commandButton value="Receive" type="button" onclick = "PF('confrimationDialog').show()" icon="ui-icon-disk" />
                               </p:column>
    
                         
@@ -182,7 +182,7 @@
                                 <p:outputPanel id="toconfrim" style="text-align:center;">
                                     Confirm Received? 
                                     <br></br>
-                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value ="Confrimƒ"   actionListener = "#{viewOmeDetail.submitFulfillment}" update = ":formMain"  >
+                                    <p:commandButton  title = "Confirm"   oncomplete = "PF('msgDialog').show()" value ="Confrim"   actionListener = "#{viewOmeDetail.submitFulfillment}" update = ":formMain"  >
 
                                     </p:commandButton> 
 

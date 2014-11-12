@@ -25,7 +25,7 @@ public class ProductBinConverter implements Converter {
      
         System.out.println("Product Bin Converter converter: value:" + value);
      
-        if(value != null && value.trim().length() > 0) {
+        if(value != null && value.trim().length() > 0 && !value.equals("[Select One]")) {
             List<StoreBinProductEntity> availBinEntities = (List<StoreBinProductEntity>)fc.getExternalContext().getSessionMap().get("storeBinProductEntities");
             
             System.err.println("Converter: availBinEntitie:" + availBinEntities.size());
@@ -51,7 +51,15 @@ public class ProductBinConverter implements Converter {
  
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if(object != null) {
-            return String.valueOf(((StoreBinProductEntity) object).getId());
+            
+            if(object instanceof String)
+            {
+                return null;
+            }
+            else
+            {
+                return String.valueOf(((StoreBinProductEntity) object).getId());
+            }
         }
         else {
             return null;

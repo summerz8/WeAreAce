@@ -103,7 +103,7 @@ public class viewStorageDtailyByBin {
   
   
   public void selectBin(){
-      
+      if(selectedBin != null){
       binSelected = true;
       
       
@@ -111,6 +111,8 @@ public class viewStorageDtailyByBin {
       selectedsbrp = (List<StoreBinRetailProductEntity>) selectedBin.getStoreBinRetailProducts();
       
       System.out.println("viewStorageDtailyByBin() bpe size: " + selectedsbp.size());
+      
+      }
   }
   
   

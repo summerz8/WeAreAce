@@ -63,6 +63,10 @@ public class ProductInboundMovementBean implements Serializable {
        productList =  sicl.getListOfStoreProduct(storeId);
        binList = sbcl.getAllBackHouseBin(storeId);
        SetBin = false;
+       
+         
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", null);
+       
        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", productList);
        
        
@@ -90,10 +94,25 @@ public class ProductInboundMovementBean implements Serializable {
     
     public void confrimResult(ActionEvent event){
         System.out.println("ProductInBoundMovementBean:confirmResult:Found");
+        
+     if(selectedProduct != null && selectedBin != null){   
        Integer result =  smcl.inboundMovement(storeId, selectedBin.getId(), 0, selectedProduct.getStoreProductId(), quantity, inventoryType);
        if(result == 0){
            
            msgPrint = "An new record is created!";
+           inventoryType = null;
+           quantity = null;
+           selectedProduct = null;
+           selectedBin = null;
+           SetBin = false;
+       
+        productList =  sicl.getListOfStoreProduct(storeId);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", null);
+       
+       FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeProductEntities", productList);
+       
+           
+           
        }
        else if(result == -1){
            
@@ -103,13 +122,15 @@ public class ProductInboundMovementBean implements Serializable {
            
            msgPrint = "Please check again! The quantity is smaller than what you required.";
        }
+       
+     }else{
+         
+         msgPrint = "Please fill in all the field!";
+         
+     }
        FacesContext context = FacesContext.getCurrentInstance();
        context.addMessage(null, new FacesMessage("Message", msgPrint));
-       inventoryType = null;
-       quantity = null;
-       selectedProduct = null;
-       selectedBin = null;
-       SetBin = false;
+       
        
         
     }

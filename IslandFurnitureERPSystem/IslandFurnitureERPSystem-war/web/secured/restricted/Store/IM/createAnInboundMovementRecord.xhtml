@@ -90,6 +90,7 @@
                                 <p:column>
                                     <p:outputLabel value="Store Product:" for="selectProduct" />
                                     <p:selectOneMenu id="selectProduct" value="#{productInboundMovementBean.selectedProduct}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
                                         <f:selectItems value="#{productInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
                                      <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{productInboundMovementBean.setSelectedPD}" update=":formMain" />
 
@@ -102,6 +103,7 @@
                                 <p:column>
                                     <p:outputLabel value="Destination Bin:" for="selectBin" />
                                     <p:selectOneMenu id="selectBin" value="#{productInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
                                         <f:selectItems value="#{productInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     </p:selectOneMenu>
                                 </p:column>  
@@ -110,6 +112,7 @@
                             <br></br>
                             <p:row>
                                 <p:column rendered = "#{productInboundMovementBean.isSetBin()?true:false}" >
+                                    
                                     <p:outputLabel value="In Transit Inventory Available:" for="selectinv" />
                                     <h:outputText id ="selectinv" value ="#{productInboundMovementBean.selectedProduct.intransitInventory}"/>
                                 </p:column>  
@@ -118,7 +121,7 @@
                             <br></br>
                             <p:row>
                                 <p:column>
-                                    <p:outputLabel value="Inventory Type:" for="invtype"/>
+                                    <p:outputLabel value="Inventory Status:" for="invtype"/>
                                     <p:selectOneRadio id="invtype" required ="true" value="#{productInboundMovementBean.inventoryType}">
                                         <f:selectItem itemLabel="Unrestricted" itemValue="0" />
                                         <f:selectItem itemLabel="Returned" itemValue="1" />

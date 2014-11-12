@@ -29,12 +29,12 @@ import javax.inject.Named;
  */
 @Named(value = "viewIncomingInventoryList")
 @ViewScoped
-public class ViewIncomingInventoryList  implements Serializable{
+public class ViewIncomingInventoryListBean  implements Serializable{
 
     /**
      * Creates a new instance of ViewIncomingInventoryList
      */
-    public ViewIncomingInventoryList() {
+    public ViewIncomingInventoryListBean() {
     }
     
     @EJB

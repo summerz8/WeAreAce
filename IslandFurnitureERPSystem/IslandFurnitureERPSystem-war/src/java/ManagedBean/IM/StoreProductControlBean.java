@@ -48,7 +48,7 @@ public class StoreProductControlBean implements Serializable{
     private List<ProductEntity> productNotInStoreList = new ArrayList<>();
     private StoreProductEntity selectedStoreProduct;
     private ProductEntity selectedProduct;
-    private Collection<FactoryProductEntity> availableFactory;
+    private List<FactoryProductEntity> availableFactory;
     private FactoryProductEntity selectedFactory;
     private StoreProductEntity storeProductToDelete;
     private StoreEntity store;
@@ -63,6 +63,14 @@ public class StoreProductControlBean implements Serializable{
     
     private List<StoreProductEntity> filtedSPEList;
     private List<ProductEntity> filterPEList;
+    
+    private Long oldSupplyFactory;
+    
+    private StoreProductEntity selectedEditProduct;
+    
+    private Boolean selfPickEdit;
+    
+    
     
     @PostConstruct
     public void init(){
@@ -104,6 +112,15 @@ public class StoreProductControlBean implements Serializable{
         
         
     }
+    
+    
+    public void selectProductToEdit(StoreProductEntity spe){
+        
+        selectedEditProduct = spe;
+        selectAvailableFactory(spe.getProduct());
+        selfPickEdit = spe.getSelfPick();
+        
+    }
     public void deleteStoreProduct(StoreProductEntity spe){
         
         int result = sicl.deleteStoreProduct(storeId, spe.getStoreProductId(), spe.getFactoryProduct().getFactory().getFactoryId());
@@ -119,11 +136,20 @@ public class StoreProductControlBean implements Serializable{
         }
     }
     
-    public Collection<FactoryProductEntity> selectAvailableFactory(ProductEntity pe){
+    public List <FactoryProductEntity> selectAvailableFactory(ProductEntity pe){
         selectedProduct = pe;
-        availableFactory =(Collection) sicl.listAvailableFactoryProduct(pe.getProductId());
+        availableFactory =sicl.listAvailableFactoryProduct(pe.getProductId());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryProductEntities", availableFactory);
         return availableFactory;
+    }
+    
+    
+    
+    public void editStoreProduct(ActionEvent event){
+        
+        sicl.editStoreProduct(storeId, selectedEditProduct.getStoreProductId(), isSelfPicked, selectedFactory.getFactoryProductId(), selectedEditProduct.getMinimumInventory(), selectedEditProduct.getStoreRemark());
+        
+        
     }
     
     public void addStoreProduct(ActionEvent event){
@@ -159,16 +185,16 @@ public class StoreProductControlBean implements Serializable{
     
 
  public void onRowEdit(RowEditEvent event) {
-        System.out.println("onRowEdit test:");
+      //  System.out.println("onRowEdit test:");
         StoreProductEntity entity = (StoreProductEntity) event.getObject();
-        Long oldFactoryProductId = entity.getFactoryProduct().getFactoryProductId();
+      // Long oldFactoryProductId = entity.getFactoryProduct().getFactoryProductId();
         System.out.println("onRowEdit test: " + entity.getStoreProductId() + entity.getName());
 
         if (entity.getFactoryProduct()==null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Store Product cannot be edited!", "Please at least select a factory"));
         } else {
-           sicl.editStoreProduct(entity.getStore().getStoreId(), entity.getStoreProductId(), oldFactoryProductId, entity.getSelfPick(), entity.getFactoryProduct().getFactoryProductId(), entity.getMinimumInventory(),entity.getStoreRemark());
+           sicl.editStoreProduct(entity.getStore().getStoreId(), entity.getStoreProductId(),  entity.getSelfPick(), entity.getFactoryProduct().getFactoryProductId(), entity.getMinimumInventory(),entity.getStoreRemark());
 
             FacesMessage msg = new FacesMessage("Store Product Edited", "Product Id: " + String.valueOf(entity.getStoreProductId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -326,6 +352,22 @@ public class StoreProductControlBean implements Serializable{
 
     public void setFilterPEList(List<ProductEntity> filterPEList) {
         this.filterPEList = filterPEList;
+    }
+
+    public Long getOldSupplyFactory() {
+        return oldSupplyFactory;
+    }
+
+    public void setOldSupplyFactory(Long oldSupplyFactory) {
+        this.oldSupplyFactory = oldSupplyFactory;
+    }
+
+    public StoreProductEntity getSelectedEditProduct() {
+        return selectedEditProduct;
+    }
+
+    public void setSelectedEditProduct(StoreProductEntity selectedEditProduct) {
+        this.selectedEditProduct = selectedEditProduct;
     }
     
     
