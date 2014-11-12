@@ -1611,6 +1611,7 @@ public class dataSetUp {
         i1_2.getKitchen().getIngredients().add(i1_2);
         i1_2.getSupplier().getIngredients().add(i1_2);
         em.flush();
+        
         IngredientEntity i1_3 = new IngredientEntity("Blueberry Syrup", 15.2, "bottle (5kg)", "Free local delivery for orders more than S$ 150, Delivery surcharge of S$ 15 applicable, for orders below S$ 150", 1.0, k1, ks1_3);
         em.persist(i1_3);
         em.flush();
@@ -1627,7 +1628,7 @@ public class dataSetUp {
         em.flush();
 
         //Dishes for k1
-        DishEntity d1_1 = new DishEntity("Steak", 10.0, "Beef Steak", 5, k1);
+        DishEntity d1_1 = new DishEntity("Chili Crab", 35.0, "1.5KG Crab", 5, k1);
         em.persist(d1_1);
         em.flush();
         d1_1.getKitchen().getDishes().add(d1_1);
