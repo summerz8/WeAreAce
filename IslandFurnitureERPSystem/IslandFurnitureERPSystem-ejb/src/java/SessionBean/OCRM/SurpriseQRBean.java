@@ -56,14 +56,15 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
             em.persist(qr);
             em.flush();
             String resultPath = generateQRCodeImage(QR, qr.getId().toString());
-            return resultPath;
+            String filen = "QRCode" + qr.getId().toString() + ".png";
+            return filen;
         } else {
             return null;
         }
     }
 //
     private String generateQRCodeImage(String QR, String fileName) {
-        String path = "/Users/dan/Desktop/Project/QRCode" + fileName + ".png";
+        String path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/QRCode" + fileName + ".png";
         File qrCodeFile = new File(path);
 
         EncodeConfig encodeConfig

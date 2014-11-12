@@ -36,6 +36,7 @@ public class SurpriseQRBean implements Serializable{
     private Date expireDate;
     private Calendar expireDay;
     private String path;
+    private String fileName;
     /**
      * Creates a new instance of SurpriseQRBean
      */
@@ -55,7 +56,7 @@ public class SurpriseQRBean implements Serializable{
 
         System.out.println("createSurpriseQR(): ");
         path = sqb.createQR(percentage, rewardPoints, expireDay, name);
-        
+        System.out.println("path "+path);
         return "/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true";
     }
 
@@ -129,6 +130,14 @@ public class SurpriseQRBean implements Serializable{
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
     
