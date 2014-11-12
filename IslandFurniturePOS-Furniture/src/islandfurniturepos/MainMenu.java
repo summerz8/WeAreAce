@@ -64,6 +64,10 @@ public class MainMenu extends javax.swing.JFrame {
         javax.swing.JButton jButtonLogout = new javax.swing.JButton();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        javax.swing.JButton jButtonNewTransactionRetailProduct = new javax.swing.JButton();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
         javax.swing.JButton jButtonNewTransactionRetailProduct = new javax.swing.JButton();
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -112,7 +116,10 @@ public class MainMenu extends javax.swing.JFrame {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         jButtonNewTransactionRetailProduct.setBackground(new java.awt.Color(255, 255, 255));
@@ -126,6 +133,9 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -162,8 +172,14 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(122, Short.MAX_VALUE))
+=======
+                    .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                     .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -196,7 +212,13 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 .addGap(102, 102, 102)
+=======
+                .addGap(18, 18, 18)
+                .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                 .addGap(18, 18, 18)
                 .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,7 +314,10 @@ public class MainMenu extends javax.swing.JFrame {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     private void jButtonNewTransactionRetailProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionRetailProductActionPerformed
@@ -310,6 +335,9 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNewTransactionRetailProductActionPerformed
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -410,8 +438,13 @@ public class MainMenu extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 }catch (NullPointerException ex){                   
                     System.err.println("Unable to initialize Partner Pole Display");
+=======
+                }catch (NullPointerException ex){
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                 }catch (NullPointerException ex){
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -442,9 +475,15 @@ public class MainMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         } catch (NullPointerException ex){                   
                     System.err.println("Unable to write to Partner Pole Display");
                 }
+=======
+        } catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
         } catch (NullPointerException ex){
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

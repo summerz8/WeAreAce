@@ -54,10 +54,13 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <xs:element name="setTendered" type="tns:setTendered"/>
 
 <xs:element name="setTenderedResponse" type="tns:setTenderedResponse"/>
 
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
@@ -111,6 +114,7 @@
 <xs:element name="manager" type="xs:string" minOccurs="0"/>
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
 <xs:element name="factoryList" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <xs:element name="storeBins" type="tns:storeWarehouseBinEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
@@ -525,6 +529,8 @@
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 </xs:sequence>
 </xs:complexType>
 
@@ -565,6 +571,10 @@
 <xs:element name="firstName" type="xs:string" minOccurs="0"/>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 <xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -586,10 +596,13 @@
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <xs:element name="memberlvl" type="tns:membershipLevelEntity" minOccurs="0"/>
 <xs:element name="rfm" type="tns:rfmEntity" minOccurs="0"/>
 <xs:element name="clv" type="tns:clvEntity" minOccurs="0"/>
 =======
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <xs:element name="shoppingCartList" type="tns:shoppingCartItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
@@ -603,6 +616,9 @@
 <xs:element name="id" type="xs:long" minOccurs="0"/>
 <xs:element name="price" type="xs:double" minOccurs="0"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -635,6 +651,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <xs:complexType name="clvEntity">
 <xs:sequence>
 <xs:element name="aveExp" type="xs:double" minOccurs="0"/>
@@ -645,6 +662,8 @@
 </xs:sequence>
 </xs:complexType>
 
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
@@ -821,6 +840,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <xs:complexType name="setTendered">
 <xs:sequence>
 <xs:element name="transactionId" type="xs:long" minOccurs="0"/>
@@ -832,6 +852,8 @@
 <xs:sequence/>
 </xs:complexType>
 
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======

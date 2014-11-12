@@ -7,6 +7,7 @@ package islandfurniturepos;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
@@ -17,6 +18,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Enumeration;
+=======
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.nio.ByteBuffer;
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -54,10 +61,13 @@ public class Member extends javax.swing.JFrame {
     private Timer timerCheckCardPresent = null;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     private SerialPort serialPort;
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
@@ -307,10 +317,15 @@ public class Member extends javax.swing.JFrame {
                 if (flag) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     poleDisplay("Member found!");
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     poleDisplay("Member not found!");
+=======
+                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
                 } else {
@@ -334,6 +349,7 @@ public class Member extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         try {
@@ -388,6 +404,8 @@ public class Member extends javax.swing.JFrame {
 =======
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 //        try {
 //            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
 //                public void actionPerformed(ActionEvent event) {
@@ -434,6 +452,9 @@ public class Member extends javax.swing.JFrame {
 //        } catch (Exception ex) {
 //        }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -510,6 +531,7 @@ public class Member extends javax.swing.JFrame {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     
      private void initPartnerPoleDisplay() {
         Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
@@ -556,6 +578,8 @@ public class Member extends javax.swing.JFrame {
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 
     private void quitOnNoReaderAttached() {
 //        JOptionPane.showMessageDialog(this, "No card reader is attached", "Reader Detected Failure", JOptionPane.ERROR_MESSAGE);
@@ -579,11 +603,17 @@ public class Member extends javax.swing.JFrame {
                 if (flag) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     poleDisplay("Member found!");
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
                     poleDisplay("Member not found!");
+=======
+                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
 
@@ -606,7 +636,10 @@ public class Member extends javax.swing.JFrame {
         } catch (Exception ex) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             System.err.println("An Error Occured!");
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
@@ -658,9 +691,13 @@ public class Member extends javax.swing.JFrame {
     private void goBack() {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         if(timerCheckCardPresent != null)
             timerCheckCardPresent.stop();
+=======
+//         timerCheckCardPresent.stop();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 //         timerCheckCardPresent.stop();
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17

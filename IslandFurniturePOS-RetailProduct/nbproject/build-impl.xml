@@ -914,7 +914,10 @@ is divided into following sections:
     </target>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:IslandFurniturePOS-RetailProduct/nbproject/build-impl.xml
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
@@ -931,6 +934,7 @@ is divided into following sections:
         <j2seproject3:javac gensrcdir="${build.generated.sources.dir}"/>
         <copy todir="${build.classes.dir}">
             <fileset dir="${src.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -970,6 +974,8 @@ is divided into following sections:
         <copy todir="${classes.dir}/META-INF">
             <fileset dir="${meta.inf}" excludes="**/*.dbschema **/xml-resources/** ${meta.inf.excludes}"/>
 >>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/nbproject/build-impl.xml~
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
