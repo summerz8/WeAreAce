@@ -25,11 +25,29 @@ public class StoreBinRetailProductEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double quantity;
-    private Boolean isDeleted;
-    
+    private Boolean isDeleted = false;
+    private Integer status;  //status: 0 unrestricted 1 returned 2 intransit  
     @ManyToOne
     private StoreRetailProductEntity retailProduct;
 
+    
+    @ManyToOne
+    private StoreWarehouseBinEntity swe;
+
+    public StoreBinRetailProductEntity() {
+    }
+    
+    
+
+    public StoreWarehouseBinEntity getSwe() {
+        return swe;
+    }
+
+    public void setSwe(StoreWarehouseBinEntity swe) {
+        this.swe = swe;
+    }
+    
+    
     public Long getId() {
         return id;
     }
@@ -37,6 +55,16 @@ public class StoreBinRetailProductEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+    
+    
 
     public Boolean isIsDeleted() {
         return isDeleted;

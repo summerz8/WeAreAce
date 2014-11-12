@@ -82,21 +82,22 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
     }
     
     public Boolean checkSameQR(String QR) {
-        try{
-        Query q = em.createQuery("SELECT m FROM SurpriseQREntity m WHERE m.randomString=:QR");
-        q.setParameter("QR", QR);
 
         try {
-            SurpriseQREntity sqe = (SurpriseQREntity) q.getSingleResult();
-            if (sqe != null) {
-                return false;
-            } else {
+            Query q = em.createQuery("SELECT m FROM SurpriseQREntity m WHERE m.randomString=:QR");
+            q.setParameter("QR", QR);
+
+            try {
+                SurpriseQREntity sqe = (SurpriseQREntity) q.getSingleResult();
+                if (sqe != null) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (NoResultException e) {
                 return true;
             }
-        } catch (NoResultException e) {
-            return true;
-        }
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
             ex.printStackTrace();
             return true;
         }

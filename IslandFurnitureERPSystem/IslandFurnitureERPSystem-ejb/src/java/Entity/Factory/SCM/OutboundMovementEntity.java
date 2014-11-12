@@ -53,6 +53,9 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
     private Double quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar creationDate;
+    
+    
+    private Boolean receivedByStore = false;
 
     public OutboundMovementEntity() {
     }
@@ -62,6 +65,7 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
         this.toStore = toStore;
         this.quantity = quantity;
         this.creationDate = creationDate;
+        
     }
 
     public Long getOutboundMovementId() {
@@ -110,6 +114,15 @@ public class OutboundMovementEntity /*extends FactoryMovementEntity*/ implements
         return stockTypeIndicator;
     }
 
+    public Boolean isReceivedByStore() {
+        return receivedByStore;
+    }
+
+    public void setReceivedByStore(Boolean receivedByStore) {
+        this.receivedByStore = receivedByStore;
+    }
+
+    
     public void setStockTypeIndicator(Integer stockTypeIndicator) {
         this.stockTypeIndicator = stockTypeIndicator;
     }

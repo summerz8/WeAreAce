@@ -6,7 +6,12 @@
 package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.ProductSalesForecastEntity;
+import Entity.Store.OCRM.SalesRecordEntity;
+import Entity.Store.StoreEventEntity;
 import SessionBean.OCRM.OCRMSalesForecastModuleLocal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -30,12 +35,24 @@ public class CreateStoreProductSalesForecastBean {
     private ProductSalesForecastEntity productSalesForecast;
     private String productName;
     private Double NewForecastAmount;
+    private List<StoreEventEntity> eventList;
+    private List<StoreEventEntity> disPlayList;
+    private StoreEventEntity storeEvent;
+    private List<StoreEventEntity> EventEffectList;
+    private Long storeId;
 
     public CreateStoreProductSalesForecastBean() {
     }
 
     @PostConstruct
     public void init() {
+        if ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl") == 0) {
+            storeId = -1L;
+
+        } else {
+            storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        }
+
         productId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ProductId");
         productType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productType");
         productSalesForecast = sfml.createProductSalesForecast(productId, productType);
@@ -43,6 +60,17 @@ public class CreateStoreProductSalesForecastBean {
             productName = productSalesForecast.getStoreProduct().getName();
         } else {
             productName = productSalesForecast.getStoreRetailProduct().getName();
+        }
+
+        eventList = sfml.getEventList(storeId);
+        EventEffectList=eventList;
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.MONTH, 2);
+        disPlayList = new ArrayList<>();
+        for (StoreEventEntity s : eventList) {
+            if ((s.getStartDate().get(Calendar.MONTH) == today.get(Calendar.MONTH)) && s.getStartDate().get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
+                disPlayList.add(s);
+            }
         }
 
     }
@@ -62,6 +90,26 @@ public class CreateStoreProductSalesForecastBean {
         Object newValue = event.getNewValue();
 
         NewForecastAmount = (Double) newValue;
+    }
+
+    public void setStoreEventList(StoreEventEntity event) {
+
+        EventEffectList = sfml.getEventEffectList(event.getId());
+        System.out.println("333"+EventEffectList.size());
+
+    }
+    
+    public boolean check(List<ProductSalesForecastEntity> productSalesForecastList,List<SalesRecordEntity> salesRecordList){
+        if(productSalesForecastList.isEmpty()||salesRecordList.isEmpty())
+            return false;
+        else return true;
+    
+    }
+    
+    public boolean checkSalesEffect(StoreEventEntity event){
+        EventEffectList = sfml.getEventEffectList(event.getId());
+        if(EventEffectList.isEmpty())return false;
+        else return true;
     }
 
     public OCRMSalesForecastModuleLocal getSfml() {
@@ -110,6 +158,46 @@ public class CreateStoreProductSalesForecastBean {
 
     public void setNewForecastAmount(Double NewForecastAmount) {
         this.NewForecastAmount = NewForecastAmount;
+    }
+
+    public List<StoreEventEntity> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<StoreEventEntity> eventList) {
+        this.eventList = eventList;
+    }
+
+    public List<StoreEventEntity> getDisPlayList() {
+        return disPlayList;
+    }
+
+    public void setDisPlayList(List<StoreEventEntity> disPlayList) {
+        this.disPlayList = disPlayList;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public StoreEventEntity getStoreEvent() {
+        return storeEvent;
+    }
+
+    public void setStoreEvent(StoreEventEntity storeEvent) {
+        this.storeEvent = storeEvent;
+    }
+
+    public List<StoreEventEntity> getEventEffectList() {
+        return EventEffectList;
+    }
+
+    public void setEventEffectList(List<StoreEventEntity> EventEffectList) {
+        this.EventEffectList = EventEffectList;
     }
 
 }

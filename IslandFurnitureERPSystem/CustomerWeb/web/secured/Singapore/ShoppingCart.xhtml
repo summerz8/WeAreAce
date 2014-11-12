@@ -33,6 +33,11 @@
                     <!--</p:layoutUnit>--> 
 
 
+                    
+                    <p:link outcome="/Singapore/FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    </p:link>
+                    
+                    
                     <p:link outcome="MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                     </p:link>
 
@@ -48,9 +53,7 @@
                         <p:button value="Gallery" outcome="/Singapore/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                         <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                         <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                        <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                        <p:button value="About Us" outcome="/Singapore/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-
+                        <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />    
                     </div>
 
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
@@ -83,7 +86,7 @@
 
 
                         <p:column headerText="Images">
-                            <img src="../resources/images/#{item.customerWebItem.picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
+                            <img src="../../resources/images/#{item.customerWebItem.picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
                         </p:column>
 
                         <p:column headerText="Product Name">
@@ -109,7 +112,11 @@
                     <p:dataTable var="set" value="#{memberInfo.setList}" style="margin:auto; width: 900px">
 
                         <p:column headerText="Images">
+<<<<<<< HEAD
+                            <img src="../../resources/images/#{set.countrySet.picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
+=======
                             <img src="../resources/images/#{set.countrySet.picture}" style = "text-align: left; margin-bottom:50px;width:100px; height:80px" />
+>>>>>>> da73a7fd03bd2578774675efb00a435d9497c006
                         </p:column>
 
                         <p:column headerText="Product Name">

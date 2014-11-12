@@ -7,6 +7,7 @@
 package Entity.Store.IM;
 
 import Entity.Factory.FactoryRawMaterialEntity;
+import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
@@ -47,6 +48,24 @@ public class StoreInStoreMovementRecordEntity implements Serializable {
     
     @ManyToOne
     private StoreWarehouseBinEntity toBin;
+    
+    
+    @ManyToOne
+    private StoreEntity store;
+    
+    
+
+    public StoreInStoreMovementRecordEntity() {
+    }
+    
+    
+
+    public StoreInStoreMovementRecordEntity(Double amount, Calendar creationTime) {
+        this.amount = amount;
+        this.creationTime = creationTime;
+    }
+    
+    
 
     public Long getId() {
         return id;
@@ -89,8 +108,14 @@ public class StoreInStoreMovementRecordEntity implements Serializable {
         this.storeProduct = storeProduct;
     }
 
-    
-    
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+
 
     public StoreWarehouseBinEntity getFromBin() {
         return fromBin;

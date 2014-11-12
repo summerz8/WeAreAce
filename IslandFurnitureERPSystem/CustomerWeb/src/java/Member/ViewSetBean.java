@@ -48,7 +48,7 @@ public class ViewSetBean {
     private String selectedRate;
     private List<CommentEntity> allComment;
     private List<CommentEntity> commentList;
-    private Double totalRate;
+    private Double totalRate = 0D;
     private String web;
 
     private String selectedStore;
@@ -85,13 +85,15 @@ public class ViewSetBean {
         }
 
         int size = commentList.size();
-        for (CommentEntity c : commentList) {
-            if (c.getCountry().equals(web)) {
-                totalRate = totalRate + c.getRate();
+        if (size != 0) {
+            for (CommentEntity c : commentList) {
+                if (c.getCountry().equals(web)) {
+                    totalRate = totalRate + c.getRate();
+                }
             }
-        }
+        
         totalRate = totalRate / size;
-
+        }
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));
@@ -117,9 +119,14 @@ public class ViewSetBean {
         if (email == null) {
             return "LoginPage?faces-redirect=true";
         } else {
-            cwml.addToShoppingCart(email, item.getId(), quantity, "");
+            cwml.addToShoppingCart(email, item.getId(), quantity, "product");
             return "set?faces-redirect=true";
         }
+    }
+    
+     public boolean checkLogIn(){
+        if(name==null) return false;
+        else return true;
     }
 
     public String createComment() {
@@ -135,7 +142,7 @@ public class ViewSetBean {
             FacesContext.getCurrentInstance().getExternalContext().redirect("LoginPage.xhtml");
 
         } else {
-            cwml.addToShoppingCart(email, set.getId(), quantity, "set");
+            cwml.addToShoppingCart(email, set.getId(), 1, "set");
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The whole set of furniture has been added to your shopping cart", ""));
         }

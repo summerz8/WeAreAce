@@ -23,7 +23,7 @@ import javax.persistence.Temporal;
 public class StoreEventEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String eventName;
@@ -35,7 +35,7 @@ public class StoreEventEntity implements Serializable {
     @ManyToOne
     private StoreEntity store;
     private Double bonus;
-    
+    private Double increaseSale;
     @ManyToOne
     private EventEntity event;
 
@@ -51,6 +51,7 @@ public class StoreEventEntity implements Serializable {
         this.bonus=bonus;
         this.endDate=endDate;
         this.store=store;
+        this.increaseSale=1D;
     }
     
     public Long getId() {
@@ -115,6 +116,14 @@ public class StoreEventEntity implements Serializable {
 
     public void setEvent(EventEntity event) {
         this.event = event;
+    }
+
+    public Double getIncreaseSale() {
+        return increaseSale;
+    }
+
+    public void setIncreaseSale(Double increaseSale) {
+        this.increaseSale = increaseSale;
     }
 
     

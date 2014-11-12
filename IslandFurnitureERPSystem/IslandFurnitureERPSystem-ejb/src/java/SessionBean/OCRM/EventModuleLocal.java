@@ -39,4 +39,6 @@ public interface EventModuleLocal {
     
     public void editStoreEvent(Long storeEventId,String description,Calendar startDate, Calendar endDate, Double bonus);
     
+    public void updateStoreEvent(Long storeEventId, Double increaseSale);
+    
 }

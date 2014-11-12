@@ -95,6 +95,14 @@
                                 <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactoryManager()}"/>
                                 <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
                             </p:submenu>
+                            
+                              <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
 
                             <p:submenu label="Kitchen Management" rendered="#{workPlaceManageBean.isValidKitchen()}">
                                 <p:menuitem value="Order Fulfillment" outcome = "/secured/restricted/Store/KM/CustomerOrderFulfillmentModule/CustomerOrderFulfillmentPage?faces-redirect=true" onclick="#{findKitchenBean}"/>
@@ -111,6 +119,7 @@
                                 <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
                                 <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                                <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true"/>
                                 <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
 
                             </p:submenu>

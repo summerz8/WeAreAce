@@ -9,7 +9,7 @@
             <name>IslandFurnitureERPSystem-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library dirs="200">file.reference.BarcodeEngine_v1.3.jar</included-library>
-            <included-library dirs="200">file.reference.commons-codec-1.9.jar</included-library>
+            <included-library dirs="200">file.reference.commons-codec-1.9.jar-1</included-library>
             <included-library dirs="200">file.reference.core.jar</included-library>
             <included-library dirs="200">file.reference.javase.jar</included-library>
             <source-roots>

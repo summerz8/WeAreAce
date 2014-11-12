@@ -9,6 +9,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -51,7 +52,7 @@ public class PredefinedAttributes implements Serializable {
 //        country[1] = "United States";
 //        country[2] = "China";
 
-        countries = new HashMap<String, String>();
+        countries = new LinkedHashMap<String, String>();
         initialCounties();
     }
     

@@ -33,6 +33,9 @@ public class ShoppingCartItemEntity implements Serializable {
     private CountrySetEntity countrySet;
 
 
+    public ShoppingCartItemEntity(){
+    
+    }
     public Long getId() {
         return id;
     }

@@ -235,20 +235,54 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
 
         MemberEntity member = cwml.getMember(email);
 
-        ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
-        shoppingCartItem.setQuantity(quantity);
         if (type.equals("product")) {
-            CountryProductEntity item = getItem(itemId);
-            shoppingCartItem.setCustomerWebItem(item);
-        } else {
-            CountrySetEntity set = getSet(itemId);
-            shoppingCartItem.setCountrySet(set);
-        }
-        shoppingCartItem.setType(type);
-        em.persist(shoppingCartItem);
+            boolean exist = false;
+            List<ShoppingCartItemEntity> shoppingCartItemList = member.getShoppingCartList();
+            for (ShoppingCartItemEntity s : shoppingCartItemList) {
+                if (s.getType().equals("product")) {
+                    if (s.getCustomerWebItem().getId().equals(itemId)) {
+                        s.setQuantity(s.getQuantity() + quantity);
+                        exist = true;
+                        break;
+                    }
+                }
+            }
+            if (exist == false) {
+                ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
+                shoppingCartItem.setQuantity(quantity);
+                CountryProductEntity item = getItem(itemId);
+                shoppingCartItem.setCustomerWebItem(item);
+                shoppingCartItem.setType(type);
+                em.persist(shoppingCartItem);
+                member.getShoppingCartList().add(shoppingCartItem);
+                em.flush();
+            }
 
-        member.getShoppingCartList().add(shoppingCartItem);
-        em.flush();
+        } else {
+            boolean exist = false;
+            List<ShoppingCartItemEntity> shoppingCartItemList = member.getShoppingCartList();
+            for (ShoppingCartItemEntity s : shoppingCartItemList) {
+                if (s.getType().equals("set")) {
+                    if (s.getCountrySet().getId().equals(itemId)) {
+                        s.setQuantity(s.getQuantity() + quantity);
+                        exist = true;
+                        break;
+                    }
+                }
+            }
+            if (exist == false) {
+                ShoppingCartItemEntity shoppingCartItem = new ShoppingCartItemEntity();
+                shoppingCartItem.setQuantity(quantity);
+                CountrySetEntity item = getSet(itemId);
+                shoppingCartItem.setCountrySet(item);
+                shoppingCartItem.setType(type);
+                em.persist(shoppingCartItem);
+                member.getShoppingCartList().add(shoppingCartItem);
+                em.flush();
+            }
+            
+            
+        }
 
     }
 
@@ -419,6 +453,21 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
         }
         set.setUnitList(productList);
         em.flush();
+    }
+
+    @Override
+    public List<ShoppingCartItemEntity> getShoppingCarItemList(String email) {
+        MemberEntity member = getMember(email);
+        return member.getShoppingCartList();
+
+    }
+
+    @Override
+    public MemberEntity getMember(String email) {
+        Query q = em.createQuery("SELECT q FROM MemberEntity q where q.email :=email");
+        q.setParameter("email", email);
+
+        return (MemberEntity) q;
     }
 
 }

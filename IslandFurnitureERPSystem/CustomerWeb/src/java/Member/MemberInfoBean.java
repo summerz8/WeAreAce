@@ -72,7 +72,8 @@ public class MemberInfoBean {
             itemList = member.getShoppingCartList();
             setList=new ArrayList<>();
             productList=new ArrayList<>();
-            for(ShoppingCartItemEntity s:itemList){
+            
+            for(ShoppingCartItemEntity s: itemList){
                 if(s.getType().equals("product"))productList.add(s);
                 else setList.add(s);
             }

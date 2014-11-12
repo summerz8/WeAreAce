@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 
-package ManagedBean.IM;
+package Converter;
 
-import Entity.Factory.FactoryEntity;
-import Entity.Factory.FactoryRetailProductEntity;
+import Entity.Store.StoreProductEntity;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -18,19 +17,26 @@ import javax.faces.convert.FacesConverter;
  *
  * @author zhengyuan
  */
-@FacesConverter("factoryRConverter")
-public class FactoryRConverter implements Converter {
+@FacesConverter("sProductConverter")
+public class SProductConverter implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+     
+        System.out.println("converter: value:" + value);
+     
         if(value != null && value.trim().length() > 0) {
-            List<FactoryRetailProductEntity> availFactoryEntities = (List<FactoryRetailProductEntity>)fc.getExternalContext().getSessionMap().get("factoryREntities");
+            List<StoreProductEntity> storeProductEntities = (List<StoreProductEntity>)fc.getExternalContext().getSessionMap().get("storeProductEntities");
             
-            System.err.println("Converter: " + availFactoryEntities.size());
+           
             
-            for(FactoryRetailProductEntity factoryEntity:availFactoryEntities)
+            for(StoreProductEntity spEntity:storeProductEntities)
             {
-                if(factoryEntity.getFactoryRetailProdctId().equals(value))
+                System.out.println("converter: spEntity:" + spEntity.getStoreProductId());
+                
+                if(spEntity.getStoreProductId().equals(Long.valueOf(value)))
                 {
-                   return factoryEntity;
+                    
+                    System.out.println("Converter: found spEntity: " + spEntity.getStoreProductId());
+                   return spEntity;
                 }
             }
             
@@ -43,11 +49,10 @@ public class FactoryRConverter implements Converter {
  
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if(object != null) {
-            return String.valueOf(((FactoryRetailProductEntity) object).getFactoryRetailProdctId());
+            return String.valueOf(((StoreProductEntity) object).getStoreProductId());
         }
         else {
             return null;
         }
     }   
-    
 }

@@ -12,6 +12,7 @@ import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import ManagedBean.SCM.AddFactoryProduct;
 import SessionBean.IM.StoreInventoryControlLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,13 +33,14 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeProductControl")
 @ViewScoped
-public class StoreProductControl {
+public class StoreProductControlBean implements Serializable{
 
     /**
      * Creates a new instance of StoreProductControl
      */
-    public StoreProductControl() {
+    public StoreProductControlBean() {
     }
+    
     @EJB
     StoreInventoryControlLocal sicl;
     
@@ -54,7 +56,14 @@ public class StoreProductControl {
     private String msgprint2;
     private Long storeId;
     private Boolean isSelfPicked;
-    private String remark;    
+    private String remark;  
+    
+    private Double minimumInv;
+    private Double onAirInventory;
+    
+    private List<StoreProductEntity> filtedSPEList;
+    private List<ProductEntity> filterPEList;
+    
     @PostConstruct
     public void init(){
         try{
@@ -63,10 +72,13 @@ public class StoreProductControl {
                 
             } else {
                 storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+                
             }
         currentStoreProductList = sicl.getListOfStoreProduct(storeId);
+        filtedSPEList = currentStoreProductList;
         System.out.println("ManagedBean : StoreProductControl : currentStoreProductList size()" + currentStoreProductList.size());
         productNotInStoreList = sicl.getListOfProductNotInStore(storeId);
+        filterPEList = productNotInStoreList;
         System.out.println("ManagedBean : StoreProductControl : productNotInStore size()" + productNotInStoreList.size());
 
          } catch (Exception ex) {
@@ -89,6 +101,8 @@ public class StoreProductControl {
         selectAvailableFactory(pe);
         
         
+        
+        
     }
     public void deleteStoreProduct(StoreProductEntity spe){
         
@@ -108,14 +122,16 @@ public class StoreProductControl {
     public Collection<FactoryProductEntity> selectAvailableFactory(ProductEntity pe){
         selectedProduct = pe;
         availableFactory =(Collection) sicl.listAvailableFactoryProduct(pe.getProductId());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryProductEntities", availableFactory);
         return availableFactory;
     }
     
     public void addStoreProduct(ActionEvent event){
         
+        
         System.out.println("Add the product function");
         
-        int result = sicl.addNewStoreProduct(storeId,  selectedProduct.getProductId(),selectedFactory.getFactoryProductId(), isSelfPicked, remark);
+        int result = sicl.addNewStoreProduct(storeId,  selectedProduct.getProductId(),selectedFactory.getFactoryProductId(), isSelfPicked, remark,minimumInv, onAirInventory );
         if(result == 1) {
             msgprint1 = "A new product added successfully!";
             currentStoreProductList = sicl.getListOfStoreProduct(storeId);
@@ -125,11 +141,22 @@ public class StoreProductControl {
         }
         else{
             msgprint1 = "Exception occured. Please try again or raise a ticket.";
-            System.out.println(msgprint2);
+            System.out.println(msgprint1);
             
         }
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Message", msgprint1));
+        
+        selectedProduct = null;
+        selectedFactory = null;
+        isSelfPicked = false;
+        remark = null;
             
     }
+    
+    
+    
 
  public void onRowEdit(RowEditEvent event) {
         System.out.println("onRowEdit test:");
@@ -143,7 +170,7 @@ public class StoreProductControl {
         } else {
            sicl.editStoreProduct(entity.getStore().getStoreId(), entity.getStoreProductId(), oldFactoryProductId, entity.getSelfPick(), entity.getFactoryProduct().getFactoryProductId(), entity.getMinimumInventory(),entity.getStoreRemark());
 
-            FacesMessage msg = new FacesMessage("Store Product Edited", String.valueOf(entity.getStoreProductId()));
+            FacesMessage msg = new FacesMessage("Store Product Edited", "Product Id: " + String.valueOf(entity.getStoreProductId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -267,6 +294,38 @@ public class StoreProductControl {
 
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
+    }
+
+    public Double getMinimumInv() {
+        return minimumInv;
+    }
+
+    public void setMinimumInv(Double minimumInv) {
+        this.minimumInv = minimumInv;
+    }
+
+    public Double getOnAirInventory() {
+        return onAirInventory;
+    }
+
+    public void setOnAirInventory(Double onAirInventory) {
+        this.onAirInventory = onAirInventory;
+    }
+
+    public List<StoreProductEntity> getFiltedSPEList() {
+        return filtedSPEList;
+    }
+
+    public void setFiltedSPEList(List<StoreProductEntity> filtedSPEList) {
+        this.filtedSPEList = filtedSPEList;
+    }
+
+    public List<ProductEntity> getFilterPEList() {
+        return filterPEList;
+    }
+
+    public void setFilterPEList(List<ProductEntity> filterPEList) {
+        this.filterPEList = filterPEList;
     }
     
     

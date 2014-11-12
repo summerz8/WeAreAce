@@ -45,7 +45,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     @WebMethod(exclude = true)
     public int AddMember(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, Long transactionId) {
+            String title, String address, String postalCode, String email, Long transactionId, String country) {
         //departmentID refers to the respective Factory, Store or HQ id
         System.out.println("MemberRegistrationModule: addMember():");
 
@@ -78,7 +78,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
             member = new MemberEntity(hashedpwd, lastName, midName, firstName,
                     birthday, gender, title, address, postalCode,
-                    email, Boolean.FALSE);
+                    email, Boolean.FALSE, country);
             member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(transaction.getTotalPrice())));
             em.persist(member);
             System.out.println("New Member created!");

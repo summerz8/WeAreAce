@@ -33,7 +33,7 @@ public class EventModule implements EventModuleLocal {
 
     @Override
     public List<StoreEventEntity> getStoreEventList(Long storeId) {
-        Query q = em.createQuery("Select s From StoreEventEntity s where s.store.storeId = :sId ");
+        Query q = em.createQuery("Select s From StoreEventEntity s where s.store.storeId = :sId ORDER BY s.startDate DESC ");
         q.setParameter("sId", storeId);
         return (List<StoreEventEntity>) q.getResultList();
     }
@@ -90,7 +90,7 @@ public class EventModule implements EventModuleLocal {
 
     @Override
     public void editStoreEvent(Long storeEventId, String description, Calendar startDate, Calendar endDate, Double bonus) {
-        StoreEventEntity s=em.find(StoreEventEntity.class, storeEventId);
+        StoreEventEntity s = em.find(StoreEventEntity.class, storeEventId);
         s.setBonus(bonus);
         s.setDescription(description);
         s.setEndDate(endDate);
@@ -98,4 +98,10 @@ public class EventModule implements EventModuleLocal {
         em.flush();
     }
 
+    @Override
+    public void updateStoreEvent(Long storeEventId, Double increaseSale) {
+        StoreEventEntity s = em.find(StoreEventEntity.class, storeEventId);
+        s.setIncreaseSale(increaseSale);
+
+    }
 }

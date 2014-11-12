@@ -11,6 +11,8 @@ import Entity.Factory.SetEntity;
 import Entity.Store.OCRM.CountryProductEntity;
 import Entity.Store.OCRM.CountryRetailProductEntity;
 import Entity.Store.OCRM.CountrySetEntity;
+import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.OCRM.ShoppingCartItemEntity;
 import Entity.Store.StoreEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -28,7 +30,7 @@ public interface CustomerWebModuleLocal {
 
     public List<CountrySetEntity> getSetList(String web);
 
-    public void createItem(Long productId, String productName, String description, String selectedType, String picture,String web);
+    public void createItem(Long productId, String productName, String description, String selectedType, String picture, String web);
 
     public void editItem(Long itemId, Long productId, String productName, String description, String selectedType, String picture);
 
@@ -51,24 +53,27 @@ public interface CustomerWebModuleLocal {
     public List<CountryRetailProductEntity> listRetailItems(String web);
 
     public CountryRetailProductEntity getRetailItem(Long retailItemId);
-    
+
     public void createRetailItem(Long retailProductId, String retailProductName, String description, String picture, String web);
 
     public void editRetailItem(Long itemId, Long productId, String productName, String description, String picture);
 
     public void deleteRetailItem(Long retailItemId);
-    
+
     public List<RetailProductEntity> getRetailProductList();
-    
-    public void createComment(Long Id,String type,String name,String content, Integer rate, String country);
+
+    public void createComment(Long Id, String type, String name, String content, Integer rate, String country);
 
     public List<StoreEntity> getStores(String web);
-    
-    public Double checkStock(Long storeId, Long itemId,String type);
-    
+
+    public Double checkStock(Long storeId, Long itemId, String type);
+
     public List<SetEntity> getGlobalSetList();
-    
+
     public void deleteItemInSet(Long countrySetId, Long countryProductId);
-    
+
+    public MemberEntity getMember(String email);
+
+    public List<ShoppingCartItemEntity> getShoppingCarItemList(String email);
 
 }
