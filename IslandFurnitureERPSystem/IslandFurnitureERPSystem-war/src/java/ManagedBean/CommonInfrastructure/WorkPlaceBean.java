@@ -40,6 +40,7 @@ public class WorkPlaceBean implements Serializable {
     private DashboardModel model;
     private Date date;
     private List<StoreEntity> storeList;
+
     private List<FactoryEntity> factoryList;
     private List<SelectItem> displayList; //s
     private List<SelectItem> displayList2; //f
@@ -106,7 +107,7 @@ public class WorkPlaceBean implements Serializable {
             String t = s.getStoreId() + " " + s.getAddress();
             displayList.add(new SelectItem(s.getStoreId(), t));
         }
-        System.out.println("displayList  =" + displayList.toString());
+
 
         for (FactoryEntity f : factoryList) {
             String t = f.getFactoryId() + " " + f.getAddress();
@@ -138,6 +139,7 @@ public class WorkPlaceBean implements Serializable {
     }
 
     public void checkRev() {
+
         if (selectedStore != null) {
             userId = "S1000001";
             System.out.println(selectedStore);

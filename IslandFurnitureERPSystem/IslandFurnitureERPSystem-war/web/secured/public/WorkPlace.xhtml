@@ -95,8 +95,8 @@
                                 <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactoryManager()}"/>
                                 <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
                             </p:submenu>
-                            
-                              <p:submenu label="Inventory Management">
+
+                            <p:submenu label="Inventory Management">
                                 <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
@@ -112,6 +112,7 @@
                                 <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/ProcurementManagementModule/ProcurementManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
                             </p:submenu>
 
+
                             <p:submenu label="Operational CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
@@ -121,8 +122,9 @@
                                 <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                                 <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true"/>
                                 <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
-
                             </p:submenu>
+
+
 
                             <p:submenu label="Analytical CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
                                 <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
@@ -193,13 +195,14 @@
                                     <h:panelGrid columns="2" cellpadding="5" >                                 
                                         <h:outputLabel for="store2" value="Store:" style="font-weight:bold" />
                                         <p:selectOneMenu id="store2" value="#{workPlaceBean.selectedStore1}">
-                                                <p:ajax  update="out1" listener="#{workPlaceBean.checkRev}" />
-                                                <f:selectItem itemLabel="All Stores" itemValue="" />
-                                                <f:selectItems value="#{workPlaceBean.displayList}" />
-                                            </p:selectOneMenu>
+                                            <p:ajax  update="out1" listener="#{workPlaceBean.checkRev}" />
+                                            <f:selectItem itemLabel="All Stores" itemValue="" />
+                                            <f:selectItems value="#{workPlaceBean.displayList}" />
+                                        </p:selectOneMenu>
 
-                                            <h:outputText value="Current Month Cumulative Revenue" />
-                                            <h:outputText id="out1" value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
+                                        <h:outputText value="Current Month Cumulative Revenue" />
+
+                                        <h:outputText id="out1" value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
                                     </h:panelGrid>
                                 </p:panel>
 

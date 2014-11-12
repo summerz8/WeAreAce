@@ -70,11 +70,7 @@
                 <p:layoutUnit position="west" size="1000px">
 
                     <p:menu>
-                       <p:submenu label="OCRM Management">
-                            <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
-                            <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                            <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
+                        <p:submenu label="OCRM Management">
                             <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
@@ -85,33 +81,33 @@
 
                     <p:panel id="basic" header="Edit Item" style="margin-bottom" >
                         <br></br><br></br><br></br><br></br><br></br><br></br>
-                            <h:panelGrid columns="3" style="width:100%">
-                                <h:outputLabel for="item" value="Product:" style="font-weight:bold" />
-                                <h:outputText value="#{editItem.productId}" />
-                                <p:selectOneMenu id="item" value="#{editItem.selectedProduct}">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{editItem.displayList}" />
-                                </p:selectOneMenu>
+                        <h:panelGrid columns="3" style="width:100%">
+                            <h:outputLabel for="item" value="Product:" style="font-weight:bold" />
+                            <h:outputText value="#{editItem.productId}" />
+                            <p:selectOneMenu id="item" value="#{editItem.selectedProduct}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editItem.displayList}" />
+                            </p:selectOneMenu>
 
-                                <h:outputText value="Product Name:" />
-                                <h:outputText value="#{editItem.productName}" />
-                                <h:inputText value="#{editItem.productName}" />
+                            <h:outputText value="Product Name:" />
+                            <h:outputText value="#{editItem.productName}" />
+                            <h:inputText value="#{editItem.productName}" />
 
-                                <h:outputText value="Product Description:" />
-                                <h:outputText value="#{editItem.description}" />
-                                <h:inputText value="#{editItem.description}" />
+                            <h:outputText value="Product Description:" />
+                            <h:outputText value="#{editItem.description}" />
+                            <h:inputText value="#{editItem.description}" />
 
-                                <h:outputLabel for="type" value="Customer Website:" style="font-weight:bold" />
-                                <h:outputText value="#{editItem.type}" />
-                                <p:selectOneMenu id="type" value="#{editItem.selectedType}">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{editItem.typeList}" />
-                                </p:selectOneMenu>
+                            <h:outputLabel for="type" value="Customer Website:" style="font-weight:bold" />
+                            <h:outputText value="#{editItem.type}" />
+                            <p:selectOneMenu id="type" value="#{editItem.selectedType}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{editItem.typeList}" />
+                            </p:selectOneMenu>
 
-                                <p:commandButton  id = "update" value="Update" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="#{editItem.upDate}" />
-                                <p:commandButton  id = "back" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebFurniture?redirect=true" />
+                            <p:commandButton  id = "update" value="Update" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="#{editItem.upDate}" />
+                            <p:commandButton  id = "back" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" action="CustomerWebFurniture?redirect=true" />
 
-                            </h:panelGrid>
+                        </h:panelGrid>
 
                     </p:panel>
 
@@ -120,7 +116,7 @@
             </p:layout>
 
         </h:form>
-          <h:form enctype="multipart/form-data" style="position: absolute; top: 140px; left:220px"> 
+        <h:form enctype="multipart/form-data" style="position: absolute; top: 140px; left:220px"> 
             <h:outputText value="Product Picture:" />
             <p:fileUpload value="Upload" 
                           fileUploadListener="#{editItem.handleProductItemImageUpload}"/>

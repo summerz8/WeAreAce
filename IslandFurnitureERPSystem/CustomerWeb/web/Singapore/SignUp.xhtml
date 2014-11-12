@@ -53,7 +53,7 @@
                     <h:panelGrid columns="2" cellpadding="10">                                
 
                         <h:outputLabel for="title" value="Title: *" />
-                        <h:selectOneMenu value="#{signUp.title}" style="width:100%" required="true" requiredMessage="Please select a title" >
+                        <h:selectOneMenu value="#{signUp.title}"  required="true" requiredMessage="Please select a title" >
                             <f:selectItem itemLabel="Select a Title" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                         </h:selectOneMenu>
@@ -72,14 +72,14 @@
                         <p:inputText value="#{signUp.lastName}" required="true" requiredMessage="Please input user lastname" label="text" />                               
 
                         <h:outputLabel for="gender" value="Gender: *" />
-                        <h:selectOneMenu value="#{signUp.gender}" style="width:100%" required="true" requiredMessage="Please select gender">
+                        <h:selectOneMenu value="#{signUp.gender}"  required="true" requiredMessage="Please select gender">
                             <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                         </h:selectOneMenu>
                         
                         <h:outputLabel for="country" value="Country: *" />
-                        <h:selectOneMenu value="#{signUp.country}" style="width:100%" required="true" requiredMessage="Please select gender">
-                            <f:selectItem itemLabel="Select a Country" itemValue="" noSelectionOption="true"/>
+                        <h:selectOneMenu value="#{signUp.country}"  required="true" requiredMessage="Please select gender">
+                            <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{attr.countries}" var="color" itemLabel="#{country}" itemValue="#{country}" />
                         </h:selectOneMenu>
 

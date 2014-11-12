@@ -71,10 +71,6 @@
 
                     <p:menu>
                         <p:submenu label="OCRM Management">
-                            <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
-                            <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                            <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                             <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
@@ -84,7 +80,7 @@
 
                     <p:panel id="basic" header="Create a new retail item" style="margin-bottom" >                       
 
-                            <br></br><br></br><br></br><br></br><br></br><br></br>
+                        <br></br><br></br><br></br><br></br><br></br><br></br>
 
 
                         <h:panelGrid columns="2" style="width:100%">
@@ -99,13 +95,13 @@
 
                             <h:outputText value="Product Description:" />
                             <h:inputText value="#{createRetailItem.description}" />
-                            
-                            
+
+
                             <p:commandButton  id = "create" value="Create" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="#{createRetailItem.create}" />
                             <p:commandButton  id = "cancel" value="Cancel" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" action="CustomerWebRetail?faces-redirect=true" />
 
                         </h:panelGrid>
-                            
+
                     </p:panel>
 
                 </p:layoutUnit>

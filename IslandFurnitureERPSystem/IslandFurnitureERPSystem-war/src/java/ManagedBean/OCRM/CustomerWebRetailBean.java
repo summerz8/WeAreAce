@@ -41,6 +41,12 @@ public class CustomerWebRetailBean {
 
     }
 
+     public String viewComment(Long itemId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "retail");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+        return "ViewRetailComments?faces-redirect=true";
+    }
+     
     public String edit(Long retailItemId) {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("retailItemId", retailItemId);

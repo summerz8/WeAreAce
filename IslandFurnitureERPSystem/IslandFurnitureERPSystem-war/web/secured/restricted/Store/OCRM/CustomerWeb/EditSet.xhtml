@@ -71,10 +71,6 @@
 
                     <p:menu>
                         <p:submenu label="OCRM Management">
-                            <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
-                            <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
-                            <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
                             <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
@@ -132,7 +128,7 @@
                                 <p:commandButton  value="Delete" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{editSet.deleteItem(item.id)}" >
                                 </p:commandButton>
                             </p:column>
-                            
+
                             <p:column headerText="Edit" >
                                 <p:commandButton  value="Edit" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{editSet.editItem(item.id)}" >
                                 </p:commandButton>
