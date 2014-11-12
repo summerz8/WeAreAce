@@ -116,31 +116,31 @@
                                 <p:ajax event="rowEdit" listener="#{ingredientIssueBean.onRowEdit}" update="ingredientIssue"/>
                                 <p:ajax event="rowEditCancel" listener="#{ingredientIssueBean.onRowCancel}" update="ingredientIssue"/>
 
-                                <p:column headerText="Raw Ingredient ID" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Raw Ingredient ID" style="text-align: center;" filterBy="#{ii.ingredient.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" filterBy="#{ii.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Name" style="text-align: center;" filterBy="#{ii.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.name}"/>
                                 </p:column>
 
-                                <p:column headerText="Issue Quantity" filterBy="#{ii.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Issue Quantity" style="text-align: center;" filterBy="#{ii.quantity}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{ii.quantity}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{ii.quantity}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Current Stock" filterBy="#{ii.ingredient.stock}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Current Stock" style="text-align: center;" filterBy="#{ii.ingredient.stock}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.stock}"/>
                                 </p:column>
 
-                                <p:column headerText="Unit" filterBy="#{ii.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Unit" style="text-align: center;" filterBy="#{ii.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{ii.ingredient.unit}"/>
                                 </p:column>
 
 
-                                <p:column headerText="Edit" width="8%" rendered="#{ingredientIssueBean.selectedII.confirmed eq false}">
+                                <p:column headerText="Edit" style="text-align: center;" width="8%" rendered="#{ingredientIssueBean.selectedII.confirmed eq false}">
                                     <p:rowEditor/>
                                 </p:column>
 

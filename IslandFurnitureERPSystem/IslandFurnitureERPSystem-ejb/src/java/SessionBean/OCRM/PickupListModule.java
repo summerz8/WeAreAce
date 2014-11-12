@@ -10,6 +10,7 @@ import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
+import Entity.Store.StoreSetEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -67,16 +68,22 @@ public class PickupListModule implements PickupListModuleLocal {
                 String productName = " ";
                 String productAmount = " ";
                 String productLocation = "Location";
-                if (sime.getProductId() == null) {
+                if (sime.getProductId() == null && sime.getStoreSetId() ==null ) {
                     StoreRetailProductEntity sre = em.find(StoreRetailProductEntity.class, sime.getRetailProductId());
                     productType = "Retail";
                     productId = sre.getStoreRetailProductId().toString();
                     productName = sre.getRetailProduct().getName();
-                } else if (sime.getRetailProductId() == null) {
+                } else if (sime.getRetailProductId() == null && sime.getStoreSetId() ==null) {
                     StoreProductEntity sre = em.find(StoreProductEntity.class, sime.getProductId());
                     productType = "Finished Goods";
                     productId = sre.getStoreProductId().toString();
                     productName = sre.getProduct().getName();
+                }else if(sime.getProductId() == null && sime.getRetailProductId() == null){
+                    StoreSetEntity storeSet = em.find(StoreSetEntity.class,sime.getStoreSetId());
+                    productType = "Set";
+                    productId = storeSet.getId().toString();
+                    productName = storeSet.getName();
+                    productLocation = "Set Location";
                 }
                 productAmount = String.valueOf(te.getAmount());
 

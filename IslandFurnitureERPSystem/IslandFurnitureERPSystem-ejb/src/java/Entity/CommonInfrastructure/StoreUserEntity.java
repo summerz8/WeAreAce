@@ -34,6 +34,10 @@ public class StoreUserEntity extends UserEntity implements Serializable {
     @XmlTransient
     private List<TransactionEntity> transactions = new ArrayList();
 
+    private boolean isCasher;
+    private Double beginCash;
+    private Double endCash;
+    
     public StoreUserEntity() {
     }
     
@@ -43,7 +47,10 @@ public class StoreUserEntity extends UserEntity implements Serializable {
             String title, String address, String postalCode, String email, long departmentId, String password, Boolean deleteFlag) {
         super(department,idNumber, userLevel,lastName,midName, firstName, position, 
                 birthday,gender,title, address, postalCode, email, deleteFlag, departmentId, password);
-
+        this.isCasher = false;
+        this.beginCash = 0D;
+        this.endCash = 0D;
+        
     }
 
     public void editStoreUserEntity(String department, Integer userLevel, String lastName, String midName,
@@ -53,6 +60,32 @@ public class StoreUserEntity extends UserEntity implements Serializable {
                 position, birthday, gender, title, address, postalCode, email, deleteFlag, departmentId);
         
     }
+
+    public boolean isIsCasher() {
+        return isCasher;
+    }
+
+    public void setIsCasher(boolean isCasher) {
+        this.isCasher = isCasher;
+    }
+
+    public Double getBeginCash() {
+        return beginCash;
+    }
+
+    public void setBeginCash(Double beginCash) {
+        this.beginCash = beginCash;
+    }
+
+    public Double getEndCash() {
+        return endCash;
+    }
+
+    public void setEndCash(Double endCash) {
+        this.endCash = endCash;
+    }
+    
+    
 
     public List<TransactionEntity> getTransactions() {
         return transactions;
