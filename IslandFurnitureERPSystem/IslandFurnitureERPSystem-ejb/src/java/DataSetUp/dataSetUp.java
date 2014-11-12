@@ -31,7 +31,6 @@ import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 
 import Entity.Factory.SetEntity;
-import Entity.Store.OCRM.MemberEntity;
 
 import Entity.Kitchen.ComboEntity;
 import Entity.Kitchen.ComboItemEntity;
@@ -42,6 +41,7 @@ import Entity.Kitchen.IngredientEntity;
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import Entity.Kitchen.KitchenEntity;
+import Entity.Kitchen.KitchenOrderEntity;
 import Entity.Kitchen.MenuItemForecastEntity;
 import Entity.Kitchen.StoragePlaceEntity;
 
@@ -49,7 +49,6 @@ import Entity.Store.EventEntity;
 import Entity.Store.OCRM.CountryProductEntity;
 import Entity.Store.OCRM.CountryRetailProductEntity;
 import Entity.Store.OCRM.CountrySetEntity;
-import Entity.Store.OCRM.MemberCardIdMappingEntity;
 
 import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.OCRM.MemberCardIdMappingEntity;
@@ -85,7 +84,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import util.security.CreateID;
 import util.security.CryptographicHelper;
 
 /**
@@ -1892,14 +1890,14 @@ public class dataSetUp {
         em.flush();
         
         // kitchen orders
-        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), memberKitchen.getMemberId(), us1_1.getUserId());
+        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), memberKitchen.getMemberId(), us1_1.getUserId(), "K1");
         cof.addDishItem(ko1_1.getId(), d1_1.getId(), 1);
         cof.addDishItem(ko1_1.getId(), d1_2.getId(), 2);
         cof.addComboItem(ko1_1.getId(), c1_1.getId(), 3);
         cof.confirmOrder(ko1_1.getId());
         cof.checkout(ko1_1.getId(), 500.0);
         
-        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
+        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId(), "K1");
         cof.addDishItem(ko1_2.getId(), d1_1.getId(), 5);
         cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
         cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
