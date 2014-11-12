@@ -52,7 +52,13 @@ public class RawMaterialInventoryMonitoringBean {
 
     public List<InboundMovementEntity> getWeeklyRawMaterialInventoryInFlow() {
         if (department.equals("H")) {
-            weeklyRawMaterialInventoryInFlow = rmim.viewWeeklyRawMaterialInventoryInFlow(factoryId);
+            try {
+                weeklyRawMaterialInventoryInFlow = rmim.viewWeeklyRawMaterialInventoryInFlow(factoryId);
+            } catch (Exception ex) {
+                System.err.println("ManagedBean.SCM.RawMaterialInventoryMonitoringBean: getWeeklyRawMaterialInventoryInFlow(): Failed. Caught an unexpected exception.");
+                ex.printStackTrace();
+                return null;
+            }
         } else {
             weeklyRawMaterialInventoryInFlow = rmim.viewAllWeeklyRawMaterialInventoryInFlow();
         }

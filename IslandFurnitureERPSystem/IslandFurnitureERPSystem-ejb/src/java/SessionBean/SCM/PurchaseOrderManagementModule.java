@@ -43,7 +43,7 @@ import javax.persistence.PersistenceContext;
  * @author Shiyu
  */
 @Stateful
-public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal {
+public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal, PurchaseOrderManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -54,6 +54,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     @Override
     public PurchaseOrderEntity getPO(Long poId) throws Exception {
         PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, poId);
+        if(po == null) {
+            throw new Exception("Purchase Order is not found!");
+        }
         return po;
     }
 

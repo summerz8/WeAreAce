@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,14 +32,17 @@ public class CountrySetEntity implements Serializable {
     private String name;
     private String description;
     @OneToMany
+    @XmlTransient
     private List<CountryProductEntity> unitList;
     private String picture;
     private String web;
 
     @OneToMany
+    @XmlTransient
     private List<CommentEntity> comments;
     
     @OneToMany
+    @XmlTransient
     private List<StoreSetEntity> setList;
     
     @ManyToOne

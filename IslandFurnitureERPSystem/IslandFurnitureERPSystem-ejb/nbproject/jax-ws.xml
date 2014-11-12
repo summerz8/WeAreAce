@@ -7,6 +7,9 @@
     <service name="CustomerOrderFulfillmentModule">
       <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
     </service>
+    <service name="CustomerMobileAppModule">
+      <implementation-class>SessionBean.OCRM.CustomerMobileAppModule</implementation-class>
+    </service>
     <service name="PickupListModule">
       <implementation-class>SessionBean.OCRM.PickupListModule</implementation-class>
     </service>

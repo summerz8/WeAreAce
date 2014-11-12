@@ -37,8 +37,12 @@ public class listTicketBean {
     
     @PostConstruct
     private void init(){
+        try {
         currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-        ticketList = tm.listSystemTicket(currentUserId);
+        ticketList = tm.listSystemTicket(currentUserId);} catch (Exception e) {
+            System.out.println("unexpected exception occured");
+            e.printStackTrace();
+        }
     }
 
     

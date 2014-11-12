@@ -19,18 +19,18 @@ import javax.ejb.Local;
 @Local
 public interface IntegratedPlannedOrderManagementLocal {
 
-    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department);
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department) throws Exception;
 
-    public void createIntegratedPlannedOrder(Calendar targetPeriod, Long factoryRawMaterialId,Long id,String department);
+    public void createIntegratedPlannedOrder(Calendar targetPeriod, Long factoryRawMaterialId,Long id,String department) throws Exception;
 
-    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder(Long id,String department);
+    public List<IntegratedPlannedOrderEntity> getIntegratedPlannedOrder(Long id,String department) throws Exception;
 
-    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(Long id,String department);
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(Long id,String department) throws Exception;
 
-    public void editIntegratedPlannedOrder(Long id, String field, Object content);
+    public void editIntegratedPlannedOrder(Long id, String field, Object content) throws Exception;
 
     public boolean findFactoryRawMaterialIdList(Long id, String department, Long factoryRawMaterialId);
 
-    public List<FactoryRawMaterialEntity> getFactoryRawMaterial(Long factoryId, String department);
+    public List<FactoryRawMaterialEntity> getFactoryRawMaterial(Long factoryId, String department) throws Exception;
     
 }

@@ -5,6 +5,7 @@
  */
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.FactoryEntity;
 import Entity.CommonInfrastructure.InternalMessageReceive;
 import Entity.CommonInfrastructure.TicketEntity;
 import Entity.CommonInfrastructure.UserEntity;
@@ -38,10 +39,10 @@ public class WorkPlaceModule implements WorkPlaceModuleLocal {
         Query q = em.createQuery("SELECT s FROM StoreEntity s");
         return (List<StoreEntity>) q.getResultList();
     }
-
+    
     @Override
     public List<FactoryEntity> listFactory() {
-        Query q = em.createQuery("SELECT f FROM FactoryEntity f");
+        Query q=em.createQuery("SELECT s FROM FactoryEntity s");
         return (List<FactoryEntity>) q.getResultList();
     }
 

@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PersistenceContext;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,6 +48,7 @@ public class StoreSetEntity implements Serializable {
     
     //store product entity -- stores entity: M <--> 1
     @OneToMany
+    @XmlTransient
     private List<StoreProductEntity> storeProductList;
 
     @ManyToOne

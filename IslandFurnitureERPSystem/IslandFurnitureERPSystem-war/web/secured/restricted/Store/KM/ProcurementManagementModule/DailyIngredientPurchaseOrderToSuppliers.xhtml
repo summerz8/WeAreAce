@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>KM: Daily Raw Ingredient Purchase Orders To Suppliers</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="Kitchen Management">
+                            <p:submenu label="Percurement Management">
+                                <p:menuitem value="Integrated Raw Ingredient Purchase Order" url="IngredientPurchaseOrder.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Raw Ingredient Purchase Order To Supplier ＆ Receipt" url="DailyIngredientPurchaseOrderToSuppliers.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Add Ingredient Supplier" url="AddIngredientSupplier.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Ingredient Supplier List" url="IngredientSupplierList.xhtml?faces-redirect=true" />
+                            </p:submenu>
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center" resizable="false">
+
+                    <p:panel id="panelRawIngredient" header="Daily Raw Ingredient Purchase Orders To Suppliers" style="margin-bottom" >
+                        <p:panel id="headerInfo">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel value="Referred Raw Ingredient Purchase Order ID: " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.id}" />
+                                <p:outputLabel value="Target Date: " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.forecast.menuItemForecast.targetDate.time}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+8"/>
+                                </h:outputText>
+                                <p:outputLabel value="Total ($): " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.total}" >
+                                    <f:convertNumber pattern="#0.00"/>
+                                </h:outputText>
+                                <p:outputLabel value="Actural Total ($): " style="font-weight:bold" />
+                                <h:outputText value="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.actualTotal}" >
+                                    <f:convertNumber pattern="#0.00"/>
+                                </h:outputText>
+                            </h:panelGrid>
+                            <p:commandButton rendered="#{ingredientPurchaseOrderToSuppliersBean.fromIPO.unconfirmedIPOSQuantity > 0}" value="Send All" actionListener="#{ingredientPurchaseOrderToSuppliersBean.confirmAllIPOSs}" update="headerInfo :formMain:IPOSs" />
+                            <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
+                        </p:panel>
+
+                        <p:dataTable id="IPOSs" widgetVar="IPOSs" value="#{ingredientPurchaseOrderToSuppliersBean.IPOSs}" 
+                                     var="p" filteredValue="#{ingredientPurchaseOrderToSuppliersBean.filteredIPOSs}" editable="true" sortBy="#{p.id}">
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search: " />
+                                        <p:inputText id="globalFilter" onkeyup="PF('IPOSs').filter()" placeholder="Enter Keyword" />
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{ingredientPurchaseOrderToSuppliersBean.onRowEdit}" update="IPOSs :formMain:headerInfo"/>
+                            <p:ajax event="rowEditCancel" listener="#{ingredientPurchaseOrderToSuppliersBean.onRowCancel}" update="IPOSs"/>
+
+                            <p:column headerText="ID" style="text-align: center;" filterBy="#{p.id}" filterMatchMode="contains" filterStyle="display:none" width="3%" >
+                                <h:outputText value="#{p.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Supplier" style="text-align: center;" filterBy="#{p.supplier.name}" filterMatchMode="contains" filterStyle="display:none" width="20%" >
+                                <h:outputText value="#{p.supplier.name}"/>
+                            </p:column>
+
+                            <p:column headerText="Raw Ingredients" style="text-align: center;" >
+                                <p:dataTable id="IPOSPurchaseItems" widgetVar="IPOSPurchaseItems" value="#{p.purchaseItems}" var="pi">
+
+                                    <p:column headerText="Name" style="text-align: center;" filterBy="#{pi.ingredient.name}" filterMatchMode="contains" filterStyle="display:none">
+                                        <h:outputText value="#{pi.ingredient.name}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Purchase Quantity" style="text-align: center;" filterBy="#{pi.quantity}" filterMatchMode="contains" filterStyle="display:none">
+                                        <h:outputText value="#{pi.quantity}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Unit" style="text-align: center;" filterBy="#{pi.ingredient.unit}" filterMatchMode="contains" filterStyle="display:none">
+                                        <h:outputText value="#{pi.ingredient.unit}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+
+                            <p:column headerText="Total" style="text-align: center;" filterBy="#{p.total}" filterMatchMode="contains" filterStyle="display:none" width="7%" >
+                                <h:outputText value="#{p.total}" >
+                                    <f:convertNumber pattern="#0.00"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Actual Total" style="text-align: center;" filterBy="#{p.actualTotal}" filterMatchMode="contains" filterStyle="display:none" width="7%" >
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{p.actualTotal}" >
+                                            <f:convertNumber pattern="#0.00"/>
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input"><p:inputText value="#{p.actualTotal}" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Status" style="text-align: center;" filterBy="#{p.status}" filterMatchMode="contains" filterStyle="display:none" width="10%" >
+                                <h:outputText value="#{p.status}"/>
+                            </p:column>
+
+                            <p:column headerText="Option" style="text-align: center;" width="10%" >
+                                <p:commandButton value="Send" rendered="#{p.status eq 'Unconfirmed'}" actionListener="#{ingredientPurchaseOrderToSuppliersBean.confirmedIPOS(p)}" update="IPOSs :formMain:headerInfo" />
+                                <p:commandButton value="Receive" rendered="#{p.status eq 'Confirmed'}" actionListener="#{ingredientPurchaseOrderToSuppliersBean.generateIngredientReceipt(p)}" update="IPOSs"/>
+                                <p:commandButton value="View Receipt" rendered="#{p.status eq 'Received'}" update=":formMain:receiptDlg" actionListener="#{ingredientPurchaseOrderToSuppliersBean.setSelectedIPOS(p)}" oncomplete="PF('receiptDlg').show()" />
+                            </p:column>
+
+                            <p:column headerText="Edit" style="text-align: center;" width="5%" >
+                                <p:rowEditor rendered="#{p.status eq 'Unconfirmed'}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </p:layoutUnit>
+
+                <p:dialog id="receiptDlg" header="Receipt" widgetVar="receiptDlg" showEffect="fade" hideEffect="fade" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel value="Receipt ID: " style="font-weight:bold" />
+                        <h:outputText value="#{ingredientPurchaseOrderToSuppliersBean.selectedIPOS.receipt.id}" />
+                        <p:outputLabel value="Creation Time: " style="font-weight:bold" />
+                        <h:outputText value="#{ingredientPurchaseOrderToSuppliersBean.selectedIPOS.receipt.creationTime.time}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
+                        </h:outputText>
+                    </h:panelGrid>
+                </p:dialog>
+
+                <p:dialog header="Message" widgetVar="message" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="messageDetail" style="text-align:center;">
+                        #{ingredientPurchaseOrderToSuppliersBean.message}
+                    </p:outputPanel>
+                    <div align="center">
+                        <p:commandButton value="Change target Date" onclick="PF('message').hide()" oncomplete="PF('selectTargetDate').show()" >
+                        </p:commandButton>
+                    </div>
+                </p:dialog>
+
+            </p:layout>
+        </h:form>
+
+        <h:form>
+            <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
+                      showEffect="fade" hideEffect="fade" resizable="true" 
+                      draggable="true" closable="false" >
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="Select Target Date: " />
+                    <p:calendar value="#{ingredientPurchaseOrderToSuppliersBean.selectedTargetDate}" maxdate="#{ingredientPurchaseOrderToSuppliersBean.cal.time}"/>
+                </h:panelGrid>
+                <div align="center">
+                    <p:commandButton value="Submit" oncomplete="PF('selectTargetDate').hide()" actionListener="#{ingredientPurchaseOrderToSuppliersBean.findRequiredIngredientPurchaseOrderToSuppliers}" update=":formMain" >
+                    </p:commandButton>
+                </div>
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+
+</html>
+

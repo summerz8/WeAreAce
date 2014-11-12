@@ -39,8 +39,14 @@ public class FactoryBinBean {
     }
 
     public List getStorageBinInformation() {
-        storageBinInformation = fim.listStorageBinInformation(factoryId);
-        return storageBinInformation;
+        try {
+            storageBinInformation = fim.listStorageBinInformation(factoryId);
+            return storageBinInformation;
+        } catch (Exception ex) {
+            System.err.println("ManagedBean.SCM.FactoryBinBean: getStorageBinInformation(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public void setStorageBinInformation(List storageBinInformation) {

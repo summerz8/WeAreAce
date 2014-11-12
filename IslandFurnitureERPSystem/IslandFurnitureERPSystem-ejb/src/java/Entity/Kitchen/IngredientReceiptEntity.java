@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -28,7 +29,8 @@ public class IngredientReceiptEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;
     @OneToOne
-    private IngredientPurchaseOrderEntity purchaseOrder;
+    @JoinColumn(unique = true, nullable = false)
+    private IngredientPurchaseOrderToSupplierEntity purchaseOrder;
     
 
     
@@ -36,7 +38,7 @@ public class IngredientReceiptEntity implements Serializable {
         creationTime = Calendar.getInstance();
     }
 
-    public IngredientReceiptEntity(IngredientPurchaseOrderEntity purchaseOrder) {
+    public IngredientReceiptEntity(IngredientPurchaseOrderToSupplierEntity purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
         creationTime = Calendar.getInstance();
     }
@@ -57,11 +59,11 @@ public class IngredientReceiptEntity implements Serializable {
         this.creationTime = creationTime;
     }
 
-    public IngredientPurchaseOrderEntity getPurchaseOrder() {
+    public IngredientPurchaseOrderToSupplierEntity getPurchaseOrder() {
         return purchaseOrder;
     }
 
-    public void setPurchaseOrder(IngredientPurchaseOrderEntity purchaseOrder) {
+    public void setPurchaseOrder(IngredientPurchaseOrderToSupplierEntity purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
 

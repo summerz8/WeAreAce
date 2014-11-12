@@ -93,18 +93,19 @@ public class ViewSetConponentControl {
 
         System.out.println("Add the product function");
 
-        int result = sicl.addNewStoreProduct(storeId, selectedProduct.getProductId(), selectedFactory.getFactoryProductId(), isSelfPicked, remark);
-        if (result == 1) {
-            msgprint1 = "A new product added successfully!";
-            currentStoreProductList = sicl.getListOfStoreProduct(storeId);
-            productNotInStoreList = sicl.getListOfProductNotInStore(storeId);
-            System.out.println(msgprint1);
-
-        } else {
-            msgprint1 = "Exception occured. Please try again or raise a ticket.";
-            System.out.println(msgprint2);
-
-        }
+        // comment by zheng yuan 1112
+  //      int result = sicl.addNewStoreProduct(storeId, selectedProduct.getProductId(), selectedFactory.getFactoryProductId(), isSelfPicked, remark);
+//        if (result == 1) {
+//            msgprint1 = "A new product added successfully!";
+//            currentStoreProductList = sicl.getListOfStoreProduct(storeId);
+//            productNotInStoreList = sicl.getListOfProductNotInStore(storeId);
+//            System.out.println(msgprint1);
+//
+//        } else {
+//            msgprint1 = "Exception occured. Please try again or raise a ticket.";
+//            System.out.println(msgprint2);
+//
+//        }
     }
     
     public boolean exist(ProductEntity product){

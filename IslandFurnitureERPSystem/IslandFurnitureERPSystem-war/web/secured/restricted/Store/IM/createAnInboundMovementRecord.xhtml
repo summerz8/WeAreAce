@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                        <p:menu>
+                            <p:submenu label="Inbound Movement Management">
+                                <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Create New Inbound Movement Record"   outcome="/secured/restricted/Store/IM/selectInboundRecordType.xhtml?faces-redirect=true" />
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Create an new product inbound movement record" style="border:0px; margin-bottom" >
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Store Product:" for="selectProduct" />
+                                    <p:selectOneMenu id="selectProduct" value="#{productInboundMovementBean.selectedProduct}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{productInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
+                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{productInboundMovementBean.setSelectedPD}" update=":formMain" />
+
+                                    </p:selectOneMenu>
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Destination Bin:" for="selectBin" />
+                                    <p:selectOneMenu id="selectBin" value="#{productInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItems value="#{productInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
+                                    </p:selectOneMenu>
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column rendered = "#{productInboundMovementBean.isSetBin()?true:false}" >
+                                    <p:outputLabel value="In Transit Inventory Available:" for="selectinv" />
+                                    <h:outputText id ="selectinv" value ="#{productInboundMovementBean.selectedProduct.intransitInventory}"/>
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Inventory Type:" for="invtype"/>
+                                    <p:selectOneRadio id="invtype" required ="true" value="#{productInboundMovementBean.inventoryType}">
+                                        <f:selectItem itemLabel="Unrestricted" itemValue="0" />
+                                        <f:selectItem itemLabel="Returned" itemValue="1" />
+                                        
+                                    </p:selectOneRadio>
+
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Transferred Amount:" for="aId" />
+                                    <p:inputText required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." id ="aId" value ="#{productInboundMovementBean.quantity}" >
+                                    </p:inputText>
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+
+                            <br></br>
+
+                            <p:column>
+                                <p:commandButton  value="Submit" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain" />
+                            </p:column>
+                            <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="toconfrim" style="text-align:center;">
+                                    Confirm creating the record? 
+                                    <br> </br>
+
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Store Product:" for="c1" />
+                                            <h:outputText id="c1" value="(#{productInboundMovementBean.selectedProduct.storeProductId})#{productInboundMovementBean.selectedProduct.name}" style="font-weight: bold" /> 
+
+                                        </p:column>  
+                                    </p:row>
+                                    <br> </br>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Destination Bin:" for="c2" />
+                                            <h:outputText id="c2" value="(#{productInboundMovementBean.selectedBin.id})#{productInboundMovementBean.selectedBin.name}" style="font-weight: bold" /> 
+                                        </p:column>  
+                                    </p:row>
+                                    <br> </br>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Quantity:" for="c3" />
+                                            <h:outputText id="c3" value="#{productInboundMovementBean.quantity}" style="font-weight: bold" /> 
+                                        </p:column>  
+                                    </p:row>
+                                    
+                                    <br> </br>
+                                    <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{productInboundMovementBean.confrimResult}" update = ":formMain"  >
+
+                                    </p:commandButton> 
+                                        
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('confrimationDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

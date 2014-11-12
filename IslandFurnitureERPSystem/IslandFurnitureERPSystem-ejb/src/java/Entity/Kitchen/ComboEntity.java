@@ -44,7 +44,6 @@ public class ComboEntity implements Serializable {
     private String remark;
     private boolean deleted;
     @ManyToOne
-    @XmlTransient
     private KitchenEntity kitchen;
     @ManyToMany
     private List<MenuItemForecastEntity> forecasts = new ArrayList<>();

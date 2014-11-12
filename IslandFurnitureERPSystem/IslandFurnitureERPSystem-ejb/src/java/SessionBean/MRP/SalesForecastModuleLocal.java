@@ -21,7 +21,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface SalesForecastModuleLocal {
-    public SalesForecastEntity GetSalesForecast(Long salesForecastId);
+    public SalesForecastEntity GetSalesForecast(Long salesForecastId) throws Exception;
     
     public List<SalesForecastEntity> ListSalesForecast(Long factoryId,Long storeId, Object product, Calendar period);
     
@@ -29,7 +29,7 @@ public interface SalesForecastModuleLocal {
     
     public IntegratedSalesForecastEntity IntegrateSalesForecast(String type,Long factoryProductId, Calendar period);
     
-    public List<FactoryProductEntity> productListNeededTobeIntegrated(Long FactoryId);
+    public List<FactoryProductEntity> productListNeededTobeIntegrated(Long FactoryId) throws Exception;
     
     public List<FactoryRetailProductEntity> retailProductListNeedToBeIntegrated(Long FactoryId);
     

@@ -185,6 +185,23 @@ public class StoreBinControl implements StoreBinControlLocal {
          
      }
     
+      
+      public String[] mobile_getStoreBin(Long storeProductId){
+          Query q = em.createQuery("Select b from StoreBinProductEntity b where b.isDeleted = false and b.status = :stt and b.product.storeProductId = :spId and b.swe.isBackHouse = true and b.quantity > 0");
+          q.setParameter("stt", 0);
+          q.setParameter("spId", storeProductId);
+          String[] listOfBin = new String[10000];
+          int i = 0;
+          for(Object o : q.getResultList()){
+              
+              StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+              
+              listOfBin[i] = String.valueOf(sbpe.getSwe().getId());
+             i++ ;
+          }
+          
+          return listOfBin;
+      }
     
 
 }

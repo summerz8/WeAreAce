@@ -104,5 +104,4 @@ public class EventModule implements EventModuleLocal {
         s.setIncreaseSale(increaseSale);
 
     }
-
 }

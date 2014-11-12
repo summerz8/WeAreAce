@@ -108,6 +108,7 @@ public class WorkPlaceBean implements Serializable {
             displayList.add(new SelectItem(s.getStoreId(), t));
         }
 
+
         for (FactoryEntity f : factoryList) {
             String t = f.getFactoryId() + " " + f.getAddress();
             displayList2.add(new SelectItem(f.getFactoryId(), t));
@@ -394,5 +395,6 @@ public class WorkPlaceBean implements Serializable {
     public void setDisplayList2(List<SelectItem> displayList2) {
         this.displayList2 = displayList2;
     }
+
 
 }

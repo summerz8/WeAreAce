@@ -7,6 +7,7 @@ package SessionBean.KM;
 
 import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.IngredientPurchaseOrderEntity;
+import Entity.Kitchen.IngredientPurchaseOrderToSupplierEntity;
 import Entity.Kitchen.IngredientSupplierEntity;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ProcurementManagementModuleLocal {
 
     public Long generateIngredientReceipt(Long ingredientPurchaseOrderId);
 
-    public Long confirmIngredientPurchaseOrder(Long ingredientPurchaseOrderId, Double acturalTotal);
+    public Long generateIngredientPurchaseOrderToSuppliers(Long ingredientPurchaseOrderId);
 
     public Long cancelIngredientPurchaseOrder(Long ingredientPurchaseOrderId);
 
@@ -44,4 +45,16 @@ public interface ProcurementManagementModuleLocal {
     public Double getIPOTotal(Long IPOId);
 
     public IngredientPurchaseOrderEntity findIngredientPurchaseOrderById(Long IPOId);
+
+//    public List<IngredientPurchaseOrderToSupplierEntity> findIngredientPurchaseOrdersToSuppliersByDate(Long kitchenId, Date selectedDate);
+
+    public List<IngredientPurchaseOrderToSupplierEntity> findIngredientPurchaseOrdersToSuppliersByIPO(Long IPOId);
+
+    public Long confirmAllIPOSs(Long IPOId);
+
+    public Long confirmIPOS(Long IPOSId);
+
+    Long editIPOSActualTotal(Long IPOSId, Double actualTotal);
+
+    public Long confirmIngredientPurchaseOrder(Long ingredientPurchaseOrderId, Double acturalTotal);
 }

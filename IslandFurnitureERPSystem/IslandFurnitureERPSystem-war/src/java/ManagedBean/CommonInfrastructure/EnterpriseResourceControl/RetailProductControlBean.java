@@ -56,15 +56,20 @@ public class RetailProductControlBean {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        System.out.println("onRowEdit test:");
-        RetailProductEntity entity = (RetailProductEntity) event.getObject();
-        System.out.println("onRowEdit test: " + entity.getRetailProductId() + entity.getName());
+        try {
+            System.out.println("onRowEdit test:");
+            RetailProductEntity entity = (RetailProductEntity) event.getObject();
+            System.out.println("onRowEdit test: " + entity.getRetailProductId() + entity.getName());
 
-        RPMM.ModifyRetailProduct(entity.getRetailProductId(), entity.getName(), entity.getUnit(),
-                entity.getPrice(), entity.getDescription());
+            RPMM.ModifyRetailProduct(entity.getRetailProductId(), entity.getName(), entity.getUnit(),
+                    entity.getPrice(), entity.getDescription());
 
-        FacesMessage msg = new FacesMessage("Retail Product Edited", String.valueOf(entity.getRetailProductId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesMessage msg = new FacesMessage("Retail Product Edited", String.valueOf(entity.getRetailProductId()));
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception e) {
+            System.out.println("unexpected exception occured");
+            e.printStackTrace();
+        }
     }
 
     public void onRowCancel(RowEditEvent event) {
@@ -73,15 +78,20 @@ public class RetailProductControlBean {
     }
 
     public void deleteRetailProduct(Long id) {
-        System.out.println("RetailProductControlBean: deleteRetailProduct: " + String.valueOf(id));
-        if (RPMM.DeleteRetailProduct(id)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product deleted successfully! ", ""));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Retail Product cannot be deleted! ", "Factory retail product or store retail product still exists!"));
+        try {
+            System.out.println("RetailProductControlBean: deleteRetailProduct: " + String.valueOf(id));
+            if (RPMM.DeleteRetailProduct(id)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Retail Product deleted successfully! ", ""));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Retail Product cannot be deleted! ", "Factory retail product or store retail product still exists!"));
+            }
+            retailList = RPMM.ListRetailProduct();
+            filteredRetail = retailList;
+        } catch (Exception e) {
+            System.out.println("unexpected exception occured");
+            e.printStackTrace();
         }
-        retailList = RPMM.ListRetailProduct();
-        filteredRetail = retailList;
     }
 
     public void addRetailProduct() {

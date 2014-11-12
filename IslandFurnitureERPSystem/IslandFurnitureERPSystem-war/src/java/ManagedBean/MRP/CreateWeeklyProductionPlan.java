@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.MRP;
 
 import Entity.Factory.MRP.WeeklyProductionPlanEntity;
@@ -24,27 +23,32 @@ import javax.inject.Named;
 @ViewScoped
 public class CreateWeeklyProductionPlan {
 
-    @EJB 
+    @EJB
     WeeklyProductionPlanLocal weekly;
-    
+
     Calendar period;
     Long productionPlanId;
     Double monthlyDemand;
-    
+
     List<WeeklyProductionPlanEntity> weeklyProductionPlanList;
+
     /**
      * Creates a new instance of CreateWeeklyProductionPlan
      */
     public CreateWeeklyProductionPlan() {
     }
-    
+
     @PostConstruct
-    public void create(){
-          productionPlanId=(Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productionPlanId");
-          weeklyProductionPlanList=weekly.generateWeeklyProductionPlan(productionPlanId);
-          period=weeklyProductionPlanList.get(0).getProductionPlan().getTargetPeriod();
-          monthlyDemand=weeklyProductionPlanList.get(0).getProductionPlan().getQuantity();
-          
+    public void create() {
+        try {
+            productionPlanId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("productionPlanId");
+            weeklyProductionPlanList = weekly.generateWeeklyProductionPlan(productionPlanId);
+            period = weeklyProductionPlanList.get(0).getProductionPlan().getTargetPeriod();
+            monthlyDemand = weeklyProductionPlanList.get(0).getProductionPlan().getQuantity();
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public WeeklyProductionPlanLocal getWeekly() {
@@ -86,6 +90,5 @@ public class CreateWeeklyProductionPlan {
     public void setMonthlyDemand(Double monthlyDemand) {
         this.monthlyDemand = monthlyDemand;
     }
- 
-    
+
 }

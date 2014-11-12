@@ -5,7 +5,7 @@
  */
 package SessionBean.SCM;
 
-import Entity.CommonInfrastructure.FactoryUserEntity;
+import Entity.Factory.FactoryEntity;
 import Entity.Factory.SCM.InboundMovementEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import java.util.ArrayList;
@@ -23,15 +23,18 @@ import javax.persistence.Query;
  */
 @Stateful
 //within the same year
-public class RawMaterialInventoryMonitoringModule implements RawMaterialInventoryMonitoringModuleLocal {
+public class RawMaterialInventoryMonitoringModule implements RawMaterialInventoryMonitoringModuleLocal, RawMaterialInventoryMonitoringModuleRemote {
 
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;
 
-    
     @Override
-    public List<InboundMovementEntity> viewWeeklyRawMaterialInventoryInFlow(long factoryId) {
+    public List<InboundMovementEntity> viewWeeklyRawMaterialInventoryInFlow(long factoryId) throws Exception {
         try {
+            FactoryEntity factory = em.find(FactoryEntity.class, factoryId);
+            if (factory == null) {
+                throw new Exception("Factory is not found!");
+            }
             Calendar currentDate = new GregorianCalendar();
             List<InboundMovementEntity> weeklyRawMaterialInventoryInFlow = new ArrayList();
 
@@ -39,7 +42,7 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
             for (Object o : q.getResultList()) {
                 InboundMovementEntity inboundMovement = (InboundMovementEntity) o;
                 if (inboundMovement.getFactoryRawMaterial() != null) {
-                    if (inboundMovement.getFactoryRawMaterial().getFactory().getFactoryId() == factoryId 
+                    if (inboundMovement.getFactoryRawMaterial().getFactory().equals(factory)
                             && inboundMovement.getCreationDate().get(java.util.Calendar.WEEK_OF_YEAR) == currentDate.get(java.util.Calendar.WEEK_OF_YEAR)
                             && inboundMovement.getCreationDate().get(java.util.Calendar.YEAR) == currentDate.get(java.util.Calendar.YEAR)) {
                         weeklyRawMaterialInventoryInFlow.add(inboundMovement);
@@ -48,9 +51,14 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
             }
             return weeklyRawMaterialInventoryInFlow;
         } catch (Exception ex) {
-            System.err.println("SessionBean.SCM.RawMaterialInventoryMonitoringModule: recordInboundMovement(): Caught an unexpected exception.");
-            ex.printStackTrace();
-            return null;
+            if (ex.getMessage().equals("Factory is not found!")) {
+                throw ex;
+            } else {
+                System.err.println("SessionBean.SCM.RawMaterialInventoryMonitoringModule: recordInboundMovement(): Caught an unexpected exception.");
+                ex.printStackTrace();
+                return null;
+            }
+
         }
     }
 
@@ -78,7 +86,6 @@ public class RawMaterialInventoryMonitoringModule implements RawMaterialInventor
         }
     }
 
-    
     @Override
     public List viewAllWeeklyRawMaterialInventoryInFlow() {
         try {
