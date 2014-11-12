@@ -8,6 +8,7 @@ package Entity.Store;
 import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Store.IM.StoreBinProductEntity;
+import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import java.io.Serializable;
@@ -53,6 +54,8 @@ public class StoreProductEntity implements Serializable {
     private Boolean selfPick;
     private Boolean deleteFlag;
     private String storeRemark;
+    
+    private Double intransitInventory;
     //store product entity -- factory product entity: M <--> 1 
     @ManyToOne
     private FactoryProductEntity factoryProduct;
@@ -65,6 +68,7 @@ public class StoreProductEntity implements Serializable {
     private ProductEntity product;
 
     @OneToMany
+    @XmlTransient
     private Collection<StoreBinProductEntity> binProducts;
 
     @OneToMany
@@ -78,6 +82,18 @@ public class StoreProductEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "storeProduct")
     @XmlTransient
     private List<ProductSalesForecastEntity> productSalesForecastList;
+    
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "spe")
+    @XmlTransient
+    private List<StoreGoodReceiptEntity> goodReceipts;
+   
+    
+    //new attribute
+    private Double onairInventory;
+    
+    private Double warningOnAirInv;
+    
 
     public StoreProductEntity() {
     }
@@ -89,7 +105,10 @@ public class StoreProductEntity implements Serializable {
 //        salesRecordList = new ArrayList<>();
 //        productSalesForecastList = new ArrayList<>();
 //    }
+
     public StoreProductEntity(FactoryProductEntity factoryproduct, StoreEntity store, Boolean selfPick, String storeRemark, ProductEntity product) {
+
+
         System.out.println("Testing!" + factoryproduct.getFactoryProductId());
         this.name = factoryproduct.getName();
         this.unit = factoryproduct.getUnit();
@@ -104,8 +123,51 @@ public class StoreProductEntity implements Serializable {
         unrestrictedInventory = 0D;
         returnedInventory = 0D;
         this.storeRemark = storeRemark;
+        goodReceipts = new ArrayList<>();
+        intransitInventory = 20D; //base
+        onairInventory= 0D;
+        warningOnAirInv = 0D;
+       
+        
     }
 
+    public List<StoreGoodReceiptEntity> getGoodReceipts() {
+        return goodReceipts;
+    }
+
+    public void setGoodReceipts(List<StoreGoodReceiptEntity> goodReceipts) {
+        this.goodReceipts = goodReceipts;
+    }
+
+    public Double getIntransitInventory() {
+        return intransitInventory;
+    }
+
+    public void setIntransitInventory(Double intransitInventory) {
+        this.intransitInventory = intransitInventory;
+    }
+
+    public Double getOnairInventory() {
+        return onairInventory;
+    }
+
+    public void setOnairInventory(Double onairInventory) {
+        this.onairInventory = onairInventory;
+    }
+
+    public Double getWarningOnAirInv() {
+        return warningOnAirInv;
+    }
+
+    public void setWarningOnAirInv(Double warningOnAirInv) {
+        this.warningOnAirInv = warningOnAirInv;
+    }
+
+    
+    
+    
+    
+    
     public Long getStoreProductId() {
         return storeProductId;
     }

@@ -49,7 +49,7 @@
                 <p:messages id="messagesStatus" redisplay="true" />
 
 
-                <p:panel id="basic" header="Please Input New Member Information " style="position: absolute; right:220px; top:150px;margin-bottom" >
+                <p:panel id="basic" header="Please Input New Member Information " style="position: absolute; right:100px; top:150px;margin-bottom" >
                     <h:panelGrid columns="2" cellpadding="10">                                
 
                         <h:outputLabel for="title" value="Title: *" />
@@ -76,13 +76,19 @@
                             <f:selectItem itemLabel="Select a gender" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                         </h:selectOneMenu>
+                        
+                        <h:outputLabel for="country" value="Country: *" />
+                        <h:selectOneMenu value="#{signUp.country}" style="width:100%" required="true" requiredMessage="Please select gender">
+                            <f:selectItem itemLabel="Select a Country" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{attr.countries}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                        </h:selectOneMenu>
 
 
                         <h:outputLabel for="email (login account)" value="Email: *" />
                         <p:inputText value="#{signUp.email}" required="true" requiredMessage="Please input email" label="text" validatorMessage="Invalid email">
                             <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                         </p:inputText>
-                                              
+
                         <p:outputLabel for="pwd" style="font-weight: bold" value="Password :"/>                     
                         <p:password id = "pwd" required="true" label = "Password :" requiredMessage ="Password is required." 
                                     value="#{signUp.password}"/>
@@ -99,11 +105,22 @@
                         <p:inputText value="#{signUp.postal}" label="text" />
 
 
-                        <p:commandButton action="#{signUp.addMember}" value="Save"/>
+                        <h:outputLabel value="Term and Condition" />
+                        <p:link  value="Terms and Condition" outcome="/Singapore/TermsAndCondition?faces-redirect=true"></p:link>
+
+                        <h:outputLabel value="Agree" />
+                        <p:selectBooleanCheckbox value="#{signUp.checkBox}" />
+
+                        <p:messages showDetail="true"/>
+                        <p:captcha label="Captcha" />
+
+                        <p:commandButton action="#{signUp.addMember}" value="Next"/>
+                        <p:commandButton action="HomePage?faces-redirect=true" value="Cancel"/>
+
                     </h:panelGrid>
                 </p:panel>
                 <h5>
-                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:800px; left: 400px;text-align: center;"/>
                 </h5>
             </h:form>
         </h:body>

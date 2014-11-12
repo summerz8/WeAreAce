@@ -6,6 +6,7 @@
 
 package Entity.Store.IM;
 
+import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.io.Serializable;
@@ -33,6 +34,8 @@ public class StoreInboundRecordEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;
     
+    
+    
     @ManyToOne
     private StoreWarehouseBinEntity toBin;
     
@@ -42,7 +45,23 @@ public class StoreInboundRecordEntity implements Serializable {
     @ManyToOne
     private StoreProductEntity storeProduct = null;
     
+    
+    private Integer destinationStatus;
+    
+    
+    @ManyToOne
+    private StoreEntity store;
 
+    public StoreInboundRecordEntity() {
+    }
+    
+    
+    
+    public StoreInboundRecordEntity(Double amount, Calendar creationTime){
+        this.amount = amount;
+        this.creationTime = creationTime;
+        
+    }
     
     public Double getAmount() {
         return amount;
@@ -82,6 +101,22 @@ public class StoreInboundRecordEntity implements Serializable {
 
     public void setStoreProduct(StoreProductEntity storeProduct) {
         this.storeProduct = storeProduct;
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+
+    public Integer getDestinationStatus() {
+        return destinationStatus;
+    }
+
+    public void setDestinationStatus(Integer destinationStatus) {
+        this.destinationStatus = destinationStatus;
     }
 
     

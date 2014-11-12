@@ -10,6 +10,9 @@ import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Store.IM.StoreBinProductEntity;
+import Entity.Store.IM.StoreBinRetailProductEntity;
+import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
@@ -38,7 +41,7 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     public List<StoreProductEntity> getListOfStoreProduct(Long storeId){
        try{
        StoreEntity store = em.find(StoreEntity.class,storeId);
-      
+      System.out.println("Session Bean: Store inv Control : getListOfStoreProduct :" + storeId);
       List<StoreProductEntity> storeProductTemp = new ArrayList<StoreProductEntity>();
       
       List<StoreProductEntity>  storeProductList = store.getStoreProducts();
@@ -47,7 +50,8 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         storeProductTemp.add(aProduct);
        }
       }  
-     
+           System.out.println("Session Bean: Store inv Control : getListOfStoreProduct resultList Size:" + storeProductTemp.size());
+
       return storeProductTemp;
        }
        
@@ -114,20 +118,30 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
  
     
     @Override
-    public int addNewStoreProduct(Long storeId,Long productId, Long factoryProductId, Boolean isSelfPicked, String storeRemark){
+    public int addNewStoreProduct(Long storeId,Long productId, Long factoryProductId, Boolean isSelfPicked, String storeRemark, Double minimumInv, Double onAirInventory){
         
         try{
         StoreEntity store = em.find(StoreEntity.class,storeId);
         ProductEntity product = em.find(ProductEntity.class, productId);
         FactoryProductEntity mapFactoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
         List<StoreProductEntity> currentStoreProductList = store.getStoreProducts();
+
         StoreProductEntity newStoreProduct = new StoreProductEntity(mapFactoryProduct, store,isSelfPicked, storeRemark,product);
+
+        em.persist(newStoreProduct);
+        newStoreProduct.setMinimumInventory(minimumInv);
+        newStoreProduct.setWarningOnAirInv(onAirInventory);
+
 //        em.persist(newStoreProduct);
         StoreItemMappingEntity sime = new StoreItemMappingEntity();
         sime.setProductId(productId);
         sime.setRetailProductId(null);
         sime.setStore(store);
+        newStoreProduct.setStoreRemark(storeRemark);
+        newStoreProduct.setProduct(product);
+        
         em.persist(sime);
+        
         currentStoreProductList.add(newStoreProduct);
         mapFactoryProduct.getStoreProducts().add(newStoreProduct);
         em.flush();
@@ -237,7 +251,8 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     public List<StoreRetailProductEntity> getListOfStoreRetailProduct(Long storeId){
         try{
        StoreEntity store = em.find(StoreEntity.class,storeId);
-      
+       System.out.println("Session Bean: Store inv Control : getListOfStoreRetailProduct :" + storeId);
+
       List<StoreRetailProductEntity> storeRetailProductTemp = new ArrayList<StoreRetailProductEntity>();
       
       List<StoreRetailProductEntity>  storeRetailProductList = store.getStoreRetailProducts();
@@ -246,6 +261,9 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         storeRetailProductTemp.add(aRProduct);
        }
       }  
+      
+     System.out.println("Session Bean: Store inv Control : getListOfStoreRetailProduct resultList Size:" + storeRetailProductTemp.size());
+
      
       return storeRetailProductTemp;
        }
@@ -279,10 +297,12 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
                    for(StoreRetailProductEntity aStoreRetailProduct: storeRetailProductList ){
                        if(aStoreRetailProduct.isDeleteFlag() == false  &&  aRProduct.equals(aStoreRetailProduct.getRetailProduct())){
                           isRepeat = true;
+                          System.out.println("id:" + aRProduct.getRetailProductId());
                           
                        }
                    }
-                   
+                   System.out.println("1");
+                   System.out.println(isRepeat);
                    if(!isRepeat){
                      
                         globalRetailProductNotInStore.add(aRProduct);
@@ -302,7 +322,7 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     }
     
     @Override
-    public int addNewRetailProduct(Long storeId, Long storeRetailProductId, Long factoryRetailProductId, String storeRemark){
+    public int addNewRetailProduct(Long storeId, Long storeRetailProductId, Long factoryRetailProductId,Double minInv , Double onAir, String storeRemark){
          try{
         StoreEntity store = em.find(StoreEntity.class,storeId);
         RetailProductEntity product = em.find(RetailProductEntity.class, storeRetailProductId);
@@ -315,6 +335,10 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
         sime.setRetailProductId(newStoreRetailProduct.getStoreRetailProductId());
         sime.setStore(store);
         em.persist(sime);
+        newStoreRetailProduct.setStoreRemark(storeRemark);
+        newStoreRetailProduct.setOnairInventory(onAir);
+        newStoreRetailProduct.setMinimumInventory(minInv);
+        newStoreRetailProduct.setRetailProduct(product);
         currentStoreRetailProductList.add(newStoreRetailProduct);
         mapFactoryRetailProduct.getStoreRetailProducts().add(newStoreRetailProduct);
         em.flush();
@@ -393,10 +417,10 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     public List<FactoryRetailProductEntity> listAvailableFactoryRetail(Long rproductId){
         try{
            
-            Query q = em.createQuery("Select frp From FactoryRetailProductEntity frp where frp.retailProduct.retailProductId =:rpId and frp.deleteFlag = :deleteflag");
+            Query q = em.createQuery("Select frp From FactoryRetailProductEntity frp where frp.retailProduct.retailProductId = :rpId and frp.isDeleted = :flag");
             List<FactoryRetailProductEntity> availableRProduct = new ArrayList<FactoryRetailProductEntity>();
             q.setParameter("rpId", rproductId);
-            q.setParameter("deleteFlag", false);
+            q.setParameter("flag", false);
             for(Object o: q.getResultList()){
                 FactoryRetailProductEntity frp = (FactoryRetailProductEntity) o;
                 availableRProduct.add(frp);
@@ -411,5 +435,129 @@ public class StoreInventoryControl implements StoreInventoryControlLocal {
     
     
     
+    @Override
+    public List<StoreRetailProductEntity> getHaveStockRP(Long storeId){
+        List<StoreRetailProductEntity> rplist = getListOfStoreRetailProduct(storeId);
+        List<StoreRetailProductEntity> resultList = new ArrayList<>();
+        for(StoreRetailProductEntity srp: rplist){
+            if(srp.getUnrestrictedInventory()> 0 || srp.getReturnedInventory() >0){
+                System.out.println("SRP + " + srp.getStoreRetailProductId());
+                resultList.add(srp);
+            }
+            
+        }
+        return resultList;
+        
+    }
+     
+    @Override
+    public List<StoreProductEntity> getHaveStockP(Long storeId){
+        List<StoreProductEntity> rplist = getListOfStoreProduct(storeId);
+        List<StoreProductEntity> resultList = new ArrayList<>();
+        for(StoreProductEntity srp: rplist){
+            if(srp.getUnrestrictedInventory()> 0 || srp.getReturnedInventory() >0){
+                System.out.println("SP + " + srp.getStoreProductId());
+                resultList.add(srp);
+            }
+            
+        }
+        return resultList;
+        
+    }
+    
+    
+    
+    @Override
+    public List<StoreBinProductEntity> getProductStorageInformation(Long productId){
+       try{
+           StoreProductEntity sp = em.find(StoreProductEntity.class, productId);
+       
+        Long storeId = sp.getStore().getStoreId();
+        System.out.println("SessionBean:StoreInventoryControl:getProductStorageInformation() StoreId " + storeId);
+        List<StoreBinProductEntity> resultList  = new ArrayList<>();
+        Query q = em.createQuery("Select sb From StoreBinProductEntity sb Where sb.product.storeProductId = :spId And sb.isDeleted = false And sb.quantity > 0");
+        q.setParameter("spId", productId);
+        
+        for(Object o: q.getResultList()){
+            StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+               resultList.add(sbpe);   
+        }
+        
+        System.out.println("SessionBean:StoreInventoryControl:getProductStorageInformation() listOfBin Size" + resultList.size());
+        return resultList;
+       }
+       
+       catch (Exception e){
+           System.err.println("SessionBean.IM.StoreProductControl: getProductStorageInformation(): Failed. Caught an unexpected exception.");
+            e.printStackTrace();  
+            return null;
+           
+    }
+        
+
+    }
+    
+    @Override
+        public List<StoreBinRetailProductEntity> getRProductStorageInformation(Long productId){
+       try{
+           StoreRetailProductEntity sp = em.find(StoreRetailProductEntity.class, productId);
+       
+        Long storeId = sp.getStore().getStoreId();
+        System.out.println("SessionBean:StoreInventoryControl:getRProductStorageInformation() StoreId " + storeId);
+        List<StoreBinRetailProductEntity> resultList  = new ArrayList<>();
+        Query q = em.createQuery("Select sb From StoreBinRetailProductEntity sb Where sb.retailProduct.storeRetailProductId = :spId And sb.isDeleted = false And sb.quantity > 0");
+        q.setParameter("spId", productId);
+        
+        for(Object o: q.getResultList()){
+            StoreBinRetailProductEntity sbpe = (StoreBinRetailProductEntity) o;
+               resultList.add(sbpe);   
+        }
+        
+        System.out.println("SessionBean:StoreInventoryControl:getRProductStorageInformation() listOfBin Size" + resultList.size());
+        return resultList;
+       }
+       
+       catch (Exception e){
+           System.err.println("SessionBean.IM.StoreProductControl: getRProductStorageInformation(): Failed. Caught an unexpected exception.");
+            e.printStackTrace();  
+            return null;
+           
+    }
+       
+        }     
+       
+    @Override
+    public List<StoreBinProductEntity> getReturnedProduct(Long storeId){
+        
+        Query q = em.createQuery("Select sb From StoreBinProductEntity sb Where sb.status = 1 and sb.swe.store.storeId = :sId");
+        q.setParameter("sId", storeId);
+        List<StoreBinProductEntity>  resultList = new ArrayList<>();
+        for(Object o : q.getResultList()){
+            
+            StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+            resultList.add(sbpe);
+        }
+        return resultList;
+   
+        
+    }
+          
+    
+        public List<StoreBinRetailProductEntity> getReturnedRProduct(Long storeId){
+        
+        Query q = em.createQuery("Select sb From StoreBinRetailProductEntity sb Where sb.status = 1 and sb.swe.store.storeId = :sId");
+        q.setParameter("sId", storeId);
+        List<StoreBinRetailProductEntity>  resultList = new ArrayList<>();
+        for(Object o : q.getResultList()){
+            
+            StoreBinRetailProductEntity sbpe = (StoreBinRetailProductEntity) o;
+            resultList.add(sbpe);
+        }
+        return resultList;
+   
+        
+    }
+       
+  
     
 }

@@ -130,7 +130,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
             @WebParam(name = "id") String userId,
             @WebParam(name = "password") String pwd) {
 
-        UserEntity user;
+        StoreUserEntity user;
         int check = 0;
         String department = userId.substring(0, 1);
 
@@ -138,7 +138,7 @@ public class IFManagerBean implements IFManagerBeanRemote {
         //Query q = em.createQuery("SELECT t FROM UserEntity t WHERE t.userId=:userId");
         //q.setParameter("userId", userId);
         System.out.println("login:" + userId);
-        user = em.find(UserEntity.class, userId);
+        user = em.find(StoreUserEntity.class, userId);
         //user = (UserEntity)q.getResultList();
         //if the user exsit and password correct
         if (user == null) {
@@ -152,7 +152,10 @@ public class IFManagerBean implements IFManagerBeanRemote {
                 check = -2;
                 System.out.println("Only store staffs and managers are allowed to login");
             } else {
-                if (user.getPwd().equals(pwd)) {
+                if (!user.isIsCasher()) {
+                    System.out.println("Not casher!");
+                    check = -3;//not casher
+                } else if (user.getPwd().equals(pwd)) {
                     check = 1;
                     System.out.println("User Found!");
                 } else {
@@ -169,13 +172,33 @@ public class IFManagerBean implements IFManagerBeanRemote {
     @WebMethod(operationName = "getFullNameById")
     public String getFullName(
             @WebParam(name = "userId") String userId) {
-       
+
         UserEntity user = em.find(UserEntity.class, userId);
         String fullName = user.getFirstName() + " " + user.getLastName() + " ";
-        
+
         return fullName;
     }
     
+    @WebMethod(operationName = "getCasherById")
+    public StoreUserEntity getCasher(String id){
+        return em.find(StoreUserEntity.class,id);
+    }
+    
+    @WebMethod(operationName = "updateEndCash")
+    public void updateEndCash(String userId,Double amount){
+        StoreUserEntity casher = em.find(StoreUserEntity.class,userId);
+        casher.setEndCash(amount + casher.getEndCash());
+    }
+    
+    @WebMethod(operationName = "logout")
+    public void logout(String userId){
+        StoreUserEntity casher = em.find(StoreUserEntity.class,userId);
+        Double endCash = casher.getEndCash();
+        casher.setBeginCash(endCash);
+        em.persist(casher);
+        em.flush();
+    }
+
     @Override
     @WebMethod(exclude = true)
     public String getDepartment(String userId) {
@@ -208,22 +231,31 @@ public class IFManagerBean implements IFManagerBeanRemote {
         }
         return userLevel;
     }
-    
+
     @Override
     @WebMethod(exclude = true)
     public String getUserRole(String userId) {
-        String userRole=" ";
+        String userRole = " ";
         if (true) {
             UserEntity user = em.find(UserEntity.class, userId);
             int userLevel = user.getUserLevel();
-            if(userLevel == 0) userRole = "HQ Manager";
-            else if(userLevel == 1) userRole = "Factory Manager";
-            else if(userLevel == 2) userRole = "Store Manager";
-            else if(userLevel == 3) userRole = "Factory SCM Staff";
-            else if(userLevel == 4) userRole = "Factory MRP Staff";
-            else if(userLevel == 5) userRole = "Store Kitchen Staff";
-            else if(userLevel == 6) userRole = "Store Staff";
-            else if(userLevel == 7) userRole = "System Admin";
+            if (userLevel == 0) {
+                userRole = "HQ Manager";
+            } else if (userLevel == 1) {
+                userRole = "Factory Manager";
+            } else if (userLevel == 2) {
+                userRole = "Store Manager";
+            } else if (userLevel == 3) {
+                userRole = "Factory SCM Staff";
+            } else if (userLevel == 4) {
+                userRole = "Factory MRP Staff";
+            } else if (userLevel == 5) {
+                userRole = "Store Kitchen Staff";
+            } else if (userLevel == 6) {
+                userRole = "Store Staff";
+            } else if (userLevel == 7) {
+                userRole = "System Admin";
+            }
 
         }
         return userRole;
@@ -241,19 +273,19 @@ public class IFManagerBean implements IFManagerBeanRemote {
     @Override
     public String getUserInfo(@WebParam(name = "userId") String userId) {
         UserEntity ue = em.find(UserEntity.class, userId);
-        System.out.println("getUserInfo: "+userId);
-        return ue.getFirstName()+" "+ue.getLastName() + "&" + ue.getEmail();
+        System.out.println("getUserInfo: " + userId);
+        return ue.getFirstName() + " " + ue.getLastName() + "&" + ue.getEmail();
     }
-     
+
     @Override
-    public Integer validateUser(String userId, String inputEmail){
+    public Integer validateUser(String userId, String inputEmail) {
         UserEntity ue;
         ue = em.find(UserEntity.class, userId);
-        if(ue == null || ue.isDeleteFlag()){
+        if (ue == null || ue.isDeleteFlag()) {
             return -1;
-        }else if(!inputEmail.equals(ue.getEmail())){
+        } else if (!inputEmail.equals(ue.getEmail())) {
             return 0;
-        }else{
+        } else {
             return 1;
         }
     }

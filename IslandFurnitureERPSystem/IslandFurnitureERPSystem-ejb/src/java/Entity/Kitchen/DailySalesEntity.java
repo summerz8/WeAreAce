@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +28,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"KITCHEN_ID", "SALESDATE"}))
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class DailySalesEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,8 +36,10 @@ public class DailySalesEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @XmlTransient
     private List<DishItemEntity> dishes = new ArrayList<>();
     @OneToMany
+    @XmlTransient
     private List<ComboItemEntity> combos = new ArrayList<>();
     private Double sales;
     private Double salesAfterDiscount;

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+            
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                        
+                            <p:menu>
+                            <p:submenu label="Document Reference">
+                                <p:menuitem value="View Good Receipts"  outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View Inbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInboundMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View In Store Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="View Outbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreOutboundMovementRecord.xhtml?faces-redirect=true"/>
+    
+                            </p:submenu>
+                            </p:menu>
+                        
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Store Inbound Movement Record List" style="border:0px; margin-bottom" >
+
+                        
+                            <p:dataTable id ="current" var="gr" widgetVar="current" value="#{storeDocumentReferenceBean.irList}"  >
+                                
+
+                                
+                                <f:facet name="header">
+                                    Store Inbound Movement Record List
+                                </f:facet>
+                              
+
+                                <p:column headerText="Id" width="8%" >
+                                    <h:outputText value="SIBM#{gr.id}"  style="font-weight: bold" />    
+                                </p:column>
+
+                                <p:column headerText="Create Time" width="8%" >
+                                    <h:outputText value="#{storeDocumentReferenceBean.displayTime(gr.creationTime)}"  style="font-weight: bold" />    
+                                </p:column>
+
+                                <p:column headerText="Inventory Type" width="10%">
+                                    <h:outputText value="Retail Product" style="font-weight: bold" rendered = "#{gr.storeProduct == null?true:false}"/> 
+                                     <h:outputText value="Product" style="font-weight: bold" rendered = "#{gr.storeProduct == null?false:true}"/> 
+                            
+                                </p:column>
+                                
+                                
+                                
+                                <p:column headerText="Id" width="10%">
+                                    <h:outputText value="#{gr.storeProduct.storeProductId}" style="font-weight: bold" rendered = "#{gr.storeProduct == null?false:true}" /> 
+                                    <h:outputText value="#{gr.storeRetailProduct.storeRetailProductId}" style="font-weight: bold" rendered = "#{gr.storeProduct == null?true:false}" /> 
+                            
+                                </p:column>
+
+                               
+
+                                <p:column headerText="Quantity" width="12%">
+                                    <h:outputText value="#{gr.amount}" style="font-weight: bold" /> 
+                                </p:column>
+                                
+                                <p:column headerText="Destination Bin" width="12%">
+                                    <h:outputText value="Id: #{gr.toBin.id} | Name: #{gr.toBin.name} " style="font-weight: bold" /> 
+                                </p:column>
+
+
+                            </p:dataTable>
+                           
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

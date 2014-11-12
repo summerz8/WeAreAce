@@ -16,6 +16,9 @@
     <service name="MemberRegistrationModule">
       <implementation-class>SessionBean.OCRM.MemberRegistrationModule</implementation-class>
     </service>
+    <service name="CustomerMobileAppModule">
+      <implementation-class>SessionBean.OCRM.CustomerMobileAppModule</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

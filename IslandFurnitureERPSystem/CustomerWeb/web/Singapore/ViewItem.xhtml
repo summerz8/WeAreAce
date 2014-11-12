@@ -57,8 +57,13 @@
                                 </p:layoutUnit>-->
 
 
-                <div style="position: absolute; left: 0px; top: 150px;width: 1000px; text-align:center; margin:auto; border: none;"  >
+<<<<<<< HEAD
+                <div style="position: absolute; right:600px; top: 150px;width: 500px; text-align:left; margin:auto;  border: none;"  >
                     <img src="../resources/images/#{viewItemBean.item.picture}"  title="#{viewItemBean.item.picture}" width="300px" height="250px"/>
+=======
+                <div style="position: absolute; left: 0px; top: 150px;width: 1000px; text-align:center; margin:auto; border: none;"  >
+                    <img src="#{viewItemBean.item.picture}"  title="#{viewItemBean.item.picture}" width="300px" height="250px"/>
+>>>>>>> da73a7fd03bd2578774675efb00a435d9497c006
                 </div>
 
                 <!--<p:panel id="basic" header="Set 1" style="border: none; position: absolute; right:200px; top:145px; width: 500px;margin: auto;margin-bottom" >-->
@@ -72,7 +77,7 @@
 
                         <h:outputText value="Price: " />
                         <h:outputText value="#{viewItemBean.checkPrice(viewItemBean.item.product.price)}" />
-                        
+
                         <h:outputText value="Member Price: " />
                         <h:outputText value="#{viewItemBean.checkPrice(viewItemBean.item.product.memberPrice)}" style="color: red; font-weight: bold" />
 
@@ -81,7 +86,8 @@
                             <f:selectItem itemLabel="Avalibility" itemValue="" />
                             <f:selectItems value="#{viewItemBean.storeList}" />
                         </p:selectOneMenu>
-                        <h:outputText id="out" value="#{viewItemBean.stock}" />
+                        <h:outputText id="out" value="#{viewItemBean.stock}"/>
+
 
 
                         <h:outputText value="#{viewItemBean.totalRate}" style="font-size: 40px; color: red"/>
@@ -91,7 +97,7 @@
 
 
 
-                    <p:dialog header="Commend" widgetVar="comment" position="center"
+                    <p:dialog header="Add Comment" widgetVar="comment" position="center"
                               showEffect="fade" hideEffect="fade" resizable="true" 
                               draggable="true" closable="true" width="800">
                         <p:outputPanel id="addComment" style="text-align:center; width:800px">
@@ -169,7 +175,7 @@
 
                     </p:panel>
                     <br></br>
-                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="Commend" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right"/>                      
+                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="Add Comment" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 15px;color: white; border:none; width: 200px; height: 40px; margin-right: 20px; float: right" rendered="#{viewItemBean.checkLogIn()}"/>                      
 
                 </div>
                 <!--</p:panel>-->

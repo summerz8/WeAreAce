@@ -140,23 +140,29 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
 
     @Override
     @WebMethod(exclude = true)
-    public void AddMemberWithPassword(String lastName, String midName,
+    public boolean AddMemberWithPassword(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String PWD) {
+            String title, String address, String postalCode, String email, String PWD,String web) {
         System.out.println("MemberRegistrationModule: addMember():");
-
+        List<MemberEntity> memberList=ListMember();
+        for(MemberEntity m: memberList){
+            if(m.getEmail().equals(email)){
+                return false;
+            }
+        }
         MemberEntity member;
 
         String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
 
-        member = new MemberEntity(PWD, lastName, midName, firstName,
+        member = new MemberEntity(hashedpwd, lastName, midName, firstName,
                 birthday, gender, title, address, postalCode,
                 email, Boolean.FALSE);
-
+        member.setCountry(web);
         member.setMemberlvl(em.find(MembershipLevelEntity.class, 1));
         em.persist(member);
         System.out.println("New Member created!");
         em.flush();
+        return true;
 
     }
 

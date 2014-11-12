@@ -7,6 +7,7 @@ package Entity.Store;
 
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.RetailProductEntity;
+import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
 import java.io.Serializable;
@@ -46,6 +47,8 @@ public class StoreRetailProductEntity implements Serializable {
     private String unit;
     private Boolean deleteFlag;
     
+    private Double intransitInventory;
+    
     //store retail product entity -- factory retail productentity: M <--> 1 
     @ManyToOne
     private FactoryRetailProductEntity factoryRetailProduct;
@@ -65,6 +68,19 @@ public class StoreRetailProductEntity implements Serializable {
     @OneToMany(cascade= {CascadeType.PERSIST},mappedBy="storeRetailProduct")
     @XmlTransient
     private List<ProductSalesForecastEntity> productSalesForecastList;
+    
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "srpe")
+    @XmlTransient
+    private List<StoreGoodReceiptEntity> goodReceipts;
+    
+    
+        //new attribute
+    private Double onairInventory;
+    
+    private Double warningOnAirInv;
+    
+    
 
     public StoreRetailProductEntity() {
     }
@@ -88,8 +104,49 @@ public class StoreRetailProductEntity implements Serializable {
         this.unit = factoryretail.getRetailProduct().getUnit();
         this.storeRemark = storeRemark;
         this.deleteFlag = false;
+        goodReceipts = new ArrayList<>();
+        intransitInventory = 20D;
+        onairInventory= 0D;
+        warningOnAirInv = 0D;
+        
     }
 
+    public Double getOnairInventory() {
+        return onairInventory;
+    }
+
+    public void setOnairInventory(Double onairInventory) {
+        this.onairInventory = onairInventory;
+    }
+
+    public Double getWarningOnAirInv() {
+        return warningOnAirInv;
+    }
+
+    public void setWarningOnAirInv(Double warningOnAirInv) {
+        this.warningOnAirInv = warningOnAirInv;
+    }
+    
+    
+
+    public List<StoreGoodReceiptEntity> getGoodReceipts() {
+        return goodReceipts;
+    }
+
+    public void setGoodReceipts(List<StoreGoodReceiptEntity> goodReceipts) {
+        this.goodReceipts = goodReceipts;
+    }
+
+    public Double getIntransitInventory() {
+        return intransitInventory;
+    }
+
+    public void setIntransitInventory(Double intransitInventory) {
+        this.intransitInventory = intransitInventory;
+    }
+
+    
+    
     public Long getStoreRetailProductId() {
         return storeRetailProductId;
     }

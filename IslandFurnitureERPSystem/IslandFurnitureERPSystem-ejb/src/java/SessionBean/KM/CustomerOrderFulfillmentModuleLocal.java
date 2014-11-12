@@ -21,7 +21,7 @@ import javax.ejb.Local;
 @Local
 public interface CustomerOrderFulfillmentModuleLocal {
 
-    public KitchenOrderEntity createOrder(Long kitchenId, Long memberId, String storestaffId);
+    public KitchenOrderEntity createOrder(Long kitchenId, Long memberId, String storestaffId,String POSid);
 
     public Long addDishItem(Long orderId, Long dishId, Integer quantity);
 

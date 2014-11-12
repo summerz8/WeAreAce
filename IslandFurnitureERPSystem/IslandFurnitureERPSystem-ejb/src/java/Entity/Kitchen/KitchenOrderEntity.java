@@ -18,12 +18,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class KitchenOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,10 +35,13 @@ public class KitchenOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @XmlTransient
     private List<DishItemEntity> dishes = new ArrayList<>();
     @OneToMany
+    @XmlTransient
     private List<ComboItemEntity> combos = new ArrayList<>();
     @OneToMany
+    @XmlTransient
     private List<DetailedDishItemEntity> detailedDishItems = new ArrayList<>();
     private Double total;
     private Double totalWithDiscount;
@@ -45,6 +52,7 @@ public class KitchenOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;
     private String status;  //Unconfirmed, Confirmed, Fulfilled, Cancelled, Served
+    private String POSid;
     @ManyToOne
     private KitchenEntity kitchen;
     @ManyToOne  
@@ -76,6 +84,14 @@ public class KitchenOrderEntity implements Serializable {
         totalDishItemQuantity = 0;
         fulfilledDishItemQuantity = 0;
         creationTime = Calendar.getInstance();
+    }
+
+    public String getPOSid() {
+        return POSid;
+    }
+
+    public void setPOSid(String POSid) {
+        this.POSid = POSid;
     }
 
     public Long getId() {

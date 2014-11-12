@@ -8,6 +8,7 @@ package SessionBean.OCRM;
 import Entity.Factory.MRP.SalesForecastEntity;
 import Entity.Store.OCRM.ProductSalesForecastEntity;
 import Entity.Store.OCRM.SalesRecordEntity;
+import Entity.Store.StoreEventEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import java.util.Calendar;
@@ -52,5 +53,9 @@ public interface OCRMSalesForecastModuleLocal {
     public ProductSalesForecastEntity getProductSalesForecast(Long productSalesForecastId);
 
     public void editProductSalesForecast(Long productSalesForecastId, Double NewAmount) ;
+    
+    public List<StoreEventEntity> getEventList(Long storeId);
+    
+    public List<StoreEventEntity> getEventEffectList(Long storeEventId);
 
     }

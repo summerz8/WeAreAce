@@ -14,7 +14,7 @@ import javax.ejb.Local;
 @Local
 public interface TransactionModuleLocal {
 
-    public Long createNewTransaction(String staffId, Long memberId,int location);
+    public Long createNewTransaction(String staffId, Long memberId,int location,String POSid);
 
     public void createTransactionItem(Long itemId, int amount, Long transactionId);
 

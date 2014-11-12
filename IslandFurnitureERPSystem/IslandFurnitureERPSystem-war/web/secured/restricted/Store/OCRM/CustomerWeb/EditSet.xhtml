@@ -129,7 +129,12 @@
                             </p:column>
 
                             <p:column headerText="Delete" >
-                                <p:commandButton  value="Delete" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{listStoreSalesForecast.ViewSalesForecast(salesForecast.id)}" >
+                                <p:commandButton  value="Delete" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{editSet.deleteItem(item.id)}" >
+                                </p:commandButton>
+                            </p:column>
+                            
+                            <p:column headerText="Edit" >
+                                <p:commandButton  value="Edit" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{editSet.editItem(item.id)}" >
                                 </p:commandButton>
                             </p:column>
 

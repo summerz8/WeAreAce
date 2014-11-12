@@ -5,7 +5,7 @@
  */
 package Member;
 
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,7 +25,7 @@ public class RetailBean {
     @EJB
     private CustomerWebModuleLocal cwml;
 
-    private List<CustomerWebRetailItemEntity> retailItemList;
+    private List<CountryRetailProductEntity> retailItemList;
     private String web;
 
     public RetailBean() {
@@ -51,11 +51,11 @@ public class RetailBean {
         this.cwml = cwml;
     }
 
-    public List<CustomerWebRetailItemEntity> getRetailItemList() {
+    public List<CountryRetailProductEntity> getRetailItemList() {
         return retailItemList;
     }
 
-    public void setRetailItemList(List<CustomerWebRetailItemEntity> retailItemList) {
+    public void setRetailItemList(List<CountryRetailProductEntity> retailItemList) {
         this.retailItemList = retailItemList;
     }
     

@@ -11,8 +11,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -69,60 +73,50 @@ public class CreateItem {
     public void handleProductItemImageUpload(FileUploadEvent event) throws IOException {
 
         System.out.println("Enter handleProductItemImage ");
-
         String[] fileNameParts = event.getFile().getFileName().split("\\.");
-
         name = fileNameParts[0] + "." + fileNameParts[1];
-
         System.out.println(name);
-
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
-
+        path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
         System.out.println("path is " + path);
-
-        File result = new File(path);
-        InputStream is;
-        try (FileOutputStream out = new FileOutputStream(path)) {
-            int a;
-            int BUFFER_SIZE = 8192;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            is = event.getFile().getInputstream();
-            while (true) {
-                a = is.read(buffer);
-
-                if (a < 0) {
-                    break;
-                }
-
-                out.write(buffer, 0, a);
-                out.flush();
-            }
-        }
-
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
-
-        System.out.println("path is " + path);
-
         File result2 = new File(path);
         InputStream is2;
         try (FileOutputStream out = new FileOutputStream(path)) {
             int a;
             int BUFFER_SIZE = 8192;
             byte[] buffer = new byte[BUFFER_SIZE];
-            is = event.getFile().getInputstream();
+            is2 = event.getFile().getInputstream();
             while (true) {
-                a = is.read(buffer);
-
+                a = is2.read(buffer);
+                
                 if (a < 0) {
                     break;
                 }
-
+                
                 out.write(buffer, 0, a);
                 out.flush();
             }
         }
-
-        is.close();
+        String path000 = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/resources/" + name;
+        System.out.println("path is " + path000);
+        File result3 = new File(path000);
+        InputStream is3;
+        try (FileOutputStream out = new FileOutputStream(path000)) {
+            int a;
+            int BUFFER_SIZE = 8192;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            is3 = event.getFile().getInputstream();
+            while (true) {
+                a = is3.read(buffer);
+                
+                if (a < 0) {
+                    break;
+                }
+                
+                out.write(buffer, 0, a);
+                out.flush();
+            }
+        }
+        is3.close();
         picture = name;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image has been uploaded", ""));
     }

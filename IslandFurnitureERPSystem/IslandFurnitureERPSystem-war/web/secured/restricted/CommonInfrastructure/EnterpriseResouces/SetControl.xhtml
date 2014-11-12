@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+                        
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+                        
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+                    
+                    <p:layoutUnit position="west" size="500px">
+
+                        <p:menu>
+                            <p:submenu label="People and Organization">
+                                    <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                                </p:submenu>
+                             <p:submenu label="Inventory" >
+
+                                    <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                                    <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                                    <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                                    <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+
+                                </p:submenu>
+                            
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Enterprise Resource Control" style="margin-bottom" >
+                            <p:dataTable id="settable" var="set" value="#{setControlBean.setList}" 
+                                         scrollable="true"  scrollHeight="100%"
+                                         widgetVar="productTable" emptyMessage="No factory found with given criteria" 
+                                         filteredValue="#{setControlBean.filteredSet}"
+                                         editable="true" >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter"  onkeyup="PF('productTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+                                <p:ajax event="rowEdit" listener="#{setControlBean.onRowEdit}" update="@this" />
+                                <p:ajax event="rowEditCancel" listener="#{setControlBean.onRowCancel}" update=":formMain:messagesStatus" />
+
+                                <p:column style="width:6%">
+                                    <p:rowEditor />
+                                </p:column>    
+
+                                <p:column headerText = "Delete" style="width:6%;text-align: center">                                    
+
+                                    <p:commandButton  update=":formMain" oncomplete="PF('frmDialog').show()" actionListener="#{setControlBean.setSelectedDeleteSetId(set.id)}" icon="ui-icon-trash" title="Delete">
+
+                                    </p:commandButton>                                   
+                                </p:column>
+                                
+                                <p:column headerText = "Edit Set" style="width:6%;text-align: center">                                    
+
+                                    <p:commandButton  actionListener="#{setControlBean.viewSet(set)}" icon="ui-icon-folder-open" title="AddBOM">
+
+                                    </p:commandButton>                                   
+                                </p:column>
+
+                                <p:column filterBy="#{set.id}" headerText="Product Id" width="10%">                                    
+                                    <h:outputText value="#{set.id}" />                                                                
+                                </p:column>                               
+
+
+                                <p:column  filterBy="#{set.name}" headerText="Name" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{set.name}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{set.name}"  style="width:96%"/>
+
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column filterBy="#{set.price}" headerText="Price" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{set.price}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{set.price}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>                       
+                                </p:column>
+                                
+                                <p:column filterBy="#{set.memberPrice}" headerText="Member Price" width="10%" filterMatchMode="contains">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{set.memberPrice}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{set.memberPrice}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>                       
+                                </p:column>
+
+                         
+
+                                <p:column filterBy="#{set.description}" headerText="Description" width="15%">
+                                    <p:cellEditor>                              
+                                        <f:facet name="output"><h:outputText value="#{set.description}" /></f:facet>
+                                        <f:facet name="input"><p:inputText  value="#{set.description}"  style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:dataTable>
+                            <p:dialog header="Message" widgetVar="frmDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="frmDetail" style="text-align:center;">
+                                    Confirm to delete this user ? 
+                                    <p:commandButton  title = "Confirm"  value = "Confirm" actionListener="#{setControlBean.deleteSet(setControlBean.selectedDeleteSetId)}"  update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('frmDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+
+                            <p:button value="Add Set" outcome="AddNewSet"></p:button>
+                        </p:panel>
+
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

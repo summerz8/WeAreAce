@@ -6,7 +6,7 @@
 package Member;
 
 import Entity.Store.OCRM.CommentEntity;
-import Entity.Store.OCRM.CustomerWebRetailItemEntity;
+import Entity.Store.OCRM.CountryRetailProductEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.text.DecimalFormat;
@@ -30,7 +30,7 @@ public class ViewRetailItemBean {
     @EJB
     private CustomerWebModuleLocal cwml;
     private Long itemId;
-    private CustomerWebRetailItemEntity item;
+    private CountryRetailProductEntity item;
     private String name;
     private String comment;
     private Integer rate;
@@ -68,13 +68,14 @@ public class ViewRetailItemBean {
         }
 
         int size = commentList.size();
+        if(size!=0){
         for (CommentEntity c : commentList) {
             if (c.getCountry().equals(web)) {
                 totalRate = totalRate + c.getRate();
             }
         }
         totalRate = totalRate / size;
-
+        }
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));
@@ -123,6 +124,11 @@ public class ViewRetailItemBean {
             return price + "";
         }
     }
+    
+     public boolean checkLogIn(){
+        if(name==null) return false;
+        else return true;
+    }
 
     public CustomerWebModuleLocal getCwml() {
         return cwml;
@@ -140,11 +146,11 @@ public class ViewRetailItemBean {
         this.itemId = itemId;
     }
 
-    public CustomerWebRetailItemEntity getItem() {
+    public CountryRetailProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebRetailItemEntity item) {
+    public void setItem(CountryRetailProductEntity item) {
         this.item = item;
     }
 

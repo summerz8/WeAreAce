@@ -43,6 +43,7 @@ public class MemberControlBean {
     private String Title;
     private String Gender;
     private String Email;
+    private String country;
     private String Address;
     private String Postal;
 
@@ -97,7 +98,11 @@ public class MemberControlBean {
     public void addMember() {
         System.out.println("MemberControlBean: addMember: ");
 
-        int result = MRMM.AddMember(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, transactionId);
+        birthday = Calendar.getInstance();
+        birthday.setTime(birDate);
+        System.out.println("UserInfoManageBean: birString to Date to Calendar:" + birthday.getTime().toString());
+
+        int result = MRMM.AddMember(LastName, MidName, FirstName, birthday, Gender, Title, Address, Postal, Email, transactionId, country);
         if (result == 1) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Member added successfully! ", ""));
 
@@ -112,6 +117,10 @@ public class MemberControlBean {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Transactoin has already been rebated! ", ""));
         } else if (result == -3) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Transactoin is not created in today! ", ""));
+        } else if (result == -4) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Member exist! ", ""));
+        } else if (result == -5) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "I don't know! ", ""));
         }
 
     }
@@ -273,5 +282,14 @@ public class MemberControlBean {
     public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
 
 }
