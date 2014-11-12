@@ -307,7 +307,11 @@ public class Cash extends javax.swing.JFrame {
                         } else {
                             pointsEarned = actualTotalPrice * base;
 <<<<<<< HEAD
+<<<<<<< HEAD
                             addNewPointsForMember(pointsEarned, memberId);
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                             addNewPointsForMember(actualTotalPrice, memberId);
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17

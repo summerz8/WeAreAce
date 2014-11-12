@@ -194,14 +194,14 @@ public class TransactionModule implements TransactionModuleLocal {
     @WebMethod(operationName = "setTendered")
     public void setTendered(
             @WebParam(name = "transactionId") Long transactionId,
-            @WebParam(name = "tendered") Double tendered){
+            @WebParam(name = "tendered") Double tendered) {
         TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
-        
+
         transaction.setTendered(tendered);
         em.persist(transaction);
         em.flush();
     }
-    
+
     //caculate the moneyChange amount and return
     @Override
     @WebMethod(operationName = "caculateChange")
@@ -254,14 +254,18 @@ public class TransactionModule implements TransactionModuleLocal {
                     temp.add(ti);
                 }
             } else if (mapping.getProductId() == null && mapping.getRetailProductId() == null) {
-                ti.setPickupList(pickupList);
-                em.persist(ti);
+                Long storeProductId = mapping.getProductId();
+                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
+                if (storeProduct.getSelfPick()) {
+                    ti.setPickupList(pickupList);
+                    em.persist(ti);
+                    em.flush();
+                    temp.add(ti);
+                }
+                pickupList.setTransactoinItems(temp);
+                em.persist(pickupList);
                 em.flush();
-                temp.add(ti);
             }
-            pickupList.setTransactoinItems(temp);
-            em.persist(pickupList);
-            em.flush();
         }
     }
 
@@ -352,17 +356,14 @@ public class TransactionModule implements TransactionModuleLocal {
 
     //check the product type, return 1 if it is furniture, 2 if it is retail product
     @WebMethod(operationName = "checkItemType")
-    public int checkItemType(Long itemId
-    ) {
+
+    public int checkItemType(Long itemId) {
         StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
-        if (mapping.getRetailProductId() == null && mapping.getStoreSetId() == null)  {
+        if (mapping.getProductId() != null) {
             return 1;
-        } else if (mapping.getProductId() == null && mapping.getStoreSetId() == null) {
+        } else {
             return 2;
-        } else if(mapping.getProductId() == null && mapping.getRetailProductId() == null){
-            return 3;
         }
-        return 0;
     }
 
 //    

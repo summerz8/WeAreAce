@@ -63,6 +63,10 @@ public class MainMenu extends javax.swing.JFrame {
         jButtonNewTransactionFurniture = new javax.swing.JButton();
         javax.swing.JButton jButtonLogout = new javax.swing.JButton();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        javax.swing.JButton jButtonNewTransactionRetailProduct = new javax.swing.JButton();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
         javax.swing.JButton jButtonNewTransactionRetailProduct = new javax.swing.JButton();
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
@@ -107,7 +111,10 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         jButtonNewTransactionRetailProduct.setBackground(new java.awt.Color(255, 255, 255));
         jButtonNewTransactionRetailProduct.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jButtonNewTransactionRetailProduct.setText("Create New Transaction for Retail Product");
@@ -118,6 +125,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+<<<<<<< HEAD
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         jLabelName.setFont(new java.awt.Font("Times", 3, 18)); // NOI18N
         jLabelName.setText("jLabelStaffName");
@@ -151,8 +161,14 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
 <<<<<<< HEAD
+<<<<<<< HEAD
                     .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(122, Short.MAX_VALUE))
+=======
+                    .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                     .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -179,7 +195,13 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(18, 23, Short.MAX_VALUE)
                 .addComponent(jButtonNewTransactionFurniture, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
 <<<<<<< HEAD
+<<<<<<< HEAD
                 .addGap(102, 102, 102)
+=======
+                .addGap(18, 18, 18)
+                .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                 .addGap(18, 18, 18)
                 .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,7 +291,10 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     private void jButtonNewTransactionRetailProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionRetailProductActionPerformed
         // TODO add your handling code here:
         if (POSid.substring(0, 1).equals("R")) {
@@ -284,6 +309,9 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonNewTransactionRetailProductActionPerformed
 
+<<<<<<< HEAD
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
@@ -381,8 +409,13 @@ public class MainMenu extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 }catch (NullPointerException ex){                   
                     System.err.println("Unable to initialize Partner Pole Display");
+=======
+                }catch (NullPointerException ex){
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                 }catch (NullPointerException ex){
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -408,9 +441,15 @@ public class MainMenu extends javax.swing.JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
         } catch (NullPointerException ex){                   
                     System.err.println("Unable to write to Partner Pole Display");
                 }
+=======
+        } catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
         } catch (NullPointerException ex){
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

@@ -177,8 +177,13 @@ public class Change extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 <<<<<<< HEAD
+<<<<<<< HEAD
         initPartnerPoleDisplay();
         poleDisplay();
+=======
+//        initPartnerPoleDisplay();
+//        poleDisplay();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 //        initPartnerPoleDisplay();
 //        poleDisplay();
@@ -285,8 +290,11 @@ public class Change extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 } catch (NullPointerException ex){                   
                     System.err.println("Unable to initialize Partner Pole Display");
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                 }
@@ -310,8 +318,11 @@ public class Change extends javax.swing.JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
         } catch (NullPointerException ex){                   
             System.err.println("Unable to write to Partner Pole Display");
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
 >>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         }

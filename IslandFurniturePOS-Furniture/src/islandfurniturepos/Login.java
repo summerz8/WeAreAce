@@ -356,8 +356,13 @@ public class Login extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 }catch (NullPointerException ex){                   
                     System.err.println("Unable to initialize Partner Pole Display");
+=======
+                }catch (NullPointerException ex){
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
                 }catch (NullPointerException ex){
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -383,9 +388,15 @@ public class Login extends javax.swing.JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
         }catch (NullPointerException ex){                   
                     System.err.println("Unable to write to Partner Pole Display");
                 }
+=======
+        }catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 =======
         }catch (NullPointerException ex){
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
