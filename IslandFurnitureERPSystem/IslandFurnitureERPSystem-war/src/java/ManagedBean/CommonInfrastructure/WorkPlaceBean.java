@@ -41,10 +41,6 @@ public class WorkPlaceBean implements Serializable {
     private Date date;
     private List<StoreEntity> storeList;
     private List<FactoryEntity> factoryList;
-<<<<<<< HEAD
-
-=======
->>>>>>> 0f76e970428c9a9af0083631898e682696703fb3
     private List<SelectItem> displayList; //s
     private List<SelectItem> displayList2; //f
     private String selectedStore; //Kitchen
@@ -115,7 +111,6 @@ public class WorkPlaceBean implements Serializable {
         for (FactoryEntity f : factoryList) {
             String t = f.getFactoryId() + " " + f.getAddress();
             displayList2.add(new SelectItem(f.getFactoryId(), t));
-<<<<<<< HEAD
         }
         System.out.println("displayList2  =" + displayList2.toString());
 
@@ -143,37 +138,6 @@ public class WorkPlaceBean implements Serializable {
     }
 
     public void checkRev() {
-
-=======
-        }
-        System.out.println("displayList2  =" + displayList2.toString());
-
-        this.newMessages = wpml.newMessages(userId);
-        this.msgTobeProcessed = wpml.msgTobeProcessed(userId);
-        this.ticketsToBeViewed = wpml.ticketSubmitted(userId);
-        this.ticketsToBeProcessed = wpml.ticketInReview(userId);
-        this.ticketsToBeClosed = wpml.ticketInProcess(userId);
-
-        if (!userId.startsWith("H")) {
-            this.revK = wpml.revK(userId, departmentId);
-            this.revSP = wpml.revSP(userId, departmentId);
-            this.revSRP = wpml.revSRP(userId, departmentId);
-            this.stockFP = wpml.stockFP(userId, departmentId);
-            this.stockFRM = wpml.stockFRM(userId, departmentId);
-            this.stockFRP = wpml.stockFRP(userId, departmentId);
-
-            System.out.println("revK = " + revK);
-            System.out.println("revSP = " + revSP);
-            System.out.println("revSRP = " + revSRP);
-            System.out.println("stockFP = " + stockFP);
-            System.out.println("stockFRM = " + stockFRM);
-            System.out.println("stockFRP = " + stockFRP);
-        }
-    }
-
-    public void checkRev() {
-
->>>>>>> 0f76e970428c9a9af0083631898e682696703fb3
         if (selectedStore != null) {
             userId = "S1000001";
             System.out.println(selectedStore);
@@ -429,9 +393,5 @@ public class WorkPlaceBean implements Serializable {
     public void setDisplayList2(List<SelectItem> displayList2) {
         this.displayList2 = displayList2;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 0f76e970428c9a9af0083631898e682696703fb3
 
 }
