@@ -4,13 +4,10 @@
  * and open the template in the editor.
  */
 
-package ManagedBean.IM;
+package Converter;
 
-import Entity.Factory.FactoryEntity;
+
 import Entity.Factory.FactoryProductEntity;
-import Entity.Kitchen.StoragePlaceEntity;
-import SessionBean.IM.StoreInventoryControlLocal;
-import SessionBean.KM.KitchenSupportLocal;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -23,6 +20,9 @@ import javax.faces.convert.FacesConverter;
 public class FactoryConverter implements Converter {
  
  public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+     
+        System.out.println("converter: value:" + value);
+     
         if(value != null && value.trim().length() > 0) {
             List<FactoryProductEntity> availFactoryEntities = (List<FactoryProductEntity>)fc.getExternalContext().getSessionMap().get("factoryProductEntities");
             
@@ -30,8 +30,12 @@ public class FactoryConverter implements Converter {
             
             for(FactoryProductEntity factoryEntity:availFactoryEntities)
             {
-                if(factoryEntity.getFactoryProductId().equals(value))
+                System.out.println("converter: factoryEntity:" + factoryEntity.getFactoryProductId());
+                
+                if(factoryEntity.getFactoryProductId().equals(Long.valueOf(value)))
                 {
+                    
+                    System.out.println("Converter: found factoryEntity: " + factoryEntity.getFactoryProductId());
                    return factoryEntity;
                 }
             }

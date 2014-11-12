@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+            <style type="text/css">
+            .old {
+                background-color: #f54747 !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+            
+        </style>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                        
+                            <p:menu>
+                            <p:submenu label="Store Stock Monitor">
+                                <p:menuitem value="Monitor Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Monitor Retail Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevelR.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Inventory Storage Information"  outcome="/secured/restricted/Store/IM/viewProductStorageDetail.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Bin Storage Information"  outcome="/secured/restricted/Store/IM/viewBinStorageDetail.xhtml?faces-redirect=true"/>
+                       
+                       
+                            
+                            </p:submenu>
+                            </p:menu>
+                        
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="Store Product" style="border:0px; margin-bottom" >
+
+                          
+                            <p:dataTable id ="current" var="sproduct" widgetVar="current" value="#{storeProductControl.currentStoreProductList}"   rowStyleClass="#{sproduct.onairInventory le sproduct.warningOnAirInv ?'old':null}" >
+                                
+
+                                
+                                <f:facet name="header">
+                                    Store Product List Monitoring System
+                                </f:facet>
+                                <p:column headerText="Please Select" width="8%" >
+                                    <p:commandButton update=":formMain" oncomplete="PF('sproductDialog').show()" value="Detail" actionListener ="#{storeProductControl.selectProductToDetele(sproduct)}" >
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column headerText="Global Product Id" width="8%" >
+                                    <h:outputText value="#{sproduct.product.productId}"  style="font-weight: bold" />    
+                                </p:column>
+
+                                <p:column headerText="Store Product Id" width="8%" >
+                                    <h:outputText value="#{sproduct.storeProductId}"  style="font-weight: bold" />    
+                                </p:column>
+
+                                <p:column headerText="Name" width="10%">
+                                    <h:outputText value="#{sproduct.name}" style="font-weight: bold" /> 
+                                </p:column>
+                                <p:column headerText="Unit" width="10%">
+                                    <h:outputText value="#{sproduct.unit}" style="font-weight: bold" /> 
+                                </p:column>
+
+                               
+
+                                <p:column headerText="Unrestricted Inventory" width="12%">
+                                    <h:outputText value="#{sproduct.unrestrictedInventory}" style="font-weight: bold" /> 
+                                </p:column>
+
+
+                                <p:column headerText="Minimum Inventory" width="12%">
+
+                                        <h:outputText value="#{sproduct.minimumInventory}" style="font-weight: bold" /> 
+                                      
+                                </p:column>
+                                
+                                <p:column headerText="Current Offering" width="12%">
+                                    <h:outputText value="#{sproduct.onairInventory}" style="font-weight: bold" /> 
+                                </p:column>
+                                
+                                <p:column headerText="Warining Inventory" width="10%">
+                                    
+                                         <h:outputText value="#{sproduct.warningOnAirInv}" style="font-weight: bold" /> 
+                                     
+                                </p:column>
+                                
+
+                                
+
+
+
+
+                            </p:dataTable>
+                           
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

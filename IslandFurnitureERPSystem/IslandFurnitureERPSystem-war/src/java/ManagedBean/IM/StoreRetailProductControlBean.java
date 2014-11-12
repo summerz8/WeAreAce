@@ -5,26 +5,25 @@
  */
 package ManagedBean.IM;
 
-import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRetailProductEntity;
-import Entity.Factory.ProductEntity;
 import Entity.Factory.RetailProductEntity;
 import Entity.Store.StoreEntity;
-import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import ManagedBean.SCM.AddFactoryProduct;
 import SessionBean.IM.StoreInventoryControlLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import static javax.ws.rs.client.Entity.entity;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -33,12 +32,12 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeRetailProductControl")
 @ViewScoped
-public class StoreRetailProductControl {
+public class StoreRetailProductControlBean  implements Serializable {
 
     /**
      * Creates a new instance of StoreRetailProductControl
      */
-    public StoreRetailProductControl() {
+    public StoreRetailProductControlBean() {
     }
     @EJB
     StoreInventoryControlLocal sicl;
@@ -57,7 +56,12 @@ public class StoreRetailProductControl {
     private String remark;
     private Long storeId;
 
-    @PostConstruct
+
+    private Double minimumInv;
+    private Double onAirInventory;
+    
+    
+  @PostConstruct
     public void init() {
         try {
             if ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl") == 0) {
@@ -104,24 +108,44 @@ public class StoreRetailProductControl {
     }
 
     public void selectAvailableFactory(RetailProductEntity rpe) {
-        selectedRetailProduct = rpe;
-        availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
+        selectedRetailProduct = rpe;   
+   availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryREntities", availableFactory);
+     
     }
 
-    public void addStoreRetailProduct(RetailProductEntity rpe, FactoryRetailProductEntity sf) {
 
-        int result = sicl.addNewRetailProduct(storeId, rpe.getRetailProductId(), sf.getFactoryRetailProdctId(), remark);
-        if (result == 1) {
+    
+
+    public void addStoreRetailProduct(ActionEvent event){
+        int result;
+       if(minimumInv == null || onAirInventory == null){
+           FacesMessage msg = new FacesMessage("Error", "Minimum Inventory/Minimum Offering Level cannot be blank.");
+           FacesContext.getCurrentInstance().addMessage(null, msg);
+           
+       }
+       else{
+         result = sicl.addNewRetailProduct(storeId, selectedRetailProduct.getRetailProductId(),selectedFactory.getFactoryRetailProdctId(), minimumInv, onAirInventory, remark);
+        
+        
+        if(result == 1) {
             msgprint1 = "A new retail product added successfully!";
             currentStoreRetailProductList = sicl.getListOfStoreRetailProduct(storeId);
             retailProductNotInStoreList = sicl.getListOfRetailProductNotInStore(storeId);
-
-        } else {
-            msgprint1 = "Exception occured. Please try again or raise a ticket.";
-
+            FacesMessage msg = new FacesMessage("Added", "A new retail product added successfully!");
+              FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-
-    }
+        else{
+            msgprint1 = "Exception occured. Please try again or raise a ticket.";
+            FacesMessage msg = new FacesMessage("Exception", "Exception occured. Please try again or raise a ticket.");
+              FacesContext.getCurrentInstance().addMessage(null, msg);
+            
+            
+        }
+        
+       }
+            
+  }
 
     public void onRowEdit(RowEditEvent event) {
         System.out.println("onRowEdit test: ");
@@ -249,4 +273,21 @@ public class StoreRetailProductControl {
         this.msgprint2 = msgprint2;
     }
 
+    public Double getMinimumInv() {
+        return minimumInv;
+    }
+
+    public void setMinimumInv(Double minimumInv) {
+        this.minimumInv = minimumInv;
+    }
+
+    public Double getOnAirInventory() {
+        return onAirInventory;
+    }
+
+    public void setOnAirInventory(Double onAirInventory) {
+        this.onAirInventory = onAirInventory;
+    }
+    
+    
 }

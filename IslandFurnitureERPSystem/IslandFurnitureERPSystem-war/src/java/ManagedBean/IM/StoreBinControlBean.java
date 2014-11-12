@@ -11,6 +11,7 @@ import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import SessionBean.IM.StoreBinControlLocal;
 import SessionBean.IM.StoreInventoryControlLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,12 +29,12 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "storeBinControl")
 @ViewScoped
-public class StoreBinControl {
+public class StoreBinControlBean  implements Serializable{
 
     /**
      * Creates a new instance of StoreBinControl
      */
-    public StoreBinControl() {
+    public StoreBinControlBean() {
     
     }
     @EJB
@@ -231,12 +232,12 @@ public void onRowEdit(RowEditEvent event) {
         StoreWarehouseBinEntity entity = (StoreWarehouseBinEntity) event.getObject();
         System.out.println("onRowEdit test: " + String.valueOf(entity.getId()) + entity.getStore().getStoreId());
         
-      
+      sbcl.editAStorageBin(entity.getName(), entity.getRemark(), entity.isIsBackHouse(), entity.isIsDisplayArea(), entity.isIsSelfCollect(), storeId);
 
             FacesMessage msg = new FacesMessage("Store Bin Edited", String.valueOf(entity.getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
         
-    }
+   }
 
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((StoreWarehouseBinEntity) event.getObject()).getId().toString());
