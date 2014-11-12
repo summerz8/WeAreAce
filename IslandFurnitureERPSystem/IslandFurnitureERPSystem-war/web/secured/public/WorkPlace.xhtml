@@ -73,6 +73,14 @@
                     <p:layoutUnit position="west"  style = "border:0px;">
 
                         <p:menu>
+                            
+                            <p:submenu label="Enterprise Management" rendered="#{workPlaceManageBean.isValidResource()}">
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true" rendered="#{workPlaceManageBean.isValidHQ()}" />
+                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactoryManager()}"/>
+                                <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
+                            </p:submenu>
+                            
+                            
                             <p:submenu label="Manufacturing Resource Planning" rendered="#{workPlaceManageBean.isValidMRP()}">
                                 <p:menuitem value="Sales Forecast" update="messages"  action="/secured/restricted/Factory/MRP/SalesForecast/MRPSalesForecast?faces-redirect=true" />
                                 <p:menuitem value="Sales Operation Plan"  update="messages" action="/secured/restricted/Factory/MRP/SalesOperationPlan/MRPSalesOperationPlan?faces-redirect=true"   />
@@ -89,14 +97,8 @@
                                 <p:menuitem value ="Raw Material Monitoring"  outcome ="/secured/restricted/Factory/SCM/RawMaterialInventoryMonitoringModule/RawMaterialInventoryMonitoringPage.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactorySCMOnly()}"/>
                                 <p:menuitem value ="Document Reference" outcome ="/secured/restricted/Factory/SCM/DocumentReferenceModule/DocumentReferencePage.xhtml?faces-redirect=true" />
                             </p:submenu>
-
-                            <p:submenu label="Enterprise Management" rendered="#{workPlaceManageBean.isValidResource()}">
-                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true" rendered="#{workPlaceManageBean.isValidHQ()}" />
-                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactoryManager()}"/>
-                                <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
-                            </p:submenu>
                             
-                              <p:submenu label="Inventory Management">
+                            <p:submenu label="Inventory Management" rendered="#{workPlaceManageBean.isValidStoreStaff()}">
                                 <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>

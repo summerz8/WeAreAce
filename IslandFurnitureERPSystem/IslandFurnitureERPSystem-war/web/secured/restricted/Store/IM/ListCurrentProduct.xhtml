@@ -85,7 +85,7 @@
                             <p:submenu label="Store Resources Control">
                                 <p:menuitem value="Product" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Retail Product" icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListCurrentRetailProduct.xhtml?faces-redirect=true" />
-                                <p:menuitem value="Storage Bin"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />                                <p:menuitem value="Storage Bin"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Storage Bin"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListStorageBin.xhtml?faces-redirect=true" />                                
                                 <p:menuitem value="Storage Set"  icon="ui-icon-home" outcome="/secured/restricted/Store/IM/ListCurrentStoreSet.xhtml?faces-redirect=true" />
 
                             </p:submenu>
@@ -112,11 +112,11 @@
                                     </p:commandButton>
                                 </p:column>
 
-                                <p:column headerText="Global Id" width="5%" >
+                                <p:column headerText="Global Id" width="8%" >
                                     <h:outputText value="#{sproduct.product.productId}"  style="font-weight: bold" />    
                                 </p:column>
 
-                                <p:column headerText="Store Product Id" width="8%" >
+                                <p:column headerText="Store Level Id" width="8%" >
                                     <h:outputText value="#{sproduct.storeProductId}"  style="font-weight: bold" />    
                                 </p:column>
 
@@ -127,21 +127,21 @@
                                     <h:outputText value="#{sproduct.unit}" style="font-weight: bold" /> 
                                 </p:column>
                                 
-                                <p:column headerText="In Transit Inventory" width="12%">
+                                <p:column headerText="In Transit Stock" width="12%">
                                     <h:outputText value="#{sproduct.intransitInventory}" style="font-weight: bold" /> 
                                 </p:column>
 
                                
 
-                                <p:column headerText="Unrestricted Inventory" width="12%">
+                                <p:column headerText="Unrestricted Stock" width="12%">
                                     <h:outputText value="#{sproduct.unrestrictedInventory}" style="font-weight: bold" /> 
                                 </p:column>
 
-                                <p:column headerText="Returned Inventory" width="12%">
+                                <p:column headerText="Returned Stock" width="12%">
                                     <h:outputText value="#{sproduct.returnedInventory}" style="font-weight: bold" /> 
                                 </p:column>
 
-                                <p:column headerText="Minimum Inventory" width="12%">
+                                <p:column headerText="Minimum Stock" width="12%">
                                     <p:cellEditor> 
 
                                         <f:facet name="output"> <h:outputText value="#{sproduct.minimumInventory}" style="font-weight: bold" /> </f:facet>
@@ -153,7 +153,7 @@
                                 
                                 
                                 
-                                <p:column headerText="Warining Offering Inventory" width="10%">
+                                <p:column headerText="Warning Offering Inventory" width="10%">
                                     <p:cellEditor> 
 
                                         <f:facet name="output"> <h:outputText value="#{sproduct.warningOnAirInv}" style="font-weight: bold" /> </f:facet>
@@ -213,7 +213,7 @@
                             <p:dialog id = "editDialog" header="New Product Details" widgetVar="editDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
                                       draggable="true" closable="true" width="500">
-                                <p:outputPanel id="fProductDetail" style="text-align:center;">
+                                <p:outputPanel id="fProductDetail1" style="text-align:center;">
                                     Please select a factory as your inventory resource factory:
                                     <br></br>
 

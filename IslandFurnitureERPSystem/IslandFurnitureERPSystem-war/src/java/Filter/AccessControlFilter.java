@@ -77,7 +77,7 @@ public class AccessControlFilter implements Filter {
             chain.doFilter(request, response);
         } else if (userLevel == 5 && url.contains("/KM/")) {
             chain.doFilter(request, response);
-        } else if (userLevel == 6 && (url.contains("/OCRM/") || url.contains("/ACRM/"))) {
+        } else if (userLevel == 6 && (url.contains("/OCRM/") || url.contains("/ACRM/") || url.contains("/IM/"))) {
             chain.doFilter(request, response);
         } else if (userLevel == 7 && url.contains("/ticket/")) {
             chain.doFilter(request, response);
