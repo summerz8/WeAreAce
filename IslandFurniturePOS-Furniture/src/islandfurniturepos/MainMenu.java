@@ -297,8 +297,8 @@ public class MainMenu extends javax.swing.JFrame {
             jLabelMemberId.setText("Member Not Found!");
         }
 
-//        initPartnerPoleDisplay();
-//        poleDisplay();
+        initPartnerPoleDisplay();
+        poleDisplay();
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMemberActionPerformed
@@ -362,6 +362,8 @@ public class MainMenu extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -381,6 +383,8 @@ public class MainMenu extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(carriageReturn);
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex){
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
