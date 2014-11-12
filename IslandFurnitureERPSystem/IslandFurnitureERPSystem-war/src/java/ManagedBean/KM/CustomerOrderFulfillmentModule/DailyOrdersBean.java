@@ -5,7 +5,6 @@
  */
 package ManagedBean.KM.CustomerOrderFulfillmentModule;
 
-import Entity.Kitchen.DetailedDishItemEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.KitchenOrderEntity;
 import SessionBean.KM.CustomerOrderFulfillmentModuleLocal;
@@ -55,7 +54,7 @@ public class DailyOrdersBean implements Serializable {
     }
 
     public void setSelectedOdr(KitchenOrderEntity selectedOdr) {
-        this.selectedOdr = selectedOdr;
+        this.selectedOdr = cof.findOrderById(selectedOdr.getId());
     }
 
     public List<KitchenOrderEntity> getOrders() {

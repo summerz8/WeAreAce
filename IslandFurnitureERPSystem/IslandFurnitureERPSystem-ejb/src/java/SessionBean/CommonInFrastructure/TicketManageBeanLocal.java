@@ -26,7 +26,7 @@ public interface TicketManageBeanLocal {
 
     public void readATicket(Long ticketId) throws Exception;
 
-    public List<TicketEntity> listSystemTicket(String userId);
+    public List<TicketEntity> listSystemTicket(String userId) throws Exception;
 
     public List<TicketEntity> listAllTickets(Integer status);
 

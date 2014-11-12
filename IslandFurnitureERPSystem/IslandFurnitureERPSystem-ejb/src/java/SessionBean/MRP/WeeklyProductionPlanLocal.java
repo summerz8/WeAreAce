@@ -21,13 +21,13 @@ import javax.ejb.Local;
 @Local
 public interface WeeklyProductionPlanLocal {
 
-    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId);
+    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId) throws Exception;
 
     public WeeklyProductionPlanEntity editWeeklyProductionPlan(Long id, Calendar month, Integer week, Integer workingDayInWeek, Integer workingDayInMonth, Double weeklyDemand);
 
-    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId);
+    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId) throws Exception;
 
-    public ProductEntity getProduct(Long factoryProductId);
+    public ProductEntity getProduct(Long factoryProductId) throws Exception;
 
     public String isProduct(Long factoryProductId);
   

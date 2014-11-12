@@ -46,11 +46,11 @@ public interface SalesOperationPlanLocal {
     
     public SalesOperationPlanEntity getSalesOperationPlan(Long salesOperationPlanId);
     
-    public SalesOperationPlanEntity confirmSalesOperationPlan(Long salesOperationPlan);
+    public SalesOperationPlanEntity confirmSalesOperationPlan(Long salesOperationPlan) throws Exception;
         
     public SalesOperationPlanEntity cancelSalesOperationPlan(Long salesOperationPlan);
     
-    public boolean IsThereSalesOperation(Long factoryProductId);
+    public boolean IsThereSalesOperation(Long factoryProductId) throws Exception;
     
     public boolean IsThereForecast(Long factoryProductId);
 }

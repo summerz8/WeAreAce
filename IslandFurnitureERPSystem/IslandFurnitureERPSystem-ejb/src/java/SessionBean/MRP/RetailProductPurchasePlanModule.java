@@ -24,7 +24,7 @@ import javax.persistence.Query;
  * @author hangsun
  */
 @Stateful
-public class RetailProductPurchasePlanModule implements RetailProductPurchasePlanModuleLocal {
+public class RetailProductPurchasePlanModule implements RetailProductPurchasePlanModuleLocal, RetailProductPurchasePlanModuleRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -33,7 +33,7 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     private EntityManager em;
     
     @Override
-    public void generateRetailProductPurchasePlan(Long integratedSalesForecastId,Long factoryRetailProductId){
+    public void generateRetailProductPurchasePlan(Long integratedSalesForecastId,Long factoryRetailProductId) {
         
         try{       
             IntegratedSalesForecastEntity integratedSalesForecast = em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
@@ -70,9 +70,12 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
     }
     
     @Override
-    public void editRetailProductPurchasePlan(Long id, String field,Object content){
+    public void editRetailProductPurchasePlan(Long id, String field,Object content) throws Exception{
         
         IntegratedPlannedOrderEntity integratedPlannedOrder = em.find(IntegratedPlannedOrderEntity.class, id);
+        if(integratedPlannedOrder == null) {
+            throw new Exception("Retail Product Purchase Plan is not found!");
+        }
         
         switch (field) {
             case "targetPeriod":
@@ -212,8 +215,11 @@ public class RetailProductPurchasePlanModule implements RetailProductPurchasePla
         }
     
     @Override
-    public Long getFactoryRetailProductId(Long integratedSalesForecastId){
+    public Long getFactoryRetailProductId(Long integratedSalesForecastId) throws Exception{
         IntegratedSalesForecastEntity integratedSalesForecast = em.find(IntegratedSalesForecastEntity.class, integratedSalesForecastId);
+        if(integratedSalesForecast == null) {
+            throw new Exception("Integrated Sales Forecast is not found!");
+        }
         
         System.out.println("integratedSalesForecast " + integratedSalesForecastId);
         

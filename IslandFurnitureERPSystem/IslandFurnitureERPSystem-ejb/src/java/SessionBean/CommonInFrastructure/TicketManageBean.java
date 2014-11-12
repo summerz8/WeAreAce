@@ -20,7 +20,7 @@ import javax.persistence.Query;
  */
 // The main purpose for this management module is for our client to raise ticekts when there's any system problem.
 @Stateless
-public class TicketManageBean implements TicketManageBeanLocal {
+public class TicketManageBean implements TicketManageBeanLocal, TicketManageBeanRemote {
 
     public TicketManageBean() {
     }
@@ -86,11 +86,12 @@ public class TicketManageBean implements TicketManageBeanLocal {
 
     //for user
     @Override
-    public List<TicketEntity> listSystemTicket(String userId)  {
+    public List<TicketEntity> listSystemTicket(String userId) throws Exception  {
         UserEntity systemUser = em.find(UserEntity.class, userId);
+        if (systemUser == null) {
+            throw new Exception("System user is not found!");
+        }
         List<TicketEntity> ticketList;
-        
-        
         ticketList = (List<TicketEntity>)  systemUser.getTickets();
         System.out.println("Session bean : get the system ticket:" + ticketList.size());
 

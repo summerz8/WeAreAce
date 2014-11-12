@@ -23,7 +23,7 @@ import javax.persistence.Query;
  * @author Yoky
  */
 @Stateful
-public class DocumentReferenceModule implements DocumentReferenceModuleLocal {
+public class DocumentReferenceModule implements DocumentReferenceModuleLocal, DocumentReferenceModuleRemote {
 
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;

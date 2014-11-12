@@ -22,7 +22,7 @@ import javax.persistence.Query;
  * @author hangsun
  */
 @Stateless
-public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
+public class WeeklyProductionPlan implements WeeklyProductionPlanLocal, WeeklyProductionPlanRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -30,10 +30,13 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     private EntityManager em;
 
     @Override
-    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId) {
+    public List<WeeklyProductionPlanEntity> generateWeeklyProductionPlan(Long productionPlanId) throws Exception {
         try {
             System.out.println("generateWeeklyProductionPlan:()  1");
             ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+            if (productionPlan == null) {
+                throw new Exception("Production Plan is not found!");
+            }
             Calendar period = productionPlan.getTargetPeriod();
             List<WeeklyProductionPlanEntity> weeklyProductionPlanList = new ArrayList<WeeklyProductionPlanEntity>();
 
@@ -186,9 +189,14 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
             em.flush();
             return weeklyProductionPlanList;
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            if (ex.getMessage().equals("Production Plan is not found!")) {
+                throw ex;
+            } else {
+                System.out.println(ex.getMessage());
+                return null;
+            }
         }
-        return null;
+
     }
 
     @Override
@@ -211,8 +219,11 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     }
 
     @Override
-    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId) {
+    public List<WeeklyProductionPlanEntity> getWeeklyProductionPlan(Long productionPlanId) throws Exception {
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+        if (productionPlan == null) {
+            throw new Exception("Weekly Production Plan is not found!");
+        }
         Query q = em.createQuery("SELECT pp FROM WeeklyProductionPlanEntity pp");
         List<WeeklyProductionPlanEntity> tempList = (List<WeeklyProductionPlanEntity>) q.getResultList();
         List<WeeklyProductionPlanEntity> weeklyProductionPlanList = new ArrayList<>();
@@ -228,10 +239,12 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
     }
 
     @Override
-    public ProductEntity getProduct(Long factoryProductId) {
+    public ProductEntity getProduct(Long factoryProductId) throws Exception {
 
         FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
-
+        if (factoryProduct == null) {
+            throw new Exception("Factory Product is not found!");
+        }
         return factoryProduct.getProduct();
     }
 
@@ -265,17 +278,17 @@ public class WeeklyProductionPlan implements WeeklyProductionPlanLocal {
 
     @Override
     public List<FactoryProductEntity> getFactoryProductList(Long factoryId) {
-        List<FactoryProductEntity> factoryProductList=new ArrayList<>();
-        
+        List<FactoryProductEntity> factoryProductList = new ArrayList<>();
+
         Query q = em.createQuery("SELECT pp FROM FactoryProductEntity pp");
         List<FactoryProductEntity> tempList = (List<FactoryProductEntity>) q.getResultList();
-        for(FactoryProductEntity p: tempList){
-            if(p.getFactory().getFactoryId().equals(factoryId)){
+        for (FactoryProductEntity p : tempList) {
+            if (p.getFactory().getFactoryId().equals(factoryId)) {
                 System.out.println("aaaa");
                 factoryProductList.add(p);
             }
         }
-        
+
         return factoryProductList;
     }
 

@@ -252,8 +252,8 @@
                 </p:dialog>
 
                 <p:dialog id="dishSalesChartDlg" widgetVar="dishSalesChartDlg" showEffect="fade" hideEffect="fade" resizable="false" width="50%" >
-                    <p:lineChart id="dishSalesChart" rendered="#{menuItemForecastBean.selectedModel ne null}" value="#{menuItemForecastBean.selectedModel}"
-                                 title="Past Week Daily Sales of #{menuItemForecastBean.selectedDish.name}"  style=" width:600px;" />
+                    <p:lineChart id="dishSalesChart" rendered="#{menuItemForecastBean.selectedModel ne null}" value="#{menuItemForecastBean.selectedModel}" 
+                                 title="Past Weekly Sales of #{menuItemForecastBean.selectedDish.name}" style=" width:600px;" />
                 </p:dialog>
 
                 <p:dialog id="comboSalesChartDlg" widgetVar="comboSalesChartDlg" showEffect="fade" hideEffect="fade" resizable="false" width="50%" >

@@ -20,7 +20,7 @@ import javax.persistence.Query;
  * @author dan
  */
 @Stateless
-public class RetailProduct_ProductManagementModule implements RetailProduct_ProductManagementModuleLocal {
+public class RetailProduct_ProductManagementModule implements RetailProduct_ProductManagementModuleLocal, RetailProduct_ProductManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -39,9 +39,12 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     }
 
     @Override
-    public Boolean DeleteProduct(Long productId) {
+    public Boolean DeleteProduct(Long productId) throws Exception {
         System.out.println("RetailProduct_ProductManagementModule: DeleteProduct(): " + productId);
         ProductEntity pe = em.find(ProductEntity.class, productId);
+        if(pe == null) {
+            throw new Exception("Product is not found!");
+        }
         if (pe.getFactoryProducts().isEmpty() && pe.getStoreProducts().isEmpty()) {
             List<BOMEntity> listofBom = pe.getBom();
             for (BOMEntity b : listofBom) {
@@ -59,9 +62,12 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
 
     @Override
     public void ModifyProduct(Long productId, String name, String description,
-            Double price, Double memberPrice, String unit) {
+            Double price, Double memberPrice, String unit) throws Exception {
         System.out.println("RetailProduct_ProductManagementModule: ModifyProduct(): " + productId + name);
         ProductEntity pe = em.find(ProductEntity.class, productId);
+        if(pe == null) {
+            throw new Exception("Product is not found!");
+        }
         pe.setName(name);
         pe.setDescription(description);
         pe.setPrice(price);
@@ -99,9 +105,12 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
     }
 
     @Override
-    public Boolean DeleteRetailProduct(Long retailProductId) {
+    public Boolean DeleteRetailProduct(Long retailProductId) throws Exception {
         System.out.println("RetailProduct_ProductManagementModule: DeleteRetialProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
+        if(pe == null) {
+            throw new Exception("Retail Product is not found!");
+        }
         if (pe.getFactoryRetailProducts().isEmpty()&&pe.getStoreRetailProducts().isEmpty()) {
             pe.setDeleteFlag(Boolean.TRUE);
 
@@ -115,9 +124,12 @@ public class RetailProduct_ProductManagementModule implements RetailProduct_Prod
 
     @Override
     public void ModifyRetailProduct(Long retailProductId, String name, String unit,
-            Double price, String description) {
+            Double price, String description) throws Exception {
         System.out.println("RetailProduct_ProductManagementModule: ModifyRetailProduct(): ");
         RetailProductEntity pe = em.find(RetailProductEntity.class, retailProductId);
+        if(pe == null) {
+            throw new Exception("Retail Product is not found!");
+        }
         pe.setName(name);
         pe.setDescription(description);
         pe.setUnit(unit);

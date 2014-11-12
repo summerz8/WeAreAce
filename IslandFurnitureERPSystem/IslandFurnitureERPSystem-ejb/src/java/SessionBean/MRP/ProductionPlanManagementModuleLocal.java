@@ -22,13 +22,13 @@ public interface ProductionPlanManagementModuleLocal {
 
     public boolean generateProductionPlan(String status, Calendar generateDate, Calendar targetPeriod, Double output, Long productId, String remark);
 
-    public void editProductionPlan(Long productionPlanId, String field, Object content);
+    public void editProductionPlan(Long productionPlanId, String field, Object content) throws Exception;
 
     public boolean deleteProductionPlan(Long productionPlanId);
 
-    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(Long id,String department);
+    public List<ProductionPlanEntity> getProductionPlanUnconfirmed(Long id,String department) throws Exception;
 
-    public ProductionPlanEntity searchProductionPlan(Long id);
+    public ProductionPlanEntity searchProductionPlan(Long id) throws Exception;
 
     public List<ProductionPlanEntity> getProductionPlanCancelled(Long id,String department);
 

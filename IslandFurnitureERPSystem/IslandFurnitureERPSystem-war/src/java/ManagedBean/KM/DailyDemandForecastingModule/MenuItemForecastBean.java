@@ -283,6 +283,7 @@ public class MenuItemForecastBean implements Serializable {
             for (ComboEntity c : kitchen.getCombos()) {
                 comboModels.put(c.getId(), createComboModel(c));
             }
+            selectedModel = dishModels.get(selectedMif.getDishForecastItems().get(0).getDish().getId());
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: createModels(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
@@ -302,7 +303,6 @@ public class MenuItemForecastBean implements Serializable {
             }
             dishModel.addSeries(s);
             dishModel.setTitle("Weekly Sales of " + dish.getName());
-            dishModel.setZoom(true);
             dishModel.getAxis(AxisType.Y).setLabel("Daily Sales Quantity");
             dishModel.getAxis(AxisType.Y).setMin(0);
             dishModel.getAxis(AxisType.Y).setMax(max + 10);
@@ -331,11 +331,9 @@ public class MenuItemForecastBean implements Serializable {
             for (Map.Entry<Calendar, Integer> e : weeklyComboSales.entrySet()) {
                 String dateString = e.getKey().get(Calendar.YEAR) + "-" + (e.getKey().get(Calendar.MONTH) + 1) + "-" + e.getKey().get(Calendar.DAY_OF_MONTH);
                 s.set(dateString, e.getValue());
-
             }
             comboModel.addSeries(s);
             comboModel.setTitle("Weekly Sales of " + combo.getName());
-            comboModel.setZoom(true);
             comboModel.getAxis(AxisType.Y).setLabel("Daily Sales Quantity");
             comboModel.getAxis(AxisType.Y).setMin(0);
             comboModel.getAxis(AxisType.Y).setMax(max + 10);

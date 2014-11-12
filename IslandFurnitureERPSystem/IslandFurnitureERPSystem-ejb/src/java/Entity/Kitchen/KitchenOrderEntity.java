@@ -37,6 +37,7 @@ public class KitchenOrderEntity implements Serializable {
     @OneToMany
     private List<DetailedDishItemEntity> detailedDishItems = new ArrayList<>();
     private Double total;
+    private Double totalWithDiscount;
     private Double received;
     private Double due;
     private Integer totalDishItemQuantity;
@@ -53,6 +54,7 @@ public class KitchenOrderEntity implements Serializable {
 
     public KitchenOrderEntity() {
         total = 0.0;
+        totalWithDiscount = 0.0;
         received = 0.0;
         due = 0.0;
         this.status = "Unconfirmed";
@@ -66,6 +68,7 @@ public class KitchenOrderEntity implements Serializable {
         this.kitchen = kitchen;
         this.storeStaff = storeStaff;
         total = 0.0;
+        totalWithDiscount = 0.0;
         received = 0.0;
         due = 0.0;
         this.status = "Unconfirmed";
@@ -113,6 +116,14 @@ public class KitchenOrderEntity implements Serializable {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Double getTotalWithDiscount() {
+        return totalWithDiscount;
+    }
+
+    public void setTotalWithDiscount(Double totalWithDiscount) {
+        this.totalWithDiscount = totalWithDiscount;
     }
 
     public Double getReceived() {

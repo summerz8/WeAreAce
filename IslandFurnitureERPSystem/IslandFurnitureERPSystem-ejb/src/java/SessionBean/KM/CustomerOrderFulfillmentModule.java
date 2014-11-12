@@ -27,7 +27,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -149,9 +148,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
 
     @Override
     @WebMethod(operationName = "confirmOrder")
-    public Long confirmOrder(
-            @WebParam(name = "orderId") Long orderId,
-            @WebParam(name = "received") Double received) {
+    public Long confirmOrder(@WebParam(name = "orderId") Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             order.setStatus("Confirmed");
@@ -207,16 +204,33 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
                     }
                 }
             }
-            order.setReceived(received);
-            order.setDue(received - order.getTotal());
-            dailySales.setSales(dailySales.getSales() + order.getTotal());
 
+            if(order.getMember() != null) {
+                order.setTotalWithDiscount(order.getTotal() * order.getMember().getMemberlvl().getDiscount());
+            } else {
+                order.setTotalWithDiscount(order.getTotal());
+            }
+            dailySales.setSales(dailySales.getSales() + order.getTotal());
+            dailySales.setSalesAfterDiscount(dailySales.getSalesAfterDiscount() + order.getTotalWithDiscount());
+em.flush();
             return order.getId();
         } catch (Exception ex) {
             System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: confirmOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    @WebMethod(operationName = "checkout")
+    public Double checkout(
+            @WebParam(name = "orderId") Long orderId,
+            @WebParam(name = "received") Double received) {
+        KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
+        order.setReceived(received);
+        order.setDue(received - order.getTotalWithDiscount());
+        em.flush();
+        return order.getDue();
     }
 
     private DailySalesEntity createDailySales(KitchenEntity kitchen) {
@@ -387,4 +401,8 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
         return em.find(DishEntity.class, dishId).getRecipe();
     }
 
+    @Override
+    public KitchenOrderEntity findOrderById(Long KitchenOrderId) {
+        return em.find(KitchenOrderEntity.class, KitchenOrderId);
+    }
 }

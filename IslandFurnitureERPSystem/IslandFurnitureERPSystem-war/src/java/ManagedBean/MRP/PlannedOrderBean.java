@@ -31,7 +31,7 @@ public class PlannedOrderBean {
      */
     public PlannedOrderBean() {
     }
-    
+
     private List<PlannedOrderEntity> plannedOrder;
     private List<PlannedOrderEntity> plannedOrderUnconfirmed;
     private List<PlannedOrderEntity> plannedOrderConfirmed;
@@ -39,26 +39,32 @@ public class PlannedOrderBean {
     private Long id;
     private String department;
 //    private List<FactoryRawMaterialAmountEntity> selectedRawMaterial;
-    
+
     @EJB
     private PlannedOrderManagementModuleLocal PO;
     @EJB
     private ProductionPlanManagementModuleLocal PP;
-    
+
     @PostConstruct
-    public void init(){
-        id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-        department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
-          
-        plannedOrder = PO.getPlannedOrder(id,department);
-        plannedOrderUnconfirmed = PO.getUnconfirmedPlannedOrder(id,department);
-        plannedOrderConfirmed = PO.getConfirmedPlannedOrder(id,department);
-        plannedOrderCancelled = PO.getCancelledPlannedOrder(id,department);
+    public void init() {
+        try {
+            id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+            department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
+
+            plannedOrder = PO.getPlannedOrder(id, department);
+            plannedOrderUnconfirmed = PO.getUnconfirmedPlannedOrder(id, department);
+            plannedOrderConfirmed = PO.getConfirmedPlannedOrder(id, department);
+            plannedOrderCancelled = PO.getCancelledPlannedOrder(id, department);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
+
     }
-    
-    public List<PlannedOrderEntity> getPlannedOrder(){
+
+    public List<PlannedOrderEntity> getPlannedOrder() {
         return plannedOrder;
-    } 
+    }
 
     public List<PlannedOrderEntity> getPlannedOrderUnconfirmed() {
         return plannedOrderUnconfirmed;
@@ -75,7 +81,6 @@ public class PlannedOrderBean {
 //    public List<FactoryRawMaterialAmountEntity> getSelectedRawMaterial() {
 //        return selectedRawMaterial;
 //    }
-
     public void setPlannedOrder(List<PlannedOrderEntity> plannedOrder) {
         this.plannedOrder = plannedOrder;
     }
@@ -95,21 +100,32 @@ public class PlannedOrderBean {
 //    public void setSelectedRawMaterial(List<FactoryRawMaterialAmountEntity> selectedRawMaterial) {
 //        this.selectedRawMaterial = selectedRawMaterial;
 //    }
-    
-    public String confirm(Long id){
-        Calendar confirmDate = Calendar.getInstance();
-        PO.editPlannedOrder(id, "confirmDate", confirmDate);
-        PO.editPlannedOrder(id, "status", "confirmed");
-        return "/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed?faces-redirect=true";
-    }   
-    
-     public String cancel(Long id){
-        System.out.println("!@#$!@!@%!@" + id);
-        PO.editPlannedOrder(id, "status", "cancelled");
-        return "/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed?faces-redirect=true";
-    }   
-    
-    public String viewRawMaterial(List<FactoryRawMaterialAmountEntity> selectedRawMaterial){
+    public String confirm(Long id) {
+        try {
+            Calendar confirmDate = Calendar.getInstance();
+            PO.editPlannedOrder(id, "confirmDate", confirmDate);
+            PO.editPlannedOrder(id, "status", "confirmed");
+            return "/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String cancel(Long id) {
+        try {
+            System.out.println("!@#$!@!@%!@" + id);
+            PO.editPlannedOrder(id, "status", "cancelled");
+            return "/secured/restricted/Factory/MRP/PlannedOrder/MRPPlannedOrderUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String viewRawMaterial(List<FactoryRawMaterialAmountEntity> selectedRawMaterial) {
         System.out.println("0");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedRawMaterial", selectedRawMaterial);
         System.out.println("1");
@@ -117,15 +133,14 @@ public class PlannedOrderBean {
         return "/secured/restricted/Factory/MRP/PlannedOrder/MRPViewRawMaterial?faces-redirect=true";
 
     }
-    
-    
-    public Date convert(Calendar cal){
+
+    public Date convert(Calendar cal) {
         Date result = cal.getTime();
-        
-        System.out.println("Calendar"+cal.getTime().toString());
-        System.out.println("Date"+ result.toString());
-        
+
+        System.out.println("Calendar" + cal.getTime().toString());
+        System.out.println("Date" + result.toString());
+
         return result;
     }
-    
+
 }

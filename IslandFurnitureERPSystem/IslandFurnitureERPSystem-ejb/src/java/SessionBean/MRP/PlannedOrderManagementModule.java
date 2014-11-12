@@ -7,16 +7,14 @@ package SessionBean.MRP;
 
 import Entity.Factory.BOMEntity;
 import Entity.Factory.FactoryEntity;
-import Entity.Factory.FactoryProductEntity;
 import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.MRP.PlannedOrderEntity;
 import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.ProductEntity;
+import Entity.Factory.RawMaterialEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,7 +26,7 @@ import javax.persistence.Query;
  * @author apple
  */
 @Stateless
-public class PlannedOrderManagementModule implements PlannedOrderManagementModuleLocal {
+public class PlannedOrderManagementModule implements PlannedOrderManagementModuleLocal, PlannedOrderManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -37,9 +35,12 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
     }
 
     @Override
-    public List<BOMEntity> CheckBOM(Long ProductID) {
+    public List<BOMEntity> CheckBOM(Long ProductID) throws Exception {
         Long productID = ProductID;
         ProductEntity product = em.find(ProductEntity.class, productID);
+        if (product == null) {
+            throw new Exception("Product is not found!");
+        }
         return product.getBom();
     }
 
@@ -82,7 +83,6 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 //
 //        return null;
 //    }
-    
     //Modify the data in the CreatePlannedOrder page//
 //    @Override
 //    public PlannedOrderEntity CompletePlannedOrder(Long plannedOrderId,Calendar date,
@@ -132,7 +132,6 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 //        }
 //        return null;
 //    }
-
 //    @Override
 //    public boolean EditPlannedOrder(Long plannedOrderId, Calendar dateInput,
 //                    Calendar targetPeriod,
@@ -178,11 +177,13 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
 //        }
 //        return false;
 //    }
-    
     @Override
-    public void editPlannedOrder(Long id,String field,Object content){
-        PlannedOrderEntity plannedOrder = em.find(PlannedOrderEntity.class,id);
-        switch(field){
+    public void editPlannedOrder(Long id, String field, Object content) throws Exception {
+        PlannedOrderEntity plannedOrder = em.find(PlannedOrderEntity.class, id);
+        if (plannedOrder == null) {
+            throw new Exception("Planned Order is not found!");
+        }
+        switch (field) {
             case "status":
                 String status = (String) content;
                 plannedOrder.setStatus(status);
@@ -191,9 +192,9 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
                 Calendar confirmDate = (Calendar) content;
                 plannedOrder.setConfirmDate(confirmDate);
                 break;
-        
+
         }
-        
+
         em.persist(plannedOrder);
         em.flush();
         em.refresh(plannedOrder);
@@ -215,124 +216,135 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         }
         return false;
     }
-    
+
     @Override
-    public List<PlannedOrderEntity> getPlannedOrder(Long id,String department){
-                Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
-        List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        if(department.equals("H")){
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-                plannedOrderList.add(po);
-            }
+    public List<PlannedOrderEntity> getPlannedOrder(Long id, String department) throws Exception {
+        Query q1 = em.createQuery("SELECT u FROM UserEntity u WHERE u.department = :department AND u.departmentId = :id");
+        q1.setParameter("department", department);
+        q1.setParameter("id", id);
+        if (q1.getResultList().isEmpty()) {
+            throw new Exception("Department is not found!");
         }
-        else{
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            Long departmentId = po.getFactory().getFactoryId();
-            if(departmentId.equals(id))
-                plannedOrderList.add(po);
-            }
-        }      
-          return plannedOrderList;
-        }
-    
-    @Override
-    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(Long id,String department){
         Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        if(department.equals("H")){
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            if(po.getStatus().equals("unconfirmed"))
+        if (department.equals("H")) {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
                 plannedOrderList.add(po);
             }
-        }
-        else{
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            Long departmentId = po.getFactory().getFactoryId();
-            if(po.getStatus().equals("unconfirmed") && departmentId.equals(id))
-                plannedOrderList.add(po);
+        } else {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                Long departmentId = po.getFactory().getFactoryId();
+                if (departmentId.equals(id)) {
+                    plannedOrderList.add(po);
+                }
             }
-        }      
-          return plannedOrderList;
         }
-    
+        return plannedOrderList;
+    }
+
     @Override
-    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id,String department){
+    public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(Long id, String department) {
         Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        if(department.equals("H")){
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            if(po.getStatus().equals("confirmed"))
-                plannedOrderList.add(po);
+        if (department.equals("H")) {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                if (po.getStatus().equals("unconfirmed")) {
+                    plannedOrderList.add(po);
+                }
+            }
+        } else {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                Long departmentId = po.getFactory().getFactoryId();
+                if (po.getStatus().equals("unconfirmed") && departmentId.equals(id)) {
+                    plannedOrderList.add(po);
+                }
             }
         }
-        else{
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            Long departmentId = po.getFactory().getFactoryId();
-            if(po.getStatus().equals("confirmed") && departmentId.equals(id))
-                plannedOrderList.add(po);
-            }
-        }      
-          return plannedOrderList;
-        }
-    
+        return plannedOrderList;
+    }
+
     @Override
-    public List<PlannedOrderEntity> getCancelledPlannedOrder(Long id,String department){
-                Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+    public List<PlannedOrderEntity> getConfirmedPlannedOrder(Long id, String department) {
+        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
         List<PlannedOrderEntity> plannedOrderList = new ArrayList();
-        if(department.equals("H")){
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            if(po.getStatus().equals("cancelled"))
-                plannedOrderList.add(po);
+        if (department.equals("H")) {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                if (po.getStatus().equals("confirmed")) {
+                    plannedOrderList.add(po);
+                }
+            }
+        } else {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                Long departmentId = po.getFactory().getFactoryId();
+                if (po.getStatus().equals("confirmed") && departmentId.equals(id)) {
+                    plannedOrderList.add(po);
+                }
             }
         }
-        else{
-            for(Object o : q.getResultList()){
-            PlannedOrderEntity po = (PlannedOrderEntity) o;
-            Long departmentId = po.getFactory().getFactoryId();
-            if(po.getStatus().equals("cancelled") && departmentId.equals(id))
-                plannedOrderList.add(po);
-            }
-        }      
-          return plannedOrderList;
-        }
-       
-    
+        return plannedOrderList;
+    }
+
     @Override
-    public void createPlannedOrder(Long productionPlanId) {           
-        try{ 
+    public List<PlannedOrderEntity> getCancelledPlannedOrder(Long id, String department) {
+        Query q = em.createQuery("SELECT po FROM PlannedOrderEntity po");
+        List<PlannedOrderEntity> plannedOrderList = new ArrayList();
+        if (department.equals("H")) {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                if (po.getStatus().equals("cancelled")) {
+                    plannedOrderList.add(po);
+                }
+            }
+        } else {
+            for (Object o : q.getResultList()) {
+                PlannedOrderEntity po = (PlannedOrderEntity) o;
+                Long departmentId = po.getFactory().getFactoryId();
+                if (po.getStatus().equals("cancelled") && departmentId.equals(id)) {
+                    plannedOrderList.add(po);
+                }
+            }
+        }
+        return plannedOrderList;
+    }
+
+    @Override
+    public void createPlannedOrder(Long productionPlanId) throws Exception {
+        try {
             ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+            if (productionPlan == null) {
+                throw new Exception("Production Plan is not found!");
+            }
             FactoryEntity factory = productionPlan.getFactoryProduct().getFactory();
             Long factoryId = factory.getFactoryId();
             ProductEntity product = productionPlan.getFactoryProduct().getProduct();
             Double quantity = productionPlan.getQuantity();
             Calendar targetPeriod = productionPlan.getTargetPeriod();
-            Calendar generatedDate = Calendar.getInstance();           
-            
+            Calendar generatedDate = Calendar.getInstance();
+
             List<BOMEntity> BOM = product.getBom();
-            List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = new ArrayList();        
-            
-            for(BOMEntity bom : BOM){
+            List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = new ArrayList();
+
+            for (BOMEntity bom : BOM) {
                 String unit = bom.getUnit();
                 Double BOMamount = bom.getAmount();
-                Double amount = quantity*BOMamount;
+                Double amount = quantity * BOMamount;
                 Long rawMaterialId = bom.getRawMaterial().getMaterialId();
-                FactoryRawMaterialEntity factoryRawMaterial = findFactoryRawMaterial(factoryId,rawMaterialId);   
+                FactoryRawMaterialEntity factoryRawMaterial = findFactoryRawMaterial(factoryId, rawMaterialId);
                 FactoryRawMaterialAmountEntity factoryRawMaterialAmount = new FactoryRawMaterialAmountEntity();
                 factoryRawMaterialAmount.setAmount(amount);
                 factoryRawMaterialAmount.setUnit(unit);
-                factoryRawMaterialAmount.setFactoryRawMaterial(factoryRawMaterial);               
+                factoryRawMaterialAmount.setFactoryRawMaterial(factoryRawMaterial);
                 em.persist(factoryRawMaterialAmount);
                 em.flush();
                 factoryRawMaterialAmountList.add(factoryRawMaterialAmount);
             }
-            
+
             PlannedOrderEntity plannedOrder = new PlannedOrderEntity();
             plannedOrder.setFactoryRawMaterialAmountList(factoryRawMaterialAmountList);
             plannedOrder.setStatus("unconfirmed");
@@ -341,34 +353,44 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
             plannedOrder.setFactory(factory);
             plannedOrder.setProductionPlan(productionPlan);
             em.persist(plannedOrder);
-            em.flush();            
+            em.flush();
             productionPlan.setPlannedOrder(plannedOrder);
             em.persist(productionPlan);
-            em.flush();          
+            em.flush();
 
         } catch (Exception ex) {
+            if (ex.getMessage().equals("Production Plan is not found!")) {
+                throw ex;
+            }
             System.out.println(ex.getMessage());
         }
     }
-    
+
     @Override
-    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId,Long materialId){
+    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId, Long materialId) throws Exception {
         FactoryRawMaterialEntity factoryRawMaterial = new FactoryRawMaterialEntity();
-        
+
+        if (em.find(FactoryEntity.class, factoryId) == null) {
+            throw new Exception("Factory is not found!");
+        }
+        if (em.find(RawMaterialEntity.class, materialId) == null) {
+            throw new Exception("Raw Material is not found!");
+        }
+
         Query q = em.createQuery("SELECT frm FROM FactoryRawMaterialEntity frm");
         List<FactoryRawMaterialEntity> factoryRawMaterialList = new ArrayList();
-        for(Object o : q.getResultList()){
+        for (Object o : q.getResultList()) {
             FactoryRawMaterialEntity frm = (FactoryRawMaterialEntity) o;
-            factoryRawMaterialList.add(frm);          
-        }       
-        for(FactoryRawMaterialEntity frm : factoryRawMaterialList){
+            factoryRawMaterialList.add(frm);
+        }
+        for (FactoryRawMaterialEntity frm : factoryRawMaterialList) {
             Long FactoryId = frm.getFactory().getFactoryId();
             Long MaterialId = frm.getRawMaterial().getMaterialId();
-            if(FactoryId.equals(factoryId) && MaterialId.equals(materialId)){
+            if (FactoryId.equals(factoryId) && MaterialId.equals(materialId)) {
                 factoryRawMaterial = frm;
                 break;
             }
-        }       
+        }
         return factoryRawMaterial;
     }
 }

@@ -11,7 +11,11 @@ import Entity.CommonInfrastructure.UserEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.ejb.embeddable.EJBContainer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,22 +28,24 @@ import static org.junit.Assert.*;
  * @author Yoky
  */
 public class InternalMessageModuleTest {
-    
+
+    private InternalMessageModuleRemote InternalMessageModule = lookupRemote();
+
     public InternalMessageModuleTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -50,14 +56,8 @@ public class InternalMessageModuleTest {
     @Test
     public void testGetAllUsers() throws Exception {
         System.out.println("getAllUsers");
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        List<UserEntity> expResult = null;
-        List<UserEntity> result = instance.getAllUsers();
-        assertEquals(expResult, result);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<UserEntity> result = InternalMessageModule.getAllUsers();
+        assertNotNull(result);
     }
 
     /**
@@ -66,16 +66,20 @@ public class InternalMessageModuleTest {
     @Test
     public void testSendMessage() throws Exception {
         System.out.println("sendMessage");
-        String senderId = "";
-        String title = "";
-        String content = "";
-        ArrayList<String> receiverIds = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        instance.sendMessage(senderId, title, content, receiverIds);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String senderId = "F1111111";
+        String title = "Miss.";
+        String content = "12345678";
+        ArrayList<String> receiverIds = new ArrayList<>();
+        receiverIds.add("S1000001");
+        receiverIds.add("F1000002");
+        String result = "";
+        try {
+            InternalMessageModule.sendMessage(senderId, title, content, receiverIds);
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+        assertEquals("Sender is not found!", result);
+
     }
 
     /**
@@ -84,13 +88,14 @@ public class InternalMessageModuleTest {
     @Test
     public void testDeleteSendMessage() throws Exception {
         System.out.println("deleteSendMessage");
-        Long sendMessageId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        instance.deleteSendMessage(sendMessageId);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Long sendMessageId = -1L;
+        String result = "";
+        try {
+            InternalMessageModule.deleteSendMessage(sendMessageId);
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+        assertEquals("Sent Message is not found!", result);
     }
 
     /**
@@ -99,13 +104,14 @@ public class InternalMessageModuleTest {
     @Test
     public void testDeleteReceiveMessage() throws Exception {
         System.out.println("deleteReceiveMessage");
-        Long receiveMessageId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        instance.deleteReceiveMessage(receiveMessageId);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Long receiveMessageId = -11L;
+        String result = "";
+        try {
+            InternalMessageModule.deleteReceiveMessage(receiveMessageId);
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+        assertEquals("Received Message is not found!", result);
     }
 
     /**
@@ -114,13 +120,14 @@ public class InternalMessageModuleTest {
     @Test
     public void testReadReceiveMessage() throws Exception {
         System.out.println("readReceiveMessage");
-        Long receiveMessageId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        instance.readReceiveMessage(receiveMessageId);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Long receiveMessageId = -1L;
+        String result = "";
+        try {
+            InternalMessageModule.readReceiveMessage(receiveMessageId);
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+        assertEquals("Received Message is not found!", result);
     }
 
     /**
@@ -129,47 +136,77 @@ public class InternalMessageModuleTest {
     @Test
     public void testReplyMessage() throws Exception {
         System.out.println("replyMessage");
-        Long receiveMessageId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        instance.replyMessage(receiveMessageId);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Long receiveMessageId = -1L;
+        String result = "";
+        try {
+            InternalMessageModule.replyMessage(receiveMessageId);
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+        assertEquals("Received Message is not found!", result);
     }
 
     /**
      * Test of viewSendMessage method, of class InternalMessageModule.
      */
     @Test
-    public void testViewSendMessage() throws Exception {
+    public void testViewSendMessage1() throws Exception {
         System.out.println("viewSendMessage");
-        String senderId = "";
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
-        Collection<InternalMessageEntity> expResult = null;
-        Collection<InternalMessageEntity> result = instance.viewSendMessage(senderId);
+        String senderId = "F1111111";
+        String result = "";
+        try {
+            InternalMessageModule.viewSendMessage(senderId);
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+//        ##################################################################
+        String expResult = "User Id is not found!";
         assertEquals(expResult, result);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of viewSendMessage method, of class InternalMessageModule.
+     */
+    @Test
+    public void testViewSendMessage2() throws Exception {
+        System.out.println("viewSendMessage");
+        String senderId = "F1000001";
+        Collection<InternalMessageEntity> result = InternalMessageModule.viewSendMessage(senderId);
+        assertNotNull(result);
     }
 
     /**
      * Test of viewReceiveMessage method, of class InternalMessageModule.
      */
     @Test
-    public void testViewReceiveMessage() throws Exception {
+    public void testViewReceiveMessage1() throws Exception {
         System.out.println("viewReceiveMessage");
-        String receiverId = "";
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        InternalMessageModuleLocal instance = (InternalMessageModuleLocal)container.getContext().lookup("java:global/classes/InternalMessageModule");
+        String receiverId = "S1111111";
+//      ##############################################################################################
         Collection<InternalMessageReceive> expResult = null;
-        Collection<InternalMessageReceive> result = instance.viewReceiveMessage(receiverId);
+        Collection<InternalMessageReceive> result = InternalMessageModule.viewReceiveMessage(receiverId);
         assertEquals(expResult, result);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-    
+
+    /**
+     * Test of viewReceiveMessage method, of class InternalMessageModule.
+     */
+    @Test
+    public void testViewReceiveMessage2() throws Exception {
+        System.out.println("viewReceiveMessage");
+        String receiverId = "S1000001";
+        Collection<InternalMessageReceive> result = InternalMessageModule.viewReceiveMessage(receiverId);
+        assertNotNull(result);
+    }
+
+    private InternalMessageModuleRemote lookupRemote() {
+        try {
+            Context c = new InitialContext();
+            return (InternalMessageModuleRemote) c.lookup("java:global/IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/InternalMessageModule!SessionBean.CommonInFrastructure.InternalMessageModuleRemote");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
 }

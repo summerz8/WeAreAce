@@ -26,6 +26,7 @@ import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
 import Entity.Factory.SCM.ContractEntity;
 import Entity.Factory.SCM.OutboundMovementEntity;
+import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
 import Entity.Store.OCRM.MemberEntity;
@@ -57,6 +58,7 @@ import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import SessionBean.KM.CustomerOrderFulfillmentModuleLocal;
+import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,6 +84,8 @@ import util.security.CryptographicHelper;
 @LocalBean
 @Startup
 public class dataSetUp {
+    @EJB
+    private PurchaseOrderManagementModuleLocal pom;
 
     @EJB
     private CustomerOrderFulfillmentModuleLocal cof;
@@ -675,6 +679,7 @@ public class dataSetUp {
         f2.getFactoryRawMaterials().add(frm2_5);
         em.flush();
 
+        
         //Factory Bin Stored Product
         //for f1.factoryRawMaterial
         FactoryBinStoredProductEntity fbsp1_1_1 = new FactoryBinStoredProductEntity();
@@ -1310,6 +1315,20 @@ public class dataSetUp {
         frp2_2.getContracts().add(ct2_3_2);
         sp3_2.getContractList().add(ct2_3_2);
         em.flush();
+        
+        
+        //Factory Manually-created purchase order
+        try {
+            PurchaseOrderEntity po1_1 = pom.createPurchaseOrder(f1.getFactoryId(), ct1_1_1_1.getContractId(), 100.0, null, "", Calendar.getInstance(), Boolean.TRUE, Boolean.FALSE);
+            pom.confirmPurchaseOrder(u1.getUserId(), po1_1.getId());
+            pom.generateGoodsRecipt(po1_1.getId());
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
+        }
+                
+                
+                
 
         //Sales Forecast
         //Calendars for Sales Forecast
@@ -1722,20 +1741,10 @@ public class dataSetUp {
                 em.flush();
             }
             ds.setSales(sales);
+            ds.setSalesAfterDiscount(sales * (rd.nextInt(2) / 10 + 0.8));
         }
 
-        // kitchen orders
-        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
-        cof.addDishItem(ko1_1.getId(), d1_1.getId(), 1);
-        cof.addDishItem(ko1_1.getId(), d1_2.getId(), 2);
-        cof.addComboItem(ko1_1.getId(), c1_1.getId(), 3);
-        cof.confirmOrder(ko1_1.getId(), 1000.0);
         
-        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
-        cof.addDishItem(ko1_2.getId(), d1_1.getId(), 5);
-        cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
-        cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
-        cof.confirmOrder(ko1_2.getId(), 10000.0);
 
         
         //MembershipLevel
@@ -1799,6 +1808,36 @@ public class dataSetUp {
         em.persist(memlvl5);
         em.flush();
 
+        //MemberKitchen Set uP
+        Calendar MemberKitchenBirthday = Calendar.getInstance();
+        MemberKitchenBirthday.set(1999, 9, 1);
+
+        MemberEntity memberKitchen = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Lim", "Loo", "James",
+                MemberKitchenBirthday, "Male", "Mr", "5 Kent Ridge Crescent", "412352",
+                "mser@gmail.com", Boolean.FALSE);
+
+        memberKitchen.setTotalPoints(20000D);
+        memberKitchen.setCurrentPoints(2200D);
+
+        memberKitchen.setMemberlvl(memlvl2);
+        em.persist(memberKitchen);
+        em.flush();
+        
+        // kitchen orders
+        KitchenOrderEntity ko1_1 = cof.createOrder(k1.getId(), memberKitchen.getMemberId(), us1_1.getUserId());
+        cof.addDishItem(ko1_1.getId(), d1_1.getId(), 1);
+        cof.addDishItem(ko1_1.getId(), d1_2.getId(), 2);
+        cof.addComboItem(ko1_1.getId(), c1_1.getId(), 3);
+        cof.confirmOrder(ko1_1.getId());
+        cof.checkout(ko1_1.getId(), 500.0);
+        
+        KitchenOrderEntity ko1_2 = cof.createOrder(k1.getId(), null, us1_1.getUserId());
+        cof.addDishItem(ko1_2.getId(), d1_1.getId(), 5);
+        cof.addDishItem(ko1_2.getId(), d1_2.getId(), 6);
+        cof.addComboItem(ko1_2.getId(), c1_1.getId(), 7);
+        cof.confirmOrder(ko1_2.getId());
+        cof.checkout(ko1_2.getId(), 600.0);
+        
         //TransactionEntity
         TransactionEntity tr1 = new TransactionEntity();
         tr1.setStore(s1);
@@ -1914,6 +1953,8 @@ public class dataSetUp {
         em.persist(member);
         em.flush();
 
+        
+        
         //Sales Record Set Up
         SalesRecordEntity sre1 = new SalesRecordEntity();
         sre1.setStore(s1);
@@ -2359,5 +2400,9 @@ public class dataSetUp {
         em.flush();
 
     }
+    
+    
+    //===================ticket ========================
+    
 
 }

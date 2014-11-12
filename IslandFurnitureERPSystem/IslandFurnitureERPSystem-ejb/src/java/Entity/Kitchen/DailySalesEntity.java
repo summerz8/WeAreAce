@@ -36,6 +36,7 @@ public class DailySalesEntity implements Serializable {
     @OneToMany
     private List<ComboItemEntity> combos = new ArrayList<>();
     private Double sales;
+    private Double salesAfterDiscount;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar salesDate;
     @ManyToOne
@@ -44,12 +45,14 @@ public class DailySalesEntity implements Serializable {
     public DailySalesEntity() {
         salesDate = Calendar.getInstance();
         sales = 0.0;
+        salesAfterDiscount = 0.0;
     }
 
     public DailySalesEntity(KitchenEntity kitchen) {
         this.kitchen = kitchen;
         salesDate = Calendar.getInstance();
         sales = 0.0;
+        salesAfterDiscount = 0.0;
     }
 
     public Long getId() {
@@ -86,6 +89,14 @@ public class DailySalesEntity implements Serializable {
 
     public void setSales(Double sales) {
         this.sales = sales;
+    }
+
+    public Double getSalesAfterDiscount() {
+        return salesAfterDiscount;
+    }
+
+    public void setSalesAfterDiscount(Double salesAfterDiscount) {
+        this.salesAfterDiscount = salesAfterDiscount;
     }
 
     public void setSalesDate(Calendar salesDate) {

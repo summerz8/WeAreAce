@@ -40,19 +40,23 @@ public class ViewSalesForecastBean {
 
     @PostConstruct
     public void ViewSalesForecast() {
-        salesForecastId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesForecastId");
+        try {
+            salesForecastId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("salesForecastId");
 
-        salesForecast = salesForecastModule.GetSalesForecast(salesForecastId);
-        storeId = salesForecast.getStore().getStoreId();
-        factoryProductList = salesForecast.getFactoryProductList();
-        System.out.println(factoryProductList.get(0).getFactoryProductAmountId());
-        factoryRetailProductList = salesForecast.getFactoryRetailProductList();
-
+            salesForecast = salesForecastModule.GetSalesForecast(salesForecastId);
+            storeId = salesForecast.getStore().getStoreId();
+            factoryProductList = salesForecast.getFactoryProductList();
+            System.out.println(factoryProductList.get(0).getFactoryProductAmountId());
+            factoryRetailProductList = salesForecast.getFactoryRetailProductList();
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public void getSalesForecastList(Long storeId, Object product, Calendar targetPeriod) {
-        Long factoryId=(Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
-        salesForecastList = salesForecastModule.ListSalesForecast(factoryId,storeId, null, targetPeriod);
+        Long factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        salesForecastList = salesForecastModule.ListSalesForecast(factoryId, storeId, null, targetPeriod);
         if (salesForecastList.get(0).getFactoryProductList().isEmpty()) {
             factoryRetailProductList = salesForecastList.get(0).getFactoryRetailProductList();
         } else {
