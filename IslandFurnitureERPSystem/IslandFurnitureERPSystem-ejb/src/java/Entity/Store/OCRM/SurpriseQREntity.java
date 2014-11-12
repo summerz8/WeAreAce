@@ -28,6 +28,7 @@ public class SurpriseQREntity implements Serializable {
     private String randomString;
     private Double percentage;
     private Double rewardPoints;
+    private String filePath;
        
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar expireDate;
@@ -35,7 +36,6 @@ public class SurpriseQREntity implements Serializable {
     public SurpriseQREntity() {
     }
 
-    
     public SurpriseQREntity(String name, String randomString, Double percentage, Double rewardPoints, Calendar expireDate) {
         this.name = name;
         this.randomString = randomString;
@@ -43,9 +43,6 @@ public class SurpriseQREntity implements Serializable {
         this.rewardPoints = rewardPoints;
         this.expireDate = expireDate;
     }
-
-    
-    
     
     public Long getId() {
         return id;
@@ -95,6 +92,15 @@ public class SurpriseQREntity implements Serializable {
         this.name = name;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

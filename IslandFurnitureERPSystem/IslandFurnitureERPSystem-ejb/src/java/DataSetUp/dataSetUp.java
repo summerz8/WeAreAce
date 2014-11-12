@@ -1828,7 +1828,7 @@ public class dataSetUp {
 
         MembershipLevelEntity memlvl2 = new MembershipLevelEntity();
         memlvl2.setDiscount(0.9);
-        memlvl2.setPointsToUpgrade(2000D);
+        memlvl2.setPointsToUpgrade(5000D);
         memlvl2.setLevelName("Blue");
         memlvl2.setCle(12);
         memlvl2.setExpressCheckout(Boolean.FALSE);
@@ -1852,7 +1852,7 @@ public class dataSetUp {
 
         MembershipLevelEntity memlvl4 = new MembershipLevelEntity();
         memlvl4.setDiscount(0.8);
-        memlvl4.setPointsToUpgrade(30000D);
+        memlvl4.setPointsToUpgrade(20000D);
         memlvl4.setLevelName("Gold");
         memlvl4.setCle(60);
         memlvl4.setExpressCheckout(Boolean.FALSE);
@@ -1864,7 +1864,7 @@ public class dataSetUp {
 
         MembershipLevelEntity memlvl5 = new MembershipLevelEntity();
         memlvl5.setDiscount(0.75);
-        memlvl5.setPointsToUpgrade(50000D);
+        memlvl5.setPointsToUpgrade(40000D);
         memlvl5.setCle(120);
         memlvl5.setLevelName("Diamond");
         memlvl5.setExpressCheckout(Boolean.TRUE);
@@ -1878,14 +1878,14 @@ public class dataSetUp {
         Calendar MemberKitchenBirthday = Calendar.getInstance();
         MemberKitchenBirthday.set(1999, 9, 1);
 
-        MemberEntity memberKitchen = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Lim", "Loo", "James",
+        MemberEntity memberKitchen = new MemberEntity(cryptographicHelper.doMD5Hashing("123mser@gmail.com"), "Lim", "Loo", "James",
                 MemberKitchenBirthday, "Male", "Mr", "5 Kent Ridge Crescent", "412352",
                 "mser@gmail.com", Boolean.FALSE);
 
         memberKitchen.setTotalPoints(20000D);
         memberKitchen.setCurrentPoints(2200D);
 
-        memberKitchen.setMemberlvl(memlvl2);
+        memberKitchen.setMemberlvl(memlvl4);
         em.persist(memberKitchen);
         em.flush();
         
@@ -2595,6 +2595,9 @@ public class dataSetUp {
         MemberEntity member2 = new MemberEntity(cryptographicHelper.doMD5Hashing("123zhaomengdan93@gmail.com"), "Hotchner", "", "Arron",
                 MemberBirthday2, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "zhaomengdan93@gmail.com", Boolean.FALSE, "Singapore", memlvl1);
+        member2.setTotalPoints(0D);
+        member2.setCurrentPoints(0D);
+        member2.setPointsToUpgrade(5000D);
         em.persist(member2);
         em.flush();
 
@@ -2605,6 +2608,9 @@ public class dataSetUp {
         MemberEntity member3 = new MemberEntity(cryptographicHelper.doMD5Hashing("123sunhang36@gmail.com"), "Morgen", "", "Derek",
                 MemberBirthday3, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "sunhang36@gmail.com", Boolean.FALSE, "Singapore", memlvl2);
+        member3.setTotalPoints(5000D);
+        member3.setCurrentPoints(5000D);
+        member3.setPointsToUpgrade(10000D);
         em.persist(member3);
         em.flush();
 
@@ -2615,6 +2621,9 @@ public class dataSetUp {
         MemberEntity member4 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"+"vickey.yuanzheng@gmail.com"), "Prentiss", "", "Emily",
                 MemberBirthday4, "Female", "Miss", "5 Kent Ridge Drive", "412342",
                 "vickey.yuanzheng@gmail.com", Boolean.FALSE, "China", memlvl1);
+        member4.setTotalPoints(0D);
+        member4.setCurrentPoints(0D);
+        member4.setPointsToUpgrade(5000D);
         em.persist(member4);
         em.flush();
 
@@ -2625,6 +2634,9 @@ public class dataSetUp {
         MemberEntity member5 = new MemberEntity(cryptographicHelper.doMD5Hashing("123hejinqiaoinsg@gmail.com"), "Jareau", "", "Jennifer",
                 MemberBirthday5, "Female", "Ms", "5 Kent Ridge Drive", "412342",
                 "hejinqiaoinsg@gmail.com", Boolean.FALSE, "China", memlvl2);
+        member5.setTotalPoints(5000D);
+        member5.setCurrentPoints(2000D);
+        member5.setPointsToUpgrade(10000D);
         em.persist(member5);
         em.flush();
 
@@ -2635,6 +2647,9 @@ public class dataSetUp {
         MemberEntity member6 = new MemberEntity(cryptographicHelper.doMD5Hashing("123zhangyaowen0707@gmail.com"), "Rossi", "", "David",
                 MemberBirthday6, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "zhangyaowen0707@gmail.com", Boolean.FALSE, "United States", memlvl1);
+        member6.setTotalPoints(0D);
+        member6.setCurrentPoints(0D);
+        member6.setPointsToUpgrade(5000D);
         em.persist(member6);
         em.flush();
 
@@ -2645,6 +2660,9 @@ public class dataSetUp {
         MemberEntity member7 = new MemberEntity(cryptographicHelper.doMD5Hashing("123aaa@gmail.com"), "Reid", "", "Spencer",
                 MemberBirthday7, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "aaa@gmail.com", Boolean.FALSE, "United States", memlvl2);
+        member7.setTotalPoints(8000D);
+        member7.setCurrentPoints(5000D);
+        member7.setPointsToUpgrade(10000D);
         em.persist(member7);
         em.flush();
 
@@ -2654,7 +2672,10 @@ public class dataSetUp {
 
         MemberEntity member8 = new MemberEntity(cryptographicHelper.doMD5Hashing("123bbb@gmail.com"), "Penelope", "", "Garcia",
                 MemberBirthday8, "Female", "Miss", "5 Kent Ridge Drive", "412342",
-                "bbb@gmail.com", Boolean.FALSE, "South Korea", memlvl1);
+                "bbb@gmail.com", Boolean.FALSE, "South Korea", memlvl2);
+        member8.setTotalPoints(5500D);
+        member8.setCurrentPoints(5500D);
+        member8.setPointsToUpgrade(10000D);
         em.persist(member8);
         em.flush();
 
@@ -2665,6 +2686,9 @@ public class dataSetUp {
         MemberEntity member9 = new MemberEntity(cryptographicHelper.doMD5Hashing("123ccc@gmail.com"), "Gubler", "Gray", "Mattew",
                 MemberBirthday9, "Male", "Mr", "5 Kent Ridge Drive", "412342",
                 "ccc@gmail.com", Boolean.FALSE, "South Korea", memlvl3);
+        member9.setTotalPoints(10000D);
+        member9.setCurrentPoints(10000D);
+        member9.setPointsToUpgrade(20000D);
         em.persist(member9);
         em.flush();
 
@@ -2675,6 +2699,9 @@ public class dataSetUp {
         MemberEntity member10 = new MemberEntity(cryptographicHelper.doMD5Hashing("123"), "Zhang", "", "Shiyu",
                 MemberBirthday10, "Female", "Mr", "5 Kent Ridge Drive", "412342",
                 "ms.z.summer@gmail.com", Boolean.FALSE, "China", memlvl3);
+        member10.setTotalPoints(12000D);
+        member10.setCurrentPoints(12000D);
+        member10.setPointsToUpgrade(20000D);
         em.persist(member10);
         em.flush();
 

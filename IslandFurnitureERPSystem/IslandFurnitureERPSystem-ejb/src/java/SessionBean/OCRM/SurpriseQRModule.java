@@ -27,14 +27,14 @@ import javax.persistence.Query;
  * @author dan
  */
 @Stateless
-public class SurpriseQRBean implements SurpriseQRBeanLocal {
+public class SurpriseQRModule implements SurpriseQRModuleLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
 
-    public SurpriseQRBean() {
+    public SurpriseQRModule() {
     }
 
     @Override
@@ -56,7 +56,11 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
             em.persist(qr);
             em.flush();
             String resultPath = generateQRCodeImage(QR, qr.getId().toString());
-            String filen = "QRCode" + qr.getId().toString() + ".png";
+            String filen = "QRCode" + qr.getId().toString() +QR+ ".png";
+            qr.setFilePath(filen);
+            em.persist(qr);
+            em.flush();
+            
             return filen;
         } else {
             return null;
@@ -64,7 +68,7 @@ public class SurpriseQRBean implements SurpriseQRBeanLocal {
     }
 //
     private String generateQRCodeImage(String QR, String fileName) {
-        String path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/QRCode" + fileName + ".png";
+        String path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/QR/QRCode" + fileName+QR + ".png";
         File qrCodeFile = new File(path);
 
         EncodeConfig encodeConfig
