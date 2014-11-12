@@ -104,7 +104,7 @@ public class TransactionModule implements TransactionModuleLocal {
             StoreItemMappingEntity item = em.find(StoreItemMappingEntity.class, itemId);
 
             if (transaction.getLocation() == 1) {
-<<<<<<< HEAD
+//<<<<<<< HEAD
                 if (item.getProductId() != null) {
                     StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductId());
                     String itemName = storeProduct.getProduct().getName();
@@ -133,20 +133,20 @@ public class TransactionModule implements TransactionModuleLocal {
                     transactionItem.setUnitMemberPrice(unitMemberPrice);
                     transactionItem.setTotalMemberPrice(totalMemberPrice);
                 }
-=======
-                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductId());
-                String itemName = storeProduct.getProduct().getName();
-                Double unitPrice = storeProduct.getProduct().getPrice();
-                Double totalPrice = unitPrice * amount;
-                transactionItem.setItemName(itemName);
-                transactionItem.setTotalPrice(totalPrice);
-                transactionItem.setUnitPrice(unitPrice);
-
-                Double unitMemberPrice = storeProduct.getProduct().getMemberPrice();
-                Double totalMemberPrice = unitMemberPrice * amount;
-                transactionItem.setUnitMemberPrice(unitMemberPrice);
-                transactionItem.setTotalMemberPrice(totalMemberPrice);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+//=======
+//                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductId());
+//                String itemName = storeProduct.getProduct().getName();
+//                Double unitPrice = storeProduct.getProduct().getPrice();
+//                Double totalPrice = unitPrice * amount;
+//                transactionItem.setItemName(itemName);
+//                transactionItem.setTotalPrice(totalPrice);
+//                transactionItem.setUnitPrice(unitPrice);
+//
+//                Double unitMemberPrice = storeProduct.getProduct().getMemberPrice();
+//                Double totalMemberPrice = unitMemberPrice * amount;
+//                transactionItem.setUnitMemberPrice(unitMemberPrice);
+//                transactionItem.setTotalMemberPrice(totalMemberPrice);
+//>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 
             } else {
                 StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, item.getRetailProductId());
@@ -259,7 +259,7 @@ public class TransactionModule implements TransactionModuleLocal {
         for (TransactionItemEntity ti : transactionItemList) {
             Long itemId = ti.getItemId();
             StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
-<<<<<<< HEAD
+//<<<<<<< HEAD
             if (mapping.getRetailProductId() == null && mapping.getStoreSetId() == null) {
                 Long storeProductId = mapping.getProductId();
                 StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
@@ -281,15 +281,15 @@ public class TransactionModule implements TransactionModuleLocal {
                 pickupList.setTransactoinItems(temp);
                 em.persist(pickupList);
                 em.flush();
-=======
-            Long storeProductId = mapping.getProductId();
-            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
-            if (storeProduct.getSelfPick()) {
-                ti.setPickupList(pickupList);
-                em.persist(ti);
-                em.flush();
-                temp.add(ti);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+//=======
+//            Long storeProductId = mapping.getProductId();
+//            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
+//            if (storeProduct.getSelfPick()) {
+//                ti.setPickupList(pickupList);
+//                em.persist(ti);
+//                em.flush();
+//                temp.add(ti);
+//>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
             }
         }
     }
@@ -381,10 +381,6 @@ public class TransactionModule implements TransactionModuleLocal {
 
     //check the product type, return 1 if it is furniture, 2 if it is retail product
     @WebMethod(operationName = "checkItemType")
-<<<<<<< HEAD
-
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     public int checkItemType(Long itemId) {
         StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
         if (mapping.getProductId() != null) {

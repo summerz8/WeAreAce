@@ -8,17 +8,12 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>IslandFurnitureERPSystem-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-<<<<<<< HEAD
             <explicit-platform explicit-source-supported="true"/>
             <included-library dirs="200">libs.junit_4.classpath</included-library>
             <included-library dirs="200">file.reference.BarcodeEngine_v1.3.jar</included-library>
             <included-library dirs="200">file.reference.commons-codec-1.9.jar-2</included-library>
             <included-library dirs="200">file.reference.core.jar</included-library>
             <included-library dirs="200">file.reference.javase.jar</included-library>
-=======
-            <included-library dirs="200">libs.junit_4.classpath</included-library>
-            <included-library dirs="200">libs.MySQLDriver.classpath</included-library>
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
