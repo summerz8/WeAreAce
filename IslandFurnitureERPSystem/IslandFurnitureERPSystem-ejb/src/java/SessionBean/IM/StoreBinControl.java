@@ -175,6 +175,41 @@ public class StoreBinControl implements StoreBinControlLocal {
     }
 
     
+      
+    @Override
+      public List<StoreBinProductEntity> ListProductReturnedBin(Long storeProductId){
+          Query q = em.createQuery("Select p From StoreBinProductEntity p Where p.product.storeProductId = :spId and p.status = 1 and p.quantity > 0");
+          q.setParameter("spId", storeProductId);
+          
+          List<StoreBinProductEntity> result = new ArrayList<>();
+          for(Object o : q.getResultList()){
+              StoreBinProductEntity sbp = (StoreBinProductEntity) o;
+              result.add(sbp);
+              
+              
+          }
+          return result;
+    
+          
+      }
+      
+    @Override
+      public List<StoreBinRetailProductEntity> ListRProductReturnedBin(Long storeProductId){
+          Query q = em.createQuery("Select p From StoreBinRetailProductEntity p Where p.retailProduct.storeRetailProductId = :spId and p.status = 1 and p.quantity > 0");
+          q.setParameter("spId", storeProductId);
+          
+          List<StoreBinRetailProductEntity> result = new ArrayList<>();
+          for(Object o : q.getResultList()){
+              StoreBinRetailProductEntity sbp = (StoreBinRetailProductEntity) o;
+              result.add(sbp);
+              
+              
+          }
+          return result;
+    
+          
+      }
+
 
 //      public String[] mobile_getStoreBin(Long storeProductId){
 //
