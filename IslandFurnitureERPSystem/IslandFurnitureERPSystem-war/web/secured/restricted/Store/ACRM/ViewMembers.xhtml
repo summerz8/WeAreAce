@@ -65,11 +65,12 @@
                 <p:layoutUnit position="west" size="10segDetail00px">
 
                     <p:menu>
-                        <p:submenu label="Anaytical Customer Relationship Management Page">
-                            <p:menuitem value="View Members" update="messages" action="ViewMembers?faces-redirect=true"/>
-                            <p:menuitem value="View Member Retention Rate" update="messages" action = "ViewCRR?faces-redirect=true"/>
-                            <p:menuitem value="View Custmer Lifetime Value" update="messages" action = "ViewCLV?faces-redirect=true"/> 
-                            <p:menuitem value="View Custmer Recency, Frequency, Monetary" update="messages" action = "ViewRFM?faces-redirect=true"/> 
+                        <p:submenu label="Analytical CRM">
+                            <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
+                            <p:menuitem value="View Members" update="messages" action="/secured/restricted/Store/ACRM/ViewMembers?faces-redirect=true"/>
+                            <p:menuitem value="View Member Retention Rate" update="messages" action = "/secured/restricted/Store/ACRM/ViewCRR?faces-redirect=true"/>
+                            <p:menuitem value="View Customer Lifetime Value" update="messages" action = "/secured/restricted/Store/ACRM/ViewCLV?faces-redirect=true"/>
+                            <p:menuitem value="View Customer Recency, Frequency, Monetary" update="messages" action = "/secured/restricted/Store/ACRM/ViewRFM?faces-redirect=true"/> 
                         </p:submenu>
                     </p:menu>
 

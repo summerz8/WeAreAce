@@ -49,4 +49,5 @@ public interface Factory_StoreManagementModuleLocal {
 
     public FactoryEntity getFactory(Long factoryId);
     
+    public StoreEntity getStore(Long storeId);
 }

@@ -53,6 +53,7 @@ public class StoreDocumentReferenceBean implements Serializable {
         grList = sdcl.getStoreGoodReceipt(storeId);
         irList = sdcl.getStoreInboundRecordEntity(storeId);
         imrList = sdcl.getStoreInStoreMovementRecord(storeId);
+        System.out.println("imrList:size()" + imrList.size());
         orList = sdcl.getStoreOutboundRecord(storeId);
         
         

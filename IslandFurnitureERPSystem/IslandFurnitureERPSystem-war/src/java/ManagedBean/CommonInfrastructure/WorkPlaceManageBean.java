@@ -90,6 +90,14 @@ public class WorkPlaceManageBean implements Serializable{
         }
     }
 
+    public Boolean isValidStoreStaff() {
+        if (currentUserLevel == 2 || currentUserLevel == 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public Boolean isValidKitchen() {
         if (currentUserLevel == 0 || currentUserLevel == 2 || currentUserLevel == 5) {
             return true;
@@ -106,7 +114,8 @@ public class WorkPlaceManageBean implements Serializable{
     }
 
     public Boolean isValidCRM() {
-        if (currentUserLevel == 0 ||currentUserLevel == 2 || currentUserLevel == 6) {
+        if (currentUserLevel == 0 || currentUserLevel == 2 || currentUserLevel == 6) {
+
             return true;
         } else {
             return false;
@@ -120,6 +129,25 @@ public class WorkPlaceManageBean implements Serializable{
             return false;
         }
     }
+    
+    public Boolean isValidHQandFactoryManager(){
+        if (currentUserLevel == 0 || currentUserLevel == 1) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    public Boolean isValidHQandStoreManager(){
+        if (currentUserLevel == 0 || currentUserLevel == 2) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+        
     
     
 

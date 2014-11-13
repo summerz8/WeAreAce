@@ -103,6 +103,7 @@
                                 <p:column rendered = "#{viewStorageDetailByInventory.invtype==0?true:false}">
                                 <p:outputLabel value="Store Product:" for="selectProduct" />
                                 <p:selectOneMenu id="selectProduct" value="#{viewStorageDetailByInventory.selectedsp}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                    <f:selectItem itemValue="" itemLabel="[Select One]" />
 
                                     <f:selectItems value="#{viewStorageDetailByInventory.splist}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{viewStorageDetailByInventory.setInvIsSelected()}" update=":formMain" />
@@ -114,6 +115,7 @@
                                  <p:column rendered = "#{viewStorageDetailByInventory.invtype==1?true:false}" >
                                 <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
                                 <p:selectOneMenu id="selectRProduct" value="#{viewStorageDetailByInventory.selectedsrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+                                    <f:selectItem itemValue="" itemLabel="[Select One]" />
 
                                     <f:selectItems value="#{viewStorageDetailByInventory.srplist}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{viewStorageDetailByInventory.setInvIsSelected()}" update=":formMain" />

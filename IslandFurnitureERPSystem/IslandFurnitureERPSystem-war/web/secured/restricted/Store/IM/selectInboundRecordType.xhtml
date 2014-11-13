@@ -74,6 +74,13 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
                             <p:submenu label="Inbound Movement Management">
                                 <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
@@ -86,19 +93,19 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="Inventory Type" style="border:0px; margin-bottom" >
-                            
+
                             <div class ="align:center">
                                 <p:selectOneRadio id="invtype" required ="true" value="#{inboundRecordReDirectBean.result}">
-                                        <f:selectItem itemLabel="Product" itemValue="0" />
-                                        <f:selectItem itemLabel="Retail Product" itemValue="1" />
-                                        
-                            </p:selectOneRadio>
+                                    <f:selectItem itemLabel="Product" itemValue="0" />
+                                    <f:selectItem itemLabel="Retail Product" itemValue="1" />
+
+                                </p:selectOneRadio>
                                 <br></br>
-                            <p:column>
-                                <p:commandButton  value="Go" actionListener ="#{inboundRecordReDirectBean.IBRredirect}" icon="ui-icon-disk" update = ":formMain" />
-                            </p:column>
+                                <p:column>
+                                    <p:commandButton  value="Go" actionListener ="#{inboundRecordReDirectBean.IBRredirect}" icon="ui-icon-disk" update = ":formMain" />
+                                </p:column>
                             </div>
-                 
+
 
 
                         </p:panel>

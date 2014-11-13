@@ -97,6 +97,13 @@ public class Factory_StoreManagementModule implements Factory_StoreManagementMod
         FactoryEntity fe = em.find(FactoryEntity.class, factoryId);
         return fe;
     }
+    
+    @Override
+    public StoreEntity getStore(Long storeId) {
+        System.out.println("Factory_StoreManagementModule: getStore(): ");
+        StoreEntity fe = em.find(StoreEntity.class, storeId);
+        return fe;
+    }
 
     @Override
     public void AddStore(String country, String address, String contact, String manager) {

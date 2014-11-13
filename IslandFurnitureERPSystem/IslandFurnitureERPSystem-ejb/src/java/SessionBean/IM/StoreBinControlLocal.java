@@ -6,6 +6,8 @@
 
 package SessionBean.IM;
 
+import Entity.Store.IM.StoreBinProductEntity;
+import Entity.Store.IM.StoreBinRetailProductEntity;
 import Entity.Store.IM.StoreWarehouseBinEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -30,5 +32,9 @@ public interface StoreBinControlLocal {
     public List<StoreWarehouseBinEntity> getAllSelfCollectBin(Long storeId);
 
     public List<StoreWarehouseBinEntity> getAllDisplayAreaBin(Long storeId);
+
+    public List<StoreBinProductEntity> ListProductReturnedBin(Long storeProductId);
+
+    public List<StoreBinRetailProductEntity> ListRProductReturnedBin(Long storeProductId);
     
 }

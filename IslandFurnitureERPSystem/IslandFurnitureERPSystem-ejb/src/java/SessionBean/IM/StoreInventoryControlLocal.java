@@ -32,7 +32,7 @@ public interface StoreInventoryControlLocal {
 
     public int deleteStoreProduct(Long storeId, Long storeProductId, Long factoryProductId);
 
-    public void editStoreProduct(Long storeId, Long storeProductId, Long oldFactoryProductId, Boolean isSelfPicked, Long newFactoryProductId, Double minimumInventory, String storeRemark);
+    public void editStoreProduct(Long storeId, Long storeProductId, Boolean isSelfPicked, Long newFactoryProductId, Double minimumInventory, String storeRemark);
 
     public List<FactoryProductEntity> listAvailableFactoryProduct(Long productId);
 
@@ -57,5 +57,15 @@ public interface StoreInventoryControlLocal {
     public List<StoreBinRetailProductEntity> getRProductStorageInformation(Long productId);
 
     public List<StoreBinProductEntity> getReturnedProduct(Long storeId);
+
+    public List<StoreProductEntity> getNonSelfCollectProduct(Long storeId);
+
+    public List<StoreRetailProductEntity> getRetailProduct(Long storeId);
+
+    public List<StoreBinProductEntity> listAllAvailBin(Long storeProductId);
+
+    public List<StoreBinRetailProductEntity> listAllAvailBinRP(Long storeProductId);
+
+    
     
 }

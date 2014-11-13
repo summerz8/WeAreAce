@@ -128,16 +128,16 @@ public class viewStorageDetailByInventory implements Serializable{
     
     
     public void setInvIsSelected(){
+       
         
         
-        invIsSelected = true;
-        
-        if(invtype == 0){
+        if(invtype == 0 && selectedsp != null){
         setPBinList();
-        
+        invIsSelected = true;
         }
-        if(invtype == 1){
+        if(invtype == 1 && selectedsrp != null){
         setRPBinList();
+        invIsSelected = true;
         }
     }
     

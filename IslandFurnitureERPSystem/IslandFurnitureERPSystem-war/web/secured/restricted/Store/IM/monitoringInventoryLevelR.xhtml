@@ -11,13 +11,13 @@
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
             <style type="text/css">
-            .old {
-                background-color: #f54747 !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-            
-        </style>
+                .old {
+                    background-color: #f54747 !important;
+                    background-image: none !important;
+                    color: #000000 !important;
+                }
+
+            </style>
         </h:head>
 
         <h:body>
@@ -81,28 +81,35 @@
 
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
-                        
-                            <p:menu>
+
+                        <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
                             <p:submenu label="Store Stock Monitor">
-                               <p:menuitem value="Monitor Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Monitor Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Monitor Retail Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevelR.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Inventory Storage Information"  outcome="/secured/restricted/Store/IM/viewProductStorageDetail.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Bin Storage Information"  outcome="/secured/restricted/Store/IM/viewBinStorageDetail.xhtml?faces-redirect=true"/>
-                       
+
                             </p:submenu>
-                            </p:menu>
-                        
+                        </p:menu>
+
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="Store Product" style="border:0px; margin-bottom" >
 
-                         
-                            <p:dataTable id ="current" var="sproduct" widgetVar="current" value="#{storeRetailProductControl.currentStoreRetailProductList}"   rowStyleClass="#{sproduct.onairInventory le sproduct.warningOnAirInv ?'old':null}" >
-                                
 
-                                
+                            <p:dataTable id ="current" var="sproduct" widgetVar="current" value="#{storeRetailProductControl.currentStoreRetailProductList}"   rowStyleClass="#{sproduct.onairInventory le sproduct.warningOnAirInv ?'old':null}" >
+
+
+
                                 <f:facet name="header">
                                     Store Retail Product Monitoring System
                                 </f:facet>
@@ -126,7 +133,7 @@
                                     <h:outputText value="#{sproduct.unit}" style="font-weight: bold" /> 
                                 </p:column>
 
-                               
+
 
                                 <p:column headerText="Unrestricted Inventory" width="12%">
                                     <h:outputText value="#{sproduct.unrestrictedInventory}" style="font-weight: bold" /> 
@@ -135,28 +142,28 @@
 
                                 <p:column headerText="Minimum Inventory" width="12%">
 
-                                         <h:outputText value="#{sproduct.minimumInventory}" style="font-weight: bold" /> 
-                                       
+                                    <h:outputText value="#{sproduct.minimumInventory}" style="font-weight: bold" /> 
+
                                 </p:column>
-                                
+
                                 <p:column headerText="Current Offering" width="12%">
                                     <h:outputText value="#{sproduct.onairInventory}" style="font-weight: bold" /> 
                                 </p:column>
-                                
-                                <p:column headerText="Warining Inventory" width="10%">
-                                    
-                                        <h:outputText value="#{sproduct.warningOnAirInv}" style="font-weight: bold" /> 
-                                       
-                                </p:column>
-                                
 
-                                
+                                <p:column headerText="Warining Inventory" width="10%">
+
+                                    <h:outputText value="#{sproduct.warningOnAirInv}" style="font-weight: bold" /> 
+
+                                </p:column>
+
+
+
 
 
 
 
                             </p:dataTable>
-                           
+
 
                         </p:panel>
                     </p:layoutUnit>

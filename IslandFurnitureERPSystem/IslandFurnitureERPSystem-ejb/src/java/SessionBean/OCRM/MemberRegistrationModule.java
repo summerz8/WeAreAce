@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.email.SendEmail;
 import util.security.CryptographicHelper;
 
 /**
@@ -79,13 +80,18 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             member = new MemberEntity(hashedpwd, lastName, midName, firstName,
                     birthday, gender, title, address, postalCode,
                     email, Boolean.FALSE, country);
-            member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(transaction.getTotalPrice())));
+            member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(transaction.getTotalPrice()*2)));
             em.persist(member);
             System.out.println("New Member created!");
             em.flush();
             transaction.setMember(member);
             em.persist(transaction);
             em.flush();
+
+            SendEmail se = new SendEmail();
+            if (!se.sendWelcomeMessage(member.getEmail(), PWD)) {
+                System.err.println("mail send failed");
+            }
         } else if (check2 != 1) {
             System.out.println("email incorrect! existed!");
             return check2;

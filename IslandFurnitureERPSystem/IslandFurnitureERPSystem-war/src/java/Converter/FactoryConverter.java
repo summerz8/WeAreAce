@@ -23,7 +23,7 @@ public class FactoryConverter implements Converter {
      
         System.out.println("converter: value:" + value);
      
-        if(value != null && value.trim().length() > 0) {
+        if(value != null && value.trim().length() > 0 && !value.equals("[Select One]")) {
             List<FactoryProductEntity> availFactoryEntities = (List<FactoryProductEntity>)fc.getExternalContext().getSessionMap().get("factoryProductEntities");
             
             System.err.println("Converter: " + availFactoryEntities.size());
@@ -49,7 +49,15 @@ public class FactoryConverter implements Converter {
  
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if(object != null) {
-            return String.valueOf(((FactoryProductEntity) object).getFactoryProductId());
+            
+            if(object instanceof String)
+            {
+                return null;
+            }
+            else
+            {
+                return String.valueOf(((FactoryProductEntity) object).getFactoryProductId());
+            }
         }
         else {
             return null;
