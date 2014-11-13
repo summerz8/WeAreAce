@@ -107,11 +107,13 @@ public class StoreRetailProductControlBean  implements Serializable {
         }
     }
 
-    public void selectAvailableFactory(RetailProductEntity rpe) {
-        selectedRetailProduct = rpe;   
-   availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
+    
+    public List<FactoryRetailProductEntity> selectAvailableFactory(RetailProductEntity rpe){
+        
+        availableFactory = sicl.listAvailableFactoryRetail(rpe.getRetailProductId());
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("factoryREntities", availableFactory);
-     
+        return availableFactory;
     }
 
 

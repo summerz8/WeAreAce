@@ -288,9 +288,12 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
                     fpam.setFactoryProduct(s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1).getStoreProduct().getFactoryProduct());
                     fpam.setUnit(s.getProduct().getUnit());
                     s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1).setStatus("Confirmed");
+                    storeProductList.remove(s);
                     em.persist(fpam);
                     salesForecast.getFactoryProductList().add(fpam);
-
+                    if (storeProductList.isEmpty()) {
+                        break;
+                    }
                 }
             }
 

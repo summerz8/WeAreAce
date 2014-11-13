@@ -38,7 +38,7 @@ public class StoreOutboundRecordEntity implements Serializable {
     private StoreWarehouseBinEntity fromBin;
     
 
-       @ManyToOne
+    @ManyToOne
     private StoreRetailProductEntity storeRetailProduct = null;
     
     @ManyToOne
@@ -47,11 +47,18 @@ public class StoreOutboundRecordEntity implements Serializable {
     @ManyToOne
     private StoreEntity store;
     
-    private Boolean isReceivedByFactory;
+    private Boolean isReceivedByFactory = false;
+    
+    private Double settledQuantity;
     
     
 
     public StoreOutboundRecordEntity() {
+    }
+
+    public StoreOutboundRecordEntity(Double amount, Calendar creationTime) {
+        this.amount = amount;
+        this.creationTime = creationTime;
     }
 
     
@@ -88,6 +95,22 @@ public class StoreOutboundRecordEntity implements Serializable {
 
     public void setStore(StoreEntity store) {
         this.store = store;
+    }
+
+    public Boolean isIsReceivedByFactory() {
+        return isReceivedByFactory;
+    }
+
+    public void setIsReceivedByFactory(Boolean isReceivedByFactory) {
+        this.isReceivedByFactory = isReceivedByFactory;
+    }
+
+    public Double getSettledQuantity() {
+        return settledQuantity;
+    }
+
+    public void setSettledQuantity(Double settledQuantity) {
+        this.settledQuantity = settledQuantity;
     }
 
 

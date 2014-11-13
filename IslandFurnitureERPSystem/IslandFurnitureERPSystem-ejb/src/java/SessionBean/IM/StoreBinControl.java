@@ -174,27 +174,57 @@ public class StoreBinControl implements StoreBinControlLocal {
 
     }
 
-    public String[] mobile_getStoreBin(Long storeProductId) {
-        try {
-            Query q = em.createQuery("Select b from StoreBinProductEntity b where b.isDeleted = false and b.status = :stt and b.product.storeProductId = :spId and b.swe.isBackHouse = true and b.quantity > 0");
-            q.setParameter("stt", 0);
-            q.setParameter("spId", storeProductId);
-//          StoreProductEntity spe = em.find(StoreProductEntity.class, storeProductId);
-//          if(!spe.isDeleteFlag() && spe)
-            String[] listOfBin = new String[10000];
-            int i = 0;
-            for (Object o : q.getResultList()) {
+    
 
-                StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+//      public String[] mobile_getStoreBin(Long storeProductId){
+//
+//          System.out.println("Testing.");
+//          
+//          
+//          Query q = em.createQuery("Select b from StoreBinProductEntity b where b.isDeleted = false and b.status = 0 and b.product.storeProductId = :spId");
+//          
+//          q.setParameter("spId", storeProductId);
+//          String[] listOfBin = new String[10000];
+//          int i = 0;
+//          for(Object o : q.getResultList()){
+//              
+//              StoreBinProductEntity sbpe = (StoreBinProductEntity) o;
+//              
+//              listOfBin[i] = String.valueOf(sbpe.getSwe().getId());
+//             i++ ;
+//          }
+//          
+//          return listOfBin;
+//      }
+//    
+    @Override
+    public List<StoreBinProductEntity> ListProductReturnedBin(Long storeProductId) {
+        Query q = em.createQuery("Select p From StoreBinProductEntity p Where p.product.storeProductId = :spId and p.status = 1 and p.quantity > 0");
+        q.setParameter("spId", storeProductId);
 
-                listOfBin[i] = String.valueOf(sbpe.getSwe().getId());
-                i++;
-            }
+        List<StoreBinProductEntity> result = new ArrayList<>();
+        for (Object o : q.getResultList()) {
+            StoreBinProductEntity sbp = (StoreBinProductEntity) o;
+            result.add(sbp);
 
-            return listOfBin;
-        } catch (NullPointerException ex) {
-            return null;
         }
+        return result;
+
+    }
+
+    @Override
+    public List<StoreBinRetailProductEntity> ListRProductReturnedBin(Long storeProductId) {
+        Query q = em.createQuery("Select p From StoreBinRetailProductEntity p Where p.retailProduct.storeRetailProductId = :spId and p.status = 1 and p.quantity > 0");
+        q.setParameter("spId", storeProductId);
+
+        List<StoreBinRetailProductEntity> result = new ArrayList<>();
+        for (Object o : q.getResultList()) {
+            StoreBinRetailProductEntity sbp = (StoreBinRetailProductEntity) o;
+            result.add(sbp);
+
+        }
+        return result;
+
     }
 
 }

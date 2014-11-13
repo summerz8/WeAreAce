@@ -74,6 +74,13 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
                             <p:submenu label="Inbound Movement Management">
                                 <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
@@ -88,109 +95,109 @@
                             <br></br>
                             <br></br>
                             <p:row>
-                            <p:column>
-                                <p:outputLabel value="Record Id:   " for="rId" />
-                                <h:outputText id = "rId" value ="DO#{viewPoBean.po.id}"/>
-                            </p:column>  
-                           </p:row>
+                                <p:column>
+                                    <p:outputLabel value="Record Id:   " for="rId" />
+                                    <h:outputText id = "rId" value ="DO#{viewPoBean.po.id}"/>
+                                </p:column>  
+                            </p:row>
                             <br></br>
                             <br></br>
                             <p:row>
-                            <p:column>
-                                <p:outputLabel value="From Suppler:   " for="fId" />
-                                <h:outputText id = "fId" value ="( #{viewPoBean.po.contract.supplier.supplierId} )#{viewPoBean.po.contract.supplier.supplierName}"/>
-                                <p:tooltip id="toolTipFade5" for="fId" value="Factory Address: #{viewPoBean.po.contract.supplier.supplierAddress}" />
+                                <p:column>
+                                    <p:outputLabel value="From Suppler:   " for="fId" />
+                                    <h:outputText id = "fId" value ="( #{viewPoBean.po.contract.supplier.supplierId} )#{viewPoBean.po.contract.supplier.supplierName}"/>
+                                    <p:tooltip id="toolTipFade5" for="fId" value="Factory Address: #{viewPoBean.po.contract.supplier.supplierAddress}" />
 
-                            </p:column>  
-                           </p:row>
-                            <br></br>
-                            <br></br>
-                            
-                            <p:row>
-                            <p:column>
-                                <p:outputLabel value="Global Retail Product Id:   " for="grpId"  />
-                                <h:outputText id = "grpId" value ="#{viewPoBean.po.contract.factoryRetailProduct.retailProduct.retailProductId}"/> 
-                                <p:tooltip id="toolTipFade3" for="grpId" value="Retail Product Name: #{viewPoBean.po.contract.factoryRetailProduct.name}" />
-                            </p:column>  
-                           </p:row>
-                         
-                 
-                            <br></br>
-                            <br></br>
-                            <p:row>
-                            <p:column>
-                               
-                                <p:outputLabel value="Store Retail Product Id:   " for="spId"  />
-                                
-                                <h:outputText id = "spId" value ="#{viewPoBean.storeRPId}"/>
-                               
-                                <p:tooltip id="toolTipFade2" for="spId" value="Retail Product Name: #{viewPoBean.po.contract.factoryRetailProduct.name}" />
-                            </p:column>  
-                           </p:row>
-                            
-                            
+                                </p:column>  
+                            </p:row>
                             <br></br>
                             <br></br>
 
-                            
                             <p:row>
-                           <p:column>
-                                <p:outputLabel value="Total Quantity:   " for="qId" />
-                                <h:outputText id = "qId" value ="#{viewPoBean.po.totalAmount} #{viewPoBean.po.contract.factoryRetailProduct.unit}"/>
-                            </p:column> 
-                           </p:row>
-                            
+                                <p:column>
+                                    <p:outputLabel value="Global Retail Product Id:   " for="grpId"  />
+                                    <h:outputText id = "grpId" value ="#{viewPoBean.po.contract.factoryRetailProduct.retailProduct.retailProductId}"/> 
+                                    <p:tooltip id="toolTipFade3" for="grpId" value="Retail Product Name: #{viewPoBean.po.contract.factoryRetailProduct.name}" />
+                                </p:column>  
+                            </p:row>
+
+
                             <br></br>
                             <br></br>
-                            
                             <p:row>
-                                
+                                <p:column>
+
+                                    <p:outputLabel value="Store Retail Product Id:   " for="spId"  />
+
+                                    <h:outputText id = "spId" value ="#{viewPoBean.storeRPId}"/>
+
+                                    <p:tooltip id="toolTipFade2" for="spId" value="Retail Product Name: #{viewPoBean.po.contract.factoryRetailProduct.name}" />
+                                </p:column>  
+                            </p:row>
+
+
+                            <br></br>
+                            <br></br>
+
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Total Quantity:   " for="qId" />
+                                    <h:outputText id = "qId" value ="#{viewPoBean.po.totalAmount} #{viewPoBean.po.contract.factoryRetailProduct.unit}"/>
+                                </p:column> 
+                            </p:row>
+
+                            <br></br>
+                            <br></br>
+
+                            <p:row>
+
                                 <p:dataTable id ="dolist" var="po" value="#{viewPoBean.dolist}"  >
 
 
-                                       
-                                        <p:column headerText="Record Id" width="8%" >
-                                            <h:outputText value="#{po.id}"  style="font-weight: bold" />    
-                                        </p:column>        
-  
-                                        <p:column headerText="Scheduled Date" width="10%">
-                                            <h:outputText value="#{po.deliveryDate}" style="font-weight: bold" /> 
-                                        </p:column>
-                                        <p:column headerText="Status" width="10%">
-                                            <h:outputText value="#{po.status}" style="font-weight: bold" /> 
-                                        </p:column>
-                                        <p:column headerText="Expected Quantity" width="10%">
-                                            <h:outputText value="#{po.amount}" style="font-weight: bold" /> 
-                                        </p:column>
-                                        <p:column headerText="Fulfillment" width="10%" >
-                                            <p:column  rendered = "#{viewPoBean.checkIsFulfilled(po)?false:true}">
+
+                                    <p:column headerText="Record Id" width="8%" >
+                                        <h:outputText value="#{po.id}"  style="font-weight: bold" />    
+                                    </p:column>        
+
+                                    <p:column headerText="Scheduled Date" width="10%">
+                                        <h:outputText value="#{po.deliveryDate}" style="font-weight: bold" /> 
+                                    </p:column>
+                                    <p:column headerText="Status" width="10%">
+                                        <h:outputText value="#{po.status}" style="font-weight: bold" /> 
+                                    </p:column>
+                                    <p:column headerText="Expected Quantity" width="10%">
+                                        <h:outputText value="#{po.amount}" style="font-weight: bold" /> 
+                                    </p:column>
+                                    <p:column headerText="Fulfillment" width="10%" >
+                                        <p:column  rendered = "#{viewPoBean.checkIsFulfilled(po)?false:true}">
                                             <p:commandButton update=":formMain" value="Fulfilled" oncomplete="PF('confirmationDialog').show()" actionListener ="#{viewPoBean.selectDOE(po)}">
                                             </p:commandButton>
-                                            </p:column>
-                                            <p:column rendered = "#{viewPoBean.checkIsFulfilled(po)?true:false}">
+                                        </p:column>
+                                        <p:column rendered = "#{viewPoBean.checkIsFulfilled(po)?true:false}">
                                             <h:outputText value = "Fulfilled"> </h:outputText>
-                                             </p:column>
-                                            </p:column>
+                                        </p:column>
+                                    </p:column>
 
 
-                                    </p:dataTable>
+                                </p:dataTable>
 
-                            
-   
+
+
                             </p:row>
-                            
-                             <p:dialog header="Confirmation" widgetVar="confirmationDialog" position="center"
+
+                            <p:dialog header="Confirmation" widgetVar="confirmationDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
                                       draggable="true" closable="true" width="300">
                                 <p:outputPanel id="toconfrim" style="text-align:center;">
                                     <br></br>
                                     <br></br>
-                                    
+
                                     <h:outputText value="Actual Amount Received:" />
                                     <h:inputText value ="#{viewPoBean.newQuantity}" />
                                     <br></br>
                                     <br></br>
-                                    
+
                                     <p:commandButton  title = "Confirm"  value ="Confrim"   actionListener = "#{viewPoBean.receiveGoodFromSupplier}"  update = ":formMain">
 
                                     </p:commandButton> 
@@ -201,10 +208,10 @@
 
                                 </p:outputPanel>
                             </p:dialog>
-                   
-                           
-                            
-                            
+
+
+
+
 
                         </p:panel>
                     </p:layoutUnit>

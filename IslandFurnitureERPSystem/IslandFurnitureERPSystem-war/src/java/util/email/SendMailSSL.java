@@ -24,7 +24,7 @@ public class SendMailSSL {
     public SendMailSSL() {
     }
 
-    public Boolean sendMessage(String userAccount) {
+    public Boolean sendWelcomeMessage(String userAccount, String newPass) {
         System.out.println(userAccount);
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -49,8 +49,9 @@ public class SendMailSSL {
             message.setFrom(new InternetAddress("islandfurnitureit03krt@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(userAccount));
-            message.setSubject("HAHAHAHA initial test");
-            message.setText("test");
+            message.setSubject("Member Registration Successfully!");
+            message.setText("Thank you for registering with Island Furniture and your temporary password is "
+                    +newPass);
 
             Transport.send(message);
 

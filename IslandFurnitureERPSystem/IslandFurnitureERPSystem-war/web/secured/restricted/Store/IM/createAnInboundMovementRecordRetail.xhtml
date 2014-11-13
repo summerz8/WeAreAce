@@ -74,6 +74,14 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+
                             <p:submenu label="Inbound Movement Management">
                                 <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
@@ -90,8 +98,10 @@
                                 <p:column>
                                     <p:outputLabel value="Store Retail Product:" for="selectProduct" />
                                     <p:selectOneMenu id="selectProduct" value="#{rproductInboundMovementBean.selectedProduct}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
                                         <f:selectItems value="#{rproductInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
-                                          <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{rproductInboundMovementBean.setSelectedPD}" update=":formMain" />
+                                        <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{rproductInboundMovementBean.setSelectedPD}" update=":formMain" />
 
                                     </p:selectOneMenu>
                                 </p:column>  
@@ -102,26 +112,14 @@
                                 <p:column>
                                     <p:outputLabel value="Destination Bin:" for="selectBin" />
                                     <p:selectOneMenu id="selectBin" value="#{rproductInboundMovementBean.selectedBin}" converter="sBinConverter"  effect="fade" style="width:160px" >
+
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
                                         <f:selectItems value="#{rproductInboundMovementBean.binList}" var="f" itemLabel="StoreBin:#{f.id} | Name:#{f.name}" itemValue="#{f}" />
                                     </p:selectOneMenu>
                                 </p:column>  
                             </p:row>
                             <br></br>
                             <br></br>
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="Inventory Type:" for="invtype"/>
-                                    <p:selectOneRadio id="invtype" required ="true" value="#{rproductInboundMovementBean.inventoryType}">
-                                        <f:selectItem itemLabel="Unrestricted" itemValue="0" />
-                                        <f:selectItem itemLabel="Returned" itemValue="1" />
-                                        
-                                    </p:selectOneRadio>
-
-                                </p:column>  
-                            </p:row>
-                            <br></br>
-                            <br></br>
-                            
                             <p:row>
                                 <p:column rendered = "#{rproductInboundMovementBean.isSetBin()?true:false}" >
                                     <p:outputLabel value="In Transit Inventory Available:" for="selectinv" />
@@ -130,6 +128,21 @@
                             </p:row>
                             <br></br>
                             <br></br>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Inventory Status:" for="invtype"/>
+                                    <p:selectOneRadio id="invtype" required ="true" value="#{rproductInboundMovementBean.inventoryType}">
+                                        <f:selectItem itemLabel="Unrestricted" itemValue="0" />
+                                        <f:selectItem itemLabel="Returned" itemValue="1" />
+
+                                    </p:selectOneRadio>
+
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+
+
                             <p:row>
                                 <p:column>
                                     <p:outputLabel value="Transferred Amount:" for="aId" />
@@ -172,12 +185,12 @@
                                             <h:outputText id="c3" value="#{rproductInboundMovementBean.quantity}" style="font-weight: bold" /> 
                                         </p:column>  
                                     </p:row>
-                                    
+
                                     <br> </br>
                                     <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{rproductInboundMovementBean.confrimResult}" update = ":formMain"  >
 
                                     </p:commandButton> 
-                                        
+
 
                                     <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('confrimationDialog').hide()">
 

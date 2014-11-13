@@ -119,18 +119,27 @@ public class InStoreMovementBean implements Serializable  {
         finishedSelectFromBin = false;
         
         System.out.println("InStoreMovementBean: getAvailableBinList");
-        if(invtype == 0 & selectedp != null){
+        if(invtype == 0 && selectedp != null){
           fromBinP =  sicl.getProductStorageInformation(selectedp.getStoreProductId());
+          FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeBinProductEntities", null);
+          
           FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeBinProductEntities", fromBinP);
           
 
            // display the bin information
         }
-        else if (invtype ==1 & selectedrp != null){
+        else if (invtype ==1 && selectedrp != null){
            System.out.println("Testing");
            fromBinRP = sicl.getRProductStorageInformation(selectedrp.getStoreRetailProductId());
+           FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeBinRetailProductEntities", null);
+          
            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeBinRetailProductEntities", fromBinRP);
           
+        }
+        
+        else {
+            
+            fromBinP = null;
         }
         
         
@@ -254,11 +263,13 @@ public class InStoreMovementBean implements Serializable  {
     public void confrimMovement(ActionEvent event){
         System.out.println("InStoreMovementBean: confrimMovement:start");
         Integer result;
-        if(selectedTb != null){
+        
+        
+        if((selectedTb != null && selectedp != null && selectedfb != null )  || (selectedTb != null && selectedrp != null && sleectedtb != null)){
             
             System.out.println("InStoreMovementBean: confrimMovement:add");
             if(invtype == 0){
-         result =  smcl.inStoreMovement(storeId, 0,selectedp.getStoreProductId() , selectedfb.getStatus(), selectedDestinationStatus, selectedfb.getSwe().getId(),selectedTb.getId(), Quantity);
+             result =  smcl.inStoreMovement(storeId, 0,selectedp.getStoreProductId() , selectedfb.getStatus(), selectedDestinationStatus, selectedfb.getSwe().getId(),selectedTb.getId(), Quantity);
             }
             else{
           result =   smcl.inStoreMovement(storeId, 1, selectedrp.getStoreRetailProductId(), sleectedtb.getStatus(), selectedDestinationStatus, sleectedtb.getSwe().getId(),selectedTb.getId(), Quantity);
@@ -274,6 +285,8 @@ public class InStoreMovementBean implements Serializable  {
                selectedTb = null;
                Quantity = null;
                finishedSelectFromBin = false;
+               selectedDestinationBinType = null;
+               fromBinP = null;
                
             }
             else if(result == -1){

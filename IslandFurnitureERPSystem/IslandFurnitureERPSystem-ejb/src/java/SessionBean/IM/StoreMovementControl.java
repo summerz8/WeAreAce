@@ -17,6 +17,7 @@ import Entity.Store.IM.StoreBinRetailProductEntity;
 import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreInStoreMovementRecordEntity;
 import Entity.Store.IM.StoreInboundRecordEntity;
+import Entity.Store.IM.StoreOutboundRecordEntity;
 import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.ReturnedItemMovementRecordEntity;
 import Entity.Store.StoreEntity;
@@ -182,24 +183,7 @@ public class StoreMovementControl implements StoreMovementControlLocal {
        
     }
     
-    @Override
-    public int createInStoreRecord(Long storeId, Long frombinId, Long tobinId, Long productId, Long retailProductId, Double amount){
-   
-        return 0;
-    }
-    
-    @Override
-    public int createInboundRecord(){
-        
-        return 0;
-    }
-    
-    @Override
-    public int createOutBoundRecord(){
-  
-        return 0;
-   
-    }
+
     
   
     //-1 exception
@@ -281,7 +265,7 @@ public class StoreMovementControl implements StoreMovementControlLocal {
         StoreWarehouseBinEntity oldBin = em.find(StoreWarehouseBinEntity.class, oldBId);
         
         StoreWarehouseBinEntity newBin = em.find(StoreWarehouseBinEntity.class, newBId);
-
+        StoreEntity store = em.find(StoreEntity.class, storeId);
         StoreProductEntity sp = null;
         StoreRetailProductEntity srp = null;
         if(oldBin.equals(newBin) && oldStatus.equals(newStatus)){
@@ -323,6 +307,7 @@ public class StoreMovementControl implements StoreMovementControlLocal {
         instoreRecord.setToBin(newBin);
         instoreRecord.setStoreProduct(sp);
         instoreRecord.setStoreRetailProduct(srp);
+        instoreRecord.setStore(store);
         em.flush();
         return 0;
         }catch (Exception e){
@@ -617,6 +602,8 @@ public class StoreMovementControl implements StoreMovementControlLocal {
                      if(storeBin.isIsDisplayArea() || storeBin.isIsSelfCollect()){
                          sbp.getProduct().setOnairInventory(sbp.getProduct().getOnairInventory() + quantity);
                      }
+                     
+            
           System.out.println("Updated Quantity: " + sbp.getQuantity() );
           em.flush();
          
@@ -630,6 +617,7 @@ public class StoreMovementControl implements StoreMovementControlLocal {
              sbp.setSwe(storeBin);
              sbp.setStatus(status);
              storeBin.getStoreBinProducts().add(sbp);
+             sp.getBinProducts().add(sbp);
              em.flush();
              
            if(storeBin.isIsDisplayArea() || storeBin.isIsSelfCollect()){
@@ -696,6 +684,7 @@ public class StoreMovementControl implements StoreMovementControlLocal {
              sbp.setSwe(storeBin);
              sbp.setStatus(status);
              storeBin.getStoreBinRetailProducts().add(sbp);
+            
              em.flush();
          }
 
@@ -794,5 +783,61 @@ public class StoreMovementControl implements StoreMovementControlLocal {
             
         }
      }
+     
+     
+    @Override
+     public Integer sendOutboundMovement(Long storeId, Integer invtype, Long storeBinId, Long inventoryId, Double quantity){
+         try{
+             
+             StoreEntity store = em.find(StoreEntity.class, storeId);
+             StoreProductEntity sp = null;
+             StoreRetailProductEntity srp = null;
+             int result = -1;
+             
+             if(invtype == 0){
+                 
+                 sp = em.find(StoreProductEntity.class, inventoryId);
+                 result = ProductmoveOutABin(storeId, storeBinId, inventoryId, quantity, 1);
+                 
+             }
+             if(invtype == 1){
+                 
+                 srp = em.find(StoreRetailProductEntity.class, inventoryId);
+                 result = RProductmoveOutABin(storeId, storeBinId, inventoryId, quantity, 1);
+            
+             }
+             if(result == 0){
+                 
+               Calendar creationTime = Calendar.getInstance();
+               StoreOutboundRecordEntity ore = new StoreOutboundRecordEntity(quantity, creationTime);  
+               StoreWarehouseBinEntity sb = em.find(StoreWarehouseBinEntity.class, storeBinId);
+               ore.setFromBin(sb);
+               ore.setStoreProduct(sp);
+               ore.setStoreRetailProduct(srp);
+               ore.setStore(store);
+               ore.setSettledQuantity(quantity);//not sure quantity or 0
+               
+               em.persist(ore);
+               em.flush();
+               
+               
+             return 0;    
+                 
+             }
+             return -1;
+             
+             
+         }catch(Exception e){
+             
+           System.err.println("SessionBean.IM.StoreMovementControl: sendOutboundMovement(): Failed. Caught an unexpected exception.");
+          e.printStackTrace();
+            return -1;   
+             
+             
+             
+         }
+
+     }
+     
    
 }
