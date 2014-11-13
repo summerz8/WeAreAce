@@ -12,6 +12,7 @@
     </service>
     <service name="CustomerOrderFulfillmentModule">
       <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
+<<<<<<< HEAD
     </service>
 <<<<<<< HEAD
     <service name="CustomerOrderFulfillmentModule">
@@ -23,10 +24,18 @@
     <service name="CustomerMobileAppModule">
       <implementation-class>SessionBean.OCRM.CustomerMobileAppModule</implementation-class>
 >>>>>>> c0da223600060493aa03626d69ac94f33f63f795
+=======
+>>>>>>> c0da223600060493aa03626d69ac94f33f63f795
     </service>
     <service name="MemberRegistrationModule">
       <implementation-class>SessionBean.OCRM.MemberRegistrationModule</implementation-class>
     </service>
+<<<<<<< HEAD
+=======
+    <service name="CustomerMobileAppModule">
+      <implementation-class>SessionBean.OCRM.CustomerMobileAppModule</implementation-class>
+    </service>
+>>>>>>> c0da223600060493aa03626d69ac94f33f63f795
   </services>
   <clients/>
 </jax-ws>

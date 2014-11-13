@@ -18,7 +18,11 @@
         </taskdef>
     </target>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <target name="wsgen-compile" depends="wsgen-IFManagerBean, wsgen-PickupListModule, wsgen-TransactionModule, wsgen-CustomerMobileAppModule, wsgen-CustomerOrderFulfillmentModule, wsgen-MemberRegistrationModule">
+=======
+    <target name="wsgen-compile" depends="wsgen-PickupListModule, wsgen-IFManagerBean, wsgen-TransactionModule, wsgen-CustomerOrderFulfillmentModule, wsgen-MemberRegistrationModule, wsgen-CustomerMobileAppModule">
+>>>>>>> c0da223600060493aa03626d69ac94f33f63f795
 =======
     <target name="wsgen-compile" depends="wsgen-PickupListModule, wsgen-IFManagerBean, wsgen-TransactionModule, wsgen-CustomerOrderFulfillmentModule, wsgen-MemberRegistrationModule, wsgen-CustomerMobileAppModule">
 >>>>>>> c0da223600060493aa03626d69ac94f33f63f795
@@ -50,8 +54,13 @@
         </wsgen>
     </target>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <target name="wsgen-MemberRegistrationModule" depends="wsgen-init, -do-compile">
         <wsgen destdir="${build.generated.sources.dir}/jax-ws" sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" verbose="true" xendorsed="true" keep="false" genwsdl="true" sei="SessionBean.OCRM.MemberRegistrationModule">
+=======
+    <target name="wsgen-CustomerMobileAppModule" depends="wsgen-init, -do-compile">
+        <wsgen destdir="${build.generated.sources.dir}/jax-ws" sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" verbose="true" xendorsed="true" keep="false" genwsdl="true" sei="SessionBean.OCRM.CustomerMobileAppModule">
+>>>>>>> c0da223600060493aa03626d69ac94f33f63f795
 =======
     <target name="wsgen-CustomerMobileAppModule" depends="wsgen-init, -do-compile">
         <wsgen destdir="${build.generated.sources.dir}/jax-ws" sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" verbose="true" xendorsed="true" keep="false" genwsdl="true" sei="SessionBean.OCRM.CustomerMobileAppModule">
