@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.email.SendEmail;
 import util.security.CryptographicHelper;
 
 /**
@@ -51,7 +52,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
         int check = CheckFirstTransaction(transactionId);
         int check2 = checkEmail(email);
-        if (check == 1 && check2==1) {
+        if (check == 1 && check2 == 1) {
 
             TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
             MemberEntity member;
@@ -79,17 +80,23 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             member = new MemberEntity(hashedpwd, lastName, midName, firstName,
                     birthday, gender, title, address, postalCode,
                     email, Boolean.FALSE, country);
-            member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(transaction.getTotalPrice())));
+            member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(transaction.getTotalPrice()*2)));
             em.persist(member);
             System.out.println("New Member created!");
             em.flush();
             transaction.setMember(member);
             em.persist(transaction);
             em.flush();
-        }else if(check2!=1){
+
+            SendEmail se = new SendEmail();
+            if (!se.sendWelcomeMessage(member.getEmail(), PWD)) {
+                System.err.println("mail send failed");
+            }
+
+        } else if (check2 != 1) {
             System.out.println("email incorrect! existed!");
-         return check2;
-        }        
+            return check2;
+        }
         return check;
     }
 
@@ -319,7 +326,8 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             MemberEntity me = (MemberEntity) q.getSingleResult();
             if (me != null) {
                 return -4;
-            }if(me == null){
+            }
+            if (me == null) {
                 return 1;
             }
         } catch (NoResultException e) {

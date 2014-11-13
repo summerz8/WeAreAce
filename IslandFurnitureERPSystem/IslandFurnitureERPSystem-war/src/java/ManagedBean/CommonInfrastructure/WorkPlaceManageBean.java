@@ -114,7 +114,7 @@ public class WorkPlaceManageBean implements Serializable{
     }
 
     public Boolean isValidCRM() {
-        if (currentUserLevel == 2 || currentUserLevel == 6) {
+        if (currentUserLevel == 0 || currentUserLevel == 2 || currentUserLevel == 6) {
             return true;
         } else {
             return false;

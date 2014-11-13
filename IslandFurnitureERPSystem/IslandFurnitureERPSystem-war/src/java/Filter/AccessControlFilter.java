@@ -33,6 +33,7 @@ public class AccessControlFilter implements Filter {
         int userLevel = (Integer) req.getSession().getAttribute("Userlvl");
         String url = req.getRequestURI();
         Long HFactoryId = (Long) req.getSession().getAttribute("HFactoryId");
+        Long HStoreId = (Long) req.getSession().getAttribute("HStoreId");
 
         System.err.println("AccessControl: isLogin: " + userLevel);
 
@@ -61,6 +62,9 @@ public class AccessControlFilter implements Filter {
                 } else {
                     chain.doFilter(request, response);
                 }
+            } else if (url.contains("StoreResourceControl.xhtml") && HStoreId == null) {
+                String contextPath = req.getServletContext().getContextPath();
+                resp.sendRedirect(contextPath + "/secured/restricted/Store/ResourceControl/StoreResourceControlForHQ.xhtml");
             } else {
                 chain.doFilter(request, response);
             }

@@ -75,9 +75,9 @@
                         <p:menu>
                             
                             <p:submenu label="Enterprise Management" rendered="#{workPlaceManageBean.isValidResource()}">
-                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true" rendered="#{workPlaceManageBean.isValidHQ()}" />
-                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidFactoryManager()}"/>
-                                <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/IM/ListCurrentProduct.xhtml?faces-redirect=true" rendered="#{workPlaceManageBean.isValidStoreManager()}"/>
+                                <p:menuitem value="HQ Resource Control" outcome="/secured/restricted/CommonInfrastructure/EnterpriseResouces/EnterpriseResourceControl?faces-redirect=true" />
+                                <p:menuitem value="Factory Resource Control" outcome = "/secured/restricted/Factory/FactoryResourceControl.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Store Resource Control" outcome = "/secured/restricted/Store/ResourceControl/StoreResourceControl.xhtml?faces-redirect=true" />
                             </p:submenu>
                             
                             
