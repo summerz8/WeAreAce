@@ -8,15 +8,18 @@ package Member;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.ShoppingCartItemEntity;
 import SessionBean.OCRM.CustomerWebMemberModuleLocal;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import util.CryptographicHelper.CryptographicHelper;
 
 /**
  *
@@ -48,6 +51,9 @@ public class MemberInfoBean {
 
     private Date birDate;// used to convert birthday between string and calendar
     private String birString;
+    private String pwd1;
+    private String pwd2;
+    private String newPwd;
 
     private String first;
 
@@ -70,12 +76,15 @@ public class MemberInfoBean {
             birthday = member.getBirthday();
             memberId = member.getMemberId();
             itemList = member.getShoppingCartList();
-            setList=new ArrayList<>();
-            productList=new ArrayList<>();
-            
-            for(ShoppingCartItemEntity s: itemList){
-                if(s.getType().equals("product"))productList.add(s);
-                else setList.add(s);
+            setList = new ArrayList<>();
+            productList = new ArrayList<>();
+
+            for (ShoppingCartItemEntity s : itemList) {
+                if (s.getType().equals("product")) {
+                    productList.add(s);
+                } else {
+                    setList.add(s);
+                }
             }
             first = firstName;
 
@@ -115,6 +124,24 @@ public class MemberInfoBean {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
         return "../../China/HomePage?faces-redirect=true";
+    }
+
+    public void changePwd() throws IOException {
+        CryptographicHelper cp = new CryptographicHelper();
+        System.out.println("Old password:  " + password);
+        System.out.println("New password:  " +cp.doMD5Hashing(pwd1));
+
+        if (!pwd1.equals(pwd2)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The 2 passwards are not the same!", ""));
+        } else if (!cp.doMD5Hashing(pwd1).equals(password)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The password is not correct!", ""));
+
+        } else {
+            MRMM.changePwd(member.getMemberId(), cp.doMD5Hashing(pwd1));
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/MemberPage.xhtml");
+
+        }
+
     }
 
     public String removeItem(Long id) {
@@ -273,6 +300,30 @@ public class MemberInfoBean {
 
     public void setProductList(List<ShoppingCartItemEntity> productList) {
         this.productList = productList;
+    }
+
+    public String getPwd1() {
+        return pwd1;
+    }
+
+    public void setPwd1(String pwd1) {
+        this.pwd1 = pwd1;
+    }
+
+    public String getPwd2() {
+        return pwd2;
+    }
+
+    public void setPwd2(String pwd2) {
+        this.pwd2 = pwd2;
+    }
+
+    public String getNewPwd() {
+        return newPwd;
+    }
+
+    public void setNewPwd(String newPwd) {
+        this.newPwd = newPwd;
     }
 
 }

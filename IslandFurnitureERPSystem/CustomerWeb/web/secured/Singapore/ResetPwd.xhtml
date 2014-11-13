@@ -24,8 +24,8 @@
             <h:form id="formMain">
                 <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="./HomePage.xhtml">Home</a></button>
 
-                <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
-                <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
+                <p:graphicImage value="../../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                <p:graphicImage value="../../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
 
                 <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
@@ -49,22 +49,22 @@
                 <p:messages id="messagesStatus" redisplay="true" />
 
 
-                <p:panel id="basic" header="Please Input New Member Information " style="position: absolute; right:100px; top:150px;margin-bottom" >
+                <p:panel id="basic" header="Please Input Password Information " style="position: absolute; right:300px; top:150px;margin-bottom" >
                     <h:panelGrid columns="2" cellpadding="10">                                
 
                         <p:outputLabel for="pwd" style="font-weight: bold" value="Old Password :"/>                     
-                        <p:password id = "pwd" required="true" label = "Password :" requiredMessage ="Password is required." 
-                                    value="#{resetPwd.password1}"/>
+                        <p:password id = "pwd" required="true" label = "Password1:" requiredMessage ="Old Password is required." 
+                                    value="#{memberInfo.pwd1}"/>
 
                         <p:outputLabel for="pwd2" style="font-weight: bold" value="Old Password :"/>                     
-                        <p:password id = "pwd2" required="true" label = "Password :" requiredMessage ="Password is required." 
-                                    value="#{restPwd.password2}"/>
+                        <p:password id = "pwd2" required="true" label = "Password2 :" requiredMessage ="Old Password is required." 
+                                    value="#{memberInfo.pwd2}"/>
 
                         <h:outputLabel for="postal" value="New Password:" />
-                        <p:inputText value="#{restPwd.newpassword}" label="text" />
+                        <p:password value="#{memberInfo.newPwd}" label="NewPassword" requiredMessage ="new Password is required." />
 
 
-                        <p:commandButton actionListener="#{restPwd.addMember}" value="Reset"/>
+                        <p:commandButton actionListener="#{memberInfo.changePwd}" value="Reset"/>
                         <p:commandButton action="HomePage?faces-redirect=true" value="Cancel"/>
 
                     </h:panelGrid>

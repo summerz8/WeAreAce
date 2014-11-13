@@ -142,11 +142,11 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
     @WebMethod(exclude = true)
     public boolean AddMemberWithPassword(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String PWD,String web) {
+            String title, String address, String postalCode, String email, String PWD, String web) {
         System.out.println("MemberRegistrationModule: addMember():");
-        List<MemberEntity> memberList=ListMember();
-        for(MemberEntity m: memberList){
-            if(m.getEmail().equals(email)){
+        List<MemberEntity> memberList = ListMember();
+        for (MemberEntity m : memberList) {
+            if (m.getEmail().equals(email)) {
                 return false;
             }
         }
@@ -227,11 +227,17 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
     }
 
     @Override
-    public void createFeedBack(String title, String content, String email, String name){
-        FeedbackEntity feedback=new FeedbackEntity(title,content,email,name);
+    public void createFeedBack(String title, String content, String email, String name) {
+        FeedbackEntity feedback = new FeedbackEntity(title, content, email, name);
         em.persist(feedback);
         em.flush();
-    
+
+    }
+
+    @Override
+    public void changePwd(Long memberId, String pwd) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);
+        member.setPwd(pwd);
     }
 
 }
