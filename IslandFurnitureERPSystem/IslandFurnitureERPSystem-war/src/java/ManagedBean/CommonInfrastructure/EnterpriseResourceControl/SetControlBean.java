@@ -90,7 +90,7 @@ public class SetControlBean {
      public void viewSet(SetEntity set) throws IOException {
         selectedSet = set;
         String path = "/secured/restricted/CommonInfrastructure/EnterpriseResouces/EditSet.xhtml";
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSet", selectedSet);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("SetId", selectedSet.getId());
 
         String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url + path);

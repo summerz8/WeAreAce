@@ -289,12 +289,8 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
                     fpam.setUnit(s.getProduct().getUnit());
                     s.getProductSalesForecastList().get(s.getProductSalesForecastList().size() - 1).setStatus("Confirmed");
                     em.persist(fpam);
-                    System.out.println("storeProduct added: " + s.getStoreProductId() + " " + s.getFactoryProduct().getFactoryProductId());
                     salesForecast.getFactoryProductList().add(fpam);
-                    storeProductList.remove(s);
-                    if (storeProductList.isEmpty()) {
-                        break;
-                    }
+
                 }
             }
 
@@ -309,10 +305,6 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
 
                     em.persist(frpam);
                     salesForecast.getFactoryRetailProductList().add(frpam);
-                    storeRetailProductList.remove(sr);
-                    if (storeRetailProductList.isEmpty()) {
-                        break;
-                    }
                 }
 
             }
@@ -403,24 +395,23 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
         StoreEventEntity event = em.find(StoreEventEntity.class, storeEventId);
         Query q = em.createQuery("Select b from StoreEventEntity b where b.store.storeId =:sId and b.event.id =:eId ORDER BY b.startDate DESC");
         q.setParameter("sId", event.getStore().getStoreId());
-        q.setParameter("eId",event.getEvent().getId());
-        
-        List<StoreEventEntity> result=(List<StoreEventEntity>) q.getResultList();
-        System.out.println("111"+result.size());
-        int size=result.size();
-        Calendar today=Calendar.getInstance();
-        for(int a=0;a<size;a++){
-            if(result.get(a).getStartDate().after(today)){
+        q.setParameter("eId", event.getEvent().getId());
+
+        List<StoreEventEntity> result = (List<StoreEventEntity>) q.getResultList();
+        System.out.println("111" + result.size());
+        int size = result.size();
+        Calendar today = Calendar.getInstance();
+        for (int a = 0; a < size; a++) {
+            if (result.get(a).getStartDate().after(today)) {
                 result.remove(result.get(a));
                 a--;
                 size--;
             }
         }
-                System.out.println("222"+result.size());
+        System.out.println("222" + result.size());
 
-        
         return (List<StoreEventEntity>) result;
-        
+
     }
 
 }
