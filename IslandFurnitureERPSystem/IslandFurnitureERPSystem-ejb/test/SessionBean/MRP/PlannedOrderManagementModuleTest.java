@@ -90,9 +90,9 @@ public class PlannedOrderManagementModuleTest {
     @Test
     public void testDeletePlannedOrder() throws Exception {
         System.out.println("DeletePlannedOrder");
-        Long PlannedOrderId = 2L;
+        Long PlannedOrderId = 1L;
         boolean result = PlannedOrderManagementModule.DeletePlannedOrder(PlannedOrderId);
-        assertTrue(result);
+        assertFalse(result);
     }
 
     /**

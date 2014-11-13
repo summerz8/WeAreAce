@@ -205,7 +205,7 @@ public class PlannedOrderManagementModule implements PlannedOrderManagementModul
         try {
             PlannedOrderEntity plannedOrder = em.find(PlannedOrderEntity.class, PlannedOrderId);
             if (plannedOrder.getStatus()
-                    .equals("Unconfirmed")) {
+                    .equals("unconfirmed")) {
                 em.remove(plannedOrder);
                 return true;
             } else {

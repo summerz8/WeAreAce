@@ -88,7 +88,7 @@ public class RetailProductPurchasePlanModuleTest {
         System.out.println("deleteRetailProductPurchasePlan");
         Long id = 1L;
         boolean result = RetailProductPurchasePlanModule.deleteRetailProductPurchasePlan(id);
-        assertTrue(result);
+        assertFalse(result);
     }
 
     /**
@@ -128,9 +128,9 @@ public class RetailProductPurchasePlanModuleTest {
     @Test
     public void testFindIntegratedSalesForecast() throws Exception {
         System.out.println("findIntegratedSalesForecast");
-        Long integratedSalesForecastId = 1L;
+        Long integratedSalesForecastId = -1L;
         boolean result = RetailProductPurchasePlanModule.findIntegratedSalesForecast(integratedSalesForecastId);
-        assertTrue(result);
+        assertFalse(result);
     }
 
     private RetailProductPurchasePlanModuleRemote lookupRemote() {
