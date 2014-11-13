@@ -97,6 +97,9 @@ public class ProductionPlanManagementModule implements ProductionPlanManagementM
     public boolean deleteProductionPlan(Long productionPlanId) {
 
         ProductionPlanEntity productionPlan = em.find(ProductionPlanEntity.class, productionPlanId);
+        if(productionPlan == null) {
+            return false;
+        }
         String status = productionPlan.getStatus();
 
         if (status.equals("confirmed") || status.equals("accomplished")) {

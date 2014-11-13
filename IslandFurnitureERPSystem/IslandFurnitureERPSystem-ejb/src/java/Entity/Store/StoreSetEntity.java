@@ -44,7 +44,7 @@ public class StoreSetEntity implements Serializable {
     //store product entity -- stores entity: M <--> 1
     @OneToMany
     @XmlTransient
-    private List<StoreProductEntity> storeProductList;
+    private List<StoreProductEntity> storeProductList=new ArrayList<>();
 
     @ManyToOne
     private SetEntity set;

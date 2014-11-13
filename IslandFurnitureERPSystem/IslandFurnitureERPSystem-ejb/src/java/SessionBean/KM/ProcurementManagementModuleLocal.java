@@ -56,5 +56,4 @@ public interface ProcurementManagementModuleLocal {
 
     Long editIPOSActualTotal(Long IPOSId, Double actualTotal);
 
-    public Long confirmIngredientPurchaseOrder(Long ingredientPurchaseOrderId, Double acturalTotal);
 }

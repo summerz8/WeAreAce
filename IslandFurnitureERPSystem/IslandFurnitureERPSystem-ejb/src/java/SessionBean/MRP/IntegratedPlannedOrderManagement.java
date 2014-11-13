@@ -229,6 +229,9 @@ public class IntegratedPlannedOrderManagement implements IntegratedPlannedOrderM
     public boolean findFactoryRawMaterialIdList(Long id, String department, Long factoryRawMaterialId) {
         try {
             List<PlannedOrderEntity> plannedOrderList = getConfirmedPlannedOrder(id, department);
+            if(plannedOrderList.isEmpty()) {
+                return false;
+            }
             boolean flag = Boolean.FALSE;
             for (PlannedOrderEntity po : plannedOrderList) {
                 List<FactoryRawMaterialAmountEntity> factoryRawMaterialAmountList = po.getFactoryRawMaterialAmountList();
