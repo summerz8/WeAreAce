@@ -43,7 +43,8 @@ public class TransactionEntity implements Serializable {
     private Double totalMemberPrice;
     private Double tendered;
     private Double moneyChange;
-    private int location;//1 for furniture 2 for retial product 3 for kitchen
+    private String POSid;
+    private int location;//1 for furniture 2 for retail product
 
     @ManyToOne
     private StoreEntity store;
@@ -156,6 +157,14 @@ public class TransactionEntity implements Serializable {
 
     public void setLocation(int location) {
         this.location = location;
+    }
+
+    public String getPOSid() {
+        return POSid;
+    }
+
+    public void setPOSid(String POSid) {
+        this.POSid = POSid;
     }
     
     

@@ -54,7 +54,8 @@ public class ChartView {
                 selectSalesForecast.add(salesForecast.get(a + 1));
             }
         }
-
+        
+        System.out.println("Forecast size: "+selectSalesForecast.size()+ "record size: "+ selectSalesRecord.size());
         animatedModel1 = initRecentData(selectSalesForecast, selectSalesRecord);
         animatedModel1.setTitle("Month-on-Month");
         animatedModel1.setAnimate(true);

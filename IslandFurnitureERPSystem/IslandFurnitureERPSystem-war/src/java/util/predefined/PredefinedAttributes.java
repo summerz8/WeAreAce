@@ -23,29 +23,44 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class PredefinedAttributes implements Serializable {
 
-    private String[] titles;
-    private String[] genders;
-    private String[] departments;
+    private Map<String, String> titles = new HashMap<String, String>();
+    private Map<String, String> genders = new HashMap<String, String>();
+    private Map<String, String> departments = new HashMap<String, String>();
+//    private String[] titles;
+//    private String[] genders;
+//    private String[] departments;
 //    private final static String[] country;
     private Map<String, String> countries = new HashMap<String, String>();
 
     @PostConstruct
     public void init() {
-        titles = new String[4];        
-        titles[0] = "Mr";
-        titles[1] = "Ms";
-        titles[2] = "Miss";
-        titles[3] = "Mrs";
+//        titles = new String[4];        
+//        titles[0] = "Mr";
+//        titles[1] = "Ms";
+//        titles[2] = "Miss";
+//        titles[3] = "Mrs";
+        titles.put("Mr", "Mr");
+        titles.put("Ms", "Ms");
+        titles.put("Miss", "Miss");
+        titles.put("Mrs", "Mrs");
 
-        genders = new String[3];
-        genders[0] = "Male";
-        genders[1] = "Female";
-        genders[2] = "Others";
-
-        departments = new String[3];
-        departments[0] = "H";
-        departments[1] = "F";
-        departments[2] = "S";
+//        genders = new String[3];
+//        genders[0] = "Male";
+//        genders[1] = "Female";
+//        genders[2] = "Others";
+        genders.put("Male", "Male");
+        genders.put("Female", "Female");
+        genders.put("Others", "Others");
+        
+//
+//        departments = new String[3];
+//        departments[0] = "H";
+//        departments[1] = "F";
+//        departments[2] = "S";
+        departments.put("HQ", "H");
+        departments.put("Factory", "F");
+        departments.put("Store", "S");
+        
 
 //        country = new String[196];
 //        country[0] = "Singapore";
@@ -261,17 +276,30 @@ public class PredefinedAttributes implements Serializable {
     public PredefinedAttributes() {
     }
 
-    public List<String> getTitles() {
-        return Arrays.asList(titles);
+    public Map<String, String> getTitles() {
+        return titles;
     }
 
-    public List<String> getGenders() {
-        return Arrays.asList(genders);
+    public void setTitles(Map<String, String> titles) {
+        this.titles = titles;
     }
 
-    public List<String> getDepartments() {
-        return Arrays.asList(departments);
+    public Map<String, String> getGenders() {
+        return genders;
     }
+
+    public void setGenders(Map<String, String> genders) {
+        this.genders = genders;
+    }
+
+    public Map<String, String> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Map<String, String> departments) {
+        this.departments = departments;
+    }
+
 
     public Map<String, String> getCountries() {
         return countries;

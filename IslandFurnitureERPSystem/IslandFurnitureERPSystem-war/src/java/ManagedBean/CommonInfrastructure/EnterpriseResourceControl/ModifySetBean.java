@@ -50,7 +50,7 @@ public class ModifySetBean {
 
     @PostConstruct
     public void init() {
-        setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("setId");
+        setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("SetId");
 
         set = RPMM.getSet(setId);
         price = set.getPrice();

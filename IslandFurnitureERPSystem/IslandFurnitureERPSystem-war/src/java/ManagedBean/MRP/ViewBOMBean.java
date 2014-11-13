@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ManagedBean.MRP;
 
 import Entity.Factory.BOMEntity;
@@ -31,17 +30,21 @@ public class ViewBOMBean {
     Long ProductId;
     ProductEntity product;
     List<BOMEntity> bom;
-    
+
     public ViewBOMBean() {
     }
-    
+
     @PostConstruct
-    public void getBOM(){
-          factoryProductId=(Long)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryProductId");
-             product=WPP.getProduct(factoryProductId);
-          bom=product.getBom();
-          
-          
+    public void getBOM() {
+        try {
+            factoryProductId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("factoryProductId");
+            product = WPP.getProduct(factoryProductId);
+            bom = product.getBom();
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public WeeklyProductionPlanLocal getWPP() {
@@ -83,5 +86,5 @@ public class ViewBOMBean {
     public void setBom(List<BOMEntity> bom) {
         this.bom = bom;
     }
-    
+
 }

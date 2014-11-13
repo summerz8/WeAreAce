@@ -74,8 +74,11 @@
                             <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
-                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                            <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
+                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true" />
+                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true" />
+                            <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true" />
+                            <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
 
@@ -88,7 +91,7 @@
 
                         <h:panelGrid columns="2" style="width:100%">
 
-                           <p:selectOneMenu id="item" value="#{createSet.selectedSet}">
+                            <p:selectOneMenu id="item" value="#{createSet.selectedSet}">
                                 <f:selectItem itemLabel="Select One" itemValue="" />
                                 <f:selectItems value="#{createSet.displayList}" />
                             </p:selectOneMenu>
@@ -106,7 +109,7 @@
             </p:layout>
 
         </h:form>
- 
+
     </h:body>
 
 </html>

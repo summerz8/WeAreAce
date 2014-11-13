@@ -34,20 +34,19 @@ import javax.persistence.Query;
  6. reply a message
  7. forward a messag 
  8. a. Dispaly receive Message List
-    b. Display receive Message List by Sender -- enable by primeface
+ b. Display receive Message List by Sender -- enable by primeface
  9. a. Display sent Message List
  9. b. Display send Message List by Receiver -- enable by primeface
 
  */
 @Stateless
-public class InternalMessageModule implements InternalMessageModuleLocal {
+public class InternalMessageModule implements InternalMessageModuleLocal, InternalMessageModuleRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
 
-    
 //    =====================================GET USER ==========================================
     @Override
     public List<UserEntity> getAllUsers() {
@@ -61,14 +60,15 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         return userList;
     }
 //    =====================================SEND MESSAGE ==========================================
+
     @Override
     public void sendMessage(String senderId, String title, String content, ArrayList<String> receiverIds) throws Exception {
 
         UserEntity sender = em.find(UserEntity.class, senderId);
-        System.err.println("sessionBean internal message module sendMessage(): getUserId: " + sender.getUserId());
         if (sender == null) {
-            throw new Exception("Sender is not found");
+            throw new Exception("Sender is not found!");
         } else {
+            System.out.println("sessionBean internal message module sendMessage(): getUserId: " + sender.getUserId());
 
             //initialise the new message
             //get the list of receive
@@ -82,12 +82,12 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
             Calendar sendTime = Calendar.getInstance();
 //            sendTime.getTime();
 //
-           SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 //            String time = sdf.format(sendTime.getTime()).toString();
             System.out.println("sessionbean internal message module sendMessage(): time : " + sendTime.getTime());
             System.out.println("sessionbean internal message module sendMessage(): title : " + title);
             System.out.println("sessionbean internal message module sendMessage(): content : " + content);
-            
+
             //instanlise a sendmessage entity
             InternalMessageEntity sendNewMessage = new InternalMessageEntity(senderName, title, content, sendTime);
             em.persist(sendNewMessage);
@@ -95,10 +95,10 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
 
             sender.getSendMessage().add(sendNewMessage);
             em.flush();
-            
+
             sendNewMessage.setSender(sender);
             em.flush();
-            
+
             System.err.println("sessionbean internal message module setMessageSender(): here message has been set in Internal Message Entity under a sender");
             Integer i;
             Collection<InternalMessageReceive> receiverMessageList = new ArrayList<InternalMessageReceive>();
@@ -107,21 +107,20 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
                 if (receiver == null) {
                     throw new Exception("Receiver is not found!");
                 } else {
-                    
+
                     String displayReceiverIdAndName = "(" + receiver.getUserId() + ")" + receiver.getFirstName() + " " + receiver.getLastName();
                     receiverIdArray.add(displayReceiverIdAndName);
                     InternalMessageReceive receiveMessage = new InternalMessageReceive(sendNewMessage);
                     em.persist(receiveMessage);
                     em.flush();
                     System.out.println("sessionbean internal message module sendMessage(): recieve message time : " + sdf.format(receiveMessage.getCalendarTime().getTime()).toString());
-        
-                    
+
                     receiver.getReceiveMessage().add(receiveMessage);
                     em.flush();
-                    
+
                     receiveMessage.setReceiver(receiver);
                     em.flush();
-                    
+
                     System.err.println("sessionbean internal message module sendMessage(): receiverId: " + receiveMessage.getReceiver().getUserId());
 
                     receiverMessageList.add(receiveMessage);
@@ -147,7 +146,7 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         if (sendMessage == null) {
             throw new Exception("Sent Message is not found!");
         } else {
-             System.out.println("session bean deleteSentMessage: update state!");
+            System.out.println("session bean deleteSentMessage: update state!");
             sendMessage.setIsDeleted(true);
             System.out.println("session bean deleteSentMessage: update update!");
         }
@@ -162,14 +161,15 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         if (receiveMessage == null) {
             throw new Exception("Received Message is not found!");
         } else {
-           
+
             receiveMessage.setDeleted(true);
         }
-        
+
         em.flush();
 
     }
 //    ===================================== READ RECEIVED MESSAGE ==========================================
+
     @Override
     public void readReceiveMessage(Long receiveMessageId) throws Exception {
         InternalMessageReceive receiveMessage = em.find(InternalMessageReceive.class, receiveMessageId);
@@ -198,45 +198,43 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
         em.flush();
 
     }
-    
- //    ===================================== VIEW SEND MESSAGE  ==========================================   
+
+    //    ===================================== VIEW SEND MESSAGE  ==========================================   
     @Override
-    public Collection<InternalMessageEntity> viewSendMessage(String senderId) {
+    public Collection<InternalMessageEntity> viewSendMessage(String senderId) throws Exception {
         Collection<InternalMessageEntity> sendMessageList = new ArrayList<InternalMessageEntity>();
         UserEntity sender = em.find(UserEntity.class, senderId);
-        
-       
-         for( InternalMessageEntity notDeletedMessage :sender.getSendMessage()){
-            if(!notDeletedMessage.getIsDeleted()){
+        if (sender == null) {
+            throw new Exception("User Id is not found!");
+        }
+
+        for (InternalMessageEntity notDeletedMessage : sender.getSendMessage()) {
+            if (!notDeletedMessage.getIsDeleted()) {
                 sendMessageList.add(notDeletedMessage);
             }
         }
-        
+
         return sendMessageList;
     }
 
- //    ===================================== VIEW RECEIVE MESSAGE ==========================================   
+    //    ===================================== VIEW RECEIVE MESSAGE ==========================================   
     @Override
-    public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId)  {
+    public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId) {
         Collection<InternalMessageReceive> receiveMessageList = new ArrayList<InternalMessageReceive>();
         UserEntity receiver = em.find(UserEntity.class, receiverId);
-        System.out.println("InternalMessageModule: ---> receiverId: " + receiver.getUserId() );
+        if (receiver == null) {
+            return null;
+        }
+        System.out.println("InternalMessageModule: ---> receiverId: " + receiver.getUserId());
 
-        for( InternalMessageReceive notDeletedMessage :receiver.getReceiveMessage()){
-            if(!notDeletedMessage.isDeleted()){
+        for (InternalMessageReceive notDeletedMessage : receiver.getReceiveMessage()) {
+            if (!notDeletedMessage.isDeleted()) {
                 receiveMessageList.add(notDeletedMessage);
             }
         }
         System.out.println("InternalMessageModule: ---> messageSize: " + receiveMessageList.size());
         return receiveMessageList;
     }
-    
-    
-    
-    
-    
-    
-    
 
 //    @Override
 //    public Collection<InternalMessageReceive> viewReceiveMessageBySender(String receiverId, String senderId) throws Exception {
@@ -280,5 +278,4 @@ public class InternalMessageModule implements InternalMessageModuleLocal {
 //        }
 //        return sendMessageListByReceiver;
 //    }
-
 }

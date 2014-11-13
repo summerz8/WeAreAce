@@ -114,17 +114,19 @@
                                 <p:menuitem value="Procument Management" outcome = "/secured/restricted/Store/KM/ProcurementManagementModule/ProcurementManagementPage?faces-redirect=true" onclick="#{findKitchenBean}"/>                           
                             </p:submenu>
 
+
                             <p:submenu label="Operational CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                                 <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
-                                <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
-                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
-                                <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true"/>
+                                <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true" />
+                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true" />
+                                <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true" />
                                 <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
-
                             </p:submenu>
+
+
 
                             <p:submenu label="Analytical CRM" rendered="#{workPlaceManageBean.isValidCRM()}">
                                 <p:menuitem value="ACRM Main Page" outcome = "/secured/restricted/Store/ACRM/ACRMPage?faces-redirect=true"/>
@@ -196,13 +198,12 @@
                                         <h:outputLabel for="store2" value="Store:" style="font-weight:bold" />
                                         <p:selectOneMenu id="store2" value="#{workPlaceBean.selectedStore1}">
                                             <p:ajax  update="out1" listener="#{workPlaceBean.checkRev}" />
-
-
                                             <f:selectItem itemLabel="All Stores" itemValue="" />
                                             <f:selectItems value="#{workPlaceBean.displayList}" />
                                         </p:selectOneMenu>
 
                                         <h:outputText value="Current Month Cumulative Revenue" />
+
                                         <h:outputText id="out1" value="#{workPlaceBean.revSP}" style="color: red;font-size: 16px" />
                                     </h:panelGrid>
                                 </p:panel>

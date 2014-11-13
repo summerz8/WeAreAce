@@ -17,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface RetailProductPurchasePlanModuleLocal {
 
-    public void editRetailProductPurchasePlan(Long id, String field, Object content);
+    public void editRetailProductPurchasePlan(Long id, String field, Object content) throws Exception;
 
     public boolean deleteRetailProductPurchasePlan(Long productionPlanId);
 
@@ -31,7 +31,7 @@ public interface RetailProductPurchasePlanModuleLocal {
 
     public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlanCancelled(Long id,String department);
 
-    public Long getFactoryRetailProductId(Long integratedSalesForecastId);
+    public Long getFactoryRetailProductId(Long integratedSalesForecastId) throws Exception;
 
     public boolean findIntegratedSalesForecast(Long integratedSalesForecastId);
     

@@ -12,9 +12,10 @@ import Entity.Store.OCRM.PickupListEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
-import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreItemMappingEntity;
+import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
+import Entity.Store.StoreSetEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -43,7 +44,8 @@ public class TransactionModule implements TransactionModuleLocal {
     public Long createNewTransaction(
             @WebParam(name = "staffId") String staffId,
             @WebParam(name = "memberId") Long memberId,
-            @WebParam(name = "location") int location) {
+            @WebParam(name = "location") int location,
+            @WebParam(name = "POSid") String POSid) {
 
         Calendar generatedTime = Calendar.getInstance();
         StoreUserEntity storeStaff = em.find(StoreUserEntity.class, staffId);
@@ -59,7 +61,7 @@ public class TransactionModule implements TransactionModuleLocal {
             transaction.setMember(member);
         }
         transaction.setLocation(location);
-
+        transaction.setPOSid(POSid);
         em.persist(transaction);
         em.flush();
 
@@ -102,19 +104,50 @@ public class TransactionModule implements TransactionModuleLocal {
             StoreItemMappingEntity item = em.find(StoreItemMappingEntity.class, itemId);
 
             if (transaction.getLocation() == 1) {
-                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductId());
-                String itemName = storeProduct.getProduct().getName();
-                Double unitPrice = storeProduct.getProduct().getPrice();
-                Double totalPrice = unitPrice * amount;
-                transactionItem.setItemName(itemName);
-                transactionItem.setTotalPrice(totalPrice);
-                transactionItem.setUnitPrice(unitPrice);
-                if (transaction.getMember() != null) {
+//<<<<<<< HEAD
+                if (item.getProductId() != null) {
+                    StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductId());
+                    String itemName = storeProduct.getProduct().getName();
+                    Double unitPrice = storeProduct.getProduct().getPrice();
+                    Double totalPrice = unitPrice * amount;
+                    transactionItem.setItemName(itemName);
+                    transactionItem.setTotalPrice(totalPrice);
+                    transactionItem.setUnitPrice(unitPrice);
+
                     Double unitMemberPrice = storeProduct.getProduct().getMemberPrice();
                     Double totalMemberPrice = unitMemberPrice * amount;
                     transactionItem.setUnitMemberPrice(unitMemberPrice);
                     transactionItem.setTotalMemberPrice(totalMemberPrice);
+                } else if (item.getStoreSetId() != null) {
+                    StoreSetEntity storeSet = em.find(StoreSetEntity.class, item.getStoreSetId());
+                    String itemName = storeSet.getName();
+                    Double unitPrice = storeSet.getSet().getPrice();
+                    Double totalPrice = unitPrice * amount;
+                    transactionItem.setItemName(itemName);
+                    transactionItem.setItemName(itemName);
+                    transactionItem.setTotalPrice(totalPrice);
+                    transactionItem.setUnitPrice(unitPrice);
+
+                    Double unitMemberPrice = storeSet.getSet().getMemberPrice();
+                    Double totalMemberPrice = unitMemberPrice * amount;
+                    transactionItem.setUnitMemberPrice(unitMemberPrice);
+                    transactionItem.setTotalMemberPrice(totalMemberPrice);
                 }
+//=======
+//                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, item.getProductId());
+//                String itemName = storeProduct.getProduct().getName();
+//                Double unitPrice = storeProduct.getProduct().getPrice();
+//                Double totalPrice = unitPrice * amount;
+//                transactionItem.setItemName(itemName);
+//                transactionItem.setTotalPrice(totalPrice);
+//                transactionItem.setUnitPrice(unitPrice);
+//
+//                Double unitMemberPrice = storeProduct.getProduct().getMemberPrice();
+//                Double totalMemberPrice = unitMemberPrice * amount;
+//                transactionItem.setUnitMemberPrice(unitMemberPrice);
+//                transactionItem.setTotalMemberPrice(totalMemberPrice);
+//>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+
             } else {
                 StoreRetailProductEntity storeRetailProduct = em.find(StoreRetailProductEntity.class, item.getRetailProductId());
                 String itemName = storeRetailProduct.getRetailProduct().getName();
@@ -156,7 +189,7 @@ public class TransactionModule implements TransactionModuleLocal {
             totalPrice += listTotalPrice;
         }
 
-        if (transaction.getMember() != null && transaction.getLocation() == 1 ) {
+        if (transaction.getLocation() == 1) {
             for (TransactionItemEntity list : transactionItemList) {
                 Double listTotalPrice = list.getTotalMemberPrice();
                 totalMemberPrice += listTotalPrice;
@@ -171,6 +204,17 @@ public class TransactionModule implements TransactionModuleLocal {
 
         return totalPrice;
 
+    }
+
+    @WebMethod(operationName = "setTendered")
+    public void setTendered(
+            @WebParam(name = "transactionId") Long transactionId,
+            @WebParam(name = "tendered") Double tendered) {
+        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
+
+        transaction.setTendered(tendered);
+        em.persist(transaction);
+        em.flush();
     }
 
     //caculate the moneyChange amount and return
@@ -215,29 +259,51 @@ public class TransactionModule implements TransactionModuleLocal {
         for (TransactionItemEntity ti : transactionItemList) {
             Long itemId = ti.getItemId();
             StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
-            Long storeProductId = mapping.getProductId();
-            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
-            if (!storeProduct.getSelfPick()) {
-                ti.setPickupList(pickupList);
-                em.persist(ti);
+//<<<<<<< HEAD
+            if (mapping.getRetailProductId() == null && mapping.getStoreSetId() == null) {
+                Long storeProductId = mapping.getProductId();
+                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
+                if (storeProduct.getSelfPick()) {
+                    ti.setPickupList(pickupList);
+                    em.persist(ti);
+                    em.flush();
+                    temp.add(ti);
+                }
+            } else if (mapping.getProductId() == null && mapping.getRetailProductId() == null) {
+                Long storeProductId = mapping.getProductId();
+                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
+                if (storeProduct.getSelfPick()) {
+                    ti.setPickupList(pickupList);
+                    em.persist(ti);
+                    em.flush();
+                    temp.add(ti);
+                }
+                pickupList.setTransactoinItems(temp);
+                em.persist(pickupList);
                 em.flush();
-                temp.add(ti);              
+//=======
+//            Long storeProductId = mapping.getProductId();
+//            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
+//            if (storeProduct.getSelfPick()) {
+//                ti.setPickupList(pickupList);
+//                em.persist(ti);
+//                em.flush();
+//                temp.add(ti);
+//>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
             }
         }
-
-        pickupList.setTransactoinItems(temp);
-        em.persist(pickupList);
-        em.flush();
     }
 
     @WebMethod(operationName = "checkItem")
-    public Boolean checkItem(Long UUID) {
+    public Boolean checkItem(Long UUID
+    ) {
         StoreItemMappingEntity itemMapping = em.find(StoreItemMappingEntity.class, UUID);
         return itemMapping != null;
     }
 
     @WebMethod(operationName = "getTransactionItemList")
-    public List<TransactionItemEntity> getTransactionItemList(Long transactionId) {
+    public List<TransactionItemEntity> getTransactionItemList(Long transactionId
+    ) {
 
         TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
         if (transaction != null) {
@@ -250,7 +316,8 @@ public class TransactionModule implements TransactionModuleLocal {
     }
 
     @WebMethod(operationName = "deleteUnfinishedTransaction")
-    public void deleteUnfinishedTransaction(Long transactionId) {
+    public void deleteUnfinishedTransaction(Long transactionId
+    ) {
         TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
 
         if (transaction.getMoneyChange() == null) {
@@ -262,7 +329,8 @@ public class TransactionModule implements TransactionModuleLocal {
 
     @WebMethod(operationName = "getStoreByStaffId")
     public StoreEntity getStoreByStaffId(
-            @WebParam(name = "storeStaffId") String storeStaffId) {
+            @WebParam(name = "storeStaffId") String storeStaffId
+    ) {
 
         StoreUserEntity storeUser = em.find(StoreUserEntity.class, storeStaffId);
         StoreEntity store = em.find(StoreEntity.class, storeUser.getDepartmentId());
@@ -270,13 +338,15 @@ public class TransactionModule implements TransactionModuleLocal {
     }
 
     @WebMethod(operationName = "getTransactionById")
-    public TransactionEntity getTransactionById(Long transactionId) {
+    public TransactionEntity getTransactionById(Long transactionId
+    ) {
         TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
         return transaction;
     }
 
     @WebMethod(operationName = "changeAmount")
-    public void changeAmount(Long transactionItemId, int amount) {
+    public void changeAmount(Long transactionItemId, int amount
+    ) {
         TransactionItemEntity transactionItem = em.find(TransactionItemEntity.class, transactionItemId);
         transactionItem.setAmount(amount);
         Double totalPrice = transactionItem.getUnitPrice() * amount;
@@ -292,7 +362,8 @@ public class TransactionModule implements TransactionModuleLocal {
     }
 
     @WebMethod(operationName = "deleteTransactionItem")
-    public void deleteTransactionItem(Long transactionItemId, Long transactionId) {
+    public void deleteTransactionItem(Long transactionItemId, Long transactionId
+    ) {
         TransactionItemEntity transactionItem = em.find(TransactionItemEntity.class, transactionItemId);
         TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
 
@@ -307,14 +378,16 @@ public class TransactionModule implements TransactionModuleLocal {
         em.remove(transactionItem);
         em.flush();
     }
-    
+
     //check the product type, return 1 if it is furniture, 2 if it is retail product
     @WebMethod(operationName = "checkItemType")
-    public int checkItemType(Long itemId){
-        StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class,itemId);
-        if(mapping.getProductId()!=null)
+    public int checkItemType(Long itemId) {
+        StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
+        if (mapping.getProductId() != null) {
             return 1;
-        else return 2;
+        } else {
+            return 2;
+        }
     }
 
 //    

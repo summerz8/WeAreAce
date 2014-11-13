@@ -10,6 +10,8 @@ import Entity.CommonInfrastructure.HQUserEntity;
 import Entity.CommonInfrastructure.IdNumberEntity;
 import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.CommonInfrastructure.UserEntity;
+import Entity.Factory.FactoryEntity;
+import Entity.Store.StoreEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +27,7 @@ import util.security.CryptographicHelper;
  * @author dan
  */
 @Stateless
-public class InternalUserAccountManagementModule implements InternalUserAccountManagementModuleLocal {
+public class InternalUserAccountManagementModule implements InternalUserAccountManagementModuleLocal, InternalUserAccountManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -66,7 +68,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-       
+
         String hashedpwd;
         IdNumberEntity idNum = em.find(IdNumberEntity.class, 0);
 
@@ -74,7 +76,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             case 'H':
                 idNumber = (int) idNum.getId_H() + 1;
                 idNum.setId_H((long) idNumber);
-                hashedpwd = cryptographicHelper.doMD5Hashing(PWD+"H"+idNumber.toString());
+                hashedpwd = cryptographicHelper.doMD5Hashing(PWD + "H" + idNumber.toString());
                 HQuser = new HQUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, 1L, hashedpwd, false);
@@ -84,7 +86,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             case 'F':
                 idNumber = (int) idNum.getId_F() + 1;
                 idNum.setId_F((long) idNumber);
-                hashedpwd = cryptographicHelper.doMD5Hashing(PWD+"F"+idNumber.toString());
+                hashedpwd = cryptographicHelper.doMD5Hashing(PWD + "F" + idNumber.toString());
                 Fuser = new FactoryUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, departmentId, hashedpwd, false);
@@ -94,7 +96,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             case 'S':
                 idNumber = (int) idNum.getId_S() + 1;
                 idNum.setId_S((long) idNumber);
-                hashedpwd = cryptographicHelper.doMD5Hashing(PWD+"S"+idNumber.toString());
+                hashedpwd = cryptographicHelper.doMD5Hashing(PWD + "S" + idNumber.toString());
                 Suser = new StoreUserEntity(department, idNumber.toString(), userLevel,
                         lastName, midName, firstName, position, birthday, gender,
                         title, address, postalCode, email, departmentId, hashedpwd, false);
@@ -107,10 +109,13 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     }
 
     @Override
-    public void DeleteStaff(String userId) {
+    public void DeleteStaff(String userId) throws Exception {
         String id = userId;
         System.out.println("InternalUserAccountModule: deletStaff():" + userId);
         UserEntity user = em.find(UserEntity.class, userId);
+        if (user == null) {
+            throw new Exception("Staff is not found!");
+        }
         user.setDeleteFlag(Boolean.TRUE);
         em.persist(user);
         em.flush();
@@ -120,46 +125,49 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     @Override
     public void ModifyStaff(String userId, String department, Integer userLevel, String lastName, String midName,
             String firstName, String position, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, long departmentId) {
+            String title, String address, String postalCode, String email, long departmentId) throws Exception {
 
         System.out.println("InternalUserAccountModule: ModifyStaff():" + userId);
         System.out.println("InternalUserAccountModule: ModifyStaff(): birthday" + birthday.getTime().toString());
-        Query query;
-        switch (userId.charAt(0)) {
-            case 'H':
-                //query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=:userId");\
-                System.out.println("IUAM: modify HQ User");
-                HQUserEntity HQUser = em.find(HQUserEntity.class, userId);
-                HQUser.editHQUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, Boolean.FALSE, 1L);
-                System.out.println("IUAM: ModifyStaff: HQUser: birthday " + HQUser.getBirthday().getTime().toString());
-                em.persist(HQUser);
-                em.flush();
-                em.refresh(HQUser);
+        if (em.find(UserEntity.class, userId) == null) {
+            throw new Exception("Staff is not found!");
+        } else {
+            Query query;
+            switch (userId.charAt(0)) {
+                case 'H':
+                    //query = em.createQuery("SELECT h FROM HQUserEntity WHERE h.userId=:userId");\
+                    System.out.println("IUAM: modify HQ User");
+                    HQUserEntity HQUser = em.find(HQUserEntity.class, userId);
+                    HQUser.editHQUserEntity(department, userLevel, lastName, midName,
+                            firstName, position, birthday, gender, title, address, postalCode, email, Boolean.FALSE, 1L);
+                    System.out.println("IUAM: ModifyStaff: HQUser: birthday " + HQUser.getBirthday().getTime().toString());
+                    em.persist(HQUser);
+                    em.flush();
+                    em.refresh(HQUser);
 
-                System.out.println("IUAM: ModifyStaff: HQUser: birthday " + HQUser.getBirthday().getTime().toString());
-                break;
-            case 'F':
-                //query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=:userId");
-                FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
-                FactoryUser.editFactoryUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.FALSE);
+                    System.out.println("IUAM: ModifyStaff: HQUser: birthday " + HQUser.getBirthday().getTime().toString());
+                    break;
+                case 'F':
+                    //query = em.createQuery("SELECT f FROM FactoryUserEntity WHERE f.userId=:userId");
+                    FactoryUserEntity FactoryUser = em.find(FactoryUserEntity.class, userId);
+                    FactoryUser.editFactoryUserEntity(department, userLevel, lastName, midName,
+                            firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.FALSE);
 
-                em.persist(FactoryUser);
-                em.flush();
-                break;
-            case 'S':
-                //query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
-                StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
-                StoreUser.editStoreUserEntity(department, userLevel, lastName, midName,
-                        firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.FALSE);
-                em.persist(StoreUser);
-                em.flush();
-                break;
+                    em.persist(FactoryUser);
+                    em.flush();
+                    break;
+                case 'S':
+                    //query = em.createQuery("SELECT s FROM StoreUserEntity WHERE s.userId=userId");
+                    StoreUserEntity StoreUser = em.find(StoreUserEntity.class, userId);
+                    StoreUser.editStoreUserEntity(department, userLevel, lastName, midName,
+                            firstName, position, birthday, gender, title, address, postalCode, email, departmentId, Boolean.FALSE);
+                    em.persist(StoreUser);
+                    em.flush();
+                    break;
+            }
+            UserEntity user = em.find(UserEntity.class, userId);
+            System.out.println("IUAM: ModifyStaff: User: birthday " + user.getBirthday().getTime().toString());
         }
-        UserEntity user = em.find(UserEntity.class, userId);
-        System.out.println("IUAM: ModifyStaff: User: birthday " + user.getBirthday().getTime().toString());
-
     }
 
     //don't know how to implement this
@@ -180,8 +188,11 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     }
 
     @Override
-    public List<UserEntity> ListFactoryUser(Long id) {
+    public List<UserEntity> ListFactoryUser(Long id) throws Exception {
         System.out.println("InternalUserAccountModule: ListUser(): for factory " + id);
+        if (em.find(FactoryEntity.class, id) == null) {
+            throw new Exception("Factory is not found!");
+        }
         Query q = em.createQuery("SELECT t FROM UserEntity t");
         List requiredUserList = new ArrayList();
         for (Object o : q.getResultList()) {
@@ -200,8 +211,11 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     }
 
     @Override
-    public List<UserEntity> ListStoreUser(Long id) {
+    public List<UserEntity> ListStoreUser(Long id) throws Exception {
         System.out.println("InternalUserAccountModule: ListUser(): for store " + id);
+        if (em.find(StoreEntity.class, id) == null) {
+            throw new Exception("Store is not found!");
+        }
         Query q = em.createQuery("SELECT t FROM UserEntity t");
         List requiredUserList = new ArrayList();
         for (Object o : q.getResultList()) {
@@ -220,7 +234,7 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     }
 
     @Override
-    public UserEntity getUser(String userId) {
+    public UserEntity getUser(String userId) throws Exception {
         try {
             System.out.println("InternalUserAccountModule: listUserInfo(): userID " + userId);
 
@@ -233,11 +247,15 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
             //if the user exsit 
             if (user == null) {
                 System.out.println("IUMA:getUser(): User Not Found!");
+                throw new Exception("User is not found!");
             } else {
                 System.out.println("IUMA:getUser(): User Found !");
             }
             return user;
         } catch (Exception e) {
+            if (e.getMessage().equals("User is not found!")) {
+                throw e;
+            }
             System.out.println("unexpected error");
             e.printStackTrace();
         }
@@ -246,10 +264,13 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
     }
 
     @Override
-    public void changePass(String newPass, String userId) {
+    public void changePass(String newPass, String userId) throws Exception {
         System.out.println("InternalUserAccountModule: change password: ");
         System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
         UserEntity user = em.find(UserEntity.class, userId);
+        if (user == null) {
+            throw new Exception("User is not found!");
+        }
         user.setPwd(newPass);
         em.persist(user);
         em.flush();
@@ -272,11 +293,13 @@ public class InternalUserAccountManagementModule implements InternalUserAccountM
         System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
         UserEntity user = em.find(UserEntity.class, userId);
         if (user != null) {
-            user.setPwd(cryptographicHelper.doMD5Hashing(newPass+userId));
+            user.setPwd(cryptographicHelper.doMD5Hashing(newPass + userId));
             em.persist(user);
             em.flush();
             return newPass;
-        } else return "error";
+        } else {
+            return "error";
+        }
     }
 //    
 //    @Override

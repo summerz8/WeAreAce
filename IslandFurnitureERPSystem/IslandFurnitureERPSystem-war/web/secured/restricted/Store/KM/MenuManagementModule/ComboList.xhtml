@@ -98,41 +98,41 @@
                                 <p:ajax event="rowEdit" listener="#{comboListBean.onRowEdit}" update="@this"/>
                                 <p:ajax event="rowEditCancel" listener="#{comboListBean.onRowCancel}" update="comboList"/>
 
-                                <p:column headerText=" Combo ID" filterBy="#{c.id}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText=" Combo ID" style="text-align: center;" filterBy="#{c.id}" filterMatchMode="contains" filterStyle="display:none">
                                     <h:outputText value="#{c.id}"/>
                                 </p:column>
 
-                                <p:column headerText="Name" filterBy="#{c.name}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Name" style="text-align: center;" filterBy="#{c.name}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.name}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{c.name}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Price" filterBy="#{c.price}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Price" style="text-align: center;" filterBy="#{c.price}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.price}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{c.price}" required="true"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Remark" filterBy="#{c.remark}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Remark" style="text-align: center;" filterBy="#{c.remark}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{c.remark}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{c.remark}"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Dishes" width="8%">
+                                <p:column headerText="Dishes" style="text-align: center;" width="8%">
                                     <p:commandButton actionListener="#{comboListBean.setSelectedCombo(c)}" action="DishItems.xhtml?faces-redirect=true" icon="ui-icon-folder-open">
                                     </p:commandButton> 
                                 </p:column>
 
-                                <p:column headerText="Edit" width="8%">
+                                <p:column headerText="Edit" style="text-align: center;" width="8%">
                                     <p:rowEditor/>
                                 </p:column>
 
-                                <p:column headerText="Delete" width="8%">       
+                                <p:column headerText="Delete" style="text-align: center;" width="8%">       
                                     <p:commandButton update="comboList" actionListener="#{comboListBean.deleteCombo(c)}" icon="ui-icon-trash" title="Delete">
                                     </p:commandButton>    
                                 </p:column>

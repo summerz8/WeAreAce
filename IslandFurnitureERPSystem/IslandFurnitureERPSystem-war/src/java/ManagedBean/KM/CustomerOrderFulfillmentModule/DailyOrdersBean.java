@@ -54,7 +54,7 @@ public class DailyOrdersBean implements Serializable {
     }
 
     public void setSelectedOdr(KitchenOrderEntity selectedOdr) {
-        this.selectedOdr = selectedOdr;
+        this.selectedOdr = cof.findOrderById(selectedOdr.getId());
     }
 
     public List<KitchenOrderEntity> getOrders() {

@@ -7,7 +7,7 @@
 package ManagedBean.OCRM;
 
 import Entity.Store.OCRM.SurpriseQREntity;
-import SessionBean.OCRM.SurpriseQRBeanLocal;
+import SessionBean.OCRM.SurpriseQRModuleLocal;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +25,7 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class SurpriseQRBean implements Serializable{
     @EJB
-    SurpriseQRBeanLocal sqb;
+    SurpriseQRModuleLocal sqb;
     
     
     private List<SurpriseQREntity> surpriseQRList;
@@ -35,6 +35,8 @@ public class SurpriseQRBean implements Serializable{
     private Double rewardPoints;
     private Date expireDate;
     private Calendar expireDay;
+    private String QRpath;
+    private String fileName;
     /**
      * Creates a new instance of SurpriseQRBean
      */
@@ -53,16 +55,19 @@ public class SurpriseQRBean implements Serializable{
         System.out.println("UserInfoManageBean: birString to Date to Calendar:" + expireDay.getTime().toString());
 
         System.out.println("createSurpriseQR(): ");
-        sqb.createQR(percentage, rewardPoints, expireDay, name);
-        
+        QRpath = sqb.createQR(percentage, rewardPoints, expireDay, name);
+        System.out.println("path "+QRpath);
         return "/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true";
     }
 
-    public SurpriseQRBeanLocal getSqb() {
+    public SurpriseQRModuleLocal getSqb() {
         return sqb;
     }
-
-    public void setSqb(SurpriseQRBeanLocal sqb) {
+ 
+    public String returnPath(){
+        return "QRCode54.png";
+    }
+    public void setSqb(SurpriseQRModuleLocal sqb) {
         this.sqb = sqb;
     }
 
@@ -112,6 +117,30 @@ public class SurpriseQRBean implements Serializable{
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
+    }
+
+    public Calendar getExpireDay() {
+        return expireDay;
+    }
+
+    public void setExpireDay(Calendar expireDay) {
+        this.expireDay = expireDay;
+    }
+
+    public String getQRpath() {
+        return QRpath;
+    }
+
+    public void setQRpath(String QRpath) {
+        this.QRpath = QRpath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
     

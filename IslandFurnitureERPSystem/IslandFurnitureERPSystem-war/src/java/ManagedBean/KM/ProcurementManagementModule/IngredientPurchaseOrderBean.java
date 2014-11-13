@@ -156,7 +156,7 @@ public class IngredientPurchaseOrderBean implements Serializable {
                     FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
                     FacesContext.getCurrentInstance().addMessage(null, msg);
                 } else {
-                    FacesMessage msg = new FacesMessage("Successful", "Ingredient Purxhase Order Item of " + ii.getIngredient().getName() + " is Edited");
+                    FacesMessage msg = new FacesMessage("Successful", "Ingredient Purchase Order Item of " + ii.getIngredient().getName() + " is Edited");
                     FacesContext.getCurrentInstance().addMessage(null, msg);
                 }
             }
@@ -177,8 +177,8 @@ public class IngredientPurchaseOrderBean implements Serializable {
         selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
     }
 
-    public void comfirmIPO(ActionEvent event) {
-        Long ipoId = pm.confirmIngredientPurchaseOrder(selectedIPO.getId(), selectedIPO.getActualTotal());
+    public void generateIngredientPurchaseOrderToSuppliers(ActionEvent event) {
+        Long ipoId = pm.generateIngredientPurchaseOrderToSuppliers(selectedIPO.getId());
         if (ipoId == -1L) {
             FacesMessage msg = new FacesMessage("Confirmation Faild", "Unexpected Exception Occurred");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -188,6 +188,7 @@ public class IngredientPurchaseOrderBean implements Serializable {
         }
         filteredIPOItems = pm.getPurchaseItems(selectedIPO.getId());
         selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("IPOForIPOSs", selectedIPO);
     }
 
     public void cancelIPO(ActionEvent event) {
@@ -212,7 +213,7 @@ public class IngredientPurchaseOrderBean implements Serializable {
             } else {
                 selectedIPO = pm.findIngredientPurchaseOrder(kitchen.getId(), selectedTargetDate);
                 if (selectedIPO == null) {
-                    message = "The Raw Ingredient Purchase Order for the selected target date is not generated yet";
+                    message = "The Integrated Raw Ingredient Purchase Order for the selected target date is not generated yet";
                     RequestContext context = RequestContext.getCurrentInstance();
                     context.execute("PF('message').show();");
                 } else {
@@ -226,16 +227,21 @@ public class IngredientPurchaseOrderBean implements Serializable {
             ex.printStackTrace();
         }
     }
-
-    public void generateIngredientReceipt(ActionEvent event) {
-        Long irId = pm.generateIngredientReceipt(selectedIPO.getId());
-        if (irId == -1L) {
-            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("Successful", "New Raw Ingredient Receipt " + irId + " is generated");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-        selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
+//
+//    public void generateIngredientReceipt(ActionEvent event) {
+//        Long irId = pm.generateIngredientReceipt(selectedIPO.getId());
+//        if (irId == -1L) {
+//            FacesMessage msg = new FacesMessage("Faild", "Unexpected Exception Occurred");
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        } else {
+//            FacesMessage msg = new FacesMessage("Successful", "New Raw Ingredient Receipt " + irId + " is generated");
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//        selectedIPO = pm.findIngredientPurchaseOrderById(selectedIPO.getId());
+//    }
+    
+    public void viewIngredientPurchaseOrdersToSuppliers(ActionEvent event) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("IPOForIPOSs", selectedIPO);
     }
+
 }

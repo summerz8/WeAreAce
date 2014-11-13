@@ -5,6 +5,7 @@
  */
 package SessionBean.CommonInFrastructure;
 
+import Entity.Factory.FactoryEntity;
 import Entity.CommonInfrastructure.InternalMessageReceive;
 import Entity.CommonInfrastructure.TicketEntity;
 import Entity.CommonInfrastructure.UserEntity;

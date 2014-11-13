@@ -15,6 +15,8 @@
             <script type="text/javascript" src="./js/bootstrap.js"></script>
             <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 
+
+
             <title>Island Furniture Customer Web</title>
         </h:head>
 
@@ -27,6 +29,9 @@
                 <p:growl id="messages" showDetail="true" sticky="true"/>
 
                 <p:messages id="messagesStatus" redisplay="false" />
+                <!--
+                                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: none; text-align: left ">       
+                                    </p:layoutUnit> -->
 
                 <p:link outcome="FeedBack?faces-redirect=true" value="反馈"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                 </p:link>
@@ -44,6 +49,7 @@
                 </p:button> 
 
 
+
                 <div class="col-md-12 column" style="text-align: center; border: none;">
                     <img alt="200x100" src="../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
                     <p:button value="主页" outcome="/China/HomePage?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
@@ -53,29 +59,18 @@
                     <p:button value="餐厅" outcome="/China/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                 </div>
 
+                <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+                <!--
+                                </p:layoutUnit>-->
 
-                <div style="width: 1000px; text-align:center; margin:auto; border: none">
-                    <p:dataScroller value="#{gallery.pictureList}" var="picture" chunkSize="10" style=" border: 5px">                     
-                        <div class="col-md-3" style = "margin:auto; border:5px;">
-                            <div class="thumbnail" style = " margin-right:  auto; border: none;">
-                                <img alt="300x200" src="../resources/images/#{picture}" />
-                                <div class="caption" style="border: none;">
-                                    <h3 >
-                                        Sparking Sky
-                                    </h3>
-                                    <p>
-                                        Description....	
-                                    </p>
-                                    <p>
-                                        <a class="btn" href="#">元素</a>
-                                    </p>
-                                </div>
-                            </div>                          
-                        </div>                        
-                    </p:dataScroller>
+
+                <div style="width: 800px; text-align:center; margin:auto; border: none;"  >
+                                        <img alt="200x100" src="../resources/images/menuChina.png"  style = "text-align: left; margin-bottom:50px;width:800px; height:1000px"/> 
+
+                    <h5>
+                        <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style=" left:500px; bottom: 0px;"/>
+                    </h5>
                 </div>
-
-                <br></br><br></br><br></br>
             </h:form>
         </h:body>
     </f:view>

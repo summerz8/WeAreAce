@@ -22,7 +22,6 @@ import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.ReturnedItemMovementRecordEntity;
 import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
-import static Entity.Store.StoreProductEntity_.storeProductId;
 import Entity.Store.StoreRetailProductEntity;
 import java.util.ArrayList;
 import java.util.Calendar;

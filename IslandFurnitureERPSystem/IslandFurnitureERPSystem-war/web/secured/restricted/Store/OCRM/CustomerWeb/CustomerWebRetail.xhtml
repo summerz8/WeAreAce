@@ -73,8 +73,11 @@
                             <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true"/>
-                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                            <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
+                            <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true" />
+                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true" />
+                            <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true" />
+                            <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
                         </p:submenu>
                     </p:menu>
 
@@ -117,11 +120,12 @@
 
                                         <h:outputText value="Product Description:" />
                                         <h:outputText value="#{retailItem.description}" />
-                                        
+
                                         <h:outputText value="Product Price:" />
                                         <h:outputText value="#{retailItem.price}" style="color: red; font-weight: bold"/>
 
                                         <p:commandButton value="View/Edit" action="#{customerWebRetailBean.edit(retailItem.id)}"/>
+                                        <p:commandButton value="Comment" action="#{customerWebRetailBean.viewComment(retailItem.id)}"/>
                                         <p:commandButton value="Delete" action="#{customerWebRetailBean.delete(retailItem.id)}"/>
                                     </h:panelGrid>
                                 </p:panel>

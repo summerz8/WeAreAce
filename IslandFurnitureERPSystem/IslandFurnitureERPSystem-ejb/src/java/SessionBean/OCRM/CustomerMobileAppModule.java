@@ -9,6 +9,7 @@ import Entity.Factory.ProductEntity;
 import Entity.Store.OCRM.CountryProductEntity;
 import Entity.Store.OCRM.CountrySetEntity;
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.ShoppingCartItemEntity;
 import Entity.Store.OCRM.SurpriseQREntity;
 import Entity.Store.StoreEntity;
@@ -243,7 +244,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
         }
         Double total = amount * memPrice;
         result[3] = total.toString();
-//        result[4] = ee.getDepartment();
+        result[4] = sp.getUnrestrictedInventory().toString();
         return result;
     }
 
@@ -289,7 +290,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
     @Override
     public Integer checkSurprise(@WebParam(name = "QR") String QR,
             @WebParam(name = "email") String email) {
-
+        System.out.println("checkSurprise started " + QR);
         Calendar checkInTime = Calendar.getInstance();
         Integer hour = checkInTime.get(Calendar.HOUR_OF_DAY);
 
@@ -297,28 +298,35 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
         q.setParameter("QR", QR);
         List<SurpriseQREntity> qrList = (List<SurpriseQREntity>) q.getResultList();
         if (qrList != null) {
+            System.out.println("qr not null!");
             for (SurpriseQREntity sqe : qrList) {
                 Calendar today = Calendar.getInstance();
                 if (sqe.getExpireDate().compareTo(today) > 0) {
                     int percentage = (int) (sqe.getPercentage() * BASENUMBER);
+                    System.out.println("percentage: " + percentage);
                     List<Integer> surpriseNum = new ArrayList();
-                    for (int i = 0; i < percentage; i++) {
+                    for (int i = surpriseNum.size(); i < percentage;) {
                         Random random = new Random();
-                        int a = random.nextInt(BASENUMBER + 1) + 0;
-                        for (int j = 0; j < surpriseNum.size(); j++) {
-                            if (a == surpriseNum.get(j)) {
-                                a = random.nextInt(BASENUMBER + 1) + 0;
-                                System.out.println("surpriseNum " + surpriseNum.get(j));
-                                System.out.println("new a " + a);
-                            }
+                        Integer a = random.nextInt(BASENUMBER + 1) + 0;
+                        if (surpriseNum.isEmpty()) {
+                            surpriseNum.add(a);
+                            System.out.println("new added num empty: " + a);
+                            i = surpriseNum.size();
+                            continue;
+                        } else if (!surpriseNum.contains(a)) {
+                            surpriseNum.add(a);
+                            i = surpriseNum.size();
+                            System.out.println("new added num: " + a);
+                            continue;
                         }
-                        surpriseNum.add(a);
                     }
                     System.out.println("surpriseNum list" + surpriseNum.toString());
                     Random random = new Random();
                     int userSurprise = random.nextInt(BASENUMBER + 1) + 0;
+                    System.out.println("userSurprise: " + userSurprise);
                     for (int k = 0; k < surpriseNum.size(); k++) {
-                        if (userSurprise == k) {
+                        System.out.println("hehe " + surpriseNum.get(k));
+                        if (userSurprise == (int) surpriseNum.get(k)) {
                             Double points = sqe.getRewardPoints();
                             int check = addPoints(email, points);
                             if (check == 1) {
@@ -329,7 +337,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
                             }
                         }
                     } // end for k
-
+                    return 0;
                 } else {
                     return -4;// not today 
                 }
@@ -341,15 +349,54 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
     }
 
     public int addPoints(String email, Double points) {
-        MemberRegistrationModule mrm = new MemberRegistrationModule();
-        MemberEntity me = getMember(email);
-        if (me != null) {
-            mrm.addNewPointsForMember(points, me.getMemberId());
+        Query q = em.createQuery("SELECT m FROM MemberEntity m WHERE m.email=:email");
+        q.setParameter("email", email);
+
+        MemberEntity member = (MemberEntity) q.getResultList().get(0);
+
+        if (member != null) {
+            System.out.println("member email: " + member.getEmail() + " " + member.getMemberId().toString());
+
+            member.setTotalPoints(member.getTotalPoints() + points);
+            member.setCurrentPoints(member.getCurrentPoints() + points);
+
+            em.persist(member);
+            em.flush();
+            MembershipLevelEntity msle = em.find(MembershipLevelEntity.class, upgradeMember(member.getTotalPoints()));
+            member.setMemberlvl(msle);
+            if (msle.getLevelId() < 5) {
+                MembershipLevelEntity msle2 = em.find(MembershipLevelEntity.class, (upgradeMember(member.getTotalPoints()) + 1));
+                member.setPointsToUpgrade(msle2.getPointsToUpgrade());
+            } else if (msle.getLevelId() == 5) {
+                member.setPointsToUpgrade(0D);
+            }
+            em.persist(member);
+            em.flush();
             return 1;
         } else {
             return -2;
         }
 
+    }
+
+    public Integer upgradeMember(Double totalPoints) {
+        //MembershipLevelEntity level6 = em.find(MembershipLevelEntity.class, 6);
+        MembershipLevelEntity level5 = em.find(MembershipLevelEntity.class, 5);
+        MembershipLevelEntity level4 = em.find(MembershipLevelEntity.class, 4);
+        MembershipLevelEntity level3 = em.find(MembershipLevelEntity.class, 3);
+        MembershipLevelEntity level2 = em.find(MembershipLevelEntity.class, 2);
+        //MembershipLevelEntity level1 = em.find(MembershipLevelEntity.class, 1);
+        if (level5.getPointsToUpgrade() <= totalPoints) {
+            return 5;
+        } else if (level4.getPointsToUpgrade() <= totalPoints) {
+            return 4;
+        } else if (level3.getPointsToUpgrade() <= totalPoints) {
+            return 3;
+        } else if (level2.getPointsToUpgrade() <= totalPoints) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
     @WebMethod(operationName = "getSetItemList")
@@ -393,8 +440,8 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
         Query q = em.createQuery("SELECT m FROM StoreEventEntity m");
 
         List<StoreEventEntity> seList = q.getResultList();
-        for(StoreEventEntity se : seList){
-            if(se.getStore().getStoreId().equals(storeId)){
+        for (StoreEventEntity se : seList) {
+            if (se.getStore().getStoreId().equals(storeId)) {
                 results.add(se);
             }
         }
