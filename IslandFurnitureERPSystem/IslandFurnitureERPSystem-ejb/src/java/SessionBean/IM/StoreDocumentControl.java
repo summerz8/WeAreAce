@@ -98,6 +98,7 @@ public class StoreDocumentControl implements StoreDocumentControlLocal {
         @Override
     public List<ReturnedItemMovementRecordEntity> getToProcessReturnIMRE(Long storeId){
         String status = "processing";
+        System.out.println("getToProcessReturnIMRE");
         Query q = em.createQuery("Select r From ReturnedItemMovementRecordEntity r Where r.status = :stt and r.storeProduct.store.storeId = :sId");
         q.setParameter("stt", status);
         q.setParameter("sId", storeId);
@@ -108,7 +109,7 @@ public class StoreDocumentControl implements StoreDocumentControlLocal {
             
             
         }
-        
+        System.out.println("getToProcessReturnIMRE list size " + resultList.size());
         return resultList;
         
     }

@@ -6,6 +6,7 @@
 package SessionBean.OCRM;
 
 import Entity.Store.ReturnedItemMovementRecordEntity;
+import Entity.Store.StoreEntity;
 import Entity.Store.StoreProductEntity;
 import java.util.Calendar;
 import java.util.List;
@@ -39,10 +40,13 @@ public class PostSaleService implements PostSaleServiceLocal {
         newRecord.setStatus("Processing");
 //        Calendar createdTime=Calendar.getInstance();
 //        newRecord.setCreatedDate(createdTime);
+        StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
         newRecord.setDescription(description);
-        newRecord.setStoreProduct(em.find(StoreProductEntity.class, storeProductId));
+        newRecord.setStoreProduct(storeProduct);
         newRecord.setMemberId(MemberId);
+        
         em.persist(newRecord);
+        storeProduct.getReturnedItemMovementRecords().add(newRecord);
         em.flush();
         
                 System.out.println("66666");
