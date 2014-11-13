@@ -11,6 +11,7 @@ import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
 import Entity.Store.StoreSetEntity;
+import SessionBean.IM.StoreBinControl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -20,8 +21,6 @@ import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -78,6 +77,11 @@ public class PickupListModule implements PickupListModuleLocal {
                     productType = "Finished Goods";
                     productId = sre.getStoreProductId().toString();
                     productName = sre.getProduct().getName();
+                    StoreBinControl sbc = new StoreBinControl();
+                    String[] res = sbc.mobile_getStoreBin(pickupListId);
+                    if(res!=null){
+                    productLocation = res.toString();
+                    }else productLocation = "no stock";
                 }else if(sime.getProductId() == null && sime.getRetailProductId() == null){
                     StoreSetEntity storeSet = em.find(StoreSetEntity.class,sime.getStoreSetId());
                     productType = "Set";
