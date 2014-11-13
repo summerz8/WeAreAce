@@ -272,9 +272,7 @@ public class Cash extends javax.swing.JFrame {
         } else {
             jLabelBase.setVisible(false);
             jComboBoxEventBonus.setVisible(false);
-        }
-//        initPartnerPoleDisplay();
-//        poleDisplay();
+        }      
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
@@ -306,19 +304,7 @@ public class Cash extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Birthday, double points", "Happy Birthday", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             pointsEarned = actualTotalPrice * base;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                             addNewPointsForMember(pointsEarned, memberId);
-=======
-                            addNewPointsForMember(actualTotalPrice, memberId);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                            addNewPointsForMember(actualTotalPrice, memberId);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                            addNewPointsForMember(actualTotalPrice, memberId);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                         }
                     } catch (DatatypeConfigurationException ex) {
                         Logger.getLogger(Cash.class.getName()).log(Level.SEVERE, null, ex);
@@ -329,10 +315,12 @@ public class Cash extends javax.swing.JFrame {
                 updateEndCash(storeStaffId, actualTotalPrice);
                 PartnerThermalPrinterAndCashBox();
 
-                closePort();
+                checkOut.closePort();
+                checkOut.dispose();
                 this.setVisible(false);
                 this.dispose();
                 Change change = new Change(POSid, storeStaffId, orderId);
+                change.setLocationRelativeTo(null);
                 change.setVisible(true);
                 change.setExtendedState(JFrame.NORMAL);
             }
@@ -343,25 +331,16 @@ public class Cash extends javax.swing.JFrame {
 
     private void jButtonGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoBackActionPerformed
         // TODO add your handling code here:
-        closePort();
+        
         this.setVisible(false);
         this.dispose();
+        checkOut.setLocationRelativeTo(null);
         checkOut.setVisible(true);
         checkOut.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonGoBackActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-        if (serialPort != null) {
-            try {
-                byte[] clear = {0x0C};
-                partnerPoleDisplayOutputStream.write(clear);
-                partnerPoleDisplayOutputStream.close();
-                serialPort.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        // TODO add your handling code here:  
     }//GEN-LAST:event_formWindowClosed
 
     /**
@@ -416,60 +395,7 @@ public class Cash extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
-
-    private void initPartnerPoleDisplay() {
-        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
-
-        while (commPortList.hasMoreElements()) {
-            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
-
-            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
-                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
-                try {
-                    serialPort = (SerialPort) commPort.open("POS", 5000);
-                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
-                } catch (PortInUseException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }
-
-    private void poleDisplay() {
-        byte[] clear = {0x0C};
-        byte[] newLine = {0x0A};
-        byte[] carriageReturn = {0x0D};
-        byte[] message1 = new String("Make Payment").getBytes();
-        byte[] message2 = new String("Cash").getBytes();
-
-        try {
-            partnerPoleDisplayOutputStream.write(clear);
-            partnerPoleDisplayOutputStream.write(message1);
-            partnerPoleDisplayOutputStream.write(newLine);
-            partnerPoleDisplayOutputStream.write(carriageReturn);
-            partnerPoleDisplayOutputStream.write(message2);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void closePort() {
-        System.err.println("Window closed");
-        if (serialPort != null) {
-            try {
-                byte[] clear = {0x0C};
-                partnerPoleDisplayOutputStream.write(clear);
-                partnerPoleDisplayOutputStream.close();
-                serialPort.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-    }
-
+   
     private void PartnerThermalPrinterAndCashBox() {
         Double margin = 1.0;
         Integer lines = 8;

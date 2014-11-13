@@ -1,41 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="PickupListModule">
-      <implementation-class>SessionBean.OCRM.PickupListModule</implementation-class>
-    </service>
     <service name="IFManagerBean">
       <implementation-class>util.login.IFManagerBean</implementation-class>
+    </service>
+    <service name="PickupListModule">
+      <implementation-class>SessionBean.OCRM.PickupListModule</implementation-class>
     </service>
     <service name="TransactionModule">
       <implementation-class>SessionBean.OCRM.TransactionModule</implementation-class>
     </service>
-    <service name="CustomerOrderFulfillmentModule">
-      <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
-<<<<<<< HEAD
-    </service>
-<<<<<<< HEAD
-    <service name="CustomerOrderFulfillmentModule">
-      <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
-=======
-    <service name="MemberRegistrationModule">
-      <implementation-class>SessionBean.OCRM.MemberRegistrationModule</implementation-class>
-    </service>
     <service name="CustomerMobileAppModule">
       <implementation-class>SessionBean.OCRM.CustomerMobileAppModule</implementation-class>
->>>>>>> c0da223600060493aa03626d69ac94f33f63f795
-=======
->>>>>>> c0da223600060493aa03626d69ac94f33f63f795
     </service>
     <service name="MemberRegistrationModule">
       <implementation-class>SessionBean.OCRM.MemberRegistrationModule</implementation-class>
     </service>
-<<<<<<< HEAD
-=======
-    <service name="CustomerMobileAppModule">
-      <implementation-class>SessionBean.OCRM.CustomerMobileAppModule</implementation-class>
+    <service name="CustomerOrderFulfillmentModule">
+      <implementation-class>SessionBean.KM.CustomerOrderFulfillmentModule</implementation-class>
     </service>
->>>>>>> c0da223600060493aa03626d69ac94f33f63f795
   </services>
   <clients/>
 </jax-ws>

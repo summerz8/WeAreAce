@@ -52,19 +52,14 @@
 
 <xs:element name="getTransactionItemListResponse" type="tns:getTransactionItemListResponse"/>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+<xs:element name="inventoryMovement" type="tns:inventoryMovement"/>
+
+<xs:element name="inventoryMovementResponse" type="tns:inventoryMovementResponse"/>
+
 <xs:element name="setTendered" type="tns:setTendered"/>
 
 <xs:element name="setTenderedResponse" type="tns:setTenderedResponse"/>
 
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <xs:complexType name="createTransaction">
 <xs:sequence>
 <xs:element name="staffId" type="xs:string" minOccurs="0"/>
@@ -114,10 +109,8 @@
 <xs:element name="manager" type="xs:string" minOccurs="0"/>
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
 <xs:element name="factoryList" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <xs:element name="storeBins" type="tns:storeWarehouseBinEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="goodReceipts" type="tns:storeGoodReceiptEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -146,6 +139,7 @@
 <xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="fromBin" type="tns:storeWarehouseBinEntity" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
 <xs:element name="storeProduct" type="tns:storeProductEntity" minOccurs="0"/>
 <xs:element name="storeRetailProduct" type="tns:storeRetailProductEntity" minOccurs="0"/>
 <xs:element name="toBin" type="tns:storeWarehouseBinEntity" minOccurs="0"/>
@@ -163,9 +157,12 @@
 <xs:element name="selfPick" type="xs:boolean" minOccurs="0"/>
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
 <xs:element name="storeRemark" type="xs:string" minOccurs="0"/>
+<xs:element name="intransitInventory" type="xs:double" minOccurs="0"/>
 <xs:element name="factoryProduct" type="tns:factoryProductEntity" minOccurs="0"/>
 <xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
 <xs:element name="product" type="tns:productEntity" minOccurs="0"/>
+<xs:element name="onairInventory" type="xs:double" minOccurs="0"/>
+<xs:element name="warningOnAirInv" type="xs:double" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -319,9 +316,12 @@
 <xs:element name="storeRemark" type="xs:string" minOccurs="0"/>
 <xs:element name="unit" type="xs:string" minOccurs="0"/>
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
+<xs:element name="intransitInventory" type="xs:double" minOccurs="0"/>
 <xs:element name="factoryRetailProduct" type="tns:factoryRetailProductEntity" minOccurs="0"/>
 <xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
 <xs:element name="retailProduct" type="tns:retailProductEntity" minOccurs="0"/>
+<xs:element name="onairInventory" type="xs:double" minOccurs="0"/>
+<xs:element name="warningOnAirInv" type="xs:double" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -492,7 +492,9 @@
 <xs:sequence>
 <xs:element name="amount" type="xs:double" minOccurs="0"/>
 <xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="destinationStatus" type="xs:int" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
 <xs:element name="storeProduct" type="tns:storeProductEntity" minOccurs="0"/>
 <xs:element name="storeRetailProduct" type="tns:storeRetailProductEntity" minOccurs="0"/>
 <xs:element name="toBin" type="tns:storeWarehouseBinEntity" minOccurs="0"/>
@@ -505,6 +507,9 @@
 <xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="fromBin" type="tns:storeWarehouseBinEntity" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isReceivedByFactory" type="xs:boolean" minOccurs="0"/>
+<xs:element name="settledQuantity" type="xs:double" minOccurs="0"/>
+<xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
 <xs:element name="storeProduct" type="tns:storeProductEntity" minOccurs="0"/>
 <xs:element name="storeRetailProduct" type="tns:storeRetailProductEntity" minOccurs="0"/>
 </xs:sequence>
@@ -516,6 +521,8 @@
 <xs:element name="isDeleted" type="xs:boolean" minOccurs="0"/>
 <xs:element name="product" type="tns:storeProductEntity" minOccurs="0"/>
 <xs:element name="quantity" type="xs:double" minOccurs="0"/>
+<xs:element name="status" type="xs:int" minOccurs="0"/>
+<xs:element name="swe" type="tns:storeWarehouseBinEntity" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -525,12 +532,37 @@
 <xs:element name="isDeleted" type="xs:boolean" minOccurs="0"/>
 <xs:element name="quantity" type="xs:double" minOccurs="0"/>
 <xs:element name="retailProduct" type="tns:storeRetailProductEntity" minOccurs="0"/>
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+<xs:element name="status" type="xs:int" minOccurs="0"/>
+<xs:element name="swe" type="tns:storeWarehouseBinEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="storeGoodReceiptEntity">
+<xs:sequence>
+<xs:element name="creationTime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="doe" type="tns:deliveryOrderEntity" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="inventoryType" type="xs:int" minOccurs="0"/>
+<xs:element name="ome" type="tns:outboundMovementEntity" minOccurs="0"/>
+<xs:element name="orginalAmount" type="xs:double" minOccurs="0"/>
+<xs:element name="receivedAmount" type="xs:double" minOccurs="0"/>
+<xs:element name="se" type="tns:storeEntity" minOccurs="0"/>
+<xs:element name="spe" type="tns:storeProductEntity" minOccurs="0"/>
+<xs:element name="srpe" type="tns:storeRetailProductEntity" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="outboundMovementEntity">
+<xs:sequence>
+<xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="factoryProduct" type="tns:factoryProductEntity" minOccurs="0"/>
+<xs:element name="factoryRetailProduct" type="tns:factoryRetailProductEntity" minOccurs="0"/>
+<xs:element name="fromBin" type="tns:factoryBinEntity" minOccurs="0"/>
+<xs:element name="outboundMovementId" type="xs:long" minOccurs="0"/>
+<xs:element name="quantity" type="xs:double" minOccurs="0"/>
+<xs:element name="receivedByStore" type="xs:boolean" minOccurs="0"/>
+<xs:element name="stockTypeIndicator" type="xs:int" minOccurs="0"/>
+<xs:element name="toStore" type="tns:storeEntity" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -569,18 +601,6 @@
 <xs:element name="lastName" type="xs:string" minOccurs="0"/>
 <xs:element name="midName" type="xs:string" minOccurs="0"/>
 <xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-<xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-<xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <xs:element name="storeId" type="xs:long" minOccurs="0"/>
 <xs:element name="birthday" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="gender" type="xs:string" minOccurs="0"/>
@@ -594,34 +614,9 @@
 <xs:element name="totalPoints" type="xs:double" minOccurs="0"/>
 <xs:element name="pointsToUpgrade" type="xs:double" minOccurs="0"/>
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <xs:element name="memberlvl" type="tns:membershipLevelEntity" minOccurs="0"/>
 <xs:element name="rfm" type="tns:rfmEntity" minOccurs="0"/>
 <xs:element name="clv" type="tns:clvEntity" minOccurs="0"/>
-=======
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-<xs:element name="shoppingCartList" type="tns:shoppingCartItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="memberlvl" type="tns:membershipLevelEntity" minOccurs="0"/>
-<xs:element name="rfm" type="tns:rfmEntity" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="shoppingCartItemEntity">
-<xs:sequence>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="price" type="xs:double" minOccurs="0"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 </xs:sequence>
 </xs:complexType>
 
@@ -649,9 +644,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <xs:complexType name="clvEntity">
 <xs:sequence>
 <xs:element name="aveExp" type="xs:double" minOccurs="0"/>
@@ -662,12 +654,6 @@
 </xs:sequence>
 </xs:complexType>
 
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <xs:complexType name="storeUserEntity">
 <xs:complexContent>
 <xs:extension base="tns:userEntity">
@@ -826,6 +812,16 @@
 <xs:sequence/>
 </xs:complexType>
 
+<xs:complexType name="inventoryMovement">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inventoryMovementResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="caculateTotalPrice">
 <xs:sequence>
 <xs:element name="transactionId" type="xs:long" minOccurs="0"/>
@@ -838,9 +834,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <xs:complexType name="setTendered">
 <xs:sequence>
 <xs:element name="transactionId" type="xs:long" minOccurs="0"/>
@@ -852,12 +845,6 @@
 <xs:sequence/>
 </xs:complexType>
 
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 <xs:complexType name="deleteUnfinishedTransaction">
 <xs:sequence>
 <xs:element name="arg0" type="xs:long" minOccurs="0"/>

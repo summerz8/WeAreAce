@@ -390,6 +390,33 @@ public class TransactionModule implements TransactionModuleLocal {
         }
     }
 
+    @WebMethod(operationName = "inventoryMovement")
+    public void inventoryMovement(Long transactionId) {
+        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
+        List<TransactionItemEntity> transactionItemList = transaction.getTransactionItemList();
+        for (TransactionItemEntity ti : transactionItemList) {
+            Long itemId = ti.getItemId();
+            Double amount = Double.parseDouble(String.valueOf(ti.getAmount()));
+            StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
+            if (mapping.getProductId() == null && mapping.getStoreSetId() == null) {
+                Long retailProductId = mapping.getRetailProductId();
+                StoreRetailProductEntity retailProduct = em.find(StoreRetailProductEntity.class, retailProductId);
+                retailProduct.setOnairInventory(retailProduct.getOnairInventory() - amount);
+                retailProduct.setUnrestrictedInventory(retailProduct.getUnrestrictedInventory() - amount);
+                em.persist(retailProduct);
+                em.flush();
+            } else if (mapping.getStoreSetId() == null && mapping.getRetailProductId() == null) {
+                Long productId = mapping.getProductId();
+                StoreProductEntity product = em.find(StoreProductEntity.class, productId);
+                if (!product.getSelfPick()) {
+                    product.setOnairInventory(product.getOnairInventory() - amount);
+                    product.setUnrestrictedInventory(product.getUnrestrictedInventory() - amount);
+                    em.persist(product);
+                    em.flush();
+                }
+            }
+        }
+    }
 //    
 //    public void upDateSalesRecord(Calendar generateTime,Long itemId, int amount, Double totalprice){
 //        List<SalesRecord> salesRecordEntityList=new ArrayList<>();
@@ -400,4 +427,5 @@ public class TransactionModule implements TransactionModuleLocal {
 //        
 //        }
 //    }
+    
 }

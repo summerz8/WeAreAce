@@ -2,10 +2,10 @@
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services/>
   <clients>
-    <client name="CustomerOrderFulfillmentModule">
-      <wsdl-url>http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule.wsdl</local-wsdl-file>
-      <package-name>sessionbean.km</package-name>
+    <client name="MemberRegistrationModule">
+      <wsdl-url>http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl</local-wsdl-file>
+      <package-name>sessionbean.ocrm</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -22,7 +22,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -66,10 +66,10 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="MemberRegistrationModule">
-      <wsdl-url>http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl</local-wsdl-file>
-      <package-name>sessionbean.ocrm</package-name>
+    <client name="CustomerOrderFulfillmentModule">
+      <wsdl-url>http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule.wsdl</local-wsdl-file>
+      <package-name>sessionbean.km</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -86,7 +86,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

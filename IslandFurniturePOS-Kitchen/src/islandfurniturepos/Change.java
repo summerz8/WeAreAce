@@ -182,8 +182,8 @@ public class Change extends javax.swing.JFrame {
         KitchenOrderEntity order = findOrderById(orderId);
         moneyChange = order.getDue();
         jLabelChange.setText(Double.toString(moneyChange));
-//        initPartnerPoleDisplay();
-//        poleDisplay(moneyChange);
+        initPartnerPoleDisplay();
+        poleDisplay(moneyChange);
 
 
     }//GEN-LAST:event_formWindowOpened
@@ -197,6 +197,7 @@ public class Change extends javax.swing.JFrame {
         this.dispose();
 
         MainMenu mainMenu = new MainMenu(POSid, storeStaffId);
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
 
@@ -278,6 +279,8 @@ public class Change extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NullPointerException ex) {
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -288,7 +291,7 @@ public class Change extends javax.swing.JFrame {
         byte[] newLine = {0x0A};
         byte[] carriageReturn = {0x0D};
         byte[] message1 = new String("Thank You!").getBytes();
-        byte[] message2 = new String("Your Change: S$ " + String.valueOf(moneyChange)).getBytes();
+        byte[] message2 = new String("Your Change: S$ " + moneyChange).getBytes();
 
         try {
             partnerPoleDisplayOutputStream.write(clear);
@@ -298,6 +301,8 @@ public class Change extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex) {
+            System.err.println("Unable to write to Partner Pole Display");
         }
     }
 

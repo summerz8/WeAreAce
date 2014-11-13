@@ -22,6 +22,12 @@
 <message name="caculateTotalPriceResponse">
 <part name="parameters" element="tns:caculateTotalPriceResponse"/>
 </message>
+<message name="setTendered">
+<part name="parameters" element="tns:setTendered"/>
+</message>
+<message name="setTenderedResponse">
+<part name="parameters" element="tns:setTenderedResponse"/>
+</message>
 <message name="caculateChange">
 <part name="parameters" element="tns:caculateChange"/>
 </message>
@@ -82,6 +88,12 @@
 <message name="checkItemTypeResponse">
 <part name="parameters" element="tns:checkItemTypeResponse"/>
 </message>
+<message name="inventoryMovement">
+<part name="parameters" element="tns:inventoryMovement"/>
+</message>
+<message name="inventoryMovementResponse">
+<part name="parameters" element="tns:inventoryMovementResponse"/>
+</message>
 <portType name="TransactionModule">
 <operation name="createTransaction">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/createTransactionRequest" message="tns:createTransaction"/>
@@ -94,6 +106,10 @@
 <operation name="caculateTotalPrice">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateTotalPriceRequest" message="tns:caculateTotalPrice"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateTotalPriceResponse" message="tns:caculateTotalPriceResponse"/>
+</operation>
+<operation name="setTendered">
+<input wsam:Action="http://OCRM.SessionBean/TransactionModule/setTenderedRequest" message="tns:setTendered"/>
+<output wsam:Action="http://OCRM.SessionBean/TransactionModule/setTenderedResponse" message="tns:setTenderedResponse"/>
 </operation>
 <operation name="caculateChange">
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/caculateChangeRequest" message="tns:caculateChange"/>
@@ -135,6 +151,10 @@
 <input wsam:Action="http://OCRM.SessionBean/TransactionModule/checkItemTypeRequest" message="tns:checkItemType"/>
 <output wsam:Action="http://OCRM.SessionBean/TransactionModule/checkItemTypeResponse" message="tns:checkItemTypeResponse"/>
 </operation>
+<operation name="inventoryMovement">
+<input wsam:Action="http://OCRM.SessionBean/TransactionModule/inventoryMovementRequest" message="tns:inventoryMovement"/>
+<output wsam:Action="http://OCRM.SessionBean/TransactionModule/inventoryMovementResponse" message="tns:inventoryMovementResponse"/>
+</operation>
 </portType>
 <binding name="TransactionModulePortBinding" type="tns:TransactionModule">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
@@ -157,6 +177,15 @@
 </output>
 </operation>
 <operation name="caculateTotalPrice">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="setTendered">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -247,6 +276,15 @@
 </output>
 </operation>
 <operation name="checkItemType">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="inventoryMovement">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

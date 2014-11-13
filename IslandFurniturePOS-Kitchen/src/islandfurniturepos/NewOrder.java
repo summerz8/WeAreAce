@@ -280,13 +280,13 @@ public class NewOrder extends javax.swing.JFrame {
         jTableCombo.setFont(new java.awt.Font("Times", 3, 10)); // NOI18N
         jTableCombo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Combo ID", "Combo Name", "Combo Price"
             }
         ));
         jScrollPane1.setViewportView(jTableCombo);
@@ -307,13 +307,13 @@ public class NewOrder extends javax.swing.JFrame {
         jTableDish.setFont(new java.awt.Font("Times", 3, 8)); // NOI18N
         jTableDish.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Dish ID", "Dish Name", "Dish Price"
             }
         ));
         jScrollPane2.setViewportView(jTableDish);
@@ -334,13 +334,13 @@ public class NewOrder extends javax.swing.JFrame {
         jTableSelectedCombo.setFont(new java.awt.Font("Times", 3, 10)); // NOI18N
         jTableSelectedCombo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Combo ID", "Combo Name", "Combo Price", "Quantity", "Total Price"
             }
         ));
         jScrollPane3.setViewportView(jTableSelectedCombo);
@@ -361,13 +361,13 @@ public class NewOrder extends javax.swing.JFrame {
         jTableSelectedDish.setFont(new java.awt.Font("Times", 3, 10)); // NOI18N
         jTableSelectedDish.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Dish ID", "Dish Name", "Dish Price", "Quantity", "Total Price"
             }
         ));
         jScrollPane4.setViewportView(jTableSelectedDish);
@@ -387,7 +387,7 @@ public class NewOrder extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 1202, Short.MAX_VALUE)
+            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 1222, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -430,6 +430,7 @@ public class NewOrder extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select one combo!", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             ComboEntity combo = comboList.get(selectedRow);
+            orderDisplay(combo.getName(),combo.getPrice());
             addComboItem(orderId, combo.getId(), 1);
             selectedCombo = getComboItemByOrderId(orderId);
             loadTableSelectedCombo();
@@ -447,8 +448,9 @@ public class NewOrder extends javax.swing.JFrame {
             closePort();
             this.setVisible(false);
             this.dispose();
-            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            
             CheckOut checkOut = new CheckOut(POSid, storeStaffId, orderId);
+            checkOut.setLocationRelativeTo(null);
             checkOut.setVisible(true);
             checkOut.setExtendedState(JFrame.NORMAL);
         }
@@ -464,12 +466,12 @@ public class NewOrder extends javax.swing.JFrame {
         comboList = getComboByKitchenId(kitchenId);
         dishList = getDishByKitchenId(kitchenId);
         loadTableCombo();
-        loadTableDish();
+        loadTableDish();      
         order = createOrder(kitchenId, memberId, storeStaffId, POSid);
         orderId = order.getId();
 
-//        initPartnerPoleDisplay();
-//        poleDisplay();
+        initPartnerPoleDisplay();
+        poleDisplay();
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
@@ -478,8 +480,9 @@ public class NewOrder extends javax.swing.JFrame {
         closePort();
         this.setVisible(false);
         this.dispose();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+       
         MainMenu mainMenu = new MainMenu(POSid, storeStaffId);
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
 
@@ -520,6 +523,7 @@ public class NewOrder extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select one dish!", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             DishEntity dish = dishList.get(selectedRow);
+            orderDisplay(dish.getName(),dish.getPrice());
             addDishItem(orderId, dish.getId(), 1);
             selectedDish = getDishItemByOrderId(orderId);
             loadTableSelectedDish();
@@ -841,6 +845,8 @@ public class NewOrder extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){                   
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -861,7 +867,29 @@ public class NewOrder extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+                }
+    }
+    
+    private void orderDisplay(String name,Double price) {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String(name).getBytes();
+        byte[] message2 = new String("S$"+price).getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+                }
     }
 
     private static java.util.List<sessionbean.km.ComboEntity> getComboByKitchenId(java.lang.Long arg0) {

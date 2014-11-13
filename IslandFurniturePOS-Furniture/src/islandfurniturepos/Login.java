@@ -23,7 +23,7 @@ import util.security.CryptographicHelper;
 public class Login extends javax.swing.JFrame {
 
     private String POSid = "F1";
-    private String partnerPoleDisplayCOMPort = "COM4";
+    private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     private SerialPort serialPort;
     CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
@@ -236,15 +236,20 @@ public class Login extends javax.swing.JFrame {
                     StoreUserEntity cashier = getCasherById(jTextId.getText());
                     JOptionPane.showMessageDialog(this, "Welcome " + name + "Login successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                     JOptionPane.showMessageDialog(this, "Your Begin Cash: " + cashier.getBeginCash(), "Login Successful", JOptionPane.INFORMATION_MESSAGE);
-
+                    
+//                    closePort();
                     MainMenu mainMenu = new MainMenu(POSid, jTextId.getText());
+                    mainMenu.setLocationRelativeTo(null);
                     mainMenu.setVisible(true);
                     mainMenu.setExtendedState(JFrame.NORMAL);
+                    
 
                     jTextId.setText("");
                     jPasswordFieldPassword.setText("");
-
+                    
+                    
                     this.setVisible(false);
+                    this.dispose();
 
                 } else if (temp == -1) {
                     JOptionPane.showMessageDialog(this, "User not found!", "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -270,6 +275,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         // TODO add your handling code here:
+//        closePort();
         System.exit(0);
     }//GEN-LAST:event_jButtonExitActionPerformed
 
@@ -284,8 +290,9 @@ public class Login extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
-        initPartnerPoleDisplay();
-        poleDisplay();
+        this.setLocationRelativeTo(null);
+//        initPartnerPoleDisplay();
+//        poleDisplay();
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -355,23 +362,8 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                }catch (NullPointerException ex){                   
+                } catch (NullPointerException ex) {
                     System.err.println("Unable to initialize Partner Pole Display");
-=======
-                }catch (NullPointerException ex){
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                }catch (NullPointerException ex){
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                }catch (NullPointerException ex){
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                 }
             }
         }
@@ -392,30 +384,23 @@ public class Login extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        }catch (NullPointerException ex){                   
-                    System.err.println("Unable to write to Partner Pole Display");
-                }
-=======
-        }catch (NullPointerException ex){
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex) {
+            System.err.println("Unable to write to Partner Pole Display");
         }
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-        }catch (NullPointerException ex){
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-        }catch (NullPointerException ex){
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     }
 
-
+    private void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClear;
     private javax.swing.JButton jButtonLogin;

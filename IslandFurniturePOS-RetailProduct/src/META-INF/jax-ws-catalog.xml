@@ -12,4 +12,10 @@
     <system systemId="http://r-243-176-28-172.comp.nus.edu.sg:8080/MemberRegistrationModuleService/MemberRegistrationModule?xsd=1" uri="wsdl/r-243-176-28-172.comp.nus.edu.sg_8080/MemberRegistrationModuleService/MemberRegistrationModule.xsd_1.xsd"/>
     <system systemId="http://r-243-176-28-172.comp.nus.edu.sg:8080/TransactionModuleService/TransactionModule?wsdl" uri="wsdl/r-243-176-28-172.comp.nus.edu.sg_8080/TransactionModuleService/TransactionModule.wsdl"/>
     <system systemId="http://r-243-176-28-172.comp.nus.edu.sg:8080/TransactionModuleService/TransactionModule?xsd=1" uri="wsdl/r-243-176-28-172.comp.nus.edu.sg_8080/TransactionModuleService/TransactionModule.xsd_1.xsd"/>
+    <system systemId="http://r-152-179-28-172.comp.nus.edu.sg:8080/IFManagerBeanService/IFManagerBean?wsdl" uri="wsdl/r-152-179-28-172.comp.nus.edu.sg_8080/IFManagerBeanService/IFManagerBean.wsdl"/>
+    <system systemId="http://r-152-179-28-172.comp.nus.edu.sg:8080/IFManagerBeanService/IFManagerBean?xsd=1" uri="wsdl/r-152-179-28-172.comp.nus.edu.sg_8080/IFManagerBeanService/IFManagerBean.xsd_1.xsd"/>
+    <system systemId="http://r-152-179-28-172.comp.nus.edu.sg:8080/MemberRegistrationModuleService/MemberRegistrationModule?wsdl" uri="wsdl/r-152-179-28-172.comp.nus.edu.sg_8080/MemberRegistrationModuleService/MemberRegistrationModule.wsdl"/>
+    <system systemId="http://r-152-179-28-172.comp.nus.edu.sg:8080/MemberRegistrationModuleService/MemberRegistrationModule?xsd=1" uri="wsdl/r-152-179-28-172.comp.nus.edu.sg_8080/MemberRegistrationModuleService/MemberRegistrationModule.xsd_1.xsd"/>
+    <system systemId="http://r-152-179-28-172.comp.nus.edu.sg:8080/TransactionModuleService/TransactionModule?wsdl" uri="wsdl/r-152-179-28-172.comp.nus.edu.sg_8080/TransactionModuleService/TransactionModule.wsdl"/>
+    <system systemId="http://r-152-179-28-172.comp.nus.edu.sg:8080/TransactionModuleService/TransactionModule?xsd=1" uri="wsdl/r-152-179-28-172.comp.nus.edu.sg_8080/TransactionModuleService/TransactionModule.xsd_1.xsd"/>
 </catalog>

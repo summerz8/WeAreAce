@@ -309,55 +309,7 @@ public class Factory_StoreManagementModuleTest {
         assertTrue(result == null);
     }
 
-    public class Factory_StoreManagementModuleRemoteImpl implements Factory_StoreManagementModuleRemote {
-
-        public void AddFactory(String country, String address, String contact, String manager) {
-        }
-
-        public void DeleteFactory(long factoryId) {
-        }
-
-        public void ModifyFactory(long factoryId, String country, String address, String contact, String manager) {
-        }
-
-        public List<FactoryEntity> ListFactory() {
-            return null;
-        }
-
-        public void AddStore(String country, String address, String contact, String manager) {
-        }
-
-        public void DeleteStore(Long storeId) {
-        }
-
-        public void ModifyStore(long storeId, String country, String address, String contact, String manager) {
-        }
-
-        public List<StoreEntity> ListStore() {
-            return null;
-        }
-
-        public Collection<ProductEntity> viewProductListNotInFactory(Long factoryId) throws Exception {
-            return null;
-        }
-
-        public Collection<FactoryProductEntity> listFactoryProduct(Long factoryId) throws Exception {
-            return null;
-        }
-
-        public Integer deleteFatoryProduct(Long factoryProductId) {
-            return null;
-        }
-
-        public Integer addFactoryProduct(Long FactoryId, Long ProductId) {
-            return null;
-        }
-
-        public FactoryEntity getFactory(Long factoryId) {
-            return null;
-        }
-    }
-
+   
     private Factory_StoreManagementModuleRemote lookupRemote() {
         try {
             Context c = new InitialContext();

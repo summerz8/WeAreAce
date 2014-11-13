@@ -912,16 +912,6 @@ is divided into following sections:
         <!-- Empty placeholder for easier customization. -->
         <!-- You can override this target in the ../build.xml file. -->
     </target>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD:IslandFurniturePOS-RetailProduct/nbproject/build-impl.xml
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     <target if="do.depend.true" name="-compile-depend">
         <pathconvert property="build.generated.subdirs">
             <dirset dir="${build.generated.sources.dir}" erroronmissingdir="false">
@@ -934,52 +924,6 @@ is divided into following sections:
         <j2seproject3:javac gensrcdir="${build.generated.sources.dir}"/>
         <copy todir="${build.classes.dir}">
             <fileset dir="${src.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    <target depends="compile,-library-inclusion-in-archive-weblogic,-library-inclusion-in-archive-by-user" name="library-inclusion-in-archive"/>
-    <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user">
-<<<<<<< HEAD
-        <copyfiles files="${file.reference.core-3.1.0.jar}" todir="${build.classes.dir}"/>
-    </target>
-    <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
-        <basename file="${file.reference.core-3.1.0.jar}" property="manifest.file.reference.core-3.1.0.jar"/>
-        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 "/>
-            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.core-3.1.0.jar}"/>
-        </manifest>
-    </target>
-    <target depends="compile" name="library-inclusion-in-manifest">
-        <copyfiles files="${file.reference.core-3.1.0.jar}" todir="${dist.ear.dir}/lib"/>
-=======
-        <copyfiles files="${file.reference.commons-codec-1.9.jar}" todir="${build.classes.dir}"/>
-    </target>
-    <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
-        <basename file="${file.reference.commons-codec-1.9.jar}" property="manifest.file.reference.commons-codec-1.9.jar"/>
-        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 "/>
-            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.commons-codec-1.9.jar}"/>
-        </manifest>
-    </target>
-    <target depends="compile" name="library-inclusion-in-manifest">
-        <copyfiles files="${file.reference.commons-codec-1.9.jar}" todir="${dist.ear.dir}/lib"/>
->>>>>>> da73a7fd03bd2578774675efb00a435d9497c006
-        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
-    </target>
-    <target name="-copy-meta-inf">
-        <copy todir="${classes.dir}">
-            <fileset dir="${meta.inf}" includes="**/*.dbschema"/>
-        </copy>
-        <copy todir="${classes.dir}/META-INF">
-            <fileset dir="${meta.inf}" excludes="**/*.dbschema **/xml-resources/** ${meta.inf.excludes}"/>
->>>>>>> 86d7800d9d5f329fd359d1ea42a560eca354b27e:IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/nbproject/build-impl.xml~
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         </copy>
     </target>
     <target if="has.persistence.xml" name="-copy-persistence-xml">

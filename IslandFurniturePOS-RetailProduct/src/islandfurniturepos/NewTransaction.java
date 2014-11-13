@@ -32,7 +32,7 @@ import sessionbean.ocrm.TransactionItemEntity;
 public class NewTransaction extends javax.swing.JFrame {
 
     private String POSid = null;
-    private String partnerPoleDisplayCOMPort = "COM4";
+    private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     private SerialPort serialPort;
     private String storeStaffId = null;
@@ -343,7 +343,7 @@ public class NewTransaction extends javax.swing.JFrame {
                         createTransactionItem(UUID, amount, transactionId);
                         List<TransactionItemEntity> transactionListTemp = getTransactionItemList(transactionId);
                         TransactionItemEntity temp = transactionListTemp.get(transactionListTemp.size() - 1);
-                        //poleDisplay(temp.getItemName(), temp.getUnitPrice());
+                        poleDisplay(temp.getItemName(), temp.getUnitPrice());
                         loadTable();
                     }
 
@@ -365,10 +365,12 @@ public class NewTransaction extends javax.swing.JFrame {
         if (transactionItemList.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Transaction list is empty!", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
+            closePort();
             this.setVisible(false);
             this.dispose();
             jTextFieldItemId.setText("");
             CheckOut checkOut = new CheckOut(POSid, storeStaffId, transactionId);
+            checkOut.setLocationRelativeTo(null);
             checkOut.setVisible(true);
             checkOut.setExtendedState(JFrame.NORMAL);
         }
@@ -381,8 +383,8 @@ public class NewTransaction extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-         initPartnerPoleDisplay();
-
+        initPartnerPoleDisplay();
+        helloDisplay();
         transactionId = createTransaction(storeStaffId, memberId, location, POSid);
 
         jTextFieldItemId.addActionListener(new ActionListener() {
@@ -404,10 +406,13 @@ public class NewTransaction extends javax.swing.JFrame {
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         // TODO add your handling code here:
         deleteUnfinishedTransaction(transactionId);
+        closePort();
         this.setVisible(false);
         this.dispose();
         jTextFieldItemId.setText("");
+        
         MainMenu mainMenu = new MainMenu(POSid, storeStaffId);
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
 
@@ -606,16 +611,19 @@ public class NewTransaction extends javax.swing.JFrame {
             int itemType = checkItemType(UUID);
             if (itemType != location) {
                 JOptionPane.showMessageDialog(this, "Item does not belong to current location!", "Error", JOptionPane.ERROR_MESSAGE);
+                jTextFieldItemId.setText("");
             } else {
                 createTransactionItem(UUID, 1, transactionId);
                 List<TransactionItemEntity> transactionListTemp = getTransactionItemList(transactionId);
                 TransactionItemEntity temp = transactionListTemp.get(transactionListTemp.size() - 1);
-                //poleDisplay(temp.getItemName(), temp.getUnitPrice());
+                poleDisplay(temp.getItemName(), temp.getUnitPrice());
                 loadTable();
+                jTextFieldItemId.setText("");
             }
 
         } else {
             JOptionPane.showMessageDialog(this, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            jTextFieldItemId.setText("");
         }
     }
 
@@ -634,6 +642,8 @@ public class NewTransaction extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NullPointerException ex) {
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -654,6 +664,41 @@ public class NewTransaction extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex) {
+            System.err.println("Unable to write to Partner Pole Display");
+        }
+    }
+    
+    private void helloDisplay() {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String("Island Furniture").getBytes();
+        byte[] message2 = new String("Have a Nice Day!").getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex){                   
+            System.err.println("Unable to write to Partner Pole Display");
+        }
+    }
+
+    private void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

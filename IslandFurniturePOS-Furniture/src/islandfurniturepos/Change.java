@@ -23,7 +23,7 @@ public class Change extends javax.swing.JFrame {
     private String POSid;
     private String storeStaffId;
     private Double moneyChange;
-    private String partnerPoleDisplayCOMPort = "COM4";
+    private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     SerialPort serialPort;
 
@@ -176,23 +176,8 @@ public class Change extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         initPartnerPoleDisplay();
         poleDisplay();
-=======
-//        initPartnerPoleDisplay();
-//        poleDisplay();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-//        initPartnerPoleDisplay();
-//        poleDisplay();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-//        initPartnerPoleDisplay();
-//        poleDisplay();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
        
         if (moneyChange != null) {
             jLabelChange.setText(Double.toString(moneyChange));
@@ -202,15 +187,17 @@ public class Change extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonGoBackToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoBackToMainActionPerformed
-        // TODO add your handling code here:
-        jLabelChange.setText("");
+        // TODO add your handling code here:       
+        closePort();
 
+        MainMenu mainMenu = new MainMenu(POSid,storeStaffId);
+        mainMenu.setLocationRelativeTo(null);
+        mainMenu.setVisible(true);
+        mainMenu.setExtendedState(JFrame.NORMAL);
+        
         this.setVisible(false);
         this.dispose();
 
-        MainMenu mainMenu = new MainMenu(POSid,storeStaffId);
-        mainMenu.setVisible(true);
-        mainMenu.setExtendedState(JFrame.NORMAL);
 
     }//GEN-LAST:event_jButtonGoBackToMainActionPerformed
 
@@ -294,17 +281,8 @@ public class Change extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 } catch (NullPointerException ex){                   
                     System.err.println("Unable to initialize Partner Pole Display");
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                 }
             }
         }
@@ -315,7 +293,7 @@ public class Change extends javax.swing.JFrame {
         byte[] newLine = {0x0A};
         byte[] carriageReturn = {0x0D};
         byte[] message1 = new String("Thank You!").getBytes();
-        byte[] message2 = new String("Your Change: S$" + String.valueOf(moneyChange)).getBytes();
+        byte[] message2 = new String("Change: S$" + moneyChange).getBytes();
 
         try {
             partnerPoleDisplayOutputStream.write(clear);
@@ -325,17 +303,21 @@ public class Change extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         } catch (NullPointerException ex){                   
             System.err.println("Unable to write to Partner Pole Display");
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+        }
+    }
+    
+    public void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

@@ -31,7 +31,7 @@ import sessionbean.ocrm.TransactionItemEntity;
 public class CheckOut extends javax.swing.JFrame {
 
     private String POSid = null;
-    private String partnerPoleDisplayCOMPort = "COM4";
+    private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     private SerialPort serialPort;
     private Long transactionId = null;
@@ -301,7 +301,7 @@ public class CheckOut extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-//         initPartnerPoleDisplay();
+         initPartnerPoleDisplay();
              
 
         totalPrice = caculateTotalPrice(transactionId);
@@ -328,13 +328,14 @@ public class CheckOut extends javax.swing.JFrame {
         }
         loadTable();
 
-//        poleDisplay(actualTotalPrice); 
+        poleDisplay(actualTotalPrice); 
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCashActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         Cash cash = new Cash(POSid, storeStaffId,transactionId,actualTotalPrice,this);
+        cash.setLocationRelativeTo(null);
         cash.setVisible(true);
         cash.setExtendedState(JFrame.NORMAL);
 
@@ -343,11 +344,14 @@ public class CheckOut extends javax.swing.JFrame {
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         // TODO add your handling code here:
         deleteUnfinishedTransaction(transactionId);
-        this.setVisible(false);
-        this.dispose();
+        closePort();
+        
         MainMenu mainMenu = new MainMenu(POSid, storeStaffId);
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -386,7 +390,7 @@ public class CheckOut extends javax.swing.JFrame {
                 actualTotalPrice = caculateRedemption(redemptionPoints, transactionId);
                 jLabelTotalPrice.setText(Double.toString(actualTotalPrice));
                 JOptionPane.showMessageDialog(this, "Redemption success!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-//                poleDisplay(actualTotalPrice); 
+                poleDisplay(actualTotalPrice); 
                 jFormattedTextFieldRedemption.setText("");
             }
         }
@@ -396,6 +400,7 @@ public class CheckOut extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         CreditCard credit = new CreditCard(POSid, storeStaffId,transactionId,actualTotalPrice,this);
+        credit.setLocationRelativeTo(null);
         credit.setVisible(true);
         credit.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonCreditActionPerformed
@@ -493,6 +498,7 @@ public class CheckOut extends javax.swing.JFrame {
     }
 
     private void initPartnerPoleDisplay() {
+        System.err.println("test");
         Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
 
         while (commPortList.hasMoreElements()) {
@@ -507,6 +513,8 @@ public class CheckOut extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){                   
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -527,6 +535,21 @@ public class CheckOut extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+        }
+    }
+    
+    public void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

@@ -673,8 +673,12 @@ public class StoreMovementControl implements StoreMovementControlLocal {
          StoreBinRetailProductEntity sbp = em.find(StoreBinRetailProductEntity.class, id);
          Double newquantity = sbp.getQuantity() + quantity;
          sbp.setQuantity(newquantity);
+         System.out.println("moveout quantity : " + quantity );
          
-         
+         if(sbp.getSwe().isIsDisplayArea()){
+          sbp.getRetailProduct().setOnairInventory(sbp.getRetailProduct().getOnairInventory() + quantity);
+         }
+         System.out.println("onair : " + sbp.getRetailProduct().getOnairInventory());
          }
          else{
              StoreBinRetailProductEntity sbp = new StoreBinRetailProductEntity();
@@ -684,7 +688,12 @@ public class StoreMovementControl implements StoreMovementControlLocal {
              sbp.setSwe(storeBin);
              sbp.setStatus(status);
              storeBin.getStoreBinRetailProducts().add(sbp);
-            
+             System.out.println("moveout quantity : " + quantity );
+             if(sbp.getSwe().isIsDisplayArea()){
+             sbp.getRetailProduct().setOnairInventory(sbp.getRetailProduct().getOnairInventory() + quantity);
+             
+         }
+             System.out.println("onair : " + sbp.getRetailProduct().getOnairInventory());
              em.flush();
          }
 
