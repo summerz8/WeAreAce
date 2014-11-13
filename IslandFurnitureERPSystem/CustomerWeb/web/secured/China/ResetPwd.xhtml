@@ -19,13 +19,12 @@
             <title>Island Furniture </title>
         </h:head>
 
-        <h:body style="background-image:url(../resources/images/bg3.jpg); background-repeat:no-repeat">
+ <h:body style="background-image:url(../resources/images/bg3.jpg); background-repeat:no-repeat">
 
             <h:form id="formMain">
-                <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="./HomePage.xhtml">首页</a></button>
 
-                <p:graphicImage value="../resources/images/WebLogo.png" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:150px; height:60px;text-align:center"/> 
-                <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
+                <p:graphicImage value="../../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                <p:graphicImage value="../../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
 
                 <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
@@ -49,18 +48,28 @@
                 <p:messages id="messagesStatus" redisplay="true" />
 
 
-                <p:panel id="basic"  style="position: absolute; right:130px; top:150px; width: 500px; border: none" >
+                <p:panel id="basic" header="Please Input Password Information " style="position: absolute; right:300px; top:150px;margin-bottom" >
+                    <h:panelGrid columns="2" cellpadding="10">                                
 
-                    <h:outputText  value="您的反馈已经提交成功!" />
-                    <br></br>
-                    <h:outputText  value="感谢您帮助我的进步!" />
-                    <br></br>
+                        <p:outputLabel for="pwd" style="font-weight: bold" value="旧密码 :"/>                     
+                        <p:password id = "pwd" required="true" label = "Password1:" requiredMessage ="Old Password is required." 
+                                    value="#{memberInfo.pwd1}"/>
 
-                    <p:commandButton action="HomePage?faces-redirect=true" value="返回"/>
+                        <p:outputLabel for="pwd2" style="font-weight: bold" value="旧密码:"/>                     
+                        <p:password id = "pwd2" required="true" label = "Password2 :" requiredMessage ="Old Password is required." 
+                                    value="#{memberInfo.pwd2}"/>
 
+                        <h:outputLabel for="postal" value="新密码:" />
+                        <p:password value="#{memberInfo.newPwd}" label="NewPassword" requiredMessage ="new Password is required." />
+
+
+                        <p:commandButton actionListener="#{memberInfo.changePwd1}" value="重置密码" />
+                        <p:commandButton action="MemberPage?faces-redirect=true" value="返回"/>
+
+                    </h:panelGrid>
                 </p:panel>
                 <h5>
-                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:800px; left: 400px;text-align: center;"/>
                 </h5>
             </h:form>
         </h:body>

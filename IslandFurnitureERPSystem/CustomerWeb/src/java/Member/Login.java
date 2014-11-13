@@ -36,7 +36,7 @@ public class Login {
     }
 
     public void checkLogin() throws IOException {
-        member = cwml.memberLogin(memberEmail, cp.doMD5Hashing(pwd));
+        member = cwml.memberLogin(memberEmail, cp.doMD5Hashing(pwd+memberEmail));
         if (member == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Failed, Please enter correct email or password.", ""));
         } else {

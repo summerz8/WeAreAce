@@ -5,6 +5,7 @@
  */
 package SessionBean.OCRM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Store.OCRM.FeedbackEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
@@ -238,6 +239,31 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
     public void changePwd(Long memberId, String pwd) {
         MemberEntity member = em.find(MemberEntity.class, memberId);
         member.setPwd(pwd);
+    }
+    
+    @Override
+    public String resetPass(String email) {
+        System.out.println("InternalUserAccountModule: change password: ");
+        String newPass;
+        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 8; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+
+        newPass = sb.toString();
+        System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
+        MemberEntity user = getMember(email);
+        if (user != null) {
+            user.setPwd(cryptographicHelper.doMD5Hashing(newPass + user.getEmail()));
+            em.persist(user);
+            em.flush();
+            return newPass;
+        } else {
+            return "error";
+        }
     }
 
 }
