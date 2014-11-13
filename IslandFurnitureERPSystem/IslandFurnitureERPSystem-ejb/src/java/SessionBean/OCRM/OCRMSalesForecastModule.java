@@ -308,10 +308,6 @@ public class OCRMSalesForecastModule implements OCRMSalesForecastModuleLocal {
 
                     em.persist(frpam);
                     salesForecast.getFactoryRetailProductList().add(frpam);
-                    storeRetailProductList.remove(sr);
-                    if (storeRetailProductList.isEmpty()) {
-                        break;
-                    }
                 }
 
             }

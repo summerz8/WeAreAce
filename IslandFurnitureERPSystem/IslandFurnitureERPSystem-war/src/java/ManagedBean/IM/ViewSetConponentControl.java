@@ -69,7 +69,7 @@ public class ViewSetConponentControl {
             }
             currentStoreProductList = sicl.getListOfStoreProduct(storeId);
 
-            setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ViewSetId");
+            setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("setId");
             set = sscl.getStoreSet(setId);
             ProductList = set.getSet().getProductList();
 

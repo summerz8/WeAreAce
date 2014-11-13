@@ -306,7 +306,19 @@ public class Cash extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Birthday, double points", "Happy Birthday", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             pointsEarned = actualTotalPrice * base;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                             addNewPointsForMember(pointsEarned, memberId);
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                         }
                     } catch (DatatypeConfigurationException ex) {
                         Logger.getLogger(Cash.class.getName()).log(Level.SEVERE, null, ex);

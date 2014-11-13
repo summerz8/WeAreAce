@@ -51,7 +51,7 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
         int check = CheckFirstTransaction(transactionId);
         int check2 = checkEmail(email);
-        if (check == 1 && check2==1) {
+        if (check == 1 && check2 == 1) {
 
             TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
             MemberEntity member;
@@ -86,10 +86,10 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             transaction.setMember(member);
             em.persist(transaction);
             em.flush();
-        }else if(check2!=1){
+        } else if (check2 != 1) {
             System.out.println("email incorrect! existed!");
-         return check2;
-        }        
+            return check2;
+        }
         return check;
     }
 
@@ -192,10 +192,10 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
     }
 
     @WebMethod(operationName = "getMemberById")
-    public MemberEntity getMemberById(Long id){
+    public MemberEntity getMemberById(Long id) {
         return em.find(MemberEntity.class, id);
     }
-    
+
     @WebMethod(exclude = true)
     public int CheckFirstTransaction(Long transactionId) {
         TransactionEntity te = em.find(TransactionEntity.class, transactionId);
@@ -282,13 +282,21 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
 
     @WebMethod(operationName = "addNewPointsForMember")
     public void addNewPointsForMember(Double points, Long memberId) {
+        System.out.println("addNewPointsForMember: " + memberId);
         MemberEntity member = em.find(MemberEntity.class, memberId);
         member.setTotalPoints(member.getTotalPoints() + points);
         member.setCurrentPoints(member.getCurrentPoints() + points);
 
         em.persist(member);
         em.flush();
-        member.setMemberlvl(em.find(MembershipLevelEntity.class, upgradeMember(member.getTotalPoints())));
+        MembershipLevelEntity msle = em.find(MembershipLevelEntity.class, upgradeMember(member.getTotalPoints()));
+        member.setMemberlvl(msle);
+        if (msle.getLevelId() < 5) {
+            MembershipLevelEntity msle2 = em.find(MembershipLevelEntity.class, (upgradeMember(member.getTotalPoints()) + 1));
+            member.setPointsToUpgrade(msle2.getPointsToUpgrade());
+        } else if (msle.getLevelId() == 5) {
+            member.setPointsToUpgrade(0D);
+        }
         em.persist(member);
         em.flush();
     }
@@ -324,7 +332,8 @@ public class MemberRegistrationModule implements MemberRegistrationModuleLocal {
             MemberEntity me = (MemberEntity) q.getSingleResult();
             if (me != null) {
                 return -4;
-            }if(me == null){
+            }
+            if (me == null) {
                 return 1;
             }
         } catch (NoResultException e) {

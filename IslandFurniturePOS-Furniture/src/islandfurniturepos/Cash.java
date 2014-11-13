@@ -256,8 +256,23 @@ public class Cash extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
         initPartnerPoleDisplay();
         poleDisplay();
+=======
+//        initPartnerPoleDisplay();
+//        poleDisplay();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+//        initPartnerPoleDisplay();
+//        poleDisplay();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+//        initPartnerPoleDisplay();
+//        poleDisplay();
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 
         jScrollPane2.setVisible(false);
         jLabelTotalPrice.setText(String.valueOf(actualTotalPrice));
@@ -285,7 +300,16 @@ public class Cash extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Tendered is smaller than total!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 moneyChange = tendered - actualTotalPrice;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                 setTendered(transactionId,tendered);
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                 caculateChange(transactionId, moneyChange);
 
                 jFormattedTextFieldTendered.setText("");
@@ -293,7 +317,16 @@ public class Cash extends javax.swing.JFrame {
                 if (memberId != null) {
                     MemberEntity member = getMemberById(memberId);
                     Double base = Double.parseDouble((String) jComboBoxEventBonus.getSelectedItem());
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                     System.err.println("base: "+ base);
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                     try {
                         Calendar birthday = fromXMLGregorianCalendar(member.getBirthday());
                         Calendar today = Calendar.getInstance();
@@ -305,7 +338,19 @@ public class Cash extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Birthday, double points", "Happy Birthday", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             pointsEarned = actualTotalPrice * base;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                             addNewPointsForMember(pointsEarned, memberId);
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+                            addNewPointsForMember(actualTotalPrice, memberId);
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                         }
                     } catch (DatatypeConfigurationException ex) {
                         Logger.getLogger(Cash.class.getName()).log(Level.SEVERE, null, ex);
@@ -417,8 +462,17 @@ public class Cash extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                 }catch (NullPointerException ex){                   
                     System.err.println("Unable to initialize Partner Pole Display");
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                 }
             }
         }
@@ -439,9 +493,21 @@ public class Cash extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
         }catch (NullPointerException ex){                   
                     System.err.println("Unable to write to Partner Pole Display");
                 }
+=======
+        }
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+        }
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+        }
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
     }
 
     private void PartnerThermalPrinterAndCashBox() {
@@ -635,10 +701,19 @@ public class Cash extends javax.swing.JFrame {
         port.updateEndCash(arg0, arg1);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
     private static void setTendered(java.lang.Long transactionId, java.lang.Double tendered) {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         port.setTendered(transactionId, tendered);
     }
 
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+=======
+>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 }

@@ -107,7 +107,7 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.pointsToUpgrade = 1000D;
+        this.pointsToUpgrade = 5000D;
         this.createDate = Calendar.getInstance();
 
         shoppingCartList = new ArrayList<>();
@@ -129,7 +129,7 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.pointsToUpgrade = 1000D;
+        this.pointsToUpgrade = 5000D;
         this.createDate = Calendar.getInstance();
         this.country = country;
 
@@ -153,7 +153,7 @@ public class MemberEntity implements Serializable {
         this.deleteFlag = deleteFlag;
         this.totalPoints = 0D;
         this.currentPoints = 0D;
-        this.pointsToUpgrade = 1000D;
+        this.pointsToUpgrade = 5000D;
         this.createDate = Calendar.getInstance();
         this.country = country;
         this.memberlvl = mlvl;

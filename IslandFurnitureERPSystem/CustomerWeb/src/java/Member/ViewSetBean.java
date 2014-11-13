@@ -55,6 +55,7 @@ public class ViewSetBean {
     private List<SelectItem> storeList;
     private List<StoreEntity> stores;
     private Double stock;
+    private Double save;
 
     public ViewSetBean() {
     }
@@ -62,7 +63,7 @@ public class ViewSetBean {
     @PostConstruct
     public void init() {
         totalRate = 0D;
-
+        save=0D;
         setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("setId");
         System.out.println(setId);
         set = cwml.getSet(setId);
@@ -91,10 +92,23 @@ public class ViewSetBean {
                     totalRate = totalRate + c.getRate();
                 }
             }
-        
-        totalRate = totalRate / size;
+
+            totalRate = totalRate / size;
         }
-        
+     
+        if (name != null) {
+            for (CountryProductEntity c : itemList) {
+                save+=c.getMemberPrice();
+            }
+            save=set.getSet().getMemberPrice()-save;
+        }
+        else{
+            for (CountryProductEntity c : itemList) {
+                save+=c.getPrice();
+            }
+            save=set.getSet().getPrice()-save;
+        }
+
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));
@@ -124,10 +138,13 @@ public class ViewSetBean {
             return "set?faces-redirect=true";
         }
     }
-    
-     public boolean checkLogIn(){
-        if(name==null) return false;
-        else return true;
+
+    public boolean checkLogIn() {
+        if (name == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String createComment() {
@@ -345,5 +362,15 @@ public class ViewSetBean {
     public void setStock(Double stock) {
         this.stock = stock;
     }
+
+    public Double getSave() {
+        return save;
+    }
+
+    public void setSave(Double save) {
+        this.save = save;
+    }
+    
+    
 
 }

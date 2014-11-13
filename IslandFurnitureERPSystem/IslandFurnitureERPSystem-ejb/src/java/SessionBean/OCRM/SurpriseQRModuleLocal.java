@@ -16,7 +16,7 @@ import javax.ejb.Local;
  * @author dan
  */
 @Local
-public interface SurpriseQRBeanLocal {
+public interface SurpriseQRModuleLocal {
 
 //    public Boolean checkQR(Calendar date);
 
