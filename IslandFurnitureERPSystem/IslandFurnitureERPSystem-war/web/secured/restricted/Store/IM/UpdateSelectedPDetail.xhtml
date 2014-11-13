@@ -75,6 +75,14 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+
                             <p:submenu label="Inbound Movement Management">
                                 <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
@@ -89,39 +97,39 @@
                             <h:form id="addressForm">
 
 
-                            <p:row>
-                                <p:column>
+                                <p:row>
+                                    <p:column>
 
-                                    <p:outputLabel value="Store Product Id:" for="selectinv" />
-                                    <h:outputText id ="selectinv" value ="#{updateStockDetailBean.storePd.storeProductId}"/>
-                                </p:column>  
-                            </p:row>
-                            <br></br>
-                            <br></br>
-                            <p:row>
-                                <p:column>
+                                        <p:outputLabel value="Store Product Id:" for="selectinv" />
+                                        <h:outputText id ="selectinv" value ="#{updateStockDetailBean.storePd.storeProductId}"/>
+                                    </p:column>  
+                                </p:row>
+                                <br></br>
+                                <br></br>
+                                <p:row>
+                                    <p:column>
 
-                                    <p:outputLabel value="Store Product Name:" for="selectname" />
-                                    <h:outputText id ="selectname" value ="#{updateStockDetailBean.storePd.name}"/>
-                                </p:column>  
-                            </p:row>
+                                        <p:outputLabel value="Store Product Name:" for="selectname" />
+                                        <h:outputText id ="selectname" value ="#{updateStockDetailBean.storePd.name}"/>
+                                    </p:column>  
+                                </p:row>
 
-                            <br></br>
-                            <br></br>
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="Total Current Amount:" for="aId" />
-                                    <h:outputText id ="aId" value ="#{updateStockDetailBean.storePd.onairInventory}"/>
-                                </p:column>  
-                            </p:row>
-                            <br></br>
+                                <br></br>
+                                <br></br>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Total Current Amount:" for="aId" />
+                                        <h:outputText id ="aId" value ="#{updateStockDetailBean.storePd.onairInventory}"/>
+                                    </p:column>  
+                                </p:row>
+                                <br></br>
 
-                            <br></br>
-                            
-                                
-                            <c:forEach items="#{updateStockDetailBean.binlist}" var="bins">
-                                <h:inputText value="Bin ID:#{bins.swe.id}" /><br />
-                            </c:forEach>
+                                <br></br>
+
+
+                                <c:forEach items="#{updateStockDetailBean.binlist}" var="bins">
+                                    <h:inputText value="Bin ID:#{bins.swe.id}" /><br />
+                                </c:forEach>
                                 <h:commandButton value="Save" action="#{addressBean.persistAddresses}" />
                             </h:form>
 

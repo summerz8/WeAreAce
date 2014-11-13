@@ -10,7 +10,7 @@
             <h:outputStylesheet name="./css/default.css"/>
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <title>Island Furniture ERP System</title>
-            
+
         </h:head>
 
         <h:body>
@@ -74,32 +74,40 @@
 
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
-                        
-                            <p:menu>
-                            <p:submenu label="Document Reference">
+
+                        <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+                            
+                            <p:submenu label="Document Reference" >
                                 <p:menuitem value="View Good Receipts"  outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Inbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInboundMovementRecord.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View In Store Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreInStoreMovementRecord.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Outbound Movement Record"  outcome="/secured/restricted/Store/IM/ListStoreOutboundMovementRecord.xhtml?faces-redirect=true"/>
-    
+
                             </p:submenu>
-                            </p:menu>
-                        
+                        </p:menu>
+
 
 
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="Store Good Receipt List" style="border:0px; margin-bottom" >
 
-                        
-                            <p:dataTable id ="current" var="gr" widgetVar="current" value="#{storeDocumentReferenceBean.grList}"   rowStyleClass="#{sproduct.onairInventory le sproduct.warningOnAirInv ?'old':null}" >
-                                
 
-                                
+                            <p:dataTable id ="current" var="gr" widgetVar="current" value="#{storeDocumentReferenceBean.grList}"   rowStyleClass="#{sproduct.onairInventory le sproduct.warningOnAirInv ?'old':null}" >
+
+
+
                                 <f:facet name="header">
                                     Store Good Receipt List
                                 </f:facet>
-                               
+
                                 <p:column headerText="Id" width="8%" >
                                     <h:outputText value="SGR#{gr.id}"  style="font-weight: bold" />    
                                 </p:column>
@@ -117,10 +125,10 @@
                                 <p:column headerText="Original Amount" width="12%">
                                     <h:outputText value="#{gr.orginalAmount}" style="font-weight: bold" rendered = "#{gr.orginalAmount  == -1? false: true}" /> 
                                     <h:outputText value="Not Applicable" style="font-weight: bold" rendered = "#{gr.orginalAmount == -1?true: false}" /> 
-                            
+
                                 </p:column>
 
-                               
+
 
                                 <p:column headerText="Amount Received" width="12%">
                                     <h:outputText value="#{gr.receivedAmount}" style="font-weight: bold" /> 
@@ -128,7 +136,7 @@
 
 
                             </p:dataTable>
-                           
+
 
                         </p:panel>
                     </p:layoutUnit>

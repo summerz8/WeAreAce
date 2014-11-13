@@ -68,15 +68,14 @@
 
 
                 <p:layoutUnit position="west" size="1000px">
-
                     <p:menu>
-                        <p:submenu label="OCRM Management">
+                        <p:submenu label="Operational CRM">
                             <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                             <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                             <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
                             <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
                             <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true" />
-                            <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true" />
+                            <p:menuitem value="Customer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true" />
                             <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true" />
                             <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
                         </p:submenu>
@@ -182,7 +181,7 @@
                                     <p:column headerText="Points Rate">
                                         <h:outputText value="#{event.bonus}" />
                                     </p:column>
-                                    
+
                                     <p:column headerText="Increase Daily Sale (%)">
                                         <h:outputText value="#{event.increaseSale}" />
                                     </p:column>
@@ -195,7 +194,7 @@
                                         <p:commandButton actionListener="#{eventBean.theStoreEvent(event.id)}" update=":formMain:EditStoreEvent"  oncomplete="PF('editDialog').show()" value="edit" rendered="#{eventBean.checkbefore(event.startDate)}"/>
                                     </p:column>
 
-                                     <p:column headerText="Update">
+                                    <p:column headerText="Update">
                                         <p:commandButton actionListener="#{eventBean.theStoreEvent(event.id)}" update=":formMain:UpdateStoreEvent"  oncomplete="PF('updateDialog').show()" value="update" rendered="#{eventBean.checkafter(event.endDate)}"/>
                                     </p:column>
 
@@ -227,8 +226,8 @@
                                         </p:panelGrid>
                                     </p:outputPanel>
                                 </p:dialog>
-                                
-                                 <p:dialog header="Update Event" widgetVar="updateDialog" position="center"
+
+                                <p:dialog header="Update Event" widgetVar="updateDialog" position="center"
                                           showEffect="fade" hideEffect="fade" resizable="true" 
                                           draggable="true" closable="true" width="400">
                                     <p:outputPanel id="UpdateStoreEvent" style="text-align:center;">
@@ -237,7 +236,7 @@
                                             <h:outputText value="Event Name: "  />
                                             <h:outputText value="#{eventBean.storeEvent.eventName}" />
 
-                
+
                                             <h:outputText value="Increase Sale Rate (%): " />
                                             <h:inputText value="#{eventBean.increaseSale}"/>
 

@@ -91,7 +91,7 @@ public class WorkPlaceManageBean implements Serializable{
     }
 
     public Boolean isValidStoreStaff() {
-        if (currentUserLevel == 6) {
+        if (currentUserLevel == 2 || currentUserLevel == 6) {
             return true;
         } else {
             return false;

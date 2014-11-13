@@ -74,6 +74,14 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+
                             <p:submenu label="Inbound Movement Management">
                                 <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
@@ -92,7 +100,7 @@
                                     <p:selectOneMenu id="selectProduct" value="#{productInboundMovementBean.selectedProduct}" converter="sProductConverter"  effect="fade" style="width:160px" >
                                         <f:selectItem itemValue="" itemLabel="[Select One]" />
                                         <f:selectItems value="#{productInboundMovementBean.productList}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
-                                     <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{productInboundMovementBean.setSelectedPD}" update=":formMain" />
+                                        <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{productInboundMovementBean.setSelectedPD}" update=":formMain" />
 
                                     </p:selectOneMenu>
                                 </p:column>  
@@ -112,7 +120,7 @@
                             <br></br>
                             <p:row>
                                 <p:column rendered = "#{productInboundMovementBean.isSetBin()?true:false}" >
-                                    
+
                                     <p:outputLabel value="In Transit Inventory Available:" for="selectinv" />
                                     <h:outputText id ="selectinv" value ="#{productInboundMovementBean.selectedProduct.intransitInventory}"/>
                                 </p:column>  
@@ -125,7 +133,7 @@
                                     <p:selectOneRadio id="invtype" required ="true" value="#{productInboundMovementBean.inventoryType}">
                                         <f:selectItem itemLabel="Unrestricted" itemValue="0" />
                                         <f:selectItem itemLabel="Returned" itemValue="1" />
-                                        
+
                                     </p:selectOneRadio>
 
                                 </p:column>  
@@ -174,12 +182,12 @@
                                             <h:outputText id="c3" value="#{productInboundMovementBean.quantity}" style="font-weight: bold" /> 
                                         </p:column>  
                                     </p:row>
-                                    
+
                                     <br> </br>
                                     <p:commandButton  title = "Confirm"  value ="Confrim" actionListener = "#{productInboundMovementBean.confrimResult}" update = ":formMain"  >
 
                                     </p:commandButton> 
-                                        
+
 
                                     <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('confrimationDialog').hide()">
 

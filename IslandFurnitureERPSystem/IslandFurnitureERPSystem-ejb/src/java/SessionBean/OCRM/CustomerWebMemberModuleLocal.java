@@ -38,4 +38,6 @@ public interface CustomerWebMemberModuleLocal {
     
     public void createFeedBack(String title, String content, String email,String name);
     
+    public void changePwd(Long memberId, String pwd);
+    
 }

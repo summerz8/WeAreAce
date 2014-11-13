@@ -446,7 +446,7 @@ public class AnalyticalCRMSessionBean implements AnalyticalCRMSessionBeanLocal {
                 rr = 0.0;
             }
             if (oldQuantity == 0) {
-                rr = -1.0;
+                rr = 0.0;
             }
 
             System.out.println("Retention Rate: " + rr.toString());

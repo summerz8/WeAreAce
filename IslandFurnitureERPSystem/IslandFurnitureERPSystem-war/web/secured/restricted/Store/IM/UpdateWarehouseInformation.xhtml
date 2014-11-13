@@ -74,17 +74,22 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+
                             <p:submenu label="Store Stock Monitor">
                                 <p:menuitem value="Monitor Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Monitor Retail Product"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevelR.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Inventory Storage Information"  outcome="/secured/restricted/Store/IM/viewProductStorageDetail.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Bin Storage Information"  outcome="/secured/restricted/Store/IM/viewBinStorageDetail.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="Update Stock Information"  outcome="/secured/restricted/Store/IM/UpdateWarehouseInformation.xhtml?faces-redirect=true"/>
-                       
-                       
-                       
                             </p:submenu>
-                            </p:menu>
+                        </p:menu>
 
 
                     </p:layoutUnit>
@@ -92,11 +97,11 @@
                         <p:panel id="basic" header="Current Stock" style="border:0px; margin-bottom" >
                             <p:tabView>
                                 <p:tab title="Product">
-                                     <br></br>
-                                     <br></br>
-                                    
-                                     <p:outputLabel value="Store Product:" for="selectProduct" />
-                                     <p:selectOneMenu id="selectProduct" value="#{updateStockBean.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
+                                    <br></br>
+                                    <br></br>
+
+                                    <p:outputLabel value="Store Product:" for="selectProduct" />
+                                    <p:selectOneMenu id="selectProduct" value="#{updateStockBean.selectedp}" converter="sProductConverter"  effect="fade" style="width:160px" >
                                         <f:selectItem itemValue="" itemLabel="[Select One]" />
 
                                         <f:selectItems value="#{updateStockBean.plist}" var="f" itemLabel="Id:#{f.storeProductId} | Name:#{f.name}" itemValue="#{f}" />
@@ -104,84 +109,84 @@
 
 
                                     </p:selectOneMenu>
-                                     
-                                     <br></br>
-                                     <br></br>
-                                     
-                                     
-                                     <p:commandButton update=":formMain" value="Update Inventory" actionListener ="#{updateStockBean.updateValueCheck}" rendered ="#{updateStockBean.selectedrp!=null?true:false}" >
+
+                                    <br></br>
+                                    <br></br>
+
+
+                                    <p:commandButton update=":formMain" value="Update Inventory" actionListener ="#{updateStockBean.updateValueCheck}" rendered ="#{updateStockBean.selectedrp!=null?true:false}" >
                                     </p:commandButton>
-                                     <br></br>
-                                      <br></br>
-                                     
-                                     <p:dataTable id = "table1" var="gproduct" value="#{updateStockBean.pbinlist}"  >
-                                    <f:facet name="header">
-                                        Bin Detail
-                                    </f:facet>
+                                    <br></br>
+                                    <br></br>
 
-                                    <p:column headerText="Bin Id" width="5%" >
-                                        <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
-                                    </p:column>
+                                    <p:dataTable id = "table1" var="gproduct" value="#{updateStockBean.pbinlist}"  >
+                                        <f:facet name="header">
+                                            Bin Detail
+                                        </f:facet>
 
-
-                                    <p:column headerText="Bin Type" width="10%">
-                                        <h:outputText value="#{updateStockBean.chekcBinStatus(gproduct)}" style="font-weight: bold" /> 
-                                    </p:column>
-                                         
-                                    <p:column headerText="Bin Id" width="5%" >
-                                        <h:outputText value="#{gproduct.quantity}"  style="font-weight: bold" />    
-                                    </p:column>
+                                        <p:column headerText="Bin Id" width="5%" >
+                                            <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
+                                        </p:column>
 
 
-                                    
-                                </p:dataTable>
+                                        <p:column headerText="Bin Type" width="10%">
+                                            <h:outputText value="#{updateStockBean.chekcBinStatus(gproduct)}" style="font-weight: bold" /> 
+                                        </p:column>
+
+                                        <p:column headerText="Bin Id" width="5%" >
+                                            <h:outputText value="#{gproduct.quantity}"  style="font-weight: bold" />    
+                                        </p:column>
 
 
-                                   
+
+                                    </p:dataTable>
+
+
+
                                 </p:tab>
                                 <p:tab title="Retail Product">
-                                    
-                                     <br></br>
-                                      <br></br>
+
+                                    <br></br>
+                                    <br></br>
                                     <p:commandButton update=":formMain" value="Update Inventory" actionListener ="#{viewIncomingInventoryList.viewOMRDetail(omr)}" >
                                     </p:commandButton>
-                                      
-                                       <br></br>
-                                        <br></br>
-                                    
-                                     <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
-                                     <p:selectOneMenu id="selectRProduct" value="#{updateStockBean.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
-                                                <f:selectItem itemValue="" itemLabel="[Select One]" />
-                                                <f:selectItems value="#{updateStockBean.rplist}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
+
+                                    <br></br>
+                                    <br></br>
+
+                                    <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
+                                    <p:selectOneMenu id="selectRProduct" value="#{updateStockBean.selectedrp}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
+                                        <f:selectItems value="#{updateStockBean.rplist}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
                                         <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{updateStockBean.setSelectedRP()}" update="table2" />
 
                                     </p:selectOneMenu>
-                                     
-                                     <br></br>
-                                     <br></br>
-                                     
-                                     <p:dataTable id = "table2" var="gproduct" value="#{updateStockBean.rpbinlist}"  >
-                                    <f:facet name="header">
-                                        Bin Detail
-                                    </f:facet>
 
-                                    <p:column headerText="Bin Id" width="5%" >
-                                        <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
-                                    </p:column>
-                                         
-                                    <p:column headerText="Bin Type" width="10%">
-                                     <h:outputText value="#{updateStockBean.chekcBinStatus(gproduct)}" style="font-weight: bold" /> 
-                                    </p:column>
+                                    <br></br>
+                                    <br></br>
 
+                                    <p:dataTable id = "table2" var="gproduct" value="#{updateStockBean.rpbinlist}"  >
+                                        <f:facet name="header">
+                                            Bin Detail
+                                        </f:facet>
 
-                                    <p:column headerText="Quantity" width="10%">
-                                        <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
-                                    </p:column>
+                                        <p:column headerText="Bin Id" width="5%" >
+                                            <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
+                                        </p:column>
+
+                                        <p:column headerText="Bin Type" width="10%">
+                                            <h:outputText value="#{updateStockBean.chekcBinStatus(gproduct)}" style="font-weight: bold" /> 
+                                        </p:column>
 
 
-                                    
-                                </p:dataTable>
-                                    
+                                        <p:column headerText="Quantity" width="10%">
+                                            <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
+                                        </p:column>
+
+
+
+                                    </p:dataTable>
+
 
 
 

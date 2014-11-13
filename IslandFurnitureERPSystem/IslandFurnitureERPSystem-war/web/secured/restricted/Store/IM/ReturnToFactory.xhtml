@@ -74,6 +74,14 @@
                     <p:layoutUnit position="west" size="500px" style = "border: 0px">
 
                         <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+
                             <p:submenu label="Returned Item Clearning">
                                 <p:menuitem value="Current Returned Item from Customer" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
                                 <p:menuitem value="View Returned Item to Factory" icon="ui-icon-home"  outcome="/secured/restricted/Store/IM/ReturnToFactory.xhtml?faces-redirect=true"/>
@@ -87,8 +95,8 @@
                         <p:panel id="basic" header="Returned Inventory" style="border:0px; margin-bottom" >
                             <p:tabView>
                                 <p:tab title="Product">
-                                    
-                                     <p:outputLabel value="Store Product:" for="selectProduct" />
+
+                                    <p:outputLabel value="Store Product:" for="selectProduct" />
                                     <p:selectOneMenu id="selectProduct" value="#{returnInventoryToFactoryBin.selectedpd}" converter="sProductConverter"  effect="fade" style="width:160px" >
                                         <f:selectItem itemValue="" itemLabel="[Select One]" />
 
@@ -97,68 +105,68 @@
 
 
                                     </p:selectOneMenu>
-                                     
-                                     <br></br>
-                                     <br></br>
-                                     
-                                     <p:dataTable id = "table1" var="gproduct" value="#{returnInventoryToFactoryBin.pbinlist}"  >
-                                    <f:facet name="header">
-                                        Returned Product Storage Bin Details
-                                    </f:facet>
 
-                                    <p:column headerText="Bin Id" width="5%" >
-                                        <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
-                                    </p:column>
+                                    <br></br>
+                                    <br></br>
 
+                                    <p:dataTable id = "table1" var="gproduct" value="#{returnInventoryToFactoryBin.pbinlist}"  >
+                                        <f:facet name="header">
+                                            Returned Product Storage Bin Details
+                                        </f:facet>
 
-                                    <p:column headerText="Quantity" width="10%">
-                                        <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
-                                    </p:column>
+                                        <p:column headerText="Bin Id" width="5%" >
+                                            <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
+                                        </p:column>
 
 
-                                    <p:column headerText="Select" width="15%" >
-                                        <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovement(sproduct)}" >
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
+                                        <p:column headerText="Quantity" width="10%">
+                                            <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
+                                        </p:column>
 
 
-                                   
+                                        <p:column headerText="Select" width="15%" >
+                                            <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovement(sproduct)}" >
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+
+
+
                                 </p:tab>
                                 <p:tab title="Retail Product">
-                                    
-                                     <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
-                                     <p:selectOneMenu id="selectRProduct" value="#{returnInventoryToFactoryBin.selectedrpd}" converter="sRProductConverter"  effect="fade" style="width:160px" >
-                                                <f:selectItem itemValue="" itemLabel="[Select One]" />
+
+                                    <p:outputLabel value="Store Retail Product:" for="selectRProduct" />
+                                    <p:selectOneMenu id="selectRProduct" value="#{returnInventoryToFactoryBin.selectedrpd}" converter="sRProductConverter"  effect="fade" style="width:160px" >
+                                        <f:selectItem itemValue="" itemLabel="[Select One]" />
                                         <f:selectItems value="#{returnInventoryToFactoryBin.rpdlist}" var="f" itemLabel="Id:#{f.storeRetailProductId} | Name:#{f.name}" itemValue="#{f}" />
                                         <p:ajax  partialSubmit="true" process="@this" event="change" listener="#{returnInventoryToFactoryBin.setselectinv2()}" update="table2" />
 
                                     </p:selectOneMenu>
-                                     
-                                     <br></br>
-                                     <br></br>
-                                     
-                                      <p:dataTable id = "table2" var="gproduct" value="#{returnInventoryToFactoryBin.rpbinlist}"  >
-                                    <f:facet name="header">
-                                        Returned Retail Product Storage Bin Details
-                                    </f:facet>
 
-                                    <p:column headerText="Bin Id" width="5%" >
-                                        <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
-                                    </p:column>
+                                    <br></br>
+                                    <br></br>
 
+                                    <p:dataTable id = "table2" var="gproduct" value="#{returnInventoryToFactoryBin.rpbinlist}"  >
+                                        <f:facet name="header">
+                                            Returned Retail Product Storage Bin Details
+                                        </f:facet>
 
-                                    <p:column headerText="Quantity" width="10%">
-                                        <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
-                                    </p:column>
+                                        <p:column headerText="Bin Id" width="5%" >
+                                            <h:outputText value="#{gproduct.swe.id}"  style="font-weight: bold" />    
+                                        </p:column>
 
 
-                                    <p:column  headerText="Select" width="15%" >
-                                        <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovementRP(gproduct)}" >
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
-                                    
+                                        <p:column headerText="Quantity" width="10%">
+                                            <h:outputText value="#{gproduct.quantity}" style="font-weight: bold" /> 
+                                        </p:column>
+
+
+                                        <p:column  headerText="Select" width="15%" >
+                                            <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovementRP(gproduct)}" >
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+
 
 
 
@@ -166,19 +174,19 @@
 
 
                             </p:tabView>
-                            
-                            
-                        <p:dialog id = "movementDialog" header="Outbound Movement Detail" widgetVar="movementDialog" position="center"
+
+
+                            <p:dialog id = "movementDialog" header="Outbound Movement Detail" widgetVar="movementDialog" position="center"
                                       showEffect="fade" hideEffect="fade" resizable="true" 
                                       draggable="true" closable="true" width="500">
                                 <p:outputPanel id="fProductDetail" style="text-align:center;">
-                        
-                                    
+
+
                                     <h:outputText value="Minimum Offering Level:" />
                                     <h:inputText value ="#{returnInventoryToFactoryBin.moveoutQuantity}" />
                                     <br></br>
                                     <br></br>
-                                    
+
 
                                     <p:commandButton ajax="true" title = "Confirm"   value = "Update" 
                                                      actionListener="#{returnInventoryToFactoryBin.createOutboundMovementRecord}" update = ":formMain"  >

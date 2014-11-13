@@ -87,12 +87,12 @@ public class WorkPlaceBean implements Serializable {
         column1.addWidget("retailproduct");
         column1.addWidget("retailproductH");
 
-        column3.addWidget("productf");
-        column3.addWidget("productfH");
-        column3.addWidget("rawMaterial");
-        column3.addWidget("rawMaterialH");
-        column3.addWidget("retailproductf");
-        column3.addWidget("retailproductfH");
+        column1.addWidget("productf");
+        column1.addWidget("productfH");
+        column1.addWidget("rawMaterial");
+        column1.addWidget("rawMaterialH");
+        column1.addWidget("retailproductf");
+        column1.addWidget("retailproductfH");
 
         model.addColumn(column1);
         model.addColumn(column2);
