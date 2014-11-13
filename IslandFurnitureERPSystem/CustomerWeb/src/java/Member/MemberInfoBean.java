@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import util.CryptographicHelper.CryptographicHelper;
@@ -54,8 +55,9 @@ public class MemberInfoBean {
     private String pwd1;
     private String pwd2;
     private String newPwd;
-
     private String first;
+    private String emailAdress;
+    private MemberEntity tempMember;
 
     public MemberInfoBean() {
     }
@@ -116,7 +118,7 @@ public class MemberInfoBean {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Email", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("FirstName", null);
-        return "../../Singapore/HomePage?faces-redirect=true";
+        return "../../../Singapore/HomePage?faces-redirect=true";
     }
 
     public String logOut3() {
@@ -126,22 +128,60 @@ public class MemberInfoBean {
         return "../../China/HomePage?faces-redirect=true";
     }
 
-    public void changePwd() throws IOException {
+    public void changePwd1() throws IOException {
         CryptographicHelper cp = new CryptographicHelper();
         System.out.println("Old password:  " + password);
-        System.out.println("New password:  " +cp.doMD5Hashing(pwd1));
+        System.out.println("New password:  " + cp.doMD5Hashing(pwd1 + email));
 
         if (!pwd1.equals(pwd2)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The 2 passwards are not the same!", ""));
-        } else if (!cp.doMD5Hashing(pwd1).equals(password)) {
+        } else if (!cp.doMD5Hashing(pwd1 + email).equals(password)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The password is not correct!", ""));
 
         } else {
-            MRMM.changePwd(member.getMemberId(), cp.doMD5Hashing(pwd1));
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/MemberPage.xhtml");
+            MRMM.changePwd(member.getMemberId(), cp.doMD5Hashing(newPwd+email));
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../Singapore/MemberPage.xhtml");
 
         }
 
+    }
+
+    public void changePwd2() throws IOException {
+        CryptographicHelper cp = new CryptographicHelper();
+        System.out.println("Old password:  " + password);
+        System.out.println("New password:  " + cp.doMD5Hashing(pwd1 + email));
+
+        if (!pwd1.equals(pwd2)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The 2 passwards are not the same!", ""));
+        } else if (!cp.doMD5Hashing(pwd1 + email).equals(password)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The password is not correct!", ""));
+
+        } else {
+            MRMM.changePwd(member.getMemberId(), cp.doMD5Hashing(newPwd+email));
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../China/MemberPage.xhtml");
+
+        }
+
+    }
+
+    public void sendEmail(ActionEvent event) throws IOException {
+        tempMember = MRMM.getMember(emailAdress);
+        if (tempMember != null) {
+            String newPass = MRMM.resetPass(emailAdress);
+            if (!newPass.equals("error")) {
+                SendMailSSLWeb se = new SendMailSSLWeb();
+
+                if (se.sendPasswordResetMessage(emailAdress, newPass)) {
+                    System.out.println("ok");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Password-Reset Email Send Successfully!", ""));
+
+                }
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Fail!", "User doesn't exist!"));
+        }
     }
 
     public String removeItem(Long id) {
@@ -324,6 +364,26 @@ public class MemberInfoBean {
 
     public void setNewPwd(String newPwd) {
         this.newPwd = newPwd;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmailAdress() {
+        return emailAdress;
+    }
+
+    public void setEmailAdress(String emailAdress) {
+        this.emailAdress = emailAdress;
+    }
+
+    public MemberEntity getTempMember() {
+        return tempMember;
+    }
+
+    public void setTempMember(MemberEntity tempMember) {
+        this.tempMember = tempMember;
     }
 
 }

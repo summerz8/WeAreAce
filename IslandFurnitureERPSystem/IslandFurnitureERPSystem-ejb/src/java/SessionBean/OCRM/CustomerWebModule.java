@@ -194,6 +194,7 @@ public class CustomerWebModule implements CustomerWebModuleLocal {
         set.setDescription(globalSet.getDescription());
         set.setName(globalSet.getName());
         set.setWeb(web);
+        set.setSet(globalSet);
 
         List<ProductEntity> productList = globalSet.getProductList();
         Query q = em.createQuery("Select b from CountryProductEntity b where b.web = :sId");
