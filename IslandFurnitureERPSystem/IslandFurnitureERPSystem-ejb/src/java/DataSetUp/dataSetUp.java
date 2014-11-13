@@ -16,12 +16,17 @@ import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryProductEntity;
+import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.InventoryRecordEntity;
+import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
 import Entity.Factory.MRP.IntegratedSalesForecastEntity;
+import Entity.Factory.MRP.PlannedOrderEntity;
+import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
+import Entity.Factory.MRP.SalesOperationPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
@@ -2628,8 +2633,6 @@ public class dataSetUp {
 
         em.flush();
 
-
-
         // Retail Item set up
         CountryRetailProductEntity retailItem1 = new CountryRetailProductEntity();
         retailItem1.setDescription(rp1.getDescription());
@@ -3045,11 +3048,18 @@ public class dataSetUp {
         //=========================================================
         //=========================================================
         //  mrp process data set up for JUnit testing
-        
         FactoryRawMaterialEntity frme1 = new FactoryRawMaterialEntity("square meter", "wood", "board", false, f1, rm1);
         em.persist(frme1);
-        
-        IntegratedSalesForecastEntity isfe1= new IntegratedSalesForecastEntity();
+        em.flush();
+
+        FactoryRawMaterialAmountEntity fme1A = new FactoryRawMaterialAmountEntity();
+        fme1A.setAmount(100D);
+        fme1A.setFactoryRawMaterial(frme1);
+        fme1A.setUnit("square meter");
+        em.persist(fme1A);
+        em.flush();
+
+        IntegratedSalesForecastEntity isfe1 = new IntegratedSalesForecastEntity();
         isfe1.setAmount(1000D);
         isfe1.setFactory(f1);
         isfe1.setFactoryProduct(fp1_1);
@@ -3058,9 +3068,39 @@ public class dataSetUp {
         isfe1.getSalesForecastList().add(sf2_1);
         isfe1.getSalesForecastList().add(sf2_2);
         isfe1.setTargetPeriod(com1);
-        
-        
-        
+        em.persist(isfe1);
+        em.flush();
+
+        SalesOperationPlanEntity sope1 = new SalesOperationPlanEntity();
+        sope1.setFactoryProduct(fp1_1);
+        sope1.setIntegratedSalesForecast(isfe1);
+        sope1.setPlannedEndMonthInventory(300D);
+        sope1.setPlannedProductionPlanQuantity(1000D);
+        sope1.setStatus("comfirmed");
+        sope1.setTargetPeriod(com1);
+        sope1.setWorkingDay(23);
+        em.persist(sope1);
+        em.flush();
+
+        Calendar mrpDate1 = Calendar.getInstance();
+        mrpDate1.set(Calendar.MONTH, com1.get(Calendar.MONTH) - 1);
+        ProductionPlanEntity ppe1 = new ProductionPlanEntity("comfirmed", mrpDate1, com1, 1000D, fp1_1, "");
+        em.persist(ppe1);
+        em.flush();
+
+        PlannedOrderEntity poe1 = new PlannedOrderEntity();
+        em.persist(poe1);
+        em.flush();
+
+        IntegratedPlannedOrderEntity ipor1 = new IntegratedPlannedOrderEntity();
+        ipor1.setFactory(f1);
+        ipor1.setFactoryRawMaterialAmount(fme1A);
+        ipor1.setGeneratedDate(mrpDate1);
+        ipor1.setStatus("processing");
+        ipor1.setTargetPeriod(com1);
+        ipor1.getPlannedOrderList().add(poe1);
+        em.persist(ipor1);
+        em.flush();
 
     }
 

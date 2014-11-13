@@ -56,13 +56,16 @@ public class IntegratedSalesForecastEntity implements Serializable {
     //sales forecast list -- integrated sales forcast   M <-- M
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="INTEGRATEDSALESFORECAST_SALESFORECAST")
-    private List<SalesForecastEntity> salesForecastList = new ArrayList<>(); 
+    private List<SalesForecastEntity> salesForecastList; 
     
      // sales forecast entity --- sales operation plan entity  1 <---> 1
     @OneToOne(mappedBy="integratedSalesForecast")
     private SalesOperationPlanEntity salesOperationPlan;
     private Double amount;
     
+    public IntegratedSalesForecastEntity(){
+        salesForecastList = new ArrayList<>();
+    }
     
     public Long getId() {
         return id;
