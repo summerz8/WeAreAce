@@ -64,6 +64,7 @@ public class ViewReturnedItem implements Serializable{
     public void init(){
         storeId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         rimrlist = sdcl.getToProcessReturnIMRE(storeId);
+        System.out.println("ManagedBean ViewReturnedItem");
         binList = new ArrayList<>();
 
   
@@ -76,15 +77,21 @@ public class ViewReturnedItem implements Serializable{
            return time;
     }
     
-    public void setSelectedBin1(){
+    public void setSelectedBin1(ReturnedItemMovementRecordEntity e){
+        System.out.println("ManagedBean.StoreBinEntity select a record");
         
+        
+        selectedRecord = e;
+        System.out.println("ManagedBean.StoreBinEntity selectedRecord " + selectedRecord.getId());
         binList = sbcl.ListProductReturnedBin(selectedRecord.getStoreProduct().getStoreProductId());
+         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeBinProductEntities", null);
+        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeBinProductEntities", binList);
         
     }
     
     public void setToBin(ActionEvent event){
-        
+       if(selectedRecord != null) {
         
        Integer result  =  smcl.handleReturnedProductFromStore(selectedRecord.getId(), selectedBin.getSwe().getId());
        if(result == 0 ){
@@ -97,6 +104,13 @@ public class ViewReturnedItem implements Serializable{
           FacesContext context = FacesContext.getCurrentInstance();
           context.addMessage(null, new FacesMessage(null, "Please try again or contact system admin!"));
       
+           
+       }
+       }
+       else{
+            FacesContext context = FacesContext.getCurrentInstance();
+          context.addMessage(null, new FacesMessage(null, "Please select a bin."));
+       
            
        }
         

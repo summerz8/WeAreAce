@@ -130,6 +130,25 @@ public class WorkPlaceManageBean implements Serializable{
         }
     }
     
+    public Boolean isValidHQandFactoryManager(){
+        if (currentUserLevel == 0 || currentUserLevel == 1) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    public Boolean isValidHQandStoreManager(){
+        if (currentUserLevel == 0 || currentUserLevel == 2) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+        
+    
     
 
     public String getCurrentUserId() {
