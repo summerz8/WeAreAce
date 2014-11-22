@@ -21,9 +21,9 @@
         <h:form>
             <p:growl id="messages" showDetail="true"/>
 
-            <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="/CustomerWeb/faces/China/HomePage.xhtml">主页</a></button>
+            <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="/CustomerWeb/China/HomePage.xhtml">主页</a></button>
 
-            <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;margin-left: 50px;width:200px; height:160px;text-align:center"/> 
+            <p:graphicImage value="../resources/images/WebLogo.png" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;margin-left: 50px;width:150px; height:60px;text-align:center"/> 
             <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:500px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
 
             <div class="ui-grid ui-grid-responsive" align="center"> 
@@ -52,6 +52,8 @@
                             <br></br><br></br>
                             <p:link  value="忘记密码?"></p:link>
                             <p:link  value="新用户注册" outcome="/China/SignUp?faces-redirect=true"></p:link>
+                             <p:messages showDetail="true"/>
+                            <p:captcha label="Captcha" />
                             <div class="component-spacing-top"/>
                         </div>
                     </div>

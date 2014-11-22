@@ -49,7 +49,7 @@ public interface InternalMessageModuleRemote {
     
     public void deleteReceiveMessage(Long receiveMessageId) throws Exception;
 
-    public Collection<InternalMessageEntity> viewSendMessage(String senderId);
+    public Collection<InternalMessageEntity> viewSendMessage(String senderId) throws Exception;
 
     public Collection<InternalMessageReceive> viewReceiveMessage(String receiverId);
 

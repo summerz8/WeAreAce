@@ -18,12 +18,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class KitchenOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,12 +35,16 @@ public class KitchenOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @XmlTransient
     private List<DishItemEntity> dishes = new ArrayList<>();
     @OneToMany
+    @XmlTransient
     private List<ComboItemEntity> combos = new ArrayList<>();
     @OneToMany
+    @XmlTransient
     private List<DetailedDishItemEntity> detailedDishItems = new ArrayList<>();
     private Double total;
+    private Double totalWithDiscount;
     private Double received;
     private Double due;
     private Integer totalDishItemQuantity;
@@ -44,6 +52,7 @@ public class KitchenOrderEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;
     private String status;  //Unconfirmed, Confirmed, Fulfilled, Cancelled, Served
+    private String POSid;
     @ManyToOne
     private KitchenEntity kitchen;
     @ManyToOne  
@@ -53,6 +62,7 @@ public class KitchenOrderEntity implements Serializable {
 
     public KitchenOrderEntity() {
         total = 0.0;
+        totalWithDiscount = 0.0;
         received = 0.0;
         due = 0.0;
         this.status = "Unconfirmed";
@@ -66,6 +76,7 @@ public class KitchenOrderEntity implements Serializable {
         this.kitchen = kitchen;
         this.storeStaff = storeStaff;
         total = 0.0;
+        totalWithDiscount = 0.0;
         received = 0.0;
         due = 0.0;
         this.status = "Unconfirmed";
@@ -73,6 +84,14 @@ public class KitchenOrderEntity implements Serializable {
         totalDishItemQuantity = 0;
         fulfilledDishItemQuantity = 0;
         creationTime = Calendar.getInstance();
+    }
+
+    public String getPOSid() {
+        return POSid;
+    }
+
+    public void setPOSid(String POSid) {
+        this.POSid = POSid;
     }
 
     public Long getId() {
@@ -113,6 +132,14 @@ public class KitchenOrderEntity implements Serializable {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Double getTotalWithDiscount() {
+        return totalWithDiscount;
+    }
+
+    public void setTotalWithDiscount(Double totalWithDiscount) {
+        this.totalWithDiscount = totalWithDiscount;
     }
 
     public Double getReceived() {

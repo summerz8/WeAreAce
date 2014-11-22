@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,6 +27,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"KITCHEN_ID", "NAME"}))
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class IngredientSupplierEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +41,7 @@ public class IngredientSupplierEntity implements Serializable {
     private String remark;
     private Boolean deleted;
     @OneToMany(mappedBy = "supplier")
+    @XmlTransient
     private List<IngredientEntity> ingredients = new ArrayList<>();
     @ManyToOne
     private KitchenEntity kitchen;

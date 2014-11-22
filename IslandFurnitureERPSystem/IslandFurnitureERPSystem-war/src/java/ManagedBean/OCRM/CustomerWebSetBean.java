@@ -5,7 +5,7 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,10 +25,10 @@ public class CustomerWebSetBean {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    private List<SetEntity> setList;
+    private List<CountrySetEntity> setList;
     private String selectedWeb;
     private Long searchId;
-    private SetEntity set;
+    private CountrySetEntity set;
 
     public CustomerWebSetBean() {
     }
@@ -39,6 +39,12 @@ public class CustomerWebSetBean {
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
         setList = cwml.getSetList(selectedWeb);
 
+    }
+
+    public String viewComment(Long itemId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "set");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+        return "ViewSetComments?faces-redirect=true";
     }
 
     public String edit(Long setId) {
@@ -72,11 +78,11 @@ public class CustomerWebSetBean {
         this.cwml = cwml;
     }
 
-    public List<SetEntity> getSetList() {
+    public List<CountrySetEntity> getSetList() {
         return setList;
     }
 
-    public void setSetList(List<SetEntity> setList) {
+    public void setSetList(List<CountrySetEntity> setList) {
         this.setList = setList;
     }
 

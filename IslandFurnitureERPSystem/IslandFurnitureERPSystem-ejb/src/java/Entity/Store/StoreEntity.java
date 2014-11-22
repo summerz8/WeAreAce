@@ -6,6 +6,7 @@
 package Entity.Store;
 
 import Entity.Kitchen.KitchenEntity;
+import Entity.Store.IM.StoreGoodReceiptEntity;
 import Entity.Store.IM.StoreWarehouseBinEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import java.io.Serializable;
@@ -41,7 +42,7 @@ public class StoreEntity implements Serializable {
     private String contact;
     private String manager;//manager id
     private Boolean deleteFlag;
-    private List<Long> factoryList;
+    private List<Long> factoryList = new ArrayList<>();
 
     @OneToOne
     @XmlTransient
@@ -71,7 +72,13 @@ public class StoreEntity implements Serializable {
     private List<TransactionEntity> transactions = new ArrayList<>();
 
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy = "store")
+    @XmlTransient
     private List<StoreWarehouseBinEntity> storeBins = new ArrayList<>();
+    
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "se")
+    @XmlTransient
+    private List<StoreGoodReceiptEntity> goodReceipts  = new ArrayList<>();
+    
     
     public StoreEntity() {
     }
@@ -82,9 +89,18 @@ public class StoreEntity implements Serializable {
         this.contact = contact;
         this.manager = manager;
         this.deleteFlag = deleteFlag;
-        factoryList=new ArrayList<>();
+       
 
 }
+
+    public List<StoreGoodReceiptEntity> getGoodReceipts() {
+        return goodReceipts;
+    }
+
+    public void setGoodReceipts(List<StoreGoodReceiptEntity> goodReceipts) {
+        this.goodReceipts = goodReceipts;
+    }
+    
 
     public Long getStoreId() {
         return storeId;

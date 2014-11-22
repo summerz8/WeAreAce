@@ -16,6 +16,8 @@ import Entity.Kitchen.IngredientItemEntity;
 import Entity.Kitchen.KitchenEntity;
 import Entity.Kitchen.KitchenOrderEntity;
 import Entity.Store.OCRM.MemberEntity;
+import Entity.Store.StoreEntity;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -44,12 +45,68 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     public CustomerOrderFulfillmentModule() {
     }
 
+    @WebMethod(operationName = "getComboByKitchenId")
+    public List<ComboEntity> getComboByKitchenId(Long id) {
+        KitchenEntity kitchen = em.find(KitchenEntity.class, id);
+
+        List<ComboEntity> temp = kitchen.getCombos();
+        List<ComboEntity> result = new ArrayList();
+        for (ComboEntity combo : temp) {
+            if (!combo.isDeleted()) {
+                result.add(combo);
+            }
+        }
+        return result;
+    }
+
+    @WebMethod(operationName = "getDishByKitchenId")
+    public List<DishEntity> getDishByKitchenId(Long id) {
+        KitchenEntity kitchen = em.find(KitchenEntity.class, id);
+        List<DishEntity> temp = kitchen.getDishes();
+        List<DishEntity> result = new ArrayList();
+        for (DishEntity dish : temp) {
+            if (!dish.isDeleted()) {
+                result.add(dish);
+            }
+        }
+        return result;
+    }
+
+    @WebMethod(operationName = "getDishItemByOrderId")
+    public List<DishItemEntity> getDishItemByOrderId(Long id) {
+        KitchenOrderEntity order = em.find(KitchenOrderEntity.class, id);
+        return order.getDishes();
+    }
+
+    @WebMethod(operationName = "getComboItemByOrderId")
+    public List<ComboItemEntity> getComboItemByOrderId(Long id) {
+        KitchenOrderEntity order = em.find(KitchenOrderEntity.class, id);
+        return order.getCombos();
+    }
+
+    @WebMethod(operationName = "findKitchenByStoreStaffId")
+    public KitchenEntity findKitchenByStoreStaffId(String storeStaffId) {
+        StoreUserEntity cashier = em.find(StoreUserEntity.class, storeStaffId);
+        StoreEntity store = em.find(StoreEntity.class, cashier.getDepartmentId());
+        if (store == null) {
+            System.out.println("SessionBean.KM.KitchenSupport: findKitchenByStoreStaffId(): Failed. Store " + store.getStoreId() + " is not found.");
+            return null;
+        }
+
+        if (store.getKitchen() == null) {
+            System.out.println("SessionBean.KM.KitchenSupport: findKitchenByStoreStaffId(): Failed. Store " + store.getStoreId() + " does not has a kitchen.");
+            return null;
+        }
+        return store.getKitchen();
+    }
+
     @Override
     @WebMethod(operationName = "createOrder")
     public KitchenOrderEntity createOrder(
             @WebParam(name = "kitchenId") Long kitchenId,
             @WebParam(name = "memberId") Long memberId,
-            @WebParam(name = "storestaffId") String storestaffId) {
+            @WebParam(name = "storestaffId") String storestaffId,
+            @WebParam(name = "POSid") String POSid) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
             StoreUserEntity storeStaff = em.find(StoreUserEntity.class, storestaffId);
@@ -58,6 +115,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
                 MemberEntity member = em.find(MemberEntity.class, memberId);
                 order.setMember(member);
             }
+            order.setPOSid(POSid);
             em.persist(order);
             kitchen.getOrders().add(order);
             em.flush();
@@ -78,16 +136,35 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             DishEntity dish = em.find(DishEntity.class, dishId);
-            DishItemEntity dishItem = new DishItemEntity(dish, quantity);
-            em.persist(dishItem);
-            order.getDishes().add(dishItem);
-            em.flush();
-            return dishItem.getId();
+            List<DishItemEntity> temp = order.getDishes();
+            if (!temp.isEmpty()) {
+                for (DishItemEntity dishItem : temp) {
+                    if (dishItem.getDish() == dish) {
+                        dishItem.setQuantity(quantity + dishItem.getQuantity());
+                        em.persist(dishItem);
+                        em.flush();
+                        return dishItem.getId();
+                    }
+                }
+                
+                DishItemEntity dishItem = new DishItemEntity(dish, quantity);
+                em.persist(dishItem);
+                order.getDishes().add(dishItem);
+                em.flush();
+                return dishItem.getId();
+            } else {
+                DishItemEntity dishItem = new DishItemEntity(dish, quantity);
+                em.persist(dishItem);
+                order.getDishes().add(dishItem);
+                em.flush();
+                return dishItem.getId();
+            }
         } catch (Exception ex) {
             System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: addDishItem(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return -1L;
         }
+       
     }
 
     @Override
@@ -117,16 +194,36 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
             ComboEntity combo = em.find(ComboEntity.class, comboId);
-            ComboItemEntity comboItem = new ComboItemEntity(combo, quantity);
-            em.persist(comboItem);
-            order.getCombos().add(comboItem);
-            em.flush();
-            return comboItem.getId();
+            List<ComboItemEntity> temp = order.getCombos();
+            if (!temp.isEmpty()) {
+                for (ComboItemEntity comboItem : temp) {
+                    if (comboItem.getCombo() == combo) {
+                        comboItem.setQuantity(quantity + comboItem.getQuantity());
+                        em.persist(comboItem);
+                        em.flush();
+                        return comboItem.getId();
+                    }
+                }
+                
+                ComboItemEntity comboItem = new ComboItemEntity(combo, quantity);
+                em.persist(comboItem);
+                order.getCombos().add(comboItem);
+                em.flush();
+                return comboItem.getId();
+            } else {
+                ComboItemEntity comboItem = new ComboItemEntity(combo, quantity);
+                em.persist(comboItem);
+                order.getCombos().add(comboItem);
+                em.flush();
+                return comboItem.getId();
+            }
+
         } catch (Exception ex) {
             System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: createOrder(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
             return -1L;
         }
+
     }
 
     @Override
@@ -149,12 +246,10 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
 
     @Override
     @WebMethod(operationName = "confirmOrder")
-    public Long confirmOrder(
-            @WebParam(name = "orderId") Long orderId,
-            @WebParam(name = "received") Double received) {
+    public Long confirmOrder(@WebParam(name = "orderId") Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
-            order.setStatus("Confirmed");
+            
 
             Calendar cal = Calendar.getInstance();
             DailySalesEntity dailySales = findDailySales(order.getKitchen().getId(), cal.getTime());
@@ -207,10 +302,15 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
                     }
                 }
             }
-            order.setReceived(received);
-            order.setDue(received - order.getTotal());
-            dailySales.setSales(dailySales.getSales() + order.getTotal());
 
+            if (order.getMember() != null) {
+                order.setTotalWithDiscount(order.getTotal() * order.getMember().getMemberlvl().getDiscount());
+            } else {
+                order.setTotalWithDiscount(order.getTotal());
+            }
+            dailySales.setSales(dailySales.getSales() + order.getTotal());
+            dailySales.setSalesAfterDiscount(dailySales.getSalesAfterDiscount() + order.getTotalWithDiscount());
+            em.flush();
             return order.getId();
         } catch (Exception ex) {
             System.err.println("SessionBean.KM.CustomerOrderFulfillmentModule: confirmOrder(): Failed. Caught an unexpected exception.");
@@ -219,6 +319,20 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
         }
     }
 
+    @Override
+    @WebMethod(operationName = "checkOut")
+    public Double checkout(
+            @WebParam(name = "orderId") Long orderId,
+            @WebParam(name = "received") Double received) {
+        KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
+        order.setReceived(received);
+        order.setDue(received - order.getTotalWithDiscount());
+        order.setStatus("Confirmed");
+        em.flush();
+        return order.getDue();
+    }
+
+    @WebMethod(exclude = true)
     private DailySalesEntity createDailySales(KitchenEntity kitchen) {
         try {
             DailySalesEntity dailySales = new DailySalesEntity(kitchen);
@@ -274,6 +388,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public List<KitchenOrderEntity> getUnfulfilledOrders(Long kitchenId) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
@@ -288,6 +403,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public List<KitchenOrderEntity> getDailyOrders(Long kitchenId, Date selectedDate) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
@@ -309,6 +425,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public Long fulfillDishItem(Long orderId, Long detailedDishItemId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
@@ -327,6 +444,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public List<KitchenOrderEntity> getUnservedOrders(Long kitchenId) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
@@ -341,6 +459,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public Long serveOrder(Long orderId) {
         try {
             KitchenOrderEntity order = em.find(KitchenOrderEntity.class, orderId);
@@ -354,6 +473,7 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public DailySalesEntity findDailySales(Long kitchenId, Date selectedDate) {
         try {
             KitchenEntity kitchen = em.find(KitchenEntity.class, kitchenId);
@@ -373,18 +493,26 @@ public class CustomerOrderFulfillmentModule implements CustomerOrderFulfillmentM
     }
 
     @Override
+    @WebMethod(exclude = true)
     public List<DishItemEntity> findDailySalesDishItems(Long dailySalesId) {
         return em.find(DailySalesEntity.class, dailySalesId).getDishes();
     }
 
     @Override
+    @WebMethod(exclude = true)
     public List<ComboItemEntity> findDailySalesComboItems(Long dailySalesId) {
         return em.find(DailySalesEntity.class, dailySalesId).getCombos();
     }
 
     @Override
+    @WebMethod(exclude = true)
     public List<IngredientItemEntity> findRecipe(Long dishId) {
         return em.find(DishEntity.class, dishId).getRecipe();
     }
 
+    @Override
+    @WebMethod(operationName = "findOrderById")
+    public KitchenOrderEntity findOrderById(Long KitchenOrderId) {
+        return em.find(KitchenOrderEntity.class, KitchenOrderId);
+    }
 }

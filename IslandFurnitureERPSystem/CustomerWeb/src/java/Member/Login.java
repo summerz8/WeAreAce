@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import util.CryptographicHelper.CryptographicHelper;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Login {
     @EJB
     CustomerWebMemberModuleLocal cwml;
 
+    CryptographicHelper cp = new CryptographicHelper();
     private String memberEmail;
     private String pwd;
     private MemberEntity member;
@@ -34,7 +36,7 @@ public class Login {
     }
 
     public void checkLogin() throws IOException {
-        member = cwml.memberLogin(memberEmail, pwd);
+        member = cwml.memberLogin(memberEmail, cp.doMD5Hashing(pwd+memberEmail));
         if (member == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Failed, Please enter correct email or password.", ""));
         } else {

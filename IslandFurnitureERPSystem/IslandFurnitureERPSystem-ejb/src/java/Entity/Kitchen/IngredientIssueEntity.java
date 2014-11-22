@@ -16,12 +16,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class IngredientIssueEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,6 +33,7 @@ public class IngredientIssueEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @XmlTransient
     private List<IngredientItemEntity> issueItems = new ArrayList<>();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar creationTime;

@@ -51,4 +51,8 @@ public interface RawIngredientsManagementModuleLocal {
     public Long editIngredientIssueItem(Long ingredientForecastItemId, Double quantity);
 
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId);
+
+    public Long issueMoreIngredient(Long ingredientId, Double quantity);
+
+    public IngredientIssueEntity getIngredientIssue(Long ingredientIssueId);
 }

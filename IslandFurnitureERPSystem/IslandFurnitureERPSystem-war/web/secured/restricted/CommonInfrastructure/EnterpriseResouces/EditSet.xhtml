@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Island Furniture ERP System</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formMain">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{idleBean.welcomeListener}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{idleBean.logoutListener}" />
+
+            </p:confirmDialog>
+            <p:layout >
+                <p:messages id="messagesStatus" redisplay="false" />
+
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                    <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
+                    <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+                    </p:commandButton>
+
+                    <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>
+
+                    <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+                    <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+                    </p:button> 
+
+                    <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+                    </p:button>  
+
+
+                    <h:outputLabel value = "Welcome Back " >
+                        <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                    </h:outputLabel>
+
+
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit position="west" size="1000px">
+
+                    <p:menu>
+                        <p:submenu label="People and Organization">
+                            <p:menuitem value="User" url="UserAccountControl.xhtml" icon="ui-icon-home" />
+                            <p:menuitem value="Factory" url="FactoryControl.xhtml" icon="ui-icon-home" />
+                            <p:menuitem value="Store" url="StoreControl.xhtml" icon="ui-icon-home" />
+                        </p:submenu>
+                        <p:submenu label="Inventory" >
+
+                            <p:menuitem value="Raw Material" url="RawMaterialControl.xhtml" icon="ui-icon-home" />
+                            <p:menuitem value="Product" url="ProductControl.xhtml" icon="ui-icon-document" />
+                            <p:menuitem value="Retail Product" url="RetailProductControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+                            <p:menuitem value="Set" url="SetControl.xhtml" icon="ui-icon-arrowthick-1-s" />
+
+                        </p:submenu>
+
+                    </p:menu>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" resizable="false">                   
+
+
+                    <p:panel id="basic" header="Edit Set" style="margin-bottom" >
+
+                        <br></br><br></br><br></br><br></br><br></br><br></br>
+
+                        <h:panelGrid columns="2" style="width:500px">
+                            <h:outputText value="Set Id:" />
+                            <h:outputText  value="#{modifySetBean.setId}"  />
+
+                            <h:outputText value="Set Name:" />
+                            <p:inplace id="setName" editor="true"> 
+                                <p:inputText value="#{modifySetBean.setName}"   label="text" />
+                            </p:inplace>  
+
+                            <h:outputText value="Set Description:" />
+                            <p:inplace id="setDescription" editor="true"> 
+                                <p:inputText value="#{modifySetBean.description}"   label="text" />
+                            </p:inplace>  
+
+                            <h:outputText value="Price:" />
+                            <p:inplace id="price" editor="true"> 
+
+                                <f:facet name="output"><h:outputText value="#{modifySetBean.price}" /></f:facet>
+                                <f:facet name="input"><p:inputText  value="#{modifySetBean.price}"  style="width:96%"/></f:facet>
+                            </p:inplace> 
+
+                            <h:outputText value="Member Price:" />
+                            <p:inplace id="memberprice" editor="true" style="color: red"> 
+                                <f:facet name="output"><h:outputText value="#{modifySetBean.memberPrice}" /></f:facet>
+                                <f:facet name="input"><p:inputText  value="#{modifySetBean.memberPrice}"  style="width:96%"/></f:facet>
+                            </p:inplace> 
+
+
+
+                        </h:panelGrid> 
+                        <p:commandButton  value="Update" actionListener="#{modifySetBean.upDate()}" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:left" />
+
+                        <h:outputLabel for="website" value="Select An Item:" style="font-weight:bold" />
+                        <p:selectOneMenu id="website" value="#{modifySetBean.selectedItem}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{modifySetBean.displayList}" />
+                        </p:selectOneMenu>
+                        <p:commandButton  action="#{modifySetBean.addItem()}" value="AddItem" style="margin-bottom:10px ;border:5px ;width: 80px; height:25px; font-size:12px; float:left"/>
+
+                        <p:dataTable var="item" value="#{modifySetBean.itemList}">
+
+                            <p:column headerText="item ID" style="width:30px">
+                                <h:outputText value="#{item.productId}" />
+                            </p:column>
+
+                            <p:column headerText="Item Name">
+                                <h:outputText value="#{item.name}" />
+                            </p:column>
+
+                            <p:column headerText="Delete" >
+                                <p:commandButton  value="Delete" style="margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float:left" action="#{modifySetBean.deleteItem(item.productId)}" >
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable> 
+
+                        <h:outputText value="Total Price = $ #{modifySetBean.totalPrice}" />
+                        <h:outputText value="Total Member Price = $ #{modifySetBean.totalMemberPrice}" />
+
+
+
+                    </p:panel>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:form>
+
+    </h:body>
+
+</html>
+
+
+

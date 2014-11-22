@@ -5,8 +5,8 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.CustomerWebItemEntity;
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountryProductEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,12 +34,12 @@ public class EditSet {
     @EJB
     CustomerWebModuleLocal cwml;
     private Long setId;
-    private SetEntity set;
+    private CountrySetEntity set;
     private String description;
     private String setName;
     private String picture;
-    private List<CustomerWebItemEntity> itemList;
-    private List<CustomerWebItemEntity> allitems;
+    private List<CountryProductEntity> itemList;
+    private List<CountryProductEntity> allitems;
     private String selectedItem;
     private List<SelectItem> displayList;
     private String name;
@@ -51,7 +51,7 @@ public class EditSet {
 
     @PostConstruct
     public void init() {
-        setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("setId");
+        setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("SetId");
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
 
         set = cwml.getSet(setId);
@@ -62,7 +62,7 @@ public class EditSet {
         itemList = set.getUnitList();
         allitems = cwml.listItems(selectedWeb);
         displayList = new ArrayList<>();
-        for (CustomerWebItemEntity s : allitems) {
+        for (CountryProductEntity s : allitems) {
             String t = s.getId() + " " + s.getProductName();
             displayList.add(new SelectItem(s.getId(), t));
         }
@@ -91,7 +91,7 @@ public class EditSet {
 
         System.out.println(name);
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -114,7 +114,7 @@ public class EditSet {
             }
         }
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -142,6 +142,18 @@ public class EditSet {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image has been uploaded", ""));
     }
 
+    
+    public String deleteItem(Long productId){
+        cwml.deleteItemInSet(set.getId(),productId);
+        return "EditSet?faces-redirect=true";
+    }
+    
+    public String editItem(Long productId){
+        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", productId);
+        return "EditItem?faces-redirect=true";
+    }
+            
     public CustomerWebModuleLocal getCwml() {
         return cwml;
     }
@@ -158,11 +170,11 @@ public class EditSet {
         this.setId = setId;
     }
 
-    public SetEntity getSet() {
+    public CountrySetEntity getSet() {
         return set;
     }
 
-    public void setSet(SetEntity set) {
+    public void setSet(CountrySetEntity set) {
         this.set = set;
     }
 
@@ -190,11 +202,11 @@ public class EditSet {
         this.picture = picture;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 
@@ -214,11 +226,11 @@ public class EditSet {
         this.displayList = displayList;
     }
 
-    public List<CustomerWebItemEntity> getAllitems() {
+    public List<CountryProductEntity> getAllitems() {
         return allitems;
     }
 
-    public void setAllitems(List<CustomerWebItemEntity> allitems) {
+    public void setAllitems(List<CountryProductEntity> allitems) {
         this.allitems = allitems;
     }
 

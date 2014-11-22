@@ -31,6 +31,7 @@ import javax.persistence.Temporal;
 public class PurchaseOrderEntity implements Serializable {
 // one purchase order for one raw material from the same supplier during a specified time period
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

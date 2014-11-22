@@ -5,7 +5,7 @@
  */
 package ManagedBean.OCRM;
 
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,10 +25,10 @@ public class CustomerWebIndexBean {
     @EJB
     CustomerWebModuleLocal cwml;
 
-    private List<CustomerWebItemEntity> itemList;
+    private List<CountryProductEntity> itemList;
     private String selectedWeb;
     private Long searchId;
-    private CustomerWebItemEntity item;
+    private CountryProductEntity item;
 
     public CustomerWebIndexBean() {
     }
@@ -39,6 +39,12 @@ public class CustomerWebIndexBean {
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
         itemList = cwml.listItems(selectedWeb);
 
+    }
+
+    public String viewComment(Long itemId) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemType", "product");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("itemId", itemId);
+        return "ViewComments?faces-redirect=true";
     }
 
     public String edit(Long itemId) {
@@ -77,11 +83,11 @@ public class CustomerWebIndexBean {
         this.cwml = cwml;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 

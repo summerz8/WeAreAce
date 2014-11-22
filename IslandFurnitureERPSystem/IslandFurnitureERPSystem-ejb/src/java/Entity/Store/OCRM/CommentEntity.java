@@ -30,6 +30,7 @@ public class CommentEntity implements Serializable {
     private Calendar generatedTime;
     private Integer rate;
     private String country;
+    
 
     public CommentEntity() {
     }

@@ -79,19 +79,27 @@ public class EditSalesOperationPlan {
     }
 
     public String Confirm() {
-        int userLevel = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl");
-        if (userLevel <= 1) {
-            boolean bo = sopl.IsThereSalesOperation(salesOperationPlan.getFactoryProduct().getFactoryProductId());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("salesOperationPlanId");
-            if (bo == false) {
-                System.out.println("false");
-                salesOperationPlan = sopl.confirmSalesOperationPlan(saleOperationPlanId);
-                return "MRPViewSalesOperationPlan?faces-redirect=true";
+        try {
+            int userLevel = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Userlvl");
+            if (userLevel <= 1) {
+                boolean bo = sopl.IsThereSalesOperation(salesOperationPlan.getFactoryProduct().getFactoryProductId());
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("salesOperationPlanId");
+                if (bo == false) {
+                    System.out.println("false");
+                    salesOperationPlan = sopl.confirmSalesOperationPlan(saleOperationPlanId);
+                    return "MRPViewSalesOperationPlan?faces-redirect=true";
+                } else {
+                    System.out.println("true");
+                    return "MRPOperationPlanExist?faces-redirect=true";
+                }
             } else {
-                System.out.println("true");
-                return "MRPOperationPlanExist?faces-redirect=true";
+                return "MRPRequestDenied?faces-redirect=true";
             }
-        }else return "MRPRequestDenied?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public String Back() {

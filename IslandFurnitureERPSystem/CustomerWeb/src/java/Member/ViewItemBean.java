@@ -6,7 +6,7 @@
 package Member;
 
 import Entity.Store.OCRM.CommentEntity;
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.text.DecimalFormat;
@@ -30,22 +30,22 @@ public class ViewItemBean {
     @EJB
     private CustomerWebModuleLocal cwml;
     private Long itemId;
-    private CustomerWebItemEntity item;
+    private CountryProductEntity item;
     private String email;
     private int quantity;
     private String name;
     private String comment;
-    private Integer rate;
+    private Integer rate = 0;
     private List<SelectItem> typeList;
     private String selectedRate;
     private List<CommentEntity> allComment;
     private List<CommentEntity> commentList;
-    private Double totalRate;
+    private Double totalRate = 0D;
     private String web;
     private String selectedStore;
     private List<SelectItem> storeList;
     private List<StoreEntity> stores;
-    private Double stock;
+    private Double stock = null;
 
     public ViewItemBean() {
     }
@@ -67,13 +67,14 @@ public class ViewItemBean {
         }
 
         int size = commentList.size();
+        if(size!=0){
         for (CommentEntity c : commentList) {
             if (c.getCountry().equals(web)) {
                 totalRate = totalRate + c.getRate();
             }
         }
         totalRate = totalRate / size;
-
+        }
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
         typeList.add(new SelectItem("2"));
@@ -99,7 +100,7 @@ public class ViewItemBean {
         if (email == null) {
             return "LoginPage?faces-redirect=true";
         } else {
-            cwml.addToShoppingCart(email, item.getId(), quantity);
+            cwml.addToShoppingCart(email, item.getId(), quantity, "product");
             return "ViewItem?faces-redirect=true";
         }
     }
@@ -130,6 +131,11 @@ public class ViewItemBean {
             return price + "";
         }
     }
+    
+    public boolean checkLogIn(){
+        if(name==null) return false;
+        else return true;
+    }
 
     public CustomerWebModuleLocal getCwml() {
         return cwml;
@@ -147,11 +153,11 @@ public class ViewItemBean {
         this.itemId = itemId;
     }
 
-    public CustomerWebItemEntity getItem() {
+    public CountryProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebItemEntity item) {
+    public void setItem(CountryProductEntity item) {
         this.item = item;
     }
 

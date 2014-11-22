@@ -40,7 +40,7 @@ public class FactoryControlBean {
     private String newFactoryAddress;
     private String newFactoryContact;
     private String newFactoryManager;
-    
+
     private Long selectedDeleteFactoryId;
 
     /**
@@ -59,17 +59,23 @@ public class FactoryControlBean {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        System.out.println("onRowEdit test: ");
-        FactoryEntity entity = (FactoryEntity) event.getObject();
-        System.out.println("onRowEdit test: " + String.valueOf(entity.getFactoryId()) + entity.getManagerId());
-        if (IUMA.getUser(entity.getManagerId()) == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory edit failed! ", "Manager not found!"));
-        } else {
-            try{
-            FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManagerId());
-            }catch(Exception ex){}
-            FacesMessage msg = new FacesMessage("Factory Edited", String.valueOf(entity.getFactoryId()));
-            FacesContext.getCurrentInstance().addMessage(null, msg);            
+        try {
+            System.out.println("onRowEdit test: ");
+            FactoryEntity entity = (FactoryEntity) event.getObject();
+            System.out.println("onRowEdit test: " + String.valueOf(entity.getFactoryId()) + entity.getManagerId());
+//            if (IUMA.getUser(entity.getManagerId()) == null) {
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory edit failed! ", "Manager not found!"));
+//            } else {
+                try {
+                    FSMM.ModifyFactory(entity.getFactoryId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManagerId());
+                } catch (Exception ex) {
+                }
+                FacesMessage msg = new FacesMessage("Factory Edited", String.valueOf(entity.getFactoryId()));
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+//            }
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
         }
     }
 
@@ -79,21 +85,29 @@ public class FactoryControlBean {
     }
 
     public void deleteFactory(Long id) {
-        System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));
-        if (IUMA.ListFactoryUser(id).isEmpty()) {
-            try{FSMM.DeleteFactory(id);}catch(Exception ex){}
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Factory cannot be deleted! ", "Factory user still exists!"));
-            List<UserEntity> list = IUMA.ListFactoryUser(id);
-            for (UserEntity u : list) {
-                System.out.println("Factory associated user: " + u.getUserId());
+        try {
+            System.out.println("FactoryControlBean: deleteFactory: " + String.valueOf(id));
+            if (IUMA.ListFactoryUser(id).isEmpty()) {
+                try {
+                    FSMM.DeleteFactory(id);
+                } catch (Exception ex) {
+                }
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory deleted successfully! ", ""));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Factory cannot be deleted! ", "Factory user still exists!"));
+                List<UserEntity> list = IUMA.ListFactoryUser(id);
+                for (UserEntity u : list) {
+                    System.out.println("Factory associated user: " + u.getUserId());
+                }
             }
+            factoryList = FSMM.ListFactory();
+            filterdFactory = factoryList;
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
         }
-        factoryList = FSMM.ListFactory();
-        filterdFactory = factoryList;
     }
 
     public void addFactory() {
@@ -101,15 +115,15 @@ public class FactoryControlBean {
 //        if (IUMA.getUser(newFactoryManager) == null) {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Factory added failed! ", "Manager not found!"));
 //        } else {
-            FSMM.AddFactory(newFactoryCountry, newFactoryAddress, newFactoryContact, newFactoryManager);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory added successfully! ", ""));
+        FSMM.AddFactory(newFactoryCountry, newFactoryAddress, newFactoryContact, newFactoryManager);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factory added successfully! ", ""));
 
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("FactoryControl.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       // }
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("FactoryControl.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FactoryControlBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // }
     }
 
     public List<FactoryEntity> getFactoryList() {
@@ -168,5 +182,4 @@ public class FactoryControlBean {
         this.selectedDeleteFactoryId = selectedDeleteFactoryId;
     }
 
-    
 }

@@ -20,44 +20,51 @@
         </h:head>
 
 
-        <h:body >
+        <h:body style="background-image:url(../resources/images/bg3.jpg); background-repeat:no-repeat">
 
 
             <h:form id="formMain">
 
-                <p:growl id="messages" showDetail="true"/>
+                <p:growl id="messages" showDetail="true" sticky="true"/>
 
                 <p:messages id="messagesStatus" redisplay="false" />
-                <p:link outcome="FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
-                </p:link>
 
-                <p:link outcome="/secured/Singapore/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
-                </p:link>
-
-                <p:button  value="Member Login" outcome="/Singapore/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
-                </p:button>
+                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: none; text-align: left ">       
 
 
-                <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+                    <p:link outcome="FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    </p:link>
 
-                <p:button value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
-                </p:button>  
+                    <p:link outcome="/secured/Singapore/MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    </p:link>
 
-                <div class="col-md-12 column" style="text-align: center; border: none;">
-                    <img alt="200x100" src="../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
-                    <p:button value="Home" outcome="/index?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Gallery" outcome="/Singapore/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                    <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                </div>
+                    <p:button  value="Member Login" outcome="/Singapore/LoginPage?faces-redirect=true" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:12px; float: right;background:  white" rendered="#{memberInfo.firstName==null}">
+                    </p:button>
 
-                <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+
+                    <p:commandButton value="Log Out" action="#{memberInfo.logOut}" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{!(memberInfo.firstName==null)}" />
+
+                    <p:button value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true" style="text-align: center;margin:auto;margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float: right ;background:  white" rendered="#{memberInfo.firstName==null}">
+                    </p:button>  
+
+
+                    <div class="col-md-12 column" style="text-align: center; border: none;">
+                        <img alt="200x100" src="../resources/images/Logo.png"  style = "text-align: left; margin-bottom:50px;width:150px; height:60px"/> 
+                        <p:button value="Home" outcome="/Singapore/HomePage?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="Gallery" outcome="/Singapore/Gallery?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+                        <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
+
+                    </div>
+
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+                </p:layoutUnit> 
                 <!--
                                 </p:layoutUnit>-->
 
 
-                <div style="width: 1000px; text-align:center; margin:auto; border: none;"  >
+                <div style="width: 1200px; right:1000px; text-align:left; margin:auto; border: none;"  >
                     <p:galleria value="#{viewSetBean.pictureList}" var="picture" panelWidth="500" panelHeight="313" showCaption="true">
                         <img src="../resources/images/#{picture}"  title="#{viewSetBean.set.name}"/>
                     </p:galleria>
@@ -130,8 +137,10 @@
 
 
                     <h:outputText value="#{viewSetBean.totalRate}" style="font-size: 40px; color: red"/>
-                    <p:commandButton value="Add to Shopping Cart" action="#{viewSetBean.addAllToShoppingCart()}" update="messages" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 300px; height: 40px; margin-left: 20px" />
-                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="Commend" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 250px; height: 35px; margin-top: 5px; margin-right: 5px; float: right"/>                      
+
+                    <p:commandButton value="Add whole set! SAVE #{viewSetBean.checkPrice(viewSetBean.save)} !" action="#{viewSetBean.addAllToShoppingCart()}" update="messages" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'" style=" background: #c9302c; font-size: 18px;color: white; border:none; width: 400px; height: 40px; margin-left: 20px; float: left" />
+                    <br></br>
+                    <p:commandButton  update=":formMain:addComment" oncomplete="PF('comment').show()" value="Commend" onmouseover="this.style.backgroundColor = 'red'" onmouseout="this.style.backgroundColor = '#c9302c'"  rendered="#{viewSetBean.checkLogIn()}" style=" background: #c9302c; font-size: 22px;color: white; border:none; width: 250px; height: 35px; margin-top: 5px; margin-right: 5px; float: right"/>                      
 
 
                     <p:panel  header="Comments" style="border: none">
@@ -157,6 +166,7 @@
                         </p:dataTable>
 
                     </p:panel>
+                    <br></br>
 
                     <p:dialog header="Commend" widgetVar="comment" position="center"
                               showEffect="fade" hideEffect="fade" resizable="true" 

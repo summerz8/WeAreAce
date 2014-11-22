@@ -21,7 +21,7 @@ import javax.ejb.Local;
 @Local
 public interface PlannedOrderManagementModuleLocal {
 
-    public List<BOMEntity> CheckBOM(Long ProductID);
+    public List<BOMEntity> CheckBOM(Long ProductID)throws Exception;
 
 //    public PlannedOrderEntity CreatePlannedOrder(Long productID, Double amount);
 
@@ -31,7 +31,7 @@ public interface PlannedOrderManagementModuleLocal {
 
     public boolean DeletePlannedOrder(Long PlannedOrderId);
 
-    public List<PlannedOrderEntity> getPlannedOrder(Long id,String department);
+    public List<PlannedOrderEntity> getPlannedOrder(Long id,String department) throws Exception;
 
     public List<PlannedOrderEntity> getUnconfirmedPlannedOrder(Long id,String department);
 
@@ -39,10 +39,10 @@ public interface PlannedOrderManagementModuleLocal {
 
     public List<PlannedOrderEntity> getCancelledPlannedOrder(Long id,String department);
 
-    public void editPlannedOrder(Long id, String field, Object content);
+    public void editPlannedOrder(Long id, String field, Object content) throws Exception;
 
-    public void createPlannedOrder(Long factoryProductID);
+    public void createPlannedOrder(Long factoryProductID) throws Exception;
 
-    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId, Long materialId);
+    public FactoryRawMaterialEntity findFactoryRawMaterial(Long factoryId, Long materialId) throws Exception;
     
 }

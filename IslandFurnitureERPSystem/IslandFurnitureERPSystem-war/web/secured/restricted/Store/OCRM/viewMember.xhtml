@@ -5,12 +5,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Island Furniture ERP System</title>
-    </h:head>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
 
         <h:body>
 
@@ -70,15 +70,19 @@
                     </p:layoutUnit>
 
 
-                   
+
                     <p:layoutUnit position="west" size="500px">
 
                         <p:menu>
-                            <p:submenu label="OCRM Management">
+                            <p:submenu label="Operational CRM">
                                 <p:menuitem value="Member registration" outcome = "/secured/restricted/Store/OCRM/AddNewMember?faces-redirect=true"/>
                                 <p:menuitem value="Feedback" outcome = "/secured/restricted/Store/OCRM/viewFeedback?faces-redirect=true"/>
                                 <p:menuitem value="Post Sale Service" outcome="/secured/restricted/Store/OCRM/PostSale/PostSaleService?faces-redirect=true"/>
-                                <p:menuitem value="Cusotmer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true"/>
+                                <p:menuitem value="Membership Level" outcome = "/secured/restricted/Store/OCRM/MembershipLevelDetail?faces-redirect=true"/>
+                                <p:menuitem value="Sales Forecast" outcome="/secured/restricted/Store/OCRM/SalesForecast/SalesForecastIndex?faces-redirect=true" />
+                                <p:menuitem value="Customer Website" outcome="/secured/restricted/Store/OCRM/CustomerWeb/SelectWebsite?faces-redirect=true" />
+                                <p:menuitem value="Event" outcome="/secured/restricted/Store/OCRM/Event/Event?faces-redirect=true" />
+                                <p:menuitem value="Surprise QR" outcome="/secured/restricted/Store/OCRM/Surprise/viewSurpriseQR?faces-redirect=true"/>
                             </p:submenu>
                         </p:menu>
 
@@ -112,9 +116,9 @@
                                     <p:commandButton  update=":formMain"  actionListener="#{memberControl.deleteMember(member.memberId)}" icon="ui-icon-trash" title="Delete">
 
                                     </p:commandButton>    
-                                   
+
                                 </p:column>
-                                
+
                                 <p:column filterBy="#{member.memberId}" headerText="member Id" width="100">
                                     <h:outputText value="#{member.memberId}" />                                                                         
                                 </p:column>                               
@@ -190,7 +194,7 @@
                                         <f:facet name="input"><p:inputMask  value="#{memberControl.birString}" style="width:96%" mask="99-99-9999"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                
+
                             </p:dataTable>                            
                             <p:button value="Add Member" outcome="AddNewMember"></p:button>
                         </p:panel>

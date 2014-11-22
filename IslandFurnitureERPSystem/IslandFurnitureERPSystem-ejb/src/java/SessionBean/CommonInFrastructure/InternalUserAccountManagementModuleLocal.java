@@ -28,24 +28,29 @@ public interface InternalUserAccountManagementModuleLocal {
             String midName, String firstName, String position, Calendar birthday, 
             String gender, String title, String address, String postalCode, String email, long departmentId);
 
-    public void DeleteStaff(String userId);
+    public void DeleteStaff(String userId) throws Exception;
 
     public void ModifyStaff(String userId, String department, Integer userLevel, 
             String lastName, String midName, String firstName, String position, 
             Calendar birthday, String gender, String title, String address, String postalCode, 
-            String email, long departmentId);
+            String email, long departmentId) throws Exception;
 
     public List<UserEntity> ListUser();
 
     
-    public UserEntity getUser(String userId);
+    public UserEntity getUser(String userId) throws Exception;
 
-    public void changePass(String newPass, String userId);
+    public void changePass(String newPass, String userId) throws Exception;
 
-    public List<UserEntity> ListFactoryUser(Long id);
+    public List<UserEntity> ListFactoryUser(Long id) throws Exception;
 
-    public List<UserEntity> ListStoreUser(Long id);
+    public List<UserEntity> ListStoreUser(Long id) throws Exception;
 
     public String resetPass(String userId);
+
+//    public List<UserEntity> ListCasher();
+//
+//    public void resetCash(Double newCash, Double d, Long userId);
+//    
     
 }

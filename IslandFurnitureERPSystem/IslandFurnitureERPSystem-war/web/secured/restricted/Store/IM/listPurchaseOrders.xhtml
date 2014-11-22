@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Island Furniture ERP System</title>
+        </h:head>
+
+        <h:body>
+
+            <h:form id="formMain">
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+
+                <p:confirmDialog id="confirmDialog"
+                                 message="You have been idle for a while, 
+                                 Please click ok to continue."
+                                 header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                    <p:commandButton id="confirm" value="Ok" update="messages"
+                                     oncomplete="PF('idleDialog').hide()"
+                                     actionListener="#{idleBean.welcomeListener}" />
+
+                    <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                     oncomplete="idleDialog.hide()"
+                                     actionListener="#{idleBean.logoutListener}" />
+
+                </p:confirmDialog>
+                <p:layout >
+                    <p:messages id="messagesStatus" redisplay="false" />
+
+                    <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 0px">
+
+
+                        <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+                        <p:commandButton  id = "logout" value="Logout" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" actionListener="#{loginBean.performLogout}" >
+
+                        </p:commandButton>
+                        <p:button  value="System" outcome = "/secured/public/ListRaisedTicket.xhtml" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+                        <p:button outcome="/secured/public/viewReceiveMessage.xhtml" value="Message" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>  
+                        <p:button  outcome="/secured/public/UserInfoPage.xhtml" value="User Page" style="margin-bottom:10px ;border:5px ;width: 100px; height:25px; font-size:12px; float:right" >
+
+                        </p:button> 
+
+                        <p:button  outcome="/secured/public/WorkPlace.xhtml" value="Home" style="margin-bottom:10px ;border:5px ;width: 60px; height:25px; font-size:12px; float:right" >
+
+                        </p:button>
+
+
+
+                        <h:outputLabel value = "Welcome Back " >
+                            <h:outputText  value ="#{loginBean.fullName}" rendered="#{loginBean.flag}" />
+
+                        </h:outputLabel>
+
+
+                    </p:layoutUnit>
+
+
+
+                    <p:layoutUnit position="west" size="500px" style = "border: 0px">
+
+                        <p:menu>
+                            <p:submenu label="Inventory Management">
+                                <p:menuitem value="Inbound Movement Management" outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="In Store Movement Management" outcome="/secured/restricted/Store/IM/CreateInStoreMovementRecord.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Store Stock Monitor"  outcome="/secured/restricted/Store/IM/monitoringInventoryLevel.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Returned Item Clearning" outcome="/secured/restricted/Store/IM/ListCurrentReturnedItemTOStore.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Document Reference" outcome="/secured/restricted/Store/IM/ListStoreGoodReceipt.xhtml?faces-redirect=true"/>
+                            </p:submenu>
+
+                            <p:submenu label="Inbound Movement Management">
+                                <p:menuitem value="View Incoming Inventory"  outcome="/secured/restricted/Store/IM/ListIncomingInventories.xhtml?faces-redirect=true"/>
+                                <p:menuitem value="Generate Good Receipt Mannually"   outcome="/secured/restricted/Store/IM/generateGoodReceiptMannually.xhtml?faces-redirect=true" />
+                                <p:menuitem value="Create New Inbound Movement Record"  outcome="/secured/restricted/Store/IM/selectInboundRecordType.xhtml?faces-redirect=true" />
+                            </p:submenu>
+                        </p:menu>
+
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="false">
+                        <p:panel id="basic" header="View Incoming Inventory Details" style="border:0px; margin-bottom" >
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Record Id:   " for="rId" />
+                                    <h:outputText id = "rId" value ="OME#{viewOmeDetail.omeId}"/>
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="From Factory (Id):   " for="fId" />
+                                    <h:outputText id = "fId" value ="#{viewOmeDetail.factoryId}"/>
+                                    <p:tooltip id="toolTipFade5" for="fId" value="Factory Address: #{viewOmeDetail.factory.address}" />
+
+                                </p:column>  
+                            </p:row>
+
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?false:true}">
+                                <br></br>
+                                <br></br>
+                                <p:column>
+                                    <p:outputLabel value="Global Product Id:   " for="gpId"  rendered ="#{viewOmeDetail.isIsRetail()?false:true}" />
+
+                                    <h:outputText id = "gpId" value ="#{viewOmeDetail.globalProductId}"/>
+
+                                    <p:tooltip id="toolTipFade1" for="gpId" value="Product Name:#{viewOmeDetail.fp.name}" />
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?false:true}">
+                                <p:column>
+
+                                    <p:outputLabel value="Store Product Id:   " for="spId" rendered ="#{viewOmeDetail.isIsRetail()?false:true}"  />
+
+                                    <h:outputText id = "spId" value ="#{viewOmeDetail.storeProductId}"/>
+
+                                    <p:tooltip id="toolTipFade2" for="spId" value="Product Name: #{viewOmeDetail.fp.name}" />
+                                </p:column>  
+                            </p:row>
+
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?true:false}">
+                                <p:column>
+                                    <p:outputLabel value="Global Retail Product Id:   " for="grpId" rendered ="#{viewOmeDetail.isIsRetail()?true:false}" />
+                                    <h:outputText id = "grpId" value ="#{viewOmeDetail.globalRProductId}"/> 
+                                    <p:tooltip id="toolTipFade3" for="grpId" value="Retail Product Name: #{viewOmeDetail.frp.name}" />
+                                </p:column>  
+                            </p:row>
+                            <br></br>
+                            <br></br>
+                            <p:row rendered ="#{viewOmeDetail.isIsRetail()?true:false}">
+                                <p:column>
+                                    <p:outputLabel value="Store Retail Product Id:   " for="srpId" rendered ="#{viewOmeDetail.isIsRetail()?true:false}" />
+                                    <h:outputText id = "srpId" value ="#{viewOmeDetail.storeRProductId}"/>
+                                    <p:tooltip id="toolTipFade4" for="srpId" value="Retail Product Name: #{viewOmeDetail.frp.name}" />
+
+                                </p:column>  
+                                <br></br>
+                                <br></br>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Quantity:   " for="qId" />
+                                    <h:outputText id = "qId" value ="#{viewOmeDetail.quantity}"/>
+                                </p:column> 
+                            </p:row>
+
+                            <br></br>
+                            <br></br>
+
+                            <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?false:true}">
+                                <p:commandButton value="Fulfill Order" actionListener="#{viewOmeDetail.makeFulfillment}" icon="ui-icon-disk" update = ":formMain"/>
+                            </p:column>
+
+
+                            <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?true:false}">
+                                <p:outputLabel value="Actual Amount Received:   " for="aaId" />
+                                <p:inputText id = "aaId" required ="true" label ="Actory Amount Received:" requiredMessage ="It cannot be blank." value ="#{viewOmeDetail.actualAmount}" >
+                                </p:inputText>
+                            </p:column> 
+                            <br></br>
+                            <br></br>
+                            <p:column rendered = "#{viewOmeDetail.isIsfulfilled()?true:false}">
+                                <p:commandButton value="Receive" oncomplete = "PF('confrimationDialog').show()" icon="ui-icon-disk" update = ":formMain"/>
+                            </p:column>
+
+
+
+                            <p:dialog header="Confirmation" widgetVar="confrimationDialog" position="center"
+                                      showEffect="fade" hideEffect="fade" resizable="true" 
+                                      draggable="true" closable="true" width="300">
+                                <p:outputPanel id="toconfrim" style="text-align:center;">
+                                    Confirm Received? 
+                                    <br></br>
+                                    <p:commandButton  title = "Confirm"  oncomplete = "PF('msgDialog').show()" value ="Confrimƒ"   actionListener = "#{viewOmeDetail.submitFulfillment}" update = ":formMain"  >
+
+                                    </p:commandButton> 
+
+                                    <p:commandButton title = "Cancel" value = "Cancel" oncomplete="PF('confrimationDialog').hide()">
+
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+
+
+
+                        </p:panel>
+                    </p:layoutUnit>
+
+
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

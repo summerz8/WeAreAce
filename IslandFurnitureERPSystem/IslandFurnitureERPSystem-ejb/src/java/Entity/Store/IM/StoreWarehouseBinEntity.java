@@ -27,7 +27,7 @@ public class StoreWarehouseBinEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
     private Boolean isBackHouse;
     private Boolean isDisplayArea;
     private Boolean isSelfCollect;
@@ -37,10 +37,10 @@ public class StoreWarehouseBinEntity implements Serializable {
    
     
 
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "swe")
     private Collection<StoreBinProductEntity> storeBinProducts;
     
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "swe")
     private Collection<StoreBinRetailProductEntity> storeBinRetailProducts;
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "fromBin")
@@ -58,9 +58,11 @@ public class StoreWarehouseBinEntity implements Serializable {
     
     @ManyToOne
     private StoreEntity store;
+    
+
      
     public StoreWarehouseBinEntity(String name, String remark, Boolean isBackHouse, Boolean isDisplayArea, Boolean isSelfCollect) {
-        this.isDeleted = false;
+       
         this.isBackHouse = isBackHouse;
         this.isDisplayArea = isDisplayArea;
         this.isSelfCollect = isSelfCollect;

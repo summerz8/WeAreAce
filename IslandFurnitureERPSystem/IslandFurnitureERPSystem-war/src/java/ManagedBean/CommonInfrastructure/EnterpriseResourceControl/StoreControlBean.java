@@ -40,7 +40,7 @@ public class StoreControlBean {
     private String newStoreAddress;
     private String newStoreContact;
     private String newStoreManager;
-    
+
     private Long selectedDeleteStoreId;
 
     /**
@@ -59,18 +59,22 @@ public class StoreControlBean {
     }
 
     public void onRowEdit(RowEditEvent event) {
-
-        StoreEntity entity = (StoreEntity) event.getObject();
-        System.out.println("onRowEdit test: " + String.valueOf(entity.getStoreId()) + entity.getManager());
-        if (IUMA.getUser(entity.getManager()) == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store edit failed! ", "Manager not found!"));
-        } else {
-            try {
-                FSMM.ModifyStore(entity.getStoreId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
-            } catch (Exception ex) {
+        try {
+            StoreEntity entity = (StoreEntity) event.getObject();
+            System.out.println("onRowEdit test: " + String.valueOf(entity.getStoreId()) + entity.getManager());
+            if (IUMA.getUser(entity.getManager()) == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Store edit failed! ", "Manager not found!"));
+            } else {
+                try {
+                    FSMM.ModifyStore(entity.getStoreId(), entity.getCountry(), entity.getAddress(), entity.getContact(), entity.getManager());
+                } catch (Exception ex) {
+                }
+                FacesMessage msg = new FacesMessage("Store Edited", String.valueOf(entity.getStoreId()));
+                FacesContext.getCurrentInstance().addMessage(null, msg);
             }
-            FacesMessage msg = new FacesMessage("Store Edited", String.valueOf(entity.getStoreId()));
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
         }
     }
 
@@ -80,22 +84,30 @@ public class StoreControlBean {
     }
 
     public void deleteStore(Long id) {
-        System.out.println("StoreControlBean: deleteStore: " + String.valueOf(id));
-        if (IUMA.ListStoreUser(id).isEmpty()) {
-            try{FSMM.DeleteStore(id);}catch(Exception ex){}
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Store cannot be deleted! ", "Store user still exists!"));
-            List<UserEntity> list = IUMA.ListStoreUser(id);
-            for (UserEntity u : list) {
-                System.out.println("Store associated user: " + u.getUserId());
+        try {
+            System.out.println("StoreControlBean: deleteStore: " + String.valueOf(id));
+            if (IUMA.ListStoreUser(id).isEmpty()) {
+                try {
+                    FSMM.DeleteStore(id);
+                } catch (Exception ex) {
+                }
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Store deleted successfully! ", ""));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Store cannot be deleted! ", "Store user still exists!"));
+                List<UserEntity> list = IUMA.ListStoreUser(id);
+                for (UserEntity u : list) {
+                    System.out.println("Store associated user: " + u.getUserId());
+                }
             }
-        }
 
-        storeList = FSMM.ListStore();
-        filterdStore = storeList;
+            storeList = FSMM.ListStore();
+            filterdStore = storeList;
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public void addStore() {
@@ -170,5 +182,4 @@ public class StoreControlBean {
         this.selectedDeleteStoreId = selectedDeleteStoreId;
     }
 
-    
 }

@@ -43,7 +43,7 @@ import javax.persistence.PersistenceContext;
  * @author Shiyu
  */
 @Stateful
-public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal {
+public class PurchaseOrderManagementModule implements PurchaseOrderManagementModuleLocal, PurchaseOrderManagementModuleRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -54,6 +54,9 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
     @Override
     public PurchaseOrderEntity getPO(Long poId) throws Exception {
         PurchaseOrderEntity po = em.find(PurchaseOrderEntity.class, poId);
+        if(po == null) {
+            throw new Exception("Purchase Order is not found!");
+        }
         return po;
     }
 
@@ -414,7 +417,7 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
                 if (storeRetailProduct.getRetailProduct().getRetailProductId()
                         .equals(factoryRetailProduct.getRetailProduct().getRetailProductId())) {
                     StoreEntity store = storeRetailProduct.getStore();
-                    System.out.println("Store: "+ store.toString());
+                    System.out.println("Store: " + store.toString());
                     if (!storeList.contains(store)) {
                         storeList.add(store);
                     }
@@ -963,6 +966,12 @@ public class PurchaseOrderManagementModule implements PurchaseOrderManagementMod
             Collection<DeliveryOrderEntity> deliveryOrderList = getDeliveryAmountAndDate(integratedPlannedOrderId, purchaseAmount);
 
             purchaseOrder = createPurchaseOrder(factoryId, contractId, purchaseAmount, storeId, destination, null, false, isToStore);
+            System.out.println("factoryId = " + factoryId.toString());
+            System.out.println("contractId = " + contractId.toString());
+            System.out.println("purchaseAmount = " + purchaseAmount.toString());
+            System.out.println("storeId = " + storeId.toString());
+            System.out.println("destination = " + destination);
+            System.out.println("isToStore = " + isToStore.toString());
 
             //set relationship between delivery orders and purchase order
             for (DeliveryOrderEntity deliveryOrder : deliveryOrderList) {

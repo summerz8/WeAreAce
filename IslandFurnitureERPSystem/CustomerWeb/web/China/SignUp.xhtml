@@ -23,9 +23,9 @@
 
             <h:form id="formMain">
                 <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" 
-                         onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px " ><a href="/CustomerWeb/faces/China/HomePage.xhtml">主页</a></button>
+                         onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px " ><a href="/CustomerWeb/China/HomePage.xhtml">主页</a></button>
 
-                <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+                <p:graphicImage value="../resources/images/WebLogo.png" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:150px; height:60px;text-align:center"/> 
                 <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
 
                 <p:growl id="messages" showDetail="true" autoUpdate="true"/>
@@ -33,11 +33,11 @@
                 <p:messages id="messagesStatus" redisplay="true" />
 
 
-                <p:panel id="basic" header="请输入用户信息" style="position: absolute; right:220px; top:150px;margin-bottom" >
+                <p:panel id="basic" header="请输入用户信息" style="position: absolute; right:180px; top:150px;margin-bottom" >
                     <h:panelGrid columns="2" cellpadding="10">                                
 
                         <h:outputLabel for="title" value="称呼：" />
-                        <h:selectOneMenu value="#{signUp.title}" style="width:100%" required="true" requiredMessage="请选择您的称呼" >
+                        <h:selectOneMenu value="#{signUp.title}"  required="true" requiredMessage="请选择您的称呼" >
                             <f:selectItem itemLabel="请选择" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{attr.titles}" var="color" itemLabel="#{titles}" itemValue="#{titels}" />
                         </h:selectOneMenu>
@@ -51,11 +51,16 @@
                         </p:inputText>
 
                         <h:outputLabel for="gender" value="性別 *:" />
-                        <h:selectOneMenu value="#{signUp.gender}" style="width:100%" required="true" requiredMessage="请选择您的性别">
+                        <h:selectOneMenu value="#{signUp.gender}"  required="true" requiredMessage="请选择您的性别">
                             <f:selectItem itemLabel="请选择" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{attr.genders}" var="color" itemLabel="#{genders}" itemValue="#{genders}" />
                         </h:selectOneMenu>
 
+                        <h:outputLabel for="country" value="国籍 *" />
+                        <h:selectOneMenu value="#{signUp.country}"  required="true" requiredMessage="Please select gender">
+                            <f:selectItem itemLabel="选择国家" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{attr.countries}" var="color" itemLabel="#{country}" itemValue="#{country}" />
+                        </h:selectOneMenu>
 
                         <h:outputLabel for="email (login account)" value="电子邮箱 *：" />
                         <p:inputText value="#{signUp.email}" required="true" requiredMessage="请输入您的邮箱" label="text" validatorMessage="请输入有效的电子邮箱地址">
@@ -77,12 +82,22 @@
                         <h:outputLabel for="postal" value="邮编:" />
                         <p:inputText value="#{signUp.postal}" label="text" />
 
+                        <h:outputLabel value="" />
+                        <p:link  value="协议及条款" outcome="/China/TermsAndCondition?faces-redirect=true"></p:link>
+
+                        <h:outputLabel value="同意" />
+                        <p:selectBooleanCheckbox value="#{signUp.checkBox}" />
+
+                        <p:messages showDetail="true"/>
+                        <p:captcha label="Captcha" />
 
                         <p:commandButton action="#{signUp.addMember}" value="提交"/>
+                        <p:commandButton action="HomePage?faces-redirect=true" value="取消"/>
+
                     </h:panelGrid>
                 </p:panel>
                 <h5>
-                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
+                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:800px; left: 400px;text-align: center;"/>
                 </h5>
             </h:form>
         </h:body>

@@ -17,13 +17,13 @@
 
         <title>Island Furniture Customer Web</title>
     </h:head> 
-    <h:body>
+ <h:body style="background-image:url(../resources/images/bg3.jpg); background-repeat:no-repeat">
         <h:form>
             <p:growl id="messages" showDetail="true"/>
 
             <button  type="button" class="btn btn-default"  onmouseover="this.style.backgroundColor = 'tomato'" onmouseout="this.style.backgroundColor = '#ffffff'" style="position: absolute; right:50px;border:5px; width: 120px; height: 40px; margin-left: 30px "><a href="./HomePage.xhtml">Home</a></button>
 
-            <p:graphicImage value="../resources/images/singapore-logo.jpg" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
+            <p:graphicImage value="../resources/images/WebLogo.png" style = "position: absolute; left:100px; top:10px;margin-bottom:50px;width:150px; height:60px;text-align:center"/> 
             <p:graphicImage value="../resources/images/loginpage.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:400px;text-align:center"/> 
 
             <div class="ui-grid ui-grid-responsive" align="center"> 
@@ -47,12 +47,16 @@
 
 
                             <br></br>
-                            <h:panelGrid columns="2" cellpadding="10"></h:panelGrid>
+
 
 
                             <p:commandButton id="btn" value="login"  action="#{login.checkLogin}" update="messages" style="border: 5px;"/>
                             <br></br><br></br>
-                            <p:link  value="forget password?"></p:link>
+                            <p:link  outcome="/Singapore/ForgotPwd?faces-redirect=true" value="forget password?"></p:link>
+
+                            <p:messages showDetail="true"/>
+                            <p:captcha label="Captcha" />
+
                             <p:link  value="Sign Up" outcome="/Singapore/SignUp?faces-redirect=true"></p:link>
                             <div class="component-spacing-top"/>
                         </div>

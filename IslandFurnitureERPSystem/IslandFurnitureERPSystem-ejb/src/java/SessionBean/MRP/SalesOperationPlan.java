@@ -22,7 +22,7 @@ import javax.persistence.Query;
  * @author apple
  */
 @Stateful
-public class SalesOperationPlan implements SalesOperationPlanLocal {
+public class SalesOperationPlan implements SalesOperationPlanLocal, SalesOperationPlanRemote {
 
     @PersistenceContext
     private EntityManager em;
@@ -181,19 +181,19 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
 
     @Override
     public List<FactoryProductEntity> getAllFacotryProduct(Long factoryId) {
-        if(factoryId==null){
-        Query query = em.createQuery("SELECT t FROM FactoryProductEntity t");
-        return (List<FactoryProductEntity>) query.getResultList();
-        }
-        else {
-        Query query = em.createQuery("SELECT t FROM FactoryProductEntity t");
-        List<FactoryProductEntity> temp=(List<FactoryProductEntity>) query.getResultList();
-        List<FactoryProductEntity> temp1=new ArrayList<>();
-        for(FactoryProductEntity f: temp){
-            if(f.getFactory().getFactoryId().equals(factoryId))
-                temp1.add(f);
-        }
-        return temp1;
+        if (factoryId == null) {
+            Query query = em.createQuery("SELECT t FROM FactoryProductEntity t");
+            return (List<FactoryProductEntity>) query.getResultList();
+        } else {
+            Query query = em.createQuery("SELECT t FROM FactoryProductEntity t");
+            List<FactoryProductEntity> temp = (List<FactoryProductEntity>) query.getResultList();
+            List<FactoryProductEntity> temp1 = new ArrayList<>();
+            for (FactoryProductEntity f : temp) {
+                if (f.getFactory().getFactoryId().equals(factoryId)) {
+                    temp1.add(f);
+                }
+            }
+            return temp1;
         }
     }
 
@@ -213,7 +213,7 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         } else {
             List<SalesOperationPlanEntity> List = new ArrayList<>();
             while (!tempSalesList.isEmpty()) {
-                if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct)&&tempSalesList.get(0).getStatus().equals("confirmed")) {
+                if (tempSalesList.get(0).getFactoryProduct().equals(factoryProduct) && tempSalesList.get(0).getStatus().equals("confirmed")) {
                     System.out.println("SalesOperationPlan calendar: " + tempSalesList.get(0).getTargetPeriod().getTime());
                     tempSalesList.get(0).getTargetPeriod().get(Calendar.MILLISECOND);
                     tempSalesList.get(0).getTargetPeriod().set(Calendar.MILLISECOND, 0);
@@ -250,6 +250,9 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
         }
         System.out.println("4");
 
+        if(List1.isEmpty()) {
+            return salesOperationPlan;
+        }
         IntegratedSalesForecastEntity integratedSalesForecastEntity = List1.get(0);
 
         targetPeriod.add(Calendar.MONTH, -1);
@@ -286,10 +289,12 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     }
 
     @Override
-    public SalesOperationPlanEntity confirmSalesOperationPlan(Long salesOperationPlanId) {
+    public SalesOperationPlanEntity confirmSalesOperationPlan(Long salesOperationPlanId) throws Exception {
 
         SalesOperationPlanEntity salesOperationPlan = em.find(SalesOperationPlanEntity.class, salesOperationPlanId);
-
+        if (salesOperationPlan == null) {
+            throw new Exception("Sales Operation Plan is not found!");
+        }
         Calendar generatedDate = Calendar.getInstance();
         Calendar targetPeriod = salesOperationPlan.getTargetPeriod();
         Double productionPlanQuantity = salesOperationPlan.getPlannedProductionPlanQuantity();
@@ -318,7 +323,11 @@ public class SalesOperationPlan implements SalesOperationPlanLocal {
     }
 
     @Override
-    public boolean IsThereSalesOperation(Long factoryProductId) {
+    public boolean IsThereSalesOperation(Long factoryProductId) throws Exception {
+
+        if (em.find(FactoryProductEntity.class, factoryProductId) == null) {
+            throw new Exception("Factory Product is not found!");
+        }
 
         Query query = em.createQuery("SELECT t FROM SalesOperationPlanEntity t ORDER BY t.targetPeriod DESC");
         List<SalesOperationPlanEntity> templist = (List<SalesOperationPlanEntity>) query.getResultList();

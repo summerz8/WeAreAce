@@ -44,25 +44,29 @@ public class IntegrateSalesForecast {
 
     @PostConstruct
     public void getAllIntegratedSalesForecastList() {
-        factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
+        try {
+            factoryId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
 
-        integratedSalesForecastList = sfml.getIntegrateSalesForecastList(factoryId,null, null);
-        while (!integratedSalesForecastList.isEmpty()) {
-            if (integratedSalesForecastList.get(0).getFactoryProduct() == null) {
-                factoryRetailProduct.add(integratedSalesForecastList.get(0));
-            } else {
-                factoryProduct.add(integratedSalesForecastList.get(0));
+            integratedSalesForecastList = sfml.getIntegrateSalesForecastList(factoryId, null, null);
+            while (!integratedSalesForecastList.isEmpty()) {
+                if (integratedSalesForecastList.get(0).getFactoryProduct() == null) {
+                    factoryRetailProduct.add(integratedSalesForecastList.get(0));
+                } else {
+                    factoryProduct.add(integratedSalesForecastList.get(0));
+                }
+                integratedSalesForecastList.remove(0);
             }
-            integratedSalesForecastList.remove(0);
-        }
-        time = Calendar.getInstance();
-        time.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH) + 2, 2, 0, 0, 0);
+            time = Calendar.getInstance();
+            time.set(time.get(Calendar.YEAR), time.get(Calendar.MONTH) + 2, 2, 0, 0, 0);
 
-        System.out.println(time.getTime());
-        factoryProductList = sfml.productListNeededTobeIntegrated(factoryId);
-        factoryRetailProductList = sfml.retailProductListNeedToBeIntegrated(factoryId);
-        
-        
+            System.out.println(time.getTime());
+            factoryProductList = sfml.productListNeededTobeIntegrated(factoryId);
+            factoryRetailProductList = sfml.retailProductListNeedToBeIntegrated(factoryId);
+
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
 
     }
 
@@ -99,19 +103,19 @@ public class IntegrateSalesForecast {
     }
 
     public String integrateFactoryProduct(Long ProductId) {
-      
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", ProductId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("type", "factoryProduct");
-        
+
         return "MRPListSalesForecast?faces-redirect=true";
 
     }
 
     public String integrateFactoryRetailProduct(Long ProductId) {
-     
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productId", ProductId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("type", "factoryRetailProduct");
-       
+
         return "MRPListSalesForecast?faces-redirect=true";
 
     }

@@ -19,7 +19,7 @@
         </h:head>
 
 
-        <h:body >
+ <h:body style="background-image:url(../resources/images/bg3.jpg); background-repeat:no-repeat">
 
 
             <h:form id="formMain">
@@ -29,10 +29,12 @@
                 <!--                <p:layout >-->
                 <p:messages id="messagesStatus" redisplay="false" />
 
-                <p:layoutUnit position="north" size="25px" collapsible="true" style = "border: 10px; text-align: left ">       
                     <!--</p:layoutUnit>--> 
 
 
+                     <p:link outcome="/Singapore/FeedBack?faces-redirect=true" value="Feedback"  style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
+                    </p:link>
+                    
                     <p:link outcome="MemberPage?faces-redirect=true" value="#{memberInfo.firstName}" rendered="#{!(memberInfo.firstName==null)}" style="text-align: center;margin: auto;  margin-bottom:10px ;border:5px ;width: 200px; height:25px; font-size:15px; float: right;background:  white">
                     </p:link>
 
@@ -49,16 +51,13 @@
                         <p:button value="Furniture" outcome="/Singapore/Furniture?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                         <p:button value="Retail" outcome="/Singapore/Retail?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
                         <p:button value="Kitchen" outcome="/Singapore/Kitchen?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-                        <p:button value="About Us" outcome="/Singapore/AboutUs?faces-redirect=true" onmouseover="this.style.backgroundColor = '#d9534f'" onmouseout="this.style.backgroundColor = '#ffffff'" style="border:5px; width: 120px; height: 40px; margin-left: 30px;background:  white" />
-
+                        
                     </div>
 
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
 
-                </p:layoutUnit>
 
 
-                <p:layoutUnit position="center" resizable="false" style = "margin: auto;border:0px;margin-bottom:10px ;width: 900px; height:1000px;" >
 
 
                     <h:panelGrid columns="1" columnClasses="logo,detail" style="  position: absolute; top:160px;left:300px">
@@ -86,7 +85,7 @@
 
                                 </h:panelGrid>
                                 <br></br><br></br>
-                                <p:commandButton value="Change Password " style="background: #28a4c9; color: white; width: 170px; height: 30px; margin-left: 20px;" />
+                                <p:commandButton value="Change Password " action="ResetPwd?faces-redirect=true" style="background: #28a4c9; color: white; width: 170px; height: 30px; margin-left: 20px;" />
 
                                 <p:commandButton value="Edit Profile" action="EditProfile?faces-redirect=true" style="background: #28a4c9;color: white; font-size: 15px;width: 140px; height: 30px; margin-left: 20px;" />
 
@@ -118,7 +117,6 @@
                             <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style=" left:500px; bottom: 0px;"/>
                         </h5>
                     </div>
-                </p:layoutUnit>
 
 
                 <!--</p:layout>-->

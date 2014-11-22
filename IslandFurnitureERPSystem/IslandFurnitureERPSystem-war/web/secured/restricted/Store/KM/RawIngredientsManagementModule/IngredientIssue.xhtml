@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -83,19 +82,20 @@
 
                 <p:layoutUnit position="center" resizable="false">
 
-                    <p:panel id="basic" header="Raw Ingredient Issue" style="margin-bottom" >
+                    <p:panel header="Raw Ingredient Issue" style="margin-bottom" >
 
-                        <h:form>
-
-                            <h:panelGrid columns="2" cellpadding="5">
+                            <h:panelGrid id="headInfo" columns="2" cellpadding="5">
                                 <p:outputLabel value="Raw Ingredient Issue ID: " style="font-weight:bold" />
                                 <h:outputText value="#{ingredientIssueBean.selectedII.id}" />
                                 <p:outputLabel value="Creation Time: " style="font-weight:bold" />
                                 <h:outputText value="#{ingredientIssueBean.selectedII.creationTime.time}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+8"/>
                                 </h:outputText>
+                                <p:outputLabel value="Status: " style="font-weight:bold" />
+                                <h:outputText value="Confirmed" rendered="#{ingredientIssueBean.selectedII.confirmed}" />
+                                <h:outputText value="Unconfirmed" rendered="#{ingredientIssueBean.selectedII.confirmed ne true}" />
                                 <p:commandButton value="Change Target Date" onclick="PF('selectTargetDate').show()"/>
-                                <p:commandButton rendered="#{ingredientIssueBean.selectedII.confirmed eq false}" value="Confirm Raw Ingredient Issue" actionListener="#{ingredientIssueBean.confirmIngredientIssue}" update=":formMain" />
+                                <p:commandButton rendered="#{ingredientIssueBean.selectedII.confirmed eq false}" value="Confirm Raw Ingredient Issue" actionListener="#{ingredientIssueBean.confirmIngredientIssue}" update="headInfo :formMain:ingredientIssue" />
                             </h:panelGrid>
                             <p:separator/>
 
@@ -144,9 +144,12 @@
                                     <p:rowEditor/>
                                 </p:column>
 
-                            </p:dataTable>
+                                <p:column headerText="More Issue" style="text-align: center;" width="15%" rendered="#{ingredientIssueBean.isToday and ingredientIssueBean.selectedII.confirmed}">
+                                    <p:commandButton value="More Issue" update=":formMain:moreIssue" actionListener="#{ingredientIssueBean.setIi(ii)}" oncomplete="PF('moreIssue').show();" >
+                                    </p:commandButton>
+                                </p:column>
 
-                        </h:form>
+                            </p:dataTable>
 
                     </p:panel>
                 </p:layoutUnit>
@@ -161,13 +164,22 @@
                     </div>
                 </p:dialog>
 
+                <p:dialog id="moreIssue" header="More Issue: #{ingredientIssueBean.ii.ingredient.name}" widgetVar="moreIssue" showEffect="fade" hideEffect="fade" resizable="false" >
+                    <p:outputLabel value="Issue More By: " />
+                    <p:inputText value="#{ingredientIssueBean.issueMoreBy}" />
+                    <div align="center">
+                        <p:commandButton value="Confirm" update=":formMain:ingredientIssue" actionListener="#{ingredientIssueBean.issueMoreIngredient}" oncomplete="PF('moreIssue').hide();" >
+                        </p:commandButton>
+                    </div>
+                </p:dialog>
+
             </p:layout>
         </h:form>
 
         <h:form>
             <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
-                      draggable="true" closable="false" visible="true" >
+                      draggable="true" closable="false" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Target Date: " />
                     <p:calendar value="#{ingredientIssueBean.selectedTargetDate}" maxdate="#{ingredientIssueBean.cal.time}"/>

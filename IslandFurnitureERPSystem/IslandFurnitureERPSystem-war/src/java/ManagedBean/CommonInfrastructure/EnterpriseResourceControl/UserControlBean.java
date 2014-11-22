@@ -43,6 +43,7 @@ public class UserControlBean {
     private String deletedUserId;
 
     private CryptographicHelper cryptographicHelper = CryptographicHelper.getInstanceOf();
+
     /**
      * Creates a new instance of UserControlBean
      */
@@ -60,31 +61,36 @@ public class UserControlBean {
     }
 
     public void onRowEdit(RowEditEvent event) {
-//        FacesContext context = FacesContext.getCurrentInstance();
-        UserEntity entity = (UserEntity) event.getObject();
-        System.out.println("onRowEdit test: " + entity.getUserId() + entity.getFirstName());
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println("UserControlBean:birString:" + birString);
         try {
-            Date temp = df.parse(birString);
+//        FacesContext context = FacesContext.getCurrentInstance();
+            UserEntity entity = (UserEntity) event.getObject();
+            System.out.println("onRowEdit test: " + entity.getUserId() + entity.getFirstName());
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            System.out.println("UserControlBean:birString:" + birString);
+            try {
+                Date temp = df.parse(birString);
 
-            System.out.println("UserControlBean: birString to Date:" + temp.toString());
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(temp);
-            System.out.println("UserContorlBean:birString to Date to Calendar:" + cal.getTime().toString());
-            IUMA.ModifyStaff(entity.getUserId(), entity.getDepartment(), entity.getUserLevel(), entity.getLastName(), entity.getMidName(),
-                    entity.getFirstName(), entity.getPosition(), cal, entity.getGender(), entity.getTitle(), entity.getAddress(),
-                    entity.getPostalCode(), entity.getEmail(), entity.getDepartmentId());
+                System.out.println("UserControlBean: birString to Date:" + temp.toString());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(temp);
+                System.out.println("UserContorlBean:birString to Date to Calendar:" + cal.getTime().toString());
+                IUMA.ModifyStaff(entity.getUserId(), entity.getDepartment(), entity.getUserLevel(), entity.getLastName(), entity.getMidName(),
+                        entity.getFirstName(), entity.getPosition(), cal, entity.getGender(), entity.getTitle(), entity.getAddress(),
+                        entity.getPostalCode(), entity.getEmail(), entity.getDepartmentId());
 //            IUMA.changePass(entity.getPwd(), entity.getUserId());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-        FacesMessage msg = new FacesMessage("User Edited", ((UserEntity) event.getObject()).getUserId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        
-        listedUser = IUMA.ListUser();
-        filterdUser = listedUser;
+            FacesMessage msg = new FacesMessage("User Edited", ((UserEntity) event.getObject()).getUserId());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            listedUser = IUMA.ListUser();
+            filterdUser = listedUser;
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     public void onRowCancel(RowEditEvent event) {
@@ -93,14 +99,18 @@ public class UserControlBean {
     }
 
     public void deleteUser(String id) {
-        System.out.println("UserControlBean: deleteUser: " + id);
-        IUMA.DeleteStaff(id);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User deleted successfully! ", ""));
-        listedUser = IUMA.ListUser();
-        filterdUser = listedUser;
-
+        try {
+            System.out.println("UserControlBean: deleteUser: " + id);
+            IUMA.DeleteStaff(id);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User deleted successfully! ", ""));
+            listedUser = IUMA.ListUser();
+            filterdUser = listedUser;
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
-    
+
     public String getDeletedUserId() {
         return deletedUserId;
     }
@@ -162,5 +172,5 @@ public class UserControlBean {
     public void setBirString(String birString) {
         this.birString = birString;
     }
-   
+
 }

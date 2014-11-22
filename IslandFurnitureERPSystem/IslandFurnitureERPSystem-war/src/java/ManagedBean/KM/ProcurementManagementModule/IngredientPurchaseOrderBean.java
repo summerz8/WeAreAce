@@ -243,6 +243,5 @@ public class IngredientPurchaseOrderBean implements Serializable {
     public void viewIngredientPurchaseOrdersToSuppliers(ActionEvent event) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("IPOForIPOSs", selectedIPO);
     }
-    
-    
+
 }

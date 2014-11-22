@@ -54,13 +54,17 @@ public class sentMessageManageBean {
 
     @PostConstruct
     public void init() {
-
-        System.err.println("hello");
-        currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
-        System.err.println("ID:" + currentUserId);
-        sentMessageList = (List<InternalMessageEntity>) im.viewSendMessage(currentUserId);
-        System.err.println("manageBean:receivemessage(): MessageSize:" + sentMessageList.size());
-        //   FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("receiveMessageEntities", sentMessageList);
+        try {
+            System.err.println("hello");
+            currentUserId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("UserId");
+            System.err.println("ID:" + currentUserId);
+            sentMessageList = (List<InternalMessageEntity>) im.viewSendMessage(currentUserId);
+            System.err.println("manageBean:receivemessage(): MessageSize:" + sentMessageList.size());
+            //   FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("receiveMessageEntities", sentMessageList);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
     }
 
     @PreDestroy
@@ -79,26 +83,25 @@ public class sentMessageManageBean {
         System.err.println("go to another page");
 
     }
-    
-        public String displayTime(Calendar calendarTime){ 
-           System.err.println("Calendar Time:" + calendarTime.getTime());
-           SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy HH:mm:ss");
-           String time = sdf.format(calendarTime.getTime()).toString();
-           return time;
+
+    public String displayTime(Calendar calendarTime) {
+        System.err.println("Calendar Time:" + calendarTime.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy HH:mm:ss");
+        String time = sdf.format(calendarTime.getTime()).toString();
+        return time;
     }
 
-       public void deleteMessage(List<InternalMessageEntity> messageList) throws Exception{
-        
-        for( InternalMessageEntity msg : messageList){
+    public void deleteMessage(List<InternalMessageEntity> messageList) throws Exception {
+
+        for (InternalMessageEntity msg : messageList) {
             im.deleteSendMessage(msg.getInternalMessageId());
         }
-        
+
         sentMessageList = (List<InternalMessageEntity>) im.viewSendMessage(currentUserId);
         System.err.println("why did not print out?");
 
-    }    
-    
-        
+    }
+
     public String getCurrentUserId() {
         return currentUserId;
     }
@@ -162,17 +165,15 @@ public class sentMessageManageBean {
     public void setIm(InternalMessageModuleLocal im) {
         this.im = im;
     }
-    
-         public void onRowSelect(SelectEvent event) {
+
+    public void onRowSelect(SelectEvent event) {
         FacesMessage sentmsg = new FacesMessage("Message Selected", String.valueOf(((InternalMessageEntity) event.getObject()).getInternalMessageId()));
         FacesContext.getCurrentInstance().addMessage(null, sentmsg);
     }
- 
+
     public void onRowUnselect(UnselectEvent event) {
         FacesMessage sentmsg = new FacesMessage("Car Unselected", String.valueOf(((InternalMessageEntity) event.getObject()).getInternalMessageId()));
         FacesContext.getCurrentInstance().addMessage(null, sentmsg);
     }
-         
-    
 
 }

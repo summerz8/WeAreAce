@@ -15,12 +15,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yoky
  */
 @Entity
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class IngredientPurchaseOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,14 +32,16 @@ public class IngredientPurchaseOrderEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @XmlTransient
     private List<IngredientItemEntity> purchaseItems = new ArrayList<>();
     private Double total;
     private Double actualTotal;
-    private String status; // Unconfirmed, Confirmed, Cancelled
+    private String status; // Unconfirmed, Confirmed, Cancelled, Received
     @OneToOne
     @JoinColumn(unique = true, nullable = false)
     private IngredientForecastEntity forecast;
     @OneToMany(mappedBy = "ingredientPurchaseOrder")
+    @XmlTransient
     private List<IngredientPurchaseOrderToSupplierEntity> IPOSs = new ArrayList<>();
     private Integer unconfirmedIPOSQuantity;
 

@@ -28,7 +28,7 @@ public interface CustomerWebMemberModuleLocal {
 
     public List<MemberEntity> ListMember();
 
-    public void AddMemberWithPassword(String lastName, String midName, String firstName, Calendar birthday, String gender, String title, String address, String postalCode, String email, String password);
+    public boolean AddMemberWithPassword(String lastName, String midName, String firstName, Calendar birthday, String gender, String title, String address, String postalCode, String email, String password,String web);
 
     public MemberEntity memberLogin(String email, String pwd);
     
@@ -37,5 +37,9 @@ public interface CustomerWebMemberModuleLocal {
     public void removeItem(Long memberId,Long ShoppingCartItemId);
     
     public void createFeedBack(String title, String content, String email,String name);
+    
+    public void changePwd(Long memberId, String pwd);
+    
+    public String resetPass(String userId) ;
     
 }

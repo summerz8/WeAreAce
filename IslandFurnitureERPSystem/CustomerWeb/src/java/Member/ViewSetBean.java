@@ -6,8 +6,8 @@
 package Member;
 
 import Entity.Store.OCRM.CommentEntity;
-import Entity.Store.OCRM.CustomerWebItemEntity;
-import Entity.Store.OCRM.SetEntity;
+import Entity.Store.OCRM.CountryProductEntity;
+import Entity.Store.OCRM.CountrySetEntity;
 import Entity.Store.StoreEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.io.IOException;
@@ -34,11 +34,11 @@ public class ViewSetBean {
     private CustomerWebModuleLocal cwml;
 
     private Long setId;
-    private SetEntity set;
+    private CountrySetEntity set;
     private List<String> pictureList;
-    private List<CustomerWebItemEntity> itemList;
+    private List<CountryProductEntity> itemList;
     private String email;
-    private CustomerWebItemEntity item;
+    private CountryProductEntity item;
     private Integer quantity;
 
     private String name;
@@ -48,13 +48,14 @@ public class ViewSetBean {
     private String selectedRate;
     private List<CommentEntity> allComment;
     private List<CommentEntity> commentList;
-    private Double totalRate;
+    private Double totalRate = 0D;
     private String web;
 
     private String selectedStore;
     private List<SelectItem> storeList;
     private List<StoreEntity> stores;
     private Double stock;
+    private Double save;
 
     public ViewSetBean() {
     }
@@ -62,14 +63,14 @@ public class ViewSetBean {
     @PostConstruct
     public void init() {
         totalRate = 0D;
-
+        save=0D;
         setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("setId");
         System.out.println(setId);
         set = cwml.getSet(setId);
         pictureList = new ArrayList<>();
         pictureList.add(set.getPicture());
         itemList = set.getUnitList();
-        for (CustomerWebItemEntity c : itemList) {
+        for (CountryProductEntity c : itemList) {
             pictureList.add(c.getPicture());
         }
         name = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("FirstName");
@@ -85,12 +86,28 @@ public class ViewSetBean {
         }
 
         int size = commentList.size();
-        for (CommentEntity c : commentList) {
-            if (c.getCountry().equals(web)) {
-                totalRate = totalRate + c.getRate();
+        if (size != 0) {
+            for (CommentEntity c : commentList) {
+                if (c.getCountry().equals(web)) {
+                    totalRate = totalRate + c.getRate();
+                }
             }
+
+            totalRate = totalRate / size;
         }
-        totalRate = totalRate / size;
+     
+        if (name != null) {
+            for (CountryProductEntity c : itemList) {
+                save+=c.getMemberPrice();
+            }
+            save=save-set.getSet().getMemberPrice();
+        }
+        else{
+            for (CountryProductEntity c : itemList) {
+                save+=c.getPrice();
+            }
+            save=save-set.getSet().getPrice();
+        }
 
         typeList = new ArrayList<>();
         typeList.add(new SelectItem("1"));
@@ -117,8 +134,16 @@ public class ViewSetBean {
         if (email == null) {
             return "LoginPage?faces-redirect=true";
         } else {
-            cwml.addToShoppingCart(email, item.getId(), quantity);
+            cwml.addToShoppingCart(email, item.getId(), quantity, "product");
             return "set?faces-redirect=true";
+        }
+    }
+
+    public boolean checkLogIn() {
+        if (name == null) {
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -134,14 +159,11 @@ public class ViewSetBean {
         if (email == null) {
             FacesContext.getCurrentInstance().getExternalContext().redirect("LoginPage.xhtml");
 
-        }
-        quantity = 1;
-        for (CustomerWebItemEntity c : itemList) {
-            item = c;
-            addToShoppingCart();
-        }
+        } else {
+            cwml.addToShoppingCart(email, set.getId(), 1, "set");
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The whole set of furniture has been added to your shopping cart", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The whole set of furniture has been added to your shopping cart", ""));
+        }
     }
 
     public void checkStock(Long itemId) {
@@ -159,7 +181,7 @@ public class ViewSetBean {
         if (web.equals("Singapore")) {
             return "$" + price;
         } else if (web.equals("China")) {
-            return "￥" + fnum.format(price * 6.12);
+            return "￥" + fnum.format(price * 4.8);
         } else {
             return price + "";
         }
@@ -189,11 +211,11 @@ public class ViewSetBean {
         this.setId = setId;
     }
 
-    public SetEntity getSet() {
+    public CountrySetEntity getSet() {
         return set;
     }
 
-    public void setSet(SetEntity set) {
+    public void setSet(CountrySetEntity set) {
         this.set = set;
     }
 
@@ -205,11 +227,11 @@ public class ViewSetBean {
         this.pictureList = pictureList;
     }
 
-    public List<CustomerWebItemEntity> getItemList() {
+    public List<CountryProductEntity> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CustomerWebItemEntity> itemList) {
+    public void setItemList(List<CountryProductEntity> itemList) {
         this.itemList = itemList;
     }
 
@@ -221,11 +243,11 @@ public class ViewSetBean {
         this.email = email;
     }
 
-    public CustomerWebItemEntity getItem() {
+    public CountryProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebItemEntity item) {
+    public void setItem(CountryProductEntity item) {
         this.item = item;
     }
 
@@ -340,5 +362,15 @@ public class ViewSetBean {
     public void setStock(Double stock) {
         this.stock = stock;
     }
+
+    public Double getSave() {
+        return save;
+    }
+
+    public void setSave(Double save) {
+        this.save = save;
+    }
+    
+    
 
 }

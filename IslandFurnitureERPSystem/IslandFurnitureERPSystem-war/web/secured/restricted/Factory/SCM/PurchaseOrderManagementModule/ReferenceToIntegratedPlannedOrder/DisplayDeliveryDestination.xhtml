@@ -130,7 +130,7 @@
                                     <h:outputText value="Country: " />
                                     <h:outputText value="#{selectedDeliveryDestinationForIPO.selectedStore.country}" />
 
-                                    <p:commandButton update="growl" action="#{selectedDeliveryDestinationForIPO.passValue()}" value="Confrim"/>
+                                    <p:commandButton update="messages" action="#{selectedDeliveryDestinationForIPO.passValue()}" value="Confrim"/>
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>
@@ -142,7 +142,7 @@
                         <p:dialog header="Factory Info" widgetVar="factoryDialog" position="center"
                                   showEffect="fade" hideEffect="fade" resizable="true" 
                                   draggable="true" closable="true" width="300">
-                            <p:outputPanel id="storeDetail" style="text-align:center;">
+                            <p:outputPanel id="factoryDetail" style="text-align:center;">
                                 <p:panelGrid  columns="2" columnClasses="label,value">
                                     <h:outputText value="Id:" />
                                     <h:outputText value="#{selectedDeliveryDestinationForIPO.selectedFactory.factoryId}" />

@@ -36,7 +36,12 @@ public class ReturnedItemMovementRecordEntity implements Serializable {
     private StoreWarehouseBinEntity storedWarehouseBin;
     private Long memberId;
     private String type;
-    private String status;
+    private String status; //Processing / Finished
+
+    public ReturnedItemMovementRecordEntity() {
+    }
+    
+    
     
     public Long getId() {
         return id;

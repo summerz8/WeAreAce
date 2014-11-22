@@ -6,7 +6,7 @@
 package ManagedBean.OCRM;
 
 import Entity.Factory.ProductEntity;
-import Entity.Store.OCRM.CustomerWebItemEntity;
+import Entity.Store.OCRM.CountryProductEntity;
 import SessionBean.OCRM.CustomerWebModuleLocal;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +34,7 @@ public class EditItem {
     @EJB
     CustomerWebModuleLocal cwml;
     private Long itemId;
-    private CustomerWebItemEntity item;
+    private CountryProductEntity item;
     private String description;
     private ProductEntity product;
     private Long productId;
@@ -99,7 +99,7 @@ public class EditItem {
 
         System.out.println(name);
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -122,7 +122,7 @@ public class EditItem {
             }
         }
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -166,11 +166,11 @@ public class EditItem {
         this.itemId = itemId;
     }
 
-    public CustomerWebItemEntity getItem() {
+    public CountryProductEntity getItem() {
         return item;
     }
 
-    public void setItem(CustomerWebItemEntity item) {
+    public void setItem(CountryProductEntity item) {
         this.item = item;
     }
 

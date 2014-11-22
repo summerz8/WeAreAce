@@ -5,6 +5,7 @@
  */
 package SessionBean.OCRM;
 
+import Entity.CommonInfrastructure.UserEntity;
 import Entity.Store.OCRM.FeedbackEntity;
 import Entity.Store.OCRM.MemberEntity;
 import Entity.Store.OCRM.MembershipLevelEntity;
@@ -140,23 +141,29 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
 
     @Override
     @WebMethod(exclude = true)
-    public void AddMemberWithPassword(String lastName, String midName,
+    public boolean AddMemberWithPassword(String lastName, String midName,
             String firstName, Calendar birthday, String gender,
-            String title, String address, String postalCode, String email, String PWD) {
+            String title, String address, String postalCode, String email, String PWD, String web) {
         System.out.println("MemberRegistrationModule: addMember():");
-
+        List<MemberEntity> memberList = ListMember();
+        for (MemberEntity m : memberList) {
+            if (m.getEmail().equals(email)) {
+                return false;
+            }
+        }
         MemberEntity member;
 
         String hashedpwd = cryptographicHelper.doMD5Hashing(PWD);
 
-        member = new MemberEntity(PWD, lastName, midName, firstName,
+        member = new MemberEntity(hashedpwd, lastName, midName, firstName,
                 birthday, gender, title, address, postalCode,
                 email, Boolean.FALSE);
-
+        member.setCountry(web);
         member.setMemberlvl(em.find(MembershipLevelEntity.class, 1));
         em.persist(member);
         System.out.println("New Member created!");
         em.flush();
+        return true;
 
     }
 
@@ -221,11 +228,42 @@ public class CustomerWebMemberModule implements CustomerWebMemberModuleLocal {
     }
 
     @Override
-    public void createFeedBack(String title, String content, String email, String name){
-        FeedbackEntity feedback=new FeedbackEntity(title,content,email,name);
+    public void createFeedBack(String title, String content, String email, String name) {
+        FeedbackEntity feedback = new FeedbackEntity(title, content, email, name);
         em.persist(feedback);
         em.flush();
+
+    }
+
+    @Override
+    public void changePwd(Long memberId, String pwd) {
+        MemberEntity member = em.find(MemberEntity.class, memberId);
+        member.setPwd(pwd);
+    }
     
+    @Override
+    public String resetPass(String email) {
+        System.out.println("InternalUserAccountModule: change password: ");
+        String newPass;
+        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 8; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+
+        newPass = sb.toString();
+        System.out.println("IMPORTANT!!!: IUAM: New password before hashing: " + newPass + " Just for check!");
+        MemberEntity user = getMember(email);
+        if (user != null) {
+            user.setPwd(cryptographicHelper.doMD5Hashing(newPass + user.getEmail()));
+            em.persist(user);
+            em.flush();
+            return newPass;
+        } else {
+            return "error";
+        }
     }
 
 }

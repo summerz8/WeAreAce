@@ -24,12 +24,11 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "retailProductPurchasePlanView")
 @ViewScoped
-public class RetailProductPurchasePlan{
+public class RetailProductPurchasePlan {
 
     /**
      * Creates a new instance of PlannedOrderList
      */
-    
     private List<IntegratedPlannedOrderEntity> retailProductPurchasePlan;
     private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanUnconfirmed;
     private List<IntegratedPlannedOrderEntity> retialProductPurchasePlanConfirmed;
@@ -41,33 +40,33 @@ public class RetailProductPurchasePlan{
     private String department;
     private Long retailProductPurchasePlanId;
     private Double amount;
-    
+
     @EJB
     private RetailProductPurchasePlanModuleLocal RPPP;
     @EJB
     SalesForecastModuleLocal sfml;
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         id = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departmentId");
         department = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("department");
-        integratedSalesForecastList = sfml.getIntegrateSalesForecastList(id,null, null);
-        while (!integratedSalesForecastList.isEmpty() ) {
+        integratedSalesForecastList = sfml.getIntegrateSalesForecastList(id, null, null);
+        while (!integratedSalesForecastList.isEmpty()) {
             if (integratedSalesForecastList.get(0).getFactoryProduct() == null && !RPPP.findIntegratedSalesForecast(integratedSalesForecastList.get(0).getId())) {
                 factoryRetailProduct.add(integratedSalesForecastList.get(0));
-            } 
+            }
             integratedSalesForecastList.remove(0);
         }
-        
-        retailProductPurchasePlan = RPPP.getRetailProductPurchasePlan(id,department);
-        retialProductPurchasePlanUnconfirmed = RPPP.getRetailProductPurchasePlanUnconfirmed(id,department);
-        retialProductPurchasePlanConfirmed = RPPP.getRetailProductPurchasePlanConfirmed(id,department);
-        retialProductPurchasePlanCancelled = RPPP.getRetailProductPurchasePlanCancelled(id,department);
+
+        retailProductPurchasePlan = RPPP.getRetailProductPurchasePlan(id, department);
+        retialProductPurchasePlanUnconfirmed = RPPP.getRetailProductPurchasePlanUnconfirmed(id, department);
+        retialProductPurchasePlanConfirmed = RPPP.getRetailProductPurchasePlanConfirmed(id, department);
+        retialProductPurchasePlanCancelled = RPPP.getRetailProductPurchasePlanCancelled(id, department);
     }
-    
-    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan(){
+
+    public List<IntegratedPlannedOrderEntity> getRetailProductPurchasePlan() {
         return retailProductPurchasePlan;
-    } 
+    }
 
     public List<IntegratedPlannedOrderEntity> getRetialProductPurchasePlanUnconfirmed() {
         return retialProductPurchasePlanUnconfirmed;
@@ -83,7 +82,7 @@ public class RetailProductPurchasePlan{
 
     public Long getIntegratedSalesForecastId() {
         return integratedSalesForecastId;
-    }   
+    }
 
     public Long getId() {
         return id;
@@ -148,8 +147,6 @@ public class RetailProductPurchasePlan{
     public void setSfml(SalesForecastModuleLocal sfml) {
         this.sfml = sfml;
     }
-    
-    
 
     public void setRetailProductPurchasePlan(List<IntegratedPlannedOrderEntity> retailProductPurchasePlan) {
         this.retailProductPurchasePlan = retailProductPurchasePlan;
@@ -171,32 +168,56 @@ public class RetailProductPurchasePlan{
         this.integratedSalesForecastId = integratedSalesForecastId;
     }
 
-    public String create(Long id){
-        if(RPPP.findIntegratedSalesForecast(id))
-            return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanFalse?faces-redirect=true";
-        Long factoryRetailProductId = RPPP.getFactoryRetailProductId(id);     
-        RPPP.generateRetailProductPurchasePlan(id, factoryRetailProductId);
-        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+    public String create(Long id) {
+        try {
+            if (RPPP.findIntegratedSalesForecast(id)) {
+                return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanFalse?faces-redirect=true";
+            }
+            Long factoryRetailProductId = RPPP.getFactoryRetailProductId(id);
+            RPPP.generateRetailProductPurchasePlan(id, factoryRetailProductId);
+            return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
-    
-    public String confirm(Long id){
-        RPPP.editRetailProductPurchasePlan(id, "status", "waiting");     
-        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+
+    public String confirm(Long id) {
+        try {
+            RPPP.editRetailProductPurchasePlan(id, "status", "waiting");
+            return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
-    
-    public String cancel(Long id){
-        RPPP.editRetailProductPurchasePlan(id, "status", "cancelled"); 
-        return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+
+    public String cancel(Long id) {
+        try {
+            RPPP.editRetailProductPurchasePlan(id, "status", "cancelled");
+            return "/secured/restricted/Factory/MRP/RetailProductPurchasePlan/MRPRetailProductPurchasePlanUnconfirmed?faces-redirect=true";
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+            return null;
+        }
     }
-    
+
     public void saveId(Long id) {
-        retailProductPurchasePlanId = id;
-        RPPP.editRetailProductPurchasePlan(retailProductPurchasePlanId, "amount", amount);
-    }   
-    
+        try {
+            retailProductPurchasePlanId = id;
+            RPPP.editRetailProductPurchasePlan(retailProductPurchasePlanId, "amount", amount);
+        } catch (Exception ex) {
+            System.err.println("Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
+    }
+
     public void amountChanged(ValueChangeEvent event) {
         Object newValue = event.getNewValue();
         amount = (Double) newValue;
     }
-    
+
 }
