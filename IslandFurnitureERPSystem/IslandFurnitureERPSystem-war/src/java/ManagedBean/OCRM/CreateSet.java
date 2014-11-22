@@ -82,7 +82,7 @@ public class CreateSet {
 
         System.out.println(name);
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -105,7 +105,7 @@ public class CreateSet {
             }
         }
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 

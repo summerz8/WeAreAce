@@ -76,7 +76,7 @@ public class CreateItem {
         String[] fileNameParts = event.getFile().getFileName().split("\\.");
         name = fileNameParts[0] + "." + fileNameParts[1];
         System.out.println(name);
-        path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
         System.out.println("path is " + path);
         File result2 = new File(path);
         InputStream is2;
@@ -96,7 +96,7 @@ public class CreateItem {
                 out.flush();
             }
         }
-        String path000 = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/resources/" + name;
+        String path000 = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/IslandFurnitureERPSystem-ejb/resources/images/" + name;
         System.out.println("path is " + path000);
         File result3 = new File(path000);
         InputStream is3;

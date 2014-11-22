@@ -68,7 +68,7 @@ public class SurpriseQRModule implements SurpriseQRModuleLocal {
     }
 //
     private String generateQRCodeImage(String QR, String fileName) {
-        String path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/QR/QRCode" + fileName+QR + ".png";
+        String path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/QR/QRCode" + fileName+QR + ".png";
         File qrCodeFile = new File(path);
 
         EncodeConfig encodeConfig

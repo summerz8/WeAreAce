@@ -7,8 +7,8 @@ package SessionBean.OCRM;
 
 import Entity.CommonInfrastructure.StoreUserEntity;
 import Entity.Store.OCRM.MemberEntity;
-import Entity.Store.OCRM.MembershipLevelEntity;
 import Entity.Store.OCRM.PickupListEntity;
+import Entity.Store.OCRM.SalesRecordEntity;
 import Entity.Store.OCRM.TransactionEntity;
 import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
@@ -25,6 +25,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -270,18 +271,18 @@ public class TransactionModule implements TransactionModuleLocal {
                     temp.add(ti);
                 }
             } else if (mapping.getProductId() == null && mapping.getRetailProductId() == null) {
-                Long storeProductId = mapping.getProductId();
-                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
-                if (storeProduct.getSelfPick()) {
-                    ti.setPickupList(pickupList);
-                    em.persist(ti);
-                    em.flush();
-                    temp.add(ti);
-                }
-                pickupList.setTransactoinItems(temp);
-                em.persist(pickupList);
+//                Long storeProductId = mapping.getProductId();
+//                StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
+//                if (storeProduct.getSelfPick()) {
+                ti.setPickupList(pickupList);
+                em.persist(ti);
                 em.flush();
-//=======
+                temp.add(ti);
+            }
+            pickupList.setTransactoinItems(temp);
+            em.persist(pickupList);
+            em.flush();
+
 //            Long storeProductId = mapping.getProductId();
 //            StoreProductEntity storeProduct = em.find(StoreProductEntity.class, storeProductId);
 //            if (storeProduct.getSelfPick()) {
@@ -290,7 +291,7 @@ public class TransactionModule implements TransactionModuleLocal {
 //                em.flush();
 //                temp.add(ti);
 //>>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-            }
+//            }
         }
     }
 
@@ -383,10 +384,12 @@ public class TransactionModule implements TransactionModuleLocal {
     @WebMethod(operationName = "checkItemType")
     public int checkItemType(Long itemId) {
         StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
-        if (mapping.getProductId() != null) {
+        if (mapping.getRetailProductId() == null && mapping.getStoreSetId() == null) {
             return 1;
-        } else {
+        } else if (mapping.getStoreSetId() == null && mapping.getProductId() == null) {
             return 2;
+        } else {
+            return 3;
         }
     }
 
@@ -398,13 +401,46 @@ public class TransactionModule implements TransactionModuleLocal {
             Long itemId = ti.getItemId();
             Double amount = Double.parseDouble(String.valueOf(ti.getAmount()));
             StoreItemMappingEntity mapping = em.find(StoreItemMappingEntity.class, itemId);
+            Calendar today = Calendar.getInstance();
+
+            Query q = em.createQuery("SELECT t FROM SalesRecordEntity t");
+            List<SalesRecordEntity> salesRecordList = (List<SalesRecordEntity>) q.getResultList();
             if (mapping.getProductId() == null && mapping.getStoreSetId() == null) {
+
                 Long retailProductId = mapping.getRetailProductId();
                 StoreRetailProductEntity retailProduct = em.find(StoreRetailProductEntity.class, retailProductId);
                 retailProduct.setOnairInventory(retailProduct.getOnairInventory() - amount);
                 retailProduct.setUnrestrictedInventory(retailProduct.getUnrestrictedInventory() - amount);
                 em.persist(retailProduct);
                 em.flush();
+
+                boolean exist = false;
+                for (SalesRecordEntity s : salesRecordList) {
+                    if (s.getStoreRetailProduct() != null) {
+                        if (s.getStoreRetailProduct().getStoreRetailProductId().equals(retailProductId) && s.getRecordPeriod().get(Calendar.YEAR) == today.get(Calendar.YEAR) && s.getRecordPeriod().get(Calendar.MONTH) == (today.get(Calendar.MONTH))) {
+                            s.setAmount(s.getAmount() + amount);
+                            s.setRevenue((s.getAmount() + amount * retailProduct.getRetailProduct().getPrice()));
+                            exist = true;
+                            break;
+                        }
+
+                    }
+                    em.flush();
+                }
+
+                if (exist == false) {
+                    SalesRecordEntity newSalesRecord = new SalesRecordEntity();
+                    newSalesRecord.setStore(retailProduct.getStore());
+                    newSalesRecord.setAmount(amount);
+                    newSalesRecord.setRecordPeriod(today);
+                    newSalesRecord.setRevenue(amount * retailProduct.getRetailProduct().getPrice());
+                    newSalesRecord.setStoreRetailProduct(retailProduct);
+                    em.persist(newSalesRecord);
+                    em.flush();
+                    retailProduct.getSalesRecordList().add(newSalesRecord);
+                    em.flush();
+                }
+
             } else if (mapping.getStoreSetId() == null && mapping.getRetailProductId() == null) {
                 Long productId = mapping.getProductId();
                 StoreProductEntity product = em.find(StoreProductEntity.class, productId);
@@ -413,19 +449,91 @@ public class TransactionModule implements TransactionModuleLocal {
                     product.setUnrestrictedInventory(product.getUnrestrictedInventory() - amount);
                     em.persist(product);
                     em.flush();
+                } else {
+                    product.setUnrestrictedInventory(product.getUnrestrictedInventory() - amount);
+                    em.persist(product);
+                    em.flush();
+                }
+                boolean exist = false;
+                for (SalesRecordEntity s : salesRecordList) {
+                    if (s.getStoreProduct() != null) {
+                        if (s.getStoreProduct().getStoreProductId().equals(productId) && s.getRecordPeriod().get(Calendar.YEAR) == today.get(Calendar.YEAR) && s.getRecordPeriod().get(Calendar.MONTH) == (today.get(Calendar.MONTH))) {
+                            s.setAmount(s.getAmount() + amount);
+                            s.setRevenue(s.getRevenue() + amount * product.getProduct().getPrice());
+                            exist = true;
+                        }
+
+                    }
+                    em.flush();
+                }
+
+                if (exist == false) {
+                    SalesRecordEntity newSalesRecord = new SalesRecordEntity();
+                    newSalesRecord.setStore(product.getStore());
+                    newSalesRecord.setAmount(amount);
+                    newSalesRecord.setRecordPeriod(today);
+                    newSalesRecord.setRevenue(amount * product.getProduct().getPrice());
+                    newSalesRecord.setStoreProduct(product);
+                    em.persist(newSalesRecord);
+                    em.flush();
+                    product.getSalesRecordList().add(newSalesRecord);
+                    em.flush();
+
+                }
+                // }
+            } else {
+                // StoreSetEntity storeSet = ;
+                for (StoreProductEntity sp : (em.find(StoreSetEntity.class, mapping.getStoreSetId())).getStoreProductList()) {
+                    //sp.setOnairInventory(sp.getOnairInventory() - amount);
+                    sp.setUnrestrictedInventory(sp.getUnrestrictedInventory() - amount);
+                    // em.persist(sp);
+                    em.flush();
+
+                    boolean exist = false;
+                    for (SalesRecordEntity s : salesRecordList) {
+                        if (s.getStoreProduct() != null) {
+                            if (s.getStoreProduct().getStoreProductId().equals(sp.getStoreProductId()) && s.getRecordPeriod().get(Calendar.YEAR) == today.get(Calendar.YEAR) && s.getRecordPeriod().get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
+                                s.setAmount(s.getAmount() + amount);
+                                s.setRevenue(s.getRevenue() + sp.getProduct().getPrice() * amount);
+                                exist = true;
+                            }
+
+                        }
+                        em.flush();
+                    }
+
+                    if (exist == false) {
+                        SalesRecordEntity newSalesRecord = new SalesRecordEntity();
+                        newSalesRecord.setStore(sp.getStore());
+                        newSalesRecord.setAmount(amount);
+                        newSalesRecord.setRecordPeriod(today);
+                        newSalesRecord.setRevenue(amount * sp.getProduct().getPrice());
+                        newSalesRecord.setStoreProduct(sp);
+                        em.persist(newSalesRecord);
+                        em.flush();
+                        sp.getSalesRecordList().add(newSalesRecord);
+                        em.flush();
+
+                    }
+
                 }
             }
         }
     }
-//    
-//    public void upDateSalesRecord(Calendar generateTime,Long itemId, int amount, Double totalprice){
-//        List<SalesRecord> salesRecordEntityList=new ArrayList<>();
-//        Query q = em.createQuery("SELECT s FROM SalesRecord s");
-//        salesRecordEntityList= (List<SalesRecord>) q.getResultList();
-//        for(SalesRecord s:salesRecordEntityList){
-//            if(s)
+
+//    public void UpdateSalesRecord(Calendar generateTime,Long transactionId, int amount, Double totalprice){
+//        List<SalesRecordEntity> salesRecordEntityList=new ArrayList<>();
+//        Query q = em.createQuery("SELECT s FROM SalesRecordEntity s");
+//        salesRecordEntityList= (List<SalesRecordEntity>) q.getResultList();
+//        TransactionEntity transaction = em.find(TransactionEntity.class, transactionId);
+//        List<TransactionItemEntity> transactionList = transaction.getTransactionItemList();
+//        for(TransactionItemEntity tie: transactionList){
+//        for(SalesRecordEntity s:salesRecordEntityList){
+//            if(s.getStore().getStoreId().equals(transaction.getStore().getStoreId())&&){
+//            
+//            }
 //        
 //        }
+//        }
 //    }
-    
 }
