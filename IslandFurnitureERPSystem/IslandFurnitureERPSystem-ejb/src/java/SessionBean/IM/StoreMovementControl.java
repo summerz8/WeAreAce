@@ -64,12 +64,18 @@ public class StoreMovementControl implements StoreMovementControlLocal {
     public List<PurchaseOrderEntity> viewIncomingGoodsFromSupplier(Long storeId){
         List<PurchaseOrderEntity> result = new ArrayList<PurchaseOrderEntity> ();
        StoreEntity store = em.find(StoreEntity.class, storeId);
+       
+       System.out.println("StoreId " + storeId);
        Query q = em.createQuery("Select poe From PurchaseOrderEntity poe where poe.isToStore = true and poe.status = :cStatus and  poe.destinationId = :storeCode");
        q.setParameter("storeCode", storeId);
        q.setParameter("cStatus","confirmed");
+       
+       System.out.println("ResultList:  " + q.getResultList().toString());
        for (Object o : q.getResultList()){
              PurchaseOrderEntity poe = (PurchaseOrderEntity) o;
              result.add(poe);
+             
+             System.out.println("Purchase Order to Store: " + poe.toString());
          }
        
        System.out.println("SESSION BEAN: viewIncomingGoodsFromSupplier: size " + result.size());

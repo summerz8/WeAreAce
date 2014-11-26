@@ -124,7 +124,7 @@ public class dataSetUp {
         IdNumberEntity id = new IdNumberEntity();
         id.setId_F(1000003L);
         id.setId_H(1000001L);
-        id.setId_S(1000002L);
+        id.setId_S(1000004L);
         em.persist(id);
         em.flush();
 
@@ -144,11 +144,12 @@ public class dataSetUp {
         em.flush();
 
         //Factory
-        FactoryEntity f2 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
-        em.persist(f2);
-        em.flush();
         FactoryEntity f1 = new FactoryEntity("China", "Guang Zhou Chongqing Lu 142523", "+86 8888-4532", "F1000002", false);
         em.persist(f1);
+        em.flush();
+
+        FactoryEntity f2 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
+        em.persist(f2);
         em.flush();
 
         //Factory Bin
@@ -200,7 +201,7 @@ public class dataSetUp {
         //FactoryUser(f1)
         UserEntity u2 = new FactoryUserEntity("F", "1000002", 3, "Zhang", null,
                 "Yaowen", "Factory SCM Staff", birthday, "Female",
-                "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123" + "F1000002"), false);
+                "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123" + "F1000002"), false);
         em.persist(u2);
         em.flush();
 
@@ -236,13 +237,13 @@ public class dataSetUp {
         //StoreUser(s2)
         StoreUserEntity u4 = new StoreUserEntity("S", "1000002", 2, "He", null,
                 "Jinqiao", "Store Manager", birthday, "Male",
-                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123" + "S1000002"), false);
+                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s2.getStoreId(), cryptographicHelper.doMD5Hashing("123" + "S1000002"), false);
         em.persist(u4);
         em.flush();
 
         //StoreUser Casher 
         StoreUserEntity casher1 = new StoreUserEntity("S", "1000003", 2, "He", null,
-                "Jinqiao", "Store Manager", birthday, "Male",
+                "Jinqiao", "Store Caher", birthday, "Male",
                 "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123" + "S1000003"), false);
         casher1.setIsCasher(true);
         casher1.setBeginCash(1000D);
@@ -251,7 +252,7 @@ public class dataSetUp {
         em.flush();
 
         StoreUserEntity casher2 = new StoreUserEntity("S", "1000004", 2, "Zhang", null,
-                "Yaowen", "Store Manager", birthday, "Female",
+                "Yaowen", "Store Casher", birthday, "Female",
                 "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123" + "S1000004"), false);
         casher2.setIsCasher(true);
         casher1.setBeginCash(4000D);
@@ -297,34 +298,15 @@ public class dataSetUp {
         em.flush();
 
         //Product
-        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1480.0, "set", false);
-        em.persist(p1);
-        em.flush();
-        ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, 480.0, "set", false);
-        em.persist(p2);
-        em.flush();
-        ProductEntity p3 = new ProductEntity("Coffee Table", "Coffee table, high gloss black", 199.0, 180.0, "one", false);
-        em.persist(p3);
-        em.flush();
-        ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, 55.0, "set", false);
-        em.persist(p4);
-        em.flush();
-        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 870.0, "one", false);
-        em.persist(p5);
-        em.flush();
-        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
-        em.persist(p6);
-        em.flush();
-
-        ProductEntity p7 = new ProductEntity("Bed", "Wooden bed, Queen Size, light yellow", 600.0, 580.0, "one", false);
+        ProductEntity p7 = new ProductEntity("Medi Single Bed", "Wooden bed, Single Size, light yellow", 600.0, 580.0, "one", false);
         em.persist(p7);
         em.flush();
 
-        ProductEntity p8 = new ProductEntity("Bedside", "Wooden bedside, 2 drawers, light yellow", 200.0, 180.0, "one", false);
+        ProductEntity p8 = new ProductEntity("Light Bedside", "Wooden bedside, 2 drawers, light yellow", 200.0, 180.0, "one", false);
         em.persist(p8);
         em.flush();
 
-        ProductEntity p9 = new ProductEntity("Closet", "Wooden closet, 200mm X 170mm,  light yellow", 500.0, 480.0, "one", false);
+        ProductEntity p9 = new ProductEntity("Small Closet", "Wooden closet, 200mm X 170mm,  light yellow", 500.0, 480.0, "one", false);
         em.persist(p9);
         em.flush();
 
@@ -423,7 +405,7 @@ public class dataSetUp {
         p12.getFactoryProducts().add(fp1_3);
         em.flush();
 
-        FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p13);
+        FactoryProductEntity fp1_4 = new FactoryProductEntity(p13.getUnit(), f1, p13);
         em.persist(fp1_4);
         f1.getFactoryProducts().add(fp1_4);
         p13.getFactoryProducts().add(fp1_4);
@@ -436,40 +418,57 @@ public class dataSetUp {
         p14.getFactoryProducts().add(fp1_5);
         em.flush();
 
-        FactoryProductEntity fp1_6 = new FactoryProductEntity(p7.getUnit(), f1, p15);
+        FactoryProductEntity fp1_6 = new FactoryProductEntity(p15.getUnit(), f1, p15);
         em.persist(fp1_6);
         em.flush();
         f1.getFactoryProducts().add(fp1_6);
         p15.getFactoryProducts().add(fp1_6);
         em.flush();
 
-        FactoryProductEntity fp2_1 = new FactoryProductEntity(p17.getUnit(), f2, p17);
-        em.persist(fp2_1);
-        em.flush();
-        f2.getFactoryProducts().add(fp2_1);
-        p17.getFactoryProducts().add(fp2_1);
-        em.flush();
-
-        //for f2
-        FactoryProductEntity fp2_2 = new FactoryProductEntity(p18.getUnit(), f2, p18);
-        em.persist(fp2_2);
-        em.flush();
-        f2.getFactoryProducts().add(fp2_2);
-        p18.getFactoryProducts().add(fp2_2);
-
-        FactoryProductEntity fp2_3 = new FactoryProductEntity(p19.getUnit(), f2, p19);
-        em.persist(fp2_3);
-        em.flush();
-        f2.getFactoryProducts().add(fp2_3);
-        p19.getFactoryProducts().add(fp2_3);
+        FactoryProductEntity fp2_7 = new FactoryProductEntity(p16.getUnit(), f2, p16);
+        em.persist(fp2_7);
+        f1.getFactoryProducts().add(fp2_7);
+        p11.getFactoryProducts().add(fp2_7);
         em.flush();
 
-        FactoryProductEntity fp2_4 = new FactoryProductEntity(p16.getUnit(), f2, p16);
-        em.persist(fp2_4);
+        FactoryProductEntity fp2_8 = new FactoryProductEntity(p17.getUnit(), f2, p17);
+        em.persist(fp2_8);
+        f1.getFactoryProducts().add(fp2_8);
+        p12.getFactoryProducts().add(fp2_8);
         em.flush();
-        f2.getFactoryProducts().add(fp2_4);
-        p16.getFactoryProducts().add(fp2_4);
+
+        FactoryProductEntity fp2_9 = new FactoryProductEntity(p18.getUnit(), f2, p18);
+        em.persist(fp2_9);
+        f1.getFactoryProducts().add(fp2_9);
+        p13.getFactoryProducts().add(fp2_9);
         em.flush();
+
+        FactoryProductEntity fp2_10 = new FactoryProductEntity(p19.getUnit(), f2, p19);
+        em.persist(fp2_10);
+        em.flush();
+        f1.getFactoryProducts().add(fp2_10);
+        p14.getFactoryProducts().add(fp2_10);
+        em.flush();
+
+        FactoryProductEntity fp1_11 = new FactoryProductEntity(p7.getUnit(), f1, p7);
+        em.persist(fp1_11);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_11);
+        p15.getFactoryProducts().add(fp1_11);
+        em.flush();
+
+        FactoryProductEntity fp1_12 = new FactoryProductEntity(p8.getUnit(), f1, p8);
+        em.persist(fp1_12);
+        em.flush();
+        f2.getFactoryProducts().add(fp1_12);
+        p17.getFactoryProducts().add(fp1_12);
+        em.flush();
+
+        FactoryProductEntity fp1_13 = new FactoryProductEntity(p9.getUnit(), f1, p9);
+        em.persist(fp1_13);
+        em.flush();
+        f2.getFactoryProducts().add(fp1_13);
+        p18.getFactoryProducts().add(fp1_13);
 
         //Factory Retail Product
         //for f1
@@ -514,9 +513,15 @@ public class dataSetUp {
 
         //StoreProduct      /* Further Modification*/
         //for s1
-        //s1.storeProduct
+        //s1.storeProduct      
         StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, Boolean.TRUE, "good", p10);
         em.persist(sp1_1);
+        em.flush();
+        StoreItemMappingEntity mapping1 = new StoreItemMappingEntity();
+        mapping1.setProductId(sp1_1.getStoreProductId());
+        mapping1.setId(233523352L);
+        em.persist(mapping1);
+        em.flush();
         fp1_1.getStoreProducts().add(sp1_1);
         s1.getStoreProducts().add(sp1_1);
         p10.getStoreProducts().add(sp1_1);
@@ -524,6 +529,12 @@ public class dataSetUp {
 
         StoreProductEntity sp1_2 = new StoreProductEntity(fp1_2, s1, Boolean.FALSE, "good", p11);
         em.persist(sp1_2);
+        em.flush();
+        StoreItemMappingEntity mapping2 = new StoreItemMappingEntity();
+        mapping2.setProductId(sp1_2.getStoreProductId());
+        mapping2.setId(987654321L);
+        em.persist(mapping2);
+        em.flush();
         fp1_2.getStoreProducts().add(sp1_2);
         s1.getStoreProducts().add(sp1_2);
         p11.getStoreProducts().add(sp1_2);
@@ -531,13 +542,25 @@ public class dataSetUp {
 
         StoreProductEntity sp1_3 = new StoreProductEntity(fp1_3, s1, Boolean.FALSE, "good", p12);
         em.persist(sp1_3);
+        em.flush();
+        StoreItemMappingEntity mapping3 = new StoreItemMappingEntity();
+        mapping3.setProductId(sp1_3.getStoreProductId());
+        mapping3.setId(876543210L);
+        em.persist(mapping3);
+        em.flush();
         fp1_3.getStoreProducts().add(sp1_3);
         s1.getStoreProducts().add(sp1_3);
         p12.getStoreProducts().add(sp1_3);
         em.flush();
 
-        StoreProductEntity sp1_4 = new StoreProductEntity(fp1_4, s1, Boolean.FALSE, "good", p13);
+        StoreProductEntity sp1_4 = new StoreProductEntity(fp1_4, s1, Boolean.TRUE, "good", p13);
         em.persist(sp1_4);
+        em.flush();
+        StoreItemMappingEntity mapping4 = new StoreItemMappingEntity();
+        mapping4.setProductId(sp1_4.getStoreProductId());
+        mapping4.setId(372845627L);
+        em.persist(mapping4);
+        em.flush();
         fp1_4.getStoreProducts().add(sp1_4);
         s1.getStoreProducts().add(sp1_4);
         p13.getStoreProducts().add(sp1_4);
@@ -545,6 +568,12 @@ public class dataSetUp {
 
         StoreProductEntity sp1_5 = new StoreProductEntity(fp1_5, s1, Boolean.FALSE, "good", p14);
         em.persist(sp1_5);
+        em.flush();
+        StoreItemMappingEntity mapping5 = new StoreItemMappingEntity();
+        mapping5.setProductId(sp1_5.getStoreProductId());
+        mapping5.setId(847562718L);
+        em.persist(mapping5);
+        em.flush();
         fp1_5.getStoreProducts().add(sp1_5);
         s1.getStoreProducts().add(sp1_5);
         p14.getStoreProducts().add(sp1_5);
@@ -552,20 +581,130 @@ public class dataSetUp {
 
         StoreProductEntity sp1_6 = new StoreProductEntity(fp1_6, s1, Boolean.FALSE, "good", p15);
         em.persist(sp1_6);
+        em.flush();
+        StoreItemMappingEntity mapping6 = new StoreItemMappingEntity();
+        mapping6.setProductId(sp1_6.getStoreProductId());
+//        mapping6.setId(847562718L);
+        em.persist(mapping6);
+        em.flush();
         fp1_6.getStoreProducts().add(sp1_6);
         s1.getStoreProducts().add(sp1_6);
         p15.getStoreProducts().add(sp1_6);
         em.flush();
 
+        StoreProductEntity sp1_7 = new StoreProductEntity(fp2_7, s1, Boolean.FALSE, "good", p16);
+        em.persist(sp1_7);
+        em.flush();
+        StoreItemMappingEntity mapping7 = new StoreItemMappingEntity();
+        mapping7.setProductId(sp1_7.getStoreProductId());
+//        mapping1.setId(233523352L);
+        em.persist(mapping7);
+        em.flush();
+        fp2_7.getStoreProducts().add(sp1_7);
+        s1.getStoreProducts().add(sp1_7);
+        p16.getStoreProducts().add(sp1_7);
+        em.flush();
+
+        StoreProductEntity sp1_8 = new StoreProductEntity(fp2_8, s1, Boolean.FALSE, "good", p17);
+        em.persist(sp1_8);
+        em.flush();
+        StoreItemMappingEntity mapping8 = new StoreItemMappingEntity();
+        mapping8.setProductId(sp1_8.getStoreProductId());
+//        mapping1.setId(233523352L);
+        em.persist(mapping8);
+        em.flush();
+        fp2_8.getStoreProducts().add(sp1_8);
+        s1.getStoreProducts().add(sp1_8);
+        p17.getStoreProducts().add(sp1_8);
+        em.flush();
+
+        StoreProductEntity sp1_9 = new StoreProductEntity(fp2_9, s1, Boolean.FALSE, "good", p18);
+        em.persist(sp1_9);
+        em.flush();
+        StoreItemMappingEntity mapping9 = new StoreItemMappingEntity();
+        mapping9.setProductId(sp1_9.getStoreProductId());
+//        mapping1.setId(233523352L);
+        em.persist(mapping9);
+        em.flush();
+        fp2_9.getStoreProducts().add(sp1_9);
+        s1.getStoreProducts().add(sp1_9);
+        p18.getStoreProducts().add(sp1_9);
+        em.flush();
+
+        StoreProductEntity sp1_10 = new StoreProductEntity(fp2_10, s1, Boolean.FALSE, "good", p19);
+        em.persist(sp1_10);
+        em.flush();
+        StoreItemMappingEntity mapping10 = new StoreItemMappingEntity();
+        mapping10.setProductId(sp1_10.getStoreProductId());
+//        mapping10.setId(233523352L);
+        em.persist(mapping10);
+        em.flush();
+        fp2_10.getStoreProducts().add(sp1_10);
+        s1.getStoreProducts().add(sp1_10);
+        p19.getStoreProducts().add(sp1_10);
+        em.flush();
+
+        StoreProductEntity sp1_11 = new StoreProductEntity(fp1_11, s1, Boolean.FALSE, "good", p7);
+        em.persist(sp1_11);
+        em.flush();
+        StoreItemMappingEntity mapping11 = new StoreItemMappingEntity();
+        mapping11.setProductId(sp1_11.getStoreProductId());
+//        mapping11.setId(233523352L);
+        em.persist(mapping11);
+        em.flush();
+        fp1_11.getStoreProducts().add(sp1_11);
+        s1.getStoreProducts().add(sp1_11);
+        p7.getStoreProducts().add(sp1_11);
+        em.flush();
+
+        StoreProductEntity sp1_12 = new StoreProductEntity(fp1_12, s1, Boolean.FALSE, "good", p8);
+        em.persist(sp1_12);
+        em.flush();
+        StoreItemMappingEntity mapping12 = new StoreItemMappingEntity();
+        mapping12.setProductId(sp1_12.getStoreProductId());
+//        mapping12.setId(233523352L);
+        em.persist(mapping12);
+        em.flush();
+        fp1_12.getStoreProducts().add(sp1_12);
+        s1.getStoreProducts().add(sp1_12);
+        p8.getStoreProducts().add(sp1_12);
+        em.flush();
+
+        StoreProductEntity sp1_13 = new StoreProductEntity(fp1_13, s1, Boolean.FALSE, "good", p9);
+        em.persist(sp1_13);
+        em.flush();
+        StoreItemMappingEntity mapping13 = new StoreItemMappingEntity();
+        mapping13.setProductId(sp1_13.getStoreProductId());
+//        mapping13.setId(233523352L);
+        em.persist(mapping13);
+        em.flush();
+        fp1_11.getStoreProducts().add(sp1_13);
+        s1.getStoreProducts().add(sp1_13);
+        p9.getStoreProducts().add(sp1_13);
+        em.flush();
+
         //s2.storeProduct
         StoreProductEntity sp2_1 = new StoreProductEntity(fp1_1, s2, Boolean.TRUE, "good", p10);
         em.persist(sp2_1);
+        em.flush();
+        StoreItemMappingEntity mapping14 = new StoreItemMappingEntity();
+        mapping14.setProductId(sp2_1.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping14);
+        em.flush();
         fp1_1.getStoreProducts().add(sp2_1);
-        s2.getStoreProducts().add(sp2_1);
+        s1.getStoreProducts().add(sp2_1);
         p10.getStoreProducts().add(sp2_1);
         em.flush();
+
         StoreProductEntity sp2_2 = new StoreProductEntity(fp1_2, s2, Boolean.FALSE, "good", p11);
         em.persist(sp2_2);
+        em.flush();
+        StoreItemMappingEntity mapping15 = new StoreItemMappingEntity();
+        mapping15.setProductId(sp2_2.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping15);
+        em.flush();
         fp1_2.getStoreProducts().add(sp2_2);
         s2.getStoreProducts().add(sp2_2);
         p11.getStoreProducts().add(sp2_2);
@@ -573,6 +712,12 @@ public class dataSetUp {
 
         StoreProductEntity sp2_3 = new StoreProductEntity(fp1_3, s2, Boolean.FALSE, "good", p12);
         em.persist(sp2_3);
+        em.flush();
+        StoreItemMappingEntity mapping16 = new StoreItemMappingEntity();
+        mapping16.setProductId(sp2_3.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping16);
+        em.flush();
         fp1_3.getStoreProducts().add(sp2_3);
         s2.getStoreProducts().add(sp2_3);
         p12.getStoreProducts().add(sp2_3);
@@ -580,6 +725,12 @@ public class dataSetUp {
 
         StoreProductEntity sp2_4 = new StoreProductEntity(fp1_4, s2, Boolean.FALSE, "good", p13);
         em.persist(sp2_4);
+        em.flush();
+        StoreItemMappingEntity mapping17 = new StoreItemMappingEntity();
+        mapping17.setProductId(sp2_3.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping17);
+        em.flush();
         fp1_4.getStoreProducts().add(sp2_4);
         s2.getStoreProducts().add(sp2_4);
         p13.getStoreProducts().add(sp2_4);
@@ -587,16 +738,115 @@ public class dataSetUp {
 
         StoreProductEntity sp2_5 = new StoreProductEntity(fp1_5, s2, Boolean.FALSE, "good", p14);
         em.persist(sp2_5);
+        em.flush();
+        StoreItemMappingEntity mapping18 = new StoreItemMappingEntity();
+        mapping18.setProductId(sp2_5.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping18);
+        em.flush();
         fp1_5.getStoreProducts().add(sp2_5);
-        s2.getStoreProducts().add(sp2_5);
+        s1.getStoreProducts().add(sp2_5);
         p14.getStoreProducts().add(sp2_5);
         em.flush();
 
         StoreProductEntity sp2_6 = new StoreProductEntity(fp1_6, s2, Boolean.FALSE, "good", p15);
         em.persist(sp2_6);
+        em.flush();
+        StoreItemMappingEntity mapping19 = new StoreItemMappingEntity();
+        mapping19.setProductId(sp2_6.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping19);
+        em.flush();
         fp1_6.getStoreProducts().add(sp2_6);
         s2.getStoreProducts().add(sp2_6);
         p15.getStoreProducts().add(sp2_6);
+        em.flush();
+
+        StoreProductEntity sp2_7 = new StoreProductEntity(fp2_7, s2, Boolean.FALSE, "good", p16);
+        em.persist(sp2_7);
+        em.flush();
+        StoreItemMappingEntity mapping20 = new StoreItemMappingEntity();
+        mapping20.setProductId(sp2_7.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping20);
+        em.flush();
+        fp2_7.getStoreProducts().add(sp2_7);
+        s2.getStoreProducts().add(sp2_7);
+        p16.getStoreProducts().add(sp2_7);
+        em.flush();
+
+        StoreProductEntity sp2_8 = new StoreProductEntity(fp2_8, s2, Boolean.FALSE, "good", p17);
+        em.persist(sp2_8);
+        em.flush();
+        StoreItemMappingEntity mapping21 = new StoreItemMappingEntity();
+        mapping21.setProductId(sp2_8.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping21);
+        em.flush();
+        fp2_8.getStoreProducts().add(sp2_8);
+        s2.getStoreProducts().add(sp2_8);
+        p17.getStoreProducts().add(sp2_8);
+        em.flush();
+
+        StoreProductEntity sp2_9 = new StoreProductEntity(fp2_9, s2, Boolean.FALSE, "good", p18);
+        em.persist(sp2_9);
+        em.flush();
+        StoreItemMappingEntity mapping22 = new StoreItemMappingEntity();
+        mapping22.setProductId(sp2_9.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping22);
+        em.flush();
+        fp2_9.getStoreProducts().add(sp2_9);
+        s2.getStoreProducts().add(sp2_9);
+        p18.getStoreProducts().add(sp2_9);
+        em.flush();
+
+        StoreProductEntity sp2_10 = new StoreProductEntity(fp2_10, s2, Boolean.FALSE, "good", p19);
+        em.persist(sp2_10);
+        em.flush();
+        StoreItemMappingEntity mapping23 = new StoreItemMappingEntity();
+        mapping23.setProductId(sp2_10.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping23);
+        em.flush();
+        fp2_10.getStoreProducts().add(sp2_10);
+        s2.getStoreProducts().add(sp2_10);
+        p19.getStoreProducts().add(sp2_10);
+        em.flush();
+
+        StoreProductEntity sp2_11 = new StoreProductEntity(fp1_11, s2, Boolean.FALSE, "good", p7);
+        em.persist(sp2_11);
+        em.flush();
+        StoreItemMappingEntity mapping24 = new StoreItemMappingEntity();
+        mapping24.setProductId(sp2_11.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping24);
+        em.flush();
+        fp1_11.getStoreProducts().add(sp2_11);
+        s2.getStoreProducts().add(sp2_11);
+        p7.getStoreProducts().add(sp2_11);
+        em.flush();
+
+        StoreProductEntity sp2_12 = new StoreProductEntity(fp1_12, s2, Boolean.FALSE, "good", p8);
+        em.persist(sp2_12);em.flush();
+        StoreItemMappingEntity mapping25 = new StoreItemMappingEntity();
+        mapping25.setProductId(sp2_12.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping25);em.flush();
+        fp1_12.getStoreProducts().add(sp2_12);
+        s2.getStoreProducts().add(sp2_12);
+        p8.getStoreProducts().add(sp2_12);
+        em.flush();
+
+        StoreProductEntity sp2_13 = new StoreProductEntity(fp1_13, s2, Boolean.FALSE, "good", p9);
+        em.persist(sp2_13);em.flush();
+        StoreItemMappingEntity mapping26 = new StoreItemMappingEntity();
+        mapping26.setProductId(sp2_13.getStoreProductId());
+//        mapping14.setId(233523352L);
+        em.persist(mapping26);em.flush();
+        fp1_13.getStoreProducts().add(sp2_13);
+        s2.getStoreProducts().add(sp2_13);
+        p9.getStoreProducts().add(sp2_13);
         em.flush();
 
         //StoreRetailProduct    /* Further Modification*/
@@ -604,22 +854,73 @@ public class dataSetUp {
         //s1.StoreRetailProduct
         StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1, "good");
         srp1_1.setRetailProduct(rp1);
-        em.persist(srp1_1);
+        em.persist(srp1_1);em.flush();
+        StoreItemMappingEntity mapping27 = new StoreItemMappingEntity();
+        mapping27.setRetailProductId(srp1_1.getStoreRetailProductId());
+        mapping27.setId(459878651L);
+        em.persist(mapping27);em.flush();
         frp1_1.getStoreRetailProducts().add(srp1_1);
         s1.getStoreRetailProducts().add(srp1_1);
         rp1.getStoreRetailProducts().add(srp1_1);
         em.flush();
+
         StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1, "good");
         srp1_2.setRetailProduct(rp2);
-        em.persist(srp1_2);
+        em.persist(srp1_2);em.flush();
+        StoreItemMappingEntity mapping28 = new StoreItemMappingEntity();
+        mapping28.setRetailProductId(srp1_2.getStoreRetailProductId());
+        mapping28.setId(199303065L);
+        em.persist(mapping28);em.flush();
         frp1_2.getStoreRetailProducts().add(srp1_2);
         s1.getStoreRetailProducts().add(srp1_2);
         rp2.getStoreRetailProducts().add(srp1_2);
         em.flush();
+
+        StoreRetailProductEntity srp1_3 = new StoreRetailProductEntity(frp1_3, s1, "good");
+        srp1_3.setRetailProduct(rp2);
+        em.persist(srp1_3);em.flush();
+        StoreItemMappingEntity mapping29 = new StoreItemMappingEntity();
+        mapping29.setRetailProductId(srp1_3.getStoreRetailProductId());
+        mapping29.setId(456987321L);
+        em.persist(mapping29);em.flush();
+        frp1_2.getStoreRetailProducts().add(srp1_3);
+        s1.getStoreRetailProducts().add(srp1_3);
+        rp2.getStoreRetailProducts().add(srp1_3);
+        em.flush();
+
+        StoreRetailProductEntity srp1_4 = new StoreRetailProductEntity(frp1_4, s1, "good");
+        srp1_4.setRetailProduct(rp2);
+        em.persist(srp1_4);em.flush();
+        StoreItemMappingEntity mapping30 = new StoreItemMappingEntity();
+        mapping30.setRetailProductId(srp1_4.getStoreRetailProductId());
+        mapping30.setId(847563732L);
+        em.persist(mapping30);em.flush();
+        frp1_2.getStoreRetailProducts().add(srp1_4);
+        s1.getStoreRetailProducts().add(srp1_4);
+        rp2.getStoreRetailProducts().add(srp1_4);
+        em.flush();
+
+        StoreRetailProductEntity srp1_5 = new StoreRetailProductEntity(frp1_5, s1, "good");
+        srp1_5.setRetailProduct(rp2);
+        em.persist(srp1_5);
+        em.flush();
+        StoreItemMappingEntity mapping31 = new StoreItemMappingEntity();
+        mapping31.setRetailProductId(srp1_5.getStoreRetailProductId());
+        mapping31.setId(156987432L);
+        em.persist(mapping31);em.flush();
+        frp1_2.getStoreRetailProducts().add(srp1_5);
+        s1.getStoreRetailProducts().add(srp1_5);
+        rp2.getStoreRetailProducts().add(srp1_5);
+        em.flush();
+
         //s2.StoreRetailProduct
         StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp2_1, s2, "good");
         srp2_1.setRetailProduct(rp3);
-        em.persist(srp2_1);
+        em.persist(srp2_1);em.flush();
+        StoreItemMappingEntity mapping32 = new StoreItemMappingEntity();
+        mapping32.setRetailProductId(srp2_1.getStoreRetailProductId());
+//        mapping32.setId(847563732L);
+        em.persist(mapping32);em.flush();
         frp2_1.getStoreRetailProducts().add(srp2_1);
         s2.getStoreRetailProducts().add(srp2_1);
         rp3.getStoreRetailProducts().add(srp2_1);
@@ -627,7 +928,11 @@ public class dataSetUp {
 
         StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp2_2, s2, "good");
         srp2_2.setRetailProduct(rp4);
-        em.persist(srp2_2);
+        em.persist(srp2_2);em.flush();
+        StoreItemMappingEntity mapping33 = new StoreItemMappingEntity();
+        mapping33.setRetailProductId(srp2_2.getStoreRetailProductId());
+//        mapping32.setId(847563732L);
+        em.persist(mapping33);em.flush();
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProducts().add(srp2_2);
         rp4.getStoreRetailProducts().add(srp2_2);
@@ -635,80 +940,208 @@ public class dataSetUp {
 
         //Product.BOM
         //for p1
-        BOMEntity bom1_1 = new BOMEntity(rm4, rm4.getUnit(), 3.0, p1);
+        BOMEntity bom1_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p7);
         em.persist(bom1_1);
         em.flush();
-        BOMEntity bom1_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p1);
+        BOMEntity bom1_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p7);
         em.persist(bom1_2);
         em.flush();
-        BOMEntity bom1_3 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p1);
+        BOMEntity bom1_3 = new BOMEntity(rm5, rm5.getUnit(), 5.0, p7);
         em.persist(bom1_3);
         em.flush();
         List bom1 = new ArrayList();
         bom1.add(bom1_1);
         bom1.add(bom1_2);
         bom1.add(bom1_3);
-        p1.setBom(bom1);
+        p7.setBom(bom1);
         em.flush();
         //for p2
-        BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p2);
+        BOMEntity bom2_1 = new BOMEntity(rm1, rm1.getUnit(), 5.0, p8);
         em.persist(bom2_1);
         em.flush();
-        BOMEntity bom2_2 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p2);
+        BOMEntity bom2_2 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p8);
         em.persist(bom2_2);
         em.flush();
-        BOMEntity bom2_3 = new BOMEntity(rm2, rm2.getUnit(), 3.0, p2);
+        BOMEntity bom2_3 = new BOMEntity(rm5, rm5.getUnit(), 3.0, p8);
         em.persist(bom2_3);
         em.flush();
         List bom2 = new ArrayList();
         bom2.add(bom2_1);
         bom2.add(bom2_2);
         bom2.add(bom2_3);
-        p2.setBom(bom2);
+        p8.setBom(bom2);
         em.flush();
         //for p3
-        BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p3);
+        BOMEntity bom3_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p9);
         em.persist(bom3_1);
         em.flush();
-        BOMEntity bom3_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p3);
+        BOMEntity bom3_2 = new BOMEntity(rm2, rm2.getUnit(), 5.0, p9);
         em.persist(bom3_2);
         em.flush();
-        BOMEntity bom3_3 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p3);
+        BOMEntity bom3_3 = new BOMEntity(rm5, rm5.getUnit(), 2.0, p9);
         em.persist(bom3_3);
         em.flush();
         List bom3 = new ArrayList();
         bom3.add(bom3_1);
         bom3.add(bom3_2);
         bom3.add(bom3_3);
-        p3.setBom(bom3);
+        p9.setBom(bom3);
         em.flush();
         //for p4
-        BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p4);
+        BOMEntity bom4_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p10);
         em.persist(bom4_1);
         em.flush();
-        BOMEntity bom4_2 = new BOMEntity(rm2, rm2.getUnit(), 1.0, p4);
+        BOMEntity bom4_2 = new BOMEntity(rm5, rm5.getUnit(), 1.0, p10);
         em.persist(bom4_2);
         em.flush();
         List bom4 = new ArrayList();
         bom4.add(bom4_1);
         bom4.add(bom4_2);
-        p4.setBom(bom4);
+        p10.setBom(bom4);
         em.flush();
         //for p5
-        BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p5);
+        BOMEntity bom5_1 = new BOMEntity(rm1, rm1.getUnit(), 3.0, p11);
         em.persist(bom5_1);
         em.flush();
-        BOMEntity bom5_2 = new BOMEntity(rm2, rm2.getUnit(), 6.0, p5);
+        BOMEntity bom5_2 = new BOMEntity(rm2, rm2.getUnit(), 6.0, p11);
         em.persist(bom5_2);
         em.flush();
-        BOMEntity bom5_3 = new BOMEntity(rm3, rm3.getUnit(), 3.0, p5);
+        BOMEntity bom5_3 = new BOMEntity(rm5, rm5.getUnit(), 3.0, p11);
         em.persist(bom5_3);
         em.flush();
         List bom5 = new ArrayList();
         bom5.add(bom5_1);
         bom5.add(bom5_2);
         bom5.add(bom5_3);
-        p5.setBom(bom5);
+        p11.setBom(bom5);
+        em.flush();
+
+        BOMEntity bom_wood_1 = new BOMEntity(rm1, rm1.getUnit(), 12.0, p12);
+        em.persist(bom_wood_1);
+        em.flush();
+        BOMEntity bom_nail_1 = new BOMEntity(rm2, rm2.getUnit(), 8.0, p12);
+        em.persist(bom_nail_1);
+        em.flush();
+        BOMEntity bom_fabric_1 = new BOMEntity(rm5, rm5.getUnit(), 10.0, p12);
+        em.persist(bom_fabric_1);
+        em.flush();
+        List bom6 = new ArrayList();
+        bom6.add(bom_wood_1);
+        bom6.add(bom_nail_1);
+        bom6.add(bom_fabric_1);
+        p12.setBom(bom6);
+        em.flush();
+
+        BOMEntity bom_wood_2 = new BOMEntity(rm1, rm1.getUnit(), 9.0, p13);
+        em.persist(bom_wood_2);
+        em.flush();
+        BOMEntity bom_nail_2 = new BOMEntity(rm2, rm2.getUnit(), 12.0, p13);
+        em.persist(bom_nail_2);
+        em.flush();
+        BOMEntity bom_fabric_2 = new BOMEntity(rm5, rm5.getUnit(), 8.0, p13);
+        em.persist(bom_fabric_2);
+        em.flush();
+        List bom7 = new ArrayList();
+        bom7.add(bom_wood_2);
+        bom7.add(bom_nail_2);
+        bom7.add(bom_fabric_2);
+        p13.setBom(bom7);
+        em.flush();
+
+        BOMEntity bom_wood_3 = new BOMEntity(rm1, rm1.getUnit(), 12.0, p14);
+        em.persist(bom_wood_3);
+        em.flush();
+        BOMEntity bom_nail_3 = new BOMEntity(rm2, rm2.getUnit(), 8.0, p14);
+        em.persist(bom_nail_3);
+        em.flush();
+        BOMEntity bom_fabric_3 = new BOMEntity(rm5, rm5.getUnit(), 15.0, p14);
+        em.persist(bom_fabric_3);
+        em.flush();
+        List bom8 = new ArrayList();
+        bom8.add(bom_wood_2);
+        bom8.add(bom_nail_2);
+        bom8.add(bom_fabric_2);
+        p14.setBom(bom8);
+        em.flush();
+
+        BOMEntity bom_wood_4 = new BOMEntity(rm1, rm1.getUnit(), 9.0, p15);
+        em.persist(bom_wood_4);
+        em.flush();
+        BOMEntity bom_nail_4 = new BOMEntity(rm2, rm2.getUnit(), 10.0, p15);
+        em.persist(bom_nail_4);
+        em.flush();
+        BOMEntity bom_fabric_4 = new BOMEntity(rm5, rm5.getUnit(), 11.0, p15);
+        em.persist(bom_fabric_4);
+        em.flush();
+        List bom9 = new ArrayList();
+        bom9.add(bom_wood_4);
+        bom9.add(bom_nail_4);
+        bom9.add(bom_fabric_4);
+        p15.setBom(bom9);
+        em.flush();
+
+        BOMEntity bom_wood_6 = new BOMEntity(rm1, rm1.getUnit(), 6.0, p16);
+        em.persist(bom_wood_6);
+        em.flush();
+        BOMEntity bom_nail_6 = new BOMEntity(rm2, rm2.getUnit(), 4.0, p16);
+        em.persist(bom_nail_6);
+        em.flush();
+        BOMEntity bom_fabric_6 = new BOMEntity(rm5, rm5.getUnit(), 8.0, p16);
+        em.persist(bom_fabric_6);
+        em.flush();
+        List bom11 = new ArrayList();
+        bom11.add(bom_wood_6);
+        bom11.add(bom_nail_6);
+        bom11.add(bom_fabric_6);
+        p16.setBom(bom11);
+        em.flush();
+
+        BOMEntity bom_wood_7 = new BOMEntity(rm1, rm1.getUnit(), 12.0, p17);
+        em.persist(bom_wood_7);
+        em.flush();
+        BOMEntity bom_nail_7 = new BOMEntity(rm2, rm2.getUnit(), 10.0, p17);
+        em.persist(bom_nail_7);
+        em.flush();
+        BOMEntity bom_fabric_7 = new BOMEntity(rm5, rm5.getUnit(), 15.0, p17);
+        em.persist(bom_fabric_7);
+        em.flush();
+        List bom12 = new ArrayList();
+        bom12.add(bom_wood_7);
+        bom12.add(bom_nail_7);
+        bom12.add(bom_fabric_7);
+        p17.setBom(bom12);
+        em.flush();
+
+        BOMEntity bom_wood_8 = new BOMEntity(rm1, rm1.getUnit(), 12.0, p18);
+        em.persist(bom_wood_8);
+        em.flush();
+        BOMEntity bom_nail_8 = new BOMEntity(rm2, rm2.getUnit(), 10.0, p18);
+        em.persist(bom_nail_8);
+        em.flush();
+        BOMEntity bom_mirror_1 = new BOMEntity(rm3, rm3.getUnit(), 2.0, p18);
+        em.persist(bom_mirror_1);
+        em.flush();
+        List bom13 = new ArrayList();
+        bom13.add(bom_wood_8);
+        bom13.add(bom_nail_8);
+        bom13.add(bom_mirror_1);
+        p18.setBom(bom13);
+        em.flush();
+
+        BOMEntity bom_wood_9 = new BOMEntity(rm1, rm1.getUnit(), 11.0, p19);
+        em.persist(bom_wood_9);
+        em.flush();
+        BOMEntity bom_nail_9 = new BOMEntity(rm2, rm2.getUnit(), 14.0, p19);
+        em.persist(bom_nail_9);
+        em.flush();
+        BOMEntity bom_fabric_9 = new BOMEntity(rm5, rm5.getUnit(), 12.0, p19);
+        em.persist(bom_fabric_9);
+        em.flush();
+        List bom14 = new ArrayList();
+        bom14.add(bom_wood_8);
+        bom14.add(bom_nail_8);
+        bom14.add(bom_fabric_9);
+        p19.setBom(bom14);
         em.flush();
 
         //set raw material to bom relationship
@@ -1008,19 +1441,19 @@ public class dataSetUp {
         FactoryBinStoredProductEntity fbsp2_2_1 = new FactoryBinStoredProductEntity();
         em.persist(fbsp2_2_1);
         em.flush();
-        fbsp2_2_1.createFactoryBinStoredProduct(fp2_1, fb2_2, "unrestricted");
+        fbsp2_2_1.createFactoryBinStoredProduct(fp2_7, fb2_2, "unrestricted");
         fbsp2_2_1.setAmount(500.0);
-        fp2_1.setUnrestrictedInventory(500.0);
-        fb2_2.getFactoryBinStoredProducts().add(fbsp2_2_1);
-        fp2_1.getFactoryBinStoredProducts().add(fbsp2_2_1);
+        fp2_7.setUnrestrictedInventory(500.0);
+        fb2_1.getFactoryBinStoredProducts().add(fbsp2_2_1);
+        fp2_7.getFactoryBinStoredProducts().add(fbsp2_2_1);
         FactoryBinStoredProductEntity fbsp2_2_2 = new FactoryBinStoredProductEntity();
         em.persist(fbsp2_2_2);
         em.flush();
-        fbsp2_2_2.createFactoryBinStoredProduct(fp2_2, fb2_2, "unrestricted");
+        fbsp2_2_2.createFactoryBinStoredProduct(fp2_8, fb2_2, "unrestricted");
         fbsp2_2_2.setAmount(500.0);
-        fp2_2.setUnrestrictedInventory(500.0);
+        fp2_8.setUnrestrictedInventory(500.0);
         fb2_2.getFactoryBinStoredProducts().add(fbsp2_2_2);
-        fp2_2.getFactoryBinStoredProducts().add(fbsp2_2_2);
+        fp2_8.getFactoryBinStoredProducts().add(fbsp2_2_2);
         em.flush();
         //for f2.factoryRetailProduct
         FactoryBinStoredProductEntity fbsp2_3_1 = new FactoryBinStoredProductEntity();
@@ -1445,157 +1878,242 @@ public class dataSetUp {
         Calendar c1 = Calendar.getInstance();
         c1.set(2014, 11, 2);
         Calendar c2 = Calendar.getInstance();
-        c2.set(2014, 11, 2);
+        c2.set(2014, 10, 2);
         Calendar c3 = Calendar.getInstance();
-        c3.set(2014, 10, 2);
+        c3.set(2014, 9, 2);
         Calendar c4 = Calendar.getInstance();
-        c4.set(2014, 10, 2);
+        c4.set(2014, 8, 2);
         //sf1_1
-        SalesForecastEntity sf1_1 = new SalesForecastEntity(s1, c1);
+        SalesForecastEntity sf1_1 = new SalesForecastEntity(s1, c4);
         em.persist(sf1_1);
         em.flush();
         //sf1_1.FactoryProductAmount
-        FactoryProductAmountEntity fpa1_1_2_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 50.0, fp1_1);
-        em.persist(fpa1_1_2_1);
+        FactoryProductAmountEntity fpa1_1_1_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 1000.0, fp1_1);
+        em.persist(fpa1_1_1_1);
         em.flush();
-        sf1_1.getFactoryProductList().add(fpa1_1_2_1);
-        FactoryProductAmountEntity fpa1_1_2_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 60.0, fp1_2);
-        em.persist(fpa1_1_2_2);
+        sf1_1.getFactoryProductList().add(fpa1_1_1_1);
+        FactoryProductAmountEntity fpa1_1_1_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 1500.0, fp1_2);
+        em.persist(fpa1_1_1_2);
         em.flush();
-        sf1_1.getFactoryProductList().add(fpa1_1_2_2);
-        FactoryProductAmountEntity fpa1_1_2_3 = new FactoryProductAmountEntity(fp1_3.getUnit(), 50.0, fp1_3);
-        em.persist(fpa1_1_2_3);
+        sf1_1.getFactoryProductList().add(fpa1_1_1_2);
+        FactoryProductAmountEntity fpa1_1_1_3 = new FactoryProductAmountEntity(fp1_3.getUnit(), 2300.0, fp1_3);
+        em.persist(fpa1_1_1_3);
         em.flush();
-        sf1_1.getFactoryProductList().add(fpa1_1_2_3);
-        FactoryProductAmountEntity fpa1_1_2_4 = new FactoryProductAmountEntity(fp1_4.getUnit(), 70.0, fp1_4);
-        em.persist(fpa1_1_2_4);
+        sf1_1.getFactoryProductList().add(fpa1_1_1_3);
+        FactoryProductAmountEntity fpa1_1_1_4 = new FactoryProductAmountEntity(fp1_4.getUnit(), 1800.0, fp1_4);
+        em.persist(fpa1_1_1_4);
         em.flush();
-        sf1_1.getFactoryProductList().add(fpa1_1_2_4);
-        FactoryProductAmountEntity fpa1_1_2_5 = new FactoryProductAmountEntity(fp1_5.getUnit(), 50.0, fp1_5);
-        em.persist(fpa1_1_2_5);
+        sf1_1.getFactoryProductList().add(fpa1_1_1_4);
+        FactoryProductAmountEntity fpa1_1_1_5 = new FactoryProductAmountEntity(fp1_5.getUnit(), 1500.0, fp1_5);
+        em.persist(fpa1_1_1_5);
         em.flush();
-        sf1_1.getFactoryProductList().add(fpa1_1_2_5);
+        sf1_1.getFactoryProductList().add(fpa1_1_1_5);
+
+        FactoryProductAmountEntity fpa1_1_1_6 = new FactoryProductAmountEntity(fp1_6.getUnit(), 1200.0, fp1_6);
+        em.persist(fpa1_1_1_6);
         em.flush();
+        sf1_1.getFactoryProductList().add(fpa1_1_1_6);
+        em.flush();
+
         //sf1_1.FactoryRetailProductAmount
-        FactoryRetailProductAmountEntity frpa1_1_3_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 200.0, frp1_1);
-        em.persist(frpa1_1_3_1);
+        FactoryRetailProductAmountEntity frpa1_1_1_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 2000.0, frp1_1);
+        em.persist(frpa1_1_1_1);
         em.flush();
-        sf1_1.getFactoryRetailProductList().add(frpa1_1_3_1);
-        FactoryRetailProductAmountEntity frpa1_1_3_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 300.0, frp1_2);
-        em.persist(frpa1_1_3_2);
+        sf1_1.getFactoryRetailProductList().add(frpa1_1_1_1);
+
+        FactoryRetailProductAmountEntity frpa1_1_1_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 3000.0, frp1_2);
+        em.persist(frpa1_1_1_2);
         em.flush();
-        sf1_1.getFactoryRetailProductList().add(frpa1_1_3_2);
-        FactoryRetailProductAmountEntity frpa1_1_3_3 = new FactoryRetailProductAmountEntity(frp1_3.getUnit(), 100.0, frp1_3);
-        em.persist(frpa1_1_3_3);
+        sf1_1.getFactoryRetailProductList().add(frpa1_1_1_2);
+
+        FactoryRetailProductAmountEntity frpa1_1_1_3 = new FactoryRetailProductAmountEntity(frp1_3.getUnit(), 3000.0, frp1_3);
+        em.persist(frpa1_1_1_3);
         em.flush();
-        sf1_1.getFactoryRetailProductList().add(frpa1_1_3_3);
-        FactoryRetailProductAmountEntity frpa1_1_3_4 = new FactoryRetailProductAmountEntity(frp1_4.getUnit(), 200.0, frp1_4);
-        em.persist(frpa1_1_3_4);
+        sf1_1.getFactoryRetailProductList().add(frpa1_1_1_3);
+
+        FactoryRetailProductAmountEntity frpa1_1_1_4 = new FactoryRetailProductAmountEntity(frp1_4.getUnit(), 4000.0, frp1_3);
+        em.persist(frpa1_1_1_4);
         em.flush();
-        sf1_1.getFactoryRetailProductList().add(frpa1_1_3_4);
-        FactoryRetailProductAmountEntity frpa1_1_3_5 = new FactoryRetailProductAmountEntity(frp1_5.getUnit(), 100.0, frp1_5);
-        em.persist(frpa1_1_3_5);
+        sf1_1.getFactoryRetailProductList().add(frpa1_1_1_4);
+
+        FactoryRetailProductAmountEntity frpa1_1_1_5 = new FactoryRetailProductAmountEntity(frp1_5.getUnit(), 2400.0, frp1_4);
+        em.persist(frpa1_1_1_5);
         em.flush();
-        sf1_1.getFactoryRetailProductList().add(frpa1_1_3_5);
+        sf1_1.getFactoryRetailProductList().add(frpa1_1_1_5);
         em.flush();
 
         //sf1_2
-        SalesForecastEntity sf1_2 = new SalesForecastEntity(s2, c1);
+        SalesForecastEntity sf1_2 = new SalesForecastEntity(s1, c3);
         em.persist(sf1_2);
         em.flush();
         //sf1_2.FactoryProductAmount
-        FactoryProductAmountEntity fpa1_2_2_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 50.0, fp1_1);
-        em.persist(fpa1_2_2_1);
+        FactoryProductAmountEntity fpa1_1_2_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 1520.0, fp1_1);
+        em.persist(fpa1_1_2_1);
         em.flush();
-        sf1_2.getFactoryProductList().add(fpa1_2_2_1);
-        FactoryProductAmountEntity fpa1_2_2_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 60.0, fp1_2);
-        em.persist(fpa1_2_2_2);
+        sf1_2.getFactoryProductList().add(fpa1_1_2_1);
+        FactoryProductAmountEntity fpa1_1_2_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 2304.0, fp1_2);
+        em.persist(fpa1_1_2_2);
         em.flush();
-        sf1_2.getFactoryProductList().add(fpa1_2_2_2);
-        FactoryProductAmountEntity fpa1_2_2_3 = new FactoryProductAmountEntity(fp1_3.getUnit(), 50.0, fp1_3);
-        em.persist(fpa1_2_2_3);
+        sf1_2.getFactoryProductList().add(fpa1_1_2_2);
+        FactoryProductAmountEntity fpa1_1_2_3 = new FactoryProductAmountEntity(fp1_3.getUnit(), 3001.0, fp1_3);
+        em.persist(fpa1_1_2_3);
         em.flush();
-        sf1_2.getFactoryProductList().add(fpa1_2_2_3);
-        FactoryProductAmountEntity fpa1_2_2_4 = new FactoryProductAmountEntity(fp1_4.getUnit(), 70.0, fp1_4);
-        em.persist(fpa1_2_2_4);
+        sf1_2.getFactoryProductList().add(fpa1_1_2_3);
+        FactoryProductAmountEntity fpa1_1_2_4 = new FactoryProductAmountEntity(fp1_4.getUnit(), 2342.0, fp1_4);
+        em.persist(fpa1_1_2_4);
         em.flush();
-        sf1_2.getFactoryProductList().add(fpa1_2_2_4);
-        FactoryProductAmountEntity fpa1_2_2_5 = new FactoryProductAmountEntity(fp1_5.getUnit(), 50.0, fp1_5);
-        em.persist(fpa1_2_2_5);
+        sf1_2.getFactoryProductList().add(fpa1_1_2_4);
+        FactoryProductAmountEntity fpa1_1_2_5 = new FactoryProductAmountEntity(fp1_5.getUnit(), 1392.0, fp1_5);
+        em.persist(fpa1_1_2_5);
         em.flush();
-        sf1_2.getFactoryProductList().add(fpa1_2_2_5);
+        sf1_2.getFactoryProductList().add(fpa1_1_2_5);
+
+        FactoryProductAmountEntity fpa1_1_2_6 = new FactoryProductAmountEntity(fp1_6.getUnit(), 4104.0, fp1_6);
+        em.persist(fpa1_1_2_6);
         em.flush();
+        sf1_2.getFactoryProductList().add(fpa1_1_2_6);
+
         //sf1_2.FactoryRetailProductAmount
-        FactoryRetailProductAmountEntity frpa1_2_3_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 200.0, frp1_1);
-        em.persist(frpa1_2_3_1);
+        FactoryRetailProductAmountEntity frpa1_1_2_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 2000.0, frp1_1);
+        em.persist(frpa1_1_2_1);
         em.flush();
-        sf1_2.getFactoryRetailProductList().add(frpa1_2_3_1);
-        FactoryRetailProductAmountEntity frpa1_2_3_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 300.0, frp1_2);
-        em.persist(frpa1_2_3_2);
+        sf1_2.getFactoryRetailProductList().add(frpa1_1_2_1);
+
+        FactoryRetailProductAmountEntity frpa1_1_2_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 3000.0, frp1_2);
+        em.persist(frpa1_1_2_2);
         em.flush();
-        sf1_2.getFactoryRetailProductList().add(frpa1_2_3_2);
-        FactoryRetailProductAmountEntity frpa1_2_3_3 = new FactoryRetailProductAmountEntity(frp1_3.getUnit(), 100.0, frp1_3);
-        em.persist(frpa1_2_3_3);
+        sf1_2.getFactoryRetailProductList().add(frpa1_1_2_2);
+
+        FactoryRetailProductAmountEntity frpa1_1_2_3 = new FactoryRetailProductAmountEntity(frp1_3.getUnit(), 3000.0, frp1_3);
+        em.persist(frpa1_1_2_3);
         em.flush();
-        sf1_2.getFactoryRetailProductList().add(frpa1_2_3_3);
-        FactoryRetailProductAmountEntity frpa1_2_3_4 = new FactoryRetailProductAmountEntity(frp1_4.getUnit(), 200.0, frp1_4);
-        em.persist(frpa1_2_3_4);
+        sf1_2.getFactoryRetailProductList().add(frpa1_1_2_3);
+
+        FactoryRetailProductAmountEntity frpa1_1_2_4 = new FactoryRetailProductAmountEntity(frp1_4.getUnit(), 4000.0, frp1_3);
+        em.persist(frpa1_1_2_4);
         em.flush();
-        sf1_2.getFactoryRetailProductList().add(frpa1_2_3_4);
-        FactoryRetailProductAmountEntity frpa1_2_3_5 = new FactoryRetailProductAmountEntity(frp1_5.getUnit(), 100.0, frp1_5);
-        em.persist(frpa1_2_3_5);
+        sf1_2.getFactoryRetailProductList().add(frpa1_1_2_4);
+
+        FactoryRetailProductAmountEntity frpa1_1_2_5 = new FactoryRetailProductAmountEntity(frp1_5.getUnit(), 2400.0, frp1_4);
+        em.persist(frpa1_1_2_5);
         em.flush();
-        sf1_2.getFactoryRetailProductList().add(frpa1_2_3_5);
+        sf1_2.getFactoryRetailProductList().add(frpa1_1_2_5);
+        em.flush();
+
+        //sf1_3
+        SalesForecastEntity sf1_3 = new SalesForecastEntity(s1, c2);
+        em.persist(sf1_3);
+        em.flush();
+        //sf1_3.FactoryProductAmount
+        FactoryProductAmountEntity fpa1_1_3_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 1720.0, fp1_1);
+        em.persist(fpa1_1_3_1);
+        em.flush();
+        sf1_3.getFactoryProductList().add(fpa1_1_3_1);
+        FactoryProductAmountEntity fpa1_1_3_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 2304.0, fp1_2);
+        em.persist(fpa1_1_3_2);
+        em.flush();
+        sf1_3.getFactoryProductList().add(fpa1_1_3_2);
+        FactoryProductAmountEntity fpa1_1_3_3 = new FactoryProductAmountEntity(fp1_3.getUnit(), 3201.0, fp1_3);
+        em.persist(fpa1_1_3_3);
+        em.flush();
+        sf1_3.getFactoryProductList().add(fpa1_1_3_3);
+        FactoryProductAmountEntity fpa1_1_3_4 = new FactoryProductAmountEntity(fp1_4.getUnit(), 2742.0, fp1_4);
+        em.persist(fpa1_1_3_4);
+        em.flush();
+        sf1_3.getFactoryProductList().add(fpa1_1_3_4);
+        FactoryProductAmountEntity fpa1_1_3_5 = new FactoryProductAmountEntity(fp1_5.getUnit(), 1492.0, fp1_5);
+        em.persist(fpa1_1_3_5);
+        em.flush();
+        sf1_3.getFactoryProductList().add(fpa1_1_3_5);
+
+        FactoryProductAmountEntity fpa1_1_3_6 = new FactoryProductAmountEntity(fp1_6.getUnit(), 4304.0, fp1_6);
+        em.persist(fpa1_1_3_6);
+        em.flush();
+        sf1_3.getFactoryProductList().add(fpa1_1_3_6);
+
+        //sf1_3.FactoryRetailProductAmount
+        FactoryRetailProductAmountEntity frpa1_1_3_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 2420.0, frp1_1);
+        em.persist(frpa1_1_3_1);
+        em.flush();
+        sf1_3.getFactoryRetailProductList().add(frpa1_1_3_1);
+
+        FactoryRetailProductAmountEntity frpa1_1_3_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 3350.0, frp1_2);
+        em.persist(frpa1_1_3_2);
+        em.flush();
+        sf1_3.getFactoryRetailProductList().add(frpa1_1_3_2);
+
+        FactoryRetailProductAmountEntity frpa1_1_3_3 = new FactoryRetailProductAmountEntity(frp1_3.getUnit(), 3460.0, frp1_3);
+        em.persist(frpa1_1_3_3);
+        em.flush();
+        sf1_3.getFactoryRetailProductList().add(frpa1_1_3_3);
+
+        FactoryRetailProductAmountEntity frpa1_1_3_4 = new FactoryRetailProductAmountEntity(frp1_4.getUnit(), 4610.0, frp1_3);
+        em.persist(frpa1_1_3_4);
+        em.flush();
+        sf1_3.getFactoryRetailProductList().add(frpa1_1_2_4);
+
+        FactoryRetailProductAmountEntity frpa1_1_3_5 = new FactoryRetailProductAmountEntity(frp1_5.getUnit(), 2630.0, frp1_4);
+        em.persist(frpa1_1_3_5);
+        em.flush();
+        sf1_3.getFactoryRetailProductList().add(frpa1_1_3_5);
         em.flush();
 
         //sf2_1
-        SalesForecastEntity sf2_1 = new SalesForecastEntity(s1, c1);
+        SalesForecastEntity sf2_1 = new SalesForecastEntity(s1, c2);
         em.persist(sf2_1);
         em.flush();
         //sf2_1.FactoryProductAmount
-        FactoryProductAmountEntity fpa2_1_2_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 90.0, fp1_1);
-        em.persist(fpa2_1_2_1);
+        FactoryProductAmountEntity fpa1_2_1_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 1720.0, fp1_1);
+        em.persist(fpa1_2_1_1);
         em.flush();
-        sf2_1.getFactoryProductList().add(fpa2_1_2_1);
-        FactoryProductAmountEntity fpa2_1_2_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 70.0, fp1_2);
-        em.persist(fpa2_1_2_2);
+        sf2_1.getFactoryProductList().add(fpa1_2_1_1);
+        FactoryProductAmountEntity fpa1_2_1_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 2304.0, fp1_2);
+        em.persist(fpa1_2_1_2);
         em.flush();
-        sf2_1.getFactoryProductList().add(fpa2_1_2_2);
+        sf2_1.getFactoryProductList().add(fpa1_2_1_2);
+        FactoryProductAmountEntity fpa1_2_1_3 = new FactoryProductAmountEntity(fp1_3.getUnit(), 3201.0, fp1_3);
+        em.persist(fpa1_2_1_3);
         em.flush();
-        //sf2_1.FactoryRetailProductAmount
-        FactoryRetailProductAmountEntity frpa2_1_3_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 500.0, frp1_1);
-        em.persist(frpa2_1_3_1);
+        sf2_1.getFactoryProductList().add(fpa1_2_1_3);
+        FactoryProductAmountEntity fpa1_2_1_4 = new FactoryProductAmountEntity(fp1_4.getUnit(), 2742.0, fp1_4);
+        em.persist(fpa1_2_1_4);
         em.flush();
-        sf2_1.getFactoryRetailProductList().add(frpa2_1_3_1);
-        FactoryRetailProductAmountEntity frpa2_1_3_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 600.0, frp1_2);
-        em.persist(frpa2_1_3_2);
+        sf2_1.getFactoryProductList().add(fpa1_2_1_4);
+        FactoryProductAmountEntity fpa1_2_1_5 = new FactoryProductAmountEntity(fp1_5.getUnit(), 1492.0, fp1_5);
+        em.persist(fpa1_2_1_5);
         em.flush();
-        sf2_1.getFactoryRetailProductList().add(frpa2_1_3_2);
-        em.flush();
+        sf2_1.getFactoryProductList().add(fpa1_2_1_5);
 
-        //sf2_2
-        SalesForecastEntity sf2_2 = new SalesForecastEntity(s2, c1);
-        em.persist(sf2_2);
+        FactoryProductAmountEntity fpa1_2_1_6 = new FactoryProductAmountEntity(fp1_6.getUnit(), 4304.0, fp1_6);
+        em.persist(fpa1_2_1_6);
         em.flush();
-        //sf2_2.FactoryProductAmount
-        FactoryProductAmountEntity fpa2_2_2_1 = new FactoryProductAmountEntity(fp1_1.getUnit(), 60.0, fp1_1);
-        em.persist(fpa2_2_2_1);
+        sf2_1.getFactoryProductList().add(fpa1_2_1_6);
+
+        //sf1_1.FactoryRetailProductAmount
+        FactoryRetailProductAmountEntity frpa1_2_1_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 2420.0, frp1_1);
+        em.persist(frpa1_2_1_1);
         em.flush();
-        sf2_2.getFactoryProductList().add(fpa2_2_2_1);
-        FactoryProductAmountEntity fpa2_2_2_2 = new FactoryProductAmountEntity(fp1_2.getUnit(), 70.0, fp1_2);
-        em.persist(fpa2_2_2_2);
+        sf2_1.getFactoryRetailProductList().add(frpa1_2_1_1);
+
+        FactoryRetailProductAmountEntity frpa1_2_1_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 3350.0, frp1_2);
+        em.persist(frpa1_2_1_2);
         em.flush();
-        sf2_2.getFactoryProductList().add(fpa2_2_2_2);
+        sf2_1.getFactoryRetailProductList().add(frpa1_2_1_2);
+
+        FactoryRetailProductAmountEntity frpa1_2_1_3 = new FactoryRetailProductAmountEntity(frp1_3.getUnit(), 3460.0, frp1_3);
+        em.persist(frpa1_2_1_3);
         em.flush();
-        //sf2_2.FactoryRetailProductAmount
-        FactoryRetailProductAmountEntity frpa2_2_3_1 = new FactoryRetailProductAmountEntity(frp1_1.getUnit(), 600.0, frp1_1);
-        em.persist(frpa2_2_3_1);
+        sf2_1.getFactoryRetailProductList().add(frpa1_2_1_3);
+
+        FactoryRetailProductAmountEntity frpa1_2_1_4 = new FactoryRetailProductAmountEntity(frp1_4.getUnit(), 4610.0, frp1_3);
+        em.persist(frpa1_2_1_4);
         em.flush();
-        sf2_2.getFactoryRetailProductList().add(frpa2_2_3_1);
-        FactoryRetailProductAmountEntity frpa2_2_3_2 = new FactoryRetailProductAmountEntity(frp1_2.getUnit(), 700.0, frp1_2);
-        em.persist(frpa2_2_3_2);
+        sf2_1.getFactoryRetailProductList().add(frpa1_2_1_4);
+
+        FactoryRetailProductAmountEntity frpa1_2_1_5 = new FactoryRetailProductAmountEntity(frp1_5.getUnit(), 2630.0, frp1_4);
+        em.persist(frpa1_2_1_5);
         em.flush();
-        sf2_2.getFactoryRetailProductList().add(frpa2_2_3_2);
+        sf2_1.getFactoryRetailProductList().add(frpa1_2_1_5);
         em.flush();
 
         //Outbound Movement
@@ -1977,83 +2495,6 @@ public class dataSetUp {
         s1.getTransactions().add(tr1);
         s1.getTransactions().add(tr2);
 
-        //StoreItemMappingEntity
-        StoreItemMappingEntity sm1 = new StoreItemMappingEntity();
-        sm1.setProductId(sp1_1.getStoreProductId());
-        sm1.setStore(s1);
-        sm1.setId(233523352L);
-        em.persist(sm1);
-        em.flush();
-
-        StoreItemMappingEntity sm2 = new StoreItemMappingEntity();
-        sm2.setProductId(sp1_2.getStoreProductId());
-        sm2.setStore(s1);
-        sm2.setId(987654321L);
-        em.persist(sm2);
-        em.flush();
-
-        StoreItemMappingEntity sm3 = new StoreItemMappingEntity();
-        sm3.setRetailProductId(srp1_1.getStoreRetailProductId());
-        sm3.setStore(s1);
-        sm3.setId(876543210L);
-        em.persist(sm3);
-        em.flush();
-
-        StoreItemMappingEntity sm4 = new StoreItemMappingEntity();
-        sm4.setRetailProductId(srp1_2.getStoreRetailProductId());
-        sm4.setStore(s1);
-        sm4.setId(372845627L);
-        em.persist(sm4);
-        em.flush();
-
-        //TransactionItem
-        TransactionItemEntity ti1 = new TransactionItemEntity();
-        ti1.setItemId(sm1.getId());
-        StoreProductEntity temp = em.find(StoreProductEntity.class, sm1.getProductId());
-        ti1.setItemName(temp.getProduct().getName());
-        ti1.setAmount(1);
-        ti1.setTransaction(tr1);
-        em.persist(ti1);
-        em.flush();
-
-        List<TransactionItemEntity> items = new ArrayList();
-        items.add(ti1);
-        tr1.setTransactionItemList(items);
-        em.persist(tr1);
-        em.flush();
-
-        TransactionItemEntity ti2 = new TransactionItemEntity();
-        ti2.setItemId(sm1.getId());
-        StoreProductEntity temp2 = em.find(StoreProductEntity.class, sm1.getProductId());
-        ti2.setItemName(temp2.getProduct().getName());
-        ti2.setAmount(1);
-        ti2.setTransaction(tr2);
-        em.persist(ti2);
-        em.flush();
-
-        List<TransactionItemEntity> items2 = new ArrayList();
-        items2.add(ti2);
-        tr2.setTransactionItemList(items2);
-        em.persist(tr2);
-        em.flush();
-
-        //pickupList
-        PickupListEntity pl1 = new PickupListEntity();
-
-        pl1.setTransactoinItems(items);
-        ti1.setPickupList(pl1);
-        em.persist(pl1);
-        em.persist(ti1);
-        em.flush();
-
-        PickupListEntity pl2 = new PickupListEntity();
-
-        pl2.setTransactoinItems(items2);
-        ti2.setPickupList(pl2);
-        em.persist(pl2);
-        em.persist(ti2);
-        em.flush();
-
         //Member Set uP
         Calendar MemberBirthday = Calendar.getInstance();
         MemberBirthday.set(1990, 9, 1);
@@ -2276,7 +2717,7 @@ public class dataSetUp {
         psfe_2014_6.setTargetPeriod(cal_2014_6);
         psfe_2014_6.setStore(s1);
         psfe_2014_6.setStoreProduct(sp1_1);
-        psfe_2014_6.setStatus("psfe_2014_6");
+        psfe_2014_6.setStatus("Confirmed");
         em.persist(psfe_2014_6);
         em.flush();
 
@@ -2350,7 +2791,7 @@ public class dataSetUp {
         //Set Up  CountryProductEntity
         CountryProductEntity item = new CountryProductEntity();
         item.setDescription(p7.getDescription());
-        item.setProductName("Bed");
+        item.setProductName(p7.getName());
         item.setPrice(p7.getPrice());
         item.setMemberPrice(p7.getMemberPrice());
         item.setPicture("bed_set4.png");
@@ -2362,8 +2803,8 @@ public class dataSetUp {
         em.flush();
 
         CountryProductEntity item1 = new CountryProductEntity();
-        item1.setDescription("this is a good Bedside");
-        item1.setProductName("Bedside");
+        item1.setDescription(p8.getDescription());
+        item1.setProductName(p8.getName());
         item1.setPrice(200D);
         item1.setMemberPrice(180D);
         item1.setPicture("bedside_set4.png");
@@ -2375,8 +2816,8 @@ public class dataSetUp {
         em.flush();
 
         CountryProductEntity item3 = new CountryProductEntity();
-        item3.setDescription("this is a good closet");
-        item3.setProductName("Closet");
+        item3.setDescription(p9.getDescription());
+        item3.setProductName(p9.getName());
         item3.setPrice(200D);
         item3.setMemberPrice(180D);
         item3.setPicture("closet_set4.png");
@@ -2619,12 +3060,45 @@ public class dataSetUp {
         ss1_1.getStoreProductList().add(sp1_3);
         em.persist(ss1_1);
         em.flush();
+        StoreItemMappingEntity mapping34 = new StoreItemMappingEntity();
+        mapping34.setStoreSetId(ss1_1.getId());
+        mapping34.setId(123456789L);
+        em.persist(mapping34);
+        em.flush();
 
-        StoreItemMappingEntity sm5 = new StoreItemMappingEntity();
-        sm5.setStoreSetId(ss1_1.getId());
-        sm5.setStore(s1);
-        sm5.setId(847562718L);
-        em.persist(sm5);
+        StoreSetEntity ss1_2 = new StoreSetEntity();
+        ss1_2.setSet(set1_2);
+        ss1_2.setStore(s1);
+        ss1_2.setWebSet(set2);
+        ss1_2.setName(set2.getName());
+
+        ss1_2.getStoreProductList().add(sp1_4);
+        ss1_2.getStoreProductList().add(sp1_5);
+        ss1_2.getStoreProductList().add(sp1_6);
+        em.persist(ss1_2);
+        em.flush();
+        StoreItemMappingEntity mapping35 = new StoreItemMappingEntity();
+        mapping35.setStoreSetId(ss1_2.getId());
+        mapping35.setId(496326849L);
+        em.persist(mapping35);
+        em.flush();
+
+        StoreSetEntity ss1_3 = new StoreSetEntity();
+        ss1_3.setSet(set1_3);
+        ss1_3.setStore(s1);
+        ss1_3.setWebSet(set3);
+        ss1_3.setName(set3.getName());
+
+        ss1_3.getStoreProductList().add(sp1_7);
+        ss1_3.getStoreProductList().add(sp1_8);
+        ss1_3.getStoreProductList().add(sp1_9);
+        ss1_3.getStoreProductList().add(sp1_10);
+        em.persist(ss1_3);
+        em.flush();
+        StoreItemMappingEntity mapping36 = new StoreItemMappingEntity();
+        mapping36.setStoreSetId(ss1_3.getId());
+//        mapping36.setId(123456789L);
+        em.persist(mapping36);
         em.flush();
 
         // set relationship
@@ -2717,13 +3191,10 @@ public class dataSetUp {
         Calendar ec16 = Calendar.getInstance();
         ec16.set(2015, 0, 27);
 
-        EventEntity ece1 = new EventEntity("National Day", "National Day Celebration, double points", ec1, ec2);
-        em.persist(ece1);
-        em.flush();
         EventEntity ece2 = new EventEntity("Labor Day", "Larbor Day Celebration, parts of items count 1.5x points", ec3, ec4);
         em.persist(ece2);
         em.flush();
-        EventEntity ece3 = new EventEntity("Island Furniture Anniversary", "5th Anniversary Celebration, double points", ec5, ec6);
+        EventEntity ece3 = new EventEntity("Island Furniture Anniversary", "5th Anniversary Celebration, double points", ec1, ec2);
         em.persist(ece3);
         em.flush();
 
@@ -2733,13 +3204,6 @@ public class dataSetUp {
 
         EventEntity ece5 = new EventEntity("Chinese New Year", "Chinese new year", ec9, ec10);
         em.persist(ece5);
-        em.flush();
-
-        StoreEventEntity event1 = new StoreEventEntity(ece1, "National Day Celebration, double points", ec1, ec2, s1, 2D
-        );
-        event1.setEvent(ece1);
-        event1.setStore(s1);
-        em.persist(event1);
         em.flush();
 
         StoreEventEntity event2 = new StoreEventEntity(ece2, "Larbor Day Celebration, parts of items count 1.5x points", ec3, ec4, s1, 1.5D
@@ -3076,13 +3540,9 @@ public class dataSetUp {
         //=========================================================
         //=========================================================
         //  mrp process data set up for JUnit testing
-        FactoryRawMaterialEntity frme1 = new FactoryRawMaterialEntity("square meter", "wood", "board", false, f1, rm1);
-        em.persist(frme1);
-        em.flush();
-
         FactoryRawMaterialAmountEntity fme1A = new FactoryRawMaterialAmountEntity();
         fme1A.setAmount(100D);
-        fme1A.setFactoryRawMaterial(frme1);
+        fme1A.setFactoryRawMaterial(frm1_1);
         fme1A.setUnit("square meter");
         em.persist(fme1A);
         em.flush();
@@ -3093,8 +3553,7 @@ public class dataSetUp {
         isfe1.setFactoryProduct(fp1_1);
         isfe1.getSalesForecastList().add(sf1_1);
         isfe1.getSalesForecastList().add(sf1_2);
-        isfe1.getSalesForecastList().add(sf2_1);
-        isfe1.getSalesForecastList().add(sf2_2);
+        isfe1.getSalesForecastList().add(sf1_3);
         isfe1.setTargetPeriod(com1);
         em.persist(isfe1);
         em.flush();
@@ -3129,8 +3588,91 @@ public class dataSetUp {
         ipor1.getPlannedOrderList().add(poe1);
         em.persist(ipor1);
         em.flush();
+//=====================================================
+        //=====================================================
+        //=================Shiyu Setup Data====================
+        //=====================================================
+        //=====================================================
+        //@@@@@@@@@@@@@@@@@@Purchase Order@@@@@@@@@@@@@@@@@@@@@
+        //=============Manually Purchase Order=================
+        //Factory Manually-created purchase order
+        //To Factory1: Raw Material 1
+        try {
+            PurchaseOrderEntity po1_1 = pom.createPurchaseOrder(f1.getFactoryId(), ct1_1_1_1.getContractId(), 100.0, null, "", Calendar.getInstance(), Boolean.TRUE, Boolean.FALSE);
+            pom.confirmPurchaseOrder(u1.getUserId(), po1_1.getId());
+            pom.generateGoodsRecipt(po1_1.getId());
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
+        }
 
+        //To Factory 1: Retail Product 1
+        try {
+            PurchaseOrderEntity po1_2 = pom.createPurchaseOrder(f1.getFactoryId(), ct1_3_1.getContractId(), 100.0, null, f1.getAddress(),
+                    Calendar.getInstance(), Boolean.TRUE, Boolean.FALSE);
+            em.persist(po1_2);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
+        }
+
+        //To Factory 2: Retail Product 1
+        try {
+            PurchaseOrderEntity po1_2 = pom.createPurchaseOrder(f2.getFactoryId(), ct1_3_1.getContractId(), 100.0, null, f2.getAddress(),
+                    Calendar.getInstance(), Boolean.TRUE, Boolean.FALSE);
+            em.persist(po1_2);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
+        }
+
+        //Integrated Planned Order 2
+        IntegratedPlannedOrderEntity ipor2 = new IntegratedPlannedOrderEntity();
+        ipor2.setFactory(f1);
+        ipor2.setFactoryRetailProductAmount(frpa1_1_1_1);
+        ipor2.setGeneratedDate(mrpDate1);
+        ipor2.setStatus("waiting");
+        ipor2.setTargetPeriod(com1);
+        em.persist(ipor2);
+        em.flush();
+
+        //To Store 1 : Retail Product 1
+        try {
+            PurchaseOrderEntity po1_3 = pom.generatePurchaseOrder(f1.getFactoryId(), ipor2.getId(), 400.0, 100.0,
+                    ct1_3_1.getContractId(), s1.getStoreId(), "store", "RetailProduct", Boolean.TRUE);
+            em.persist(po1_3);
+            ipor2.setPurchaseOrder(po1_3);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
+        }
+
+        //Integrated Planned Order 2
+        IntegratedPlannedOrderEntity ipor3 = new IntegratedPlannedOrderEntity();
+        ipor3.setFactory(f1);
+        ipor3.setFactoryRetailProductAmount(frpa1_1_1_2);
+        ipor3.setGeneratedDate(mrpDate1);
+        ipor3.setStatus("waiting");
+        ipor3.setTargetPeriod(com1);
+        em.persist(ipor3);
+        em.flush();
+
+        //To store 1: Retail Product 2
+        try {
+            PurchaseOrderEntity po1_4 = pom.generatePurchaseOrder(f1.getFactoryId(), ipor2.getId(), 400.0, 500.0,
+                    ct1_3_2.getContractId(), s1.getStoreId(), "store", "RetailProduct", Boolean.TRUE);
+            ipor3.setPurchaseOrder(po1_4);
+            em.persist(po1_4);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
+        }
+
+        //===================ticket ========================
     }
-
     //===================ticket ========================
 }
