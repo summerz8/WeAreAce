@@ -31,7 +31,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanelCard" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="jPanelTitle" pref="662" max="32767" attributes="0"/>
+          <Component id="jPanelTitle" pref="683" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">

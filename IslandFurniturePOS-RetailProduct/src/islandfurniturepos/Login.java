@@ -237,14 +237,17 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Welcome " + name + "Login successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                     JOptionPane.showMessageDialog(this, "Your Begin Cash: " + cashier.getBeginCash(), "Login Successful", JOptionPane.INFORMATION_MESSAGE);
 
+//                    closePort();
+                    this.setVisible(false);
+                    this.dispose();
+                    
                     MainMenu mainMenu = new MainMenu(POSid, jTextId.getText());
+                    mainMenu.setLocationRelativeTo(null);
                     mainMenu.setVisible(true);
                     mainMenu.setExtendedState(JFrame.NORMAL);
 
                     jTextId.setText("");
-                    jPasswordFieldPassword.setText("");
-
-                    this.setVisible(false);
+                    jPasswordFieldPassword.setText("");                   
 
                 } else if (temp == -1) {
                     JOptionPane.showMessageDialog(this, "User not found!", "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -270,6 +273,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         // TODO add your handling code here:
+//        closePort();
         System.exit(0);
     }//GEN-LAST:event_jButtonExitActionPerformed
 
@@ -282,8 +286,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextIdActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-
+        // TODO add your handling code here:    
 //        initPartnerPoleDisplay();
 //        poleDisplay();
     }//GEN-LAST:event_formWindowOpened
@@ -334,6 +337,7 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Login newLogin = new Login();
+                newLogin.setLocationRelativeTo(null);
                 newLogin.setVisible(true);
                 newLogin.setExtendedState(JFrame.NORMAL);
             }
@@ -355,6 +359,8 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NullPointerException ex) {
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -375,9 +381,23 @@ public class Login extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex) {
+            System.err.println("Unable to write to Partner Pole Display");
         }
     }
 
+    private void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClear;

@@ -7,10 +7,8 @@ package SessionBean.MRP;
 
 import Entity.Factory.MRP.ProductionPlanEntity;
 import java.util.Calendar;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -125,7 +123,7 @@ public class ProductionPlanManagementModuleTest {
     @Test
     public void testSearchProductionPlan1() throws Exception {
         System.out.println("searchProductionPlan");
-        Long id = 1L;
+        Long id = 2L;
         ProductionPlanEntity result = ProductionPlanManagementModule.searchProductionPlan(id);
         assertNotNull(result);
     }

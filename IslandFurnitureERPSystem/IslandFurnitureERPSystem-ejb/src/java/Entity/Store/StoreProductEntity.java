@@ -119,12 +119,12 @@ public class StoreProductEntity implements Serializable {
         this.selfPick = selfPick;
         salesRecordList = new ArrayList<>();
         productSalesForecastList = new ArrayList<>();
-        minimumInventory = 50D;
+        minimumInventory = 20D;
         unrestrictedInventory = 0D;
         returnedInventory = 0D;
         this.storeRemark = storeRemark;
         goodReceipts = new ArrayList<>();
-        intransitInventory = 20D; //base
+        intransitInventory = 50D; //base
         onairInventory= 0D;
         warningOnAirInv = 0D;
        

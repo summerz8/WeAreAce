@@ -40,4 +40,6 @@ public interface CustomerWebMemberModuleLocal {
     
     public void changePwd(Long memberId, String pwd);
     
+    public String resetPass(String userId) ;
+    
 }

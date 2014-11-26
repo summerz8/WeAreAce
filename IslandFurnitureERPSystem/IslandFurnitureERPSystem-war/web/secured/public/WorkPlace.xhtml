@@ -20,7 +20,7 @@
 
                 <p:growl id="messages" showDetail="true" sticky="true"/>
 
-                <p:idleMonitor timeout="60000" onidle="PF('idleDialog').show();"/>
+                <p:idleMonitor timeout="600000" onidle="PF('idleDialog').show();"/>
 
                 <p:confirmDialog id="idleDialog"
                                  message="You have been idle for a while, 
@@ -37,7 +37,7 @@
 
                 </p:confirmDialog> 
 
-                <p:poll interval="70" listener="#{idleBean.logoutListener}"/>
+                <p:poll interval="700" listener="#{idleBean.logoutListener}"/>
 
                 <p:layout >
                     <p:messages id="messagesStatus" redisplay="false" />

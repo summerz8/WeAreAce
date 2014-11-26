@@ -307,51 +307,51 @@ public class Member extends javax.swing.JFrame {
         // TODO add your handling code here:
 //     initPartnerPoleDisplay();   
 //     poleDisplay("Card Please");  
-//     try {
-//            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
-//                public void actionPerformed(ActionEvent event) {
-//                    quitOnNoReaderAttached();
-//                }
-//            };
-//
-//            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
-//            timerQuitOnNoReaderAttached.setRepeats(false);
-//            timerQuitOnNoReaderAttached.start();
-//
-//            TerminalFactory terminalFactory = TerminalFactory.getDefault();
-//
-//            if (!terminalFactory.terminals().list().isEmpty()) {
-//
-//                jTextFieldCardLoader.setText("Yes");
-//                jTextFieldCardLoader.setForeground(Color.GREEN);
-//
-//                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
-//                    if (cardTerminal.getName().contains("ACS ACR122")) {
-//                        acr122uCardTerminal = cardTerminal;
-//                        break;
-//                    }
-//                }
-//
-//                if (acr122uCardTerminal != null) {
-//                    timerQuitOnNoReaderAttached.stop();
-//                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
-//                        public void actionPerformed(ActionEvent event) {
-//                            checkCardPresent();
-//                        }
-//                    };
-//                    timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
-//                    timerCheckCardPresent.setRepeats(true);
-//                    timerCheckCardPresent.start();
-//                } else {
-//                    jTextFieldCardLoader.setText("No");
-//                    jTextFieldCardLoader.setForeground(Color.RED);
-//                }
-//            } else {
-//                jTextFieldCardLoader.setText("No");
-//                jTextFieldCardLoader.setForeground(Color.RED);
-//            }
-//        } catch (Exception ex) {
-//        }
+     try {
+            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    quitOnNoReaderAttached();
+                }
+            };
+
+            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
+            timerQuitOnNoReaderAttached.setRepeats(false);
+            timerQuitOnNoReaderAttached.start();
+
+            TerminalFactory terminalFactory = TerminalFactory.getDefault();
+
+            if (!terminalFactory.terminals().list().isEmpty()) {
+
+                jTextFieldCardLoader.setText("Yes");
+                jTextFieldCardLoader.setForeground(Color.GREEN);
+
+                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
+                    if (cardTerminal.getName().contains("ACS ACR122")) {
+                        acr122uCardTerminal = cardTerminal;
+                        break;
+                    }
+                }
+
+                if (acr122uCardTerminal != null) {
+                    timerQuitOnNoReaderAttached.stop();
+                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
+                        public void actionPerformed(ActionEvent event) {
+                            checkCardPresent();
+                        }
+                    };
+                    timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
+                    timerCheckCardPresent.setRepeats(true);
+                    timerCheckCardPresent.start();
+                } else {
+                    jTextFieldCardLoader.setText("No");
+                    jTextFieldCardLoader.setForeground(Color.RED);
+                }
+            } else {
+                jTextFieldCardLoader.setText("No");
+                jTextFieldCardLoader.setForeground(Color.RED);
+            }
+        } catch (Exception ex) {
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextFieldCardPresentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCardPresentActionPerformed
@@ -454,6 +454,8 @@ public class Member extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){                   
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -474,7 +476,9 @@ public class Member extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+                }
     }
     
     private void closePort() {
@@ -572,18 +576,20 @@ public class Member extends javax.swing.JFrame {
     }
 
     private void goBack() {
-        closePort();
-//        timerCheckCardPresent.stop();
+        
+        if(timerCheckCardPresent != null)
+                timerCheckCardPresent.stop();
+//        closePort();
         this.setVisible(false);
         this.dispose();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        
         if (flag) {
             mainMenu = new MainMenu(POSid, staffId, memberId);
         } else {
             mainMenu = new MainMenu(POSid, staffId);
         }
 
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
 

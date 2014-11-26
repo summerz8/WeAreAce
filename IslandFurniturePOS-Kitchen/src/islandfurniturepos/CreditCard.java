@@ -272,9 +272,6 @@ public class CreditCard extends javax.swing.JFrame {
             jComboBoxEventBonus.setVisible(false);
         }
 
-//        initPartnerPoleDisplay();
-//        poleDisplay();
-
         jTextField2.addActionListener(new ActionListener() {
 
             @Override
@@ -293,9 +290,11 @@ public class CreditCard extends javax.swing.JFrame {
 
     private void jButtonGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoBackActionPerformed
         // TODO add your handling code here:
-        closePort();
+       
         this.setVisible(false);
         this.dispose();
+        
+        checkOut.setLocationRelativeTo(null);
         checkOut.setVisible(true);
         checkOut.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonGoBackActionPerformed
@@ -428,65 +427,14 @@ public class CreditCard extends javax.swing.JFrame {
 
         PartnerThermalPrinterAndCashBox();
 
-        closePort();
+        checkOut.closePort();
+        checkOut.dispose();
         this.setVisible(false);
         this.dispose();
         Change change = new Change(POSid, storeStaffId, orderId);
+        change.setLocationRelativeTo(null);
         change.setVisible(true);
         change.setExtendedState(JFrame.NORMAL);
-    }
-
-    private void initPartnerPoleDisplay() {
-        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
-
-        while (commPortList.hasMoreElements()) {
-            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
-
-            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
-                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
-                try {
-                    serialPort = (SerialPort) commPort.open("POS", 5000);
-                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
-                } catch (PortInUseException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }
-
-    private void poleDisplay() {
-        byte[] clear = {0x0C};
-        byte[] newLine = {0x0A};
-        byte[] carriageReturn = {0x0D};
-        byte[] message1 = new String("Make Payment").getBytes();
-        byte[] message2 = new String("Credit Card").getBytes();
-
-        try {
-            partnerPoleDisplayOutputStream.write(clear);
-            partnerPoleDisplayOutputStream.write(message1);
-            partnerPoleDisplayOutputStream.write(newLine);
-            partnerPoleDisplayOutputStream.write(carriageReturn);
-            partnerPoleDisplayOutputStream.write(message2);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void closePort() {
-        System.err.println("Window closed");
-        if (serialPort != null) {
-            try {
-                byte[] clear = {0x0C};
-                partnerPoleDisplayOutputStream.write(clear);
-                partnerPoleDisplayOutputStream.close();
-                serialPort.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
     }
 
     private void PartnerThermalPrinterAndCashBox() {

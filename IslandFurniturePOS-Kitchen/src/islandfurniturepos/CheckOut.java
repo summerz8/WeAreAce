@@ -336,16 +336,16 @@ public class CheckOut extends javax.swing.JFrame {
         loadTableSelectedCombo();
         loadTableSelectedDish();
 
-//        initPartnerPoleDisplay();
-//        poleDisplay(actualTotalPrice); 
+        initPartnerPoleDisplay();
+        poleDisplay(actualTotalPrice); 
         
     }//GEN-LAST:event_formWindowOpened
 
     private void jButtonCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCashActionPerformed
         // TODO add your handling code here:
-        closePort();
         this.setVisible(false);
         Cash cash = new Cash(POSid, storeStaffId, orderId, actualTotalPrice, this);
+        cash.setLocationRelativeTo(null);
         cash.setVisible(true);
         cash.setExtendedState(JFrame.NORMAL);
 
@@ -358,6 +358,7 @@ public class CheckOut extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
         MainMenu mainMenu = new MainMenu(POSid, storeStaffId);
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonCancelActionPerformed
@@ -378,9 +379,9 @@ public class CheckOut extends javax.swing.JFrame {
 
     private void jButtonCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreditActionPerformed
         // TODO add your handling code here:
-        closePort();
         this.setVisible(false);
         CreditCard credit = new CreditCard(POSid, storeStaffId, orderId, actualTotalPrice, this);
+        credit.setLocationRelativeTo(null);
         credit.setVisible(true);
         credit.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonCreditActionPerformed
@@ -438,7 +439,7 @@ public class CheckOut extends javax.swing.JFrame {
     private javax.swing.JTable jTableSelectedDish;
     // End of variables declaration//GEN-END:variables
 
-    private void closePort() {
+    public void closePort() {
         System.err.println("Window closed");
         if (serialPort != null) {
             try {
@@ -574,6 +575,8 @@ public class CheckOut extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){                   
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -585,7 +588,7 @@ public class CheckOut extends javax.swing.JFrame {
         byte[] newLine = {0x0A};
         byte[] carriageReturn = {0x0D};
         byte[] message1 = new String("Total").getBytes();
-        byte[] message2 = new String("S$ "+ String.valueOf(totalPrice)).getBytes();
+        byte[] message2 = new String("S$ "+ totalPrice).getBytes();
 
         try {
             partnerPoleDisplayOutputStream.write(clear);
@@ -595,7 +598,9 @@ public class CheckOut extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+                }
     }
 
     private static String getFullNameById(java.lang.String id) {

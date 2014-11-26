@@ -34,14 +34,6 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu() {
         initComponents();
     }
-    
-//    public MainMenu(String POSid, String storeStaffId,SerialPort serialPort,OutputStream partnerPoleDisplayOutputStream) {
-//        this();
-//        this.POSid = POSid;
-//        this.storeStaffId = storeStaffId;
-//        this.serialPort = serialPort;
-//        this.partnerPoleDisplayOutputStream = partnerPoleDisplayOutputStream;
-//    }
 
     public MainMenu(String POSid, String storeStaffId) {
         this();
@@ -220,13 +212,15 @@ public class MainMenu extends javax.swing.JFrame {
     private void jButtonNewTransactionFurnitureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionFurnitureActionPerformed
         // TODO add your handling code here:
         if (POSid.substring(0, 1).equals("K")) {
-            closePort();
-            NewOrder transaction = new NewOrder(POSid, storeStaffId, memberId);
-            transaction.setVisible(true);
-            transaction.setExtendedState(JFrame.NORMAL);
+//            closePort();
             this.setVisible(false);
             this.dispose();
-            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            
+            NewOrder transaction = new NewOrder(POSid, storeStaffId, memberId);
+            transaction.setLocationRelativeTo(null);
+            transaction.setVisible(true);
+            transaction.setExtendedState(JFrame.NORMAL);
+            
         } else {
             JOptionPane.showMessageDialog(this, "You are not allowed to create this transaction!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -235,18 +229,20 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
         // TODO add your handling code here:
-        closePort();
         StoreUserEntity cashier = getCasherById(storeStaffId);   
         Double shift = cashier.getEndCash()-cashier.getBeginCash();
         JOptionPane.showMessageDialog(this, "End Cash: "+ cashier.getEndCash() + " Shift Revenue: " + shift, "Logout Successfully", JOptionPane.INFORMATION_MESSAGE);
-        logout(storeStaffId);       
-        Login login = new Login();
-        login.setVisible(true);
-        login.setExtendedState(JFrame.NORMAL);
+        logout(storeStaffId);   
+        
+//        closePort();
         this.setVisible(false);
         this.dispose();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        
+        Login login = new Login();
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        login.setExtendedState(JFrame.NORMAL);
+        
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -285,11 +281,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jButtonMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMemberActionPerformed
         // TODO add your handling code here:
-        closePort();
+//        closePort();
         this.setVisible(false);
         this.dispose();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+       
         Member member = new Member(POSid,storeStaffId);
+        member.setLocationRelativeTo(null);
         member.setVisible(true);
         member.setExtendedState(JFrame.NORMAL);
 
@@ -345,6 +342,8 @@ public class MainMenu extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){                   
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -365,7 +364,9 @@ public class MainMenu extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+                }
     }
     
     private void closePort() {

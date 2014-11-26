@@ -106,7 +106,7 @@
                         </p:panel>
 
                         <p:dataTable id="IPOSs" widgetVar="IPOSs" value="#{ingredientPurchaseOrderToSuppliersBean.IPOSs}" 
-                                     var="p" filteredValue="#{ingredientPurchaseOrderToSuppliersBean.filteredIPOSs}" editable="true" sortBy="#{p.id}">
+                                     var="p" filteredValue="#{ingredientPurchaseOrderToSuppliersBean.filteredIPOSs}" editable="true" sortBy="#{p.id}" sortOrder="ASCENDING" >
 
                             <f:facet name="header">
                                 <div align="right">
@@ -208,7 +208,7 @@
         <h:form>
             <p:dialog widgetVar="selectTargetDate" header="Select Target Date" position="center"
                       showEffect="fade" hideEffect="fade" resizable="true" 
-                      draggable="true" closable="false" >
+                      draggable="true" closable="true" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Select Target Date: " />
                     <p:calendar value="#{ingredientPurchaseOrderToSuppliersBean.selectedTargetDate}" maxdate="#{ingredientPurchaseOrderToSuppliersBean.cal.time}"/>

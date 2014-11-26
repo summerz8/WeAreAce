@@ -7,15 +7,10 @@ package SessionBean.SCM;
 
 import Entity.CommonInfrastructure.UserEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
-import Entity.Factory.FactoryRetailProductEntity;
-import Entity.Factory.RawMaterialEntity;
-import Entity.Factory.RetailProductEntity;
-import Entity.Factory.SCM.SupplierEntity;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;

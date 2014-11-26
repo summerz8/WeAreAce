@@ -100,13 +100,13 @@ public class ViewSetBean {
             for (CountryProductEntity c : itemList) {
                 save+=c.getMemberPrice();
             }
-            save=set.getSet().getMemberPrice()-save;
+            save=save-set.getSet().getMemberPrice();
         }
         else{
             for (CountryProductEntity c : itemList) {
                 save+=c.getPrice();
             }
-            save=set.getSet().getPrice()-save;
+            save=save-set.getSet().getPrice();
         }
 
         typeList = new ArrayList<>();
@@ -181,7 +181,7 @@ public class ViewSetBean {
         if (web.equals("Singapore")) {
             return "$" + price;
         } else if (web.equals("China")) {
-            return "￥" + fnum.format(price * 6.12);
+            return "￥" + fnum.format(price * 4.8);
         } else {
             return price + "";
         }

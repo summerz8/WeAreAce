@@ -5,10 +5,16 @@
  */
 package islandfurniturepos;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Enumeration;
 import javax.smartcardio.Card;
 import javax.smartcardio.CardChannel;
 import javax.smartcardio.CardException;
@@ -32,6 +38,9 @@ public class Member extends javax.swing.JFrame {
     private CardTerminal acr122uCardTerminal = null;
     private String cardId = null;
     private Timer timerCheckCardPresent = null;
+    private String partnerPoleDisplayCOMPort = "COM5";
+    private OutputStream partnerPoleDisplayOutputStream;
+    private SerialPort serialPort;
 
     /**
      * Creates new form Member
@@ -275,8 +284,10 @@ public class Member extends javax.swing.JFrame {
                 memberId = Long.parseLong(jTextFieldMemberId.getText());
                 flag = checkMember(memberId);
                 if (flag) {
+//                    poleDisplay("Member found!");
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
                 } else {
+//                    poleDisplay("Member not found!");
                     JOptionPane.showMessageDialog(this, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -292,51 +303,54 @@ public class Member extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
-//        try {
-//            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
-//                public void actionPerformed(ActionEvent event) {
-//                    quitOnNoReaderAttached();
-//                }
-//            };
-//
-//            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
-//            timerQuitOnNoReaderAttached.setRepeats(false);
-//            timerQuitOnNoReaderAttached.start();
-//
-//            TerminalFactory terminalFactory = TerminalFactory.getDefault();
-//
-//            if (!terminalFactory.terminals().list().isEmpty()) {
-//
-//                jTextFieldCardLoader.setText("Yes");
-//                jTextFieldCardLoader.setForeground(Color.GREEN);
-//
-//                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
-//                    if (cardTerminal.getName().contains("ACS ACR122")) {
-//                        acr122uCardTerminal = cardTerminal;
-//                        break;
-//                    }
-//                }
-//
-//                if (acr122uCardTerminal != null) {
-//                    timerQuitOnNoReaderAttached.stop();
-//                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
-//                        public void actionPerformed(ActionEvent event) {
-//                            checkCardPresent();
-//                        }
-//                    };
-//                    timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
-//                    timerCheckCardPresent.setRepeats(true);
-//                    timerCheckCardPresent.start();
-//                } else {
-//                    jTextFieldCardLoader.setText("No");
-//                    jTextFieldCardLoader.setForeground(Color.RED);
-//                }
-//            } else {
-//                jTextFieldCardLoader.setText("No");
-//                jTextFieldCardLoader.setForeground(Color.RED);
-//            }
-//        } catch (Exception ex) {
-//        }
+        try {
+            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    quitOnNoReaderAttached();
+                }
+            };
+
+            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
+            timerQuitOnNoReaderAttached.setRepeats(false);
+            timerQuitOnNoReaderAttached.start();
+
+            TerminalFactory terminalFactory = TerminalFactory.getDefault();
+
+            if (!terminalFactory.terminals().list().isEmpty()) {
+
+                jTextFieldCardLoader.setText("Yes");
+                jTextFieldCardLoader.setForeground(Color.GREEN);
+
+                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
+                    if (cardTerminal.getName().contains("ACS ACR122")) {
+                        acr122uCardTerminal = cardTerminal;
+                        break;
+                    }
+                }
+
+                if (acr122uCardTerminal != null) {
+                    timerQuitOnNoReaderAttached.stop();
+                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
+                        public void actionPerformed(ActionEvent event) {
+                            checkCardPresent();
+                        }
+                    };
+                    timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
+                    timerCheckCardPresent.setRepeats(true);
+                    timerCheckCardPresent.start();
+                } else {
+                    jTextFieldCardLoader.setText("No");
+                    jTextFieldCardLoader.setForeground(Color.RED);
+                }
+            } else {
+                jTextFieldCardLoader.setText("No");
+                jTextFieldCardLoader.setForeground(Color.RED);
+            }
+        } catch (Exception ex) {
+        }
+
+//        initPartnerPoleDisplay();
+//        poleDisplay("Your Card");
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextFieldCardPresentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCardPresentActionPerformed
@@ -429,9 +443,11 @@ public class Member extends javax.swing.JFrame {
                 }
 
                 if (flag) {
+//                    poleDisplay("Member found!");
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
+//                    poleDisplay("Member not Found!");
                     JOptionPane.showMessageDialog(this, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -486,8 +502,67 @@ public class Member extends javax.swing.JFrame {
         return response;
     }
 
+    private void initPartnerPoleDisplay() {
+        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
+
+        while (commPortList.hasMoreElements()) {
+            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
+
+            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
+                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
+                try {
+                    serialPort = (SerialPort) commPort.open("POS", 5000);
+                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
+                } catch (PortInUseException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NullPointerException ex) {
+                    System.err.println("Unable to initialize Partner Pole Display");
+                }
+            }
+        }
+    }
+
+    private void poleDisplay(String result) {
+        byte[] clear = {0x0C};
+        byte[] newLine = {0x0A};
+        byte[] carriageReturn = {0x0D};
+        byte[] message1 = new String("Member Check").getBytes();
+        byte[] message2 = new String(result).getBytes();
+
+        try {
+            partnerPoleDisplayOutputStream.write(clear);
+            partnerPoleDisplayOutputStream.write(message1);
+            partnerPoleDisplayOutputStream.write(newLine);
+            partnerPoleDisplayOutputStream.write(carriageReturn);
+            partnerPoleDisplayOutputStream.write(message2);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex) {
+            System.err.println("Unable to write to Partner Pole Display");
+        }
+    }
+
+    private void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     private void goBack() {
-        // timerCheckCardPresent.stop();
+        if (timerCheckCardPresent != null) {
+            timerCheckCardPresent.stop();
+        }
+
+//        closePort();
         this.setVisible(false);
         this.dispose();
 
@@ -496,7 +571,7 @@ public class Member extends javax.swing.JFrame {
         } else {
             mainMenu = new MainMenu(POSid, staffId);
         }
-
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
 

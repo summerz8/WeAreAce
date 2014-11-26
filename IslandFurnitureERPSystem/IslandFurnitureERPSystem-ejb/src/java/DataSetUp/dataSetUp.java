@@ -16,17 +16,11 @@ import Entity.Factory.FactoryBin.FactoryBinStoredProductEntity;
 import Entity.Factory.FactoryEntity;
 import Entity.Factory.FactoryProductAmountEntity;
 import Entity.Factory.FactoryProductEntity;
-import Entity.Factory.FactoryRawMaterialAmountEntity;
 import Entity.Factory.FactoryRawMaterialEntity;
 import Entity.Factory.FactoryRetailProductAmountEntity;
 import Entity.Factory.FactoryRetailProductEntity;
 import Entity.Factory.InventoryRecordEntity;
-import Entity.Factory.MRP.IntegratedPlannedOrderEntity;
-import Entity.Factory.MRP.IntegratedSalesForecastEntity;
-import Entity.Factory.MRP.PlannedOrderEntity;
-import Entity.Factory.MRP.ProductionPlanEntity;
 import Entity.Factory.MRP.SalesForecastEntity;
-import Entity.Factory.MRP.SalesOperationPlanEntity;
 import Entity.Factory.ProductEntity;
 import Entity.Factory.RawMaterialEntity;
 import Entity.Factory.RetailProductEntity;
@@ -35,52 +29,19 @@ import Entity.Factory.SCM.OutboundMovementEntity;
 import Entity.Factory.SCM.PurchaseOrderEntity;
 import Entity.Factory.SCM.RawMaterialInFactoryUseMovementEntity;
 import Entity.Factory.SCM.SupplierEntity;
-
-import Entity.Factory.SetEntity;
-
-import Entity.Kitchen.ComboEntity;
-import Entity.Kitchen.ComboItemEntity;
-import Entity.Kitchen.DailySalesEntity;
-import Entity.Kitchen.DishEntity;
-import Entity.Kitchen.DishItemEntity;
-import Entity.Kitchen.IngredientEntity;
-import Entity.Kitchen.IngredientItemEntity;
-import Entity.Kitchen.IngredientSupplierEntity;
-import Entity.Kitchen.KitchenEntity;
-import Entity.Kitchen.KitchenOrderEntity;
-import Entity.Kitchen.MenuItemForecastEntity;
-import Entity.Kitchen.StoragePlaceEntity;
-
-import Entity.Store.EventEntity;
-import Entity.Store.OCRM.CountryProductEntity;
-import Entity.Store.OCRM.CountryRetailProductEntity;
-import Entity.Store.OCRM.CountrySetEntity;
-
-import Entity.Store.IM.StoreWarehouseBinEntity;
-import Entity.Store.OCRM.MemberCardIdMappingEntity;
-import Entity.Store.OCRM.MemberEntity;
-
-import Entity.Store.OCRM.MembershipLevelEntity;
-import Entity.Store.OCRM.PickupListEntity;
-import Entity.Store.OCRM.ProductSalesForecastEntity;
-import Entity.Store.OCRM.SalesRecordEntity;
-import Entity.Store.OCRM.ShoppingCartItemEntity;
-import Entity.Store.OCRM.TransactionEntity;
-import Entity.Store.OCRM.TransactionItemEntity;
 import Entity.Store.StoreEntity;
-import Entity.Store.StoreEventEntity;
-import Entity.Store.StoreItemMappingEntity;
 import Entity.Store.StoreProductEntity;
 import Entity.Store.StoreRetailProductEntity;
-import Entity.Store.StoreSetEntity;
-import SessionBean.KM.CustomerOrderFulfillmentModuleLocal;
+import SessionBean.CommonInFrastructure.InternalMessageModuleLocal;
+import SessionBean.MRP.PlannedOrderManagementModuleLocal;
+import SessionBean.MRP.ProductionPlanManagementModuleLocal;
+import SessionBean.MRP.WeeklyProductionPlanLocal;
 import SessionBean.SCM.PurchaseOrderManagementModuleLocal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -90,7 +51,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import util.security.CreateID;
 import util.security.CryptographicHelper;
 
 /**
@@ -101,12 +61,17 @@ import util.security.CryptographicHelper;
 @LocalBean
 @Startup
 public class dataSetUp {
+    @EJB
+    private WeeklyProductionPlanLocal wpp;
 
+    @EJB
+    private PlannedOrderManagementModuleLocal plom;
+    @EJB
+    private ProductionPlanManagementModuleLocal ppm;
     @EJB
     private PurchaseOrderManagementModuleLocal pom;
-
     @EJB
-    private CustomerOrderFulfillmentModuleLocal cof;
+    private InternalMessageModuleLocal imm;
 
     @PersistenceContext
     private EntityManager em;
@@ -122,9 +87,13 @@ public class dataSetUp {
 
         //idNumberEntity
         IdNumberEntity id = new IdNumberEntity();
-        id.setId_F(1000003L);
+        id.setId_F(1000002L);
         id.setId_H(1000001L);
+<<<<<<< HEAD
         id.setId_S(1000004L);
+=======
+        id.setId_S(1000001L);
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
         em.persist(id);
         em.flush();
 
@@ -139,13 +108,20 @@ public class dataSetUp {
         }
 
         UserEntity u = new HQUserEntity("H", "1000001", 0, "Zheng", null, "Yuan", "Global Manager",
-                birthday, "Female", "Ms", "Kent Ridge Crescent 15", "119215", "vicky.yuanzheng@gmail.com", 1L, cryptographicHelper.doMD5Hashing("123" + "H1000001"), false);
+                birthday, "Female", "Ms", "Kent Ridge Crescent 15", "119215", "vicky.yuanzheng@gmail.com", 1L, cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u);
         em.flush();
 
         //Factory
+<<<<<<< HEAD
         FactoryEntity f1 = new FactoryEntity("China", "Guang Zhou Chongqing Lu 142523", "+86 8888-4532", "F1000002", false);
+=======
+        FactoryEntity f1 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
         em.persist(f1);
+        em.flush();
+        FactoryEntity f2 = new FactoryEntity("United States", "4400 Shellmound St, Emeryville, CA", "+1888-888-4532", "F1000002", false);
+        em.persist(f2);
         em.flush();
 
         FactoryEntity f2 = new FactoryEntity("Singapore", "Kent Ridge Crescent 1", "+6512345678", "F1000001", false);
@@ -195,21 +171,21 @@ public class dataSetUp {
         //FactoryUser(f1)
         UserEntity u1 = new FactoryUserEntity("F", "1000001", 1, "Zhang", null,
                 "Shiyu", "Factory Manager", birthday, "Female",
-                "Ms", "West Coast Road 20", "250620", "ms.z.summer@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123" + "F1000001"), false);
+                "Ms", "West Coast Road 20", "250620", "ms.z.summer@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
         em.persist(u1);
         em.flush();
+<<<<<<< HEAD
         //FactoryUser(f1)
         UserEntity u2 = new FactoryUserEntity("F", "1000002", 3, "Zhang", null,
                 "Yaowen", "Factory SCM Staff", birthday, "Female",
                 "Ms", "New York Road 20", "250620", "z.yaowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123" + "F1000002"), false);
+=======
+        //FactoryUser(f2)
+        UserEntity u2 = new FactoryUserEntity("F", "1000002", 1, "Bowen", null,
+                "Jeremy", "Factory Manager", birthday, "Male",
+                "Mr", "New York Road 20", "250620", "jeremy.bowen@gmail.com", f2.getFactoryId(), cryptographicHelper.doMD5Hashing("123"), false);
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
         em.persist(u2);
-        em.flush();
-
-        //FactoryUser(f1)
-        UserEntity u3 = new FactoryUserEntity("F", "1000003", 4, "He", null,
-                "Jinqiao", "Factory MRP Staff", birthday, "Male",
-                "Mr", "West Coast Road 20", "250620", "hejinqiaoinsg@gmail.com", f1.getFactoryId(), cryptographicHelper.doMD5Hashing("123" + "F1000003"), false);
-        em.persist(u3);
         em.flush();
 
         //Store
@@ -220,6 +196,7 @@ public class dataSetUp {
         em.persist(s2);
         em.flush();
 
+<<<<<<< HEAD
         f1.getStoreList().add(s1.getStoreId());
         f1.getStoreList().add(s2.getStoreId());
         s1.getFactoryList().add(f1.getFactoryId());
@@ -277,6 +254,8 @@ public class dataSetUp {
         em.persist(rp5);
         em.flush();
 
+=======
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
         //Raw Material
         RawMaterialEntity rm1 = new RawMaterialEntity("board", "wood", false, "square meter");
         em.persist(rm1);
@@ -293,11 +272,9 @@ public class dataSetUp {
         RawMaterialEntity rm5 = new RawMaterialEntity("fabric", "blue", false, "square meter");
         em.persist(rm5);
         em.flush();
-        RawMaterialEntity rm6 = new RawMaterialEntity("fibreboard", "white", false, "square meter");
-        em.persist(rm6);
-        em.flush();
 
         //Product
+<<<<<<< HEAD
         ProductEntity p7 = new ProductEntity("Medi Single Bed", "Wooden bed, Single Size, light yellow", 600.0, 580.0, "one", false);
         em.persist(p7);
         em.flush();
@@ -936,6 +913,25 @@ public class dataSetUp {
         frp2_2.getStoreRetailProducts().add(srp2_2);
         s2.getStoreRetailProducts().add(srp2_2);
         rp4.getStoreRetailProducts().add(srp2_2);
+=======
+        ProductEntity p1 = new ProductEntity("Sofa", "Sofa and chaise lounge, Grann, Bomstad dark brown", 1499.0, 1399.0, "set", false);
+        em.persist(p1);
+        em.flush();
+        ProductEntity p2 = new ProductEntity("TV Storage", "TV storage combination, black-brown", 499.0, 450.0, "set", false);
+        em.persist(p2);
+        em.flush();
+        ProductEntity p3 = new ProductEntity("Coffee Table", "Coffee table, high gloss black", 199.0, 150.0, "one", false);
+        em.persist(p3);
+        em.flush();
+        ProductEntity p4 = new ProductEntity("Ceiling Light", "LED chandelier, chrome plated", 59.99, 50.0, "set", false);
+        em.persist(p4);
+        em.flush();
+        ProductEntity p5 = new ProductEntity("Wardrobe", "Wardrobe, black-brown, Sekken frosted glass", 884.0, 820.0, "one", false);
+        em.persist(p5);
+        em.flush();
+        ProductEntity p6 = new ProductEntity("Bathroom Mirrors", "Bathroom mirror, Mirror cab 1 door/built-in lighting, white", 225.0, 220.0, "package", false);
+        em.persist(p6);
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
         em.flush();
 
         //Product.BOM
@@ -1144,31 +1140,21 @@ public class dataSetUp {
         p19.setBom(bom14);
         em.flush();
 
-        //set raw material to bom relationship
-        rm1.getBomList().add(bom1_3);
-        rm1.getBomList().add(bom2_1);
-        rm1.getBomList().add(bom3_1);
-        rm1.getBomList().add(bom5_1);
-        em.persist(rm1);
+        //Retail Product
+        RetailProductEntity rp1 = new RetailProductEntity("Kellogg's Special K Cereal", "Red Berries 317G", 6.3, "box", false);
+        em.persist(rp1);
         em.flush();
-
-        rm2.getBomList().add(bom1_2);
-        rm2.getBomList().add(bom2_3);
-        rm2.getBomList().add(bom3_2);
-        rm2.getBomList().add(bom4_2);
-        rm2.getBomList().add(bom5_2);
-        em.persist(rm2);
+        RetailProductEntity rp2 = new RetailProductEntity("Nescafe Milk Coffee Canned Drink 6S", "Latte 240ML", 7.2, "set", false);
+        em.persist(rp2);
         em.flush();
-
-        rm3.getBomList().add(bom2_2);
-        rm3.getBomList().add(bom3_3);
-        rm3.getBomList().add(bom4_1);
-        rm3.getBomList().add(bom5_3);
-        em.persist(rm3);
+        RetailProductEntity rp3 = new RetailProductEntity("Hardys VR", "Shiraz 750ML", 60.0, "bottle", false);
+        em.persist(rp3);
         em.flush();
-
-        rm4.getBomList().add(bom1_1);
-        em.persist(rm4);
+        RetailProductEntity rp4 = new RetailProductEntity("Nature's Wonders", "Baked Cashew Nuts 240G", 30.0, "bag", false);
+        em.persist(rp4);
+        em.flush();
+        RetailProductEntity rp5 = new RetailProductEntity("UIC Big Value Conc Liq Dtrgnt Rf", "Anti-Bac 1.8LT", 9.9, "bottle", false);
+        em.persist(rp5);
         em.flush();
 
         //Factory Raw Material
@@ -1225,6 +1211,95 @@ public class dataSetUp {
         em.flush();
         rm5.getFactoryRawMaterials().add(frm2_5);
         f2.getFactoryRawMaterials().add(frm2_5);
+        em.flush();
+
+        //Factory Product
+        //for f1
+        FactoryProductEntity fp1_1 = new FactoryProductEntity(p1.getUnit(), f1, p1);
+        em.persist(fp1_1);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_1);
+        p1.getFactoryProducts().add(fp1_1);
+        FactoryProductEntity fp1_2 = new FactoryProductEntity(p2.getUnit(), f1, p2);
+        em.persist(fp1_2);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_2);
+        p2.getFactoryProducts().add(fp1_2);
+        FactoryProductEntity fp1_3 = new FactoryProductEntity(p3.getUnit(), f1, p3);
+        em.persist(fp1_3);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_3);
+        p3.getFactoryProducts().add(fp1_3);
+        FactoryProductEntity fp1_4 = new FactoryProductEntity(p4.getUnit(), f1, p4);
+        em.persist(fp1_4);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_4);
+        p4.getFactoryProducts().add(fp1_4);
+        FactoryProductEntity fp1_5 = new FactoryProductEntity(p5.getUnit(), f1, p5);
+        em.persist(fp1_5);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_5);
+        p5.getFactoryProducts().add(fp1_5);
+        em.flush();
+        FactoryProductEntity fp1_6 = new FactoryProductEntity(p6.getUnit(), f1, p6);
+        em.persist(fp1_6);
+        em.flush();
+        f1.getFactoryProducts().add(fp1_6);
+        p6.getFactoryProducts().add(fp1_6);
+        em.flush();
+
+        //for f2
+        FactoryProductEntity fp2_1 = new FactoryProductEntity(p1.getUnit(), f2, p1);
+        em.persist(fp2_1);
+        em.flush();
+        f2.getFactoryProducts().add(fp2_1);
+        p1.getFactoryProducts().add(fp2_1);
+        FactoryProductEntity fp2_2 = new FactoryProductEntity(p2.getUnit(), f2, p2);
+        em.persist(fp2_2);
+        em.flush();
+        f2.getFactoryProducts().add(fp2_2);
+        p2.getFactoryProducts().add(fp2_2);
+        em.flush();
+
+        //Factory Retail Product
+        //for f1
+        FactoryRetailProductEntity frp1_1 = new FactoryRetailProductEntity(rp1.getUnit(), rp1.getName(), rp1.getDescription(), f1, rp1);
+        em.persist(frp1_1);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_1);
+        rp1.getFactoryRetailProducts().add(frp1_1);
+        FactoryRetailProductEntity frp1_2 = new FactoryRetailProductEntity(rp2.getUnit(), rp2.getName(), rp2.getDescription(), f1, rp2);
+        em.persist(frp1_2);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_2);
+        rp2.getFactoryRetailProducts().add(frp1_2);
+        FactoryRetailProductEntity frp1_3 = new FactoryRetailProductEntity(rp3.getUnit(), rp3.getName(), rp3.getDescription(), f1, rp3);
+        em.persist(frp1_3);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_3);
+        rp3.getFactoryRetailProducts().add(frp1_3);
+        FactoryRetailProductEntity frp1_4 = new FactoryRetailProductEntity(rp4.getUnit(), rp4.getName(), rp4.getDescription(), f1, rp4);
+        em.persist(frp1_4);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_4);
+        rp4.getFactoryRetailProducts().add(frp1_4);
+        FactoryRetailProductEntity frp1_5 = new FactoryRetailProductEntity(rp5.getUnit(), rp5.getName(), rp5.getDescription(), f1, rp5);
+        em.persist(frp1_5);
+        em.flush();
+        f1.getFactoryRetailProducts().add(frp1_5);
+        rp5.getFactoryRetailProducts().add(frp1_5);
+        em.flush();
+        //for f2
+        FactoryRetailProductEntity frp2_1 = new FactoryRetailProductEntity(rp1.getUnit(), rp1.getName(), rp1.getDescription(), f2, rp1);
+        em.persist(frp2_1);
+        em.flush();
+        f2.getFactoryRetailProducts().add(frp1_1);
+        rp1.getFactoryRetailProducts().add(frp1_1);
+        FactoryRetailProductEntity frp2_2 = new FactoryRetailProductEntity(rp2.getUnit(), rp2.getName(), rp2.getDescription(), f2, rp2);
+        em.persist(frp2_2);
+        em.flush();
+        f2.getFactoryRetailProducts().add(frp1_2);
+        rp2.getFactoryRetailProducts().add(frp1_2);
         em.flush();
 
         //Factory Bin Stored Product
@@ -1477,11 +1552,11 @@ public class dataSetUp {
         //Inventory Record
         //Inventory Record.Calendars
         Calendar ci1 = Calendar.getInstance();
-        ci1.set(2014, 10, 1);
+        ci1.set(2014, 6, 1);
         Calendar ci2 = Calendar.getInstance();
-        ci2.set(2014, 11, 1);
+        ci2.set(2014, 7, 1);
         Calendar ci3 = Calendar.getInstance();
-        ci3.set(2014, 12, 1);
+        ci3.set(2014, 8, 1);
         //for f1.factoryRawMaterial
         InventoryRecordEntity ir1_1_1_1 = new InventoryRecordEntity(frm1_1, ci1, 1000.0);
         em.persist(ir1_1_1_1);
@@ -1863,26 +1938,20 @@ public class dataSetUp {
         sp3_2.getContractList().add(ct2_3_2);
         em.flush();
 
-        //Factory Manually-created purchase order
-        try {
-            PurchaseOrderEntity po1_1 = pom.createPurchaseOrder(f1.getFactoryId(), ct1_1_1_1.getContractId(), 100.0, null, "", Calendar.getInstance(), Boolean.TRUE, Boolean.FALSE);
-            pom.confirmPurchaseOrder(u1.getUserId(), po1_1.getId());
-            pom.generateGoodsRecipt(po1_1.getId());
-        } catch (Exception ex) {
-            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
-            ex.printStackTrace();
-        }
-
         //Sales Forecast
         //Calendars for Sales Forecast
         Calendar c1 = Calendar.getInstance();
-        c1.set(2014, 11, 2);
+        c1.set(2014, 10, 2);
         Calendar c2 = Calendar.getInstance();
         c2.set(2014, 10, 2);
         Calendar c3 = Calendar.getInstance();
         c3.set(2014, 9, 2);
         Calendar c4 = Calendar.getInstance();
+<<<<<<< HEAD
         c4.set(2014, 8, 2);
+=======
+        c4.set(2014, 9, 2);
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
         //sf1_1
         SalesForecastEntity sf1_1 = new SalesForecastEntity(s1, c4);
         em.persist(sf1_1);
@@ -2128,7 +2197,6 @@ public class dataSetUp {
         OutboundMovementEntity om1_2_1 = new OutboundMovementEntity();
         om1_2_1.recordFactoryProductOutboundMovement(fbsp1_2_1, s1, 50.0, com1);
         em.persist(om1_2_1);
-
         em.flush();
         OutboundMovementEntity om1_3_1 = new OutboundMovementEntity();
         om1_3_1.recordFactoryRetailProductOutboundMovement(fbsp1_3_1, s2, 100.0, com2);
@@ -2163,215 +2231,83 @@ public class dataSetUp {
         rmifu2_1.recordRawMaterialInFactoryUseMovement(fbsp2_1_1, 20.0, com1);
         em.flush();
 
-        //Kitchen of s1
-        KitchenEntity k1 = new KitchenEntity(s1);
-        em.persist(k1);
-        s1.setKitchen(k1);
-        em.flush();
-
-        //Storage Places for k1
-        StoragePlaceEntity stp1_1 = new StoragePlaceEntity(k1, "Refrigerator 1");
-        em.persist(stp1_1);
-        em.flush();
-        k1.getStoragePlaces().add(stp1_1);
-        em.flush();
-        StoragePlaceEntity stp1_2 = new StoragePlaceEntity(k1, "Refrigerator 2");
-        em.persist(stp1_2);
-        em.flush();
-        k1.getStoragePlaces().add(stp1_2);
-        em.flush();
-        StoragePlaceEntity stp1_3 = new StoragePlaceEntity(k1, "Refrigerator 3");
-        em.persist(stp1_3);
-        em.flush();
-        k1.getStoragePlaces().add(stp1_3);
-        em.flush();
-        StoragePlaceEntity stp1_4 = new StoragePlaceEntity(k1, "Shelf 1");
-        em.persist(stp1_4);
-        em.flush();
-        k1.getStoragePlaces().add(stp1_4);
-        em.flush();
-        StoragePlaceEntity stp1_5 = new StoragePlaceEntity(k1, "Shelf 2");
-        em.persist(stp1_5);
-        em.flush();
-        k1.getStoragePlaces().add(stp1_5);
-        em.flush();
-
-        //IngredientSuppliers for k1
-        IngredientSupplierEntity ks1_1 = new IngredientSupplierEntity("Q.B. Food Trading Pte Ltd", "8 Chin Bee Crescent, Jurong, Singapore 619893", "+65 6261 6410", "+65 6261 6120", "Other Enquiries: +65 6261 6120", k1);
-        em.persist(ks1_1);
-        em.flush();
-        k1.getIngredientSuppliers().add(ks1_1);
-        em.flush();
-        IngredientSupplierEntity ks1_2 = new IngredientSupplierEntity("Fresh Direct Pte Ltd", "Blk 17, Pasir Panjang Wholesale Centre, #01-119/120, Singapore 110017", "+65 6775 4454", "+65 6872 1911", "Sales and Business Development: desmond@freshdirect.com.sg", k1);
-        em.persist(ks1_2);
-        em.flush();
-        k1.getIngredientSuppliers().add(ks1_2);
-        em.flush();
-        IngredientSupplierEntity ks1_3 = new IngredientSupplierEntity("Boba Planet Private Limited", "11 Woodlands Close, #10-19, Woodlands 11, S(737853)", "+65 6458 0490", "+65 6458 4760", "Bubble Tea ingredient supplier", k1);
-        em.persist(ks1_3);
-        em.flush();
-        k1.getIngredientSuppliers().add(ks1_3);
-        em.flush();
-
-        //Ingredients for k1
-        IngredientEntity i1_1 = new IngredientEntity("Lettuce", 5.0, "kg", "bitterness will increase with extended storage", 10.0, k1, ks1_2);
-        em.persist(i1_1);
-        em.flush();
-        ArrayList<StoragePlaceEntity> stps1_1 = new ArrayList<>();
-        stps1_1.add(stp1_1);
-        for (StoragePlaceEntity storagePlace : stps1_1) {
-            i1_1.getStoragePlaces().add(storagePlace);
-            storagePlace.getIngredients().add(i1_1);
-        }
-        i1_1.getKitchen().getIngredients().add(i1_1);
-        i1_1.getSupplier().getIngredients().add(i1_1);
-        em.flush();
-
-        IngredientEntity i1_2 = new IngredientEntity("Chilled Beef", 32.0, "kg", "hunter valley australian grass fed ribeye", 10.0, k1, ks1_1);
-        em.persist(i1_2);
-        em.flush();
-        ArrayList<StoragePlaceEntity> stps1_2 = new ArrayList<>();
-        stps1_2.add(stp1_1);
-        stps1_2.add(stp1_2);
-        for (StoragePlaceEntity storagePlace : stps1_2) {
-            i1_2.getStoragePlaces().add(storagePlace);
-            storagePlace.getIngredients().add(i1_2);
-        }
-        i1_2.getKitchen().getIngredients().add(i1_2);
-        i1_2.getSupplier().getIngredients().add(i1_2);
-        em.flush();
-        IngredientEntity i1_3 = new IngredientEntity("Blueberry Syrup", 15.2, "bottle (5kg)", "Free local delivery for orders more than S$ 150, Delivery surcharge of S$ 15 applicable, for orders below S$ 150", 1.0, k1, ks1_3);
-        em.persist(i1_3);
-        em.flush();
-        ArrayList<StoragePlaceEntity> stps1_3 = new ArrayList<>();
-        stps1_3.add(stp1_1);
-        stps1_3.add(stp1_2);
-        stps1_3.add(stp1_3);
-        for (StoragePlaceEntity storagePlace : stps1_3) {
-            i1_3.getStoragePlaces().add(storagePlace);
-            storagePlace.getIngredients().add(i1_3);
-        }
-        i1_3.getKitchen().getIngredients().add(i1_3);
-        i1_3.getSupplier().getIngredients().add(i1_3);
-        em.flush();
-
-        //Dishes for k1
-        DishEntity d1_1 = new DishEntity("Steak", 10.0, "Beef Steak", 5, k1);
-        em.persist(d1_1);
-        em.flush();
-        d1_1.getKitchen().getDishes().add(d1_1);
-        IngredientItemEntity ii1_1_1 = new IngredientItemEntity(i1_1, 1.0);
-        em.persist(ii1_1_1);
-        em.flush();
-        ii1_1_1.getIngredient().getDishes().add(d1_1);
-        d1_1.getRecipe().add(ii1_1_1);
-        IngredientItemEntity ii1_1_2 = new IngredientItemEntity(i1_2, 2.0);
-        em.persist(ii1_1_2);
-        em.flush();
-        ii1_1_2.getIngredient().getDishes().add(d1_1);
-        d1_1.getRecipe().add(ii1_1_2);
-        em.flush();
-
-        DishEntity d1_2 = new DishEntity("Beef Salad", 12.0, "Beef Salad", 5, k1);
-        em.persist(d1_2);
-        em.flush();
-        d1_2.getKitchen().getDishes().add(d1_2);
-        IngredientItemEntity ii1_2_1 = new IngredientItemEntity(i1_1, 1.0);
-        em.persist(ii1_2_1);
-        em.flush();
-        ii1_2_1.getIngredient().getDishes().add(d1_2);
-        d1_2.getRecipe().add(ii1_2_1);
-        IngredientItemEntity ii1_2_2 = new IngredientItemEntity(i1_2, 2.0);
-        em.persist(ii1_2_2);
-        em.flush();
-        ii1_2_2.getIngredient().getDishes().add(d1_2);
-        d1_2.getRecipe().add(ii1_2_2);
-        em.flush();
-        IngredientItemEntity ii1_2_3 = new IngredientItemEntity(i1_3, 0.5);
-        em.persist(ii1_2_3);
-        em.flush();
-        ii1_2_3.getIngredient().getDishes().add(d1_2);
-        d1_2.getRecipe().add(ii1_2_3);
-        em.flush();
-
-        // Combos for k1
-        ComboEntity c1_1 = new ComboEntity("Beef Set", 40.0, "Beef Set 2px", k1);
-        em.persist(c1_1);
-        c1_1.getKitchen().getCombos().add(c1_1);
-        em.flush();
-        DishItemEntity di1_1_1 = new DishItemEntity(d1_1, 2);
-        em.persist(di1_1_1);
-        em.flush();
-        di1_1_1.getDish().getCombos().add(c1_1);
-        c1_1.getDishes().add(di1_1_1);
-        em.flush();
-        DishItemEntity di1_1_2 = new DishItemEntity(d1_2, 2);
-        em.persist(di1_1_2);
-        em.flush();
-        di1_1_2.getDish().getCombos().add(c1_1);
-        c1_1.getDishes().add(di1_1_2);
-
-        // MenuItemForecast for k1
-        Random rd = new Random();
-        for (int i = 0; i < 1; i++) {
-            Calendar curr = Calendar.getInstance();
-            curr.add(Calendar.DAY_OF_MONTH, i);
-            MenuItemForecastEntity mif = new MenuItemForecastEntity(curr, k1);
-            em.persist(mif);
-            em.flush();
-            k1.getMenuItemForecasts().add(mif);
-
-            for (DishEntity d : k1.getDishes()) {
-                DishItemEntity dfi1 = new DishItemEntity(d, rd.nextInt(200));
-                em.persist(dfi1);
-                em.flush();
-                mif.getDishForecastItems().add(dfi1);
-                dfi1.getDish().getForecasts().add(mif);
-                em.flush();
-            }
-
-            for (ComboEntity c : k1.getCombos()) {
-                ComboItemEntity cfi1 = new ComboItemEntity(c, rd.nextInt(100));
-                em.persist(cfi1);
-                em.flush();
-                mif.getComboForecastItems().add(cfi1);
-                cfi1.getCombo().getForecasts().add(mif);
-                em.flush();
-            }
-
+        //Factory Manually-created purchase order
+        try {
+            PurchaseOrderEntity po1_1 = pom.createPurchaseOrder(f1.getFactoryId(), ct1_1_1_1.getContractId(), 100.0, null, "", Calendar.getInstance(), Boolean.TRUE, Boolean.FALSE);
+            pom.confirmPurchaseOrder(u1.getUserId(), po1_1.getId());
+            pom.generateGoodsRecipt(po1_1.getId());
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Manually-created purchase order: Unexpected error");
+            ex.printStackTrace();
         }
 
-        //DailySales for k1
-        for (int i = -10; i < 0; i++) {
-            DailySalesEntity ds = new DailySalesEntity(k1);
-            em.persist(ds);
-            em.flush();
-            k1.getDailySales().add(ds);
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_MONTH, i);
-            ds.setSalesDate(cal);
-            Double sales = 0.0;
-            for (DishEntity d : k1.getDishes()) {
-                DishItemEntity di = new DishItemEntity(d, 150 + rd.nextInt(50));
-                em.persist(di);
-                em.flush();
-                sales += di.getDish().getPrice() * di.getQuantity();
-                ds.getDishes().add(di);
-                d.getDailySales().add(ds);
-                em.flush();
-            }
-            for (ComboEntity c : k1.getCombos()) {
-                ComboItemEntity ci = new ComboItemEntity(c, 50 + rd.nextInt(50));
-                em.persist(ci);
-                em.flush();
-                sales += ci.getCombo().getPrice() * ci.getQuantity();
-                ds.getCombos().add(ci);
-                c.getDailySales().add(ds);
-                em.flush();
-            }
-            ds.setSales(sales);
-            ds.setSalesAfterDiscount(sales * (rd.nextInt(2) / 10 + 0.8));
+        //StoreUser(s1)
+        StoreUserEntity us1_1 = new StoreUserEntity("S", "1000001", 2, "Zhang", null,
+                "Yaowen", "Store Manager", birthday, "Female",
+                "Ms", "Woodlands Dr 14", "730504", "zhangyaowen@gmail.com", s1.getStoreId(), cryptographicHelper.doMD5Hashing("123" + "S1000001"), false);
+        em.persist(us1_1);
+        em.flush();
+
+        //StoreProduct      /* Further Modification*/
+        //for s1
+        //s1.factoryProduct
+        StoreProductEntity sp1_1 = new StoreProductEntity(fp1_1, s1, false, "", fp1_1.getProduct());
+        em.persist(sp1_1);
+        em.flush();
+        StoreProductEntity sp1_2 = new StoreProductEntity(fp1_2, s1, false, "", fp1_2.getProduct());
+        em.persist(sp1_2);
+        em.flush();
+        //s2.factoryProduct
+        StoreProductEntity sp2_1 = new StoreProductEntity(fp1_1, s2, false, "", fp1_1.getProduct());
+        em.persist(sp2_1);
+        em.flush();
+        StoreProductEntity sp2_2 = new StoreProductEntity(fp1_1, s2, false, "", fp1_2.getProduct());
+        em.persist(sp2_2);
+        em.flush();
+
+        //StoreRetailProduct    /* Further Modification*/
+        //for s1
+        //s1.StoreRetailProduct
+        StoreRetailProductEntity srp1_1 = new StoreRetailProductEntity(frp1_1, s1, "");
+        em.persist(srp1_1);
+        em.flush();
+        StoreRetailProductEntity srp1_2 = new StoreRetailProductEntity(frp1_2, s1, "");
+        em.persist(srp1_2);
+        em.flush();
+        //s2.StoreRetailProduct
+        StoreRetailProductEntity srp2_1 = new StoreRetailProductEntity(frp1_1, s2, "");
+        em.persist(srp2_1);
+        em.flush();
+        StoreRetailProductEntity srp2_2 = new StoreRetailProductEntity(frp1_2, s2, "");
+        em.persist(srp2_2);
+        em.flush();
+
+        //Internal Message
+        ArrayList<String> reseiverIds = new ArrayList<>();
+        reseiverIds.add("S1000001");
+        try {
+            imm.sendMessage("F1000001", "Mr.", "Hello", reseiverIds);
+        } catch (Exception ex) {
+            System.out.println("DataSetUp: Factory Internal Message: Unexpected error");
+            ex.printStackTrace();
         }
+
+        Calendar generateDate = Calendar.getInstance();
+        generateDate.set(2014, 9, 24, 10, 30, 0);
+        Calendar targetPeriod = Calendar.getInstance();
+        targetPeriod.set(Calendar.YEAR, 2014);
+        targetPeriod.set(Calendar.MONTH, 11);
+        ppm.generateProductionPlan("unconfirmed", generateDate, targetPeriod, 500D, 1L, "");
+        ppm.generateProductionPlan("unconfirmed", generateDate, targetPeriod, 600D, 1L, "");
+        ppm.generateProductionPlan("unconfirmed", generateDate, targetPeriod, 700D, 1L, "");
+        try {
+            plom.createPlannedOrder(2L);
+            wpp.generateWeeklyProductionPlan(2L);
+        } catch (Exception ex) {
+            System.err.println("DataSetUp: Caught an unexpected exception.");
+            ex.printStackTrace();
+        }
+<<<<<<< HEAD
 
 //
 //        // kitchen orders
@@ -3675,4 +3611,7 @@ public class dataSetUp {
         //===================ticket ========================
     }
     //===================ticket ========================
+=======
+    }
+>>>>>>> ce448c28ff1946fffb9760be7e3d020ce89af11b
 }

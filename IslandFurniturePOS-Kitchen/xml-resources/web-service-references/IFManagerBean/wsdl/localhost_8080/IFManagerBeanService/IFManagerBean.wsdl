@@ -16,23 +16,17 @@
 <message name="logoutResponse">
 <part name="parameters" element="tns:logoutResponse"/>
 </message>
-<message name="validateUser">
-<part name="parameters" element="tns:validateUser"/>
+<message name="shopLogin">
+<part name="parameters" element="tns:shopLogin"/>
 </message>
-<message name="validateUserResponse">
-<part name="parameters" element="tns:validateUserResponse"/>
+<message name="shopLoginResponse">
+<part name="parameters" element="tns:shopLoginResponse"/>
 </message>
 <message name="getFullNameById">
 <part name="parameters" element="tns:getFullNameById"/>
 </message>
 <message name="getFullNameByIdResponse">
 <part name="parameters" element="tns:getFullNameByIdResponse"/>
-</message>
-<message name="shopLogin">
-<part name="parameters" element="tns:shopLogin"/>
-</message>
-<message name="shopLoginResponse">
-<part name="parameters" element="tns:shopLoginResponse"/>
 </message>
 <message name="getCasherById">
 <part name="parameters" element="tns:getCasherById"/>
@@ -46,6 +40,12 @@
 <message name="updateEndCashResponse">
 <part name="parameters" element="tns:updateEndCashResponse"/>
 </message>
+<message name="validateUser">
+<part name="parameters" element="tns:validateUser"/>
+</message>
+<message name="validateUserResponse">
+<part name="parameters" element="tns:validateUserResponse"/>
+</message>
 <portType name="IFManagerBean">
 <operation name="getUserInfo">
 <input wsam:Action="http://login.util/IFManagerBean/getUserInfoRequest" message="tns:getUserInfo"/>
@@ -55,17 +55,13 @@
 <input wsam:Action="http://login.util/IFManagerBean/logoutRequest" message="tns:logout"/>
 <output wsam:Action="http://login.util/IFManagerBean/logoutResponse" message="tns:logoutResponse"/>
 </operation>
-<operation name="validateUser">
-<input wsam:Action="http://login.util/IFManagerBean/validateUserRequest" message="tns:validateUser"/>
-<output wsam:Action="http://login.util/IFManagerBean/validateUserResponse" message="tns:validateUserResponse"/>
+<operation name="shopLogin">
+<input wsam:Action="http://login.util/IFManagerBean/shopLoginRequest" message="tns:shopLogin"/>
+<output wsam:Action="http://login.util/IFManagerBean/shopLoginResponse" message="tns:shopLoginResponse"/>
 </operation>
 <operation name="getFullNameById">
 <input wsam:Action="http://login.util/IFManagerBean/getFullNameByIdRequest" message="tns:getFullNameById"/>
 <output wsam:Action="http://login.util/IFManagerBean/getFullNameByIdResponse" message="tns:getFullNameByIdResponse"/>
-</operation>
-<operation name="shopLogin">
-<input wsam:Action="http://login.util/IFManagerBean/shopLoginRequest" message="tns:shopLogin"/>
-<output wsam:Action="http://login.util/IFManagerBean/shopLoginResponse" message="tns:shopLoginResponse"/>
 </operation>
 <operation name="getCasherById">
 <input wsam:Action="http://login.util/IFManagerBean/getCasherByIdRequest" message="tns:getCasherById"/>
@@ -74,6 +70,10 @@
 <operation name="updateEndCash">
 <input wsam:Action="http://login.util/IFManagerBean/updateEndCashRequest" message="tns:updateEndCash"/>
 <output wsam:Action="http://login.util/IFManagerBean/updateEndCashResponse" message="tns:updateEndCashResponse"/>
+</operation>
+<operation name="validateUser">
+<input wsam:Action="http://login.util/IFManagerBean/validateUserRequest" message="tns:validateUser"/>
+<output wsam:Action="http://login.util/IFManagerBean/validateUserResponse" message="tns:validateUserResponse"/>
 </operation>
 </portType>
 <binding name="IFManagerBeanPortBinding" type="tns:IFManagerBean">
@@ -96,7 +96,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="validateUser">
+<operation name="shopLogin">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -106,15 +106,6 @@
 </output>
 </operation>
 <operation name="getFullNameById">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="shopLogin">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -133,6 +124,15 @@
 </output>
 </operation>
 <operation name="updateEndCash">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="validateUser">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

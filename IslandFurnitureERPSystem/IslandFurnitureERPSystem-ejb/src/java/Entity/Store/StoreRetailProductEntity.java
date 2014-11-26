@@ -41,13 +41,13 @@ public class StoreRetailProductEntity implements Serializable {
 //    private Double quantity;
     private String Name;
     private Double unrestrictedInventory = 0D;//start with 0
-    private Double minimumInventory = 50D;
+    private Double minimumInventory = 20D;
     private Double returnedInventory = 0D;
     private String storeRemark;
     private String unit;
     private Boolean deleteFlag;
     
-    private Double intransitInventory;
+    private Double intransitInventory = 50D;
     
     //store retail product entity -- factory retail productentity: M <--> 1 
     @ManyToOne

@@ -96,7 +96,7 @@
                     <p:layoutUnit position="center" resizable="false">
                         <p:panel id="basic" header="Store Retail Product" style="border:0px; margin-bottom" >
 
-                            <p:button outcome="/secured/restricted/Store/IM/AddGlobalRetailProductToStore.xhtml" value ="Add New Retail Product" />
+                            <p:button outcome="/secured/restricted/Store/ResourceControl/AddGlobalRetailProductToStore.xhtml" value ="Add New Retail Product" />
 
                             <p:dataTable var="sproduct" editable="true" value="#{storeRetailProductControl.currentStoreRetailProductList}" 
                                          rowStyleClass="#{sproduct.unrestrictedInventory le sproduct.minimumInventory ?'old':null}"

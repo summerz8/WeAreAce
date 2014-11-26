@@ -143,7 +143,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
             List<ShoppingCartItemEntity> shoppingCartList = member.getShoppingCartList();
 
             for (ShoppingCartItemEntity s : shoppingCartList) {
-                if (s.getStoreId().equals(store)) {
+//                if (s.getStoreId().equals(store)) {
                     System.out.println("required store " + store);
                     System.out.println("shoppingCartItemEntity: " + s.toString());
                     try {
@@ -193,7 +193,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
                         }
                     }
 
-                }
+//                }
             }
             for (int i = 0; i < result.size(); i++) {
                 System.out.println("the result is " + result.get(i)[0] + " " + result.get(i)[1] + " " + result.get(i)[2]);
@@ -232,7 +232,7 @@ public class CustomerMobileAppModule implements CustomerMobileAppModuleLocal {
         result[1] = memPrice.toString();
         Integer amount = 1;
         for (ShoppingCartItemEntity s : shoppingCartList) {
-            if (s.getStoreId().equals(sp.getStore().getStoreId())) {
+            if (s.getCustomerWebItem()!=null &&s.getCustomerWebItem().getProductName().equals(sp.getName())) {
                 amount = s.getQuantity();
                 result[2] = s.getQuantity().toString();
                 String path = "/Users/dan/Desktop/Project/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + s.getCustomerWebItem().getPicture();

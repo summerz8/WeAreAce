@@ -17,31 +17,29 @@
 
         <title>Island Furniture Customer Web</title>
     </h:head> 
-    <h:body>
+    <h:body >
         <h:form>
             <p:growl id="messages" showDetail="true"/>
 
+  <p:graphicImage value="/resources/images/bgmap.jpg" style = "position: absolute;left:100px; top:80px;margin-bottom:50px;width:1200px; height:700px;text-align:center"/>
 
-            <p:graphicImage value="/resources/images/singapore-logo.jpg" style = "position: absolute; right:650px; top: 150px;margin-bottom:50px;width:700px; height:500px;text-align:center"/> 
+            <p:graphicImage value="/resources/images/WebLogo.png" style = "position: absolute;left:100px; top:10px;margin-bottom:50px;width:300px; height:120px;text-align:center"/>
 
-            <div class="ui-grid ui-grid-responsive" align="center"> 
-                <p:panel id="basic"  style="position: absolute; right: 220px; top:150px; border: 5px;margin-bottom:20px;width:400px; height:250px;text-align:center; background: white" >
-                    <a href="./Singapore/HomePage.xhtml" target="_blank"><p:graphicImage value="/resources/images/singapore-logo.jpg" style = "left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/>
-                        <h:outputText value ="Singapore" style="top:700px; left: 500px;text-align: center;"/>
-                    </a> 
+            <a href="./Singapore/HomePage.xhtml" target="_blank">
+                <h:outputText value ="Singapore" style="font-size: 30px; color: black; position: absolute;top:450px; left: 1000px;text-align: center;"/>
+            </a> 
+            
+            
 
-                    <a href="./China/HomePage.xhtml" target="_blank">
+            <a href="./China/HomePage.xhtml" target="_blank">
 
-                        <p:graphicImage value="/resources/images/singapore-logo.jpg" style = "left:100px; top:10px;margin-bottom:50px;width:200px; height:160px;text-align:center"/> 
-                        <h:outputText value ="中国" style="top:700px; left: 500px;text-align: center;"/>
-                    </a> 
-                </p:panel>
-                <h5>
-                    <h:outputText value ="Powered by Kent Ridge Technology.Copyright ©2014, All Rights Reserved." style="position: absolute; top:700px; left: 500px;text-align: center;"/>
-                </h5>
-            </div>
+                <h:outputText value ="中国" style="font-size: 30px; color: black; position: absolute; top:380px; right: 400px;text-align: center;"/>
+            </a> 
+          
+
+          
         </h:form>
-        <br />
+
 
     </h:body>
 </html>

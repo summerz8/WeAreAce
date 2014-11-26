@@ -91,40 +91,7 @@ public class FactoryInventoryManagementModuleTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of recordInboundMovement method, of class FactoryInventoryManagementModule.
-     */
-    @Test
-    public void testRecordInboundMovement2() throws Exception {
-        System.out.println("recordInboundMovement");
-        Long factoryId = 1L;
-        Long goodsReceiptId = 1L;
-        Long toBinId = 5L;
-        String status = "unrestricted";
-        Double quantity = 40D;
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.set(2014, 9, 30, 15, 0, 0);
-        Long expResult = -4L;
-        Long result = FactoryInventoryManagementModule.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
-        assertEquals(expResult, result);
-    }
     
-    /**
-     * Test of recordInboundMovement method, of class FactoryInventoryManagementModule.
-     */
-    @Test
-    public void testRecordInboundMovement3() throws Exception {
-        Long factoryId = 1L;
-        Long goodsReceiptId = 1L;
-        Long toBinId = 2L;
-        String status = "unrestricted";
-        Double quantity = 4000D;
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.set(2014, 9, 30, 15, 0, 0);
-        Long expResult = -6L;
-        Long result = FactoryInventoryManagementModule.recordInboundMovement(factoryId, goodsReceiptId, toBinId, status, quantity, creationDate);
-        assertEquals(expResult, result);
-    }
 
     /**
      * Test of recordInboundMovement method, of class FactoryInventoryManagementModule.

@@ -36,7 +36,7 @@ import sessionbean.ocrm.TransactionItemEntity;
 public class Cash extends javax.swing.JFrame {
 
     private String POSid = null;
-    private String partnerPoleDisplayCOMPort = "COM4";
+    private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     private SerialPort serialPort;
     private Long transactionId = null;
@@ -125,7 +125,7 @@ public class Cash extends javax.swing.JFrame {
             jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTitleLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -255,24 +255,7 @@ public class Cash extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        initPartnerPoleDisplay();
-        poleDisplay();
-=======
-//        initPartnerPoleDisplay();
-//        poleDisplay();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-//        initPartnerPoleDisplay();
-//        poleDisplay();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-//        initPartnerPoleDisplay();
-//        poleDisplay();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+        // TODO add your handling code here:     
 
         jScrollPane2.setVisible(false);
         jLabelTotalPrice.setText(String.valueOf(actualTotalPrice));
@@ -292,6 +275,7 @@ public class Cash extends javax.swing.JFrame {
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
         // TODO add your handling code here:
+
         if (jFormattedTextFieldTendered.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please insert tendered", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -300,33 +284,15 @@ public class Cash extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Tendered is smaller than total!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 moneyChange = tendered - actualTotalPrice;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                setTendered(transactionId,tendered);
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+                setTendered(transactionId, tendered);
                 caculateChange(transactionId, moneyChange);
-
+                inventoryMovement(transactionId);
                 jFormattedTextFieldTendered.setText("");
 
                 if (memberId != null) {
                     MemberEntity member = getMemberById(memberId);
                     Double base = Double.parseDouble((String) jComboBoxEventBonus.getSelectedItem());
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    System.err.println("base: "+ base);
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+                    System.err.println("base: " + base);
                     try {
                         Calendar birthday = fromXMLGregorianCalendar(member.getBirthday());
                         Calendar today = Calendar.getInstance();
@@ -338,19 +304,7 @@ public class Cash extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Birthday, double points", "Happy Birthday", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             pointsEarned = actualTotalPrice * base;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                             addNewPointsForMember(pointsEarned, memberId);
-=======
-                            addNewPointsForMember(actualTotalPrice, memberId);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                            addNewPointsForMember(actualTotalPrice, memberId);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                            addNewPointsForMember(actualTotalPrice, memberId);
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
                         }
                     } catch (DatatypeConfigurationException ex) {
                         Logger.getLogger(Cash.class.getName()).log(Level.SEVERE, null, ex);
@@ -361,9 +315,12 @@ public class Cash extends javax.swing.JFrame {
                 updateEndCash(storeStaffId, actualTotalPrice);
                 PartnerThermalPrinterAndCashBox();
 
+                checkOut.closePort();
+                checkOut.dispose();
                 this.setVisible(false);
                 this.dispose();
                 Change change = new Change(POSid, storeStaffId, moneyChange);
+                change.setLocationRelativeTo(null);
                 change.setVisible(true);
                 change.setExtendedState(JFrame.NORMAL);
             }
@@ -376,6 +333,7 @@ public class Cash extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         this.dispose();
+        checkOut.setLocationRelativeTo(null);
         checkOut.setVisible(true);
         checkOut.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonGoBackActionPerformed
@@ -447,69 +405,6 @@ public class Cash extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
-    private void initPartnerPoleDisplay() {
-        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
-
-        while (commPortList.hasMoreElements()) {
-            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
-
-            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
-                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
-                try {
-                    serialPort = (SerialPort) commPort.open("POS", 5000);
-                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
-                } catch (PortInUseException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                }catch (NullPointerException ex){                   
-                    System.err.println("Unable to initialize Partner Pole Display");
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-                }
-            }
-        }
-    }
-
-    private void poleDisplay() {
-        byte[] clear = {0x0C};
-        byte[] newLine = {0x0A};
-        byte[] carriageReturn = {0x0D};
-        byte[] message1 = new String("Make Payment").getBytes();
-        byte[] message2 = new String("Cash").getBytes();
-
-        try {
-            partnerPoleDisplayOutputStream.write(clear);
-            partnerPoleDisplayOutputStream.write(message1);
-            partnerPoleDisplayOutputStream.write(newLine);
-            partnerPoleDisplayOutputStream.write(carriageReturn);
-            partnerPoleDisplayOutputStream.write(message2);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        }catch (NullPointerException ex){                   
-                    System.err.println("Unable to write to Partner Pole Display");
-                }
-=======
-        }
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-        }
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-        }
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-    }
-
     private void PartnerThermalPrinterAndCashBox() {
         Double margin = 1.0;
         Integer lines = 8;
@@ -518,7 +413,7 @@ public class Cash extends javax.swing.JFrame {
         //title
         String printData = "";
         StoreEntity store = getStoreByStaffId(storeStaffId);
-        String title = "                          Island Furniture\n";
+        String title = "                       Island Furniture\n";
         String storeId = String.valueOf(store.getStoreId());
         String storeAddress = store.getAddress();
         String[] address = storeAddress.split(", ");
@@ -547,7 +442,7 @@ public class Cash extends javax.swing.JFrame {
 
         //transaction 
         String TransactionTitle = "Item ID      Item Name" + "\n"
-                + "(Member Price)Price * Amount = \n                  (Member Total Price)Total Price\n\n";
+                + "(Member Price)Price * Amount = \n                   (Member Total Price)Total Price\n\n";
         printData = printData + TransactionTitle + line + "\n\n";
         List<TransactionItemEntity> transactionList = getTransactionItemList(transactionId);
         for (TransactionItemEntity ti : transactionList) {
@@ -560,9 +455,9 @@ public class Cash extends javax.swing.JFrame {
             String TotalMemberPrice = String.valueOf(df.format(ti.getTotalMemberPrice()));
             //product, member price
 
-            printData = printData + "   " + itemId + "           " + itemName + "\n"
+            printData = printData + " " + itemId + "         " + itemName + "\n"
                     + "(" + "S$" + unitMemberPrice + ")" + " S$" + unitPrice + " * " + amount + " = \n"
-                    + "                         (" + "S$" + TotalMemberPrice + ")" + " S$" + itemTotalPrice + "\n";
+                    + "                      (" + "S$" + TotalMemberPrice + ")" + " S$" + itemTotalPrice + "\n";
         }
 
         printData = printData + "\n" + line + "\n\n";
@@ -572,10 +467,10 @@ public class Cash extends javax.swing.JFrame {
         String TotalMemberPrice = String.valueOf(df.format(totalMemberPrice));
         String ActualPrice = String.valueOf(df.format(actualTotalPrice));
         String save = String.valueOf(df.format(totalPrice - totalMemberPrice));
-        String Tendered = String.valueOf(df.format(tendered));
+        String Tendered = String.valueOf(df.format(actualTotalPrice));
         String MoneyChange = String.valueOf(df.format(moneyChange));
-        printData = printData + "Total Price:                              S$" + TotalPrice + "\n"
-                + "Total Member Price:                   S$" + TotalMemberPrice ;
+        printData = printData + "Total Price:                             S$" + TotalPrice + "\n"
+                + "Total Member Price:                   S$" + TotalMemberPrice;
 
         if (transaction.getMember() != null) {
             printData = printData + "\nTotal Price After Redemption:       S$" + ActualPrice;
@@ -583,8 +478,8 @@ public class Cash extends javax.swing.JFrame {
         printData = printData + "\n\n"
                 + line + "\n\n"
                 + "Payment: Cash\n"
-                + "Tendered:                                S$" + Tendered + "\n"
-                + "Money Change:                         S$" + MoneyChange + "\n\n" + line + "\n\n";
+                + "Tendered:                              S$" + Tendered + "\n"
+                + "Money Change:                       S$" + MoneyChange + "\n\n" + line + "\n\n";
 
         //member
         if (transaction.getMember() != null) {
@@ -602,8 +497,8 @@ public class Cash extends javax.swing.JFrame {
         }
 
         //thank you
-        String thankyou = "                     THANK YOU\n"
-                + "                PLEASE COME AGAIN\n\n";
+        String thankyou = "                       THANK YOU\n"
+                + "                 PLEASE COME AGAIN\n\n";
         printData = printData + thankyou + line + "\n\n";
 
         jTextArea1.setText(printData);
@@ -701,19 +596,16 @@ public class Cash extends javax.swing.JFrame {
         port.updateEndCash(arg0, arg1);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     private static void setTendered(java.lang.Long transactionId, java.lang.Double tendered) {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         port.setTendered(transactionId, tendered);
     }
 
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+    private static void inventoryMovement(java.lang.Long arg0) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        port.inventoryMovement(arg0);
+    }
+
 }

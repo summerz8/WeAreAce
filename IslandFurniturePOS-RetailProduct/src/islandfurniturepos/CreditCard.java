@@ -153,6 +153,7 @@ public class CreditCard extends javax.swing.JFrame {
         });
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
@@ -220,7 +221,7 @@ public class CreditCard extends javax.swing.JFrame {
                 .addComponent(jButtonGoBack)
                 .addGap(68, 68, 68)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -242,9 +243,7 @@ public class CreditCard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-//        initPartnerPoleDisplay();
-//        poleDisplay();       
+        // TODO add your handling code here:    
 
         jScrollPane2.setVisible(false);
 //        jTextField2.setVisible(false);
@@ -280,8 +279,10 @@ public class CreditCard extends javax.swing.JFrame {
 
     private void jButtonGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoBackActionPerformed
         // TODO add your handling code here:
+        
         this.setVisible(false);
         this.dispose();
+        checkOut.setLocationRelativeTo(null);
         checkOut.setVisible(true);
         checkOut.setExtendedState(JFrame.NORMAL);
     }//GEN-LAST:event_jButtonGoBackActionPerformed
@@ -394,18 +395,9 @@ public class CreditCard extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void checkOut() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         setTendered(transactionId,actualTotalPrice);
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         caculateChange(transactionId, 0D);
-
+        inventoryMovement(transactionId);
         if (memberId != null) {
             MemberEntity member = getMemberById(memberId);
             Double base = Double.parseDouble((String)jComboBoxEventBonus.getSelectedItem());
@@ -430,52 +422,17 @@ public class CreditCard extends javax.swing.JFrame {
 
         PartnerThermalPrinterAndCashBox();
 
+        checkOut.closePort();
+        checkOut.dispose();
         this.setVisible(false);
         this.dispose();
         Change change = new Change(POSid, storeStaffId, 0D);
+        change.setLocationRelativeTo(null);
         change.setVisible(true);
         change.setExtendedState(JFrame.NORMAL);
-    }
+    } 
 
-    private void initPartnerPoleDisplay() {
-        Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
-
-        while (commPortList.hasMoreElements()) {
-            CommPortIdentifier commPort = (CommPortIdentifier) commPortList.nextElement();
-
-            if (commPort.getPortType() == CommPortIdentifier.PORT_SERIAL
-                    && commPort.getName().equals(partnerPoleDisplayCOMPort)) {
-                try {
-                    serialPort = (SerialPort) commPort.open("POS", 5000);
-                    partnerPoleDisplayOutputStream = serialPort.getOutputStream();
-                } catch (PortInUseException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }
-
-    private void poleDisplay() {
-        byte[] clear = {0x0C};
-        byte[] newLine = {0x0A};
-        byte[] carriageReturn = {0x0D};
-        byte[] message1 = new String("Make Payment").getBytes();
-        byte[] message2 = new String("Credit Card").getBytes();
-
-        try {
-            partnerPoleDisplayOutputStream.write(clear);
-            partnerPoleDisplayOutputStream.write(message1);
-            partnerPoleDisplayOutputStream.write(newLine);
-            partnerPoleDisplayOutputStream.write(carriageReturn);
-            partnerPoleDisplayOutputStream.write(message2);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-   private void PartnerThermalPrinterAndCashBox() {
+    private void PartnerThermalPrinterAndCashBox() {
         Double margin = 1.0;
         Integer lines = 8;
         DecimalFormat df = new DecimalFormat("0.00");
@@ -521,13 +478,10 @@ public class CreditCard extends javax.swing.JFrame {
             String amount = String.valueOf(ti.getAmount());
             String unitPrice = String.valueOf(df.format(ti.getUnitPrice()));
             String itemTotalPrice = String.valueOf(df.format(ti.getTotalPrice()));
-            String unitMemberPrice = String.valueOf(df.format(ti.getUnitMemberPrice()));
-            String TotalMemberPrice = String.valueOf(df.format(ti.getTotalMemberPrice()));
             //product, member price
 
-            printData = printData + "   "+itemId + "           " + itemName + "\n"
-                    + "(" + "S$" + unitMemberPrice + ")" + " S$" + unitPrice + " * " + amount + " = \n"
-                    + "                         (" + "S$" + TotalMemberPrice + ")" + " S$" + itemTotalPrice + "\n";
+            printData = printData + "" + itemId + "   " + itemName + "\n"
+                    + "                       S$" + unitPrice + " * " + amount + " = " + " S$" + itemTotalPrice + "\n";
         }
 
         printData = printData + "\n" + line + "\n\n";
@@ -660,19 +614,16 @@ public class CreditCard extends javax.swing.JFrame {
         return c;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     private static void setTendered(java.lang.Long transactionId, java.lang.Double tendered) {
         sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
         sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
         port.setTendered(transactionId, tendered);
     }
 
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+    private static void inventoryMovement(java.lang.Long arg0) {
+        sessionbean.ocrm.TransactionModuleService service = new sessionbean.ocrm.TransactionModuleService();
+        sessionbean.ocrm.TransactionModule port = service.getTransactionModulePort();
+        port.inventoryMovement(arg0);
+    }
+
 }

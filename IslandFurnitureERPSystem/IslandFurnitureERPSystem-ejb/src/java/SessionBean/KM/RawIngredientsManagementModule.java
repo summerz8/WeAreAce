@@ -28,7 +28,7 @@ import javax.persistence.Query;
  */
 @Stateful
 public class RawIngredientsManagementModule implements RawIngredientsManagementModuleLocal {
-
+    
     @PersistenceContext(unitName = "IslandFurnitureERPSystem-ejbPU")
     private EntityManager em;
 
@@ -43,15 +43,15 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             for (Long spId : storagePlaceIds) {
                 storagePlaces.add(em.find(StoragePlaceEntity.class, spId));
             }
-
+            
             IngredientEntity ingredient = new IngredientEntity(name, price, unit, remark, lotSize, kitchen, supplier);
             em.persist(ingredient);
-
+            
             for (StoragePlaceEntity storagePlace : storagePlaces) {
                 ingredient.getStoragePlaces().add(storagePlace);
                 storagePlace.getIngredients().add(ingredient);
             }
-
+            
             kitchen.getIngredients().add(ingredient);
             supplier.getIngredients().add(ingredient);
             em.flush();
@@ -134,9 +134,9 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             ex.printStackTrace();
             return -1L;
         }
-
+        
     }
-
+    
     @Override
     public List<IngredientEntity> getIngredients(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredients();
@@ -200,7 +200,7 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             return -2L;
         }
     }
-
+    
     @Override
     public List<StoragePlaceEntity> getStoragePlaces(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getStoragePlaces();
@@ -233,7 +233,7 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             return null;
         }
     }
-
+    
     @Override
     public Long confirmIngredientIssue(Long ingredientIssueId) {
         try {
@@ -256,7 +256,7 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             return -2L;
         }
     }
-
+    
     @Override
     public IngredientForecastEntity findIngredientForecast(Long kitchenId, Date targetDate) {
         try {
@@ -278,7 +278,7 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             return null;
         }
     }
-
+    
     @Override
     public IngredientIssueEntity findIngredientIssue(Long kitchenId, Date targetDate) {
         try {
@@ -300,12 +300,12 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
             return null;
         }
     }
-
+    
     @Override
     public List<IngredientItemEntity> getIngredientIssueItems(Long ingredientIssueId) {
         return em.find(IngredientIssueEntity.class, ingredientIssueId).getIssueItems();
     }
-
+    
     @Override
     public Long editIngredientIssueItem(Long ingredientForecastItemId, Double quantity) {
         try {
@@ -327,4 +327,27 @@ public class RawIngredientsManagementModule implements RawIngredientsManagementM
     public List<IngredientSupplierEntity> getSuppliers(Long kitchenId) {
         return em.find(KitchenEntity.class, kitchenId).getIngredientSuppliers();
     }
+    
+    @Override
+    public Long issueMoreIngredient(Long ingredientItemId, Double quantity) {
+        try {
+            IngredientItemEntity ii = em.find(IngredientItemEntity.class, ingredientItemId);
+            if (ii.getIngredient().getStock() < quantity) {
+                return -1L;
+            }
+            ii.setQuantity(ii.getQuantity() + quantity);
+            ii.getIngredient().setStock(ii.getIngredient().getStock() - quantity);
+            return ii.getId();
+        } catch (Exception ex) {
+            System.err.println("SessionBean.KM.DailyDemandForecastingModule: issueMoreIngredient(): Failed. Caught an unexpected exception.");
+            ex.printStackTrace();
+            return -2L;
+        }
+    }
+
+    @Override
+    public IngredientIssueEntity getIngredientIssue(Long ingredientIssueId) {
+        return em.find(IngredientIssueEntity.class, ingredientIssueId);
+    }
+    
 }

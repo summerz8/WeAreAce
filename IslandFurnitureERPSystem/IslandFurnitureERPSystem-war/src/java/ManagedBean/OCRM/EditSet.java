@@ -51,7 +51,7 @@ public class EditSet {
 
     @PostConstruct
     public void init() {
-        setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("setId");
+        setId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("SetId");
         selectedWeb = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("web");
 
         set = cwml.getSet(setId);
@@ -91,7 +91,7 @@ public class EditSet {
 
         System.out.println(name);
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/IslandFurnitureERPSystem-war/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 
@@ -114,7 +114,7 @@ public class EditSet {
             }
         }
 
-        path = "/Users/apple/Documents/NUS/2014/Year3Sem1/IS3102/Program/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
+        path = "/Users/dan/Desktop/DEMO/IslandFurnitureERPSystem/CustomerWeb/web/resources/images/" + name;
 
         System.out.println("path is " + path);
 

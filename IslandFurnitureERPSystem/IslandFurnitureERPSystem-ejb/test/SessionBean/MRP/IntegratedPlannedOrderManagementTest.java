@@ -236,7 +236,7 @@ public class IntegratedPlannedOrderManagementTest {
         String department = "F";
         Long factoryRawMaterialId = 1L;
         boolean result = IntegratedPlannedOrderManagement.findFactoryRawMaterialIdList(id, department, factoryRawMaterialId);
-        assertTrue(result);
+        assertFalse(result);
     }
     
     /**

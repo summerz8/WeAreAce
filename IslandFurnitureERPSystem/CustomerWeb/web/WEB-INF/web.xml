@@ -27,11 +27,11 @@
     </context-param>
     <context-param>
         <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
-        <param-value>6LcGk_0SAAAAAAiKSamUFy9OYckYlm5f-Dw1ghrV</param-value>
+        <param-value>6LdG6_0SAAAAAJaWkUStQwyS3X1Gk1O_HA3uoyVU</param-value>
     </context-param>
     
     <context-param>
         <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
-        <param-value>6LcGk_0SAAAAADctnfZlynt2WlhoUQVjil7BeeHM</param-value>
+        <param-value>6LdG6_0SAAAAAESRK_6jvHW7eAsWQl4gnL-gy6vQ</param-value>
     </context-param>
 </web-app>

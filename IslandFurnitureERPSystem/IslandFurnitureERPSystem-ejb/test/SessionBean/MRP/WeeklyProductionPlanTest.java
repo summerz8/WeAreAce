@@ -71,7 +71,7 @@ public class WeeklyProductionPlanTest {
     @Test
     public void testGenerateWeeklyProductionPlan2() throws Exception {
         System.out.println("generateWeeklyProductionPlan");
-        Long productionPlanId = 1L;
+        Long productionPlanId = 2L;
         List<WeeklyProductionPlanEntity> result = WeeklyProductionPlan.generateWeeklyProductionPlan(productionPlanId);
         assertNotNull(result);
     }
@@ -82,7 +82,7 @@ public class WeeklyProductionPlanTest {
     @Test
     public void testEditWeeklyProductionPlan() throws Exception {
         System.out.println("editWeeklyProductionPlan");
-        Long id = 1L;
+        Long id = 2L;
         Calendar month = Calendar.getInstance();
         month.set(Calendar.YEAR, 2015);
         month.set(Calendar.MONTH, 0);

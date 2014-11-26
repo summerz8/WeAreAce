@@ -40,6 +40,12 @@
 <message name="redemptionResponse">
 <part name="parameters" element="tns:redemptionResponse"/>
 </message>
+<message name="checkEmail">
+<part name="parameters" element="tns:checkEmail"/>
+</message>
+<message name="checkEmailResponse">
+<part name="parameters" element="tns:checkEmailResponse"/>
+</message>
 <portType name="MemberRegistrationModule">
 <operation name="checkMember">
 <input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/checkMemberRequest" message="tns:checkMember"/>
@@ -64,6 +70,10 @@
 <operation name="redemption">
 <input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/redemptionRequest" message="tns:redemption"/>
 <output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/redemptionResponse" message="tns:redemptionResponse"/>
+</operation>
+<operation name="checkEmail">
+<input wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/checkEmailRequest" message="tns:checkEmail"/>
+<output wsam:Action="http://OCRM.SessionBean/MemberRegistrationModule/checkEmailResponse" message="tns:checkEmailResponse"/>
 </operation>
 </portType>
 <binding name="MemberRegistrationModulePortBinding" type="tns:MemberRegistrationModule">
@@ -114,6 +124,15 @@
 </output>
 </operation>
 <operation name="redemption">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="checkEmail">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

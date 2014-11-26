@@ -70,13 +70,13 @@ public class MainMenu extends javax.swing.JFrame {
         jLabelTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(644, 500));
+        setPreferredSize(new java.awt.Dimension(646, 542));
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -134,12 +134,12 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMainLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelLogo))
         );
@@ -155,11 +155,11 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jLabelMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(66, 66, 66)
                 .addComponent(jButtonNewTransactionRetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMember, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jPanelTitle.setBackground(new java.awt.Color(255, 51, 51));
@@ -175,7 +175,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanelTitle.setLayout(jPanelTitleLayout);
         jPanelTitleLayout.setHorizontalGroup(
             jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 647, Short.MAX_VALUE)
+            .addGap(0, 646, Short.MAX_VALUE)
             .addGroup(jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelTitleLayout.createSequentialGroup()
                     .addContainerGap()
@@ -196,7 +196,7 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
             .addComponent(jPanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -210,35 +210,21 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-<<<<<<< HEAD:IslandFurniturePOS-RetailProduct/src/islandfurniturepos/MainMenu.java
-=======
-    private void jButtonNewTransactionFurnitureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewTransactionFurnitureActionPerformed
-        // TODO add your handling code here:
-        if (POSid.substring(0, 1).equals("F")) {
-            location = 1;
-            NewTransaction transaction = new NewTransaction(POSid, storeStaffId, location, memberId);
-            transaction.setVisible(true);
-            transaction.setExtendedState(JFrame.NORMAL);
-            this.setVisible(false);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "You are not allowed to create this transaction!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_jButtonNewTransactionFurnitureActionPerformed
-
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17:IslandFurniturePOS-RetailProduct/src/islandfurniturepos/MainMenu.java
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
         // TODO add your handling code here:
         StoreUserEntity cashier = getCasherById(storeStaffId);   
         Double shift = cashier.getEndCash()-cashier.getBeginCash();
         JOptionPane.showMessageDialog(this, "End Cash: "+ cashier.getEndCash() + " Shift Revenue: " + shift, "Logout Successfully", JOptionPane.INFORMATION_MESSAGE);
         logout(storeStaffId);
-        Login login = new Login();
-        login.setVisible(true);
-        login.setExtendedState(JFrame.NORMAL);
+//        closePort();
         this.setVisible(false);
         this.dispose();
+        
+        Login login = new Login();
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        login.setExtendedState(JFrame.NORMAL);
+        
 
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
@@ -246,11 +232,14 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (POSid.substring(0, 1).equals("R")) {
             location = 2;
-            NewTransaction transaction = new NewTransaction(POSid, storeStaffId, location, memberId);
-            transaction.setVisible(true);
-            transaction.setExtendedState(JFrame.NORMAL);
+//            closePort();
             this.setVisible(false);
             this.dispose();
+            
+            NewTransaction transaction = new NewTransaction(POSid, storeStaffId, location, memberId);
+            transaction.setLocationRelativeTo(null);
+            transaction.setVisible(true);
+            transaction.setExtendedState(JFrame.NORMAL);          
         } else {
             JOptionPane.showMessageDialog(this, "You are not allowed to create this transaction!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -293,9 +282,12 @@ public class MainMenu extends javax.swing.JFrame {
     private void jButtonMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMemberActionPerformed
         // TODO add your handling code here:
 
+//        closePort();
         this.setVisible(false);
-
+        this.dispose();
+        
         Member member = new Member(POSid,storeStaffId);
+        member.setLocationRelativeTo(null);
         member.setVisible(true);
         member.setExtendedState(JFrame.NORMAL);
 
@@ -351,6 +343,8 @@ public class MainMenu extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NullPointerException ex){                   
+                    System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
         }
@@ -371,6 +365,21 @@ public class MainMenu extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex){                   
+                    System.err.println("Unable to write to Partner Pole Display");
+                }
+    }
+    
+    private void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

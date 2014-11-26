@@ -4,18 +4,6 @@
 <xsd:import namespace="http://KM.SessionBean/" schemaLocation="http://localhost:8080/CustomerOrderFulfillmentModuleService/CustomerOrderFulfillmentModule?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="addDishItem">
-<part name="parameters" element="tns:addDishItem"/>
-</message>
-<message name="addDishItemResponse">
-<part name="parameters" element="tns:addDishItemResponse"/>
-</message>
-<message name="deleteDishItem">
-<part name="parameters" element="tns:deleteDishItem"/>
-</message>
-<message name="deleteDishItemResponse">
-<part name="parameters" element="tns:deleteDishItemResponse"/>
-</message>
 <message name="getComboByKitchenId">
 <part name="parameters" element="tns:getComboByKitchenId"/>
 </message>
@@ -88,15 +76,19 @@
 <message name="findOrderByIdResponse">
 <part name="parameters" element="tns:findOrderByIdResponse"/>
 </message>
+<message name="addDishItem">
+<part name="parameters" element="tns:addDishItem"/>
+</message>
+<message name="addDishItemResponse">
+<part name="parameters" element="tns:addDishItemResponse"/>
+</message>
+<message name="deleteDishItem">
+<part name="parameters" element="tns:deleteDishItem"/>
+</message>
+<message name="deleteDishItemResponse">
+<part name="parameters" element="tns:deleteDishItemResponse"/>
+</message>
 <portType name="CustomerOrderFulfillmentModule">
-<operation name="addDishItem">
-<input wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/addDishItemRequest" message="tns:addDishItem"/>
-<output wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/addDishItemResponse" message="tns:addDishItemResponse"/>
-</operation>
-<operation name="deleteDishItem">
-<input wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/deleteDishItemRequest" message="tns:deleteDishItem"/>
-<output wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/deleteDishItemResponse" message="tns:deleteDishItemResponse"/>
-</operation>
 <operation name="getComboByKitchenId">
 <input wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/getComboByKitchenIdRequest" message="tns:getComboByKitchenId"/>
 <output wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/getComboByKitchenIdResponse" message="tns:getComboByKitchenIdResponse"/>
@@ -145,27 +137,17 @@
 <input wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/findOrderByIdRequest" message="tns:findOrderById"/>
 <output wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/findOrderByIdResponse" message="tns:findOrderByIdResponse"/>
 </operation>
+<operation name="addDishItem">
+<input wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/addDishItemRequest" message="tns:addDishItem"/>
+<output wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/addDishItemResponse" message="tns:addDishItemResponse"/>
+</operation>
+<operation name="deleteDishItem">
+<input wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/deleteDishItemRequest" message="tns:deleteDishItem"/>
+<output wsam:Action="http://KM.SessionBean/CustomerOrderFulfillmentModule/deleteDishItemResponse" message="tns:deleteDishItemResponse"/>
+</operation>
 </portType>
 <binding name="CustomerOrderFulfillmentModulePortBinding" type="tns:CustomerOrderFulfillmentModule">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="addDishItem">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="deleteDishItem">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="getComboByKitchenId">
 <soap:operation soapAction=""/>
 <input>
@@ -266,6 +248,24 @@
 </output>
 </operation>
 <operation name="findOrderById">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="addDishItem">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="deleteDishItem">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

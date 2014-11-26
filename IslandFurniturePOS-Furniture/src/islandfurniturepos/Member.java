@@ -5,9 +5,6 @@
  */
 package islandfurniturepos;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
@@ -18,24 +15,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Enumeration;
-=======
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.nio.ByteBuffer;
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.nio.ByteBuffer;
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.nio.ByteBuffer;
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
 import javax.smartcardio.Card;
 import javax.smartcardio.CardChannel;
 import javax.smartcardio.CardException;
@@ -59,19 +38,11 @@ public class Member extends javax.swing.JFrame {
     private CardTerminal acr122uCardTerminal = null;
     private String cardId = null;
     private Timer timerCheckCardPresent = null;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
+
     private String partnerPoleDisplayCOMPort = "COM5";
     private OutputStream partnerPoleDisplayOutputStream;
     private SerialPort serialPort;
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+   
 
     /**
      * Creates new form Member
@@ -315,25 +286,10 @@ public class Member extends javax.swing.JFrame {
                 memberId = Long.parseLong(jTextFieldMemberId.getText());
                 flag = checkMember(memberId);
                 if (flag) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    poleDisplay("Member found!");
+//                    poleDisplay("Member found!");
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    poleDisplay("Member not found!");
-=======
-                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-                } else {
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-                } else {
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-                } else {
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+//                    poleDisplay("Member not found!");
                     JOptionPane.showMessageDialog(this, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -349,9 +305,6 @@ public class Member extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         try {
             ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
@@ -398,66 +351,9 @@ public class Member extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.err.println("An Error Occured!");
         }
-        
-        initPartnerPoleDisplay();
-        poleDisplay("Your Card");
-=======
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-//        try {
-//            ActionListener actionListenerQuitOnNoReaderAttached = new ActionListener() {
-//                public void actionPerformed(ActionEvent event) {
-//                    quitOnNoReaderAttached();
-//                }
-//            };
-//
-//            Timer timerQuitOnNoReaderAttached = new Timer(5000, actionListenerQuitOnNoReaderAttached);
-//            timerQuitOnNoReaderAttached.setRepeats(false);
-//            timerQuitOnNoReaderAttached.start();
-//
-//            TerminalFactory terminalFactory = TerminalFactory.getDefault();
-//
-//            if (!terminalFactory.terminals().list().isEmpty()) {
-//
-//                jTextFieldCardLoader.setText("Yes");
-//                jTextFieldCardLoader.setForeground(Color.GREEN);
-//
-//                for (CardTerminal cardTerminal : terminalFactory.terminals().list()) {
-//                    if (cardTerminal.getName().contains("ACS ACR122")) {
-//                        acr122uCardTerminal = cardTerminal;
-//                        break;
-//                    }
-//                }
-//
-//                if (acr122uCardTerminal != null) {
-//                    timerQuitOnNoReaderAttached.stop();
-//                    ActionListener actionListenerCheckCardPresent = new ActionListener() {
-//                        public void actionPerformed(ActionEvent event) {
-//                            checkCardPresent();
-//                        }
-//                    };
-//                    timerCheckCardPresent = new Timer(1000, actionListenerCheckCardPresent);
-//                    timerCheckCardPresent.setRepeats(true);
-//                    timerCheckCardPresent.start();
-//                } else {
-//                    jTextFieldCardLoader.setText("No");
-//                    jTextFieldCardLoader.setForeground(Color.RED);
-//                }
-//            } else {
-//                jTextFieldCardLoader.setText("No");
-//                jTextFieldCardLoader.setForeground(Color.RED);
-//            }
-//        } catch (Exception ex) {
-//        }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+
+//        initPartnerPoleDisplay();
+//        poleDisplay("Your Card");
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextFieldCardPresentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCardPresentActionPerformed
@@ -529,11 +425,8 @@ public class Member extends javax.swing.JFrame {
         sessionbean.ocrm.MemberRegistrationModule port = service.getMemberRegistrationModulePort();
         return port.checkMember(memberId);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-     private void initPartnerPoleDisplay() {
+
+    private void initPartnerPoleDisplay() {
         Enumeration commPortList = CommPortIdentifier.getPortIdentifiers();
 
         while (commPortList.hasMoreElements()) {
@@ -548,7 +441,7 @@ public class Member extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Unable to initialize Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }catch (NullPointerException ex){                   
+                } catch (NullPointerException ex) {
                     System.err.println("Unable to initialize Partner Pole Display");
                 }
             }
@@ -560,7 +453,7 @@ public class Member extends javax.swing.JFrame {
         byte[] newLine = {0x0A};
         byte[] carriageReturn = {0x0D};
         byte[] message1 = new String("Member Check").getBytes();
-        byte[] message2 = new String("result").getBytes();
+        byte[] message2 = new String(result).getBytes();
 
         try {
             partnerPoleDisplayOutputStream.write(clear);
@@ -570,16 +463,23 @@ public class Member extends javax.swing.JFrame {
             partnerPoleDisplayOutputStream.write(message2);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Unable to write to Partner Pole Display: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (NullPointerException ex){                   
-                    System.err.println("Unable to write to Partner Pole Display");
-                }
+        } catch (NullPointerException ex) {
+            System.err.println("Unable to write to Partner Pole Display");
+        }
     }
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+
+    private void closePort() {
+        if (serialPort != null) {
+            try {
+                byte[] clear = {0x0C};
+                partnerPoleDisplayOutputStream.write(clear);
+                partnerPoleDisplayOutputStream.close();
+                serialPort.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     private void quitOnNoReaderAttached() {
 //        JOptionPane.showMessageDialog(this, "No card reader is attached", "Reader Detected Failure", JOptionPane.ERROR_MESSAGE);
@@ -601,30 +501,14 @@ public class Member extends javax.swing.JFrame {
                 }
 
                 if (flag) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    poleDisplay("Member found!");
+                    //poleDisplay("Member found!");
                     JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
+                   
 
                 } else {
-                    poleDisplay("Member not found!");
-=======
-                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-
-                } else {
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-
-                } else {
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-                    JOptionPane.showMessageDialog(this, "Member found!", "Successful", JOptionPane.INFORMATION_MESSAGE);
-
-                } else {
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
+                   // poleDisplay("Member not found!");
                     JOptionPane.showMessageDialog(this, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                    
                 }
 
                 goBack();
@@ -634,16 +518,7 @@ public class Member extends javax.swing.JFrame {
                 jTextFieldCardPresent.setForeground(Color.RED);
             }
         } catch (Exception ex) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             System.err.println("An Error Occured!");
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
         }
     }
 
@@ -689,33 +564,25 @@ public class Member extends javax.swing.JFrame {
     }
 
     private void goBack() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-        if(timerCheckCardPresent != null)
+
+        if (timerCheckCardPresent != null) {
             timerCheckCardPresent.stop();
-=======
-//         timerCheckCardPresent.stop();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-//         timerCheckCardPresent.stop();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-=======
-//         timerCheckCardPresent.stop();
->>>>>>> 0427c1f918685d0ec7f6b47d5ad5c944f4c44f17
-        this.setVisible(false);
-        this.dispose();
+        }
+       // closePort();
 
         if (flag) {
+//              mainMenu.setMember(memberId);
             mainMenu = new MainMenu(POSid, staffId, memberId);
         } else {
+            
             mainMenu = new MainMenu(POSid, staffId);
         }
 
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
         mainMenu.setExtendedState(JFrame.NORMAL);
-
+        this.setVisible(false);
+        this.dispose();
     }
 
     private static Long getMemberIdByCardId(java.lang.String arg0) {

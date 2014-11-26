@@ -193,10 +193,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -2L;
             }
 
-            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
-                return -8L;
-            }
+//            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+//                return -8L;
+//            }
 
             FactoryProductEntity factoryProduct = em.find(FactoryProductEntity.class, factoryProductId);
 
@@ -267,10 +267,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -2L;
             }
 
-            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
-                return -8L;
-            }
+//            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryRetailProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+//                return -8L;
+//            }
 
             FactoryRetailProductEntity factoryRetailProduct = em.find(FactoryRetailProductEntity.class, factoryRetailProductId);
 
@@ -330,10 +330,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -1L;
             }
 
-            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRawMaterialMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
-                return -7L;
-            }
+//            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRawMaterialMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+//                return -7L;
+//            }
 
             FactoryBinEntity toBin = em.find(FactoryBinEntity.class, toBinId);
 
@@ -413,10 +413,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -1L;
             }
 
-            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryProductMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
-                return -7L;
-            }
+//            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryProductMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+//                return -7L;
+//            }
 
             FactoryBinEntity toBin = em.find(FactoryBinEntity.class, toBinId);
 
@@ -498,10 +498,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -1L;
             }
 
-            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRetailProductMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
-                return -7L;
-            }
+//            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordInFactoryRetailProductMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+//                return -7L;
+//            }
 
             FactoryBinEntity toBin = em.find(FactoryBinEntity.class, toBinId);
 
@@ -583,10 +583,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -1L;
             }
 
-            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
-                return -7L;
-            }
+//            if (fromBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordRawMaterialInFactoryUseMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + fromBinId + ".");
+//                return -7L;
+//            }
 
             FactoryRawMaterialEntity factoryRawMaterial = em.find(FactoryRawMaterialEntity.class, factoryRawMaterialId);
 
@@ -644,10 +644,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 System.exit(1);
             }
 
-            if (factoryBinStoredProduct1.getFactoryBin().getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + factoryBinStoredProduct1.getFactoryBin() + ".");
-                return -1L;
-            }
+//            if (factoryBinStoredProduct1.getFactoryBin().getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + factoryBinStoredProduct1.getFactoryBin() + ".");
+//                return -1L;
+//            }
 
             if (factoryBinStoredProduct1.getStockTypeIndicator() == 1) {
                 Query q2 = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :factoryBin AND fbsp.factoryRawMaterial = :factoryRawMaterial AND fbsp.status = :toStatus");
@@ -730,10 +730,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -3L;
             }
 
-            if (toBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedProductInboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
-                return -5L;
-            }
+//            if (toBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordReturnedProductInboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
+//                return -5L;
+//            }
 
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = 'returned'");
             q.setParameter("toBin", toBin);
@@ -795,10 +795,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -3L;
             }
 
-            if (toBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
-                return -5L;
-            }
+//            if (toBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordFactoryProductOutboundMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
+//                return -5L;
+//            }
 
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryRetailProduct = :factoryRetailProduct AND fbsp.status = 'returned'");
             q.setParameter("toBin", toBin);
@@ -852,10 +852,10 @@ public class FactoryInventoryManagementModule implements FactoryInventoryManagem
                 return -2L;
             }
 
-            if (toBin.getFactory().getFactoryId().equals(factoryId)) {
-                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
-                return -4L;
-            }
+//            if (toBin.getFactory().getFactoryId().equals(factoryId)) {
+//                System.out.println("SessionBean.SCM.FactoryInventoryManagementModule: recordProductToBinMovement():Faild. The Factory " + factoryId + " has no access to Factory Bin " + toBinId + ".");
+//                return -4L;
+//            }
 
             Query q = em.createQuery("SELECT fbsp FROM FactoryBinStoredProductEntity fbsp WHERE fbsp.factoryBin = :toBin AND fbsp.factoryProduct = :factoryProduct AND fbsp.status = :status");
             q.setParameter("toBin", toBin);

@@ -125,7 +125,7 @@
 
 
                                         <p:column headerText="Select" width="15%" >
-                                            <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovement(sproduct)}" >
+                                            <p:commandButton update=":formMain" oncomplete="PF('movementDialog').show()" value="Process" actionListener ="#{returnInventoryToFactoryBin.setTargetMovement(gproduct)}" >
                                             </p:commandButton>
                                         </p:column>
                                     </p:dataTable>
@@ -182,7 +182,7 @@
                                 <p:outputPanel id="fProductDetail" style="text-align:center;">
 
 
-                                    <h:outputText value="Minimum Offering Level:" />
+                                    <h:outputText value="Please enter the amount:" />
                                     <h:inputText value ="#{returnInventoryToFactoryBin.moveoutQuantity}" />
                                     <br></br>
                                     <br></br>

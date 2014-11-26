@@ -33,23 +33,6 @@
         <delete dir="${build.generated.dir}/jax-wsCache/MemberRegistrationModule"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/sessionbean/ocrm"/>
     </target>
-    <target name="wsimport-client-TransactionModule" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
-        <property name="wsdl-TransactionModule" location="xml-resources/web-service-references/TransactionModule/wsdl/localhost_8080/TransactionModuleService/TransactionModule.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TransactionModule" destdir="${build.generated.dir}/jax-wsCache/TransactionModule" wsdl="${wsdl-TransactionModule}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/TransactionModuleService/TransactionModule?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-TransactionModule}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/TransactionModule">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-TransactionModule" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/sessionbean/ocrm"/>
-    </target>
     <target name="wsimport-client-IFManagerBean" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/IFManagerBean"/>
         <property name="wsdl-IFManagerBean" location="xml-resources/web-service-references/IFManagerBean/wsdl/localhost_8080/IFManagerBeanService/IFManagerBean.wsdl"/>
@@ -67,5 +50,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/IFManagerBean"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/util/login"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-MemberRegistrationModule, wsimport-client-TransactionModule, wsimport-client-IFManagerBean"/>
+    <target name="wsimport-client-TransactionModule" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
+        <property name="wsdl-TransactionModule" location="xml-resources/web-service-references/TransactionModule/wsdl/localhost_8080/TransactionModuleService/TransactionModule.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TransactionModule" destdir="${build.generated.dir}/jax-wsCache/TransactionModule" wsdl="${wsdl-TransactionModule}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/TransactionModuleService/TransactionModule?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-TransactionModule}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/TransactionModule">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-TransactionModule" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/TransactionModule"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/sessionbean/ocrm"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-MemberRegistrationModule, wsimport-client-IFManagerBean, wsimport-client-TransactionModule"/>
 </project>

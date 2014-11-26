@@ -37,10 +37,13 @@ public class IngredientIssueBean implements Serializable {
 
     private KitchenEntity kitchen;
     private IngredientIssueEntity selectedII;
+    private IngredientItemEntity ii;
     private List<IngredientItemEntity> filteredIIItems;
     private Date selectedTargetDate;
     private String message;
     private Calendar cal;
+    private Double issueMoreBy;
+    private boolean isToday;
 
     public IngredientIssueBean() {
     }
@@ -59,6 +62,14 @@ public class IngredientIssueBean implements Serializable {
 
     public void setSelectedII(IngredientIssueEntity selectedII) {
         this.selectedII = selectedII;
+    }
+
+    public IngredientItemEntity getIi() {
+        return ii;
+    }
+
+    public void setIi(IngredientItemEntity ii) {
+        this.ii = ii;
     }
 
     public List<IngredientItemEntity> getFilteredIIItems() {
@@ -93,11 +104,30 @@ public class IngredientIssueBean implements Serializable {
         this.cal = cal;
     }
 
+    public Double getIssueMoreBy() {
+        return issueMoreBy;
+    }
+
+    public void setIssueMoreBy(Double issueMoreBy) {
+        this.issueMoreBy = issueMoreBy;
+    }
+
+    public boolean isIsToday() {
+        return isToday;
+    }
+
+    public void setIsToday(boolean isToday) {
+        this.isToday = isToday;
+    }
+
     @PostConstruct
     public void init() {
         try {
             kitchen = (KitchenEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("kitchen");
             cal = Calendar.getInstance();
+            isToday = false;
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('selectTargetDate').show();");
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.MenuItemForecastBean: init(): Failed. Caught an unexpected exception.");
             ex.printStackTrace();
@@ -117,6 +147,7 @@ public class IngredientIssueBean implements Serializable {
                 FacesMessage msg = new FacesMessage("Successful", "Ingredient Issue " + iiId + " is confirmed");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
+            selectedII = rim.getIngredientIssue(selectedII.getId());
             filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
         } catch (Exception ex) {
             System.err.println("ManagedBean.KM.MenuManagementModule.IngredientForecastFromMIFBean: confirmIngredientIssue(): Failed. Caught an unexpected exception.");
@@ -132,6 +163,15 @@ public class IngredientIssueBean implements Serializable {
                 context.execute("PF('message').show();");
             } else {
                 selectedII = rim.findIngredientIssue(kitchen.getId(), selectedTargetDate);
+                Calendar selectedTargetDateCal = Calendar.getInstance();
+                selectedTargetDateCal.setTime(selectedTargetDate);
+                if (selectedTargetDateCal.get(Calendar.ERA) == cal.get(Calendar.ERA)
+                        && selectedTargetDateCal.get(Calendar.YEAR) == cal.get(Calendar.YEAR)
+                        && selectedTargetDateCal.get(Calendar.DAY_OF_MONTH) == cal.get(Calendar.DAY_OF_MONTH)) {
+                    isToday = true;
+                } else {
+                    isToday = false;
+                }
                 if (selectedII == null) {
                     IngredientForecastEntity selectedIF = rim.findIngredientForecast(kitchen.getId(), selectedTargetDate);
                     if (selectedIF == null) {
@@ -172,6 +212,7 @@ public class IngredientIssueBean implements Serializable {
                     FacesContext.getCurrentInstance().addMessage(null, msg);
                 }
             }
+            selectedII = rim.getIngredientIssue(selectedII.getId());
             filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
@@ -185,5 +226,27 @@ public class IngredientIssueBean implements Serializable {
         FacesMessage msg = new FacesMessage("Edit Cancelled", null);
         FacesContext.getCurrentInstance().addMessage(null, msg);
         filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
+    }
+
+    public void issueMoreIngredient(ActionEvent event) {
+        if (issueMoreBy < 0) {
+            FacesMessage msg = new FacesMessage("Issueld", "Quantity cannot be negative");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            System.out.println("ii: " + ii.getIngredient().getName() + issueMoreBy);
+            Long temp = rim.issueMoreIngredient(ii.getId(), issueMoreBy);
+            if (temp == -1L) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Request issue quantity is larger than the stock");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else if (temp == -2L) {
+                FacesMessage msg = new FacesMessage("Edition Faild", "Unexpected Exception Occurred");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage("Successful", " New issue of " + ii.getIngredient().getName() + " is created");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+            selectedII = rim.getIngredientIssue(selectedII.getId());
+            filteredIIItems = rim.getIngredientIssueItems(selectedII.getId());
+        }
     }
 }

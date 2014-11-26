@@ -72,9 +72,11 @@ public class StoreEntity implements Serializable {
     private List<TransactionEntity> transactions = new ArrayList<>();
 
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy = "store")
+    @XmlTransient
     private List<StoreWarehouseBinEntity> storeBins = new ArrayList<>();
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "se")
+    @XmlTransient
     private List<StoreGoodReceiptEntity> goodReceipts  = new ArrayList<>();
     
     

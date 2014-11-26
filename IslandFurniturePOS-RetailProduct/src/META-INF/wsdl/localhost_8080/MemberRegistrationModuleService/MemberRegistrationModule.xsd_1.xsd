@@ -4,6 +4,10 @@
 
 <xs:element name="addNewPointsForMemberResponse" type="tns:addNewPointsForMemberResponse"/>
 
+<xs:element name="checkEmail" type="tns:checkEmail"/>
+
+<xs:element name="checkEmailResponse" type="tns:checkEmailResponse"/>
+
 <xs:element name="checkMember" type="tns:checkMember"/>
 
 <xs:element name="checkMemberResponse" type="tns:checkMemberResponse"/>
@@ -36,6 +40,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="checkEmail">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="checkEmailResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="getMemberById">
 <xs:sequence>
 <xs:element name="arg0" type="xs:long" minOccurs="0"/>
@@ -55,7 +71,6 @@
 <xs:element name="lastName" type="xs:string" minOccurs="0"/>
 <xs:element name="midName" type="xs:string" minOccurs="0"/>
 <xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<xs:element name="lastTransaction" type="tns:transactionEntity" minOccurs="0"/>
 <xs:element name="storeId" type="xs:long" minOccurs="0"/>
 <xs:element name="birthday" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="gender" type="xs:string" minOccurs="0"/>
@@ -69,121 +84,9 @@
 <xs:element name="totalPoints" type="xs:double" minOccurs="0"/>
 <xs:element name="pointsToUpgrade" type="xs:double" minOccurs="0"/>
 <xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
-<xs:element name="shoppingCartList" type="tns:shoppingCartItemEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="memberlvl" type="tns:membershipLevelEntity" minOccurs="0"/>
 <xs:element name="rfm" type="tns:rfmEntity" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="transactionEntity">
-<xs:sequence>
-<xs:element name="transactionId" type="xs:long" minOccurs="0"/>
-<xs:element name="generateTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="totalPrice" type="xs:double" minOccurs="0"/>
-<xs:element name="totalMemberPrice" type="xs:double" minOccurs="0"/>
-<xs:element name="tendered" type="xs:double" minOccurs="0"/>
-<xs:element name="moneyChange" type="xs:double" minOccurs="0"/>
-<xs:element name="POSid" type="xs:string" minOccurs="0"/>
-<xs:element name="location" type="xs:int"/>
-<xs:element name="store" type="tns:storeEntity" minOccurs="0"/>
-<xs:element name="member" type="tns:memberEntity" minOccurs="0"/>
-<xs:element name="storeStaff" type="tns:storeUserEntity" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="storeEntity">
-<xs:sequence>
-<xs:element name="storeId" type="xs:long" minOccurs="0"/>
-<xs:element name="address" type="xs:string" minOccurs="0"/>
-<xs:element name="country" type="xs:string" minOccurs="0"/>
-<xs:element name="contact" type="xs:string" minOccurs="0"/>
-<xs:element name="manager" type="xs:string" minOccurs="0"/>
-<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
-<xs:element name="factoryList" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="storeUserEntity">
-<xs:complexContent>
-<xs:extension base="tns:userEntity">
-<xs:sequence>
-<xs:element name="isCasher" type="xs:boolean"/>
-<xs:element name="beginCash" type="xs:double" minOccurs="0"/>
-<xs:element name="endCash" type="xs:double" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="userEntity">
-<xs:sequence>
-<xs:element name="address" type="xs:string" minOccurs="0"/>
-<xs:element name="birthday" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="deleteFlag" type="xs:boolean" minOccurs="0"/>
-<xs:element name="department" type="xs:string" minOccurs="0"/>
-<xs:element name="departmentId" type="xs:long"/>
-<xs:element name="email" type="xs:string" minOccurs="0"/>
-<xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<xs:element name="gender" type="xs:string" minOccurs="0"/>
-<xs:element name="lastName" type="xs:string" minOccurs="0"/>
-<xs:element name="midName" type="xs:string" minOccurs="0"/>
-<xs:element name="position" type="xs:string" minOccurs="0"/>
-<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
-<xs:element name="pwd" type="xs:string" minOccurs="0"/>
-<xs:element name="receiveMessage" type="tns:internalMessageReceive" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="sendMessage" type="tns:internalMessageEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="tickets" type="tns:ticketEntity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="title" type="xs:string" minOccurs="0"/>
-<xs:element name="userId" type="xs:string" minOccurs="0"/>
-<xs:element name="userLevel" type="xs:int" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="internalMessageReceive">
-<xs:sequence>
-<xs:element name="calendarTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="content" type="xs:string" minOccurs="0"/>
-<xs:element name="deleted" type="xs:boolean"/>
-<xs:element name="message" type="tns:internalMessageEntity" minOccurs="0"/>
-<xs:element name="opened" type="xs:boolean"/>
-<xs:element name="receivedMessageid" type="xs:long" minOccurs="0"/>
-<xs:element name="receiver" type="tns:userEntity" minOccurs="0"/>
-<xs:element name="replied" type="xs:boolean" minOccurs="0"/>
-<xs:element name="sendMessage" type="tns:internalMessageEntity" minOccurs="0"/>
-<xs:element name="senderId" type="xs:string" minOccurs="0"/>
-<xs:element name="title" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="internalMessageEntity">
-<xs:sequence>
-<xs:element name="calendarTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="content" type="xs:string" minOccurs="0"/>
-<xs:element name="internalMessageId" type="xs:long" minOccurs="0"/>
-<xs:element name="isDeleted" type="xs:boolean" minOccurs="0"/>
-<xs:element name="receiveMessages" type="tns:internalMessageReceive" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="receiverIds" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="sendTime" type="xs:string" minOccurs="0"/>
-<xs:element name="sender" type="tns:userEntity" minOccurs="0"/>
-<xs:element name="senderName" type="xs:string" minOccurs="0"/>
-<xs:element name="title" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="ticketEntity">
-<xs:sequence>
-<xs:element name="content" type="xs:string" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="status" type="xs:int" minOccurs="0"/>
-<xs:element name="systemUser" type="tns:userEntity" minOccurs="0"/>
-<xs:element name="title" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="shoppingCartItemEntity">
-<xs:sequence>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="price" type="xs:double" minOccurs="0"/>
+<xs:element name="clv" type="tns:clvEntity" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -208,6 +111,16 @@
 <xs:element name="member" type="tns:memberEntity" minOccurs="0"/>
 <xs:element name="monetary" type="xs:double" minOccurs="0"/>
 <xs:element name="recency" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="clvEntity">
+<xs:sequence>
+<xs:element name="aveExp" type="xs:double" minOccurs="0"/>
+<xs:element name="clv" type="xs:double" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="member" type="tns:memberEntity" minOccurs="0"/>
+<xs:element name="visitThisMonth" type="xs:int" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
